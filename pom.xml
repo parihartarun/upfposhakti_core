@@ -41,11 +41,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-
+		</dependency> -->
+	
 		<!-- Database -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,6 +78,20 @@
 			<artifactId>bootstrap</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+		
+	<!-- By Prashant	 -->		
+		<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.7</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
