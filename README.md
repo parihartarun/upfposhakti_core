@@ -10,6 +10,10 @@ Springboot + JSP
 
 - Push into a branch
 
+`git add --all`
+
+`git commit -m "message"`
+
 `git push origin {your_branch_name}`
 
 - pull from branch
