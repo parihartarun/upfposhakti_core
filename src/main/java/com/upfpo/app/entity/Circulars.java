@@ -33,7 +33,7 @@ public class Circulars implements Serializable{
 	@Column(name="description")
 	private String description;
 	
-	/*
+	/* fields needed
 	 * @Column(name="is_deleted") private boolean isDeleted;
 	 * 
 	 * @Column(name="delete_date") private java.sql.Date deleteDate;
@@ -41,7 +41,8 @@ public class Circulars implements Serializable{
 	 * @Column(name="update_date") private java.sql.Date updateDate;
 	 * 
 	 * @Column(name="updated_by") private String updatedBy;
-	 */	
+	 */
+	
 	
 	
 	public Integer getId() {
