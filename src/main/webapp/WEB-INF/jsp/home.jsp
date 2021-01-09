@@ -4,6 +4,7 @@
 <%@taglib prefix='form' uri='http://www.springframework.org/tags/form'%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet" type="text/css" href="${resourceurl}/newdesign/css/custom.css" />
 
 <!--Main Contain Start-->
 <div class="container-fluid">
@@ -35,7 +36,6 @@
 															class="text-left text-danger" target="_blank">${circulars.description}:
 																<fmt:formatDate pattern="dd-MMM-yy"
 																	value="${circulars.uploadDate}" />
-
 														</a></td>
 
 														<!-- <td class="news-td"></td> -->
