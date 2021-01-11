@@ -83,7 +83,7 @@ public class FPOController {
 		return fpoService.deleteFpo(id);
 	}
 	@GetMapping
-	@ApiOperation(value="Get All FPO profiles",code=200,produces = "application/json",notes="Api for view all FPOs")
+	@ApiOperation(value="Get All FPO profiles",code=200,produces = "application/json",notes="Api for view all FPOs",response=FPORegister.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
