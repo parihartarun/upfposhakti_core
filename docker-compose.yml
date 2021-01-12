@@ -1,0 +1,9 @@
+version: "3.0"
+
+services:
+  fpoapp:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8081
