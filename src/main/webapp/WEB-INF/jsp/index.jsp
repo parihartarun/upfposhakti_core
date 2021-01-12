@@ -15,6 +15,9 @@
 <body>
 
  <div class="container">
+ <h3 href="login.html">LOGIN HERE</h3>
+ 
+ <h3 href="./logout.html">LOGOUT</h3>
   <h2>Spring Boot JSP Demo</h2>
   <spring:url value="/employee/list" var="listURL" />
   <a class="btn btn-primary" href="${listURL}" role="button" >View All Employee</a>
