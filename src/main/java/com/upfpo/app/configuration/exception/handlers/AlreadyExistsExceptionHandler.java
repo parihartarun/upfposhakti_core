@@ -13,14 +13,14 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 
 @ControllerAdvice
-public class NotFoundExceptionHandler extends ResponseEntityExceptionHandler {
+public class AlreadyExistsExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleExceptions(NotFoundException exception, WebRequest webRequest) {
         ExceptionResponse response = new ExceptionResponse();
         response.setDateTime(LocalDateTime.now());
-        response.setMessage("Not Found");
-        ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        response.setMessage("Record Already Exists");
+        ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.ALREADY_REPORTED);
         return entity;
     }
 	
