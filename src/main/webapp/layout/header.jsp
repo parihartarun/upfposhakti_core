@@ -44,12 +44,12 @@
 		<div class="text-center" >
 			<span class="parent"><spring:message code="home.header" text="UP FPO Shakti"/></span>
 			</br>
-			<span class="child"><spring:message code="home.sub.header" text="Sangathan.Satark.Shakti"/>
+			<span class="child"><spring:message code="home.sub.header" text="Sangathan.Satat.Shakti"/>
 			</span>
 			</div>
 			
-			<div style="margin-left: 140px; margin-top: -45px;">
-			<span class="gov"><spring:message code="home.upgovt" text="Agriculture Department,"/></span>
+			<div style="margin-left: 140px;">
+			<span class="gov"><spring:message code="home.upgovt" text="Agriculture Department"/></span>
 			</br>
 			<span class="up"><spring:message code="home.up" text="Uttar Pradesh"/> </span>
 			
