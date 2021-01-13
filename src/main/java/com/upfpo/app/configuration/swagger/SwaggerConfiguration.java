@@ -1,4 +1,4 @@
-package com.upfpo.app.configuration;
+package com.upfpo.app.configuration.swagger;
 
 import java.util.Collections;
 
@@ -14,7 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class
+SwaggerConfiguration {
 
 	 @Bean
 	    public Docket api() { 
