@@ -1,7 +1,7 @@
 package com.upfpo.app.entity;
-
+import java.io.Serializable;
 import java.math.BigInteger;
-
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,14 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name="fpo")
-public class FPORegister 
-{
+@Table(name ="fpo")
+public class FPORegister implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "fpo_id")
@@ -34,18 +37,18 @@ public class FPORegister
 	@Column(name="pincode")
 	private Integer pincode;
 	
-	@Column(name="blockid")
+	@Column(name="blockId")
 	private Integer blockRef;
 	
 	@Column(name = "sla_ref_id")
 	private Integer slaRefId;
 	
 //	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
-	//@NotNull(message="Please Provide the Name")
+	@NotNull(message="Please Provide the Name")
 	@Column(name = "fpo_name")
 	private String fpoName;
 	
-	//@NotBlank(message="Please Provide the Address")
+	@NotBlank(message="Please Provide the Address")
 	@Column(name = "fpo_address")
 	private String fpoAddress;
 	
@@ -55,8 +58,8 @@ public class FPORegister
 	@Column(name = "fpo_landline")
 	private BigInteger fpolandLine;
 	
-	//@Email(message="Please Provide Valid Email Address")
-	//@NotBlank(message ="Please Provie Valid Email Address")
+	@Email(message="Please Provide Valid Email Address")
+	@NotBlank(message ="Please Provie Valid Email Address")
 	@Column(name = "fpo_email")
 	private String fpoEmail;
 	
@@ -76,7 +79,7 @@ public class FPORegister
 	@Column(name="users_id")
 	private long userRefId;
 	
-	//@Length(min=6,max=20,message="Username Should be in between 6 to 20 Characters")
+	@Length(min=6,max=20,message="Username Should be in between 6 to 20 Characters")
 	@Column(name="username")
 	private String userName;
 	
@@ -428,5 +431,7 @@ public class FPORegister
 		this.totalland = totalland;
 	}
 	
+	
+
 }
 
