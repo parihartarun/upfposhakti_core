@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.entity.BankMaster;
 import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.entity.EducationMaster;
+import com.upfpo.app.entity.Panchayats;
 
 public interface MasterServices 
 {
@@ -14,4 +15,5 @@ public interface MasterServices
 	public DistrictMaster getDistrictsById(int dist_id);
 	public List<BankMaster> getBanks();
 	public List<EducationMaster> getQualifications();
+	public List<Panchayats> getPanchayatByBlockId(int blockRef);
 }

@@ -10,5 +10,6 @@ public interface RegistrationServices
 	public void registerFarmer(FarmerMaster farmerRegister);
 	public void update_farmer(FarmerMaster farmerMaster);
 	public FarmerMaster getFarmerDetailsById(int farmerId);
-
+	public void registerBuyerSeller(BuyerSellerMaster buyerSeller);
+	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster);
 }

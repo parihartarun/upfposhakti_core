@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.*;
+import com.upfpo.app.repository.BuyerSellerRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.FpoMasterRepository;
 
@@ -17,6 +18,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	
 	@Autowired 
 	FarmerMasterRepository farmerMasterRepository;
+	
+	@Autowired
+	BuyerSellerRepository buyerSellerRepository;
 	
 	@Override
 	public void registerFPO(FPORegister fpoRegister) 
@@ -41,5 +45,17 @@ public class RegistrationServicesImpl implements RegistrationServices
 	{
 		
 		return farmerMasterRepository.findById(farmerId).get();
+	}
+	
+	@Override
+	public void registerBuyerSeller(BuyerSellerMaster buyerSeller) 
+	{
+		buyerSellerRepository.save(buyerSeller);
+	}
+	
+	@Override
+	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster) 
+	{
+		buyerSellerRepository.save(buyerSellerMaster);
 	}
 }

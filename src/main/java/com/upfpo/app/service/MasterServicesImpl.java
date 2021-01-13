@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.BankMaster;
 import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.entity.EducationMaster;
+import com.upfpo.app.entity.Panchayats;
 import com.upfpo.app.repository.BankMasterRepository;
 import com.upfpo.app.repository.DistrictMasterRepository;
 import com.upfpo.app.repository.EducationMasterRepository;
+import com.upfpo.app.repository.PanchayatsRepository;
 
 @Service
 public class MasterServicesImpl implements MasterServices
@@ -24,6 +27,9 @@ public class MasterServicesImpl implements MasterServices
 	
 	@Autowired
 	EducationMasterRepository educationMasterRepository;
+	
+	@Autowired
+	PanchayatsRepository panchayatRepository;
 	
 	public List<DistrictMaster> getDistricts()
 	{
@@ -51,5 +57,11 @@ public class MasterServicesImpl implements MasterServices
 		List<EducationMaster> educationList = new ArrayList<EducationMaster>();
 		educationMasterRepository.findAll().forEach(educationList1->educationList.add(educationList1));
 		return educationList;
+	}
+	
+	@Override
+	public List<Panchayats> getPanchayatByBlockId(int blockRef) 
+	{
+		return panchayatRepository.getPanchayatByBlockId(blockRef);
 	}
 }

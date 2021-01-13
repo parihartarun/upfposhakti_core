@@ -6,14 +6,16 @@ import javax.persistence.PostRemove;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;ewa
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.service.RegistrationServices;
@@ -27,7 +29,7 @@ public class RegistrationController
 	RegistrationServices registerServices;
 	
 	
-	@RequestMapping(value="/fpo")
+	@PostMapping(value="/fpo")
 	private int registerFPO(@RequestBody FPORegister fpoRegister)
 	{
 		System.out.println("Inside registerFpo");
@@ -52,6 +54,20 @@ public class RegistrationController
 	@GetMapping(value="/getFarmerDetails/{farmerId}")
 	private FarmerMaster getFarmerDetailsById(@PathVariable("farmerId") int farmerId)
 	{
-		registerServices.getFarmerDetailsById(farmerId);
+		return registerServices.getFarmerDetailsById(farmerId);
+	}
+	
+	@PostMapping(value="/buyerSeller")
+	private int registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
+	{
+		registerServices.registerBuyerSeller(buyerSeller);
+		return 1;
+	}
+	
+	@PutMapping(value="/editBuyerSeller")
+	private BuyerSellerMaster editBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
+	{
+		registerServices.update_buyerSeller(buyerSeller);
+		return buyerSeller;
 	}
 }
