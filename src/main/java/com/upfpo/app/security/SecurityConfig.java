@@ -2,19 +2,32 @@ package com.upfpo.app.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.upfpo.app.security.jwt.AuthTokenFilter;
+
+
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	UserDetailsService userDetailsService;
+	
+	@Autowired
+	AuthTokenFilter authTokenFilter;
+	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -30,10 +43,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //         .formLogin()
 //         .loginPage("/UPFPO/login").permitAll();
 		
-		http.authorizeRequests().antMatchers("/user")
-		.hasAnyRole("user")
-		.antMatchers("/","/login").permitAll()
-		.and().formLogin();
+//		http.cors().disable().csrf().disable()
+//		.authorizeRequests().antMatchers("/login")
+//		.hasAnyRole("user")
+//		.antMatchers("/").permitAll()
+//		.and().formLogin();
+		
+		http.csrf().disable()
+		.authorizeRequests()
+		//.antMatchers("/UPFPO/**").permitAll()
+		.antMatchers("/signin").permitAll()
+		.anyRequest().authenticated()
+		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+	http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+	
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception{
+		return super.authenticationManagerBean();
 	}
 	
 //	@Bean
@@ -59,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 //		protected void configure1(HttpSecurity http) throws Exception { // "/.js", "/.jpg", "/.woff", "/*.ttf",
 //			http.cors().disable().csrf().disable().authorizeRequests()
-//					.antMatchers("/", "/assets///", "/token/login", "/signup", "/sendEmailLinkPassword",
+//					.antMatchers("/", "/assets///", "/login", "/signup", "/sendEmailLinkPassword",
 //							"/changeForgotPassword","/userPasswordActiveStatus/*")
 //					.permitAll().anyRequest().authenticated().and().exceptionHandling()
 //					//.authenticationEntryPoint(unauthorizedHandler)
