@@ -20,6 +20,27 @@ public class LicenseMaster {
 	@Column(name="license_name")
 	private String licenseName;
 	
+	@Column(name="delete_date")
+	private java.sql.Date deleteDate;
+
+	@Column(name="is_deleted")
+	private boolean isDeleted;
+	public java.sql.Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(java.sql.Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	@Column(name="is_active")
 	private boolean isActive;
 
