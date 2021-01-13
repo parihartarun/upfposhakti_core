@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.CollectionCenter;
 import com.upfpo.app.repository.CollectionCenterRepository;
 
@@ -18,6 +19,8 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
+		
+		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
 
@@ -25,12 +28,14 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter updateCollectionCenter(int id, CollectionCenter e) {
 		// TODO Auto-generated method stub
 		e.setId(id);
+		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
 
 	@Override
 	public CollectionCenter insertOrUpdateCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
+		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
 
@@ -58,8 +63,13 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public CollectionCenter selectCollectionCenterById(int id) {
 		// TODO Auto-generated method stub
+		try {
 		return collectionCenterRepository.getOne(id);
-	}
+		}catch(Exception e)
+		{
+			throw new NotFoundException();
+		}
+		}
 
 
 
