@@ -46,6 +46,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 			FpoLicenceDetails fpoLicenceDetails = fpoLicenseDetailsRepository.getOne(id);
 			fpoLicenceDetails.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
 			fpoLicenceDetails.setDeleted(true);
+			fpoLicenseDetailsRepository.save(fpoLicenceDetails);
 	          return true;
 		}catch(Exception e){
 		      return false;	
