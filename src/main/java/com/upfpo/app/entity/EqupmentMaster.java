@@ -24,6 +24,28 @@ public class EqupmentMaster implements Serializable{
 	@Column(name="is_active")
 	private Boolean isactive;
 
+	@Column(name="delete_date")
+	private java.sql.Date deleteDate;
+
+	@Column(name="is_deleted")
+	private boolean isDeleted;
+	
+	public java.sql.Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(java.sql.Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	public Integer getId() {
 		return id;
 	}
