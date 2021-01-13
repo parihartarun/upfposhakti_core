@@ -86,20 +86,20 @@ public class RegistrationController
 		return 1;
 	}
 	
-	@PutMapping(name="/editInputSupplier")
+	@PutMapping(value="/editInputSupplier")
 	private InputSupplierMaster editInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
 	{
 		registerServices.update_inputSupplier(inputSupplierMaster);
 		return inputSupplierMaster;
 	}
 	
-	@GetMapping(name="/getInputSupplier")
+	@GetMapping(value="/getInputSupplier")
 	private List<InputSupplierMaster> getInputSupplierDetails()
 	{
 		return registerServices.getInputSupplierDetails();
 	}
 	
-	@DeleteMapping(name="/deleteInputSupplier/{inputSupplierId}")
+	@PutMapping(value="/deleteInputSupplier/{inputSupplierId}")
 	private int deleteInputSupplier(@PathVariable("inputSupplierId") int inputSupplierId)
 	{
 		registerServices.deleteInputSupplier(inputSupplierId);
