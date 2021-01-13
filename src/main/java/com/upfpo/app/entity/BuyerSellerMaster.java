@@ -42,7 +42,6 @@ public class BuyerSellerMaster implements Serializable
 	@Column(name="designation_contact_person")
 	private String designationContactPerson;
 	
-	@Mobile
 	@Column(name="mobile_number")
 	private long mobileNumber;
 	
