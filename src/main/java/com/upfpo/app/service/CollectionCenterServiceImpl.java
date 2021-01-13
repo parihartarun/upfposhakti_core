@@ -46,6 +46,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 			CollectionCenter collectionCenter = collectionCenterRepository.getOne(id);
 			collectionCenter.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
 			collectionCenter.setDeleted(true);
+			collectionCenterRepository.save(collectionCenter);
 	          return true;
 		}catch(Exception e){
 		      return false;	
