@@ -1,4 +1,4 @@
-package com.upfpo.app.configuration;
+package com.upfpo.app.configuration.swagger;
 
 import java.util.Collections;
 
