@@ -46,6 +46,7 @@ public class LicenseMasterServiceImpl implements LicenseMasterService {
 			LicenseMaster licenseMaster = licenseMasterRepository.getOne(id);
 			licenseMaster.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
 			licenseMaster.setDeleted(true);
+			licenseMasterRepository.save(licenseMaster);
 	          return true;
 		}catch(Exception e){
 		      return false;	
