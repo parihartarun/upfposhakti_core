@@ -3,7 +3,6 @@ package com.upfpo.app;
 import java.util.Properties;
 
 import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +27,7 @@ public class HibernateConfig {
 	 { 
 	  DriverManagerDataSource dataSource =   new DriverManagerDataSource();
 	  dataSource.setDriverClassName("org.postgresql.Driver");
-	  dataSource.setUrl("jdbc:postgresql://localhost:5432/upfpo_db");
+	  dataSource.setUrl("jdbc:postgresql://localhost:5432/new_upfpo");
 	  dataSource.setUsername("postgres"); dataSource.setPassword("postgres");
 	  return dataSource; 
 	  }
@@ -37,7 +36,6 @@ public class HibernateConfig {
 	 @Bean 
 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory()
 	   { 
-		 
 	   LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 	   em.setDataSource(dataSource());
 	   em.setPackagesToScan(new String[] {"com.upfpo"});

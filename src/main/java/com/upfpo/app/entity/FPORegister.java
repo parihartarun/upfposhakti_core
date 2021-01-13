@@ -8,11 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name ="fpo")
@@ -40,15 +37,11 @@ public class FPORegister implements Serializable {
 	@Column(name="blockId")
 	private Integer blockRef;
 	
-	@Column(name = "sla_ref_id")
-	private Integer slaRefId;
-	
 //	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
 	@NotNull(message="Please Provide the Name")
 	@Column(name = "fpo_name")
 	private String fpoName;
 	
-	@NotBlank(message="Please Provide the Address")
 	@Column(name = "fpo_address")
 	private String fpoAddress;
 	
@@ -58,8 +51,6 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_landline")
 	private BigInteger fpolandLine;
 	
-	@Email(message="Please Provide Valid Email Address")
-	@NotBlank(message ="Please Provie Valid Email Address")
 	@Column(name = "fpo_email")
 	private String fpoEmail;
 	
@@ -89,17 +80,11 @@ public class FPORegister implements Serializable {
 	@Column(name="create_date")
 	private Date createdate;
 	
-	@Column(name="fpo_lattitude")
-	private String fpolatitude;
-	
-	@Column(name="fpo_longitude")
-	private String fpolongitude;
-	
 	@Column(name = "total_fmb")
 	private Integer fmbno;
 	
 	@Column(name = "total_seedprocessing")
-	private Integer seedprocessingunitno;
+	private Integer seedProcessingUnitno;
 	
 	@Column(name = "total_farmers")
 	private Integer totalfarmers;
@@ -116,40 +101,7 @@ public class FPORegister implements Serializable {
 	@Column(name = "total_land")
 	private Double totalland;
 	
-	@Transient
-	private String state_name;
 	
-	@Transient
-	private String district_name;
-	
-	@Transient
-	private String block_name;
-	
-	@Transient
-	private String bank_name;
-	
-	@Transient
-	private String sla_name;
-	
-	/*
-	 * @NotEmpty(message="required")
-	 * 
-	 * @Column(name = "board_mem_name") private String fpoBoardMemName;
-	 * 
-	 * @NotNull(message="required")
-	 * 
-	 * @Min(1)
-	 * 
-	 * @Column(name = "board_mem_mob") private Long fpoBoardMemMob;
-	 * 
-	 * @NotEmpty(message="required")
-	 * 
-	 * @Column(name = "board_mem_email") private String fpoBoardMemEmail;
-	 * 
-	 * @NotEmpty(message="required")
-	 * 
-	 * @Column(name = "board_mem_designation") private String fpoBoardMemDesig;
-	 */
 	public FPORegister() {
 
 	}
@@ -160,14 +112,6 @@ public class FPORegister implements Serializable {
 
 	public void setFpoId(Integer fpoId) {
 		this.fpoId = fpoId;
-	}
-
-	public Integer getSlaRefId() {
-		return slaRefId;
-	}
-
-	public void setSlaRefId(Integer slaRefId) {
-		this.slaRefId = slaRefId;
 	}
 
 	public Integer getDistRefId() {
@@ -311,46 +255,6 @@ public class FPORegister implements Serializable {
 		this.blockRef = blockRef;
 	}
 
-	public String getState_name() {
-		return state_name;
-	}
-
-	public void setState_name(String state_name) {
-		this.state_name = state_name;
-	}
-
-	public String getDistrict_name() {
-		return district_name;
-	}
-
-	public void setDistrict_name(String district_name) {
-		this.district_name = district_name;
-	}
-
-	public String getBlock_name() {
-		return block_name;
-	}
-
-	public void setBlock_name(String block_name) {
-		this.block_name = block_name;
-	}
-
-	public String getBank_name() {
-		return bank_name;
-	}
-
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
-	}
-
-	public String getSla_name() {
-		return sla_name;
-	}
-
-	public void setSla_name(String sla_name) {
-		this.sla_name = sla_name;
-	}
-
 	public String getAgency() {
 		return agency;
 	}
@@ -359,36 +263,12 @@ public class FPORegister implements Serializable {
 		this.agency = agency;
 	}
 
-	public String getFpolatitude() {
-		return fpolatitude;
-	}
-
-	public void setFpolatitude(String fpolatitude) {
-		this.fpolatitude = fpolatitude;
-	}
-
-	public String getFpolongitude() {
-		return fpolongitude;
-	}
-
-	public void setFpolongitude(String fpolongitude) {
-		this.fpolongitude = fpolongitude;
-	}
-
 	public Integer getFmbno() {
 		return fmbno;
 	}
 
 	public void setFmbno(Integer fmbno) {
 		this.fmbno = fmbno;
-	}
-
-	public Integer getSeedprocessingunitno() {
-		return seedprocessingunitno;
-	}
-
-	public void setSeedprocessingunitno(Integer seedprocessingunitno) {
-		this.seedprocessingunitno = seedprocessingunitno;
 	}
 
 	public Integer getTotalfarmers() {
@@ -430,7 +310,12 @@ public class FPORegister implements Serializable {
 	public void setTotalland(Double totalland) {
 		this.totalland = totalland;
 	}
-	
-	
 
+	public Integer getSeedProcessingUnitno() {
+		return seedProcessingUnitno;
+	}
+
+	public void setSeedProcessingUnitno(Integer seedProcessingUnitno) {
+		this.seedProcessingUnitno = seedProcessingUnitno;
+	}
 }

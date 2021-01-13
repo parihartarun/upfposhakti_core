@@ -1,10 +1,8 @@
 package com.upfpo.app.configuration;
 
 import java.util.Collections;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -28,9 +26,5 @@ public class SwaggerConfiguration {
 	    private ApiInfo getApiInfo()
 	    {
 	    	return new ApiInfo("UPFPO API", "API documentation for UPAGRI Application", "1.0", "For internal use only", new springfox.documentation.service.Contact("xyz", "xyz.com", "xyz@email.com"), "API License", "UPAGRI", Collections.emptyList());
-
-	    	
 	    }
-	
-	
 }

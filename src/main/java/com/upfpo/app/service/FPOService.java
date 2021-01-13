@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 
 @Service
@@ -15,4 +16,9 @@ public interface FPOService {
 	public Boolean deleteFpo(Integer id);
 	public List<FPORegister> selectFpos();
 	public FPORegister selectFpoById(Integer id);
+	
+	public BoardMember addBoardMember(BoardMember bm);
+	public List <BoardMember> getBoardMembers();
+	public BoardMember getBoardMembersById(Long id);
+	public BoardMember deleteBoardMembersById(Long id);
 }
