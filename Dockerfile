@@ -1,4 +1,9 @@
-FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM adoptopenjdk/maven-openjdk8
+COPY pom.xml /app/
+COPY src /app/src/
+WORKDIR /app/
+RUN mvn package -Dmaven.test.skip=true
+EXPOSE 8081
+CMD java -jar target/fpoapp-0.0.1.jar
+
+
