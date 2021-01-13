@@ -12,4 +12,8 @@ public interface RegistrationServices
 	public FarmerMaster getFarmerDetailsById(int farmerId);
 	public void registerBuyerSeller(BuyerSellerMaster buyerSeller);
 	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster);
+	public void registerInputSuplier(InputSupplierMaster inputSupplierMaster);
+	public void update_inputSupplier(InputSupplierMaster inputSupplierMaster);
+	public List<InputSupplierMaster> getInputSupplierDetails();
+	public void deleteInputSupplier(int inputSupplierId);
 }
