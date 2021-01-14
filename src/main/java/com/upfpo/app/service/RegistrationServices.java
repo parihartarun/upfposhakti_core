@@ -9,7 +9,6 @@ public interface RegistrationServices
 	public void registerFPO(FPORegister fpoRegister);
 	public void registerFarmer(FarmerMaster farmerRegister);
 	public void registerBuyerSeller(BuyerSellerMaster buyerSeller);
-	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster);
 	public void registerInputSuplier(InputSupplierMaster inputSupplierMaster);
 	public void registerChcFmb(ChcFmbMaster chcFmbMaster);
 }

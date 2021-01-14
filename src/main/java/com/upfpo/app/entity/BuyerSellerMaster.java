@@ -69,6 +69,7 @@ public class BuyerSellerMaster implements Serializable
 		this.isDeleted = isDeleted;
 	}
 
+
 	public int getBuyerSellerId() {
 		return buyerSellerId;
 	}

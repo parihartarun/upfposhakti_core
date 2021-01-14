@@ -47,7 +47,7 @@ public class RegistrationController
 		registerServices.registerFarmer(farmerRegister);
 		return 1;
 	}
-	
+		
 	@PostMapping(value="/buyerSeller")
 	private int registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
 	{
@@ -73,5 +73,6 @@ public class RegistrationController
 		registerServices.registerChcFmb(chcFmbMaster);
 		return 1;
 	}
+	
 	
 }

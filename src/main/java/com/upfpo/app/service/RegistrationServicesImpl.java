@@ -44,17 +44,13 @@ public class RegistrationServicesImpl implements RegistrationServices
 		farmerMasterRepository.save(farmerRegister);  
 	}
 	
+	
 	@Override
 	public void registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{
 		buyerSellerRepository.save(buyerSeller);
 	}
 	
-	@Override
-	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster) 
-	{
-		buyerSellerRepository.save(buyerSellerMaster);
-	}
 	
 	@Override
 	public void registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
