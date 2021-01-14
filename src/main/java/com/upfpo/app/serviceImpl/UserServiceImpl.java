@@ -8,12 +8,8 @@ import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.repository.UserRoleRepository;
 import com.upfpo.app.service.UserService;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService {
-
 	@Autowired
 	UserRepository userRepository;
 	

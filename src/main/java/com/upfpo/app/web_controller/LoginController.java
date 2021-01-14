@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.auth.response.JwtResponse;
 import com.upfpo.app.entity.User;
+
 import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.security.MyUserDetail;
 import com.upfpo.app.security.MyUserDetailService;
@@ -33,10 +34,13 @@ public class LoginController {
 		
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	UserRepository userRepository;
+
 	@Autowired
 	PasswordEncoder encoder;
 	
@@ -105,7 +109,6 @@ public class LoginController {
 					}
 				}
 			}
-			return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername()));
 		}
 		catch(BadCredentialsException e){
 			throw new Exception("incorrect credential"+e);
@@ -113,6 +116,10 @@ public class LoginController {
 		}
 //		SecurityContextHolder.getContext().setAuthentication(authentication);
 //		String jwt = jwtUtils.generateJwtToken(authentication);
+		
+		final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
+		String jwt = jwtUtils.generateToken(userDetails);
+		return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername()));
 	}
 }
 	
