@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.ChcFmbMaster;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.InputSupplierMaster;
@@ -47,31 +48,11 @@ public class RegistrationController
 		return 1;
 	}
 	
-	@PutMapping(value="/editFarmer")
-	private FarmerMaster editFarmer(@RequestBody FarmerMaster farmerMaster)
-	{
-		registerServices.update_farmer(farmerMaster);
-		return farmerMaster;
-	}
-	
-	@GetMapping(value="/getFarmerDetails/{farmerId}")
-	private FarmerMaster getFarmerDetailsById(@PathVariable("farmerId") int farmerId)
-	{
-		return registerServices.getFarmerDetailsById(farmerId);
-	}
-	
 	@PostMapping(value="/buyerSeller")
 	private int registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
 	{
 		registerServices.registerBuyerSeller(buyerSeller);
 		return 1;
-	}
-	
-	@PutMapping(value="/editBuyerSeller")
-	private BuyerSellerMaster editBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
-	{
-		registerServices.update_buyerSeller(buyerSeller);
-		return buyerSeller;
 	}
 	
 	@PostMapping(value="/inputSupplier")
@@ -86,25 +67,11 @@ public class RegistrationController
 		return 1;
 	}
 	
-	@PutMapping(value="/editInputSupplier")
-	private InputSupplierMaster editInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
+	@PostMapping(value="/chcFmb")
+	private int registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
 	{
-		registerServices.update_inputSupplier(inputSupplierMaster);
-		return inputSupplierMaster;
-	}
-	
-	@GetMapping(value="/getInputSupplier")
-	private List<InputSupplierMaster> getInputSupplierDetails()
-	{
-		return registerServices.getInputSupplierDetails();
-	}
-	
-	@PutMapping(value="/deleteInputSupplier/{inputSupplierId}")
-	private int deleteInputSupplier(@PathVariable("inputSupplierId") int inputSupplierId)
-	{
-		registerServices.deleteInputSupplier(inputSupplierId);
+		registerServices.registerChcFmb(chcFmbMaster);
 		return 1;
 	}
-	
 	
 }

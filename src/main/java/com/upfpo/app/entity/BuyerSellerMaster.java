@@ -57,6 +57,17 @@ public class BuyerSellerMaster implements Serializable
 	
 	@Column(name="district_ref_id")
 	private Integer districtRefId;
+	
+	@Column(name="is_deleted")
+	private boolean isDeleted;
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public int getBuyerSellerId() {
 		return buyerSellerId;
