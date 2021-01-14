@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -88,7 +89,6 @@ public class FPOController {
 	{
 		return fpoService.selectFpos();
 	}
-
 	
 	@PostMapping(value= {"/addbm"})
 	@ApiOperation(value="Add new Board Member",code=201, produces = "application/json", notes="Api for adding new Board Member",response=BoardMember.class)
@@ -130,5 +130,47 @@ public class FPOController {
 	{
 		return fpoService.deleteBoardMembersById(id);
 	}
+	
+	@GetMapping(value= {"/lands"})
+	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+	public @ResponseBody List<LandDetails> getLandDetails()
+	{
+		return fpoService.getAllLandDetail();
+	}
+	
+	@GetMapping(value= {"/land/{id}"})
+	@ApiOperation(value="View Land by Id",code=200,produces = "application/json",notes="Api to view Land by Id",response=LandDetails.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+	public LandDetails getLandDetailsById(@PathVariable("id")Integer id)
+	{
+		return fpoService.getLandDetailById(id);
+	}
+	
+	@PostMapping(value= {"/addland"})
+	@ApiOperation(value="Add new Land Info",code=201, produces = "application/json", notes="Api for adding new Land",response=LandDetails.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"), })
+	@ResponseStatus(HttpStatus.CREATED)
+	public LandDetails createLand(@RequestBody LandDetails landDetails)
+	{
+		return fpoService.addLand(landDetails);
+	}
+	
+	@PutMapping(value= {"/land/{id}"})
+	@ApiOperation(value="View Land by Id",code=200,produces = "application/json",notes="Api to view Land by Id",response=LandDetails.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+	public LandDetails deleteLandDetailsById(@PathVariable("id")Integer id)
+	{
+		return fpoService.deleteLandDetailById(id);
+	}
+
 	
 }

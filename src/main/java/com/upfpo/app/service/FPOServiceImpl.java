@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.FPORegisterRepository;
+import com.upfpo.app.repository.LandDetailsRepo;
+import com.upfpo.app.util.GetCurrentDate;
 
 @Service
 public class FPOServiceImpl implements FPOService {
@@ -19,6 +22,9 @@ public class FPOServiceImpl implements FPOService {
 	
 	@Resource
 	private BoardMembersRepo boardMembersRepo;
+	
+	@Resource
+	private LandDetailsRepo landDetailsRepo;
 	
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
@@ -79,8 +85,34 @@ public class FPOServiceImpl implements FPOService {
 		
 		BoardMember bm = boardMembersRepo.findById(id).get();
 		bm.setDeleted(true);
+		bm.setDeleteDate(GetCurrentDate.getDate());
 		boardMembersRepo.save(bm);
 		return bm;
+	}
+
+	@Override
+	public List<LandDetails> getAllLandDetail() {
+		return landDetailsRepo.findAll();
+	}
+
+	@Override
+	public LandDetails getLandDetailById(Integer id) {
+		return landDetailsRepo.findById(id).get();
+	}
+
+	@Override
+	public LandDetails addLand(LandDetails ld) {
+		return landDetailsRepo.save(ld);
+	}
+
+	@Override
+	public LandDetails deleteLandDetailById(Integer id) {
+		
+		LandDetails ld = landDetailsRepo.findById(id).get();
+		ld.setDeleted(true);
+		ld.setDeleteDate(GetCurrentDate.getDate());
+		
+		return landDetailsRepo.save(ld);
 	}
 
 }
