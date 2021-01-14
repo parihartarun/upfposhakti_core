@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.BankMaster;
 import com.upfpo.app.repository.BankMasterRepository;
 
+@Service
 public class BankServiceImpl implements BankService
 {
 	@Autowired

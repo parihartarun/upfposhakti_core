@@ -39,28 +39,28 @@ public class RegistrationServicesImpl implements RegistrationServices
 	}
 	
 	@Override
-	public void registerFarmer(FarmerMaster farmerRegister) 
+	public FarmerMaster registerFarmer(FarmerMaster farmerRegister) 
 	{
-		farmerMasterRepository.save(farmerRegister);  
+		return farmerMasterRepository.save(farmerRegister);  
 	}
 	
 	
 	@Override
-	public void registerBuyerSeller(BuyerSellerMaster buyerSeller) 
+	public BuyerSellerMaster registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{
-		buyerSellerRepository.save(buyerSeller);
+		return buyerSellerRepository.save(buyerSeller);
 	}
 	
 	
 	@Override
-	public void registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
+	public InputSupplierMaster registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
 	{
-		inputSupplierRepository.save(inputSupplierMaster);	
+		return inputSupplierRepository.save(inputSupplierMaster);	
 	}
 	
 	@Override
-	public void registerChcFmb(ChcFmbMaster chcFmbMaster) 
+	public ChcFmbMaster registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
-		chcFmbRepository.save(chcFmbMaster);
+		return chcFmbRepository.save(chcFmbMaster);
 	}
 }

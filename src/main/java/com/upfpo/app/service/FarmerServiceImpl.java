@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.repository.FarmerMasterRepository;
 
+@Service
 public class FarmerServiceImpl implements FarmerService
 {
 	@Autowired
