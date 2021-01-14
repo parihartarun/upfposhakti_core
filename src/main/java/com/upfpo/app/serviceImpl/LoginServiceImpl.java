@@ -11,22 +11,6 @@ import com.upfpo.app.service.LoginService;
 @Service
 public class LoginServiceImpl implements LoginService{
 	
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	UserRoleRepository userRoleRepository;
 	
-	@Override
-	public User userDetail(String username) {
-		User user = userRepository.findByUserName(username);
-		return user;
-	}
-
-	@Override
-	public String getRoleName(String roleId) {
-		String roleName = userRoleRepository.roleNameById(roleId);
-		return roleName;
-		
-	}
 
 }
