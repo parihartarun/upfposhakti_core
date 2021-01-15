@@ -31,15 +31,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/master/licenses")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the License Master", description="Add, Update, Delete, and retrive the License Master")
+@RequestMapping(value="/api/licenses")
+@Api(produces = "application/json", tags="Licenses", value = "Add, Update, Delete, and retrive the License", description="Add, Update, Delete, and retrive the License Master")
 public class LicenseMasterController {
 
 	@Autowired
 	private LicenseMasterService licenseMasterService;
 	
-	@PostMapping
 	@ApiOperation(value="Add new License Master",code=201, produces = "application/json", notes="Api for add new Collection Center",response=LicenseMaster.class)
+	@PostMapping
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

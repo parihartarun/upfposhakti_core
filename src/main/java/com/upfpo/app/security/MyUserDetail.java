@@ -9,6 +9,7 @@ import com.upfpo.app.entity.User;
 
 public class MyUserDetail implements UserDetails{
 	
+	private Long id;
 	private String userName;
 	private String password;
 	private Boolean isEnabled;
@@ -25,6 +26,7 @@ public class MyUserDetail implements UserDetails{
 		this.password = user.getPassword();
 		this.isEnabled = user.isEnabled();
 		this.roleRefId = user.getRoleRefId();
+		this.id = user.getUserId();
 	}
 
 	@Override
