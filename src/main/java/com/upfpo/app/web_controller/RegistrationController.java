@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
@@ -60,7 +61,7 @@ public class RegistrationController
 	private ResponseEntity<FarmerMaster> registerFarmer(@RequestBody FarmerMaster farmerRegister)
 	{
 		FarmerMaster farmer = registerServices.registerFarmer(farmerRegister);
-		return new ResponseEntity<FarmerMaster>(farmer, new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<FarmerMaster>(farmer, new HttpHeaders(), HttpStatus.CREATED);
 	}
 		
 	@PostMapping(value="/buyerSeller")
@@ -73,7 +74,7 @@ public class RegistrationController
 	private ResponseEntity<BuyerSellerMaster> registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
 	{
 		BuyerSellerMaster buyerSellerdetails = registerServices.registerBuyerSeller(buyerSeller);
-		return new ResponseEntity<BuyerSellerMaster>(buyerSellerdetails, new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<BuyerSellerMaster>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
 	}
 	
 	@PostMapping(value="/inputSupplier")
@@ -104,7 +105,7 @@ public class RegistrationController
 	private ResponseEntity<ChcFmbMaster> registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
 	{
 		ChcFmbMaster chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
-		return new ResponseEntity<ChcFmbMaster>(chcFmbDetails,new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<ChcFmbMaster>(chcFmbDetails,new HttpHeaders(), HttpStatus.CREATED);
 	}
 	
 	
