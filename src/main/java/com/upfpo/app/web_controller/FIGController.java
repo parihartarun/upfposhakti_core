@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value="/api/figs")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FIG")
+@Api(produces = "application/json", tags="Farmer Interest Group" ,value = "Add, Update, Delete, and retrive the FIG")
 public class FIGController {
 
 	@Autowired

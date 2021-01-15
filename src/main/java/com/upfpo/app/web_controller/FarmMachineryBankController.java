@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/api/farm/machinery/banks")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Farm Machinery Banks", description="Add, Update, Delete, and retrieve the Farm Machinery Banks")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Farm Machinery Banks", tags="Farm Machinary Bank", description="Add, Update, Delete, and retrieve the Farm Machinery Banks")
 public class FarmMachineryBankController {
 
 	@Autowired
