@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.entity.CollectionCenter;
-import com.upfpo.app.entity.FPORegister;
-
 
 @Repository
-public interface FPORegisterRepository extends JpaRepository<FPORegister, Integer> {
+public interface CollectionCenterRepository extends JpaRepository<CollectionCenter, Integer>{
 
-	List<FPORegister> findByIsDeleted(boolean b);
+	List<CollectionCenter> findByIsDeleted(boolean b);
+
 }
