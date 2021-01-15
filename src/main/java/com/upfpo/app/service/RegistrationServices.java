@@ -7,13 +7,8 @@ import com.upfpo.app.entity.*;
 public interface RegistrationServices 
 {
 	public void registerFPO(FPORegister fpoRegister);
-	public void registerFarmer(FarmerMaster farmerRegister);
-	public void update_farmer(FarmerMaster farmerMaster);
-	public FarmerMaster getFarmerDetailsById(int farmerId);
-	public void registerBuyerSeller(BuyerSellerMaster buyerSeller);
-	public void update_buyerSeller(BuyerSellerMaster buyerSellerMaster);
-	public void registerInputSuplier(InputSupplierMaster inputSupplierMaster);
-	public void update_inputSupplier(InputSupplierMaster inputSupplierMaster);
-	public List<InputSupplierMaster> getInputSupplierDetails();
-	public void deleteInputSupplier(int inputSupplierId);
+	public FarmerMaster registerFarmer(FarmerMaster farmerRegister);
+	public BuyerSellerMaster registerBuyerSeller(BuyerSellerMaster buyerSeller);
+	public InputSupplierMaster registerInputSuplier(InputSupplierMaster inputSupplierMaster);
+	public ChcFmbMaster registerChcFmb(ChcFmbMaster chcFmbMaster);
 }

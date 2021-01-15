@@ -66,6 +66,7 @@ public class LoginController {
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 			final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
 			String jwt = jwtUtils.generateToken(userDetails);
+			
 			User fullUserdetail;
 			String userRole = null;
 			Long userId = (long) 0;
@@ -76,6 +77,7 @@ public class LoginController {
 					userId = fullUserdetail.getUserId();
 					if(roleId != null) {
 						userRole = userService.getRoleName(roleId);
+
 						System.err.println("user role == "+userRole);
 						if (userRole.equals("ROLE_MIN")) {
 							//logger.info("ROLE_MIN Logged IN");
