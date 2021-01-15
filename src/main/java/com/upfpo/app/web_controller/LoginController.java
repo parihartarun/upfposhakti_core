@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +23,6 @@ import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
 
 import com.upfpo.app.repository.UserRepository;
-import com.upfpo.app.security.MyUserDetail;
 import com.upfpo.app.security.MyUserDetailService;
 import com.upfpo.app.security.jwt.JwtUtils;
 import com.upfpo.app.service.UserService;
@@ -36,7 +33,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@CrossOrigin(origins = "http://localhost:4300", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/signin")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FPO", tags="Farmer Producer Organization",description="Add, Update, Delete, and retrive the FPO")
