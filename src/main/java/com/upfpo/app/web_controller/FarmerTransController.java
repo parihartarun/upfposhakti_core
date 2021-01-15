@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/farmer")
+@RequestMapping(value="/farmer")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrive the Farmers")
 public class FarmerTransController {
 	

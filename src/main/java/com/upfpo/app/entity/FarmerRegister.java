@@ -1,12 +1,15 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name="farmer")
@@ -17,6 +20,7 @@ public class FarmerRegister implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="farmer_id")
+	@ApiModelProperty(notes = "Serializable Farmer Id",name="farmerId",required=true)
 	private Integer farmerId;
 	
 	@Column (name="state_ref")

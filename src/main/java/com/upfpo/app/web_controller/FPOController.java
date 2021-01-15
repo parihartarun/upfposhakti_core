@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/fpos")
+@RequestMapping(value="/fpos")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FPO")
 public class FPOController {
 	
@@ -90,7 +90,7 @@ public class FPOController {
 		return fpoService.selectFpos();
 	}
 	
-	@PostMapping(value= {"/addbm"})
+	@PostMapping(value= {"/boardmember"})
 	@ApiOperation(value="Add new Board Member",code=201, produces = "application/json", notes="Api for adding new Board Member",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
@@ -101,7 +101,7 @@ public class FPOController {
 		return fpoService.addBoardMember(boardMember);
 	}
 	
-	@GetMapping(value= {"/getallbm"})
+	@GetMapping(value= {"/boardmember"})
 	@ApiOperation(value="View All BoardMembers",code=200,produces = "application/json",notes="Api to view all Board Members")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -111,7 +111,7 @@ public class FPOController {
 		return fpoService.getBoardMembers();
 	}
 	
-	@GetMapping(value= {"/getbm/{id}"})
+	@GetMapping(value= {"/boardmember/{id}"})
 	@ApiOperation(value="View BoardMember by Id",code=200,produces = "application/json",notes="Api to view Board Member by Id",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -121,8 +121,8 @@ public class FPOController {
 		return fpoService.getBoardMembersById(id);
 	}
 	
-	@PutMapping(value= {"/deletebm/{id}"})
-	@ApiOperation(value="Delete BoardMember by Id",code=201,produces = "application/json",notes="API to delete Board Member by ID",response=BoardMember.class)
+	@DeleteMapping(value= {"/boardmember/{id}"})
+	@ApiOperation(value="Delete BoardMember by Id",code=204,produces = "application/json",notes="API to delete Board Member by ID",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
@@ -131,7 +131,7 @@ public class FPOController {
 		return fpoService.deleteBoardMembersById(id);
 	}
 	
-	@GetMapping(value= {"/lands"})
+	@GetMapping(value= {"/land"})
 	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -151,7 +151,7 @@ public class FPOController {
 		return fpoService.getLandDetailById(id);
 	}
 	
-	@PostMapping(value= {"/addland"})
+	@PostMapping(value= {"/land"})
 	@ApiOperation(value="Add new Land Info",code=201, produces = "application/json", notes="Api for adding new Land",response=LandDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
@@ -162,8 +162,8 @@ public class FPOController {
 		return fpoService.addLand(landDetails);
 	}
 	
-	@PutMapping(value= {"/land/{id}"})
-	@ApiOperation(value="View Land by Id",code=200,produces = "application/json",notes="Api to view Land by Id",response=LandDetails.class)
+	@DeleteMapping(value= {"/land/{id}"})
+	@ApiOperation(value="View Land by Id",code=204,produces = "application/json",notes="Api to view Land by Id",response=LandDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
@@ -171,6 +171,4 @@ public class FPOController {
 	{
 		return fpoService.deleteLandDetailById(id);
 	}
-
-	
 }

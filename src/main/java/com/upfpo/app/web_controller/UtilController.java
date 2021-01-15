@@ -1,11 +1,14 @@
 package com.upfpo.app.web_controller;
 
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.entity.DashBoardData;
 import com.upfpo.app.service.MasterService;
 import com.upfpo.app.service.MiniTransServices;
@@ -25,8 +28,12 @@ public class UtilController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView goIndex() {
 		try {
-			 mav = new ModelAndView(); 
-			 mav.setViewName("index.def");
+			
+	//	    masterServices.farmers();
+	//	    System.out.println(masterServices.farmers().get(0).getBigFarmers());
+			
+			mav = new ModelAndView(); 
+			mav.setViewName("index.def");
 			List <DashBoardData> list = masterServices.homePageData();
 			mav.addObject("land",list.get(0).getLand());
 			mav.addObject("farmers",list.get(0).getFarmers());

@@ -34,7 +34,6 @@ public class MasterDaoImpl implements MasterDao {
 			query = session.createQuery("From DashBoardData");
 			list = query.list();
 			
-			System.out.println(list.size()+"DashBoardData size");
 			session.getTransaction().commit();
 
  		}
