@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/api/collectioncenters")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the Collection Center", description="Add, Update, Delete, and retrive the Collection Center")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the Collection Center", tags="Collection Center",description="Add, Update, Delete, and retrive the Collection Center")
 public class CollectionCenterController {
 
 	@Autowired

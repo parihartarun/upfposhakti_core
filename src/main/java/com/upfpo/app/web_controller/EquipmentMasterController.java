@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/api/master/equipments")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Equipment Master", description="Add, Update, Delete, and retrive the Equipment Master")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Equipment",tags="Equipment", description="Add, Update, Delete, and retrive the Equipment Master")
 public class EquipmentMasterController {
 
 	@Autowired
