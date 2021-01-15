@@ -37,73 +37,27 @@ public class FPORegister implements Serializable {
 	@Column(name="blockId")
 	private Integer blockRef;
 	
-//	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
-	@NotNull(message="Please Provide the Name")
-	@Column(name = "fpo_name")
-	private String fpoName;
-	
-	@Column(name = "fpo_address")
-	private String fpoAddress;
-	
-	@Column(name = "date_of_regi")
-	private String dateOfRegistration;
-	
-	@Column(name = "fpo_landline")
-	private BigInteger fpolandLine;
-	
-	@Column(name = "fpo_email")
-	private String fpoEmail;
-	
-	@Column(name = "fpo_lot_no")
-	private String fpoLotNo;
-	
-	@Column(name = "fpo_bank_name")
-	private Integer fpoBankName;
-	
-	@Column(name = "fpo_account_no")
-	private BigInteger fpoBankAccNo;
-	
-//	@NotBlank(message="Please Provide the Valid IFSC Code")
-	@Column(name = "fpo_ifsc")
-	private String fpoIFSC;
+	@Column(name="delete_date")
+	private java.sql.Date deleteDate;
 
-	@Column(name="users_id")
-	private long userRefId;
-	
-	@Length(min=6,max=20,message="Username Should be in between 6 to 20 Characters")
-	@Column(name="username")
-	private String userName;
-	
-	@Column(name="update_date")
-	private Date updateDate;
-	
-	@Column(name="create_date")
-	private Date createdate;
-	
-	@Column(name = "total_fmb")
-	private Integer fmbno;
-	
-	@Column(name = "total_seedprocessing")
-	private Integer seedProcessingUnitno;
-	
-	@Column(name = "total_farmers")
-	private Integer totalfarmers;
-	
-	@Column(name = "total_big_farmers")
-	private Integer totalbfarmer;
-	
-	@Column(name = "total_marginal_farmers")
-	private Integer totalmfarmer;
-	
-	@Column(name = "total_small_farmers")
-	private Integer totalsfarmer;
-	
-	@Column(name = "total_land")
-	private Double totalland;
-	
-	
-	public FPORegister() {
+	@Column(name="is_deleted")
+	private boolean isDeleted;
 
+	
+    public java.sql.Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(java.sql.Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public Integer getFpoId() {
@@ -114,6 +68,14 @@ public class FPORegister implements Serializable {
 		this.fpoId = fpoId;
 	}
 
+	public Integer getStateref() {
+		return stateref;
+	}
+
+	public void setStateref(Integer stateref) {
+		this.stateref = stateref;
+	}
+
 	public Integer getDistRefId() {
 		return distRefId;
 	}
@@ -122,121 +84,12 @@ public class FPORegister implements Serializable {
 		this.distRefId = distRefId;
 	}
 
-	public String getFpoName() {
-		return fpoName;
+	public String getAgency() {
+		return agency;
 	}
 
-	public void setFpoName(String fpoName) {
-		this.fpoName = fpoName;
-	}
-
-	public String getFpoAddress() {
-		return fpoAddress;
-	}
-
-	public void setFpoAddress(String fpoAddress) {
-		this.fpoAddress = fpoAddress;
-	}
-
-	public BigInteger getFpolandLine() {
-		return fpolandLine;
-	}
-
-	public void setFpolandLine(BigInteger fpolandLine) {
-		this.fpolandLine = fpolandLine;
-	}
-
-	public String getFpoEmail() {
-		return fpoEmail;
-	}
-
-	public void setFpoEmail(String fpoEmail) {
-		this.fpoEmail = fpoEmail;
-	}
-
-	public String getFpoLotNo() {
-		return fpoLotNo;
-	}
-
-	public void setFpoLotNo(String fpoLotNo) {
-		this.fpoLotNo = fpoLotNo;
-	}
-
-	public Integer getFpoBankName() {
-		return fpoBankName;
-	}
-
-	public void setFpoBankName(Integer fpoBankName) {
-		this.fpoBankName = fpoBankName;
-	}
-
-	public BigInteger getFpoBankAccNo() {
-		return fpoBankAccNo;
-	}
-
-	public void setFpoBankAccNo(BigInteger fpoBankAccNo) {
-		this.fpoBankAccNo = fpoBankAccNo;
-	}
-
-	public String getFpoIFSC() {
-		return fpoIFSC;
-	}
-
-	public void setFpoIFSC(String fpoIFSC) {
-		this.fpoIFSC = fpoIFSC;
-	}
-
-	public Long getUserRefId() {
-		return userRefId;
-	}
-
-	public void setUserRefId(Long userRefId) {
-		this.userRefId = userRefId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public void setUserRefId(long userRefId) {
-		this.userRefId = userRefId;
-	}
-	
-
-	public String getDateOfRegistration() {
-		return dateOfRegistration;
-	}
-
-	public void setDateOfRegistration(String dateOfRegistration) {
-		this.dateOfRegistration = dateOfRegistration;
-	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public Date getCreatedate() {
-		return createdate;
-	}
-
-	public void setCreatedate(Date createdate) {
-		this.createdate = createdate;
-	}
-
-	public Integer getStateref() {
-		return stateref;
-	}
-
-	public void setStateref(Integer stateref) {
-		this.stateref = stateref;
+	public void setAgency(String agency) {
+		this.agency = agency;
 	}
 
 	public Integer getPincode() {
@@ -254,68 +107,6 @@ public class FPORegister implements Serializable {
 	public void setBlockRef(Integer blockRef) {
 		this.blockRef = blockRef;
 	}
-
-	public String getAgency() {
-		return agency;
-	}
-
-	public void setAgency(String agency) {
-		this.agency = agency;
-	}
-
-	public Integer getFmbno() {
-		return fmbno;
-	}
-
-	public void setFmbno(Integer fmbno) {
-		this.fmbno = fmbno;
-	}
-
-	public Integer getTotalfarmers() {
-		return totalfarmers;
-	}
-
-	public void setTotalfarmers(Integer totalfarmers) {
-		this.totalfarmers = totalfarmers;
-	}
-
-	public Integer getTotalbfarmer() {
-		return totalbfarmer;
-	}
-
-	public void setTotalbfarmer(Integer totalbfarmer) {
-		this.totalbfarmer = totalbfarmer;
-	}
-
-	public Integer getTotalmfarmer() {
-		return totalmfarmer;
-	}
-
-	public void setTotalmfarmer(Integer totalmfarmer) {
-		this.totalmfarmer = totalmfarmer;
-	}
-
-	public Integer getTotalsfarmer() {
-		return totalsfarmer;
-	}
-
-	public void setTotalsfarmer(Integer totalsfarmer) {
-		this.totalsfarmer = totalsfarmer;
-	}
-
-	public Double getTotalland() {
-		return totalland;
-	}
-
-	public void setTotalland(Double totalland) {
-		this.totalland = totalland;
-	}
-
-	public Integer getSeedProcessingUnitno() {
-		return seedProcessingUnitno;
-	}
-
-	public void setSeedProcessingUnitno(Integer seedProcessingUnitno) {
-		this.seedProcessingUnitno = seedProcessingUnitno;
-	}
+	
 }
+

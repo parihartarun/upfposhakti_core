@@ -1,3 +1,4 @@
+
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
@@ -23,6 +24,17 @@ public class BankMaster implements Serializable {
 	@Column(name="bank_name")
 	private String  bankName;
 	
+	@Column(name="bank_name_hi")
+	private String bankNameHi;
+	
+	public String getBankNameHi() {
+		return bankNameHi;
+	}
+
+	public void setBankNameHi(String bankNameHi) {
+		this.bankNameHi = bankNameHi;
+	}
+
 	public BankMaster() {		
 	}
 	

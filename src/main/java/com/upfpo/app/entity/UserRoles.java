@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user_roles")
+@Table(name="user_roles",catalog = "upfpo")
+@NamedQuery(name = "ROLE_NAME_BY_ID", query = "select ur.role from UserRoles ur where ur.roleId = :roleId")
+
 public class UserRoles {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
