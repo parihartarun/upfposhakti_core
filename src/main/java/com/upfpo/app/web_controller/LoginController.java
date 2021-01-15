@@ -27,7 +27,7 @@ import com.upfpo.app.security.jwt.JwtUtils;
 import com.upfpo.app.service.UserService;
 import com.upfpo.app.util.RandomString;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 //@RequestMapping("/UPFPO")
 public class LoginController {
@@ -67,12 +67,17 @@ public class LoginController {
 			final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
 			String jwt = jwtUtils.generateToken(userDetails);
 			
+			User fullUserdetail;
+			String userRole = null;
+			Long userId = (long) 0;
 			if(userDetails.getUsername() != null && userDetails.isEnabled() == true) {
-				User fullUserdetail = userService.userDetail(userDetails.getUsername());
+				fullUserdetail = userService.userDetail(userDetails.getUsername());
 				if(fullUserdetail != null) {
 					String roleId = fullUserdetail.getRoleRefId();
+					userId = fullUserdetail.getUserId();
 					if(roleId != null) {
-						String userRole = userService.getRoleName(roleId);
+						userRole = userService.getRoleName(roleId);
+
 						System.err.println("user role == "+userRole);
 						if (userRole.equals("ROLE_MIN")) {
 							//logger.info("ROLE_MIN Logged IN");
@@ -109,6 +114,8 @@ public class LoginController {
 					}
 				}
 			}
+			
+			return ResponseEntity.ok(new JwtResponse(jwt,userId ,userDetails.getUsername(),userRole));
 		}
 		catch(BadCredentialsException e){
 			throw new Exception("incorrect credential"+e);
@@ -116,10 +123,6 @@ public class LoginController {
 		}
 //		SecurityContextHolder.getContext().setAuthentication(authentication);
 //		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
-		String jwt = jwtUtils.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername()));
 	}
 }
 	
