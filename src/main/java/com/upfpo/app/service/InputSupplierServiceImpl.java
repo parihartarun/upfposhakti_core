@@ -25,6 +25,7 @@ public class InputSupplierServiceImpl implements InputSupplierService
 			InputSupplierMaster newInputSupplier = inputSupplier.get();
 			newInputSupplier.setInputSupplierName(inputSupplierMaster.getInputSupplierName());
 			
+			
 			newInputSupplier = inputSupplierRepository.save(newInputSupplier);
 			return newInputSupplier;
 		}
