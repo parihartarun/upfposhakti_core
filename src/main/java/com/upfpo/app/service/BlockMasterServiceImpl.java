@@ -22,4 +22,10 @@ public class BlockMasterServiceImpl implements BlockMasterService
 		blockRepository.findAll().forEach(blockList1->blockList.add(blockList1));
 		return blockList;
 	}
+	
+	@Override
+	public List<BlockMaster> getBlockByDistrictId(int distId) 
+	{
+		return blockRepository.getPanchayatByBlockId(distId);
+	}
 }

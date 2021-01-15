@@ -22,4 +22,10 @@ public class PanchayatMasterServiceImpl implements PanchayatMasterService
 		panchayatRepository.findAll().forEach(panchayatList1->panchayatList.add(panchayatList1));
 		return panchayatList;
 	}
+	
+	@Override
+	public List<Panchayats> getPanchayatByBlockId(int blockRef) 
+	{
+		return panchayatRepository.getPanchayatByBlockId(blockRef);
+	}
 }

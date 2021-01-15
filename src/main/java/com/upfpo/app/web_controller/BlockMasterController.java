@@ -7,11 +7,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BlockMaster;
+import com.upfpo.app.entity.Panchayats;
 import com.upfpo.app.service.BlockMasterService;
 
 import io.swagger.annotations.Api;
@@ -38,5 +40,17 @@ public class BlockMasterController
 	{
 		List<BlockMaster> list = blockMasterService.getBlocks();
 		return new ResponseEntity<List<BlockMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getBlocksByDistrictId/{distId}")
+	@ApiOperation(value="Get Block details by district id",code=200,produces = "application/json",notes="Api for retrieve all Blocks by district id",response=BlockMaster.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<BlockMaster> getBlocksByDistrictId(@PathVariable("distId") int distId)
+	{
+		return blockMasterService.getBlockByDistrictId(distId);
 	}
 }

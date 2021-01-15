@@ -22,4 +22,10 @@ public class VillageMasterServiceImpl implements VillageMasterService
 		villageRepository.findAll().forEach(villagestList1->villagestList.add(villagestList1));
 		return villagestList;
 	}
+	
+	@Override
+	public List<VillageMaster> getVillagesByPanchayat(int panchayatId) 
+	{
+		return villageRepository.getVillagesByPanchayat(panchayatId);
+	}
 }
