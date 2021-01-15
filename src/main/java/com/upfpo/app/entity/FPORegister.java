@@ -43,7 +43,30 @@ public class FPORegister implements Serializable {
 	@Column(name = "sla_ref_id")
 	private Integer slaRefId;
 	
-//	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
+	@Column(name="delete_date")
+	private java.sql.Date deleteDate;
+
+	@Column(name="is_deleted")
+	private boolean isDeleted;
+
+	
+public java.sql.Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(java.sql.Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	//	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
 	@NotNull(message="Please Provide the Name")
 	@Column(name = "fpo_name")
 	private String fpoName;
@@ -434,3 +457,4 @@ public class FPORegister implements Serializable {
 	
 
 }
+
