@@ -24,24 +24,24 @@ public class FPOSLevelProductionContoller {
     }
 
     @GetMapping("/{id}")
-    public Optional<FPOLevelProduction> getSalesDetailsById(@PathVariable Integer id) {
+    public Optional<FPOLevelProduction> getLevelProductionById(@PathVariable Integer id) {
 
         return levelProductionService.getLevelProductionById(id);
     }
 
     @PostMapping("/insert")
-    public FPOLevelProduction insertSalesDetails(@RequestBody FPOLevelProduction fpoLevelProduction){
+    public FPOLevelProduction insertLevelProduction(@RequestBody FPOLevelProduction fpoLevelProduction){
 
         return levelProductionService.addLevelProduction(fpoLevelProduction);
     }
 
     @PutMapping("/update/{id}")
-    public FPOLevelProduction updateSalesDetails(@PathVariable Integer id,@RequestBody FPOLevelProduction fpoLevelProduction){
+    public FPOLevelProduction updateLevelProduction(@PathVariable Integer id,@RequestBody FPOLevelProduction fpoLevelProduction){
         return levelProductionService.updateLevelProduction(id, fpoLevelProduction);
     }
 
     @DeleteMapping("/delete/{id}")
-    public Optional<FPOLevelProduction> deleteSalesDetails(@PathVariable Integer id){
+    public Optional<FPOLevelProduction> deleteLevelProduction(@PathVariable Integer id){
         return levelProductionService.deleteLevelProduction(id);
     }
 
