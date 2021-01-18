@@ -31,8 +31,10 @@ public class BlockMaster
 	
 	@Column(name="district_id")
 	private Integer distId;
-	
-	
+
+	public BlockMaster() {
+	}
+
 	public Integer getId() {
 		return id;
 	}

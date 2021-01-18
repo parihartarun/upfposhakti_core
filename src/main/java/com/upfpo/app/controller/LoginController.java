@@ -32,6 +32,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import reactor.core.publisher.Mono;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 
@@ -74,7 +75,7 @@ public class LoginController {
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	@ResponseStatus( HttpStatus.CREATED)
+	@ResponseStatus( HttpStatus.OK)
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
 		try {
 			authenticationManager.authenticate(
@@ -136,8 +137,11 @@ public class LoginController {
 			throw new Exception("incorrect credential"+e);
 			
 		}
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//		String jwt = jwtUtils.generateJwtToken(authentication);
+
+	}
+	@RequestMapping(value="/login")
+	public Mono<User> login(@Valid @RequestBody LoginRequest loginRequest){
+		return userRepository.login(loginRequest.getUsername(),loginRequest.getPassword());
 	}
 }
 	
