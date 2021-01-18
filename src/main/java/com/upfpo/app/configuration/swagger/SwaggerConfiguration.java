@@ -27,7 +27,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
-
 @Configuration
 @EnableSwagger2
 public class
@@ -58,18 +57,7 @@ SwaggerConfiguration {
     private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
 	 @Bean
-	    public Docket api() { 
-//		 return new Docket(DocumentationType.SWAGGER_2)
-//			      .apiInfo(getApiInfo())
-////			      .securityContexts(Arrays.asList(securityContext()))
-////			      .securitySchemes(Arrays.asList(apiKey()))
-//			      .select()
-//			      .apis(RequestHandlerSelectors.basePackage("com.upfpo.app"))
-//			      .paths(PathSelectors.any())
-//			      .build(); 
-		 
-		 
-		 
+	    public Docket api() {
 		 log.debug("Starting Swagger");
 	        Contact contact = new Contact(
 	            "Matyas Albert-Nagy",
