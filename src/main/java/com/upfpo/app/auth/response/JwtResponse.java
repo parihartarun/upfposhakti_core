@@ -5,10 +5,21 @@ public class JwtResponse {
 	private String type = "Bearer";
 	private Long id;
 	private String username;
+	private String userrole;
 
-	public JwtResponse(String accessToken, String username) {
+	public JwtResponse(String accessToken, Long id, String username, String userrole) {
 		this.token = accessToken;
+		this.id = id;
 		this.username = username;
+		this.userrole = userrole;
+	}
+
+	public String getUserrole() {
+		return userrole;
+	}
+
+	public void setUserrole(String userrole) {
+		this.userrole = userrole;
 	}
 
 	public String getAccessToken() {

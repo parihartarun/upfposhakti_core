@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/api/fpo/license")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Fpo License", description="Add, Update, Delete, and retrive the Fpo License")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Fpo License", tags="Farmer Producer Organization's License", description="Add, Update, Delete, and retrive the Fpo License")
 public class FpoLicenseDetailsController {
 
 	@Autowired
@@ -46,7 +46,7 @@ public class FpoLicenseDetailsController {
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	@ResponseStatus( HttpStatus.CREATED )
+	@ResponseStatus(HttpStatus.CREATED)
 	public FpoLicenceDetails addNewFpoLicenseDetails(@RequestBody @Valid FpoLicenceDetails fpoLicenseDetails)
 	{
 	if(fpoLicenseDetails==null)

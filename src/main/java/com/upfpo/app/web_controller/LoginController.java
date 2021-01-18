@@ -2,34 +2,42 @@ package com.upfpo.app.web_controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.auth.response.JwtResponse;
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
 
 import com.upfpo.app.repository.UserRepository;
-import com.upfpo.app.security.MyUserDetail;
 import com.upfpo.app.security.MyUserDetailService;
 import com.upfpo.app.security.jwt.JwtUtils;
 import com.upfpo.app.service.UserService;
 import com.upfpo.app.util.RandomString;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
-//@RequestMapping("/UPFPO")
+@RequestMapping("/signin")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FPO", tags="Farmer Producer Organization",description="Add, Update, Delete, and retrive the FPO")
 public class LoginController {
 		
 	@Autowired
@@ -59,7 +67,14 @@ public class LoginController {
 		return "home page";
 	}
 	
-	@PostMapping("/signin")
+	@PostMapping
+	@ApiOperation(value="user login" ,code=201, produces = "application/json", notes="Api for add new FPO",response=FPORegister.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus( HttpStatus.CREATED)
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
 		try {
 			authenticationManager.authenticate(
@@ -67,12 +82,17 @@ public class LoginController {
 			final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
 			String jwt = jwtUtils.generateToken(userDetails);
 			
+			User fullUserdetail;
+			String userRole = null;
+			Long userId = (long) 0;
 			if(userDetails.getUsername() != null && userDetails.isEnabled() == true) {
-				User fullUserdetail = userService.userDetail(userDetails.getUsername());
+				fullUserdetail = userService.userDetail(userDetails.getUsername());
 				if(fullUserdetail != null) {
 					String roleId = fullUserdetail.getRoleRefId();
+					userId = fullUserdetail.getUserId();
 					if(roleId != null) {
-						String userRole = userService.getRoleName(roleId);
+						userRole = userService.getRoleName(roleId);
+
 						System.err.println("user role == "+userRole);
 						if (userRole.equals("ROLE_MIN")) {
 							//logger.info("ROLE_MIN Logged IN");
@@ -109,6 +129,8 @@ public class LoginController {
 					}
 				}
 			}
+			
+			return ResponseEntity.ok(new JwtResponse(jwt,userId ,userDetails.getUsername(),userRole));
 		}
 		catch(BadCredentialsException e){
 			throw new Exception("incorrect credential"+e);
@@ -116,10 +138,6 @@ public class LoginController {
 		}
 //		SecurityContextHolder.getContext().setAuthentication(authentication);
 //		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
-		String jwt = jwtUtils.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername()));
 	}
 }
 	

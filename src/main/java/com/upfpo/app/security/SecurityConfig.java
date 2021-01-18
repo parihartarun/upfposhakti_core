@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //		.antMatchers("/").permitAll()
 //		.and().formLogin();
 		
-		http.csrf().disable()
+		http.cors().disable().csrf().disable()
 		.authorizeRequests()
 		//.antMatchers("/UPFPO/**").permitAll()
 		.antMatchers("/signin",
