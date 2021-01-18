@@ -8,4 +8,5 @@ public interface DistrictService
 {
 	public List<DistrictMaster> getDistricts();
 	public DistrictMaster getDistrictsById(int distId);
+	public List<DistrictMaster> getDistrictsByStateId(int state_id);
 }
