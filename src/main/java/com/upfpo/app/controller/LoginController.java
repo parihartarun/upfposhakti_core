@@ -139,9 +139,5 @@ public class LoginController {
 		}
 
 	}
-	@RequestMapping(value="/login")
-	public Mono<User> login(@Valid @RequestBody LoginRequest loginRequest){
-		return userRepository.login(loginRequest.getUsername(),loginRequest.getPassword());
-	}
 }
 	
