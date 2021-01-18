@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.upfpo.app.entity.User;
 
-public class MyUserDetail implements UserDetails{
+public class UserDetailImpl implements UserDetails{
 	
 	private Long id;
 	private String userName;
@@ -21,7 +21,7 @@ public class MyUserDetail implements UserDetails{
 //	}
 
 	//for dynamic user
-	public MyUserDetail(User user) {
+	public UserDetailImpl(User user) {
 		this.userName = user.getUserName();
 		this.password = user.getPassword();
 		this.isEnabled = user.isEnabled();

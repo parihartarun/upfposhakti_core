@@ -19,14 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.auth.response.JwtResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
-
-import com.upfpo.app.repository.UserRepository;
-import com.upfpo.app.security.MyUserDetailService;
+import com.upfpo.app.security.UserDetailServiceImpl;
 import com.upfpo.app.security.jwt.JwtUtils;
 import com.upfpo.app.service.UserService;
-import com.upfpo.app.util.RandomString;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +34,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/signin")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FPO", tags="Farmer Producer Organization",description="Add, Update, Delete, and retrive the FPO")
+@Api(produces = "application/json", value = "login", tags="login",description="sign in")
 public class LoginController {
 		
 	@Autowired
@@ -48,18 +44,15 @@ public class LoginController {
 	UserService userService;
 	
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
 	PasswordEncoder encoder;
 	
 	@Autowired
-	MyUserDetailService myUserDetailService;
+	UserDetailServiceImpl userDetailService;
 
 	@Autowired
 	JwtUtils jwtUtils;
 	
-	private String csrf_token = RandomString.getAlphaNumericString();
+	//private String csrf_token = RandomString.getAlphaNumericString();
 	
 	@RequestMapping(value="/home")
 	private String home()
@@ -69,7 +62,7 @@ public class LoginController {
 	}
 	
 	@PostMapping
-	@ApiOperation(value="user login" ,code=201, produces = "application/json", notes="Api for add new FPO",response=FPORegister.class)
+	@ApiOperation(value="user login" ,code=201, produces = "application/json", notes="Api for user login",response=JwtResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -80,7 +73,7 @@ public class LoginController {
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-			final UserDetails userDetails = myUserDetailService.loadUserByUsername(loginRequest.getUsername());
+			final UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getUsername());
 			String jwt = jwtUtils.generateToken(userDetails);
 			
 			User fullUserdetail;
@@ -93,40 +86,6 @@ public class LoginController {
 					userId = fullUserdetail.getUserId();
 					if(roleId != null) {
 						userRole = userService.getRoleName(roleId);
-
-						System.err.println("user role == "+userRole);
-						if (userRole.equals("ROLE_MIN")) {
-							//logger.info("ROLE_MIN Logged IN");
-							//return "redirect:/afterLogin/ministry";
-						}
-
-						if (userRole.equals("ROLE_SLA")) {
-							//logger.info("ROLE_SLA Logged IN");
-							//return "redirect:/afterLogin/sla";
-						}
-
-						if (userRole.equals("ROLE_SP")) {
-
-							//logger.info("ROLE_SP Logged IN");
-							//return "redirect:/afterLogin/sp";
-						}
-
-						if (userRole.equals("ROLE_FPC")) {
-
-							//logger.info("ROLE_FPC Logged IN");
-							//return "redirect:/afterLogin/fpc";
-						}
-
-						if (userRole.equals("ROLE_FIG")) {
-
-							//logger.info("ROLE_FIG Logged IN");
-							//return "redirect:/afterLogin/fig";
-						}
-
-						if (userRole.equals("ROLE_FARMER")) {
-							//logger.info("ROLE_FARMER Logged IN");
-							//return "redirect:/afterLogin/farmer";
-						}
 					}
 				}
 			}
@@ -137,7 +96,6 @@ public class LoginController {
 			throw new Exception("incorrect credential"+e);
 			
 		}
-
 	}
 }
 	
