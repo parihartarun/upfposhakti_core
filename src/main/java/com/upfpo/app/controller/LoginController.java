@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;

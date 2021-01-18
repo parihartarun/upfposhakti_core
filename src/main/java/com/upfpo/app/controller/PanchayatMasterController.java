@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 import java.util.List;
 
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.BankMaster;
-import com.upfpo.app.entity.DistrictMaster;
-import com.upfpo.app.service.DistrictService;
+import com.upfpo.app.entity.Panchayats;
+import com.upfpo.app.service.PanchayatMasterService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,36 +21,35 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/v1/District")
-@Api(produces = "application/json", value = "Retrive Districts", tags="District Entity",description="Retrive districts")
-public class DistrictController 
+@RequestMapping(value="api/v1/panchayats")
+@Api(produces = "application/json", value = "Retrive Panchayat Details", tags="Panchayat Entity",description="Retrive Bank")
+public class PanchayatMasterController 
 {
 	@Autowired
-	DistrictService districtService;
+	PanchayatMasterService panchayatService;
 	
-	@GetMapping(value="/getDistricts")
-	@ApiOperation(value="Get All District details",code=200,produces = "application/json",notes="Api for view all Districts",response=DistrictMaster.class,responseContainer="List")
+	@GetMapping(value="/getPanchayats")
+	@ApiOperation(value="Get All Panchayat details",code=200,produces = "application/json",notes="Api for view all Panchayats",response=Panchayats.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	private ResponseEntity<List<DistrictMaster>> getDistricts()
+	private ResponseEntity<List<Panchayats>> getPanchayats()
 	{
-		List<DistrictMaster> list = districtService.getDistricts();
-		return new ResponseEntity<List<DistrictMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+		List<Panchayats> list = panchayatService.getPanchayats();
+		return new ResponseEntity<List<Panchayats>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/getDistricts/{district_id}")
-	@ApiOperation(value="Get All Bank details by id",code=200,produces = "application/json",notes="Api for view all Bank by id",response=DistrictMaster.class)
+	@GetMapping(value="/getPanchayatsByBlockId/{blockRef}")
+	@ApiOperation(value="Get Panchayat details by block id",code=200,produces = "application/json",notes="Api for retrieve all Panchayats by block id",response=Panchayats.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public ResponseEntity<DistrictMaster> getDistrictsById(@PathVariable("district_id") int district_id )
+	public List<Panchayats> getPanchayatByBlockId(@PathVariable("blockRef") int blockRef)
 	{
-		DistrictMaster districtEntity = districtService.getDistrictsById(district_id);
-		return new ResponseEntity<DistrictMaster>(districtEntity,new HttpHeaders(),HttpStatus.OK);
+		return panchayatService.getPanchayatByBlockId(blockRef);
 	}
 }

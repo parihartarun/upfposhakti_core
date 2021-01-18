@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

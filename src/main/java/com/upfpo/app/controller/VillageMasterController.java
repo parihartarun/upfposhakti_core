@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.Panchayats;
 import com.upfpo.app.entity.VillageMaster;
 import com.upfpo.app.service.VillageMasterService;
 

@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 
 import java.util.List;
@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.EqupmentMaster;
-import com.upfpo.app.entity.FarmMachineryBank;
-import com.upfpo.app.service.EquipmentMasterService;
-import com.upfpo.app.service.FarmMachineryBankService;
+import com.upfpo.app.entity.FpoLicenceDetails;
+
+
+import com.upfpo.app.service.FpoLicenseDetailsService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,35 +31,35 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/farm/machinery/banks")
-@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Farm Machinery Banks", tags="Farm Machinary Bank", description="Add, Update, Delete, and retrieve the Farm Machinery Banks")
-public class FarmMachineryBankController {
+@RequestMapping(value="/api/fpo/license")
+@Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Fpo License", tags="Farmer Producer Organization's License", description="Add, Update, Delete, and retrive the Fpo License")
+public class FpoLicenseDetailsController {
 
 	@Autowired
-	private FarmMachineryBankService farmMachineryBankService;
+	private FpoLicenseDetailsService fpoLicenseDetailsService;
 	
 	@PostMapping
-	@ApiOperation(value="Add new Farm Machinery Bank",code=201, produces = "application/json", notes="Api for add new Farm Machinery Bank",response=FarmMachineryBank.class)
+	@ApiOperation(value="Add new Fpo License",code=201, produces = "application/json", notes="Api for add new Collection Center",response=FpoLicenceDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	@ResponseStatus( HttpStatus.CREATED )
-	public FarmMachineryBank addNewFarmMachineryBank(@RequestBody @Valid FarmMachineryBank farmMachineryBank)
+	@ResponseStatus(HttpStatus.CREATED)
+	public FpoLicenceDetails addNewFpoLicenseDetails(@RequestBody @Valid FpoLicenceDetails fpoLicenseDetails)
 	{
-	if(farmMachineryBank==null)
+	if(fpoLicenseDetails==null)
 	{
 		throw new ValidationException();
 	}else {
-		return farmMachineryBankService.insertFarmMachineryBank(farmMachineryBank);
+		return fpoLicenseDetailsService.insertFpoLicenceDetails(fpoLicenseDetails);
 	}
 	
 
 		
 	}
 	@PutMapping("/:id")
-	@ApiOperation(value="Update Farm Machinery Bank", code=200, produces = "application/json", notes="Api for update Farm Machinery Bank",response=FarmMachineryBank.class)
+	@ApiOperation(value="Update Fpo License Details", code=200, produces = "application/json", notes="Api for update Fpo License Details",response=FpoLicenceDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
@@ -68,24 +67,24 @@ public class FarmMachineryBankController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public FarmMachineryBank updateFarmMachineryBank(@PathVariable("id") Integer id,@RequestBody FarmMachineryBank updateFarmMachineryBank)
+	public FpoLicenceDetails updateFpoLicenseDetails(@PathVariable("id") Integer id,@RequestBody FpoLicenceDetails updateFpoLicenseDetails)
 	{
-		return farmMachineryBankService.updateFarmMachineryBank(id, updateFarmMachineryBank);
+		return fpoLicenseDetailsService.updateFpoLicenceDetails(id, updateFpoLicenseDetails);
 	}
 	@GetMapping("/:id")
-	@ApiOperation(value="Get Farm Machinery Bank by id", code=200, produces = "application/json",notes="Api for get Farm Machinery Bank by id",response=FarmMachineryBank.class)
+	@ApiOperation(value="Get Fpo License Details by id", code=200, produces = "application/json",notes="Api for get Fpo License Details by id",response=FpoLicenceDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public FarmMachineryBank getFarmMachineryBankById(@PathVariable("id") Integer id)
+	public FpoLicenceDetails getFpoLicenseDetailsById(@PathVariable("id") Integer id)
 	{
-		return farmMachineryBankService.selectFarmMachineryBankById(id);
+		return fpoLicenseDetailsService.selectFpoLicenceDetailsById(id);
 	}
 	@DeleteMapping("/:id")
-	@ApiOperation(value="Delete Farm Machinery Bank by id",code=204,produces = "text/plain",notes="Api for Delete Farm Machinery Bank by id",response=Boolean.class)
+	@ApiOperation(value="Delete Fpo License Details by id",code=204,produces = "text/plain",notes="Api for delete Fpo License Details by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
@@ -93,19 +92,19 @@ public class FarmMachineryBankController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	@ResponseStatus( HttpStatus.NO_CONTENT)
-	public Boolean deleteFarmMachineryBank(@PathVariable("id") Integer id)
+	public Boolean deleteFpoLicenseDetails(@PathVariable("id") Integer id)
 	{
-		return farmMachineryBankService.deleteFarmMachineryBank(id);
+		return fpoLicenseDetailsService.deleteFpoLicenceDetails(id);
 	}
 	@GetMapping
-	@ApiOperation(value="Get All Farm Machinery Banks",code=200,produces = "application/json",notes="Api for view all Farm Machinery Banks",response=FarmMachineryBank.class,responseContainer="List")
+	@ApiOperation(value="Get All Fpo License Details",code=200,produces = "application/json",notes="Api for view all Fpo License Details",response=FpoLicenceDetails.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public List<FarmMachineryBank> getFarmMachineryBank()
+	public List<FpoLicenceDetails> getFpoLicenseDetails()
 	{
-		return farmMachineryBankService.selectFarmMachineryBank();
+		return fpoLicenseDetailsService.selectFpoLicenceDetails();
 	}
 }

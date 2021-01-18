@@ -1,9 +1,7 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 import com.upfpo.app.entity.FPOLevelProduction;
-import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOLevelProductionService;
-import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

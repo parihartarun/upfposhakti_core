@@ -1,4 +1,4 @@
-package com.upfpo.app.web_controller;
+package com.upfpo.app.controller;
 
 import java.util.List;
 
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BankMaster;
-import com.upfpo.app.entity.ChcFmbMaster;
-import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.service.BankService;
 
 import io.swagger.annotations.Api;
