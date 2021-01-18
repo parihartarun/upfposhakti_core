@@ -9,7 +9,7 @@ import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.UserRepository;
 
 @Service
-public class MyUserDetailService implements UserDetailsService{
+public class UserDetailServiceImpl implements UserDetailsService{
 	
 	@Autowired
     UserRepository userRepository;
@@ -18,7 +18,7 @@ public class MyUserDetailService implements UserDetailsService{
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUserName(username);
-		return new MyUserDetail(user);
+		return new UserDetailImpl(user);
 	}
 
 }

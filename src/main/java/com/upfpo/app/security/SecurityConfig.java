@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,24 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-//		 http
-//         .authorizeRequests()
-//         .anyRequest().authenticated()
-//         .and()
-//         .formLogin()
-//         .loginPage("/UPFPO/login").permitAll();
-		
-//		http.cors().disable().csrf().disable()
-//		.authorizeRequests().antMatchers("/login")
-//		.hasAnyRole("user")
-//		.antMatchers("/").permitAll()
-//		.and().formLogin();
-		
-		http.cors().disable().csrf().disable()
+	protected void configure(HttpSecurity http) throws Exception {	
+		http.csrf().disable()
 		.authorizeRequests()
-		//.antMatchers("/UPFPO/**").permitAll()
-		.antMatchers("/signin",
+		.antMatchers("/signin","/signin/home","/register/**",
 				"/v3/api-docs",
 				"/v2/api-docs",
                 "/configuration/ui",
@@ -74,40 +59,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public AuthenticationManager authenticationManagerBean() throws Exception{
 		return super.authenticationManagerBean();
 	}
-	
-//	@Bean
-//	public PasswordEncoder getPasswordEncoder()
-//	{
-//		return NoOpPasswordEncoder.getInstance();
-//	}
-	
-		@Bean
-	    public PasswordEncoder passwordEncoder(){
-	        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	        String password = "pass";
-	        String encodedPassword = passwordEncoder.encode(password);
-	        System.out.println();
-	        System.out.println("Password is         : " + password);
-	        System.out.println("Encoded Password is : " + encodedPassword);
-	        System.out.println();
 
-	        boolean isPasswordMatch = passwordEncoder.matches(password, encodedPassword);
-	        System.out.println("Password : " + password + "   isPasswordMatch    : " + isPasswordMatch);
-	        return passwordEncoder;
-	    }
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String password = "pass";
+		String encodedPassword = passwordEncoder.encode(password);
+		System.out.println();
+		System.out.println("Password is         : " + password);
+		System.out.println("Encoded Password is : " + encodedPassword);
+		System.out.println();
+
+		boolean isPasswordMatch = passwordEncoder.matches(password, encodedPassword);
+		System.out.println("Password : " + password + "   isPasswordMatch    : " + isPasswordMatch);
+		return passwordEncoder;
+	}
 		
-//		protected void configure1(HttpSecurity http) throws Exception { // "/.js", "/.jpg", "/.woff", "/*.ttf",
-//			http.cors().disable().csrf().disable().authorizeRequests()
-//					.antMatchers("/", "/assets///", "/login", "/signup", "/sendEmailLinkPassword",
-//							"/changeForgotPassword","/userPasswordActiveStatus/*")
-//					.permitAll().anyRequest().authenticated().and().exceptionHandling()
-//					//.authenticationEntryPoint(unauthorizedHandler)
-//
-//					.and().sessionManagement().sessionFixation().changeSessionId().enableSessionUrlRewriting(false)
-//					.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and().httpBasic().disable();
-//			http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//			http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
-//			http.addFilterBefore(activeIdFilter(), SessionManagementFilter.class);
-//		}
+
 
 }
