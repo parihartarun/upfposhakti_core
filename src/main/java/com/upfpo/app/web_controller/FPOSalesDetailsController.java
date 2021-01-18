@@ -41,7 +41,7 @@ public class FPOSalesDetailsController {
 
 
     @GetMapping("/{id}")
-    @ApiOperation(value="Fetch FPOSalesDetails By ID" ,code=201, produces = "application/json", notes="Api to Fetch Farmer Detail By ID",response=FPORegister.class)
+    @ApiOperation(value="Fetch FPOSalesDetails By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FPORegister.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
