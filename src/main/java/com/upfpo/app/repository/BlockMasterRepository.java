@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.entity.BlockMaster;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlockMasterRepository extends JpaRepository<BlockMaster, Integer>
