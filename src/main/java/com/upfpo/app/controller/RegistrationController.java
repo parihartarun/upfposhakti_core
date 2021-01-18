@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.ChcFmbMaster;
@@ -49,8 +50,14 @@ public class RegistrationController
 	})
 	private ResponseEntity<FarmerMaster> registerFarmer(@RequestBody FarmerMaster farmerRegister)
 	{
-		FarmerMaster farmer = registerServices.registerFarmer(farmerRegister);
-		return new ResponseEntity<FarmerMaster>(farmer, new HttpHeaders(), HttpStatus.CREATED);
+		if(farmerRegister==null)
+		{
+			throw new ValidationException();
+		}
+		else {
+			FarmerMaster farmer = registerServices.registerFarmer(farmerRegister);
+			return new ResponseEntity<FarmerMaster>(farmer, new HttpHeaders(), HttpStatus.CREATED);
+		}
 	}
 		
 	@PostMapping(value="/buyerSeller")

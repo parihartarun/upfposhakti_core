@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BlockMaster;
+import com.upfpo.app.entity.Panchayats;
 import com.upfpo.app.service.BlockMasterService;
 
 import io.swagger.annotations.Api;

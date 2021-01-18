@@ -18,11 +18,6 @@ public class UserServiceImpl implements UserService {
 	UserRoleRepository userRoleRepository;
 
 	@Override
-	public Mono<User> login(String email, String password) {
-		return null;
-	}
-
-	@Override
 	public User userDetail(String username) {
 		User user = userRepository.findByUserName(username);
 		return user;
