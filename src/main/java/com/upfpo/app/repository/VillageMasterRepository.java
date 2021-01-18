@@ -9,6 +9,6 @@ import com.upfpo.app.entity.VillageMaster;
 
 public interface VillageMasterRepository extends JpaRepository<VillageMaster, Integer>
 {
-	@Query("Select v from villages v where v.panchayatId= :panchayatId")
+	@Query("Select v from VillageMaster v where v.panchayatId= :panchayatId")
 	List<VillageMaster> getVillagesByPanchayat(int panchayatId);
 }
