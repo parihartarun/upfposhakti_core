@@ -36,8 +36,8 @@ public class LicenseMasterController {
 	@Autowired
 	private LicenseMasterService licenseMasterService;
 	
-	@ApiOperation(value="Add new License Master",code=201, produces = "application/json", notes="Api for add new Collection Center",response=LicenseMaster.class)
 	@PostMapping
+	@ApiOperation(value="Add new License Master",code=201, produces = "application/json", notes="Api for add new Collection Center",response=LicenseMaster.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
