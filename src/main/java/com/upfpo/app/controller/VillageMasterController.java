@@ -44,7 +44,7 @@ public class VillageMasterController
 		return new ResponseEntity<List<VillageMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/getVillagesByPanchayatId/{blockRef}")
+	@GetMapping(value="/getVillagesByPanchayatId/{panchayatId}")
 	@ApiOperation(value="Get Villages details by Panchayat id",code=200,produces = "application/json",notes="Api for retrieve all Villages by Panchayat id",response=VillageMaster.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),

@@ -11,9 +11,10 @@ import com.upfpo.app.entity.BlockMaster;
 @Repository
 public interface BlockMasterRepository extends JpaRepository<BlockMaster, Integer>
 {
-	//@Query("Select b from BlockMaster b where b.distId= :distId")
-	//List<BlockMaster> getPanchayatByBlockId(int distId);
 
-	@Query(value = "Select * from BlockMaster where distId= :distId",nativeQuery = true)
+	@Query("Select b from BlockMaster b where b.distId= :distId")
 	List<BlockMaster> getPanchayatByBlockId(int distId);
+
+	/*@Query(value = "Select * from BlockMaster where distId= :distId",nativeQuery = true)
+	List<BlockMaster> getPanchayatByBlockId(int distId);*/
 }
