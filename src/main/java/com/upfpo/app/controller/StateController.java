@@ -40,3 +40,4 @@ public class StateController
 		return new ResponseEntity<List<StateMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 }
+
