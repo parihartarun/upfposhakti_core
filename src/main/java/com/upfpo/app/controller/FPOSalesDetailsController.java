@@ -1,7 +1,12 @@
 package com.upfpo.app.controller;
 
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +28,12 @@ public class FPOSalesDetailsController {
     private FPOSalesDetailsServiceImpl fpoSalesDetailsService;
 
     @GetMapping("/getall")
+    @ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FPORegister.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public List<FPOSalesDetails> getSalesDetails (){
 
         return fpoSalesDetailsService.getSalesDetails();
@@ -31,6 +42,12 @@ public class FPOSalesDetailsController {
 
 
     @GetMapping("/{id}")
+    @ApiOperation(value="Fetch FPOSalesDetails By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FPORegister.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public Optional<FPOSalesDetails> getSalesDetailsById(@PathVariable Integer id) {
 
         return fpoSalesDetailsService.getSalesDetailsById(id);
@@ -38,6 +55,12 @@ public class FPOSalesDetailsController {
 
 
     @PostMapping("/insert")
+    @ApiOperation(value="Add FPO Sales Details" ,code=201, produces = "application/json", notes="Api for add new FPO Sales Details",response= FPORegister.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> insertSalesDetails(@RequestBody FPOSalesDetails salesDetails) {
         LOG.info("Inside SalesDetailsController saving sales details ", salesDetails);
         ResponseEntity<String> resp = null;
@@ -57,6 +80,12 @@ public class FPOSalesDetailsController {
 
 
     @PutMapping("/update1/{id}")
+    @ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response=FPORegister.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> updateSalesDetails1(@PathVariable Integer id, @RequestBody FPOSalesDetails salesDetails) {
         LOG.info("Inside SalesDetailsController updating sales details ", salesDetails);
         ResponseEntity<String> resp = null;
@@ -76,6 +105,12 @@ public class FPOSalesDetailsController {
 
 
     @DeleteMapping("/delete1/{id}")
+    @ApiOperation(value="Delete FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Delete FPO Sales Details",response=FPORegister.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> deleteSalesDetails1(@PathVariable Integer id) {
         LOG.info("Inside SalesDetailsController delete sales details ");
         ResponseEntity<String> resp = null;
