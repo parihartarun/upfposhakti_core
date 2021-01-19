@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.cors().disable()
 		.csrf().disable()
 		.authorizeRequests()
+		//.antMatchers("/UPFPO/**").permitAll()
 		.antMatchers("/signin","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
 				"/v2/api-docs",

@@ -1,6 +1,8 @@
 package com.upfpo.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.*;
@@ -105,7 +107,6 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
-		
 		int count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
 		String target = "";
 		if(count==1)

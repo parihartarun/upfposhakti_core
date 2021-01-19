@@ -8,4 +8,5 @@ public interface VillageMasterService
 {
 	public List<VillageMaster> getVillages();
 	public List<VillageMaster> getVillagesByPanchayat(int panchayatId);
+	public List<VillageMaster> getVillagesByBlockId(int blockId);
 }
