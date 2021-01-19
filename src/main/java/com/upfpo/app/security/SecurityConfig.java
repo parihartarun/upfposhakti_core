@@ -35,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {	
-		http.csrf().disable()
+		http
+		.cors().disable()
+		.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/signin","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
@@ -45,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/configuration/security",
                 "/swagger-ui.html",
                 "/swagger-ui/**",
-                
                 "/webjars/**"
 				).permitAll()
 		.anyRequest().authenticated()

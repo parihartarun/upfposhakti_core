@@ -16,4 +16,7 @@ public interface InputSupplierMasterRepository extends JpaRepository<InputSuppli
 	@Transactional
 	@Query("update InputSupplierMaster i set i.isDeleted=true where i.inputSupplierId = :inputSupplierId")
 	public void deleteInputSupplier(int inputSupplierId);
+	
+	@Query("select count(i) from InputSupplierMaster i where i.mobile_number = :mobile_number")
+	 public int alreadyExists(long mobile_number);
 }
