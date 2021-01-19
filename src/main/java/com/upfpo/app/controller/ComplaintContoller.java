@@ -12,13 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping(value = "/complaint")
 public class ComplaintContoller {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FPOSalesDetailsController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
     @Autowired
     private ComplaintServiceImpl complaintService;

@@ -16,12 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/enquiry")
 public class EnquiryController {
-    
-    
+    private static final Logger LOG = LoggerFactory.getLogger(EnquiryController.class);
+
+
     @Autowired
     private EnquiryServiceImpl enquiryService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(FPOSalesDetailsController.class);
 
 
 
