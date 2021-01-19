@@ -1,9 +1,11 @@
 package com.upfpo.app.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @Controller
 public class UtilController {
