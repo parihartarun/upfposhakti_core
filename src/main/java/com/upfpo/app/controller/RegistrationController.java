@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BuyerSellerMaster;
@@ -36,74 +37,146 @@ public class RegistrationController
 	
 	
 	@PostMapping(value="/fpo")
-	private int registerFPO(@RequestBody FPORegister fpoRegister)
+	private ResponseEntity<MessageResponse> registerFPO(@RequestBody FPORegister fpoRegister)
 	{
-		System.out.println("Inside registerFpo");
-		registerServices.registerFPO(fpoRegister);
-		return 1;
+		
+		if(fpoRegister==null)
+		{
+			throw new ValidationException();
+		}
+		else {
+			String fpo = registerServices.registerFPO(fpoRegister);
+			if(fpo=="exists")
+			{
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Fpo already exists!"));
+			}
+			else
+			{
+				//return new ResponseEntity<String>("", new HttpHeaders(), HttpStatus.CREATED);
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));
+			}
+		}
 	}
 	
 	@PostMapping(value="/farmer")
-	@ApiOperation(value="Register new Farmer profile" ,code=201, produces = "application/json", notes="Api for add new Farmer",response=FarmerMaster.class)
+	@ApiOperation(value="Register new Farmer profile" ,code=201, produces = "application/json", notes="Api for add new Farmer",response=String.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<FarmerMaster> registerFarmer(@RequestBody FarmerMaster farmerRegister)
+	private ResponseEntity<MessageResponse> registerFarmer(@RequestBody FarmerMaster farmerRegister)
 	{
 		if(farmerRegister==null)
 		{
 			throw new ValidationException();
 		}
 		else {
-			FarmerMaster farmer = registerServices.registerFarmer(farmerRegister);
-			return new ResponseEntity<FarmerMaster>(farmer, new HttpHeaders(), HttpStatus.CREATED);
+			String farmer = registerServices.registerFarmer(farmerRegister);
+			if(farmer=="exists")
+			{
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Farmer already exists!"));
+			}
+			else
+			{
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));
+			}
 		}
 	}
 		
 	@PostMapping(value="/buyerSeller")
-	@ApiOperation(value="Register new Buyer Seller profile" ,code=201, produces = "application/json", notes="Api for add new Buyer Seller",response=BuyerSellerMaster.class)
+	@ApiOperation(value="Register new Buyer Seller profile" ,code=201, produces = "application/json", notes="Api for add new Buyer Seller",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<BuyerSellerMaster> registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
+	private ResponseEntity<MessageResponse> registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
 	{
-		BuyerSellerMaster buyerSellerdetails = registerServices.registerBuyerSeller(buyerSeller);
-		return new ResponseEntity<BuyerSellerMaster>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
+		//return new ResponseEntity<MessageResponse>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
+		if(buyerSeller==null)
+		{
+			throw new ValidationException();
+		}
+		else {
+			String buyerSellerdetails = registerServices.registerBuyerSeller(buyerSeller);
+			if(buyerSellerdetails=="exists")
+			{
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Buyer Seller already exists!"));
+			}
+			else
+			{
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));
+			}
+		}
 	}
 	
 	@PostMapping(value="/inputSupplier")
-	@ApiOperation(value="Register new Input Supplier profile" ,code=201, produces = "application/json", notes="Api for add new Input Supplier",response=InputSupplierMaster.class)
+	@ApiOperation(value="Register new Input Supplier profile" ,code=201, produces = "application/json", notes="Api for add new Input Supplier",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<InputSupplierMaster> registerInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
+	private ResponseEntity<MessageResponse> registerInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
 	{
 		if(inputSupplierMaster.getInputSupplierType()==1)
 		{
 			inputSupplierMaster.setBlockRefId(null);
 			inputSupplierMaster.setVillageRefId(null);
 		}
-		InputSupplierMaster inputSupplierDetails = registerServices.registerInputSuplier(inputSupplierMaster);
-		return new ResponseEntity<InputSupplierMaster>(inputSupplierDetails,new HttpHeaders(), HttpStatus.OK);
+			String inputSupplierDetails = registerServices.registerInputSuplier(inputSupplierMaster);
+			if(inputSupplierDetails=="exists")
+			{
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Input Supplier already exists!"));
+			}
+			else
+			{
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));
+			}
+		//return new ResponseEntity<InputSupplierMaster>(inputSupplierDetails,new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/chcFmb")
-	@ApiOperation(value="Register new CHC FMB profile" ,code=201, produces = "application/json", notes="Api for add new CHC FMB",response=ChcFmbMaster.class)
+	@ApiOperation(value="Register new CHC FMB profile" ,code=201, produces = "application/json", notes="Api for add new CHC FMB",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<ChcFmbMaster> registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
+	private ResponseEntity<MessageResponse> registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
 	{
-		ChcFmbMaster chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
-		return new ResponseEntity<ChcFmbMaster>(chcFmbDetails,new HttpHeaders(), HttpStatus.CREATED);
+		if(chcFmbMaster==null)
+		{
+			throw new ValidationException();
+		}
+		else {
+			String chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
+			if(chcFmbDetails=="exists")
+			{
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("CHC FMB already exists!"));
+			}
+			else
+			{
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));
+			}
+		}
+		//return new ResponseEntity<ChcFmbMaster>(chcFmbDetails,new HttpHeaders(), HttpStatus.CREATED);
 	}
 	
 	

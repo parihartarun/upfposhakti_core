@@ -33,34 +33,90 @@ public class RegistrationServicesImpl implements RegistrationServices
 	ChcFmbMasterRepository chcFmbRepository;
 	
 	@Override
-	public void registerFPO(FPORegister fpoRegister) 
+	public String registerFPO(FPORegister fpoRegister) 
 	{
-		fpoRepository.save(fpoRegister);
+		int count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			fpoRepository.save(fpoRegister);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	@Override
-	public FarmerMaster registerFarmer(FarmerMaster farmerRegister) 
+	public String registerFarmer(FarmerMaster farmerRegister) 
 	{
-		return farmerMasterRepository.save(farmerRegister);  
+		int count = farmerMasterRepository.alreadyExists(farmerRegister.getFarmerMob());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			 farmerMasterRepository.save(farmerRegister);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	
 	@Override
-	public BuyerSellerMaster registerBuyerSeller(BuyerSellerMaster buyerSeller) 
+	public String registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{
-		return buyerSellerRepository.save(buyerSeller);
+		int count = buyerSellerRepository.alreadyExists(buyerSeller.getMobileNumber());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			buyerSellerRepository.save(buyerSeller);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	
 	@Override
-	public InputSupplierMaster registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
-	{
-		return inputSupplierRepository.save(inputSupplierMaster);	
+	public String registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
+	{ 
+		int count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			inputSupplierRepository.save(inputSupplierMaster);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	@Override
-	public ChcFmbMaster registerChcFmb(ChcFmbMaster chcFmbMaster) 
+	public String registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
-		return chcFmbRepository.save(chcFmbMaster);
+		
+		int count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			chcFmbRepository.save(chcFmbMaster);
+			 target="Saved";
+		}
+		return target;
 	}
 }

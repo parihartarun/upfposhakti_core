@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="farmer",uniqueConstraints = { 
 		@UniqueConstraint(columnNames = "farmer_mob"),
-		@UniqueConstraint(columnNames = "aadhaar") 
+		@UniqueConstraint(columnNames = "aadhaar")
 	})
 public class FarmerMaster implements Serializable{
 	
