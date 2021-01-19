@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value="/api/master/equipments")
+@RequestMapping(value="/api/equipments")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Equipment",tags="Equipment", description="Add, Update, Delete, and retrive the Equipment Master")
 public class EquipmentMasterController {
 
