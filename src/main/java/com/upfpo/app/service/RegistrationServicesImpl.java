@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 public class RegistrationServicesImpl implements RegistrationServices
 {
@@ -67,8 +69,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		}
 		return target;
 	}
-	
-	
+
 	@Override
 	public String registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{
@@ -107,6 +108,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String password = chcFmbMaster.getUser().getPassword();
+		chcFmbMaster.getUser().setPassword(passwordEncoder.encode(password));
 		int count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
 		String target = "";
 		if(count==1)
