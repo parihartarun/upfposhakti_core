@@ -28,4 +28,10 @@ public class VillageMasterServiceImpl implements VillageMasterService
 	{
 		return villageRepository.getVillagesByPanchayat(panchayatId);
 	}
+	
+	@Override
+	public List<VillageMaster> getVillagesByBlockId(int blockId) 
+	{
+		return villageRepository.getVillagesByBlockId(blockId);
+	}
 }

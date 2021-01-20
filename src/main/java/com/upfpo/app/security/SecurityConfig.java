@@ -36,9 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {	
 		http
-		.cors().disable()
 		.csrf().disable()
 		.authorizeRequests()
+		//.antMatchers("/UPFPO/**").permitAll()
 		.antMatchers("/signin","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
 				"/v2/api-docs",
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				).permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+    http.cors();
 	http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	

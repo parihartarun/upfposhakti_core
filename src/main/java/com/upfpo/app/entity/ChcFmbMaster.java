@@ -54,7 +54,7 @@ public class ChcFmbMaster implements Serializable
 	
 	@Column(name="is_deleted")
 	private boolean isDeleted;
-	
+
 	public int getChcFmbId() {
 		return chcFmbId;
 	}
