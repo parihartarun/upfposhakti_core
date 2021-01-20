@@ -2,9 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.FPOLevelProduction;
-<<<<<<< HEAD:src/main/java/com/upfpo/app/controller/FPOSLevelProductionContoller.java
-import com.upfpo.app.service.FPOLevelProductionService;
-=======
+
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOLevelProductionService;
@@ -12,7 +10,6 @@ import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
->>>>>>> 0f9b9ff68ccd7bb072cb837c055ad7516e501cd3:src/main/java/com/upfpo/app/web_controller/FPOSLevelProductionContoller.java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

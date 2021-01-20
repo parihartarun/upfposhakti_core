@@ -48,8 +48,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-<<<<<<< HEAD
-=======
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -57,8 +55,7 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 		
->>>>>>> 0f9b9ff68ccd7bb072cb837c055ad7516e501cd3
-	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -147,6 +144,7 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
             <version>2.0.0.RELEASE</version>
         </dependency>
+
 
     </dependencies>
 

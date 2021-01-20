@@ -9,15 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.RequestMapping;
-=======
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
->>>>>>> 0f9b9ff68ccd7bb072cb837c055ad7516e501cd3
 
 @SpringBootApplication
 @EnableJpaRepositories
