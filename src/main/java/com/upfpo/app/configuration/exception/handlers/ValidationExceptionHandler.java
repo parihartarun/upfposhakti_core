@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.google.gson.JsonObject;
+
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
@@ -40,7 +40,7 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 	        BindingResult result = ex.getBindingResult();
 
 	        List<FieldError> fieldErrors = result.getFieldErrors();
-            JsonObject jsonResponse = new JsonObject();
+//            JsonObject jsonResponse = new JsonObject();
 
 	        String errorMessage = fieldErrors.get(0).getDefaultMessage();
 	        return ResponseEntity.badRequest().body(errorMessage);
