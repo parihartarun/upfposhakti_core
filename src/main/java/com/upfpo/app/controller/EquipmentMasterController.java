@@ -30,13 +30,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value="/api/master/equipments")
+@RequestMapping(value="/api/equipments")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrieve the Equipment",tags="Equipment", description="Add, Update, Delete, and retrive the Equipment Master")
 public class EquipmentMasterController {
 
 	@Autowired
 	private EquipmentMasterService equipmentMasterService;
-	
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping
 	@ApiOperation(value="Add new Equipment Master",code=201, produces = "application/json", notes="Api for add new Collection Center",response=EqupmentMaster.class)
 	@ApiResponses(value= {
@@ -57,6 +57,7 @@ public class EquipmentMasterController {
 
 		
 	}
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PutMapping("/:id")
 	@ApiOperation(value="Update Equipment Master", code=200, produces = "application/json", notes="Api for update Equipment Master",response=EqupmentMaster.class)
 	@ApiResponses(value= {
@@ -70,6 +71,7 @@ public class EquipmentMasterController {
 	{
 		return equipmentMasterService.updateEquipmentMaster(id, updateEquipmentMaster);
 	}
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping("/:id")
 	@ApiOperation(value="Get Equipment Master by id", code=200, produces = "application/json",notes="Api for get Equipment Master by id",response=EqupmentMaster.class)
 	@ApiResponses(value= {
@@ -82,6 +84,7 @@ public class EquipmentMasterController {
 	{
 		return equipmentMasterService.selectEquipmentMasterById(id);
 	}
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@DeleteMapping("/:id")
 	@ApiOperation(value="Delete Equipment Master by id",code=204,produces = "text/plain",notes="Api for delete Equipment Master by id",response=Boolean.class)
 	@ApiResponses(value= {
@@ -90,11 +93,12 @@ public class EquipmentMasterController {
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	@ResponseStatus( HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Boolean deleteEquipmentMaster(@PathVariable("id") Integer id)
 	{
 		return equipmentMasterService.deleteEquipmentMaster(id);
 	}
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@GetMapping
 	@ApiOperation(value="Get All Equipment Master",code=200,produces = "application/json",notes="Api for view all Equipment Master",response=EqupmentMaster.class,responseContainer="List")
 	@ApiResponses(value= {

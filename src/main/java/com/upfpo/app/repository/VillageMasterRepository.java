@@ -13,4 +13,7 @@ public interface VillageMasterRepository extends JpaRepository<VillageMaster, In
 {
 	@Query("Select v from VillageMaster v where v.panchayatId= :panchayatId")
 	List<VillageMaster> getVillagesByPanchayat(int panchayatId);
+	
+	@Query("Select v from VillageMaster v where v.blockId= :blockId")
+	List<VillageMaster> getVillagesByBlockId(int blockId);
 }

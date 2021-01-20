@@ -55,4 +55,17 @@ public class VillageMasterController
 	{
 		return villageMasterService.getVillagesByPanchayat(panchayatId);
 	}
+	
+	@GetMapping(value="/getVillagesByBlocktId/{blockId}")
+	@ApiOperation(value="Get Villages details by Block id",code=200,produces = "application/json",notes="Api for retrieve all Villages by Block id",response=VillageMaster.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<VillageMaster> getVillagesByBlock(@PathVariable("blockId") int blockId)
+	{
+		return villageMasterService.getVillagesByBlockId(blockId);
+	}
+	
 }
