@@ -1,8 +1,13 @@
 package com.upfpo.app.controller;
 
 
+import com.upfpo.app.auth.response.JwtResponse;
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.service.EnquiryServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +31,27 @@ public class EnquiryController {
 
 
     @GetMapping("/getall")
+    @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= JwtResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public List<Enquiry> getAllEnquiryDetails (){
 
+        LOG.info("Inside EnquiryController gettting list of Enquiry ");
         return enquiryService.getAllEnquiryInfo();
     }
 
 
 
     @PostMapping("/insert")
+    @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= JwtResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> createEnquiry(@RequestBody Enquiry enquiry) {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
@@ -53,7 +71,13 @@ public class EnquiryController {
 
 
     @PutMapping("/update1/{id}")
-    public ResponseEntity<String> updateSalesDetails1(@PathVariable Long id, @RequestBody Enquiry enquiry) {
+    @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= JwtResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<String> updateEnquiry(@PathVariable Long id, @RequestBody Enquiry enquiry) {
         LOG.info("Inside EnquiryController updating sales details ", enquiryService);
         ResponseEntity<String> resp = null;
         try {
@@ -72,6 +96,12 @@ public class EnquiryController {
 
 
     @DeleteMapping("/delete1/{id}")
+    @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= JwtResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> deleteEnquiry(@PathVariable Long id) {
         LOG.info("Inside EnquiryController delete sales details ");
         ResponseEntity<String> resp = null;

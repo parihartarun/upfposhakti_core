@@ -2,7 +2,6 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.entity.Complaints;
-import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.repository.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
