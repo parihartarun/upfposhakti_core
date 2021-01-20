@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.entity.EqupmentMaster;
 import com.upfpo.app.entity.FarmMachineryBank;
 import com.upfpo.app.entity.LicenseMaster;
@@ -65,16 +66,26 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 		return farmMachineryBankRepository.findByIsDeleted(false);
 	}
 
+//	@Override
+//	public FarmMachineryBank selectFarmMachineryBankById(int id) {
+//		// TODO Auto-generated method stub
+//		try {
+//			FarmMachineryBank ss = farmMachineryBankRepository.getOne(id);
+//			System.err.println("@@@@@@@@@@ "+ss.getEqupment_name());
+//		return farmMachineryBankRepository.getOne(id);
+//		}catch(Exception e)
+//		{
+//			throw new NotFoundException();
+//		}
+//	}
+
 	@Override
 	public FarmMachineryBank selectFarmMachineryBankById(int id) {
-		// TODO Auto-generated method stub
-		try {
-		return farmMachineryBankRepository.getOne(id);
-		}catch(Exception e)
 		{
-			throw new NotFoundException();
+			return farmMachineryBankRepository.findById(id).get();
 		}
-		}
+
+	}
 
 
 
