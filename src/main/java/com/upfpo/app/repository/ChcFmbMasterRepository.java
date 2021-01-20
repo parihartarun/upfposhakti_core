@@ -16,4 +16,7 @@ public interface ChcFmbMasterRepository extends JpaRepository<ChcFmbMaster, Inte
 	@Transactional
 	@Query("update ChcFmbMaster c set c.isDeleted=true where c.chcFmbId = :chcFmbId")
 	public void deleteChcFmb(int chcFmbId);
+	
+	@Query("select count(c) from ChcFmbMaster c where c.mobileNumber = :mobileNumber")
+	 public int alreadyExists(long mobileNumber);
 }

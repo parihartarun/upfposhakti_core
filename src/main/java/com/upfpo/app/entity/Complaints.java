@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.List;
 
 @Entity
+@Table(name = "complaints")
+
 public class Complaints {
 
     @Id
@@ -35,7 +37,7 @@ public class Complaints {
     private Calendar createDateTime;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "complaint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "complaints", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ComplaintsComments> comments;
 
     public Long getId() {
