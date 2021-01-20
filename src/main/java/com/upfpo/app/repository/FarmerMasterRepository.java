@@ -16,4 +16,7 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 @Transactional
 	 @Query("update FarmerMaster f set f.isDeleted=true where f.farmerId = :farmerId")
 	 public void deleteFarmer(int farmerId);
+	 
+	 @Query("select count(f) from FarmerMaster f where f.farmerMob = :farmerMob")
+	 public int alreadyExists(long farmerMob);
 }

@@ -16,4 +16,7 @@ public interface BuyerSellerRepository extends JpaRepository<BuyerSellerMaster, 
 	@Transactional
 	@Query("update BuyerSellerMaster b set b.isDeleted=true where b.buyerSellerId = :buyerSellerId")
 	public void deleteBuyerSeller(int buyerSellerId);
+	
+	@Query("select count(b) from BuyerSellerMaster b where b.mobileNumber = :mobileNumber")
+	 public int alreadyExists(long mobileNumber);
 }

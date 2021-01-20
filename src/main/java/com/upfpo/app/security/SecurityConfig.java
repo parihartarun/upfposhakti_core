@@ -34,24 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-//		 http
-//         .authorizeRequests()
-//         .anyRequest().authenticated()
-//         .and()
-//         .formLogin()
-//         .loginPage("/UPFPO/login").permitAll();
-		
-//		http.cors().disable().csrf().disable()
-//		.authorizeRequests().antMatchers("/login")
-//		.hasAnyRole("user")
-//		.antMatchers("/").permitAll()
-//		.and().formLogin();
-		
-		http.csrf().disable()
+	protected void configure(HttpSecurity http) throws Exception {	
+		http
+		.cors().disable()
+		.csrf().disable()
 		.authorizeRequests()
 		//.antMatchers("/UPFPO/**").permitAll()
-		.antMatchers("/signin","/home/farmer","/home/production","/home/search",
+		.antMatchers("/signin","/home/farmer","/home/production","/home/search","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
 				"/v2/api-docs",
                 "/configuration/ui",
@@ -73,40 +62,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public AuthenticationManager authenticationManagerBean() throws Exception{
 		return super.authenticationManagerBean();
 	}
-	
-//	@Bean
-//	public PasswordEncoder getPasswordEncoder()
-//	{
-//		return NoOpPasswordEncoder.getInstance();
-//	}
-	
-		@Bean
-	    public PasswordEncoder passwordEncoder(){
-	        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	        String password = "pass";
-	        String encodedPassword = passwordEncoder.encode(password);
-	        System.out.println();
-	        System.out.println("Password is         : " + password);
-	        System.out.println("Encoded Password is : " + encodedPassword);
-	        System.out.println();
 
-	        boolean isPasswordMatch = passwordEncoder.matches(password, encodedPassword);
-	        System.out.println("Password : " + password + "   isPasswordMatch    : " + isPasswordMatch);
-	        return passwordEncoder;
-	    }
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String password = "pass";
+		String encodedPassword = passwordEncoder.encode(password);
+		System.out.println();
+		System.out.println("Password is         : " + password);
+		System.out.println("Encoded Password is : " + encodedPassword);
+		System.out.println();
+
+		boolean isPasswordMatch = passwordEncoder.matches(password, encodedPassword);
+		System.out.println("Password : " + password + "   isPasswordMatch    : " + isPasswordMatch);
+		return passwordEncoder;
+	}
 		
-//		protected void configure1(HttpSecurity http) throws Exception { // "/.js", "/.jpg", "/.woff", "/*.ttf",
-//			http.cors().disable().csrf().disable().authorizeRequests()
-//					.antMatchers("/", "/assets///", "/login", "/signup", "/sendEmailLinkPassword",
-//							"/changeForgotPassword","/userPasswordActiveStatus/*")
-//					.permitAll().anyRequest().authenticated().and().exceptionHandling()
-//					//.authenticationEntryPoint(unauthorizedHandler)
-//
-//					.and().sessionManagement().sessionFixation().changeSessionId().enableSessionUrlRewriting(false)
-//					.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and().httpBasic().disable();
-//			http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//			http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
-//			http.addFilterBefore(activeIdFilter(), SessionManagementFilter.class);
-//		}
+
 
 }

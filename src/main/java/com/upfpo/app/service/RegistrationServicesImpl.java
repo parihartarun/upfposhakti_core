@@ -1,18 +1,19 @@
 package com.upfpo.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.upfpo.app.entity.*;
+import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.ChcFmbMaster;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.entity.InputSupplierMaster;
 import com.upfpo.app.repository.BuyerSellerRepository;
 import com.upfpo.app.repository.ChcFmbMasterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.FpoMasterRepository;
 import com.upfpo.app.repository.InputSupplierMasterRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegistrationServicesImpl implements RegistrationServices
@@ -33,34 +34,91 @@ public class RegistrationServicesImpl implements RegistrationServices
 	ChcFmbMasterRepository chcFmbRepository;
 	
 	@Override
-	public void registerFPO(FPORegister fpoRegister) 
+	public String registerFPO(FPORegister fpoRegister) 
 	{
-		fpoRepository.save(fpoRegister);
+		int count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			fpoRepository.save(fpoRegister);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	@Override
-	public FarmerMaster registerFarmer(FarmerMaster farmerRegister) 
+	public String registerFarmer(FarmerMaster farmerRegister) 
 	{
-		return farmerMasterRepository.save(farmerRegister);  
+		int count = farmerMasterRepository.alreadyExists(farmerRegister.getFarmerMob());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			 farmerMasterRepository.save(farmerRegister);
+			 target="Saved";
+		}
+		return target;
+	}
+
+	@Override
+	public String registerBuyerSeller(BuyerSellerMaster buyerSeller) 
+	{
+		int count = buyerSellerRepository.alreadyExists(buyerSeller.getMobileNumber());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			buyerSellerRepository.save(buyerSeller);
+			 target="Saved";
+		}
+		return target;
 	}
 	
 	
 	@Override
-	public BuyerSellerMaster registerBuyerSeller(BuyerSellerMaster buyerSeller) 
-	{
-		return buyerSellerRepository.save(buyerSeller);
+	public String registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
+	{ 
+		int count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			inputSupplierRepository.save(inputSupplierMaster);
+			 target="Saved";
+		}
+		return target;
 	}
 	
-	
 	@Override
-	public InputSupplierMaster registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
+	public String registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
-		return inputSupplierRepository.save(inputSupplierMaster);	
-	}
-	
-	@Override
-	public ChcFmbMaster registerChcFmb(ChcFmbMaster chcFmbMaster) 
-	{
-		return chcFmbRepository.save(chcFmbMaster);
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String password = chcFmbMaster.getUser().getPassword();
+		chcFmbMaster.getUser().setPassword(passwordEncoder.encode(password));
+		int count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
+		String target = "";
+		if(count==1)
+		{
+			  target="exists";
+		}
+		else
+		{
+			chcFmbRepository.save(chcFmbMaster);
+			 target="Saved";
+		}
+		return target;
 	}
 }

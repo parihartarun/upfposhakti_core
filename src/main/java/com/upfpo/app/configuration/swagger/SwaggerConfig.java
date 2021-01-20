@@ -1,5 +1,6 @@
 package com.upfpo.app.configuration.swagger;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-
-import com.upfpo.app.configuration.SwaggerConfiguration;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -28,9 +26,8 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-/*@Configuration 
-@EnableSwagger2*/
+@Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 
 
@@ -56,22 +53,11 @@ public class SwaggerConfig {
 	
 	public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
-    private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
+    private final Logger log = (Logger) LoggerFactory.getLogger(SwaggerConfig.class);
 
 	 @Bean
-	    public Docket api() { 
-//		 return new Docket(DocumentationType.SWAGGER_2)
-//			      .apiInfo(getApiInfo())
-////			      .securityContexts(Arrays.asList(securityContext()))
-////			      .securitySchemes(Arrays.asList(apiKey()))
-//			      .select()
-//			      .apis(RequestHandlerSelectors.basePackage("com.upfpo.app"))
-//			      .paths(PathSelectors.any())
-//			      .build(); 
-		 
-		 
-		 
-		 log.debug("Starting Swagger");
+	    public Docket api() {
+		 ((org.slf4j.Logger) log).debug("Starting Swagger");
 	        Contact contact = new Contact(
 	            "Matyas Albert-Nagy",
 	            "https://justrocket.de",
@@ -116,9 +102,6 @@ public class SwaggerConfig {
 	    private ApiInfo getApiInfo()
 	    {
 	    	return new ApiInfo("UPFPO API", "API documentation for UPAGRI Application", "1.0", "For internal use only", new springfox.documentation.service.Contact("xyz", "xyz.com", "nishant.shah@neosoftmail.com"), "API License", "UPAGRI", Collections.emptyList());
-
 	    	
 	    }
-	
-	
 }

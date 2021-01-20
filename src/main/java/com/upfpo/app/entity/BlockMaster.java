@@ -1,12 +1,12 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
 @Table(name="block")
 public class BlockMaster implements Serializable {
@@ -34,6 +34,11 @@ public class BlockMaster implements Serializable {
 	
 	@Column(name="district_id")
 	private Integer distId;
+
+	public BlockMaster() {
+	}
+
+
 	
 	
 	public Integer getId() {

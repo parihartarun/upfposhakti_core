@@ -29,5 +29,10 @@ public class DistrictServiceImpl implements DistrictService
 		return districtRepository.findById(distId).get();
 	}
 	
+	@Override
+	public List<DistrictMaster> getDistrictsByStateId(int state_id) 
+	{
+		return districtRepository.getDistrictsByStateId(state_id);
+	}
 	
 }

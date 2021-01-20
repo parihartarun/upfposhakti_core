@@ -28,6 +28,13 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>jcenter-snapshots</id>
+			<name>jcenter</name>
+			<url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -36,18 +43,25 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.9.2</version>
 		</dependency>
 
 
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-
 
 
 		<dependency>
@@ -76,7 +90,6 @@
 		</dependency>
 
 
-		<!-- Database -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,7 +115,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-
 
 		<!-- Database -->
 		<dependency>
@@ -136,8 +148,14 @@
 			<artifactId>bootstrap</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>2.0.0.RELEASE</version>
+		</dependency>
 
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -147,12 +165,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
-
-
-
-
-
-
 
