@@ -5,6 +5,7 @@ import com.upfpo.app.auth.response.JwtResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.service.EnquiryServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,14 +21,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/enquiry")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Api(produces = "application/json", value = "Enquiry Details", tags="Enquiry Controller",description="Enquiry Details")
 public class EnquiryController {
     private static final Logger LOG = LoggerFactory.getLogger(EnquiryController.class);
 
 
     @Autowired
     private EnquiryServiceImpl enquiryService;
-
-
 
 
     @GetMapping("/getall")

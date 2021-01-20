@@ -6,6 +6,7 @@ import com.upfpo.app.entity.Complaints;
 
 import com.upfpo.app.service.ComplaintServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,6 +22,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/complaint")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Api(produces = "application/json", value = "Complaint Details", tags="Complaint Controller",description="Complaint Details")
 public class ComplaintContoller {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
