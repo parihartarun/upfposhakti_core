@@ -69,7 +69,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		}
 		return target;
 	}
-		
+
 	@Override
 	public String registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{

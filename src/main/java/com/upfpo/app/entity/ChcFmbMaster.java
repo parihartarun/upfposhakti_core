@@ -74,7 +74,7 @@ public class ChcFmbMaster implements Serializable
 		return chcFmbId;
 	}
 
-	public void setChcFmbId(int chcFmbId) {
+	public void setChcFmbId	(int chcFmbId) {
 		this.chcFmbId = chcFmbId;
 	}
 
