@@ -104,9 +104,11 @@ public class FarmMachineryBankController {
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	@ResponseStatus( HttpStatus.NO_CONTENT)
+	//@ResponseStatus( HttpStatus.NO_CONTENT)
 	public Boolean deleteFarmMachineryBank(@PathVariable("id") Integer id)
 	{
+		boolean ss = farmMachineryBankService.deleteFarmMachineryBank(id);
+		System.err.println("&&&&& "+ss);
 		return farmMachineryBankService.deleteFarmMachineryBank(id);
 	}
 	
