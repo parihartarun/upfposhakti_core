@@ -11,6 +11,9 @@ import java.util.List;
 @Table(name = "enquiry")
 public class Enquiry {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     private Long quantity;

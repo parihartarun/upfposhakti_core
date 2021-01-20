@@ -19,7 +19,7 @@ public class ComplaintsComments {
     private String createBy;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "complaint_id", nullable = false)
+    @JoinColumn(name = "complaints_id",referencedColumnName="id", nullable = false)
     @JsonIgnore
     private Complaints complaints;
 
