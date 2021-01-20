@@ -46,6 +46,4 @@ public class MasterController
 	{
 		return masterServices.getPanchayatByBlockId(blockRef);
 	}
-	
-	
 }

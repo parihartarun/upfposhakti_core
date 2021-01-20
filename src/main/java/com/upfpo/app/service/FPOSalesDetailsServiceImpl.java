@@ -1,7 +1,5 @@
 package com.upfpo.app.service;
 
-
-import com.upfpo.app.entity.Employee;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.repository.FPOSalesDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

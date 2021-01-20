@@ -1,17 +1,30 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+import com.upfpo.app.dto.DisplayDataDTO;
 
 @Entity
+@SqlResultSetMapping(name="DisplayDataDTO",
+classes = {
+    @ConstructorResult(targetClass = DisplayDataDTO.class,
+            columns = {
+            	@ColumnResult(name = "totalfarmers", type = BigInteger.class),	
+                @ColumnResult(name = "smalltotal", type = BigInteger.class),
+                @ColumnResult(name = "bigfarmers", type = BigInteger.class),
+                @ColumnResult(name = "marginalfarmers", type = BigInteger.class),
+                @ColumnResult(name = "totalland", type = Double.class)
+            })
+})
+
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 

@@ -1,15 +1,43 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.FPODetailsDTO;
+
 @Entity
+
+
+@SqlResultSetMapping(name="FPODetailsDTO",
+classes = {
+		  @ConstructorResult(targetClass = FPODetailsDTO.class, 
+		  columns = {
+		  @ColumnResult(name = "id", type = Integer.class),
+		  @ColumnResult(name = "unitassla", type = String.class),
+		  @ColumnResult(name = "state", type = String.class),
+		  @ColumnResult(name = "district", type = String.class),
+		  @ColumnResult(name = "nodal", type = String.class),
+		  @ColumnResult(name = "mobile", type = BigInteger.class),
+		  @ColumnResult(name = "email", type = String.class),
+		  @ColumnResult(name = "fpo_lot_no", type = String.class),
+		  @ColumnResult(name = "associationdate", type = String.class),
+		  @ColumnResult(name = "crops", type = String.class),
+		  @ColumnResult(name = "services", type = String.class)
+		  })
+})
+
+
+
 @Table(name="crop_master")
 public class CropMaster implements Serializable {
 

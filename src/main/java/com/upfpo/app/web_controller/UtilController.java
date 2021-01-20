@@ -1,58 +1,70 @@
 package com.upfpo.app.web_controller;
 
-import java.util.Iterator;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DisplayDataDTO;
-import com.upfpo.app.entity.DashBoardData;
+import com.upfpo.app.dto.FPODetailsDTO;
+import com.upfpo.app.dto.ProductionDTO;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.service.MasterService;
-import com.upfpo.app.service.MiniTransServices;
+import com.upfpo.app.util.GetCurrentDate;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
-@Controller
+@RestController
+@RequestMapping(value="/home")
+@Api(produces = "application/json", value = "Retrive Data on Homepage")
 public class UtilController {
 	
 	@Autowired
 	private MasterService  masterServices;
 	
-	@Autowired
-	private MiniTransServices  miniTransServices;
+	@GetMapping("/farmer")
+	@ApiOperation(value="Get farmer's Data on homepage",code=200,produces = "application/json",notes="API to view farmer's data on homepage",response=DisplayDataDTO.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public DisplayDataDTO getFarmers()
+	{
+		return masterServices.farmers();
+	}
 	
-	private ModelAndView mav;
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView goIndex() {
-		try {
-			
-	//	    masterServices.farmers();
-	//	    System.out.println(masterServices.farmers().get(0).getBigFarmers());
-			
-			mav = new ModelAndView(); 
-			mav.setViewName("index.def");
-			List <DashBoardData> list = masterServices.homePageData();
-			mav.addObject("land",list.get(0).getLand());
-			mav.addObject("farmers",list.get(0).getFarmers());
-			mav.addObject("smallfarmers",list.get(0).getSmallFarmers());
-			mav.addObject("marginalfarmers",list.get(0).getMarginalFarmers());
-			mav.addObject("otherfarmers",list.get(0).getOtherFarmers());
-		    mav.addObject("fpcs",list.get(0).getFpcs());
-		    mav.addObject("fmbs",list.get(0).getFmbs());
-			mav.addObject("storagecenters",list.get(0).getStoragecenters());
-			mav.addObject("production_rabi",list.get(0).getProduction_rabi());
-			mav.addObject("production_kharif",list.get(0).getProduction_kharif());
-			mav.addObject("production_zayad",list.get(0).getProduction_zayad());
-			mav.addObject("circulars",miniTransServices.getCirculars());
-//			logger.info("Successfully Logged");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mav;
-		
-}
+	@GetMapping("/production")
+	@ApiOperation(value="Production categorization",code=200,produces = "application/json",notes="API to view production data on homepage",response=DisplayDataDTO.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public ProductionDTO getProductions(String finYear)
+	{
+		return masterServices.productions(GetCurrentDate.getCurrentFinYear());
+	}
+	
+	
+	@GetMapping("/search")
+	@ApiOperation(value="Search results",code=200,produces = "application/json",notes="API for search Results",response=FPODetailsDTO.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn)
+	{
+		return masterServices.homeSearch(searchVal,searchIn);
+	}
+	
 }

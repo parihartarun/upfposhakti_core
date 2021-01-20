@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import com.upfpo.app.configuration.SwaggerConfiguration;
+
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -27,11 +29,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
+/*@Configuration 
+@EnableSwagger2*/
+public class SwaggerConfig {
 
-@Configuration
-@EnableSwagger2
-public class
-SwaggerConfiguration {
 
 	private ApiKey apiKey() {
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
@@ -109,8 +110,6 @@ SwaggerConfiguration {
 //	        watch.stop();
 //	        log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
 	        return docket;
-		 
-		 
 		 
 	    }
 	    

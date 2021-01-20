@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/fpos")
+@RequestMapping(value="api/fpos")
 @Api(produces = "application/json", value = "Add, Update, Delete, and retrive the FPO")
 public class FPOController {
 	
@@ -107,6 +107,7 @@ public class FPOController {
 	})
 	public List<FPORegister> getFpos()
 	{
+		System.out.println("coming");
 		return fpoService.selectFpos();
 	}
 	

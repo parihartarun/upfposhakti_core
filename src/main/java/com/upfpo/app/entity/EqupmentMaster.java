@@ -24,8 +24,6 @@ public class EqupmentMaster implements Serializable{
 	@Column(name="is_active")
 	private Boolean isactive;
 
-<<<<<<< HEAD
-=======
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
 
@@ -48,7 +46,6 @@ public class EqupmentMaster implements Serializable{
 		this.isDeleted = isDeleted;
 	}
 
->>>>>>> 59d46102dd140e11137a7db1dab74af93542a326
 	public Integer getId() {
 		return id;
 	}

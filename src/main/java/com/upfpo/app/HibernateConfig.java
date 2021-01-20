@@ -13,44 +13,36 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
-@EnableTransactionManagement
+/*@Configuration
+@EnableTransactionManagement*/
 public class HibernateConfig {
 	
-	@Bean
-	public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf){  
-	    return hemf.getSessionFactory();  
-	} 
-	 
-	 @Bean
-	 public DataSource dataSource() 
-	 { 
-	  DriverManagerDataSource dataSource =   new DriverManagerDataSource();
-	  dataSource.setDriverClassName("org.postgresql.Driver");
-	  dataSource.setUrl("jdbc:postgresql://localhost:5432/new_upfpo");
-	  dataSource.setUsername("postgres"); dataSource.setPassword("postgres");
-	  return dataSource; 
-	  }
-	  
-	 
-	 @Bean 
-	 public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-	   { 
-	   LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-	   em.setDataSource(dataSource());
-	   em.setPackagesToScan(new String[] {"com.upfpo"});
-	   Properties jpaProperties = new Properties();
-       jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-update");
-	   HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-	   vendorAdapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
-	   em.setJpaVendorAdapter(vendorAdapter);
-	   return em; 
-	   }
-	 
-	 @Bean public PersistenceExceptionTranslationPostProcessor
-	  exceptionTranslation()
-	 { return new
-	  PersistenceExceptionTranslationPostProcessor(); }
+	/*
+	 * @Bean public SessionFactory sessionFactory(HibernateEntityManagerFactory
+	 * hemf){ return hemf.getSessionFactory(); }
+	 * 
+	 * @Bean public DataSource dataSource() { DriverManagerDataSource dataSource =
+	 * new DriverManagerDataSource();
+	 * dataSource.setDriverClassName("org.postgresql.Driver");
+	 * dataSource.setUrl("jdbc:postgresql://localhost:5432/new_upfpo");
+	 * dataSource.setUsername("postgres"); dataSource.setPassword("postgres");
+	 * return dataSource; }
+	 * 
+	 * 
+	 * @Bean public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	 * LocalContainerEntityManagerFactoryBean em = new
+	 * LocalContainerEntityManagerFactoryBean(); em.setDataSource(dataSource());
+	 * em.setPackagesToScan(new String[] {"com.upfpo"}); Properties jpaProperties =
+	 * new Properties(); jpaProperties.setProperty("hibernate.hbm2ddl.auto",
+	 * "create-update"); HibernateJpaVendorAdapter vendorAdapter = new
+	 * HibernateJpaVendorAdapter();
+	 * vendorAdapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
+	 * em.setJpaVendorAdapter(vendorAdapter); return em; }
+	 * 
+	 * @Bean public PersistenceExceptionTranslationPostProcessor
+	 * exceptionTranslation() { return new
+	 * PersistenceExceptionTranslationPostProcessor(); }
+	 */
 	  
 	/*
 	 * @Bean public HibernateTransactionManager transactionManager() {

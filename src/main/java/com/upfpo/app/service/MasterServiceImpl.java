@@ -1,33 +1,36 @@
 package com.upfpo.app.service;
 
 import java.util.List;
+
 import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
-import com.upfpo.app.dao.MasterDao;
+
 import com.upfpo.app.dto.DisplayDataDTO;
-import com.upfpo.app.entity.DashBoardData;
+import com.upfpo.app.dto.FPODetailsDTO;
+import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.repository.DataDisplayRepository;
 
 @Service
-public class MasterServiceImpl implements MasterService{
-	
-	@Autowired
-	private MasterDao masterDao;
+public class MasterServiceImpl implements MasterService {
 	
 	@Resource
 	private DataDisplayRepository dataDisplayRepository;
 
-	@Override
-	public List<DashBoardData> homePageData() {
+	public DisplayDataDTO farmers() {
 		
-		return masterDao.homePageData();
+		return dataDisplayRepository.farmersData();
 	}
 
 	@Override
-	public List<Object> farmers() {
+	public ProductionDTO productions(String finYear) {
+		return dataDisplayRepository.productions(finYear);
+	}
+
+	@Override
+	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn) {
 		
-		return dataDisplayRepository.homePageData();
+		return dataDisplayRepository.homeSearch(searchVal,searchIn);
 	}
 
 }

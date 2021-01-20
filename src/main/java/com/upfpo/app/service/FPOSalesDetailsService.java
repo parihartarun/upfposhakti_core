@@ -1,6 +1,5 @@
 package com.upfpo.app.service;
 
-import com.upfpo.app.entity.Employee;
 import com.upfpo.app.entity.FPOSalesDetails;
 
 import java.util.List;

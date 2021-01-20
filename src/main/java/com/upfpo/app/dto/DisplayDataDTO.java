@@ -3,47 +3,67 @@ package com.upfpo.app.dto;
 import java.math.BigInteger;
 
 public class DisplayDataDTO {
+
+	private BigInteger totalfarmers;
+	private BigInteger smalltotal;
+	private BigInteger bigfarmers;
+	private BigInteger marginalfarmers;
+	private Double totalland;
+
 	
-	private BigInteger totalFarmers;
-	private BigInteger smallFarmers;
-	private BigInteger bigFarmers;
-	private BigInteger marginalFarmers;
-	private Double totalLand;
 	
 	
-	public DisplayDataDTO()
-	{
-		
-	}
 	
-	public BigInteger getTotalFarmers() {
-		return totalFarmers;
+
+	public DisplayDataDTO(BigInteger totalfarmers, BigInteger smalltotal, BigInteger bigfarmers,
+			BigInteger marginalfarmers, Double totalland) {
+		super();
+		this.totalfarmers = totalfarmers;
+		this.smalltotal = smalltotal;
+		this.bigfarmers = bigfarmers;
+		this.marginalfarmers = marginalfarmers;
+		this.totalland = totalland;
 	}
-	public void setTotalFarmers(BigInteger totalFarmers) {
-		this.totalFarmers = totalFarmers;
+
+
+	public BigInteger getTotalfarmers() {
+		return totalfarmers;
 	}
-	public BigInteger getSmallFarmers() {
-		return smallFarmers;
+
+	public void setTotalfarmers(BigInteger totalfarmers) {
+		this.totalfarmers = totalfarmers;
 	}
-	public void setSmallFarmers(BigInteger smallFarmers) {
-		this.smallFarmers = smallFarmers;
+
+	public BigInteger getSmalltotal() {
+		return smalltotal;
 	}
-	public BigInteger getBigFarmers() {
-		return bigFarmers;
+
+	public void setSmalltotal(BigInteger smalltotal) {
+		this.smalltotal = smalltotal;
 	}
-	public void setBigFarmers(BigInteger bigFarmers) {
-		this.bigFarmers = bigFarmers;
+
+	public BigInteger getBigfarmers() {
+		return bigfarmers;
 	}
-	public BigInteger getMarginalFarmers() {
-		return marginalFarmers;
+
+	public void setBigfarmers(BigInteger bigfarmers) {
+		this.bigfarmers = bigfarmers;
 	}
-	public void setMarginalFarmers(BigInteger marginalFarmers) {
-		this.marginalFarmers = marginalFarmers;
+
+	public BigInteger getMarginalfarmers() {
+		return marginalfarmers;
 	}
-	public Double getTotalLand() {
-		return totalLand;
+
+	public void setMarginalfarmers(BigInteger marginalfarmers) {
+		this.marginalfarmers = marginalfarmers;
 	}
-	public void setTotalLand(Double totalLand) {
-		this.totalLand = totalLand;
+
+	public Double getTotalland() {
+		return totalland;
 	}
+
+	public void setTotalland(Double totalland) {
+		this.totalland = totalland;
+	}
+
 }

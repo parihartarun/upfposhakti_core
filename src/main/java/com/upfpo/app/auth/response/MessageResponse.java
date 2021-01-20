@@ -1,6 +1,7 @@
 package com.upfpo.app.auth.response;
 
 public class MessageResponse {
+	
 	private String message;
 
 	public MessageResponse(String message) {

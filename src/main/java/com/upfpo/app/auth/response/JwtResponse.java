@@ -1,6 +1,7 @@
 package com.upfpo.app.auth.response;
 
 public class JwtResponse {
+	
 	private String token;
 	private String type = "Bearer";
 	private Long id;

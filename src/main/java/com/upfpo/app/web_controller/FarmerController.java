@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value="/api/v1/Farmer")
+@RequestMapping(value="/api/Farmer")
 @Api(produces = "application/json", value = "Update, Delete, and retrive the Farmer", tags="Farmer Operations", description="fUpdate, Delete, and retrive the FPO")
 public class FarmerController 
 {
