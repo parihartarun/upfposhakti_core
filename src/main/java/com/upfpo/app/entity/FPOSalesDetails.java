@@ -2,183 +2,158 @@ package com.upfpo.app.entity;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "fpo_sales_details")
 public class FPOSalesDetails {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    private Long id;
 
-    @Column(name="users_id")
-    private Integer userId;
+    @Column(name="financial_year")
+    private String finYear;
 
-    @Column(name="selling_crop")
-    private String sellingCrop;
+    @Column(name="season_ref")
+    private String season;
 
-    @Column(name="sold_to")
-    private String soldTo;
+    @Column(name="crop_ref_name")
+    private Integer cropRefName;
 
-    @Column (name="quantity_sold_to_fpo")
-    private double quantitySoldToFpo;
+    @Column(name="veriety_ref")
+    private String verietyId;
 
-    @Column(name="price_from_fpo")
-    private Long priceFromFpo;
+    @Column(name="sold_quantity")
+    private Long soldQuantity;
 
-    @Column(name="dos_to_fpo")
-    private String dosToFpo;
+    @Column(name="user_id")
+    private Integer fpoId;
 
-    @Column (name="quantity_sold_to_local")
-    private double quantitySoldToLocal;
+    @Column(name="updated_by")
+    private String updatedBy;
 
-    @Column(name="price_from_local")
-    private Long priceFromLocal;
+    @Column(name="update_date")
+    private java.sql.Date updateDate;
 
-    @Column(name="dos_to_local")
-    private String dosToLocal;
+    @Column(name="is_deleted")
+    private boolean isDeleted;
 
-    //@Column(name="master_id")
-    //private Integer masterId;
+    @Column(name="delete_date")
+    private Date deleteDate;
 
-    @Column(name = "create_by")
-    private String createBy;
+    @Column(name = "created_by")
+    private String createdBy;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date_time")
-    private Calendar createDateTime;
-
-    @Column(name = "update_by")
-    private String updateBy;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_date_time")
-    private Calendar updateDateTime;
-
-    @Column(name="farmer_id")
-    private Integer farmerId;
+    @Column(name = "created_date")
+    private Date createdDate;
 
     public FPOSalesDetails() {
     }
 
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getFinYear() {
+        return finYear;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setFinYear(String finYear) {
+        this.finYear = finYear;
     }
 
-    public String getSellingCrop() {
-        return sellingCrop;
+    public String getSeason() {
+        return season;
     }
 
-    public void setSellingCrop(String sellingCrop) {
-        this.sellingCrop = sellingCrop;
+    public void setSeason(String season) {
+        this.season = season;
     }
 
-    public String getSoldTo() {
-        return soldTo;
+    public Integer getCropRefName() {
+        return cropRefName;
     }
 
-    public void setSoldTo(String soldTo) {
-        this.soldTo = soldTo;
+    public void setCropRefName(Integer cropRefName) {
+        this.cropRefName = cropRefName;
     }
 
-    public double getQuantitySoldToFpo() {
-        return quantitySoldToFpo;
+    public String getVerietyId() {
+        return verietyId;
     }
 
-    public void setQuantitySoldToFpo(double quantitySoldToFpo) {
-        this.quantitySoldToFpo = quantitySoldToFpo;
+    public void setVerietyId(String verietyId) {
+        this.verietyId = verietyId;
     }
 
-    public Long getPriceFromFpo() {
-        return priceFromFpo;
+    public Long getSoldQuantity() {
+        return soldQuantity;
     }
 
-    public void setPriceFromFpo(Long priceFromFpo) {
-        this.priceFromFpo = priceFromFpo;
+    public void setSoldQuantity(Long soldQuantity) {
+        this.soldQuantity = soldQuantity;
     }
 
-    public String getDosToFpo() {
-        return dosToFpo;
+    public Integer getFpoId() {
+        return fpoId;
     }
 
-    public void setDosToFpo(String dosToFpo) {
-        this.dosToFpo = dosToFpo;
+    public void setFpoId(Integer fpoId) {
+        this.fpoId = fpoId;
     }
 
-    public double getQuantitySoldToLocal() {
-        return quantitySoldToLocal;
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setQuantitySoldToLocal(double quantitySoldToLocal) {
-        this.quantitySoldToLocal = quantitySoldToLocal;
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
-    public Long getPriceFromLocal() {
-        return priceFromLocal;
+    public java.sql.Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setPriceFromLocal(Long priceFromLocal) {
-        this.priceFromLocal = priceFromLocal;
+    public void setUpdateDate(java.sql.Date updateDate) {
+        this.updateDate = updateDate;
     }
 
-    public String getDosToLocal() {
-        return dosToLocal;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setDosToLocal(String dosToLocal) {
-        this.dosToLocal = dosToLocal;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public Date getDeleteDate() {
+        return deleteDate;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
-    public Calendar getCreateDateTime() {
-        return createDateTime;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateDateTime(Calendar createDateTime) {
-        this.createDateTime = createDateTime;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public String getUpdateBy() {
-        return updateBy;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Calendar getUpdateDateTime() {
-        return updateDateTime;
-    }
-
-    public void setUpdateDateTime(Calendar updateDateTime) {
-        this.updateDateTime = updateDateTime;
-    }
-
-    public Integer getFarmerId() {
-        return farmerId;
-    }
-
-    public void setFarmerId(Integer farmerId) {
-        this.farmerId = farmerId;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
