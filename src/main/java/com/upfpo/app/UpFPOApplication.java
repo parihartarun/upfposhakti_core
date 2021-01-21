@@ -21,27 +21,9 @@ import java.util.Properties;
 @EnableJpaRepositories
 public class UpFPOApplication  {
 
-	/*@Autowired
-	@Qualifier("javasampleapproachMailSender")
-	public MailSender mailSender;*/
-
-	@RequestMapping("/")
-	String home() {
-		return "Hello World!";
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
-
-	/*@Override
-	public void run(String... arg0) throws Exception {
-
-		String from = "rahul.pande@neosoftmail.com";
-		String to = "rahul.pande@neosoftmail.com";
-		String subject = "JavaMailSender";
-		String body = "Just-Testing!";
-	}*/
 
 
 	@Bean
