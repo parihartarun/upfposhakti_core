@@ -15,4 +15,5 @@ public interface FPOService {
 	public Boolean deleteFpo(Integer id);
 	public List<FPORegister> selectFpos();
 	public FPORegister selectFpoById(Integer id);
+	public FPORegister selectFpoByUserName(String username);
 }

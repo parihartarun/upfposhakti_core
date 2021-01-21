@@ -75,4 +75,15 @@ public class FPOServiceImpl implements FPOService {
 		}
 		}
 
+	@Override
+	public FPORegister selectFpoByUserName(String username) {
+		// TODO Auto-generated method stub
+		try {
+			return fpoRepository.findByUserName(username).get();
+			}catch(Exception e)
+			{
+				throw new NotFoundException();
+			}
+	}
+
 }

@@ -57,7 +57,19 @@ public class FPOController {
 		
 	}
 
-	@GetMapping(value="/:id")
+	@GetMapping(value="/getByUsername/{username}")
+	@ApiOperation(value="Get FPO profile by id", code=200, produces = "application/json",notes="Api for get FPO by username",response=FPORegister.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public FPORegister getFpoByUserName(@PathVariable("username") String username)
+	{
+		return fpoService.selectFpoByUserName(username);
+	}
+	
+	@GetMapping(value="/{id}")
 	@ApiOperation(value="Get FPO profile by id", code=200, produces = "application/json",notes="Api for get FPO by id",response=FPORegister.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -69,7 +81,8 @@ public class FPOController {
 	{
 		return fpoService.selectFpoById(id);
 	}
-	@DeleteMapping(value="/:id")
+	
+	@DeleteMapping(value="/{id}")
 	@ApiOperation(value="Delete FPO profile by id",code=204,produces = "text/plain",notes="Api for delete FPO by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -83,7 +96,7 @@ public class FPOController {
 		return fpoService.deleteFpo(id);
 	}
 	
-	@PutMapping(value="/:id")
+	@PutMapping(value="/{id}")
 	@ApiOperation(value="Update FPO profile", code=200, produces = "application/json", notes="Api for update FPO",response=FPORegister.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),

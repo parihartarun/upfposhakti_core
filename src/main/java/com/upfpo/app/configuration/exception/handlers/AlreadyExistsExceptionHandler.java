@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.upfpo.app.configuration.exception.AlreadyExistsException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 
 @ControllerAdvice
 public class AlreadyExistsExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(NotFoundException.class)
+	@ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<Object> handleExceptions(NotFoundException exception, WebRequest webRequest) {
         ExceptionResponse response = new ExceptionResponse();
         response.setDateTime(LocalDateTime.now());
