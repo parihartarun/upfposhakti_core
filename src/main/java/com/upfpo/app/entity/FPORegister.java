@@ -2,19 +2,39 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
+
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+
+import com.upfpo.app.dto.DisplayDataDTO;
 
 @Entity
+
+@SqlResultSetMapping(name="DisplayDataDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = DisplayDataDTO.class,
+            columns = {
+                @ColumnResult(name = "totalfarmers", type = BigInteger.class),
+                @ColumnResult(name = "smalltotal", type = BigInteger.class),
+                @ColumnResult(name = "bigfarmers", type = BigInteger.class),
+                @ColumnResult(name = "marginalfarmers", type = BigInteger.class),
+                @ColumnResult(name = "totalland", type = Double.class)
+           })
+})
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 
@@ -40,38 +60,10 @@ public class FPORegister implements Serializable {
 	@Column(name="blockId")
 	private Integer blockRef;
 	
-	@Column(name = "sla_ref_id")
-	private Integer slaRefId;
-	
-	@Column(name="delete_date")
-	private java.sql.Date deleteDate;
-
-	@Column(name="is_deleted")
-	private boolean isDeleted;
-
-	
-public java.sql.Date getDeleteDate() {
-		return deleteDate;
-	}
-
-	public void setDeleteDate(java.sql.Date deleteDate) {
-		this.deleteDate = deleteDate;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	//	@Pattern(regexp="^[ A-Za-z0-9]+$",message="Please Enter Name Without Special Characters")
 	@NotNull(message="Please Provide the Name")
 	@Column(name = "fpo_name")
 	private String fpoName;
 	
-	@NotBlank(message="Please Provide the Address")
 	@Column(name = "fpo_address")
 	private String fpoAddress;
 	
@@ -81,8 +73,6 @@ public java.sql.Date getDeleteDate() {
 	@Column(name = "fpo_landline")
 	private BigInteger fpolandLine;
 	
-	@Email(message="Please Provide Valid Email Address")
-	@NotBlank(message ="Please Provie Valid Email Address")
 	@Column(name = "fpo_email")
 	private String fpoEmail;
 	
@@ -99,8 +89,9 @@ public java.sql.Date getDeleteDate() {
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
 
-	@Column(name="users_id")
-	private long userRefId;
+	/*
+	 * @Column(name="users_id") private long userRefId;
+	 */
 	
 	@Length(min=6,max=20,message="Username Should be in between 6 to 20 Characters")
 	@Column(name="username")
@@ -112,11 +103,6 @@ public java.sql.Date getDeleteDate() {
 	@Column(name="create_date")
 	private Date createdate;
 	
-	@Column(name="fpo_lattitude")
-	private String fpolatitude;
-	
-	@Column(name="fpo_longitude")
-	private String fpolongitude;
 	
 	@Column(name = "total_fmb")
 	private Integer fmbno;
@@ -139,21 +125,23 @@ public java.sql.Date getDeleteDate() {
 	@Column(name = "total_land")
 	private Double totalland;
 	
-	@Transient
-	private String state_name;
+	@Column(name="is_deleted")
+    private boolean isDeleted;
 	
-	@Transient
-	private String district_name;
 	
-	@Transient
-	private String block_name;
 	
-	@Transient
-	private String bank_name;
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="user_id")
+	private User userFpo;
 	
-	@Transient
-	private String sla_name;
-	
+	public User getUserFpo() {
+		return userFpo;
+	}
+
+	public void setUserFpo(User userFpo) {
+		this.userFpo = userFpo;
+	}
+
 	/*
 	 * @NotEmpty(message="required")
 	 * 
@@ -183,14 +171,6 @@ public java.sql.Date getDeleteDate() {
 
 	public void setFpoId(Integer fpoId) {
 		this.fpoId = fpoId;
-	}
-
-	public Integer getSlaRefId() {
-		return slaRefId;
-	}
-
-	public void setSlaRefId(Integer slaRefId) {
-		this.slaRefId = slaRefId;
 	}
 
 	public Integer getDistRefId() {
@@ -265,13 +245,11 @@ public java.sql.Date getDeleteDate() {
 		this.fpoIFSC = fpoIFSC;
 	}
 
-	public Long getUserRefId() {
-		return userRefId;
-	}
-
-	public void setUserRefId(Long userRefId) {
-		this.userRefId = userRefId;
-	}
+	/*
+	 * public Long getUserRefId() { return userRefId; }
+	 * 
+	 * public void setUserRefId(Long userRefId) { this.userRefId = userRefId; }
+	 */
 
 	public String getUserName() {
 		return userName;
@@ -279,10 +257,6 @@ public java.sql.Date getDeleteDate() {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public void setUserRefId(long userRefId) {
-		this.userRefId = userRefId;
 	}
 	
 
@@ -334,45 +308,6 @@ public java.sql.Date getDeleteDate() {
 		this.blockRef = blockRef;
 	}
 
-	public String getState_name() {
-		return state_name;
-	}
-
-	public void setState_name(String state_name) {
-		this.state_name = state_name;
-	}
-
-	public String getDistrict_name() {
-		return district_name;
-	}
-
-	public void setDistrict_name(String district_name) {
-		this.district_name = district_name;
-	}
-
-	public String getBlock_name() {
-		return block_name;
-	}
-
-	public void setBlock_name(String block_name) {
-		this.block_name = block_name;
-	}
-
-	public String getBank_name() {
-		return bank_name;
-	}
-
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
-	}
-
-	public String getSla_name() {
-		return sla_name;
-	}
-
-	public void setSla_name(String sla_name) {
-		this.sla_name = sla_name;
-	}
 
 	public String getAgency() {
 		return agency;
@@ -380,22 +315,6 @@ public java.sql.Date getDeleteDate() {
 
 	public void setAgency(String agency) {
 		this.agency = agency;
-	}
-
-	public String getFpolatitude() {
-		return fpolatitude;
-	}
-
-	public void setFpolatitude(String fpolatitude) {
-		this.fpolatitude = fpolatitude;
-	}
-
-	public String getFpolongitude() {
-		return fpolongitude;
-	}
-
-	public void setFpolongitude(String fpolongitude) {
-		this.fpolongitude = fpolongitude;
 	}
 
 	public Integer getFmbno() {
@@ -453,8 +372,15 @@ public java.sql.Date getDeleteDate() {
 	public void setTotalland(Double totalland) {
 		this.totalland = totalland;
 	}
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	
 
 }
-

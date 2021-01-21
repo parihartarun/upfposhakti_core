@@ -1,4 +1,7 @@
+
 package com.upfpo.app.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="districts")
-public class DistrictMaster 
-{
+public class DistrictMaster implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -41,6 +43,9 @@ public class DistrictMaster
 	
 	
 	
+	
+	
+	
 	public Integer getDistrict_id() {
 		return district_id;
 	}
@@ -58,12 +63,6 @@ public class DistrictMaster
 	}
 	public void setDistrict_name(String district_name) {
 		this.district_name = district_name;
-	}
-	public String getDistrict_name_hi() {
-		return district_name_hi;
-	}
-	public void setDistrict_name_hi(String district_name_hi) {
-		this.district_name_hi = district_name_hi;
 	}
 	public Integer getState_id() {
 		return state_id;
@@ -88,6 +87,12 @@ public class DistrictMaster
 	}
 	public void setCensus(String census) {
 		this.census = census;
+	}
+	public String getDistrict_name_hi() {
+		return district_name_hi;
+	}
+	public void setDistrict_name_hi(String district_name_hi) {
+		this.district_name_hi = district_name_hi;
 	}
 
 }
