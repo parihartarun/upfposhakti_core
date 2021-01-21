@@ -2,11 +2,14 @@ package com.upfpo.app.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
@@ -59,6 +62,19 @@ public class InputSupplierMaster implements Serializable
 	
 	@Column(name="is_deleted")
 	private boolean isDeleted;
+	
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="user_id")
+	private User userInputSeller;
+
+
+	public User getUserInputSeller() {
+		return userInputSeller;
+	}
+
+	public void setUserInputSeller(User userInputSeller) {
+		this.userInputSeller = userInputSeller;
+	}
 
 	public boolean isDeleted() {
 		return isDeleted;

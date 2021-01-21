@@ -2,11 +2,15 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -99,8 +103,9 @@ public java.sql.Date getDeleteDate() {
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
 
-	@Column(name="users_id")
-	private long userRefId;
+	/*
+	 * @Column(name="users_id") private long userRefId;
+	 */
 	
 	@Length(min=6,max=20,message="Username Should be in between 6 to 20 Characters")
 	@Column(name="username")
@@ -154,6 +159,18 @@ public java.sql.Date getDeleteDate() {
 	@Transient
 	private String sla_name;
 	
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="user_id")
+	private User userFpo;
+	
+	public User getUserFpo() {
+		return userFpo;
+	}
+
+	public void setUserFpo(User userFpo) {
+		this.userFpo = userFpo;
+	}
+
 	/*
 	 * @NotEmpty(message="required")
 	 * 
@@ -265,13 +282,11 @@ public java.sql.Date getDeleteDate() {
 		this.fpoIFSC = fpoIFSC;
 	}
 
-	public Long getUserRefId() {
-		return userRefId;
-	}
-
-	public void setUserRefId(Long userRefId) {
-		this.userRefId = userRefId;
-	}
+	/*
+	 * public Long getUserRefId() { return userRefId; }
+	 * 
+	 * public void setUserRefId(Long userRefId) { this.userRefId = userRefId; }
+	 */
 
 	public String getUserName() {
 		return userName;
@@ -279,10 +294,6 @@ public java.sql.Date getDeleteDate() {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public void setUserRefId(long userRefId) {
-		this.userRefId = userRefId;
 	}
 	
 
