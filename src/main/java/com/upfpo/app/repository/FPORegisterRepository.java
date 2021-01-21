@@ -16,5 +16,5 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 
 	List<FPORegister> findByIsDeleted(boolean b);
 
-	Optional<FPORegister> findByUserName(String username);
+	FPORegister findByUserName(String username);
 }
