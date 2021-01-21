@@ -4,6 +4,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 
 @RestController
 @RequestMapping(value = "/fposalesdetails")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Api(produces = "application/json", value = "FPOSalesDetails", tags="FPOSalesDetails Controller",description="FPOSales Details")
 public class FPOSalesDetailsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FPOSalesDetailsController.class);

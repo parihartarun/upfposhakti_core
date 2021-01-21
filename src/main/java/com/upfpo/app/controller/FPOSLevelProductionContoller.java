@@ -7,6 +7,7 @@ import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOLevelProductionService;
 import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 
 @RestController
 @RequestMapping(value = "/fpolevelproduction")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Api(produces = "application/json", value = "FPOLevelProduction Details", tags="FPOLevelProduction Controller",description="FPOLevelProduction Details")
 public class FPOSLevelProductionContoller {
 
     @Autowired

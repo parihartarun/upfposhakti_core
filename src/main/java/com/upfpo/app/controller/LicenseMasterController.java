@@ -4,7 +4,9 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.FarmMachineryBank;
 import com.upfpo.app.entity.LicenseMaster;
 import com.upfpo.app.service.LicenseMasterService;
 
@@ -56,7 +60,8 @@ public class LicenseMasterController {
 
 		
 	}
-	@PutMapping("/:id")
+	//@PutMapping("/:id")
+	@PutMapping(value="/updateLicense/{id}")
 	@ApiOperation(value="Update License Master", code=200, produces = "application/json", notes="Api for update License Master",response=LicenseMaster.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -65,11 +70,15 @@ public class LicenseMasterController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public LicenseMaster updateLicenseMaster(@PathVariable("id") Integer id,@RequestBody LicenseMaster updateLicenseMaster)
+	public ResponseEntity<LicenseMaster> updateLicenseMaster(@PathVariable("id") Integer id,@RequestBody LicenseMaster updateLicenseMaster)
 	{
-		return licenseMasterService.updateLicenseMaster(id, updateLicenseMaster);
+		//return licenseMasterService.updateLicenseMaster(id, updateLicenseMaster);
+		LicenseMaster licenseMaster = licenseMasterService.updateLicenseMaster(id, updateLicenseMaster);
+		return new ResponseEntity<LicenseMaster>(licenseMaster, new HttpHeaders(), HttpStatus.OK);
 	}
-	@GetMapping("/:id")
+	
+	//@GetMapping("/:id")
+	@GetMapping(value="/getLicense/{id}")
 	@ApiOperation(value="Get License Master by id", code=200, produces = "application/json",notes="Api for get License Master by id",response=LicenseMaster.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
@@ -77,11 +86,14 @@ public class LicenseMasterController {
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public LicenseMaster getLicenseMasterById(@PathVariable("id") Integer id)
+	public ResponseEntity<LicenseMaster> getLicenseMasterById(@PathVariable("id") Integer id)
 	{
-		return licenseMasterService.selectLicenseMasterById(id);
+		//return licenseMasterService.selectLicenseMasterById(id);
+		LicenseMaster licenseMaster = licenseMasterService.selectLicenseMasterById(id);
+		return new ResponseEntity<LicenseMaster>(licenseMaster,new HttpHeaders(),HttpStatus.OK);
 	}
-	@DeleteMapping("/:id")
+	//@DeleteMapping("/:id")
+	@DeleteMapping(value="/deleteLicense/{id}")
 	@ApiOperation(value="Delete License Master by id",code=204,produces = "text/plain",notes="Api for delete License Master by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
