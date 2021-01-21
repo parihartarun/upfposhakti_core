@@ -35,7 +35,7 @@ public class FPOSalesDetails {
     private String updatedBy;
 
     @Column(name="update_date")
-    private java.sql.Date updateDate;
+    private Date updateDate;
 
     @Column(name="is_deleted")
     private boolean isDeleted;
@@ -117,11 +117,11 @@ public class FPOSalesDetails {
         this.updatedBy = updatedBy;
     }
 
-    public java.sql.Date getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(java.sql.Date updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 
