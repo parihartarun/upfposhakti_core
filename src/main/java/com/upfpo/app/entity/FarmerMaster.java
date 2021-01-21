@@ -3,11 +3,14 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -85,8 +88,9 @@ public class FarmerMaster implements Serializable{
 	@Column(name="farmer_parants")
 	private String parantsName;
 	
-	@Column(name="user_id")
-	private long userRefId;
+	/*
+	 * @Column(name="user_id") private long userRefId;
+	 */
 	
 	@Column(name="create_date")
 	private java.sql.Date createDate;
@@ -130,6 +134,9 @@ public class FarmerMaster implements Serializable{
 	@Column(name = "updated_by")
 	private String updatedBy;
 	
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="user_id")
+	private User userFar;
 	
 	public FarmerMaster() {
 		
@@ -271,16 +278,22 @@ public class FarmerMaster implements Serializable{
 		this.parantsName = parantsName;
 	}
 
-	public long getUserRefId() {
-		return userRefId;
-	}
-
-	public void setUserRefId(long userRefId) {
-		this.userRefId = userRefId;
-	}
+	/*
+	 * public long getUserRefId() { return userRefId; }
+	 * 
+	 * public void setUserRefId(long userRefId) { this.userRefId = userRefId; }
+	 */
 		
 	public java.sql.Date getCreateDate() {
 		return createDate;
+	}
+
+	public User getUserFar() {
+		return userFar;
+	}
+
+	public void setUserFar(User userFar) {
+		this.userFar = userFar;
 	}
 
 	public void setCreateDate(java.sql.Date createDate) {

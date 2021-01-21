@@ -47,8 +47,7 @@ public class RegistrationController
 			if(fpo=="exists")
 			{
 				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse("Fpo already exists!"));
+						.ok(new MessageResponse("Fpo already exists!"));
 			}
 			else
 			{
@@ -77,8 +76,7 @@ public class RegistrationController
 			if(farmer=="exists")
 			{
 				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse("Farmer already exists!"));
+						.ok(new MessageResponse("Farmer already exists!"));
 			}
 			else
 			{
@@ -107,8 +105,7 @@ public class RegistrationController
 			if(buyerSellerdetails=="exists")
 			{
 				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse("Buyer Seller already exists!"));
+						.ok(new MessageResponse("Buyer Seller already exists!"));
 			}
 			else
 			{
@@ -136,8 +133,7 @@ public class RegistrationController
 			if(inputSupplierDetails=="exists")
 			{
 				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse("Input Supplier already exists!"));
+						.ok(new MessageResponse("Input Supplier already exists!"));
 			}
 			else
 			{
@@ -165,8 +161,7 @@ public class RegistrationController
 			if(chcFmbDetails=="exists")
 			{
 				return ResponseEntity
-						.badRequest()
-						.body(new MessageResponse("CHC FMB already exists!"));
+						.ok(new MessageResponse("CHC FMB already exists!"));
 			}
 			else
 			{

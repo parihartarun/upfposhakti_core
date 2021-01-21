@@ -1,8 +1,10 @@
 package com.upfpo.app.service;
 
-import java.util.List;
-
-import com.upfpo.app.entity.*;
+import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.ChcFmbMaster;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.entity.InputSupplierMaster;
 
 public interface RegistrationServices 
 {

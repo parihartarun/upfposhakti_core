@@ -1,9 +1,13 @@
 package com.upfpo.app.entity;
+import java.util.Collection;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -53,8 +57,22 @@ public class User {
 	
 	@Column(name="reason")
 	private String reason;
-
-
+	
+	@OneToOne(mappedBy = "user")
+	private ChcFmbMaster chcProfile;
+	
+	@OneToOne(mappedBy = "userFar")
+	private FarmerMaster farmerProfile;
+	
+	@OneToOne(mappedBy = "userFpo")
+	private FPORegister fpoProfile;
+	
+	@OneToOne(mappedBy = "userInputSeller")
+	private InputSupplierMaster inputSupplierProfile;
+	
+	@OneToOne(mappedBy = "userBuyerSeller")
+	private BuyerSellerMaster buyerSellerProfile;
+	
 	public String getRoleRefId() {
 		return roleRefId;
 	}

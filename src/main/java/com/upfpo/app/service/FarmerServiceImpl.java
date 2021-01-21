@@ -51,7 +51,7 @@ public class FarmerServiceImpl implements FarmerService
 			newFarmer.setAccountNo(farmerMaster.getAccountNo());
 			newFarmer.setKccno(farmerMaster.getKccno());
 			newFarmer.setParantsName(farmerMaster.getParantsName());
-			newFarmer.setUserRefId(farmerMaster.getUserRefId());
+			//newFarmer.setUserRefId(farmerMaster.getUserRefId());
 			newFarmer.setCreateDate(farmerMaster.getCreateDate());
 			newFarmer.setCreatedBy(farmerMaster.getCreatedBy());
 			newFarmer.setGender(farmerMaster.getGender());
