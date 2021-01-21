@@ -6,7 +6,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.entity.FarmMachineryBank;
+import com.upfpo.app.entity.LicenseMaster;
 import com.upfpo.app.service.FarmMachineryBankService;
 
 import io.swagger.annotations.Api;
@@ -57,7 +61,9 @@ public class FarmMachineryBankController {
 
 		
 	}
-	@PutMapping("/:id")
+	
+	//@PutMapping("/:id")
+	@PutMapping(value="/updateMachinery/{id}")
 	@ApiOperation(value="Update Farm Machinery Bank", code=200, produces = "application/json", notes="Api for update Farm Machinery Bank",response=FarmMachineryBank.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -66,11 +72,15 @@ public class FarmMachineryBankController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public FarmMachineryBank updateFarmMachineryBank(@PathVariable("id") Integer id,@RequestBody FarmMachineryBank updateFarmMachineryBank)
+	public ResponseEntity<FarmMachineryBank> updateFarmMachineryBank(@PathVariable("id") Integer id,@RequestBody FarmMachineryBank updateFarmMachineryBank)
 	{
-		return farmMachineryBankService.updateFarmMachineryBank(id, updateFarmMachineryBank);
+		//return farmMachineryBankService.updateFarmMachineryBank(id, updateFarmMachineryBank);
+		FarmMachineryBank farmMachineryBank = farmMachineryBankService.updateFarmMachineryBank(id, updateFarmMachineryBank);
+		return new ResponseEntity<FarmMachineryBank>(farmMachineryBank, new HttpHeaders(), HttpStatus.OK);
 	}
-	@GetMapping("/:id")
+	
+	//@GetMapping("/:id")
+	@GetMapping(value="/getMachinery/{id}")
 	@ApiOperation(value="Get Farm Machinery Bank by id", code=200, produces = "application/json",notes="Api for get Farm Machinery Bank by id",response=FarmMachineryBank.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
@@ -78,23 +88,30 @@ public class FarmMachineryBankController {
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public FarmMachineryBank getFarmMachineryBankById(@PathVariable("id") Integer id)
+	public ResponseEntity<FarmMachineryBank> getFarmMachineryBankById(@PathVariable("id") Integer id)
 	{
-		return farmMachineryBankService.selectFarmMachineryBankById(id);
+		//return farmMachineryBankService.selectFarmMachineryBankById(id);
+		FarmMachineryBank FMB = farmMachineryBankService.selectFarmMachineryBankById(id);
+		return new ResponseEntity<FarmMachineryBank>(FMB,new HttpHeaders(),HttpStatus.OK);
 	}
-	@DeleteMapping("/:id")
-	@ApiOperation(value="Delete Farm Machinery Bank by id",code=204,produces = "text/plain",notes="Api for Delete Farm Machinery Bank by id",response=Boolean.class)
+	
+	//@DeleteMapping("/:id")
+	@DeleteMapping(value="/deleteMachinery/{id}")
+	@ApiOperation(value="Delete Farm Machinery Bank by id",code=204,produces = "text/plain",notes="Api for Delete Farm Machinery Bank by id",response=boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	@ResponseStatus( HttpStatus.NO_CONTENT)
+	//@ResponseStatus( HttpStatus.NO_CONTENT)
 	public Boolean deleteFarmMachineryBank(@PathVariable("id") Integer id)
 	{
+		boolean ss = farmMachineryBankService.deleteFarmMachineryBank(id);
+		System.err.println("&&&&& "+ss);
 		return farmMachineryBankService.deleteFarmMachineryBank(id);
 	}
+	
 	@GetMapping
 	@ApiOperation(value="Get All Farm Machinery Banks",code=200,produces = "application/json",notes="Api for view all Farm Machinery Banks",response=FarmMachineryBank.class,responseContainer="List")
 	@ApiResponses(value= {

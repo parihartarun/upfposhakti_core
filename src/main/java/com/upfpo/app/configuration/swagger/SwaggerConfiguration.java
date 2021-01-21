@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.util.StopWatch;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -29,8 +32,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class
-SwaggerConfiguration {
+public class SwaggerConfiguration {
+
+
 
 	private ApiKey apiKey() {
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
@@ -58,7 +62,8 @@ SwaggerConfiguration {
 
 	 @Bean
 	    public Docket api() {
-		 log.debug("Starting Swagger");
+		 StopWatch watch = new StopWatch();
+		 watch.start();
 	        Contact contact = new Contact(
 	            "Matyas Albert-Nagy",
 	            "https://justrocket.de",
@@ -94,8 +99,7 @@ SwaggerConfiguration {
 	        		.apis(RequestHandlerSelectors.basePackage("com.upfpo.app"))
 				      .paths(PathSelectors.any())
 	            .build();
-//	        watch.stop();
-//	        log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
+	        watch.stop();
 	        return docket;
 		 
 		 
