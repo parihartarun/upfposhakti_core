@@ -22,13 +22,13 @@ import java.util.Optional;
 @RequestMapping(value = "/fpolevelproduction")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Api(produces = "application/json", value = "FPOLevelProduction Details", tags="FPOLevelProduction Controller",description="FPOLevelProduction Details")
-public class FPOSLevelProductionContoller {
+public class FPOLevelProductionContoller {
 
     @Autowired
     private FPOLevelProductionService levelProductionService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Fetch All FPO Level Production" ,code=201, produces = "application/json", notes="API to Get all FPO Level Production",response= FPORegister.class)
+    @ApiOperation(value="Fetch All FPO Level Production" ,code=201, produces = "application/json", notes="API to Get all FPO Level Production",response= FPOLevelProduction.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -40,7 +40,7 @@ public class FPOSLevelProductionContoller {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value="Fetch FPO Level Production By ID" ,code=201, produces = "application/json", notes="Api to Fetch FPO Level Production By ID",response=FPORegister.class)
+    @ApiOperation(value="Fetch FPO Level Production By ID" ,code=201, produces = "application/json", notes="Api to Fetch FPO Level Production By ID",response=FPOLevelProduction.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -52,7 +52,7 @@ public class FPOSLevelProductionContoller {
     }
 
     @PostMapping("/insert")
-    @ApiOperation(value="Add FPO Level Production" ,code=201, produces = "application/json", notes="Api for add new FPO Level Production",response= FPORegister.class)
+    @ApiOperation(value="Add FPO Level Production" ,code=201, produces = "application/json", notes="Api for add new FPO Level Production",response= FPOLevelProduction.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -64,7 +64,7 @@ public class FPOSLevelProductionContoller {
     }
 
     @PutMapping("/update/{id}")
-    @ApiOperation(value="Update FPO Level Production" ,code=201, produces = "application/json", notes="Api To Update FPO Level Production",response=FPORegister.class)
+    @ApiOperation(value="Update FPO Level Production" ,code=201, produces = "application/json", notes="Api To Update FPO Level Production",response=FPOLevelProduction.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -75,7 +75,7 @@ public class FPOSLevelProductionContoller {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value="Delete FPO Level Production" ,code=201, produces = "application/json", notes="Api To Delete FPO Level Production",response=FPORegister.class)
+    @ApiOperation(value="Delete FPO Level Production" ,code=201, produces = "application/json", notes="Api To Delete FPO Level Production",response=FPOLevelProduction.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

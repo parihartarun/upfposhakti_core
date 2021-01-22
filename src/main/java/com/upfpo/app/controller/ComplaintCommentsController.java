@@ -1,0 +1,65 @@
+package com.upfpo.app.controller;
+
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.entity.ComplaintsComments;
+import com.upfpo.app.service.ComplaintCommentsService;
+import com.upfpo.app.service.ComplaintCommentsServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+@RestController
+@RequestMapping(value = "/complaintcomments")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Api(produces = "application/json", value = "Complaint Comment Details", tags="Complaint Comment Controller",description="Complaint Comment Details")
+public class ComplaintCommentsController {
+
+    @Autowired
+    private ComplaintCommentsServiceImpl complaintCommentsService;
+
+    //Get ComplaintsComments by Complaint
+    @GetMapping("/complaint/{Id}/complaintcomment")
+    @ApiOperation(value="Complaints Comments List" ,code=201, produces = "application/json", notes="Api to get Comments by Complaint ID",response= ComplaintsComments.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public Optional<ComplaintsComments> getComplaintsCommentsByComplaintId (@PathVariable Long Id){
+        return complaintCommentsService.getCommentByComplaintId(Id);
+    }
+
+    //Create ComplaintsComments by UserID
+    @PostMapping("/user/{Id}/complaintscomments")
+    @ApiOperation(value="Insert Comments on Complaint id" ,code=201, produces = "application/json", notes="Api for Add Comment on  Complaints Id",response= ComplaintsComments.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ComplaintsComments addComplaintsComments(@PathVariable Long Id, @RequestBody ComplaintsComments complaintsComments){
+        return complaintCommentsService.addComment(Id, complaintsComments);
+    }
+
+
+    //Delete ComplaintsComments by Complaint
+    @DeleteMapping("/user/{Id}/complaintscomments/{comlaintComment}")
+    @ApiOperation(value="Delete Comments by Complaint Id" ,code=201, produces = "application/json", notes="Api for Delete Comments by ComplaintID",response= ComplaintsComments.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public String deleteComment (@PathVariable Long Id, @PathVariable Long complaintComments){
+
+        return complaintCommentsService.deleteComment(Id, complaintComments);
+    }
+}
+

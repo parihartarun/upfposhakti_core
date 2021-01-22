@@ -32,7 +32,7 @@ public class EnquiryController {
 
 
     @GetMapping("/getall")
-    @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= JwtResponse.class)
+    @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -47,7 +47,7 @@ public class EnquiryController {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= JwtResponse.class)
+    @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -72,7 +72,7 @@ public class EnquiryController {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= JwtResponse.class)
+    @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -97,7 +97,7 @@ public class EnquiryController {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= JwtResponse.class)
+    @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
