@@ -1,4 +1,6 @@
 package com.upfpo.app.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,7 +23,8 @@ public class User {
 	
 	@Column(name="user_name")
 	private String userName;
-	
+
+	@JsonIgnore
 	@Column(name="pass")
 	private String password;
 	

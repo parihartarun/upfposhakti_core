@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 //import reactor.core.publisher.Mono;
@@ -10,6 +11,6 @@ public interface UserService{
 
 	String getRoleName(String roleId);
 
-	String signin(String username, String password);
+	LoginResponse signin(String username, String password);
 
 }

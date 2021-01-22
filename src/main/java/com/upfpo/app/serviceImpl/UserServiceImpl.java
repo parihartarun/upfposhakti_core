@@ -1,5 +1,6 @@
 package com.upfpo.app.serviceImpl;
 
+import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,11 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-	public String signin(String username, String password) {
+	public LoginResponse signin(String username, String password) {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			return jwtTokenProvider.generateToken(userRepository.findByUserName(username));
+			User user = userRepository.findByUserName(username);
+			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
