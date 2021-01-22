@@ -17,7 +17,6 @@ public class UpFPOApplication  {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
-
 	@Bean
 	public JavaMailSender getJavaMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
