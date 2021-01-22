@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import com.upfpo.app.service.FPOGuidelineServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,9 @@ public class UpFPOApplication implements CommandLineRunner {
 
 	@Resource
 	CircularsServiceImpl circularsService;
+
+	@Resource
+	FPOGuidelineServiceImpl fpoGuidelineService;
 
 	@RequestMapping("/")
 	String home() {
@@ -50,6 +54,7 @@ public class UpFPOApplication implements CommandLineRunner {
 	public void run(String... arg) throws Exception {
 		circularsService.deleteAll();
 		circularsService.init();
+
 	}
 
 	@Bean
