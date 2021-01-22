@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.JwtResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 
 import com.upfpo.app.service.ComplaintServiceImpl;
@@ -15,8 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 
@@ -119,4 +123,17 @@ public class ComplaintContoller {
         return resp;
     }
 
+
+    @RequestMapping(value = { "/complaintcatgories" }, method = RequestMethod.GET)
+    @ApiOperation(value="Complaint/Suggestion Catgories" ,code=201, produces = "application/json", notes="Api for list of Complaints/Suggestion Catgories",response= ComplaintCatgories.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ComplaintCatgories> getComplaintCatgories() throws Exception {
+
+        return complaintService.getComplaintsCatgories();
+    }
 }
+
