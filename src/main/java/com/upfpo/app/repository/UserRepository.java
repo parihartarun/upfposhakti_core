@@ -11,7 +11,9 @@ import com.upfpo.app.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	
+
+	boolean existsByUserName(String userName);
+
 	User findByUserName(String userName);
 
 

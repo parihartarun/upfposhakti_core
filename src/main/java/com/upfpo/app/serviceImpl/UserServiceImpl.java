@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.User;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private JwtUtils jwtTokenProvider;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
 	@Autowired
@@ -49,6 +53,16 @@ public class UserServiceImpl implements UserService {
 			return jwtTokenProvider.generateToken(userRepository.findByUserName(username));
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
+	public String signup(User user) {
+		if (!userRepository.existsByUserName(user.getUserName())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userRepository.save(user);
+			return jwtTokenProvider.generateToken(user);
+		} else {
+			throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 

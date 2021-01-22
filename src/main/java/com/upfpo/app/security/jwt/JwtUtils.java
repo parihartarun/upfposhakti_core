@@ -54,8 +54,15 @@ public class JwtUtils {
 	}
 	
 	public String generateToken(User userDetails) {
+		if(userDetails.isDeleted() || !userDetails.isEnabled()){
+			throw new CustomException("Deleted/Inactive user", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		//Now we can grant token.
 		Map<String,Object> claims = new HashMap<>();
-		return createToken(claims,userDetails.getUserName());
+		claims.put("userName",userDetails.getUserName());
+		claims.put("userId",userDetails.getUserId());
+		claims.put("userRole",userDetails.getRoleRefId());
+		return createToken(claims,userDetails.getUserId().toString());
 	}
 	
 	private String createToken(Map<String, Object> claims, String username) {
