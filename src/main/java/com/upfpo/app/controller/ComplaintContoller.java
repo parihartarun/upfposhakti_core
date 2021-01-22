@@ -1,7 +1,8 @@
 package com.upfpo.app.controller;
 
-import com.upfpo.app.auth.response.JwtResponse;
+import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 
 import com.upfpo.app.service.ComplaintServiceImpl;
@@ -32,7 +33,7 @@ public class ComplaintContoller {
     private ComplaintServiceImpl complaintService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= JwtResponse.class)
+    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -46,7 +47,7 @@ public class ComplaintContoller {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= JwtResponse.class)
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -71,7 +72,7 @@ public class ComplaintContoller {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= JwtResponse.class)
+    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -96,7 +97,7 @@ public class ComplaintContoller {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= JwtResponse.class)
+    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -119,4 +120,17 @@ public class ComplaintContoller {
         return resp;
     }
 
+
+    @RequestMapping(value = { "/complaintcatgories" }, method = RequestMethod.GET)
+    @ApiOperation(value="Complaint/Suggestion Catgories" ,code=201, produces = "application/json", notes="Api for list of Complaints/Suggestion Catgories",response= ComplaintCatgories.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ComplaintCatgories> getComplaintCatgories() throws Exception {
+
+        return complaintService.getComplaintsCatgories();
+    }
 }
+

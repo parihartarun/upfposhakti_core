@@ -21,6 +21,7 @@ import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 
@@ -197,12 +198,22 @@ public class FPOController {
 	}
 	
 	@DeleteMapping(value= {"/land/{id}"})
-	@ApiOperation(value="View Land by Id",code=204,produces = "application/json",notes="Api to view Land by Id",response=LandDetails.class)
+	@ApiOperation(value="View Land by Id",code=204,produces = "text/plain",notes="Api to view Land by Id",response=boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public LandDetails deleteLandDetailsById(@PathVariable("id")Integer id)
+	public boolean deleteLandDetailsById(@PathVariable("id")Integer id)
 	{
 		return fpoService.deleteLandDetailById(id);
+	}
+	
+	@GetMapping(value= {"/land/farmer/{id}"})
+	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+	public @ResponseBody List<FarmerMaster> getLandFarmer(@PathVariable("id")Iterable<Integer> id)
+	{
+		return fpoService.getLandFarmerByFpoId(id);
 	}
 }

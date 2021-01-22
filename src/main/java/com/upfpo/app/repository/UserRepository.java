@@ -11,10 +11,10 @@ import com.upfpo.app.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	
+
+	boolean existsByUserName(String userName);
+
 	User findByUserName(String userName);
 
-	//@Query("SELECT u FROM User u WHERE u.userName = :username AND u.password= :password");
-	//Mono<User> login(String username, String password);
 
 }
