@@ -58,7 +58,7 @@ public class CircularsController {
             String filePath = MvcUriComponentsBuilder
                     .fromMethodName(CircularsController.class, "getFile", path.getFileName().toString()).build().toString();
 
-            return new Circulars(filePath);
+            return new Circulars();
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(circulars);
