@@ -66,7 +66,7 @@ public class DataDisplayRepository {
 	
 	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn)
 	{
-		if(searchIn.equals("any"))
+		if(searchIn.equalsIgnoreCase("any"))
 		{
 			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services from\r\n" + 
 					"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
@@ -89,7 +89,7 @@ public class DataDisplayRepository {
 					"or UPPER(crops) like '%"+searchVal.toUpperCase()+"%' \r\n" + 
 					"or UPPER(services) like '%"+searchVal.toUpperCase()+"%'";
 		}
-		else if (searchIn.equals("fpo_name")) 
+		else if (searchIn.equalsIgnoreCase("fpo_name")) 
 		{
 			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services from\r\n" + 
 					"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
@@ -108,7 +108,7 @@ public class DataDisplayRepository {
 					"where UPPER(nodal) like '%"+searchVal.toUpperCase()+"%'\r\n" + 
 					"";
 		}
-		else if (searchIn.equals("district")) 
+		else if (searchIn.equalsIgnoreCase("district")) 
 		{
 			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
 					"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
@@ -130,7 +130,7 @@ public class DataDisplayRepository {
 					"where UPPER(district) like '%"+searchVal.toUpperCase()+"%'\r\n" + 
 					"";
 		}
-			else if (searchIn.equals("crop")) 
+			else if (searchIn.equalsIgnoreCase("crop")) 
 			{
 				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
 						"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
@@ -151,7 +151,7 @@ public class DataDisplayRepository {
 						"";
 			}
 			
-			else if (searchIn.equals("services")) 
+			else if (searchIn.equalsIgnoreCase("services")) 
 			{
 				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
 						"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
