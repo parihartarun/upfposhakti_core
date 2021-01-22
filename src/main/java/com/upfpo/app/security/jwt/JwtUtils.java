@@ -52,7 +52,11 @@ public class JwtUtils {
 	private Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
-	
+
+	public String extractMasterId(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("masterId",String.class);
+	}
+
 	public String generateToken(User userDetails) {
 		if(userDetails.isDeleted() || !userDetails.isEnabled()){
 			throw new CustomException("Deleted/Inactive user", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -103,8 +107,12 @@ public class JwtUtils {
 		}
 	}
 
-	public String getUserNameFromJwtToken(String token) {
+	public String getUserIdFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+	}
+
+	public String getUserNameFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userName",String.class);
 	}
 
 	public boolean validateJwtToken(String authToken) {
