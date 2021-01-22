@@ -1,7 +1,5 @@
 package com.upfpo.app.controller;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,15 +11,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.service.FarmerService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -77,4 +75,62 @@ public class FarmerController
 		return true;
 	}
 	
-}
+	/*
+	 * @RequestMapping(value = "upagri") public @ResponseBody String
+	 * upagri(@RequestParam("id") String reg_no) throws JsonProcessingException,
+	 * MalformedURLException, RemoteException {
+	 * 
+	 * // logger.error("API CALLED"); String list_resp =
+	 * UpagriClient.upagri(reg_no).toString(); String _anyname =
+	 * StringUtils.substringBetween(list_resp, "<Farmer_x0027_s_x0020_name>",
+	 * "</Farmer_x0027_s_x0020_name>"); String _fath =
+	 * StringUtils.substringBetween(list_resp, "<Father_x0020_name>",
+	 * "</Father_x0020_name>"); String _anydist =
+	 * StringUtils.substringBetween(list_resp, "<District>", "</District>"); String
+	 * _blck = StringUtils.substringBetween(list_resp, "<Block>", "</Block>");
+	 * String _vill = StringUtils.substringBetween(list_resp, "<Village>",
+	 * "</Village>"); String _cat = StringUtils.substringBetween(list_resp,
+	 * "<Category>", "</Category>"); String _mob =
+	 * StringUtils.substringBetween(list_resp, "<Mobile_x0020_No>",
+	 * "</Mobile_x0020_No>"); String _bank_name =
+	 * StringUtils.substringBetween(list_resp, "<Bank_x0020_Name>",
+	 * "</Bank_x0020_Name>"); String _ifsc = StringUtils.substringBetween(list_resp,
+	 * "<IFSC_x0020_Code>", "</IFSC_x0020_Code>"); String _accno =
+	 * StringUtils.substringBetween(list_resp, "<Bank_x0020_Account_x0020_NO>",
+	 * "</Bank_x0020_Account_x0020_NO>"); String gender =
+	 * StringUtils.substringBetween(list_resp, "<gender>", "</gender>"); //
+	 * logger.error("_anyname"+_anyname+"_fath"+_fath+"_anydist"+"_blck"+"_blck"+
+	 * _vill+"_cat"+_mob+"_bank_name"+_bank_name+"_ifsc"+_ifsc+"_accno"+_accno);
+	 * 
+	 * // Integer blockId = masterServices.getBLockId(_blck.trim().toUpperCase());
+	 * // Integer distId = masterServices.getDistId(_anydist.trim().toUpperCase());
+	 * // Integer bankId =
+	 * masterServices.getBankId(_bank_name.trim().toUpperCase());
+	 * 
+	 * // System.out.println("DistId"+distId); //
+	 * System.out.println("blcokId"+blockId); //
+	 * System.out.println("bankId"+bankId); /// List <DataDisplayDto> pan = new
+	 * ArrayList<DataDisplayDto>(); List<String> al = new ArrayList<String>();
+	 * al.add(_anyname); // 0 al.add(_fath); // 1 al.add(_anydist); //2
+	 * al.add(_blck); //3 al.add(_mob); //4 al.add(_bank_name); //5 al.add(_ifsc);
+	 * //6 al.add(_accno); //7 // al.add(distId.toString()); //8 //
+	 * al.add(blockId.toString()); //9 // al.add(bankId.toString()); //10
+	 * 
+	 * // System.out.println("bankId"+masterServices.getBankId(_bank_name.trim().
+	 * toUpperCase()).toString()); al.add(_cat); //11 al.add(gender);//12
+	 * 
+	 * if(!_vill.contains("#")) { al.add(_vill); //13 //
+	 * al.add(masterServices.getVliiageId(_vill,blockId).toString()); // 14 //
+	 * System.out.println("VillageId"+masterServices.getVliiageId(_vill,blockId).
+	 * toString()); // System.out.println(masterServices.getPanchayats(_vill,
+	 * blockId).size()+"list Size"); // pan = masterServices.getPanchayats(_vill,
+	 * blockId);
+	 * 
+	 * // System.out.println("PanchayatId"+pan); //
+	 * System.out.println(pan.size()+"Panchayats"); // if(pan.size()>0) // { //
+	 * al.add(pan.get(0).getPanchayat_name()); //15 //
+	 * al.add(pan.get(0).getPanchayat_id().toString()); //16 // } }
+	 * 
+	 * return new ObjectMapper().writeValueAsString(al); }
+	 */
+	}
