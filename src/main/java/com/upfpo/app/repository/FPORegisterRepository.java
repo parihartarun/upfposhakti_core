@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.entity.CollectionCenter;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.User;
 
 
 @Repository
@@ -17,4 +18,7 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	List<FPORegister> findByIsDeleted(boolean b);
 
 	FPORegister findByUserName(String username);
+	
+	@Query("Select fpo.fpoId from  FPORegister fpo where fpo.userFpo.userId = :userId")
+	Integer findByUserId(Long userId);
 }

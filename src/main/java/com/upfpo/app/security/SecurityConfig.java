@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				).permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    http.cors();
+	http.cors();
 	http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	

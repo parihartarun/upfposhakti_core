@@ -22,6 +22,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.security.UserDetailServiceImpl;
 import com.upfpo.app.security.jwt.JwtUtils;
+import com.upfpo.app.service.FPOService;
 import com.upfpo.app.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -52,6 +53,9 @@ public class LoginController {
 	@Autowired
 	JwtUtils jwtUtils;
 	
+	@Autowired
+	private FPOService fpoService;
+	
 	//private String csrf_token = RandomString.getAlphaNumericString();
 	
 	@RequestMapping(value="/home")
@@ -79,6 +83,7 @@ public class LoginController {
 			User fullUserdetail;
 			String userRole = null;
 			Long userId = (long) 0;
+			Integer masterId = null;
 			if(userDetails.getUsername() != null && userDetails.isEnabled() == true) {
 				fullUserdetail = userService.userDetail(userDetails.getUsername());
 				if(fullUserdetail != null) {
@@ -86,11 +91,16 @@ public class LoginController {
 					userId = fullUserdetail.getUserId();
 					if(roleId != null) {
 						userRole = userService.getRoleName(roleId);
+						if(userRole.equals("ROLE_FPC")) {
+							System.err.println("userid == "+userId);
+							masterId = fpoService.getFpoUserId(userId);
+							System.err.println("masterId == "+masterId);
+						}
 					}
 				}
 			}
 			
-			return ResponseEntity.ok(new JwtResponse(jwt,userId ,userDetails.getUsername(),userRole));
+			return ResponseEntity.ok(new JwtResponse(jwt,userId ,userDetails.getUsername(),userRole,masterId));
 		}
 		catch(BadCredentialsException e){
 			throw new Exception("incorrect credential"+e);
