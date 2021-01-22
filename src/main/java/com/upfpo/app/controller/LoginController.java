@@ -43,8 +43,8 @@ public class LoginController {
 	}
 
 	@GetMapping("/test")
-	public ResponseEntity<String> test(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
-		return new ResponseEntity<>("Test",HttpStatus.OK);
+	public String test() throws Exception {
+		return "Pass";
 	}
 }
 	

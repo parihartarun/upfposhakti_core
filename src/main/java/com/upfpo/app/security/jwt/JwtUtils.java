@@ -93,7 +93,7 @@ public class JwtUtils {
 	}
 
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetail.loadUserByUsername(extractUsername(token));
+		UserDetails userDetails = userDetail.loadUserByUsername(getUserNameFromJwtToken(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
 
