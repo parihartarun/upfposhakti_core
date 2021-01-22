@@ -2,7 +2,6 @@ package com.upfpo.app;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,46 +10,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.upfpo.app.service.CircularsServiceImpl;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication implements CommandLineRunner {
-
-	/*@Autowired
-	@Qualifier("javasampleapproachMailSender")
-	public MailSender mailSender;*/
-
-	@Resource
-	CircularsServiceImpl circularsService;
-
-	@RequestMapping("/")
-	String home() {
-		return "Hello World!";
-	}
+public class UpFPOApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
-
-
-	/*@Override
-	public void run(String... arg0) throws Exception {
-
-		String from = "rahul.pande@neosoftmail.com";
-		String to = "rahul.pande@neosoftmail.com";
-		String subject = "JavaMailSender";
-		String body = "Just-Testing!";
-	}*/
-
-	@Override
-	public void run(String... arg) throws Exception {
-		circularsService.deleteAll();
-		circularsService.init();
-	}
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {
