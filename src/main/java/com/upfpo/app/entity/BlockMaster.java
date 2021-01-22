@@ -1,5 +1,5 @@
 package com.upfpo.app.entity;
-
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +9,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="block")
-public class BlockMaster 
-{
+public class BlockMaster implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,6 +26,9 @@ public class BlockMaster
 	@Column(name="block_name")
 	private String blockName;
 	
+	@Column(name="block_name_hi")
+	private String blockNameHi;
+	
 	@Column(name="district_code")
 	private Integer distCode;
 	
@@ -35,6 +38,9 @@ public class BlockMaster
 	public BlockMaster() {
 	}
 
+
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -72,5 +78,10 @@ public class BlockMaster
 	public void setBlockName(String blockName) {
 		this.blockName = blockName;
 	}
-
+	public String getBlockNameHi() {
+		return blockNameHi;
+	}
+	public void setBlockNameHi(String blockNameHi) {
+		this.blockNameHi = blockNameHi;
+	}
 }

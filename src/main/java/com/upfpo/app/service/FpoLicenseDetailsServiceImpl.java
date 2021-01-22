@@ -34,7 +34,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 		if(fboLicense.isPresent())
 		{
 			FpoLicenceDetails newfboLicense = fboLicense.get();
-			newfboLicense.setId(fpoLicenceDetails.getId());
+			//newfboLicense.setId(fpoLicenceDetails.getId());
 			newfboLicense.setLicenceType(fpoLicenceDetails.getLicenceType());
 			newfboLicense.setIssuedate(fpoLicenceDetails.getIssuedate());
 			newfboLicense.setLicenceIssuedBy(fpoLicenceDetails.getLicenceIssuedBy());

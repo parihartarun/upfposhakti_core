@@ -20,11 +20,16 @@ public class LicenseMaster {
 	@Column(name="license_name")
 	private String licenseName;
 	
+	@Column(name="is_active")
+	private boolean isActive;
+
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
 
 	@Column(name="is_deleted")
 	private boolean isDeleted;
+	
+	
 	public java.sql.Date getDeleteDate() {
 		return deleteDate;
 	}
@@ -41,8 +46,7 @@ public class LicenseMaster {
 		this.isDeleted = isDeleted;
 	}
 
-	@Column(name="is_active")
-	private boolean isActive;
+	
 
 	public Integer getId() {
 		return id;

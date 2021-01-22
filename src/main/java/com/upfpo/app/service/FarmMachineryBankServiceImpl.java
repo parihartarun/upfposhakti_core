@@ -42,7 +42,7 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 		if(farmMachinery.isPresent())
 		{
 			FarmMachineryBank machinery = farmMachinery.get();
-			machinery.setId(farmMachineryBank.getId());
+			//machinery.setId(farmMachineryBank.getId());
 			machinery.setEqupment_name(farmMachineryBank.getEqupment_name());
 			machinery.setEqupment_no(farmMachineryBank.getEqupment_no());
 			machinery.setEqupmnet_capacity(farmMachineryBank.getEqupmnet_capacity());

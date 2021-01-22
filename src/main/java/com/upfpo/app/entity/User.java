@@ -60,8 +60,19 @@ public class User {
 	
 	@OneToOne(mappedBy = "user")
 	private ChcFmbMaster chcProfile;
-
-
+	
+	@OneToOne(mappedBy = "userFar")
+	private FarmerMaster farmerProfile;
+	
+	@OneToOne(mappedBy = "userFpo")
+	private FPORegister fpoProfile;
+	
+	@OneToOne(mappedBy = "userInputSeller")
+	private InputSupplierMaster inputSupplierProfile;
+	
+	@OneToOne(mappedBy = "userBuyerSeller")
+	private BuyerSellerMaster buyerSellerProfile;
+	
 	public String getRoleRefId() {
 		return roleRefId;
 	}
