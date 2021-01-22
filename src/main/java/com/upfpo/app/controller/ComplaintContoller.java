@@ -1,6 +1,6 @@
 package com.upfpo.app.controller;
 
-import com.upfpo.app.auth.response.JwtResponse;
+import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
@@ -16,11 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.List;
 
 
@@ -36,7 +33,7 @@ public class ComplaintContoller {
     private ComplaintServiceImpl complaintService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= JwtResponse.class)
+    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -50,7 +47,7 @@ public class ComplaintContoller {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= JwtResponse.class)
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -75,7 +72,7 @@ public class ComplaintContoller {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= JwtResponse.class)
+    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -100,7 +97,7 @@ public class ComplaintContoller {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= JwtResponse.class)
+    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= LoginResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

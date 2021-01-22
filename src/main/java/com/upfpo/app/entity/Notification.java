@@ -1,13 +1,21 @@
 package com.upfpo.app.entity;
 
 
+<<<<<<< HEAD
 import javax.persistence.*;
 import java.util.Calendar;
+=======
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+>>>>>>> 9c2bb7a71dd4103eb94b9fb30cf8d51a71144f80
 
 @Entity
 @Table(name = "notification")
 public class Notification {
 
+    @Id
+    private Long id;
 
     @javax.persistence.Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

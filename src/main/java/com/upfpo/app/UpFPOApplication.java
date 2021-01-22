@@ -2,7 +2,6 @@ package com.upfpo.app;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
 
 import com.upfpo.app.service.FPOGuidelineServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -12,12 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.upfpo.app.service.CircularsServiceImpl;
 
 @SpringBootApplication
 @EnableJpaRepositories
+<<<<<<< HEAD
 public class UpFPOApplication implements CommandLineRunner {
 
 	/*@Autowired
@@ -34,12 +32,16 @@ public class UpFPOApplication implements CommandLineRunner {
 	String home() {
 		return "Hello World!";
 	}
+=======
+public class UpFPOApplication{
+>>>>>>> 9c2bb7a71dd4103eb94b9fb30cf8d51a71144f80
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
 
+<<<<<<< HEAD
 
 	/*@Override
 	public void run(String... arg0) throws Exception {
@@ -57,6 +59,8 @@ public class UpFPOApplication implements CommandLineRunner {
 
 	}
 
+=======
+>>>>>>> 9c2bb7a71dd4103eb94b9fb30cf8d51a71144f80
 	@Bean
 	public JavaMailSender getJavaMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

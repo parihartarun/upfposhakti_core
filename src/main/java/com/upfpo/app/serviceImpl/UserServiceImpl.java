@@ -1,6 +1,14 @@
 package com.upfpo.app.serviceImpl;
 
+import com.upfpo.app.auth.response.LoginResponse;
+import com.upfpo.app.custom.CustomException;
+import com.upfpo.app.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.User;
@@ -16,6 +24,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 
+	@Autowired
+	private JwtUtils jwtTokenProvider;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+
 	@Override
 	public User userDetail(String username) {
 		User user = userRepository.findByUserName(username);
@@ -27,6 +46,26 @@ public class UserServiceImpl implements UserService {
 		String roleName = userRoleRepository.roleNameById(roleId);
 		return roleName;
 		
+	}
+
+	public LoginResponse signin(String username, String password) {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			User user = userRepository.findByUserName(username);
+			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
+		} catch (AuthenticationException e) {
+			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
+	public String signup(User user) {
+		if (!userRepository.existsByUserName(user.getUserName())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userRepository.save(user);
+			return jwtTokenProvider.generateToken(user);
+		} else {
+			throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 	}
 
 }

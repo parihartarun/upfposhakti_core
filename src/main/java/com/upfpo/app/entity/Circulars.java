@@ -1,102 +1,95 @@
 package com.upfpo.app.entity;
 
-
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
 @Entity
 @Table(name="circulars")
-public class Circulars implements Serializable {
+public class Circulars implements Serializable{
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private Integer id;
+	
+	@Column(name="upload_date")
+	private java.sql.Date uploadDate;
+	
+	@Column(name="path")
+	private String filePath;
+	
+	@Column(name="uploaded_by")
+	private String uploadedBy;
+	
+	@Column(name="users_id")
+	private Integer usersId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+	@Column(name="description")
+	private String description;
+	
+	/* fields needed
+	 * @Column(name="is_deleted") private boolean isDeleted;
+	 * 
+	 * @Column(name="delete_date") private java.sql.Date deleteDate;
+	 * 
+	 * @Column(name="update_date") private java.sql.Date updateDate;
+	 * 
+	 * @Column(name="updated_by") private String updatedBy;
+	 */
+	
+	
+	
+	public Integer getId() {
+		return id;
+	}
 
-    @Column(name = "upload_date")
-    private Date uploadDate;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @Column(name = "path")
-    private String filePath;
+	public java.sql.Date getUploadDate() {
+		return uploadDate;
+	}
 
-    @Column(name = "uploaded_by")
-    private String uploadedBy;
+	public void setUploadDate(java.sql.Date uploadDate) {
+		this.uploadDate = uploadDate;
+	}
 
-    @Column(name = "users_id")
-    private Integer usersId;
+	public String getFilePath() {
+		return filePath;
+	}
 
-    @Column(name = "description")
-    private String description;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 
-    public Circulars() {
-    }
+	public String getUploadedBy() {
+		return uploadedBy;
+	}
 
-    public Circulars(Integer id, Date uploadDate, String filePath, String uploadedBy, Integer usersId, String description) {
-        this.id = id;
-        this.uploadDate = uploadDate;
-        this.filePath = filePath;
-        this.uploadedBy = uploadedBy;
-        this.usersId = usersId;
-        this.description = description;
-    }
+	public void setUploadedBy(String uploadedBy) {
+		this.uploadedBy = uploadedBy;
+	}
 
+	public Integer getUsersId() {
+		return usersId;
+	}
 
-    public Circulars(String url) {
-    }
+	public void setUsersId(Integer usersId) {
+		this.usersId = usersId;
+	}
 
-    public Circulars(String filePath, String uploadedBy, Integer usersId) {
-        this.filePath = filePath;
-        this.uploadedBy = uploadedBy;
-        this.usersId = usersId;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
-
-    public Integer getUsersId() {
-        return usersId;
-    }
-
-    public void setUsersId(Integer usersId) {
-        this.usersId = usersId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
-
