@@ -1,6 +1,7 @@
 package com.upfpo.app;
 
 
+import com.upfpo.app.service.CircularsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -15,15 +16,19 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.annotation.Resource;
 import java.util.Properties;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication  {
+public class UpFPOApplication implements CommandLineRunner {
 
 	/*@Autowired
 	@Qualifier("javasampleapproachMailSender")
 	public MailSender mailSender;*/
+
+	@Resource
+	CircularsServiceImpl circularsService;
 
 	@RequestMapping("/")
 	String home() {
@@ -34,6 +39,8 @@ public class UpFPOApplication  {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
+
+
 	/*@Override
 	public void run(String... arg0) throws Exception {
 
@@ -42,6 +49,12 @@ public class UpFPOApplication  {
 		String subject = "JavaMailSender";
 		String body = "Just-Testing!";
 	}*/
+
+	@Override
+	public void run(String... arg) throws Exception {
+		circularsService.deleteAll();
+		circularsService.init();
+	}
 
 
 	@Bean
