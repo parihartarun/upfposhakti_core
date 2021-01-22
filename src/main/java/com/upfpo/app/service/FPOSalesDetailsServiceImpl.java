@@ -1,7 +1,5 @@
 package com.upfpo.app.service;
 
-
-import com.upfpo.app.entity.Employee;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.repository.FPOSalesDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,9 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
         if(!sd.isPresent()) {
             return null;
         }
-        salesDetails.setId(id);
+
+        salesDetails.setId(new Long(id));
+
         return salesDetailsRepository.save(salesDetails);
     }
 

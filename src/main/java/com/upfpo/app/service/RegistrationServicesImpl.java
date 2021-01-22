@@ -5,18 +5,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.upfpo.app.entity.*;
+import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.ChcFmbMaster;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.entity.InputSupplierMaster;
 import com.upfpo.app.repository.BuyerSellerRepository;
 import com.upfpo.app.repository.ChcFmbMasterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.FpoMasterRepository;
 import com.upfpo.app.repository.InputSupplierMasterRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
 
 @Service
 public class RegistrationServicesImpl implements RegistrationServices
@@ -34,13 +32,21 @@ public class RegistrationServicesImpl implements RegistrationServices
 	InputSupplierMasterRepository inputSupplierRepository;
 	
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	ChcFmbMasterRepository chcFmbRepository;
+	
+	int count = 0;
+	
+	String target = "";
 	
 	@Override
 	public String registerFPO(FPORegister fpoRegister) 
 	{
-		int count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
-		String target = "";
+		String password = fpoRegister.getUserFpo().getPassword();
+		fpoRegister.getUserFpo().setPassword(passwordEncoder.encode(password));
+		count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
 		if(count==1)
 		{
 			  target="exists";
@@ -56,8 +62,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerFarmer(FarmerMaster farmerRegister) 
 	{
-		int count = farmerMasterRepository.alreadyExists(farmerRegister.getFarmerMob());
-		String target = "";
+		String password = farmerRegister.getUserFar().getPassword();
+		farmerRegister.getUserFar().setPassword(passwordEncoder.encode(password));
+		count = farmerMasterRepository.alreadyExists(farmerRegister.getFarmerMob());
 		if(count==1)
 		{
 			  target="exists";
@@ -73,8 +80,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerBuyerSeller(BuyerSellerMaster buyerSeller) 
 	{
-		int count = buyerSellerRepository.alreadyExists(buyerSeller.getMobileNumber());
-		String target = "";
+		String password = buyerSeller.getUserBuyerSeller().getPassword();
+		buyerSeller.getUserBuyerSeller().setPassword(passwordEncoder.encode(password));
+		count = buyerSellerRepository.alreadyExists(buyerSeller.getMobileNumber());
 		if(count==1)
 		{
 			  target="exists";
@@ -91,8 +99,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerInputSuplier(InputSupplierMaster inputSupplierMaster) 
 	{ 
-		int count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
-		String target = "";
+		String password = inputSupplierMaster.getUserInputSeller().getPassword();
+		inputSupplierMaster.getUserInputSeller().setPassword(passwordEncoder.encode(password));
+		count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
 		if(count==1)
 		{
 			  target="exists";
@@ -108,11 +117,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	@Override
 	public String registerChcFmb(ChcFmbMaster chcFmbMaster) 
 	{
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String password = chcFmbMaster.getUser().getPassword();
 		chcFmbMaster.getUser().setPassword(passwordEncoder.encode(password));
-		int count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
-		String target = "";
+		count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
 		if(count==1)
 		{
 			  target="exists";

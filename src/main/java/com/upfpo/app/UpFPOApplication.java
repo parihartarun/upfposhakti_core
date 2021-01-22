@@ -1,28 +1,32 @@
 package com.upfpo.app;
 
+import java.util.Properties;
 
+<<<<<<< HEAD
 import com.upfpo.app.service.CircularsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
+=======
+>>>>>>> 11eec8db0b7631bb1e9af844d510dacd69cb659e
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+<<<<<<< HEAD
 import javax.annotation.Resource;
 import java.util.Properties;
 
+=======
+>>>>>>> 11eec8db0b7631bb1e9af844d510dacd69cb659e
 @SpringBootApplication
 @EnableJpaRepositories
 public class UpFPOApplication implements CommandLineRunner {
 
+<<<<<<< HEAD
 	/*@Autowired
 	@Qualifier("javasampleapproachMailSender")
 	public MailSender mailSender;*/
@@ -35,10 +39,13 @@ public class UpFPOApplication implements CommandLineRunner {
 		return "Hello World!";
 	}
 
+=======
+>>>>>>> 11eec8db0b7631bb1e9af844d510dacd69cb659e
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
+<<<<<<< HEAD
 
 
 	/*@Override
@@ -56,6 +63,8 @@ public class UpFPOApplication implements CommandLineRunner {
 		circularsService.init();
 	}
 
+=======
+>>>>>>> 11eec8db0b7631bb1e9af844d510dacd69cb659e
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {
@@ -74,4 +83,9 @@ public class UpFPOApplication implements CommandLineRunner {
 
 		return mailSender;
 	}
+	
+	/*
+	 * @Bean public PasswordEncoder getPasswordEncode() { PasswordEncoder
+	 * passwordEncoder = new BCryptPasswordEncoder(); return passwordEncoder; }
+	 */
 }
