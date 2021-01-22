@@ -1,5 +1,7 @@
 package com.upfpo.app.security;
 
+import com.upfpo.app.security.jwt.JwtTokenFilterConfigurer;
+import com.upfpo.app.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,18 +22,13 @@ import com.upfpo.app.security.jwt.AuthTokenFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	@Autowired
-	UserDetailsService userDetailsService;
+
 	
 	@Autowired
 	AuthTokenFilter authTokenFilter;
-	
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+	@Autowired
+	JwtUtils jwtTokenProvider;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {	
@@ -53,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	http.cors();
+	http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 	http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	

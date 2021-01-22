@@ -37,75 +37,22 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/signin")
 @Api(produces = "application/json", value = "login", tags="login",description="sign in")
 public class LoginController {
-		
-	@Autowired
-	AuthenticationManager authenticationManager;
 
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	PasswordEncoder encoder;
-	
-	@Autowired
-	UserDetailServiceImpl userDetailService;
 
-	@Autowired
-	JwtUtils jwtUtils;
-	
-	@Autowired
-	private FPOService fpoService;
-	
-	//private String csrf_token = RandomString.getAlphaNumericString();
-	
-	@RequestMapping(value="/home")
-	private String home()
-	{
-		System.out.println("Inside home");
-		return "home page";
-	}
-	
 	@PostMapping
 	@ApiOperation(value="user login" ,code=201, produces = "application/json", notes="Api for user login",response=JwtResponse.class)
 	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class),
+			@ApiResponse(code=422, message = "Invalid username/password supplied" , response = ExceptionResponse.class),
+			@ApiResponse(code=423, message = "Inactive user!" , response = ExceptionResponse.class),
 	})
 	@ResponseStatus( HttpStatus.OK)
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-			final UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getUsername());
-			String jwt = jwtUtils.generateToken(userDetails);
-			
-			User fullUserdetail;
-			String userRole = null;
-			Long userId = (long) 0;
-			Integer masterId = null;
-			if(userDetails.getUsername() != null && userDetails.isEnabled() == true) {
-				fullUserdetail = userService.userDetail(userDetails.getUsername());
-				if(fullUserdetail != null) {
-					String roleId = fullUserdetail.getRoleRefId();
-					userId = fullUserdetail.getUserId();
-					if(roleId != null) {
-						userRole = userService.getRoleName(roleId);
-						if(userRole.equals("ROLE_FPC")) {
-							System.err.println("userid == "+userId);
-							masterId = fpoService.getFpoUserId(userId);
-							System.err.println("masterId == "+masterId);
-						}
-					}
-				}
-			}
-			
-			return ResponseEntity.ok(new JwtResponse(jwt,userId ,userDetails.getUsername(),userRole,masterId));
-		}
-		catch(BadCredentialsException e){
-			throw new Exception("incorrect credential"+e);
-			
-		}
+	public String signin(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+		return userService.signin(loginRequest.getUsername(), loginRequest.getPassword());
 	}
 }
 	

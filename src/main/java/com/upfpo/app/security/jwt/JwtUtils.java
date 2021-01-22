@@ -5,19 +5,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.upfpo.app.custom.CustomException;
+import com.upfpo.app.entity.User;
+import com.upfpo.app.security.UserDetailImpl;
+import com.upfpo.app.security.UserDetailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	private String jwtSecret = "secret";
+
+	@Autowired
+	private UserDetailServiceImpl userDetail;
 	
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -40,9 +53,9 @@ public class JwtUtils {
 		return extractExpiration(token).before(new Date());
 	}
 	
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(User userDetails) {
 		Map<String,Object> claims = new HashMap<>();
-		return createToken(claims,userDetails.getUsername());
+		return createToken(claims,userDetails.getUserName());
 	}
 	
 	private String createToken(Map<String, Object> claims, String username) {
@@ -59,20 +72,30 @@ public class JwtUtils {
 		final String username = extractUsername(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
-	
-	
 
-//	public String generateJwtToken(Authentication authentication) {
-//
-//		MyUserDetail userPrincipal = (MyUserDetail) authentication.getPrincipal();
-//
-//		return Jwts.builder()
-//				.setSubject((userPrincipal.getUsername()))
-//				.setIssuedAt(new Date())
-//				.signWith(SignatureAlgorithm.HS512, jwtSecret)
-//				.compact();
-//	}
-//
+	public String resolveToken(HttpServletRequest req) {
+		String bearerToken = req.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
+
+	public Authentication getAuthentication(String token) {
+		UserDetails userDetails = userDetail.loadUserByUsername(extractUsername(token));
+		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+	}
+
+
+	public boolean validateToken(String token) {
+		try {
+			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+			return true;
+		} catch (JwtException | IllegalArgumentException e) {
+			throw new CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}

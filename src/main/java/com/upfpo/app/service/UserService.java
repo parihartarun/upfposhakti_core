@@ -10,4 +10,6 @@ public interface UserService{
 
 	String getRoleName(String roleId);
 
+	String signin(String username, String password);
+
 }

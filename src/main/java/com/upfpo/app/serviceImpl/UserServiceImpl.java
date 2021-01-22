@@ -1,6 +1,12 @@
 package com.upfpo.app.serviceImpl;
 
+import com.upfpo.app.custom.CustomException;
+import com.upfpo.app.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.User;
@@ -16,6 +22,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 
+	@Autowired
+	private JwtUtils jwtTokenProvider;
+
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+
 	@Override
 	public User userDetail(String username) {
 		User user = userRepository.findByUserName(username);
@@ -27,6 +41,15 @@ public class UserServiceImpl implements UserService {
 		String roleName = userRoleRepository.roleNameById(roleId);
 		return roleName;
 		
+	}
+
+	public String signin(String username, String password) {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			return jwtTokenProvider.generateToken(userRepository.findByUserName(username));
+		} catch (AuthenticationException e) {
+			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
 	}
 
 }
