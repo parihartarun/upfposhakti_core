@@ -7,12 +7,22 @@ public class JwtResponse {
 	private Long id;
 	private String username;
 	private String userrole;
+	private Integer masterId;
 
-	public JwtResponse(String accessToken, Long id, String username, String userrole) {
+	public JwtResponse(String accessToken, Long id, String username, String userrole, Integer masterId) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.userrole = userrole;
+		this.masterId = masterId;
+	}
+
+	public Integer getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
 	}
 
 	public String getUserrole() {
