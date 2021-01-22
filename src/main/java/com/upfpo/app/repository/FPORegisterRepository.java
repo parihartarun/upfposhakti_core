@@ -1,6 +1,7 @@
 package com.upfpo.app.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,6 @@ import com.upfpo.app.entity.FPORegister;
 public interface FPORegisterRepository extends JpaRepository<FPORegister, Integer> {
 
 	List<FPORegister> findByIsDeleted(boolean b);
+
+	FPORegister findByUserName(String username);
 }

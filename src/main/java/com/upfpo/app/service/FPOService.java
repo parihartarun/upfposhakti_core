@@ -17,12 +17,11 @@ public interface FPOService {
 	public Boolean deleteFpo(Integer id);
 	public List<FPORegister> selectFpos();
 	public FPORegister selectFpoById(Integer id);
-	
+	public FPORegister selectFpoByUserName(String username);
 	public BoardMember addBoardMember(BoardMember bm);
 	public List <BoardMember> getBoardMembers();
 	public BoardMember getBoardMembersById(Long id);
 	public BoardMember deleteBoardMembersById(Long id);
-	
 	public LandDetails addLand(LandDetails ld);
 	public List<LandDetails> getAllLandDetail();
 	public LandDetails getLandDetailById(Integer id);

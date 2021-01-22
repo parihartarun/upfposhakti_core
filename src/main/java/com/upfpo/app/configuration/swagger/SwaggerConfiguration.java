@@ -1,6 +1,5 @@
 package com.upfpo.app.configuration.swagger;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.util.StopWatch;
@@ -29,9 +29,10 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfiguration {
 
 
 
@@ -57,11 +58,10 @@ public class SwaggerConfig {
 	
 	public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
-    private final Logger log = (Logger) LoggerFactory.getLogger(SwaggerConfig.class);
+    private final Logger log = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
 	 @Bean
 	    public Docket api() {
-		 ((org.slf4j.Logger) log).debug("Starting Swagger");
 		 StopWatch watch = new StopWatch();
 		 watch.start();
 	        Contact contact = new Contact(
@@ -102,11 +102,16 @@ public class SwaggerConfig {
 	        watch.stop();
 	        return docket;
 		 
+		 
+		 
 	    }
 	    
 	    private ApiInfo getApiInfo()
 	    {
 	    	return new ApiInfo("UPFPO API", "API documentation for UPAGRI Application", "1.0", "For internal use only", new springfox.documentation.service.Contact("xyz", "xyz.com", "nishant.shah@neosoftmail.com"), "API License", "UPAGRI", Collections.emptyList());
+
 	    	
 	    }
+	
+	
 }

@@ -42,7 +42,9 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
         if(!sd.isPresent()) {
             return null;
         }
+
         salesDetails.setId(new Long(id));
+
         return salesDetailsRepository.save(salesDetails);
     }
 

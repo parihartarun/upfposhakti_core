@@ -135,4 +135,19 @@ public class FPOServiceImpl implements FPOService {
 		}
 	}
 
+	@Override
+	public FPORegister selectFpoByUserName(String username) {
+		System.out.println("username = "+ username);
+		// TODO Auto-generated method stub
+		try {
+			 fpoRepository.findByUserName(username);
+			}catch(Exception e)
+			{
+				throw new NotFoundException();
+			}
+		
+		return fpoRepository.findByUserName(username);
+		
+	}
+
 }
