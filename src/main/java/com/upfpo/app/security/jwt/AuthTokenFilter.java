@@ -41,16 +41,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 		
 		if(athorizationHeader != null && athorizationHeader.startsWith("Bearer ")) {
 			jwt = athorizationHeader.substring(7);
+			username = jwtUtils.getUserNameFromJwtToken(jwt);
 		}
-		boolean validToken = jwtUtils.validateJwtToken(jwt);
-		if(!validToken)
-			throw new CustomException("Invalid token",HttpStatus.NOT_FOUND);
-
-		username = jwtUtils.getUserNameFromJwtToken(jwt);
 
 		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 				UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-				if (userDetails!= null && validToken) {
+				if (userDetails!= null && jwtUtils.validateJwtToken(jwt)) {
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());
 					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
