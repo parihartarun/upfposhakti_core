@@ -66,10 +66,11 @@ public class UserServiceImpl implements UserService {
 			User user = userRepository.findByUserName(username);
 			//TODO fetch master ID. Fetch master id from join query
 			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
-			UserDetailsDto userDetailsDto = userMasterId(username);
-			Integer masterId = userDetailsDto.getSessionid();
-			System.err.print("Master Id for user::"+masterId);
-			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
+			  UserDetailsDto userDetailsDto = userMasterId(user.getUserId()); 
+			  Integer masterId = userDetailsDto.getMasterid();
+			  String userRoleName     = userDetailsDto.getRole();
+			  System.err.print("Role Name"+userRoleName+"Master Id for user::"+masterId);
+			return new LoginResponse(jwtTokenProvider.generateToken(user),user,userRoleName,masterId);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	public UserDetailsDto userMasterId(String userName)
+	public UserDetailsDto userMasterId(Long userId)
 	{
 		String  sql =  	" select CASE\r\n"
 				+ " WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_id\r\n"
@@ -93,24 +94,17 @@ public class UserServiceImpl implements UserService {
 				+ " WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN input_supplier_id\r\n"
 				+ " WHEN ur.role='ROLE_FPC'  THEN fpo_id\r\n"
 				+ " ELSE farmer_id\r\n"
-				+ " END as sessionid,                                 \r\n"
-				+ " CASE\r\n"
-				+ " WHEN ur.role='ROLE_BUYERSELLER' THEN c.buyerSeller_name\r\n"
-				+ " WHEN ur.role='ROLE_CHCFMB'  THEN b.chc_fmb_name\r\n"
-				+ " WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.input_supplier_name\r\n"
-				+ " WHEN ur.role='ROLE_FPC'  THEN d.fpo_name\r\n"
-				+ " ELSE  f.farmer_name\r\n"
-				+ " END as userdetail_name,\r\n"
-				+ " a.user_id,a.user_name,a.pass,ur.role,a.enabled,a.is_changed\r\n"
+				+ " END as masterid,                                 \r\n"
+				+ " ur.role\r\n"
 				+ " from Users a\r\n"
 				+ " join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ " left join chc_fmb b on a.user_id = b.user_id\r\n"
 				+ " left join buyer_seller c on a.user_id=c.user_id\r\n"
 				+ " left join input_supplier e on a.user_id=e.user_id\r\n"
 				+ " left join fpo d on a.user_id=d.user_id\r\n"
-				+ " left join farmer f on a.user_id=f.user_id where a.user_name= :userName and ur.isactive=1" ;
+				+ " left join farmer f on a.user_id=f.user_id where a.user_id= :userId" ;
 		  
-		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("user_name", userName).getSingleResult();
+		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("userId", userId).getSingleResult();
 		  return obj;
 		    
 	}
