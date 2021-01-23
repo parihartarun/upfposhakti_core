@@ -108,7 +108,11 @@ public class JwtUtils {
 	}
 
 	public String getUserIdFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userId",String.class);
+	}
+
+	public String getMasterIdFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("masterId",String.class);
 	}
 
 	public String getUserNameFromJwtToken(String token) {

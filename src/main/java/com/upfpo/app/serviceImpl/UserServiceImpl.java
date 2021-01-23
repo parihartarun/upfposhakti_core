@@ -51,7 +51,9 @@ public class UserServiceImpl implements UserService {
 	public LoginResponse signin(String username, String password) {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			//API call
 			User user = userRepository.findByUserName(username);
+			//TODO fetch master ID.
 			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
