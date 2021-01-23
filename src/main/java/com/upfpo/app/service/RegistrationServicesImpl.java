@@ -46,6 +46,9 @@ public class RegistrationServicesImpl implements RegistrationServices
 	{
 		String password = fpoRegister.getUserFpo().getPassword();
 		fpoRegister.getUserFpo().setPassword(passwordEncoder.encode(password));
+		fpoRegister.setUserName(fpoRegister.getUserFpo().getUserName());
+		fpoRegister.getUserFpo().setRoleRefId("4");
+		fpoRegister.setStateref(9);
 		count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
 		if(count==1)
 		{

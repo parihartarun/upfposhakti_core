@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
@@ -207,6 +208,13 @@ public class FPOController {
 		return fpoService.deleteLandDetailById(id);
 	}
 	
+	
+	 @GetMapping(value="/getFarmerDetailsForCropSowing/{farmerId}") 
+	 public  FarmerCropSowingDTO getFarmerDetailsForCropSowing(@PathVariable("farmerId") Integer farmerId) 
+	 { 
+		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
+     }
+	 
 	@GetMapping(value= {"/land/farmer/{id}"})
 	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
 	@ApiResponses(value= {

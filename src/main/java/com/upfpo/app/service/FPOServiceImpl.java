@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.configuration.exception.AlreadyExistsException;
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
@@ -168,5 +169,12 @@ public class FPOServiceImpl implements FPOService {
 		return fpoRepository.findByUserName(username);
 		
 	}
+	
+	
+	  @Override public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
+	  {
+		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
+	  }
+	 
 
 }
