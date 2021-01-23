@@ -24,14 +24,8 @@ classes = {
     @ConstructorResult(
             targetClass = UserDetailsDto.class,
             columns = {
-            	@ColumnResult(name = "user_id", type = Integer.class),
-                @ColumnResult(name = "user_name", type = String.class),
                 @ColumnResult(name = "role", type = String.class),
-                @ColumnResult(name = "pass", type = String.class),
-                @ColumnResult(name = "enabled", type = Boolean.class),
-                @ColumnResult(name = "is_changed", type = Boolean.class),
-                @ColumnResult(name = "sessionid", type = Integer.class),
-                @ColumnResult(name = "userdetail_name", type = String.class)
+                @ColumnResult(name = "masterid", type = Integer.class),
            })
 })
 @Table(name="users")
