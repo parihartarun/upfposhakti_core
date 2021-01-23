@@ -17,7 +17,6 @@ public class UserDetailsDto {
 	}
 	public void setMasterid(Integer masterid) {
 		this.masterid = masterid;
-
 	}
 	public String getRole() {
 		return role;

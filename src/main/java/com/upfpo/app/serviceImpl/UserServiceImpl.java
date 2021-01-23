@@ -86,7 +86,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-
 	public UserDetailsDto userMasterId(Long userId)
 	{
 		String  sql =  	" select CASE\r\n"

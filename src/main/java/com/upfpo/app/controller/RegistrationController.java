@@ -1,5 +1,7 @@
 package com.upfpo.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,7 +37,7 @@ public class RegistrationController
 	
 	
 	@PostMapping(value="/fpo")
-	private ResponseEntity<MessageResponse> registerFPO(@RequestBody FPORegister fpoRegister)
+	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister)
 	{
 		
 		if(fpoRegister==null)

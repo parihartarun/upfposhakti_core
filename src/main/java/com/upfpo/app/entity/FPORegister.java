@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -85,7 +86,7 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_account_no")
 	private BigInteger fpoBankAccNo;
 	
-//	@NotBlank(message="Please Provide the Valid IFSC Code")
+    @NotBlank(message="Please Provide the Valid IFSC Code")
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
 
