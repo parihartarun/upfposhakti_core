@@ -66,10 +66,11 @@ public class UserServiceImpl implements UserService {
 			User user = userRepository.findByUserName(username);
 			//TODO fetch master ID. Fetch master id from join query
 			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
-			UserDetailsDto userDetailsDto = userMasterId(username);
-			Integer masterId = userDetailsDto.getSessionid();
-			System.err.print("Master Id for user::"+masterId);
-			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
+			  UserDetailsDto userDetailsDto = userMasterId(username); 
+			  Integer masterId = userDetailsDto.getSessionid();
+			  String userRoleName     = userDetailsDto.getRole();
+			  System.err.print("Role Name"+userRoleName+"Master Id for user::"+masterId);
+			return new LoginResponse(jwtTokenProvider.generateToken(user),user, userRoleName, masterId);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -109,8 +110,7 @@ public class UserServiceImpl implements UserService {
 				+ " left join input_supplier e on a.user_id=e.user_id\r\n"
 				+ " left join fpo d on a.user_id=d.user_id\r\n"
 				+ " left join farmer f on a.user_id=f.user_id where a.user_name= :userName and ur.isactive=1" ;
-		  
-		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("user_name", userName).getSingleResult();
+		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("userName", userName).getSingleResult();
 		  return obj;
 		    
 	}

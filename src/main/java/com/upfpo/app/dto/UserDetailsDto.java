@@ -9,12 +9,23 @@ public class UserDetailsDto {
     private boolean enabled;
     private boolean is_changed;
     private Integer sessionid;
-    private String name;
     private String userdetail_name;
 
-	
     
-	
+    
+    
+	public UserDetailsDto(Integer user_id, String user_name, String role, String pass, boolean enabled,
+			boolean is_changed, Integer sessionid, String userdetail_name) {
+		super();
+		this.user_id = user_id;
+		this.user_name = user_name;
+		this.role = role;
+		this.pass = pass;
+		this.enabled = enabled;
+		this.is_changed = is_changed;
+		this.sessionid = sessionid;
+		this.userdetail_name = userdetail_name;
+	}
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -56,12 +67,6 @@ public class UserDetailsDto {
 	}
 	public void setSessionid(Integer sessionid) {
 		this.sessionid = sessionid;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getUserdetail_name() {
 		return userdetail_name;

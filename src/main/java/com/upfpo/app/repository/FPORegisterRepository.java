@@ -24,6 +24,8 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	 public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	 
 	
-	@Query("Select fpo.fpoId from  FPORegister fpo where fpo.userFpo.userId = :userId")
-	Integer findByUserId(Long userId);
+		/*
+		 * @Query("Select fpo.fpoId from  FPORegister fpo where fpo.userFpo.userId = :userId"
+		 * ) Integer findByUserId(Long userId);
+		 */
 }
