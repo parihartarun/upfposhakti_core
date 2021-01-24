@@ -25,7 +25,7 @@ public class AgencyMaster implements Serializable {
 	@Column(name="agency_name")
 	private String  agencyName;
 	
-	@Column(name="agency_name")
+	@Column(name="deleted_date")
 	private java.sql.Date  deleteDate;
 	
 	@Column(name="is_deleted")
