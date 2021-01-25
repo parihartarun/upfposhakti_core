@@ -24,9 +24,10 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
-		DistrictMaster district = districtRepository.findById(e.getDistId()).get();
-		
-		e.setStateId(district.getState_id());
+		//DistrictMaster district = districtRepository.findById(e.getDistId()).get();
+		e.setUpdatedBy("admin");
+		e.setStateId(6);
+		//e.setDistId(6);
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
@@ -81,6 +82,12 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 			throw new NotFoundException();
 		}
 		}
+
+	@Override
+	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id) {
+		// TODO Auto-generated method stub
+		return collectionCenterRepository.findByFpoRefId(id);
+	}
 
 
 

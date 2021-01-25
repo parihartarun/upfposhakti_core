@@ -31,5 +31,5 @@ public interface FPOService {
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public boolean deleteLandDetailById(Integer id);
 	public List<FarmerMaster> getLandFarmerByFpoId(Iterable<Integer> id);
-	//public Integer getFpoUserId(Long userId);
+	//public InteRger getFpoUserId(Long userId);
 }

@@ -1,6 +1,8 @@
 package com.upfpo.app.serviceImpl;
 
+import com.google.common.base.Optional;
 import com.upfpo.app.auth.response.LoginResponse;
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.UserDetailsDto;
 import com.upfpo.app.security.jwt.JwtUtils;
@@ -9,6 +11,8 @@ import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -20,6 +24,7 @@ import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.repository.UserRoleRepository;
 import com.upfpo.app.service.FPOService;
 import com.upfpo.app.service.UserService;
+import com.upfpo.app.util.PasswordResetRequest;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -109,4 +114,22 @@ public class UserServiceImpl implements UserService {
 		    
 	}
 
+	@Override
+	public ResponseEntity<?> resetPassword(String username, PasswordResetRequest request) {
+		// TODO Auto-generated method stub
+		java.util.Optional<User> userOpt = userRepository.findById(request.getUserId()); 
+if(!request.getPassword().contentEquals(request.getConfirmPassword()))
+{
+return ResponseEntity.badRequest().body("Password does not match with confirm password field");
+}
+		
+		userOpt.ifPresentOrElse(user->{
+   user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+   userRepository.save(user);			
+   }, ()->{
+	throw new NotFoundException();
+    });
+		return new ResponseEntity<String>("Password Updated Successfully", HttpStatus.OK);
+	}
+	
 }

@@ -14,5 +14,6 @@ public interface CollectionCenterService {
 	public boolean deleteCollectionCenter(int id);	
 	public List<CollectionCenter> selectCollectionCenter();
 	public CollectionCenter selectCollectionCenterById(int id);
+	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id);
 
 }

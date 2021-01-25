@@ -107,4 +107,17 @@ public class CollectionCenterController {
 	{
 		return collectionCenterService.selectCollectionCenter();
 	}
+	
+	
+	@GetMapping("/getAllByFpo/{id}")
+	@ApiOperation(value="Get All Collection Centers Associated With Particular Fpo",code=200,produces = "application/json",notes="Api for view all Collection Centers by Fpo id",response=CollectionCenter.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<CollectionCenter> getCollectionCenters(@PathVariable("id") Integer id)
+	{
+		return collectionCenterService.selectCollectionCenterByFpoId(id);
+	}
 }

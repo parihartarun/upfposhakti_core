@@ -1,5 +1,6 @@
 package com.upfpo.app.controller;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.service.UserService;
+import com.upfpo.app.util.PasswordResetRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,5 +48,23 @@ public class LoginController {
 	public String test() throws Exception {
 		return "Pass";
 	}
+	
+
+	@ApiOperation(value="user password reset" ,code=201, produces = "application/json", notes="Api for user password change after first login ", response = String.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class),
+			@ApiResponse(code=422, message = "Invalid username/password supplied" , response = ExceptionResponse.class),
+			@ApiResponse(code=423, message = "Inactive user!" , response = ExceptionResponse.class),
+	})
+	@ResponseStatus( HttpStatus.OK)
+	@PostMapping("/password/reset")
+	public ResponseEntity<?> Login(@NotNull @RequestParam("username") String username, @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
+		
+		return userService.resetPassword(username, passwordResetRequest);
+		
+	}
+	
 }
 	
