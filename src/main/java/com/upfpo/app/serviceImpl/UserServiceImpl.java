@@ -75,17 +75,18 @@ public class UserServiceImpl implements UserService {
 			  Integer masterId = userDetailsDto.getMasterid();
 			  String userRoleName     = userDetailsDto.getRole();
 			  System.err.print("Role Name"+userRoleName+"Master Id for user::"+masterId);
-			return new LoginResponse(jwtTokenProvider.generateToken(user),user,userRoleName,masterId);
+			return new LoginResponse(jwtTokenProvider.generateToken(user,masterId),user,userRoleName,masterId);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
+
 	public String signup(User user) {
 		if (!userRepository.existsByUserName(user.getUserName())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userRepository.save(user);
-			return jwtTokenProvider.generateToken(user);
+			return jwtTokenProvider.generateToken(user,0);
 		} else {
 			throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
 		}

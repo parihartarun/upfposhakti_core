@@ -1,13 +1,6 @@
 package com.upfpo.app.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.upfpo.app.dto.DisplayDataDTO;
-import com.upfpo.app.dto.UserDetailsDto;
-
-import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -17,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+
+import com.upfpo.app.dto.UserDetailsDto;
 
 @Entity
 @SqlResultSetMapping(name="UserDetailsDto",
@@ -39,7 +34,6 @@ public class User {
 	@Column(name="user_name")
 	private String userName;
 
-	@JsonIgnore
 	@Column(name="pass")
 	private String password;
 	

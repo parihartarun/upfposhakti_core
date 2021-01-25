@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.FpoLicenceDetails;
-import com.upfpo.app.entity.LicenseMaster;
 import com.upfpo.app.repository.FpoLicenseDetailsRepository;
 
 @Service

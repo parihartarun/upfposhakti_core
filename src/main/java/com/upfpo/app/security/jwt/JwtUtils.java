@@ -57,7 +57,7 @@ public class JwtUtils {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("masterId",String.class);
 	}
 
-	public String generateToken(User userDetails) {
+	public String generateToken(User userDetails,Integer masterId) {
 		if(userDetails.isDeleted() || !userDetails.isEnabled()){
 			throw new CustomException("Deleted/Inactive user", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -65,6 +65,7 @@ public class JwtUtils {
 		Map<String,Object> claims = new HashMap<>();
 		claims.put("userName",userDetails.getUserName());
 		claims.put("userId",userDetails.getUserId());
+		claims.put("masterId",masterId);
 		claims.put("userRole",userDetails.getRoleRefId());
 		return createToken(claims,userDetails.getUserId().toString());
 	}
