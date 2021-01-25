@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.CollectionCenter;
+import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.repository.CollectionCenterRepository;
+import com.upfpo.app.repository.DistrictMasterRepository;
 
 @Service
 public class CollectionCenterServiceImpl implements CollectionCenterService {
@@ -16,10 +18,15 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Autowired
 	private CollectionCenterRepository collectionCenterRepository; 
 	
+	@Autowired
+	private DistrictMasterRepository districtRepository;
+	
 	@Override
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
+		DistrictMaster district = districtRepository.findById(e.getDistId()).get();
 		
+		e.setStateId(district.getState_id());
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
@@ -28,6 +35,9 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter updateCollectionCenter(int id, CollectionCenter e) {
 		// TODO Auto-generated method stub
 		e.setId(id);
+	    DistrictMaster district = districtRepository.findById(e.getDistId()).get();
+		
+		e.setStateId(district.getState_id());
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}

@@ -39,7 +39,7 @@ public class LoginController {
 	})
 	@ResponseStatus( HttpStatus.OK)
 	public ResponseEntity<LoginResponse> signin(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
-		return new ResponseEntity<>(userService.signin(loginRequest.getUsername(), loginRequest.getPassword()),HttpStatus.OK);
+		return new ResponseEntity<LoginResponse>(userService.signin(loginRequest.getUsername(), loginRequest.getPassword()),HttpStatus.OK);
 	}
 
 	@GetMapping("/test")
