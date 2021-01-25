@@ -15,12 +15,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.Errors;
 
 import com.upfpo.app.dto.DisplayDataDTO;
+
 
 @Entity
 
@@ -74,6 +77,8 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_landline")
 	private BigInteger fpolandLine;
 	
+	@Email
+	@NotNull(message = "Please provide email id")
 	@Column(name = "fpo_email")
 	private String fpoEmail;
 	
@@ -381,7 +386,6 @@ public class FPORegister implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
 	
 
 }

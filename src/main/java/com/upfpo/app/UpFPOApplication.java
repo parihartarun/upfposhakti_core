@@ -3,7 +3,9 @@ package com.upfpo.app;
 import java.util.Properties;
 
 
-import com.upfpo.app.service.FPOGuidelineServiceImpl;
+import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.service.CircularsServiceImpl;
+import com.upfpo.app.service.ComplaintServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,13 +14,34 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.annotation.Resource;
+
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication{
+public class UpFPOApplication implements CommandLineRunner{
+
+	@Resource
+	CircularsServiceImpl circularsService;
+
+	@Resource
+	ComplaintServiceImpl complaintService;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
+	}
+
+	@Override
+	public void run(String... arg) throws Exception {
+		circularsService.deleteAll();
+		circularsService.init();
+
+		complaintService.deleteAll();
+		complaintService.init();
+
+
+
 	}
 
 	@Bean

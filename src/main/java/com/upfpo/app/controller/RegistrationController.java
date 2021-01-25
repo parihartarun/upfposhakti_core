@@ -1,10 +1,17 @@
 package com.upfpo.app.controller;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.ChcFmbMaster;
 import com.upfpo.app.entity.FPORegister;
@@ -36,7 +44,9 @@ public class RegistrationController
 {
 	@Autowired
 	RegistrationServices registerServices;
-	
+
+	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	Validator validator = factory.getValidator();
 	
 	@PostMapping(value="/fpo")
 	@ApiOperation(value="Register new Fpo " ,code=201, produces = "application/json", notes="Api for add new Farmer",response=MessageResponse.class)
@@ -46,27 +56,14 @@ public class RegistrationController
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
 	@ResponseStatus( HttpStatus.OK)
-	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister) throws Exception
+	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister) throws CustomException
 	{
-		if(fpoRegister==null)
-			{
-				throw new ValidationException();
-			}
-			else {
-				String fpo = registerServices.registerFPO(fpoRegister);
-				if(fpo=="exists")
-				{
-					return ResponseEntity
-							.ok(new MessageResponse("Fpo already exists!"));
+				if(registerServices.checkFPOExists(fpoRegister.getFpoEmail())>0){
+					throw new CustomException("FPO already exists",HttpStatus.BAD_REQUEST);
 				}
-				else
-				{
-					//return new ResponseEntity<String>("", new HttpHeaders(), HttpStatus.CREATED);
-					return ResponseEntity
-							.ok(new MessageResponse("SuccessFully Saved!"));
-				}
-			}
-		
+				registerServices.registerFPO(fpoRegister);
+				return ResponseEntity.ok(new MessageResponse("SuccessFully Saved!"));
+
 	}
 	
 	@PostMapping(value="/farmer")
@@ -112,17 +109,17 @@ public class RegistrationController
 			throw new ValidationException();
 		}
 		else {
-			String buyerSellerdetails = registerServices.registerBuyerSeller(buyerSeller);
-			if(buyerSellerdetails=="exists")
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("Buyer Seller already exists!"));
+			if(registerServices.checkBuyerSellerExists(buyerSeller.getMobileNumber())==1){
+				throw new CustomException("Buyer/Seller already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
+			
+				registerServices.registerBuyerSeller(buyerSeller);
 				return ResponseEntity
 						.ok(new MessageResponse("SuccessFully Saved!"));
 			}
+			
 		}
 	}
 	

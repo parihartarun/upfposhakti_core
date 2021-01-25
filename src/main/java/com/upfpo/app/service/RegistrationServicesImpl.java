@@ -39,6 +39,19 @@ public class RegistrationServicesImpl implements RegistrationServices
 	int count = 0;
 	
 	String target = "";
+
+
+	public int checkFPOExists(String email){
+		return fpoRepository.alreadyExists(email);
+	}
+	
+	@Override
+	public int checkBuyerSellerExists(long mobileNo) 
+	{
+		int ss= buyerSellerRepository.alreadyExists(mobileNo);
+		System.err.println("Count::"+ss);
+		return buyerSellerRepository.alreadyExists(mobileNo);
+	}
 	
 	@Override
 	public String registerFPO(FPORegister fpoRegister) 

@@ -11,7 +11,7 @@ import com.upfpo.app.entity.FarmMachineryBank;
 
 @Repository
 public interface FarmMachineryBankRepository extends JpaRepository<FarmMachineryBank, Integer> {
-	
-	@Query("Select fm from FarmMachineryBank fm order by fm.id desc")
+
+	@Query("Select fm from FarmMachineryBank fm where fm.isDeleted= :b order by createDate desc")
 	List<FarmMachineryBank> findByIsDeleted(boolean b);
 }
