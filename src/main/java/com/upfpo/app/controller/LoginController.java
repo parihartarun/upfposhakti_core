@@ -60,9 +60,9 @@ public class LoginController {
 	})
 	@ResponseStatus( HttpStatus.OK)
 	@PostMapping("/password/reset")
-	public ResponseEntity<?> Login(@NotNull @RequestParam("username") String username, @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
+	public ResponseEntity<?> Login( @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
 		
-		return userService.resetPassword(username, passwordResetRequest);
+		return userService.resetPassword(passwordResetRequest);
 		
 	}
 	
