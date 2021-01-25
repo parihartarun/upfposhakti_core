@@ -32,7 +32,7 @@ public class ComplaintContoller {
     private ComplaintServiceImpl complaintService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= Complaints.class)
+    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= JwtResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -46,7 +46,7 @@ public class ComplaintContoller {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= Complaints.class)
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= JwtResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -71,13 +71,13 @@ public class ComplaintContoller {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= Complaints.class)
+    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= JwtResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> updateComplaint(@PathVariable Integer id, @RequestBody Complaints complaints) {
+    public ResponseEntity<String> updateComplaint(@PathVariable Long id, @RequestBody Complaints complaints) {
         LOG.info("Inside ComplaintController updating sales details ", complaints);
         ResponseEntity<String> resp = null;
         try {
@@ -96,13 +96,13 @@ public class ComplaintContoller {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= Complaints.class)
+    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= JwtResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> deleteComplaint(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteComplaint(@PathVariable Long id) {
         LOG.info("Inside ComplaintController delete sales details ");
         ResponseEntity<String> resp = null;
         try {

@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.upfpo.app.entity.User;
 
 public class UserDetailImpl implements UserDetails{
-	
+
 	private Long id;
 	private String userName;
 	private String password;
 	private Boolean isEnabled;
 	private String roleRefId;
-	
+
 	//for static user
 //	public myUserDetail(String userName) {
 //		this.userName = userName;

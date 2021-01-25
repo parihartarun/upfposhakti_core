@@ -1,6 +1,6 @@
 package com.upfpo.app.entity;
-import java.io.Serializable;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -92,5 +92,4 @@ public class Circulars implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 }

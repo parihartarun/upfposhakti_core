@@ -1,8 +1,6 @@
 package com.upfpo.app.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.entity.User;
@@ -11,10 +9,8 @@ import com.upfpo.app.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	
+
+	boolean existsByUserName(String userName);
+
 	User findByUserName(String userName);
-
-	//@Query("SELECT u FROM User u WHERE u.userName = :username AND u.password= :password");
-	//Mono<User> login(String username, String password);
-
 }

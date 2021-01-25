@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,15 @@ public class Complaints {
     private String desc;
 
     private String status;
+    
+    @Column(name="fpo_id")
+    private Integer fpoId;
+    
+    @Column(name="is_deleted")
+    private boolean isDeleted;
+
+    @Column(name="delete_date")
+    private Date deleteDate;
 
     @Column(name = "assign_to")
     private String assignTo;
@@ -124,4 +134,28 @@ public class Complaints {
     public void setComments(List<ComplaintsComments> comments) {
         this.comments = comments;
     }
+
+	public Integer getFpoId() {
+		return fpoId;
+	}
+
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
 }

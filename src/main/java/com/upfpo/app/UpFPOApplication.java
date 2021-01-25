@@ -2,6 +2,8 @@ package com.upfpo.app;
 
 import java.util.Properties;
 
+
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,14 +11,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication  {
+public class UpFPOApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
-
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {

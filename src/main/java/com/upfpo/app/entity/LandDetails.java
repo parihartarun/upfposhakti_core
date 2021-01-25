@@ -1,10 +1,15 @@
 package com.upfpo.app.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name="land_details")
@@ -39,8 +44,9 @@ public class LandDetails {
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
 	
-	@Column(name="farmer_id")
-	private Integer farmerId;
+	/*
+	 * @Column(name="farmer_id") private Integer farmerId;
+	 */
 	
 	@Column(name="is_organic")
 	private String isorganc;
@@ -48,7 +54,9 @@ public class LandDetails {
 	@Column(name="is_deleted")
     private boolean isDeleted;
 
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="farmer_id")
+	private FarmerMaster farmerProfile;
 	
 	
 	public Integer getLandId() {
@@ -122,13 +130,11 @@ public class LandDetails {
 		this.deleteDate = deleteDate;
 	}
 
-	public Integer getFarmerId() {
-		return farmerId;
-	}
-
-	public void setFarmerId(Integer farmerId) {
-		this.farmerId = farmerId;
-	}
+	/*
+	 * public Integer getFarmerId() { return farmerId; }
+	 * 
+	 * public void setFarmerId(Integer farmerId) { this.farmerId = farmerId; }
+	 */
 
 	public String getGuardianName() {
 		return guardianName;

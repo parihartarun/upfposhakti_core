@@ -1,7 +1,9 @@
 package com.upfpo.app.service;
 
 
+import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Autowired
     private ComplaintRepository complaintRepository;
+
+    @Autowired
+    private ComplaintCatgoriesRepository complaintCatgoriesRepository;
 
     public List<Complaints> getAllComplaint(){
         return complaintRepository.findAll();
@@ -44,4 +49,8 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
+    @Override
+    public List<ComplaintCatgories> getComplaintsCatgories() {
+        return complaintCatgoriesRepository.findAll();
+    }
 }
