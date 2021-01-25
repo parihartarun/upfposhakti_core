@@ -64,27 +64,15 @@ public class UserServiceImpl implements UserService {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			//API call
 			User user = userRepository.findByUserName(username);
-			//TODO fetch master ID. Fetch master id from join query
 			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
 			UserDetailsDto userDetailsDto = userMasterId(username);
 			Integer masterId = userDetailsDto.getSessionid();
-			System.err.print("Master Id for user::"+masterId);
-			return new LoginResponse(jwtTokenProvider.generateToken(user),user);
+			return new LoginResponse(jwtTokenProvider.generateToken(user,masterId),user);
 		} catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
-	public String signup(User user) {
-		if (!userRepository.existsByUserName(user.getUserName())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userRepository.save(user);
-			return jwtTokenProvider.generateToken(user);
-		} else {
-			throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-	}
-	
 	public UserDetailsDto userMasterId(String userName)
 	{
 		String  sql =  	" select CASE\r\n"
