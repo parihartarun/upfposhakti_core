@@ -20,7 +20,8 @@ public class FarmerServiceImpl implements FarmerService
 	public List<FarmerMaster> getFarmer() 
 	{
 		List<FarmerMaster> farmerList = new ArrayList<FarmerMaster>();
-		farmerMasterRepository.findAll().forEach(farmerList1->farmerList.add(farmerList1));
+		//farmerMasterRepository.findAll().forEach(farmerList1->farmerList.add(farmerList1));
+		farmerMasterRepository.getFarmers(1001).forEach(farmerList1->farmerList.add(farmerList1));
 		return farmerList;
 	}
 	

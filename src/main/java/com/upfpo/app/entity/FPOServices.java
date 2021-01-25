@@ -1,35 +1,43 @@
 package com.upfpo.app.entity;
 
+
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Table(name = "fpo_sales_details")
-public class FPOSalesDetails {
+public class FPOServices {
+
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
 
-    @Column(name="financial_year")
-    private String finYear;
+    @Transient
+    private MultipartFile file;
 
-    @Column(name="season_ref")
-    private String season;
+    @Column(name="service_name")
+    private String servicename;
 
-    @Column(name="crop_ref_name")
-    private Integer cropRefName;
+    @Column(name="description")
+    private String descriptions;
 
-    @Column(name="veriety_ref")
-    private String verietyId;
+    @Column(name="file_path")
+    private String filePath;
 
-    @Column(name="sold_quantity")
-    private Long soldQuantity;
-
-    @Column(name="user_id")
+    @Column(name="fpo_id")
     private Integer fpoId;
+
+    @Column(name="role")
+    private String role;
+
+    @Column(name="upload_date")
+    private java.sql.Date uploadDate;
+
+    @Column(name="uplaoded_by")
+    private String uploadedBy;
 
     @Column(name="updated_by")
     private String updatedBy;
@@ -49,9 +57,8 @@ public class FPOSalesDetails {
     @Column(name = "created_date")
     private Date createdDate;
 
-    public FPOSalesDetails() {
+    public FPOServices() {
     }
-
 
     public Integer getId() {
         return id;
@@ -61,44 +68,36 @@ public class FPOSalesDetails {
         this.id = id;
     }
 
-    public String getFinYear() {
-        return finYear;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setFinYear(String finYear) {
-        this.finYear = finYear;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
-    public String getSeason() {
-        return season;
+    public String getServicename() {
+        return servicename;
     }
 
-    public void setSeason(String season) {
-        this.season = season;
+    public void setServicename(String servicename) {
+        this.servicename = servicename;
     }
 
-    public Integer getCropRefName() {
-        return cropRefName;
+    public String getDescriptions() {
+        return descriptions;
     }
 
-    public void setCropRefName(Integer cropRefName) {
-        this.cropRefName = cropRefName;
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
     }
 
-    public String getVerietyId() {
-        return verietyId;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setVerietyId(String verietyId) {
-        this.verietyId = verietyId;
-    }
-
-    public Long getSoldQuantity() {
-        return soldQuantity;
-    }
-
-    public void setSoldQuantity(Long soldQuantity) {
-        this.soldQuantity = soldQuantity;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Integer getFpoId() {
@@ -107,6 +106,30 @@ public class FPOSalesDetails {
 
     public void setFpoId(Integer fpoId) {
         this.fpoId = fpoId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public java.sql.Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(java.sql.Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
     }
 
     public String getUpdatedBy() {

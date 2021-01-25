@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +33,7 @@ public class FPOSalesDetailsController {
     private FPOSalesDetailsServiceImpl fpoSalesDetailsService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FPORegister.class)
+    @ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -45,7 +47,7 @@ public class FPOSalesDetailsController {
 
 
     @GetMapping("/{id}")
-    @ApiOperation(value="Fetch FPOSalesDetails By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FPORegister.class)
+    @ApiOperation(value="Fetch FPOSalesDetails By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -58,21 +60,24 @@ public class FPOSalesDetailsController {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Add FPO Sales Details" ,code=201, produces = "application/json", notes="Api for add new FPO Sales Details",response= FPORegister.class)
+    @ApiOperation(value="Add FPO Sales Details" ,code=201, produces = "application/json", notes="Api for add new FPO Sales Details",response= FPOSalesDetails.class)
     @ApiResponses(value= {
-    		@ApiResponse(code = 201, message = "Created",response = String.class),
+    		@ApiResponse(code = 201, message = "Created",response = ExceptionResponse.class),
     		@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> insertSalesDetails(@RequestBody FPOSalesDetails salesDetails) {
+    public ResponseEntity<?> insertSalesDetails(@RequestBody FPOSalesDetails salesDetails) {
         LOG.info("Inside SalesDetailsController saving sales details ", salesDetails);
         ResponseEntity<String> resp = null;
         try {
             FPOSalesDetails id = fpoSalesDetailsService.insertSalesDetails(salesDetails);
-            resp = new ResponseEntity<String>("FPOSalesDetails created Successfully!", HttpStatus.OK );
-            LOG.info("FPOSalesDetails  created Successfully!");
+            ExceptionResponse exceptionResponse = new ExceptionResponse();
+            exceptionResponse.setMessage("FPOSalesDetails created Successfully!");
+            exceptionResponse.setDateTime(null);
+            return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.OK);
+            
             //}
         } catch (Exception e) {
             resp = new ResponseEntity<String>("Failed to Save the Sales Details", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,7 +90,7 @@ public class FPOSalesDetailsController {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response=FPORegister.class)
+    @ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -110,7 +115,7 @@ public class FPOSalesDetailsController {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Delete FPO Sales Details",response=FPORegister.class)
+    @ApiOperation(value="Delete FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Delete FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

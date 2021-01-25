@@ -38,6 +38,9 @@ public class Enquiry {
     @OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EnquiryComments> comments;
 
+    public Enquiry() {
+    }
+
     public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, String assignTo, String createBy, Calendar createDateTime, List<EnquiryComments> comments) {
         this.id = id;
         this.quantity = quantity;

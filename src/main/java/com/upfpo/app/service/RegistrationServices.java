@@ -9,8 +9,10 @@ import com.upfpo.app.entity.InputSupplierMaster;
 public interface RegistrationServices 
 {
 	public String registerFPO(FPORegister fpoRegister);
+	public int checkFPOExists(String email);
 	public String registerFarmer(FarmerMaster farmerRegister);
 	public String registerBuyerSeller(BuyerSellerMaster buyerSeller);
+	public int checkBuyerSellerExists(long mobileNo);
 	public String registerInputSuplier(InputSupplierMaster inputSupplierMaster);
 	public String registerChcFmb(ChcFmbMaster chcFmbMaster);
 }
