@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<?> resetPassword(PasswordResetRequest request) {
 		// TODO Auto-generated method stub
-		java.util.Optional<User> userOpt = userRepository.findById(request.getUserId()); 
+		/*java.util.Optional<User> userOpt = userRepository.findById(request.getUserId());
 if(!request.getPassword().contentEquals(request.getConfirmPassword()))
 {
 return ResponseEntity.badRequest().body("Password does not match with confirm password field");
@@ -129,8 +129,8 @@ return ResponseEntity.badRequest().body("Password does not match with confirm pa
    userRepository.save(user);			
    }, ()->{
 	throw new NotFoundException();
-    });
+    });*/
 		return new ResponseEntity<String>("Password Updated Successfully", HttpStatus.OK);
 	}
-	
+
 }
