@@ -60,10 +60,12 @@ public class FPOSalesDetailsController {
     @PostMapping("/insert")
     @ApiOperation(value="Add FPO Sales Details" ,code=201, produces = "application/json", notes="Api for add new FPO Sales Details",response= FPORegister.class)
     @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+    		@ApiResponse(code = 201, message = "Created",response = String.class),
+    		@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> insertSalesDetails(@RequestBody FPOSalesDetails salesDetails) {
         LOG.info("Inside SalesDetailsController saving sales details ", salesDetails);
         ResponseEntity<String> resp = null;

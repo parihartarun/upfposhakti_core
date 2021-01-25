@@ -17,7 +17,7 @@ public interface UserService{
 	LoginResponse signin(String username, String password);
 	
 
-	ResponseEntity<?> resetPassword(String username,PasswordResetRequest request);
+	ResponseEntity<?> resetPassword(PasswordResetRequest request);
 	
 	
 	

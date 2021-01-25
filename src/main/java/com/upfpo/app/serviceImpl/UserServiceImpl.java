@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<?> resetPassword(String username, PasswordResetRequest request) {
+	public ResponseEntity<?> resetPassword(PasswordResetRequest request) {
 		// TODO Auto-generated method stub
 		java.util.Optional<User> userOpt = userRepository.findById(request.getUserId()); 
 if(!request.getPassword().contentEquals(request.getConfirmPassword()))
