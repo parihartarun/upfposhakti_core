@@ -3,13 +3,16 @@ package com.upfpo.app.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
@@ -37,27 +40,34 @@ public class RegistrationController
 	
 	
 	@PostMapping(value="/fpo")
-	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister)
+	@ApiOperation(value="Register new Fpo " ,code=201, produces = "application/json", notes="Api for add new Farmer",response=MessageResponse.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus( HttpStatus.OK)
+	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister) throws Exception
 	{
-		
 		if(fpoRegister==null)
-		{
-			throw new ValidationException();
-		}
-		else {
-			String fpo = registerServices.registerFPO(fpoRegister);
-			if(fpo=="exists")
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("Fpo already exists!"));
+				throw new ValidationException();
 			}
-			else
-			{
-				//return new ResponseEntity<String>("", new HttpHeaders(), HttpStatus.CREATED);
-				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
+			else {
+				String fpo = registerServices.registerFPO(fpoRegister);
+				if(fpo=="exists")
+				{
+					return ResponseEntity
+							.ok(new MessageResponse("Fpo already exists!"));
+				}
+				else
+				{
+					//return new ResponseEntity<String>("", new HttpHeaders(), HttpStatus.CREATED);
+					return ResponseEntity
+							.ok(new MessageResponse("SuccessFully Saved!"));
+				}
 			}
-		}
+		
 	}
 	
 	@PostMapping(value="/farmer")
