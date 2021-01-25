@@ -10,6 +10,18 @@ import com.upfpo.app.service.LoginService;
 
 @Service
 public class LoginServiceImpl implements LoginService{
+
+	@Override
+	public boolean sendOtp() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sendMail() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }

@@ -159,13 +159,14 @@ public class FPOServiceImpl implements FPOService {
 	public FPORegister selectFpoByUserName(String username) {
 		System.out.println("username = "+ username);
 		try {
-			 fpoRepository.findByUserName(username);
-			}catch(Exception e)
+			FPORegister fpoRegister =  fpoRepository.findByUserName(username);
+			return fpoRegister;
+		}catch(Exception e)
 			{
 				throw new NotFoundException();
 			}
 		
-		return fpoRepository.findByUserName(username);
+		
 		
 	}
 	
