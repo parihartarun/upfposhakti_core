@@ -58,7 +58,7 @@ public class CollectionCenterController {
 
 		
 	}
-	@PutMapping("/:id")
+	@PutMapping("/{id}")
 	@ApiOperation(value="Update Collection Center", code=200, produces = "application/json", notes="Api for update Collection Center",response=CollectionCenter.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -71,7 +71,7 @@ public class CollectionCenterController {
 	{
 		return collectionCenterService.updateCollectionCenter(id, updateCollectionCenter);
 	}
-	@GetMapping("/:id")
+	@GetMapping("/{id}")
 	@ApiOperation(value="Get Collection Center by id", code=200, produces = "application/json",notes="Api for get Collection Center by id",response=CollectionCenter.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
@@ -83,7 +83,7 @@ public class CollectionCenterController {
 	{
 		return collectionCenterService.selectCollectionCenterById(id);
 	}
-	@DeleteMapping("/:id")
+	@DeleteMapping("/{id}")
 	@ApiOperation(value="Delete Collection Center by id",code=204,produces = "text/plain",notes="Api for delete Collection Center by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),

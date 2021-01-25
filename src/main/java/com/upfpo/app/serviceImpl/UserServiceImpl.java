@@ -124,12 +124,21 @@ if(!request.getPassword().contentEquals(request.getConfirmPassword()))
 return ResponseEntity.badRequest().body("Password does not match with confirm password field");
 }
 		
-		userOpt.ifPresentOrElse(user->{
-   user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-   userRepository.save(user);			
-   }, ()->{
+
+if(userOpt.isPresent()) {
+	User user = userOpt.get(); 
+	user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+	   userRepository.save(user);			
+}else {
 	throw new NotFoundException();
-    });
+}
+
+//		userOpt.ifPresentOrElse(user->{
+//   user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+//   userRepository.save(user);			
+//   }, ()->{
+//	throw new NotFoundException();
+//    });
 		return new ResponseEntity<String>("Password Updated Successfully", HttpStatus.OK);
 	}
 	
