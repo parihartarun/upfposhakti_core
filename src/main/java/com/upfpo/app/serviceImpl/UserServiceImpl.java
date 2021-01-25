@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			//API call
 			User user = userRepository.findByUserName(username);
+			//TODO fetch master ID. Fetch master id from join query
 			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
 			  UserDetailsDto userDetailsDto = userMasterId(user.getUserId()); 
 			  Integer masterId = userDetailsDto.getMasterid();
