@@ -19,9 +19,9 @@ public class ComplaintsComments {
     private String createBy;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "complaints_id",referencedColumnName="id", nullable = false)
+    @JoinColumn(name = "complaints_id", nullable = false)
     @JsonIgnore
-    private Complaints complaints;
+    private Complaints  complaints;
 
     public ComplaintsComments(Integer id, String comment, String createBy, Complaints complaints) {
         this.id = id;

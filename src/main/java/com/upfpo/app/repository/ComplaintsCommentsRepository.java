@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ComplaintsCommentsRepository extends JpaRepository<ComplaintsComments,Integer> {
 
 
-    Optional<ComplaintsComments> findByComplaint_id(Integer id);
+    Optional<ComplaintsComments> findByComplaints_id(Integer id);
 }

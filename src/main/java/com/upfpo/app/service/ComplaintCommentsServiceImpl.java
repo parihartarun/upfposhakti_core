@@ -25,7 +25,7 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
             throw new ResourceNotFoundException("Complaint not found!");
         }
 
-        return complaintsCommentsRepository.findByComplaint_id(id);
+        return complaintsCommentsRepository.findByComplaints_id(id);
     }
 
     //Add comment by complaintid

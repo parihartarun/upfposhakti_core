@@ -1,4 +1,4 @@
-package com.upfpo.app.entity;
+/*package com.upfpo.app.entity;
 
 
 import javax.persistence.Entity;
@@ -9,4 +9,4 @@ import javax.persistence.Table;
 public class UploadCircular {
 
 
-}
+}*/

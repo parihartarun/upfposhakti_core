@@ -46,7 +46,7 @@ public class Complaints {
 
     @JsonIgnore
     @OneToMany(mappedBy = "complaints", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ComplaintsComments> comments;
+    private List<ComplaintsComments> complaintsComments;
 
     public Complaints() {
     }
@@ -60,7 +60,7 @@ public class Complaints {
         this.assignTo = assignTo;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
-        this.comments = comments;
+        this.complaintsComments = comments;
     }
 
     public Integer getId() {
@@ -128,11 +128,11 @@ public class Complaints {
     }
 
     public List<ComplaintsComments> getComments() {
-        return comments;
+        return complaintsComments;
     }
 
     public void setComments(List<ComplaintsComments> comments) {
-        this.comments = comments;
+        this.complaintsComments = comments;
     }
 
 	public Integer getFpoId() {
