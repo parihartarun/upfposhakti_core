@@ -25,7 +25,7 @@ public class ComplaintServiceImpl implements ComplaintService {
 
 
 
-    public Complaints updateComplaintDetail(Long id, Complaints complaints) {
+    public Complaints updateComplaintDetail(Integer id, Complaints complaints) {
         Optional<Complaints> sd = complaintRepository.findById(id);
         if(!sd.isPresent()) {
             return null;
@@ -35,7 +35,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
-    public Optional deleteComplaint(Long id) {
+    public Optional deleteComplaint(Integer id) {
         return complaintRepository.findById(id)
                 .map(complaints -> {
                     complaintRepository.delete(complaints);

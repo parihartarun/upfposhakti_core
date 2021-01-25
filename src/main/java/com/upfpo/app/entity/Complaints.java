@@ -14,7 +14,7 @@ public class Complaints {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
-    private Long id;
+    private Integer id;
 
     private String title;
 
@@ -41,7 +41,7 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Long id, String title, String message, String desc, String status, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> comments) {
+    public Complaints(Integer id, String title, String message, String desc, String status, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> comments) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -53,11 +53,11 @@ public class Complaints {
         this.comments = comments;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

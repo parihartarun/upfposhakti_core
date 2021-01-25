@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,8 @@ public class ComplaintCommentsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public Optional<ComplaintsComments> getComplaintsCommentsByComplaintId (@PathVariable Long Id){
-        return complaintCommentsService.getCommentByComplaintId(Id);
+    public Optional<ComplaintsComments> getComplaintsCommentsByComplaintId (@PathVariable Integer complaintId){
+        return complaintCommentsService.getCommentByComplaintId(complaintId);
     }
 
     //Create ComplaintsComments by UserID
@@ -44,8 +45,8 @@ public class ComplaintCommentsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ComplaintsComments addComplaintsComments(@PathVariable Long Id, @RequestBody ComplaintsComments complaintsComments){
-        return complaintCommentsService.addComment(Id, complaintsComments);
+    public ComplaintsComments addComplaintsComments(@PathVariable Integer complaintId, @RequestBody ComplaintsComments complaintsComments){
+        return complaintCommentsService.addComment(complaintId, complaintsComments);
     }
 
 
@@ -57,9 +58,9 @@ public class ComplaintCommentsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public String deleteComment (@PathVariable Long Id, @PathVariable Long complaintComments){
+    public String deleteComment (@PathVariable Integer complaintId, @PathVariable Integer commentId){
 
-        return complaintCommentsService.deleteComment(Id, complaintComments);
+        return complaintCommentsService.deleteComment(complaintId, commentId);
     }
 }
 

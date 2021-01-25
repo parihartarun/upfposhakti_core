@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ComplaintsCommentsRepository extends JpaRepository<ComplaintsComments,Long> {
+public interface ComplaintsCommentsRepository extends JpaRepository<ComplaintsComments,Integer> {
 
 
-    Optional<ComplaintsComments> findByComplaint_id(Long id);
+    Optional<ComplaintsComments> findByComplaint_id(Integer id);
 }

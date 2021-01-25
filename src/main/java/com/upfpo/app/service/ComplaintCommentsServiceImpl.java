@@ -13,8 +13,6 @@ import java.util.Optional;
 @Service
 public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
 
-
-
     @Autowired
     public ComplaintsCommentsRepository complaintsCommentsRepository;
 
@@ -22,7 +20,7 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
     private ComplaintRepository  complaintRepository;
 
     //Getting Comment by Complaint id
-    public Optional<ComplaintsComments> getCommentByComplaintId(Long id) {
+    public Optional<ComplaintsComments> getCommentByComplaintId(Integer id) {
         if(!complaintRepository.existsById(id)) {
             throw new ResourceNotFoundException("Complaint not found!");
         }
@@ -30,9 +28,9 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
         return complaintsCommentsRepository.findByComplaint_id(id);
     }
 
-    //Add blog to user id
-    public ComplaintsComments addComment(Long userId, ComplaintsComments complaintsComments) {
-        return complaintRepository.findById(userId)
+    //Add comment by complaintid
+    public ComplaintsComments addComment(Integer complaintId, ComplaintsComments complaintsComments) {
+        return complaintRepository.findById(complaintId)
                 .map(complaints -> {
                     complaintsComments.setComplaints(complaints);
                     return complaintsCommentsRepository.save(complaintsComments);
@@ -40,13 +38,13 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
     }
 
 
-    //Delete blog
-    public String deleteComment( Long cId, Long ccId) {
+    //Delete comment by complaintID
+    public String deleteComment( Integer complaintId, Integer commentId) {
 
-        if(!complaintRepository.existsById(cId)) {
+        if(!complaintRepository.existsById(complaintId)) {
             throw new ResourceNotFoundException("Id not found!");
         }
-        return complaintsCommentsRepository.findById(ccId)
+        return complaintsCommentsRepository.findById(commentId)
                 .map(complaintsComments -> {
                     complaintsCommentsRepository.delete(complaintsComments);
                     return "Deleted Successfully!";

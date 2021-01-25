@@ -77,7 +77,7 @@ public class ComplaintContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> updateComplaint(@PathVariable Long id, @RequestBody Complaints complaints) {
+    public ResponseEntity<String> updateComplaint(@PathVariable Integer id, @RequestBody Complaints complaints) {
         LOG.info("Inside ComplaintController updating sales details ", complaints);
         ResponseEntity<String> resp = null;
         try {
@@ -102,7 +102,7 @@ public class ComplaintContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> deleteComplaint(@PathVariable Long id) {
+    public ResponseEntity<String> deleteComplaint(@PathVariable Integer id) {
         LOG.info("Inside ComplaintController delete sales details ");
         ResponseEntity<String> resp = null;
         try {
