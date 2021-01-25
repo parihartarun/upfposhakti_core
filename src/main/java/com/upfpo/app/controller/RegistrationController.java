@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;

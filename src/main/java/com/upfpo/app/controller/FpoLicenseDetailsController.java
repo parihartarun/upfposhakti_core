@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.FpoLicenceDetails;
-import com.upfpo.app.entity.LicenseMaster;
 import com.upfpo.app.service.FpoLicenseDetailsService;
 
 import io.swagger.annotations.Api;
@@ -106,8 +105,6 @@ public class FpoLicenseDetailsController {
 	//@ResponseStatus( HttpStatus.NO_CONTENT)
 	public Boolean deleteFpoLicenseDetails(@PathVariable("id") Integer id)
 	{
-		boolean ss = fpoLicenseDetailsService.deleteFpoLicenceDetails(id);
-		System.err.println("%%%%%%%% "+ss);
 		return fpoLicenseDetailsService.deleteFpoLicenceDetails(id);
 	}
 	@GetMapping
