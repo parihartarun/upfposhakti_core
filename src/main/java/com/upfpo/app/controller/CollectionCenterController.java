@@ -67,7 +67,7 @@ public class CollectionCenterController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public CollectionCenter updateCollectionCenter(@PathVariable("id") Integer id,@RequestBody CollectionCenter updateCollectionCenter)
+	public CollectionCenter updateCollectionCenter(@PathVariable("id") int id,@RequestBody CollectionCenter updateCollectionCenter)
 	{
 		return collectionCenterService.updateCollectionCenter(id, updateCollectionCenter);
 	}
@@ -79,22 +79,28 @@ public class CollectionCenterController {
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public CollectionCenter getCollectionCenterById(@PathVariable("id") Integer id)
+	public CollectionCenter getCollectionCenterById(@PathVariable("id") int id)
 	{
 		return collectionCenterService.selectCollectionCenterById(id);
 	}
 	@DeleteMapping("/{id}")
-	@ApiOperation(value="Delete Collection Center by id",code=204,produces = "text/plain",notes="Api for delete Collection Center by id",response=Boolean.class)
+	@ApiOperation(value="Delete Collection Center by id",code=204,produces = "text/plain",notes="Api for delete Collection Center by id",response=ExceptionResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	@ResponseStatus( HttpStatus.NO_CONTENT)
-	public Boolean deleteCollectionCenter(@PathVariable("id") Integer id)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ExceptionResponse deleteCollectionCenter(@PathVariable("id") int id)
 	{
-		return collectionCenterService.deleteCollectionCenter(id);
+		ExceptionResponse expResponse = new ExceptionResponse();
+	if(collectionCenterService.deleteCollectionCenter(id)) {
+		expResponse.setMessage("Record Deleted Succcessfully");
+	}else {
+		expResponse.setMessage("Error Deleteing data");
+	}	
+		return expResponse;
 	}
 	@GetMapping
 	@ApiOperation(value="Get All Collection Center profiles",code=200,produces = "application/json",notes="Api for view all Collection Centers",response=CollectionCenter.class,responseContainer="List")

@@ -54,12 +54,13 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public boolean deleteCollectionCenter(int id) {
 		// TODO Auto-generated method stub
 		try {
-			CollectionCenter collectionCenter = collectionCenterRepository.getOne(id);
+			CollectionCenter collectionCenter = collectionCenterRepository.findById(id).get();
 			collectionCenter.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
 			collectionCenter.setDeleted(true);
 			collectionCenterRepository.save(collectionCenter);
 	          return true;
 		}catch(Exception e){
+			e.printStackTrace();
 		      return false;	
 		}
 		
@@ -76,9 +77,10 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter selectCollectionCenterById(int id) {
 		// TODO Auto-generated method stub
 		try {
-		return collectionCenterRepository.getOne(id);
+		return collectionCenterRepository.findById(id).get();
 		}catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new NotFoundException();
 		}
 		}
