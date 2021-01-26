@@ -4,11 +4,13 @@ import java.util.Properties;
 
 
 import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.entity.FileStorageProperties;
 import com.upfpo.app.service.CircularsServiceImpl;
 import com.upfpo.app.service.ComplaintServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,9 +21,8 @@ import javax.annotation.Resource;
 
 @SpringBootApplication
 @EnableJpaRepositories
+@EnableConfigurationProperties({FileStorageProperties.class})
 public class UpFPOApplication {
-
-
 
 
 
@@ -29,7 +30,6 @@ public class UpFPOApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
-
 	/*@Override
 	public void run(String... arg) throws Exception {
 		circularsService.deleteAll();
@@ -37,9 +37,6 @@ public class UpFPOApplication {
 
 		complaintService.deleteAll();
 		complaintService.init();
-
-
-
 	}*/
 
 	@Bean

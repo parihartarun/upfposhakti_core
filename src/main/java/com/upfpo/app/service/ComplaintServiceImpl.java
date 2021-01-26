@@ -33,8 +33,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintRepository complaintRepository;
 
-
-
     @Autowired
     private ComplaintCatgoriesRepository complaintCatgoriesRepository;
 

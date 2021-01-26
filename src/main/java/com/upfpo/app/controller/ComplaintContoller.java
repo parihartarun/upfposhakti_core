@@ -146,7 +146,7 @@ public class ComplaintContoller {
 
 
     @PostMapping("/upload")
-    @ApiOperation(value="Complaint Upload" ,code=201, produces = "application/json", notes="Api for all Upload Complaints File",response= UploadFileResponse.class)
+    @ApiOperation(value="Complaint Upload" ,code=201, produces = "application/json", notes="Api for all Upload Complaints File")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -165,7 +165,7 @@ public class ComplaintContoller {
     }
 
     @PostMapping("/uploadMultipleFiles")
-    @ApiOperation(value="Complaints File List" ,code=201, produces = "application/json", notes="Api for all All Complaints Files List",response= UploadFileResponse.class)
+    @ApiOperation(value="Complaints File List" ,code=201, produces = "application/json", notes="Api for all All Complaints Files List")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -179,7 +179,7 @@ public class ComplaintContoller {
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")
-    @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File",response= UploadFileResponse.class)
+    @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
