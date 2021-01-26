@@ -1,5 +1,6 @@
 package com.upfpo.app.validators;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -7,7 +8,7 @@ import org.springframework.validation.Validator;
 import com.upfpo.app.entity.Users;
 import com.upfpo.app.util.PasswordReset;
 
-
+@Component
 public class PreLoginValidator implements Validator{
 	
 	//private static final Logger logger = Logger.getLogger(RegistrationValidator.class);

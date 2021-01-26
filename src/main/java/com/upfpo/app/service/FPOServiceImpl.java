@@ -15,6 +15,7 @@ import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
+import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.util.GetCurrentDate;
 
 @Service
@@ -22,7 +23,8 @@ public class FPOServiceImpl implements FPOService {
 
 	@Autowired
 	private FPORegisterRepository fpoRepository;
-	
+	@Autowired
+	private UserRepository userRepository;
 	@Resource
 	private BoardMembersRepo boardMembersRepo;
 	
@@ -42,13 +44,17 @@ public class FPOServiceImpl implements FPOService {
 	@Override
 	public FPORegister updateFpo(Integer id, FPORegister e) {
 		
-		if(!fpoRepository.existsById(id))
+		if(fpoRepository.existsById(id))
 		{
+			
 			e.setDeleted(false);
 			e.setFpoId(id);
+			e.setUserFpo(userRepository.findByUserName(e.getUserName()));
+			
+			
 			return fpoRepository.save(e);
 		}else {
-	throw new AlreadyExistsException();
+	throw new NotFoundException();
 		}
 	}
 
