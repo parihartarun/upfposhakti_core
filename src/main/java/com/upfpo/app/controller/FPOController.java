@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
@@ -169,14 +170,14 @@ public class FPOController {
 		return fpoService.deleteBoardMembersById(id);
 	}
 	
-	@GetMapping(value= {"/land"})
-	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
+	@GetMapping(value= {"/landfarmer/{masterId}"})
+	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details",response=LandDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public @ResponseBody List<LandDetails> getLandDetails()
+	public @ResponseBody List<FarmerLandDetailDto> getLandDetails(@PathVariable("masterId")Integer masterId)
 	{
-		return fpoService.getAllLandDetail();
+		return fpoService.getAllLandDetail(masterId);
 	}
 	
 	@GetMapping(value= {"/land/{id}"})
@@ -216,14 +217,5 @@ public class FPOController {
 	 { 
 		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
      }
-	 
-	@GetMapping(value= {"/land/farmer/{id}"})
-	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
-	@ApiResponses(value= {
-	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
-	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public @ResponseBody List<FarmerMaster> getLandFarmer(@PathVariable("id")Iterable<Integer> id)
-	{
-		return fpoService.getLandFarmerByFpoId(id);
-	}
+
 }

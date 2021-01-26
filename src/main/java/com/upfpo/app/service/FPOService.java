@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
@@ -26,10 +27,8 @@ public interface FPOService {
 	public BoardMember getBoardMembersById(Long id);
 	public BoardMember deleteBoardMembersById(Long id);
 	public LandDetails addLand(LandDetails ld);
-	public List<LandDetails> getAllLandDetail();
+	public List<FarmerLandDetailDto> getAllLandDetail(Integer masterId);
 	public LandDetails getLandDetailById(Integer id);
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public boolean deleteLandDetailById(Integer id);
-	public List<FarmerMaster> getLandFarmerByFpoId(Iterable<Integer> id);
-	//public InteRger getFpoUserId(Long userId);
 }

@@ -1,5 +1,7 @@
 package com.upfpo.app.entity;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,11 +9,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.ManyToAny;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 
 @Entity
+@SqlResultSetMapping(name="FarmerLandDetailDto",
+classes = {
+    @ConstructorResult(
+            targetClass = FarmerLandDetailDto.class,
+            columns = {
+                @ColumnResult(name = "landId", type = Integer.class),
+                @ColumnResult(name = "landArea", type = double.class),
+                @ColumnResult(name = "masterId", type = Integer.class),
+                @ColumnResult(name = "isorganc", type = String.class),
+                @ColumnResult(name = "farmerId", type = Integer.class),
+                @ColumnResult(name = "parantsName", type = String.class),
+                @ColumnResult(name = "farmerName", type = String.class),
+           })
+})
+
 @Table(name="land_details")
 public class LandDetails {
 	
