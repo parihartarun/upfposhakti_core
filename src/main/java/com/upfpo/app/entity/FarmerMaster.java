@@ -80,7 +80,6 @@ public class FarmerMaster implements Serializable{
 	
 	@Mobile
 	@NotNull(message = "Please provide mobile number")
-	@NotBlank(message = "Mobile number should not be blank")
 	@Column(name="farmer_mob")
 	private Long  farmerMob;
 	
