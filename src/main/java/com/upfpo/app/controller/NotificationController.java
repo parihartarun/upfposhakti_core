@@ -1,7 +1,7 @@
 package com.upfpo.app.controller;
 
 
-import com.upfpo.app.auth.response.JwtResponse;
+
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.service.NotificationServiceImpl;
@@ -30,7 +30,7 @@ public class NotificationController {
     private NotificationServiceImpl notificationService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Notification List" ,code=201, produces = "application/json", notes="Api for all Notification Info",response= JwtResponse.class)
+    @ApiOperation(value="Notification List" ,code=201, produces = "application/json", notes="Api for all Notification Info",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -44,7 +44,7 @@ public class NotificationController {
 
 
     @PostMapping("/insert")
-    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= JwtResponse.class)
+    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -69,7 +69,7 @@ public class NotificationController {
 
 
     @PutMapping("/update1/{id}")
-    @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info",response= JwtResponse.class)
+    @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -94,7 +94,7 @@ public class NotificationController {
 
 
     @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion",response= JwtResponse.class)
+    @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
