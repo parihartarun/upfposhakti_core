@@ -73,7 +73,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerFarmer(@RequestBody FarmerMaster farmerRegister)
+	private ResponseEntity<MessageResponse> registerFarmer(@Valid @RequestBody FarmerMaster farmerRegister)
 	{
 		if(farmerRegister==null)
 		{
@@ -101,7 +101,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
+	private ResponseEntity<MessageResponse> registerBuyerSeller(@Valid @RequestBody BuyerSellerMaster buyerSeller)
 	{
 		//return new ResponseEntity<MessageResponse>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
 		if(buyerSeller==null)
@@ -130,7 +130,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
+	private ResponseEntity<MessageResponse> registerInputSupplier(@Valid @RequestBody InputSupplierMaster inputSupplierMaster)
 	{
 		if(inputSupplierMaster.getInputSupplierType()==1)
 		{
@@ -158,7 +158,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
+	private ResponseEntity<MessageResponse> registerChcFmb(@Valid @RequestBody ChcFmbMaster chcFmbMaster)
 	{
 		if(chcFmbMaster==null)
 		{

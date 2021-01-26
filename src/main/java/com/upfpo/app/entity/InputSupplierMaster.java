@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="input_supplier")
@@ -42,10 +43,11 @@ public class InputSupplierMaster implements Serializable
 	private long pincode;
 	
 	@Column(name="email")
-	@Email
+	@Email(message = "Please provide valid email id")
 	private String email;
 	
 	@Column(name="mobile_number")
+	@NotNull(message = "Mobile number should not be null")
 	private long mobile_number;
 	
 	@Column(name="contact_person")
