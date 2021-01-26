@@ -19,20 +19,18 @@ import javax.annotation.Resource;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication implements CommandLineRunner{
+public class UpFPOApplication {
 
-	@Resource
-	CircularsServiceImpl circularsService;
 
-	@Resource
-	ComplaintServiceImpl complaintService;
+
+
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	public void run(String... arg) throws Exception {
 		circularsService.deleteAll();
 		circularsService.init();
@@ -42,7 +40,7 @@ public class UpFPOApplication implements CommandLineRunner{
 
 
 
-	}
+	}*/
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {

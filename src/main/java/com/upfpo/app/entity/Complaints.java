@@ -27,7 +27,40 @@ public class Complaints {
     
     @Column(name="fpo_id")
     private Integer fpoId;
-    
+
+    @Column(name="issue_type")
+    private String issueType;
+
+    @Column(name="other_type")
+    private String otherType;
+
+    @Column(name="description")
+    private String descriptions;
+
+    @Column(name="assigned_other")
+    private String otherAssigned;
+
+    @Column(name="assigned_date")
+    private String assigned_date;
+
+    @Column(name="resolve_date")
+    private String resolve_date;
+
+    @Column(name="remarks")
+    private String remarks;
+
+    @Column(name="file_path")
+    private String filePath;
+
+    @Column(name="role")
+    private String role;
+
+    @Column(name="upload_date")
+    private java.sql.Date uploadDate;
+
+    @Column(name="uplaoded_by")
+    private String uploadedBy;
+
     @Column(name="is_deleted")
     private boolean isDeleted;
 
@@ -51,16 +84,127 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message, String desc, String status, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> comments) {
+    public Complaints(Integer id, String title, String message, String desc, String status, Integer fpoId, String issueType, String otherType, String descriptions, String otherAssigned, String assigned_date, String resolve_date, String remarks, String filePath, String role, java.sql.Date uploadDate, String uploadedBy, boolean isDeleted, Date deleteDate, String assignTo,
+                      String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.desc = desc;
         this.status = status;
+        this.fpoId = fpoId;
+        this.issueType = issueType;
+        this.otherType = otherType;
+        this.descriptions = descriptions;
+        this.otherAssigned = otherAssigned;
+        this.assigned_date = assigned_date;
+        this.resolve_date = resolve_date;
+        this.remarks = remarks;
+        this.filePath = filePath;
+        this.role = role;
+        this.uploadDate = uploadDate;
+        this.uploadedBy = uploadedBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
         this.assignTo = assignTo;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
-        this.complaintsComments = comments;
+        this.complaintsComments = complaintsComments;
+    }
+
+    public String getIssueType() {
+        return issueType;
+    }
+
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
+    }
+
+    public String getOtherType() {
+        return otherType;
+    }
+
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
+    }
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    public String getOtherAssigned() {
+        return otherAssigned;
+    }
+
+    public void setOtherAssigned(String otherAssigned) {
+        this.otherAssigned = otherAssigned;
+    }
+
+    public String getAssigned_date() {
+        return assigned_date;
+    }
+
+    public void setAssigned_date(String assigned_date) {
+        this.assigned_date = assigned_date;
+    }
+
+    public String getResolve_date() {
+        return resolve_date;
+    }
+
+    public void setResolve_date(String resolve_date) {
+        this.resolve_date = resolve_date;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public java.sql.Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(java.sql.Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public List<ComplaintsComments> getComplaintsComments() {
+        return complaintsComments;
+    }
+
+    public void setComplaintsComments(List<ComplaintsComments> complaintsComments) {
+        this.complaintsComments = complaintsComments;
     }
 
     public Integer getId() {
