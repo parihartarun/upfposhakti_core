@@ -3,6 +3,8 @@ package com.upfpo.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -132,7 +134,7 @@ public class FPOController {
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"), })
 	@ResponseStatus(HttpStatus.CREATED)
-	public BoardMember createBoardMember(@RequestBody BoardMember boardMember)
+	public BoardMember createBoardMember(@Valid @RequestBody BoardMember boardMember)
 	{
 		return fpoService.addBoardMember(boardMember);
 	}

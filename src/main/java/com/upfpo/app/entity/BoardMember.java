@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
 
 @Entity
@@ -31,6 +32,7 @@ public class BoardMember implements Serializable {
 	private BigInteger contactNo;
 
 	@Column(name = "member_email")
+	@Email(message = "Please provide valid email id")
 	private String email;
 
 	@Column(name = "user_id")

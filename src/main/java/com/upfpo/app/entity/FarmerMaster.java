@@ -78,7 +78,7 @@ public class FarmerMaster implements Serializable{
 	@Column(name="date_associated")
 	private String registerDate;
 	
-	@Mobile
+	@Mobile(message = "Please enter 10 digit mobile number")
 	@NotNull(message = "Please provide mobile number")
 	@Column(name="farmer_mob")
 	private Long  farmerMob;
