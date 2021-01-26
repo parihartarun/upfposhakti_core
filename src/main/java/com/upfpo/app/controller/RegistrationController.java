@@ -61,6 +61,10 @@ public class RegistrationController
 				if(registerServices.checkFPOExists(fpoRegister.getFpoEmail())>0){
 					throw new CustomException("FPO already exists",HttpStatus.BAD_REQUEST);
 				}
+				if(registerServices.checkUserFpoExists(fpoRegister.getUserFpo().getUserName())>0)
+				{
+					throw new CustomException("FPO User Name already exists",HttpStatus.BAD_REQUEST);
+				}
 				registerServices.registerFPO(fpoRegister);
 				return ResponseEntity.ok(new MessageResponse("SuccessFully Saved!"));
 
@@ -85,9 +89,13 @@ public class RegistrationController
 			{
 				throw new CustomException("Farmer already exists",HttpStatus.BAD_REQUEST);
 			}
+			else if(registerServices.checkUserFarmerExists(farmerRegister.getUserFar().getUserName())>0)
+			{
+				throw new CustomException("Farmer User Name already exists",HttpStatus.BAD_REQUEST);
+			}
 			else
 			{
-				return ResponseEntity
+				return ResponseEntity	
 						.ok(new MessageResponse("SuccessFully Saved!"));
 			}
 		}
@@ -110,6 +118,10 @@ public class RegistrationController
 		else {
 			if(registerServices.checkBuyerSellerExists(buyerSeller.getMobileNumber())==1){
 				throw new CustomException("Buyer/Seller already exists",HttpStatus.BAD_REQUEST);
+			}
+			else if(registerServices.checkUserBuyerSellerExists(buyerSeller.getUserBuyerSeller().getUserName())>0)
+			{
+				throw new CustomException("Buyer Seller User Name already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
@@ -141,6 +153,10 @@ public class RegistrationController
 			{
 				throw new CustomException("Input Supplier already exists",HttpStatus.BAD_REQUEST);
 			}
+			else if(registerServices.checkUserInputSupplierExists(inputSupplierMaster.getUserInputSeller().getUserName())>0)
+			{
+				throw new CustomException("Input Supplier User Name already exists",HttpStatus.BAD_REQUEST);
+			}
 			else
 			{
 				return ResponseEntity
@@ -167,6 +183,10 @@ public class RegistrationController
 			if(chcFmbDetails=="exists")
 			{
 				throw new CustomException("CHC/FMB already exists",HttpStatus.BAD_REQUEST);
+			}
+			else if(registerServices.checkUserChcFmbExists(chcFmbMaster.getUser().getUserName())>0)
+			{
+				throw new CustomException("CHC/FMB User Name already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
