@@ -92,15 +92,15 @@ public class CollectionCenterController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public ExceptionResponse deleteCollectionCenter(@PathVariable("id") int id)
+	public Boolean deleteCollectionCenter(@PathVariable("id") int id)
 	{
-		ExceptionResponse expResponse = new ExceptionResponse();
-	if(collectionCenterService.deleteCollectionCenter(id)) {
-		expResponse.setMessage("Record Deleted Succcessfully");
-	}else {
-		expResponse.setMessage("Error Deleteing data");
-	}	
-		return expResponse;
+//		ExceptionResponse expResponse = new ExceptionResponse();
+//	if(collectionCenterService.deleteCollectionCenter(id)) {
+//		expResponse.setMessage("Record Deleted Succcessfully");
+//	}else {
+//		expResponse.setMessage("Error Deleteing data");
+//	}	
+		return collectionCenterService.deleteCollectionCenter(id);
 	}
 	@GetMapping
 	@ApiOperation(value="Get All Collection Center profiles",code=200,produces = "application/json",notes="Api for view all Collection Centers",response=CollectionCenter.class,responseContainer="List")
