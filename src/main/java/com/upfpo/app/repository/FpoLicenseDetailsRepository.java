@@ -10,7 +10,7 @@ import com.upfpo.app.entity.FpoLicenceDetails;
 
 @Repository
 public interface FpoLicenseDetailsRepository extends JpaRepository<FpoLicenceDetails, Integer> {
-	
-	@Query("Select fl from FpoLicenceDetails fl order by fl.id desc")
+
+	@Query("Select fl from FpoLicenceDetails fl where fl.isDeleted= :b order by createDate desc")
 	List<FpoLicenceDetails> findByIsDeleted(boolean b);
 }

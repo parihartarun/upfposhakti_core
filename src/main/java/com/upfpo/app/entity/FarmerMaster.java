@@ -16,6 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.upfpo.app.custom.annotations.Mobile;
 
 @Entity
 @Table(name="farmer",uniqueConstraints = { 
@@ -43,6 +47,7 @@ public class FarmerMaster implements Serializable{
 	@Column(name="sla_ref_id")
 	private Integer slaRefId;
 	
+	@NotNull(message = "Please provide district")
 	@Column(name="district_ref_id")
 	private Integer distRefId;
 	
@@ -73,6 +78,8 @@ public class FarmerMaster implements Serializable{
 	@Column(name="date_associated")
 	private String registerDate;
 	
+	@Mobile
+	@NotNull(message = "Please provide mobile number")
 	@Column(name="farmer_mob")
 	private Long  farmerMob;
 	
