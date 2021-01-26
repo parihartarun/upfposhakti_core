@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,15 +85,16 @@ public class CollectionCenterController {
 		return collectionCenterService.selectCollectionCenterById(id);
 	}
 	@DeleteMapping("/{id}")
-	@ApiOperation(value="Delete Collection Center by id",code=204,produces = "text/plain",notes="Api for delete Collection Center by id",response=ExceptionResponse.class)
+	@ApiOperation(value="Delete Collection Center by id",code=204,produces = "text/plain",notes="Api for delete Collection Center by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Boolean deleteCollectionCenter(@PathVariable("id") int id)
+	//@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseBody
+	public boolean deleteCollectionCenter(@PathVariable("id") int id)
 	{
 //		ExceptionResponse expResponse = new ExceptionResponse();
 //	if(collectionCenterService.deleteCollectionCenter(id)) {
