@@ -19,4 +19,7 @@ public interface ChcFmbMasterRepository extends JpaRepository<ChcFmbMaster, Inte
 	
 	@Query("select count(c) from ChcFmbMaster c where c.mobileNumber = :mobileNumber")
 	 public int alreadyExists(long mobileNumber);
+	
+	@Query("select count(c) from ChcFmbMaster c where upper(c.user.userName) = :userName")
+	public int checkUserChcFmbExists(String userName);
 }

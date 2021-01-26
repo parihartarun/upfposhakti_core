@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.upfpo.app.custom.annotations.Mobile;
@@ -49,6 +50,7 @@ public class ChcFmbMaster implements Serializable
 	@Mobile
 	@NotNull(message = "Mobile number should not be null")
 	@Column(name="mobile_number")
+	@Min(10)
 	private long mobileNumber;
 	
 	@Column(name="firm_registraion_number")

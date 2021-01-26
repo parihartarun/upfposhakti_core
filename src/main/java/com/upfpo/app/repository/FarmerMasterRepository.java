@@ -24,4 +24,7 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	
 	 @Query("select f from FarmerMaster f where f.userFar.userId <> :userId")
 	 public List<FarmerMaster> getFarmers(long userId);
+	 
+	 @Query("select count(f) from FarmerMaster f where upper(f.userFar.userName) = :userName")
+	 public int checkUserFarmerExists(String userName);
 }
