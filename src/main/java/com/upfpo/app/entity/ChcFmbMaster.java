@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import com.upfpo.app.custom.annotations.Mobile;
 
 @Entity
 @Table(name="chc_fmb")
@@ -40,9 +43,11 @@ public class ChcFmbMaster implements Serializable
 	private long pincode;
 	
 	@Column(name="email")
-	@Email
+	@Email(message = "Please provide valid email Id")
 	private String email;
 	
+	@Mobile
+	@NotNull(message = "Mobile number should not be null")
 	@Column(name="mobile_number")
 	private long mobileNumber;
 	

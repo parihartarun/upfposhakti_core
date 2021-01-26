@@ -73,7 +73,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerFarmer(@Valid @RequestBody FarmerMaster farmerRegister)
+	private ResponseEntity<MessageResponse> registerFarmer(@Valid @RequestBody FarmerMaster farmerRegister) throws CustomException
 	{
 		if(farmerRegister==null)
 		{
@@ -83,8 +83,7 @@ public class RegistrationController
 			String farmer = registerServices.registerFarmer(farmerRegister);
 			if(farmer=="exists")
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("Farmer already exists!"));
+				throw new CustomException("Farmer already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
@@ -101,7 +100,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerBuyerSeller(@Valid @RequestBody BuyerSellerMaster buyerSeller)
+	private ResponseEntity<MessageResponse> registerBuyerSeller(@Valid @RequestBody BuyerSellerMaster buyerSeller) throws CustomException
 	{
 		//return new ResponseEntity<MessageResponse>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
 		if(buyerSeller==null)
@@ -140,8 +139,7 @@ public class RegistrationController
 			String inputSupplierDetails = registerServices.registerInputSuplier(inputSupplierMaster);
 			if(inputSupplierDetails=="exists")
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("Input Supplier already exists!"));
+				throw new CustomException("Input Supplier already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
@@ -158,7 +156,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerChcFmb(@Valid @RequestBody ChcFmbMaster chcFmbMaster)
+	private ResponseEntity<MessageResponse> registerChcFmb(@Valid @RequestBody ChcFmbMaster chcFmbMaster) throws CustomException
 	{
 		if(chcFmbMaster==null)
 		{
@@ -168,8 +166,7 @@ public class RegistrationController
 			String chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
 			if(chcFmbDetails=="exists")
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("CHC FMB already exists!"));
+				throw new CustomException("CHC/FMB already exists",HttpStatus.BAD_REQUEST);
 			}
 			else
 			{
