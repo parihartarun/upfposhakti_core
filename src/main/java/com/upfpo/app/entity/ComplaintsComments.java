@@ -1,6 +1,8 @@
 package com.upfpo.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -18,9 +20,8 @@ public class ComplaintsComments {
     @Column(name = "commented_by")
     private String createBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "complaints_id", nullable = false)
-    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="complaints_id")
     private Complaints  complaints;
 
     public ComplaintsComments(Integer id, String comment, String createBy, Complaints complaints) {

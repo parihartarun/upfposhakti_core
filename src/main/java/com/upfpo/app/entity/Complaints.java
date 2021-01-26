@@ -1,15 +1,13 @@
 package com.upfpo.app.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "complaints_suggestion")
+@Table(name = "complaints")
 public class Complaints {
 
     @Id
@@ -17,12 +15,16 @@ public class Complaints {
     @Column(name="id")
     private Integer id;
 
+    @Column(name="title")
     private String title;
 
+    @Column(name="message")
     private String message;
 
+    @Column(name="desc")
     private String desc;
 
+    @Column(name="status")
     private String status;
     
     @Column(name="fpo_id")
@@ -41,10 +43,10 @@ public class Complaints {
     private String otherAssigned;
 
     @Column(name="assigned_date")
-    private String assigned_date;
+    private Date assigned_date;
 
     @Column(name="resolve_date")
-    private String resolve_date;
+    private Date resolve_date;
 
     @Column(name="remarks")
     private String remarks;
@@ -56,13 +58,13 @@ public class Complaints {
     private String role;
 
     @Column(name="upload_date")
-    private java.sql.Date uploadDate;
+    private Date uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
 
     @Column(name="is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(name="delete_date")
     private Date deleteDate;
@@ -77,15 +79,18 @@ public class Complaints {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "complaints", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "complaints")
     private List<ComplaintsComments> complaintsComments;
+
+
 
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message, String desc, String status, Integer fpoId, String issueType, String otherType, String descriptions, String otherAssigned, String assigned_date, String resolve_date, String remarks, String filePath, String role, java.sql.Date uploadDate, String uploadedBy, boolean isDeleted, Date deleteDate, String assignTo,
-                      String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+    public Complaints(Integer id, String title, String message, String desc, String status,
+                      Integer fpoId, String issueType, String otherType, String descriptions,
+                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -108,7 +113,38 @@ public class Complaints {
         this.assignTo = assignTo;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
-        this.complaintsComments = complaintsComments;
+    }
+
+    public Date getAssigned_date() {
+        return assigned_date;
+    }
+
+    public void setAssigned_date(Date assigned_date) {
+        this.assigned_date = assigned_date;
+    }
+
+    public Date getResolve_date() {
+        return resolve_date;
+    }
+
+    public void setResolve_date(Date resolve_date) {
+        this.resolve_date = resolve_date;
+    }
+
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public String getIssueType() {
@@ -143,21 +179,7 @@ public class Complaints {
         this.otherAssigned = otherAssigned;
     }
 
-    public String getAssigned_date() {
-        return assigned_date;
-    }
 
-    public void setAssigned_date(String assigned_date) {
-        this.assigned_date = assigned_date;
-    }
-
-    public String getResolve_date() {
-        return resolve_date;
-    }
-
-    public void setResolve_date(String resolve_date) {
-        this.resolve_date = resolve_date;
-    }
 
     public String getRemarks() {
         return remarks;
@@ -183,9 +205,6 @@ public class Complaints {
         this.role = role;
     }
 
-    public java.sql.Date getUploadDate() {
-        return uploadDate;
-    }
 
     public void setUploadDate(java.sql.Date uploadDate) {
         this.uploadDate = uploadDate;
@@ -199,13 +218,7 @@ public class Complaints {
         this.uploadedBy = uploadedBy;
     }
 
-    public List<ComplaintsComments> getComplaintsComments() {
-        return complaintsComments;
-    }
 
-    public void setComplaintsComments(List<ComplaintsComments> complaintsComments) {
-        this.complaintsComments = complaintsComments;
-    }
 
     public Integer getId() {
         return id;
@@ -271,13 +284,6 @@ public class Complaints {
         this.createDateTime = createDateTime;
     }
 
-    public List<ComplaintsComments> getComments() {
-        return complaintsComments;
-    }
-
-    public void setComments(List<ComplaintsComments> comments) {
-        this.complaintsComments = comments;
-    }
 
 	public Integer getFpoId() {
 		return fpoId;

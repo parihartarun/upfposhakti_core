@@ -88,6 +88,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     public String storeFile(MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Complaints complaints= new Complaints();
 
         try {
             // Check if the file's name contains invalid characters
@@ -98,6 +99,8 @@ public class ComplaintServiceImpl implements ComplaintService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            complaints.setFilePath(String.valueOf(targetLocation));
+            complaintRepository.save(complaints);
 
             return fileName;
         } catch (IOException ex) {
