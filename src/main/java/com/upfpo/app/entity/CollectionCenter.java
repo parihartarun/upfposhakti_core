@@ -14,8 +14,8 @@ import javax.validation.constraints.Min;
 
 @Entity
 @Table(name="collection_center")
-public class CollectionCenter implements Serializable {	
 
+public class CollectionCenter implements Serializable {	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
