@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -71,10 +72,10 @@ public class ComplaintContoller {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Complaints complaints = mapper.readValue(modelComplaints, Complaints.class);
-            Complaints id = complaintService.createComplaint(complaints);
+            Complaints id = complaintService.createComplaint(complaints, file);
             resp = new ResponseEntity<String>("Complaint created Successfully!", HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");
-            String fileName = complaintService.storeFile(file);
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/downloadFile/")

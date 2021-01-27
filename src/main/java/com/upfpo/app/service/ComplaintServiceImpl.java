@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FileStorageProperties;
@@ -41,8 +42,26 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaintRepository.findAll();
     }
 
-    public Complaints createComplaint (Complaints complaints){
+    public Complaints createComplaint (Complaints complaints, MultipartFile file){
 
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            complaints.setFilePath(String.valueOf(targetLocation));
+            //complaintRepository.save(complaints);
+
+
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
 
         return complaintRepository.save(complaints);
     }
