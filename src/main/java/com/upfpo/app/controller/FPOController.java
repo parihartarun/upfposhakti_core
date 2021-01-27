@@ -164,6 +164,10 @@ public class FPOController {
 	}
 	
 	@PutMapping(value = "/boardmember/editBoardMember/{id}")
+	@ApiOperation(value="Edit BoardMember by Id",code=200,produces = "application/json",notes="Api to edit Board Member by Id",response=BoardMember.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
 	public ResponseEntity<BoardMember> updateBoardMember(@RequestBody BoardMember boardMember, @PathVariable("id")Long id)
 	{
 		BoardMember boardMemberEntity = fpoService.updateBoardMember(boardMember,id);
