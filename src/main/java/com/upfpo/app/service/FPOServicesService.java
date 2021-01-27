@@ -11,6 +11,6 @@ public interface FPOServicesService {
     public FPOServices updateFPOServices(Integer id, FPOServices FPOServices);
     public List<FPOServices> getFPOServices();
     public Optional<FPOServices> getFPOServicesById(Integer id);
-    public FPOServices insertFPOServices(FPOServices FPOServices);
+   // public FPOServices insertFPOServices(FPOServices FPOServices);
 
 }

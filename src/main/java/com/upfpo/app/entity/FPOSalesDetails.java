@@ -37,21 +37,32 @@ public class FPOSalesDetails {
     @Column(name="update_date")
     private Date updateDate;
 
-    @Column(name="is_deleted")
-    private boolean isDeleted;
-
-    @Column(name="delete_date")
-    private Date deleteDate;
-
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "created_date")
     private Date createdDate;
 
+    @Column(name="is_deleted")
+    private boolean isDeleted;
+
+    @Column(name="delete_date")
+    private Date deleteDate;
+
+    @Column(name="delete_By")
+    private Date deleteBy;
+
+
     public FPOSalesDetails() {
     }
 
+    public Date getDeleteBy() {
+        return deleteBy;
+    }
+
+    public void setDeleteBy(Date deleteBy) {
+        this.deleteBy = deleteBy;
+    }
 
     public Integer getId() {
         return id;

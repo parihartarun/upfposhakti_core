@@ -1,9 +1,11 @@
 package com.upfpo.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.Circulars;
+import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.service.CircularsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,21 +25,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping(value = "/circulars")
@@ -57,14 +56,13 @@ public class CircularsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> uploadCircular(@RequestParam("model") String model, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadCircular(@RequestParam("description") String description, @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
-        ResponseEntity<String> resp = null;
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            Circulars circulars = mapper.readValue(model, Circulars.class);
+            Circulars circulars = new Circulars(description);
             Circulars id = circularsService.createCircular(circulars, file);
-            resp = new ResponseEntity<String>("Circular created Successfully!", HttpStatus.OK );
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular created Successfully!"), HttpStatus.OK );
             LOG.info("Circular created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -74,7 +72,7 @@ public class CircularsController {
                     .toUriString();
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Circular", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the Circular");
             e.printStackTrace();
         }
