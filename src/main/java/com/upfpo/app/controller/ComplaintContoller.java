@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.ComplaintCatgories;
@@ -57,8 +58,6 @@ public class ComplaintContoller {
         return complaintService.getAllComplaint();
     }
 
-
-
     @PostMapping("/insert")
     @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= Complaints.class)
     @ApiResponses(value= {
@@ -66,14 +65,16 @@ public class ComplaintContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createComplaint(@RequestParam("model") String modelComplaints, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                  @RequestParam("issue_type") String issueType, @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
-        ResponseEntity<String> resp = null;
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            Complaints complaints = mapper.readValue(modelComplaints, Complaints.class);
+
+            Complaints complaints = new Complaints(description, title, issueType);
+
             Complaints id = complaintService.createComplaint(complaints, file);
-            resp = new ResponseEntity<String>("Complaint created Successfully!", HttpStatus.OK );
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -83,7 +84,7 @@ public class ComplaintContoller {
                     .toUriString();
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Complaint", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the Complaint");
             e.printStackTrace();
         }

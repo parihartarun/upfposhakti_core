@@ -141,6 +141,14 @@ public class Complaints {
         this.complaintsComments = complaintsComments;
     }
 
+    public Complaints(String description, String title, String issueType) {
+
+        this.setIssueType(issueType);
+        this.setDescription(description);
+        this.setTitle(title);
+
+    }
+
     public Integer getId() {
         return id;
     }
