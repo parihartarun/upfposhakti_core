@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public interface CircularsService {
 
-    public void init();
+/*    public void init();
 
     public void save(MultipartFile file);
 
@@ -16,6 +16,6 @@ public interface CircularsService {
 
     public void deleteAll();
 
-    public Stream<Path> loadAll();
+    public Stream<Path> loadAll();*/
 
 }

@@ -37,6 +37,8 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintCatgoriesRepository complaintCatgoriesRepository;
 
+    private final Path fileStorageLocation;
+
 
     public List<Complaints> getAllComplaint(){
         return complaintRepository.findAll();
@@ -91,7 +93,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaintCatgoriesRepository.findAll();
     }
 
-    private final Path fileStorageLocation;
+
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
