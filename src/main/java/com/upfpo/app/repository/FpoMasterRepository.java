@@ -14,8 +14,11 @@ public interface FpoMasterRepository extends JpaRepository<FPORegister, Integer>
 {
 	@Query("select count(f) from FPORegister f where f.fpoEmail = :fpoEmail")
 	 public int alreadyExists(String  fpoEmail);
+	
 	public Optional<FPORegister> findByUserNameAndFpolandLine(String userName, BigInteger valueOf);
+	
 	public Boolean existsByUserNameAndFpolandLine(String userName, BigInteger valueOf);
+	
 	@Query("select count(f) from FPORegister f where upper(f.userFpo.userName) = :userName")
 	public int checkUserFpoExists(String userName);
 }

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import com.upfpo.app.custom.annotations.Mobile;
 
@@ -76,9 +78,10 @@ public class FarmerMaster implements Serializable {
 
 	@Mobile
 	@NotNull(message = "Please provide mobile number")
-	@Column(name = "farmer_mob")
+	@Column(name="farmer_mob")
+	@Min(10)
 	private Long farmerMob;
-
+	
 	@Column(name = "farmerlotno")
 	private String farmerLotNo;
 
