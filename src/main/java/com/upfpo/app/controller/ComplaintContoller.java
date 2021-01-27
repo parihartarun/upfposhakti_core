@@ -46,7 +46,7 @@ public class ComplaintContoller {
     @Autowired
     private ComplaintServiceImpl complaintService;
 
-    @GetMapping("/getall")
+    @GetMapping
     @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -58,7 +58,7 @@ public class ComplaintContoller {
         return complaintService.getAllComplaint();
     }
 
-    @PostMapping("/insert")
+    @PostMapping
     @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -93,7 +93,7 @@ public class ComplaintContoller {
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -118,7 +118,7 @@ public class ComplaintContoller {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
