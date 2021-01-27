@@ -46,7 +46,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
-
     public Complaints updateComplaintDetail(Integer id, Complaints complaints) {
         Optional<Complaints> sd = complaintRepository.findById(id);
         if(!sd.isPresent()) {

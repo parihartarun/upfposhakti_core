@@ -64,20 +64,20 @@ public class ComplaintContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createComplaint(@RequestBody Complaints complaints, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> createComplaint(@RequestBody Complaints complaints) {
         LOG.info("Inside ComplaintController saving Complaint ", complaints);
         ResponseEntity<String> resp = null;
         try {
             Complaints id = complaintService.createComplaint(complaints);
             resp = new ResponseEntity<String>("Complaint created Successfully!", HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");
-            String fileName = complaintService.storeFile(file);
+            /*String fileName = complaintService.storeFile(file);
 
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/downloadFile/")
                     .path(fileName)
                     .toUriString();
-            //}
+            //}*/
         } catch (Exception e) {
             resp = new ResponseEntity<String>("Failed to Save the Complaint", HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the Complaint");
@@ -88,7 +88,7 @@ public class ComplaintContoller {
     }
 
 
-    @PutMapping("/update1/{id}")
+    @PutMapping("/update/{id}")
     @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -113,7 +113,7 @@ public class ComplaintContoller {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -151,7 +151,7 @@ public class ComplaintContoller {
     }
 
 
-    /*@PostMapping("/upload")
+    @PostMapping("/upload")
     @ApiOperation(value="Complaint Upload" ,code=201, produces = "application/json", notes="Api for all Upload Complaints File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -182,7 +182,7 @@ public class ComplaintContoller {
                 .stream()
                 .map(file -> uploadFile(file))
                 .collect(Collectors.toList());
-    }*/
+    }
 
     @GetMapping("/downloadFile/{fileName:.+}")
     @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)

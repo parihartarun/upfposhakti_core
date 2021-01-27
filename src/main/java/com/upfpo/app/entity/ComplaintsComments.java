@@ -20,8 +20,9 @@ public class ComplaintsComments {
     @Column(name = "commented_by")
     private String createBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="complaints_id")
+    @JsonIgnore
     private Complaints  complaints;
 
     public ComplaintsComments(Integer id, String comment, String createBy, Complaints complaints) {

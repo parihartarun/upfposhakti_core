@@ -1,6 +1,8 @@
 package com.upfpo.app.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,9 +23,6 @@ public class Complaints {
     @Column(name="message")
     private String message;
 
-    @Column(name="desc")
-    private String desc;
-
     @Column(name="status")
     private String status;
     
@@ -37,7 +36,7 @@ public class Complaints {
     private String otherType;
 
     @Column(name="description")
-    private String descriptions;
+    private String description;
 
     @Column(name="assigned_other")
     private String otherAssigned;
@@ -79,8 +78,8 @@ public class Complaints {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-
-    @OneToMany(mappedBy = "complaints")
+    @JsonIgnore
+    @OneToMany(mappedBy = "complaints", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ComplaintsComments> complaintsComments;
 
 
@@ -88,18 +87,18 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message, String desc, String status,
+    public Complaints(Integer id, String title, String message,  String status,
                       Integer fpoId, String issueType, String otherType, String descriptions,
-                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime) {
+                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath,
+                      String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime) {
         this.id = id;
         this.title = title;
         this.message = message;
-        this.desc = desc;
         this.status = status;
         this.fpoId = fpoId;
         this.issueType = issueType;
         this.otherType = otherType;
-        this.descriptions = descriptions;
+        this.description = descriptions;
         this.otherAssigned = otherAssigned;
         this.assigned_date = assigned_date;
         this.resolve_date = resolve_date;
@@ -115,110 +114,32 @@ public class Complaints {
         this.createDateTime = createDateTime;
     }
 
-    public Date getAssigned_date() {
-        return assigned_date;
-    }
-
-    public void setAssigned_date(Date assigned_date) {
-        this.assigned_date = assigned_date;
-    }
-
-    public Date getResolve_date() {
-        return resolve_date;
-    }
-
-    public void setResolve_date(Date resolve_date) {
-        this.resolve_date = resolve_date;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public String getIssueType() {
-        return issueType;
-    }
-
-    public void setIssueType(String issueType) {
+    public Complaints(Integer id, String title, String message, String status, Integer fpoId, String issueType, String otherType, String description,
+                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
+                      Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.status = status;
+        this.fpoId = fpoId;
         this.issueType = issueType;
-    }
-
-    public String getOtherType() {
-        return otherType;
-    }
-
-    public void setOtherType(String otherType) {
         this.otherType = otherType;
-    }
-
-    public String getDescriptions() {
-        return descriptions;
-    }
-
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
-    }
-
-    public String getOtherAssigned() {
-        return otherAssigned;
-    }
-
-    public void setOtherAssigned(String otherAssigned) {
+        this.description = description;
         this.otherAssigned = otherAssigned;
-    }
-
-
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
+        this.assigned_date = assigned_date;
+        this.resolve_date = resolve_date;
         this.remarks = remarks;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
         this.role = role;
-    }
-
-
-    public void setUploadDate(java.sql.Date uploadDate) {
         this.uploadDate = uploadDate;
-    }
-
-    public String getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(String uploadedBy) {
         this.uploadedBy = uploadedBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
+        this.assignTo = assignTo;
+        this.createBy = createBy;
+        this.createDateTime = createDateTime;
+        this.complaintsComments = complaintsComments;
     }
-
-
 
     public Integer getId() {
         return id;
@@ -244,20 +165,124 @@ public class Complaints {
         this.message = message;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getFpoId() {
+        return fpoId;
+    }
+
+    public void setFpoId(Integer fpoId) {
+        this.fpoId = fpoId;
+    }
+
+    public String getIssueType() {
+        return issueType;
+    }
+
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
+    }
+
+    public String getOtherType() {
+        return otherType;
+    }
+
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOtherAssigned() {
+        return otherAssigned;
+    }
+
+    public void setOtherAssigned(String otherAssigned) {
+        this.otherAssigned = otherAssigned;
+    }
+
+    public Date getAssigned_date() {
+        return assigned_date;
+    }
+
+    public void setAssigned_date(Date assigned_date) {
+        this.assigned_date = assigned_date;
+    }
+
+    public Date getResolve_date() {
+        return resolve_date;
+    }
+
+    public void setResolve_date(Date resolve_date) {
+        this.resolve_date = resolve_date;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public String getAssignTo() {
@@ -284,28 +309,11 @@ public class Complaints {
         this.createDateTime = createDateTime;
     }
 
+    public List<ComplaintsComments> getComplaintsComments() {
+        return complaintsComments;
+    }
 
-	public Integer getFpoId() {
-		return fpoId;
-	}
-
-	public void setFpoId(Integer fpoId) {
-		this.fpoId = fpoId;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	public Date getDeleteDate() {
-		return deleteDate;
-	}
-
-	public void setDeleteDate(Date deleteDate) {
-		this.deleteDate = deleteDate;
-	}
+    public void setComplaintsComments(List<ComplaintsComments> complaintsComments) {
+        this.complaintsComments = complaintsComments;
+    }
 }
