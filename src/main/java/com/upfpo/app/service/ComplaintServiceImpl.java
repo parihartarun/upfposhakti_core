@@ -103,7 +103,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
+            //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
     }
 

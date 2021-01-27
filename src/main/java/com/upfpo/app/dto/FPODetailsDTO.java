@@ -15,6 +15,46 @@ public class FPODetailsDTO {
 	private String associationdate;
 	private String crops;
 	private String services;
+	   
+	public String getMarketableSurplus() {
+		return marketableSurplus;
+	}
+
+
+
+	public void setMarketableSurplus(String marketableSurplus) {
+		this.marketableSurplus = marketableSurplus;
+	}
+
+
+
+	public String getActualProduction() {
+		return actualProduction;
+	}
+
+
+
+	public void setActualProduction(String actualProduction) {
+		this.actualProduction = actualProduction;
+	}
+
+
+
+	public String getCropVeriety() {
+		return cropVeriety;
+	}
+
+
+
+	public void setCropVeriety(String cropVeriety) {
+		this.cropVeriety = cropVeriety;
+	}
+
+
+
+	private String marketableSurplus;
+	private String actualProduction;
+	private String cropVeriety;
 	
 	
 	
