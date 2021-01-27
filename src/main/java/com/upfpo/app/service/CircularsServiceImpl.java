@@ -19,6 +19,8 @@ public class CircularsServiceImpl implements CircularsService {
 
     private final Path root = Paths.get("uploads");
 
+    
+
     @Override
     public void init() {
         try {
