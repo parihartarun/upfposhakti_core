@@ -122,7 +122,7 @@ public class FPOServicesController {
     }*/
 
 
-    @PutMapping("/update1/{id}")
+    @PutMapping("/update/{id}")
     @ApiOperation(value="Update FPOServices Details" ,code=201, produces = "application/json", notes="Api To Update FPOServices Details",response=FPOServices.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -147,23 +147,23 @@ public class FPOServicesController {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Delete FPOServicess Details" ,code=201, produces = "application/json", notes="Api To Delete FPOServicess Details",response=FPOServices.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> deleteFPOServices(@PathVariable Integer id) {
+    public ResponseEntity<MessageResponse> deleteFPOServices(@PathVariable Integer id) {
         LOG.info("Inside SalesDetailsController delete sales details ");
-        ResponseEntity<String> resp = null;
+        ResponseEntity<MessageResponse> resp = null;
         try {
             fpoServicesService.deleteFPOServices(id);
-            resp = new ResponseEntity<String>("FPOServices Details Deleted Successfully!", HttpStatus.OK );
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOServices Details Deleted Successfully!"), HttpStatus.OK );
             LOG.info("FPOServicess Details Deleted Successfully!");
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Delete the FPOServices Details", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the FPOServices Details"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Delete the FPOServices Details");
             e.printStackTrace();
         }
