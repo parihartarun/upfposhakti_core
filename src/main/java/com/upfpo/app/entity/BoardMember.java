@@ -71,9 +71,17 @@ public class BoardMember implements Serializable {
 	@Column(name="is_deleted")
 	private boolean isDeleted;
 	
+	@Column(name="master_id")
+	private Integer masterId;
 	
-	
-	
+	public Integer getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
+	}
+
 	public long getId() {
 		return id;
 	}
