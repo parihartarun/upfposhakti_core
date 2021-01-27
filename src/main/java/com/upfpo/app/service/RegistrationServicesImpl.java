@@ -46,11 +46,41 @@ public class RegistrationServicesImpl implements RegistrationServices
 	}
 	
 	@Override
+	public int checkUserFpoExists(String userName) 
+	{
+		return fpoRepository.checkUserFpoExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkUserFarmerExists(String userName) 
+	{
+		return farmerMasterRepository.checkUserFarmerExists(userName.toUpperCase());
+	}
+	
+	@Override
 	public int checkBuyerSellerExists(long mobileNo) 
 	{
 		int ss= buyerSellerRepository.alreadyExists(mobileNo);
 		System.err.println("Count::"+ss);
 		return buyerSellerRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
+	public int checkUserBuyerSellerExists(String userName) 
+	{
+		return buyerSellerRepository.checkUserBuyerSellerExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkUserInputSupplierExists(String userName) 
+	{
+		return inputSupplierRepository.checkUserInputSupplierExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkUserChcFmbExists(String userName) 
+	{
+		return chcFmbRepository.checkUserChcFmbExists(userName.toUpperCase());
 	}
 	
 	@Override
@@ -61,6 +91,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		fpoRegister.setUserName(fpoRegister.getUserFpo().getUserName());
 		fpoRegister.getUserFpo().setRoleRefId("4");
 		fpoRegister.setStateref(9);
+		fpoRegister.getUserFpo().setEnabled(true);
 		count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
 		if(count==1)
 		{

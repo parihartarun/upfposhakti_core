@@ -1,6 +1,7 @@
 package com.upfpo.app.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -22,6 +23,13 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 @Query("select count(f) from FarmerMaster f where f.farmerMob = :farmerMob")
 	 public int alreadyExists(long farmerMob);
 	
-	 @Query("select f from FarmerMaster f where f.userFar.userId <> :userId")
+//	 @Query("select f from FarmerMaster f where f.userFar.userId <> :userId")
+//	 public List<FarmerMaster> getFarmers(long userId);	 
+	 public Optional<FarmerMaster> findByUserNameAndFarmerMob(String userName,Long farmerMob);
+	 public Boolean existsByUserNameAndFarmerMob(String userName,Long farmerMob);
 	 public List<FarmerMaster> getFarmers(long userId);
+	 
+	 @Query("select count(f) from FarmerMaster f where upper(f.userFar.userName) = :userName")
+	 public int checkUserFarmerExists(String userName);
+
 }

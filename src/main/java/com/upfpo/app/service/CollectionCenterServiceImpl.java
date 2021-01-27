@@ -25,7 +25,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
 		//DistrictMaster district = districtRepository.findById(e.getDistId()).get();
-		e.setUpdatedBy("admin");
+		e.setUpdatedBy("ROLE_FPO");
 		e.setStateId(6);
 		//e.setDistId(6);
 		e.setDeleted(false);
@@ -37,7 +37,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 		// TODO Auto-generated method stub
 		e.setId(id);
 	    DistrictMaster district = districtRepository.findById(e.getDistId()).get();
-		
+	    e.setUpdatedBy("ROLE_FPO");
 		e.setStateId(district.getState_id());
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);

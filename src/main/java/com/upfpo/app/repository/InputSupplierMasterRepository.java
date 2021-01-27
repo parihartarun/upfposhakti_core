@@ -19,4 +19,7 @@ public interface InputSupplierMasterRepository extends JpaRepository<InputSuppli
 	
 	@Query("select count(i) from InputSupplierMaster i where i.mobile_number = :mobile_number")
 	 public int alreadyExists(long mobile_number);
+	
+	@Query("select count(i) from InputSupplierMaster i where upper(i.userInputSeller.userName) = :userName")
+	public int checkUserInputSupplierExists(String userName);
 }

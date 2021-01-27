@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.upfpo.app.custom.annotations.Mobile;
 
 @Entity
 @Table(name="buyer_seller")
@@ -46,6 +50,9 @@ public class BuyerSellerMaster implements Serializable
 	private String designationContactPerson;
 	
 	@Column(name="mobile_number")
+	@Mobile
+	@NotNull(message = "Mobile number should not be null")
+	@Min(10)
 	private long mobileNumber;
 	
 	@Email(message ="Please Provie Valid Email Address")

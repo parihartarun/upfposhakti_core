@@ -16,143 +16,139 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import com.upfpo.app.custom.annotations.Mobile;
 
 @Entity
-@Table(name="farmer",uniqueConstraints = { 
-		@UniqueConstraint(columnNames = "farmer_mob"),
-		@UniqueConstraint(columnNames = "aadhaar")
-	})
-public class FarmerMaster implements Serializable{
-	
+@Table(name = "farmer", uniqueConstraints = { @UniqueConstraint(columnNames = "farmer_mob"),
+		@UniqueConstraint(columnNames = "aadhaar") })
+public class FarmerMaster implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="farmer_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "farmer_id")
 	private Integer farmerId;
-	
-	@Column (name="state_ref")
+
+	@Column(name = "state_ref")
 	private Integer stateref;
-	
-	@Column(name="pincode")
+
+	@Column(name = "pincode")
 	private Integer pincode;
-	
-	@Column(name="blockId")
+
+	@Column(name = "blockId")
 	private Integer blockRef;
-	
-	@Column(name="sla_ref_id")
+
+	@Column(name = "sla_ref_id")
 	private Integer slaRefId;
-	
+
 	@NotNull(message = "Please provide district")
-	@Column(name="district_ref_id")
+	@Column(name = "district_ref_id")
 	private Integer distRefId;
-	
-	@Column(name="bank_ref_id")
+
+	@Column(name = "bank_ref_id")
 	private Integer bankRefId;
-	
-	@Column(name="fpo_ref_id")
+
+	@Column(name = "fpo_ref_id")
 	private Integer fpoRefId;
-	
-	@Column(name="village_ref_id")
+
+	@Column(name = "village_ref_id")
 	private Integer villRefId;
-	
-	@Column(name="fig_ref_id")
+
+	@Column(name = "fig_ref_id")
 	private Integer figRefId;
-	
-	@Column(name="education_ref_id")
+
+	@Column(name = "education_ref_id")
 	private Integer educationId;
-	
-	@Column(name="farmer_name")
+
+	@Column(name = "farmer_name")
 	private String farmerName;
-	
-	@Column(name="aadhaar")
+
+	@Column(name = "aadhaar")
 	private String farmerAdhaar;
-	
-	@Column(name="address")
+
+	@Column(name = "address")
 	private String farmerAddress;
-	
-	@Column(name="date_associated")
+
+	@Column(name = "date_associated")
 	private String registerDate;
-	
+
 	@Mobile
 	@NotNull(message = "Please provide mobile number")
-	@Column(name="farmer_mob")
-	private Long  farmerMob;
-	
-	@Column(name="farmerlotno")
+	@Column(name = "farmer_mob")
+	private Long farmerMob;
+
+	@Column(name = "farmerlotno")
 	private String farmerLotNo;
-	
-	@Column(name="ifsccode")
+
+	@Column(name = "ifsccode")
 	private String ifscCode;
-	
-	@Column(name="accountno")
+
+	@Column(name = "accountno")
 	private Long accountNo;
-	
-	@Column(name="kccno")
+
+	@Column(name = "kccno")
 	private Long kccno;
-	
-	@Column(name="farmer_parants")
+
+	@Column(name = "farmer_parants")
 	private String parantsName;
-	
+
 	/*
 	 * @Column(name="user_id") private long userRefId;
 	 */
-	
-	@Column(name="create_date")
+
+	@Column(name = "create_date")
 	private java.sql.Date createDate;
-	
-	@Column(name="created_by")
+
+	@Column(name = "created_by")
 	private String createdBy;
-	
-	@Column(name="enabled")
-	private boolean enabled;	
-	
-	@Column(name="farm_gen")
+
+	@Column(name = "enabled")
+	private boolean enabled;
+
+	@Column(name = "farm_gen")
 	private String gender;
-	
-	@Column(name="distance_from_fpc")
+
+	@Column(name = "distance_from_fpc")
 	private Integer distanceFromFpc;
-	
-	@Column(name="username")
+
+	@Column(name = "username")
 	private String userName;
-	
-	@Column(name="farm_category")
+
+	@Column(name = "farm_category")
 	private String category;
-	
-	@Column(name="update_date")
+
+	@Column(name = "update_date")
 	private Date updateDate;
-	
-	@Column(name="agency_associated")
+
+	@Column(name = "agency_associated")
 	private String agency;
-	
-	@Column(name="upbsm_id")
+
+	@Column(name = "upbsm_id")
 	private String upBSMId;
-	
-	@Column(name="vill_panchayat_ref_id")
+
+	@Column(name = "vill_panchayat_ref_id")
 	private Integer villagePanchayatId;
-	
-	@Column(name="is_deleted")
+
+	@Column(name = "is_deleted")
 	private boolean isDeleted;
-	
-	@Column(name="delete_date")
+
+	@Column(name = "delete_date")
 	private java.sql.Date deleteDate;
-	
+
 	@Column(name = "updated_by")
 	private String updatedBy;
-	
-	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="user_id")
+
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "user_id")
 	private User userFar;
-	
+
 	@OneToMany(mappedBy = "farmerProfile")
 	private List<LandDetails> landDetailsProfile = new ArrayList<LandDetails>();
-	
+
 	public FarmerMaster() {
-		
+
 	}
 
 	public Integer getSlaRefId() {
@@ -296,7 +292,7 @@ public class FarmerMaster implements Serializable{
 	 * 
 	 * public void setUserRefId(long userRefId) { this.userRefId = userRefId; }
 	 */
-		
+
 	public java.sql.Date getCreateDate() {
 		return createDate;
 	}
@@ -319,7 +315,7 @@ public class FarmerMaster implements Serializable{
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
-	}	
+	}
 
 	public boolean isEnabled() {
 		return enabled;
@@ -448,7 +444,5 @@ public class FarmerMaster implements Serializable{
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
-	
-}
 
+}
