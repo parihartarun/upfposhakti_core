@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -26,6 +27,7 @@ public class BoardMember implements Serializable {
 	private String name;
 
 	@Column(name = "member_designation")
+	@NotNull(message = "Designation cannot be null")
 	private String designation;
 	
 	@Column(name = "member_contact")
@@ -33,12 +35,14 @@ public class BoardMember implements Serializable {
 
 	@Column(name = "member_email")
 	@Email(message = "Please provide valid email id")
+	@NotNull(message = "Email Id cannot be null")
 	private String email;
 
 	@Column(name = "user_id")
 	private Integer refId;
 
 	@Column(name = "updated_by")
+	@NotNull(message = "Updated by cannot be null")
 	private String updatedBy;
 	
 	@Column(name="create_date")

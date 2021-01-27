@@ -1,11 +1,14 @@
 package com.upfpo.app.service;
 import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.upfpo.app.entity.BoardMember;
+import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.configuration.exception.AlreadyExistsException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
@@ -116,6 +119,39 @@ public class FPOServiceImpl implements FPOService {
 	public BoardMember getBoardMembersById(Long id) {
 		
 		return  boardMembersRepo.findById(id).get();
+	}
+	
+	@Override
+	public BoardMember updateBoardMember(BoardMember boardMemberMaster, long id) 
+	{
+		Optional<BoardMember> boardMember = boardMembersRepo.findById(id);
+		if(boardMember.isPresent())
+		{
+			BoardMember newBoardMember = boardMember.get();
+			newBoardMember.setName(boardMemberMaster.getName());
+			newBoardMember.setDesignation(boardMemberMaster.getDesignation());
+			newBoardMember.setContactNo(boardMemberMaster.getContactNo());
+			newBoardMember.setEmail(boardMemberMaster.getEmail());
+			newBoardMember.setBlockId(boardMemberMaster.getBlockId());
+			newBoardMember.setDistId(boardMemberMaster.getDistId());
+			newBoardMember.setGender(boardMemberMaster.getGender());
+			newBoardMember.setGuardianName(boardMemberMaster.getGuardianName());
+			newBoardMember.setMasterId(boardMemberMaster.getMasterId());
+			newBoardMember.setUpdatedBy(boardMemberMaster.getUpdatedBy());
+			newBoardMember.setPanchayatId(boardMemberMaster.getPanchayatId());
+			newBoardMember.setVillageId(boardMemberMaster.getVillageId());
+			newBoardMember.setCreateDate(boardMemberMaster.getCreateDate());
+			newBoardMember.setUpdateDate(boardMemberMaster.getUpdateDate());
+			
+			newBoardMember = boardMembersRepo.save(newBoardMember);
+			
+			return newBoardMember;
+		}
+		else
+		{
+			boardMemberMaster = boardMembersRepo.save(boardMemberMaster);
+			return boardMemberMaster;
+		}
 	}
 
 	@Override

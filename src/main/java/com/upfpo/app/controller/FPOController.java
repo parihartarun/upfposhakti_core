@@ -6,7 +6,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.BoardMember;
+import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
@@ -150,7 +153,7 @@ public class FPOController {
 		return fpoService.getBoardMembers();
 	}
 	
-	@GetMapping(value= {"/boardmember/{id}"})
+	@GetMapping(value= {"/boardmember/getBoardMemberById/{id}"})
 	@ApiOperation(value="View BoardMember by Id",code=200,produces = "application/json",notes="Api to view Board Member by Id",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -160,7 +163,14 @@ public class FPOController {
 		return fpoService.getBoardMembersById(id);
 	}
 	
-	@DeleteMapping(value= {"/boardmember/{id}"})
+	@PutMapping(value = "/boardmember/editBoardMember/{id}")
+	public ResponseEntity<BoardMember> updateBoardMember(@RequestBody BoardMember boardMember, @PathVariable("id")Long id)
+	{
+		BoardMember boardMemberEntity = fpoService.updateBoardMember(boardMember,id);
+		return new ResponseEntity<BoardMember>(boardMemberEntity, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value= {"/boardmember/deleteBoardMember/{id}"})
 	@ApiOperation(value="Delete BoardMember by Id",code=204,produces = "application/json",notes="API to delete Board Member by ID",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
