@@ -34,7 +34,7 @@ public class FPOServices {
     private String role;
 
     @Column(name="upload_date")
-    private java.sql.Date uploadDate;
+    private Date uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
@@ -58,6 +58,11 @@ public class FPOServices {
     private Date createdDate;
 
     public FPOServices() {
+    }
+
+    public FPOServices(String description, String servicename) {
+        this.setServicename(servicename);
+        this.setDescriptions(description);
     }
 
     public Integer getId() {
@@ -116,7 +121,7 @@ public class FPOServices {
         this.role = role;
     }
 
-    public java.sql.Date getUploadDate() {
+    public Date getUploadDate() {
         return uploadDate;
     }
 

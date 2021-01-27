@@ -1,7 +1,9 @@
 package com.upfpo.app.controller;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 
+import com.upfpo.app.entity.FPOServices;
 import com.upfpo.app.entity.FPOServices;
 import com.upfpo.app.service.FPOServicesServiceImpl;
 import io.swagger.annotations.Api;
@@ -13,7 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +68,42 @@ public class FPOServicesController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
+    public ResponseEntity<MessageResponse> insertFPOService(@RequestParam("description") String description, @RequestParam("servicename") String servicename,
+                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOServiceController saving FPOService ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+
+            FPOServices fposervices = new FPOServices(description, servicename);
+
+            FPOServices id = fpoServicesService.insertFPOServices(fposervices, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService created successfully"), HttpStatus.OK );
+            LOG.info("FPOService  created Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/downloadFile/")
+                    .path(fileName)
+                    .toUriString();
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the FPOService");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting FPOService Of Controller with response ", resp);
+        return resp;
+    }
+
+
+
+   /* @PostMapping("/insert")
+    @ApiOperation(value="Add FPOServicess Details" ,code=201, produces = "application/json", notes="Api for add new FPOServicess Details",response= FPOServices.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
     public ResponseEntity<String> insertFPOServices(@RequestBody FPOServices fpoServices) {
         LOG.info("Inside SalesDetailsController saving sales details ", fpoServices);
         ResponseEntity<String> resp = null;
@@ -78,7 +119,7 @@ public class FPOServicesController {
         }
         LOG.info("Exiting FPOServices Of Controller with response ", resp);
         return resp;
-    }
+    }*/
 
 
     @PutMapping("/update1/{id}")
