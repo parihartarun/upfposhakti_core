@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 				+ " left join chc_fmb b on a.user_id = b.user_id\r\n"
 				+ " left join buyer_seller c on a.user_id=c.user_id\r\n"
 				+ " left join input_supplier e on a.user_id=e.user_id\r\n"
-				+ " left join fpo d on a.user_id=d.user_id\r\n"
+				+ " left join fpo d on a.user_id=d.users_id\r\n"
 				+ " left join farmer f on a.user_id=f.user_id where a.user_id= :userId" ;
 		  
 		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("userId", userId).getSingleResult();

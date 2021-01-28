@@ -288,8 +288,6 @@ public class DataDisplayRepository {
 						+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
 						+ "where\r\n"
 						+ "UPPER(services) like '%"+searchVal.toUpperCase()+"%'";
-				
-				
 			   }
 		  
 		  List<FPODetailsDTO> obj =   entityManager.createNativeQuery(sql,"FPODetailsDTO").getResultList();

@@ -40,9 +40,13 @@ public class FPODetailsDTO {
 	private String cropVeriety;
 	
 	
-	
+
+
+
+
 	public FPODetailsDTO(Integer id, String unitassla, String state, String district, String nodal, BigInteger mobile,
-			String email, String fpo_lot_no, String associationdate, String crops, String services) {
+			String email, String fpo_lot_no, String associationdate, String crops, String services,
+			Double marketableSurplus, Double actualProduction, String cropVeriety) {
 		super();
 		this.id = id;
 		this.unitassla = unitassla;
@@ -55,6 +59,9 @@ public class FPODetailsDTO {
 		this.associationdate = associationdate;
 		this.crops = crops;
 		this.services = services;
+		this.marketableSurplus = marketableSurplus;
+		this.actualProduction = actualProduction;
+		this.cropVeriety = cropVeriety;
 	}
 
 

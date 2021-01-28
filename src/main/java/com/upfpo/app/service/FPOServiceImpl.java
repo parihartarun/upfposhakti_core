@@ -57,15 +57,29 @@ public class FPOServiceImpl implements FPOService {
 	@Override
 	public FPORegister updateFpo(Integer id, FPORegister e) {
 		
+		
 		if(fpoRepository.existsById(id))
 		{
+			FPORegister newFpo = fpoRepository.findById(id).get();	
+			newFpo.setDeleted(false);
+			newFpo.setAgency(e.getAgency());
+			newFpo.setBlockRef(e.getBlockRef());
+			newFpo.setDateOfRegistration(e.getDateOfRegistration());
+			newFpo.setDistRefId(e.getDistRefId());
+			newFpo.setFmbno(e.getFmbno());
+			newFpo.setFpoAddress(e.getFpoAddress());
+			newFpo.setFpoBankAccNo(e.getFpoBankAccNo());
+			newFpo.setFpoBankName(e.getFpoBankName());
+			newFpo.setFpoEmail(e.getFpoEmail());
+			newFpo.setFpoIFSC(e.getFpoIFSC());
+			newFpo.setFpolandLine(e.getFpolandLine());
+			newFpo.setFpoName(e.getFpoName());
+			newFpo.setUserName(e.getUserName());
+		    newFpo.getUserFpo().setUserName(e.getUserName());
+		   // newFpo.setUserFpo(userRepository.save(newFpo.getUserFpo())); 
 			
-			e.setDeleted(false);
-			e.setFpoId(id);
-			e.setUserFpo(userRepository.findByUserName(e.getUserName()));
-			
-			
-			return fpoRepository.save(e);
+			newFpo.setDeleted(false);
+			return fpoRepository.save(newFpo);
 		}else {
 	throw new NotFoundException();
 		}

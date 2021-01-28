@@ -137,7 +137,7 @@ public class FPORegister implements Serializable {
 	
 	
 	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="users_id")
 	private User userFpo;
 	
 	public User getUserFpo() {
