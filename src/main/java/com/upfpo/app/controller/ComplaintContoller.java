@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 
@@ -66,7 +67,8 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                  @RequestParam("issue_type") String issueType, @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                           @RequestParam("issue_type") String issueType,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
@@ -93,29 +95,7 @@ public class ComplaintContoller {
     }
 
 
-    @PutMapping("/{id}")
-    @ApiOperation(value="Complaints Update" ,code=201, produces = "application/json", notes="Api for all Update Complaints Info",response= Complaints.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> updateComplaint(@PathVariable Integer id, @RequestBody Complaints complaints) {
-        LOG.info("Inside ComplaintController updating sales details ", complaints);
-        ResponseEntity<String> resp = null;
-        try {
-            Complaints fsd = complaintService.updateComplaintDetail(id, complaints);
-            resp = new ResponseEntity<String>("Complaint Updated Successfully!", HttpStatus.OK );
-            LOG.info("Complaint Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Update the Complaint", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the Complaint");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Complaint Of Controller with response ", resp);
-        return resp;
-    }
+
 
 
     @DeleteMapping(value="/{id}")
@@ -156,40 +136,6 @@ public class ComplaintContoller {
 
     }
 
-
-    /*@PostMapping("/upload")
-    @ApiOperation(value="Complaint Upload" ,code=201, produces = "application/json", notes="Api for all Upload Complaints File", response= UploadFileResponse.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = complaintService.storeFile(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
-
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize());
-    }
-
-    @PostMapping("/uploadMultipleFiles")
-    @ApiOperation(value="Complaints File List" ,code=201, produces = "application/json", notes="Api for all All Complaints Files List", response= UploadFileResponse.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file))
-                .collect(Collectors.toList());
-    }*/
-
     @GetMapping("/downloadFile/{fileName:.+}")
     @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)
     @ApiResponses(value= {
@@ -220,59 +166,42 @@ public class ComplaintContoller {
                 .body(resource);
     }
 
-
-    /*@PostMapping("/upload")
-    @ApiOperation(value="Complaint Upload" ,code=201, produces = "application/json", notes="Api for all Upload Complaints File",response= Complaints.class)
+    @PutMapping("/{id}")
+    @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
+    public ResponseEntity<MessageResponse> updateComplaint(@PathVariable Integer id,
+                                                           @RequestPart(value = "title") String title,
+                                                          @RequestPart(value = "description") String description,
+                                                           @RequestPart(value = "issue_type") String issueType,
+                                                          @RequestPart(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside Complaint updating Complaint detail ");
+        Complaints complaints = new Complaints();
+        complaints.setId(id);
+        complaints.setDescription(description);
+        complaints.setTitle(title);
+        complaints.setIssueType(issueType);
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            complaintService.save(file);
-
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            complaintService.updateComplaint(id, complaints, description, title, issueType, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
+            LOG.info("Complaint Updated Successfully!");
+            //}
         } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Update the Complaint Details");
+            e.printStackTrace();
         }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
     }
 
-    @GetMapping("/files")
-    @ApiOperation(value="Complaints File List" ,code=201, produces = "application/json", notes="Api for all All Complaints Files List",response= Complaints.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<List<Circulars>> getListFiles() {
-        List<Circulars> circulars = complaintService.loadAll().map(path -> {
-            //String filename = path.getFileName().toString();
-            String filePath = MvcUriComponentsBuilder
-                    .fromMethodName(CircularsController.class, "getFile", path.getFileName().toString()).build().toString();
 
-            return new Circulars();
-        }).collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.OK).body(circulars);
-    }
 
-    @GetMapping("/files/{filename:.+}")
-    @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File",response= Complaints.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = complaintService.load(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }*/
 }
 
 

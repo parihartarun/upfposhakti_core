@@ -130,9 +130,9 @@ public class FPOServicesController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateFPOServices(@PathVariable Integer id,
-                                                             @RequestParam(value = "description", required = false) String description,
-                                                             @RequestParam(value = "servicename", required = false) String servicename,
-                                                             @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                             @RequestPart(value = "description") String description,
+                                                             @RequestPart(value = "servicename") String servicename,
+                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
 
         LOG.info("Inside FPOServices updating FPOServices detail ");
 
