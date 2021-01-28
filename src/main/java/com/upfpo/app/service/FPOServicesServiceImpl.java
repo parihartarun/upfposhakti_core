@@ -7,6 +7,7 @@ import com.upfpo.app.entity.FPOServices;
 import com.upfpo.app.entity.FileStorageProperties;
 import com.upfpo.app.repository.FPOServicesRepository;
 import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -57,24 +58,19 @@ public class FPOServicesServiceImpl implements FPOServicesService{
     public FPOServices insertFPOServices (FPOServices fposervices, MultipartFile file){
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fposervices.setFilePath(String.valueOf(targetLocation));
             //fposerviceRepository.save(fposervices);
-
-
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-
         return fpoServicesRepository.save(fposervices);
     }
 
@@ -86,14 +82,36 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         return FPOServices;
     }*/
 
-    @Override
-    public FPOServices updateFPOServices(Integer id, FPOServices FPOServices) {
-        Optional<FPOServices> sd = fpoServicesRepository.findById(id);
-        if(!sd.isPresent()) {
-            return null;
+
+    public FPOServices updateFPOServices(Integer id, FPOServices fpoServices1, String description, String servicename, MultipartFile file) {
+
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Path targetLocation;
+        try {
+            // Check if the file's name contains invalid characters
+            if (fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-        FPOServices.setId(id);
-        return fpoServicesRepository.save(FPOServices);
+
+        return fpoServicesRepository.findById(id)
+                .map(fpoServices -> {
+                    fpoServices.setServicename(fpoServices1.getServicename());
+                    fpoServices.setDescriptions(fpoServices1.getDescriptions());
+                    fpoServices.setId(fpoServices1.getId());
+                    fpoServices.setFilePath(String.valueOf(targetLocation));
+                    return fpoServicesRepository.save(fpoServices);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
+
     }
 
     @Override
@@ -104,11 +122,6 @@ public class FPOServicesServiceImpl implements FPOServicesService{
                     return "Delete Successfully!";
                 });
     }
-
-
-
-
-
 
 
 

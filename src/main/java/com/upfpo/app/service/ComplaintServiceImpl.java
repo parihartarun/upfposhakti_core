@@ -2,8 +2,10 @@ package com.upfpo.app.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FileStorageProperties;
 import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
@@ -79,12 +81,18 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
-    public Optional deleteComplaint(Integer id) {
-        return complaintRepository.findById(id)
-                .map(complaints -> {
-                    complaintRepository.delete(complaints);
-                    return "Delete Successfully!";
-                });
+
+    public Boolean deleteComplaint(Integer id) {
+
+        try {
+            Complaints complaints = complaintRepository.findById(id).get();
+            complaints.setDeleted(true);
+            complaintRepository.save(complaints);
+            return true;
+        }catch(Exception e)
+        {
+            throw new NotFoundException();
+        }
     }
 
 

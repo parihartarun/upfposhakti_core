@@ -118,23 +118,24 @@ public class ComplaintContoller {
     }
 
 
-    @DeleteMapping("/{id}")
-    @ApiOperation(value="Delete Complaint" ,code=201, produces = "application/json", notes="Api for all Complaints Deletion",response= Complaints.class)
+    @DeleteMapping(value="/{id}")
+    @ApiOperation(value="Delete Complaint",code=204,produces = "text/plain",notes="Api for delete Complaint by id",response=Boolean.class)
     @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
     })
-    public ResponseEntity<String> deleteComplaint(@PathVariable Integer id) {
+    public ResponseEntity<MessageResponse> deleteComplaint(@PathVariable Integer id) {
         LOG.info("Inside ComplaintController delete sales details ");
-        ResponseEntity<String> resp = null;
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            complaintService.deleteComplaint(id);
-            resp = new ResponseEntity<String>("Complaint Deleted Successfully!", HttpStatus.OK );
+            if(complaintService.deleteComplaint(id)==true)
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Deleted Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Deleted Successfully!");
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Delete the Complaint", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the Complaint"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Delete the Complaint");
             e.printStackTrace();
         }

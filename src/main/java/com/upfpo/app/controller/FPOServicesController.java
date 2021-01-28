@@ -122,27 +122,36 @@ public class FPOServicesController {
     }*/
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value="Update FPOServices Details" ,code=201, produces = "application/json", notes="Api To Update FPOServices Details",response=FPOServices.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> updateFPOServices(@PathVariable Integer id, @RequestBody FPOServices fpoServices) {
-        LOG.info("Inside SalesDetailsController updating sales details ", fpoServices);
-        ResponseEntity<String> resp = null;
+    public ResponseEntity<MessageResponse> updateFPOServices(@PathVariable Integer id,
+                                                             @RequestParam(value = "description", required = false) String description,
+                                                             @RequestParam(value = "servicename", required = false) String servicename,
+                                                             @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        LOG.info("Inside FPOServices updating FPOServices detail ");
+
+        FPOServices fpoServices = new FPOServices();
+        fpoServices.setId(id);
+        fpoServices.setServicename(servicename);
+        fpoServices.setDescriptions(description);
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOServices fsd = fpoServicesService.updateFPOServices(id, fpoServices);
-            resp = new ResponseEntity<String>("FPOServices Details Updated Successfully!", HttpStatus.OK );
+            fpoServicesService.updateFPOServices(id, fpoServices, description, servicename, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOServices Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("FPOServices Updated Successfully!");
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Update the FPOServices Details", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the FPOServices Details"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Update the FPOServices Details");
             e.printStackTrace();
         }
-        LOG.info("Exiting FPOServices Of Controller with response ", resp);
+        LOG.info("Existing FPOServices Of Controller with response ", resp);
         return resp;
     }
 

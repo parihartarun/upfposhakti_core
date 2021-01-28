@@ -29,6 +29,12 @@ public class Complaints {
     @Column(name="fpo_id")
     private Integer fpoId;
 
+    @Column(name = "mobile")
+    private Long mobile;
+
+    @Column(name = "email")
+    private Long email;
+
     @Column(name="issue_type")
     private String issueType;
 
