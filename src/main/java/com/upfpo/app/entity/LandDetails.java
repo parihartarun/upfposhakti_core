@@ -77,12 +77,24 @@ public class LandDetails {
 	@Column(name="is_organic")
 	private String isorganc;
 	
+	@Column(name="nature_of_ownership")
+	private String ownerShip;
+	
+	public String getOwnerShip() {
+		return ownerShip;
+	}
+
+	public void setOwnerShip(String ownerShip) {
+		this.ownerShip = ownerShip;
+	}
+
 	@Column(name="is_deleted")
     private boolean isDeleted;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="farmer_id")
 	private FarmerMaster farmerProfile;
+	
 	
 	
 	public Integer getLandId() {
