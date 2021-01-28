@@ -84,9 +84,21 @@ public class RegistrationServicesImpl implements RegistrationServices
 	}
 	
 	@Override
+	public int checkInputSupplierExists(long mobileNo) 
+	{
+		return inputSupplierRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
 	public int checkUserChcFmbExists(String userName) 
 	{
 		return chcFmbRepository.checkUserChcFmbExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkChcFmbExists(long mobileNo) 
+	{
+		return chcFmbRepository.alreadyExists(mobileNo);
 	}
 	
 	@Override

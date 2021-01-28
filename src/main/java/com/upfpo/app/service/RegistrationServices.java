@@ -18,7 +18,9 @@ public interface RegistrationServices
 	public int checkBuyerSellerExists(long mobileNo);
 	public int checkUserBuyerSellerExists(String userName);
 	public String registerInputSuplier(InputSupplierMaster inputSupplierMaster);
+	public int checkInputSupplierExists(long mobileNo);
 	public int checkUserInputSupplierExists(String userName);
 	public String registerChcFmb(ChcFmbMaster chcFmbMaster);
 	public int checkUserChcFmbExists(String userName) ;
+	public int checkChcFmbExists(long mobileNo);
 }

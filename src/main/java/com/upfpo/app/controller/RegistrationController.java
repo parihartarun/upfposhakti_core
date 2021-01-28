@@ -116,18 +116,13 @@ public class RegistrationController
 			if(registerServices.checkBuyerSellerExists(buyerSeller.getMobileNumber())==1){
 				throw new CustomException("Buyer/Seller already exists",HttpStatus.BAD_REQUEST);
 			}
-			else if(registerServices.checkUserBuyerSellerExists(buyerSeller.getUserBuyerSeller().getUserName())>0)
+			if(registerServices.checkUserBuyerSellerExists(buyerSeller.getUserBuyerSeller().getUserName())>0)
 			{
 				throw new CustomException("Buyer Seller User Name already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
-			{
-			
 				registerServices.registerBuyerSeller(buyerSeller);
 				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
-			
+						.ok(new MessageResponse("SuccessFully Saved!"));	
 		}
 	}
 	
@@ -138,27 +133,25 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerInputSupplier(@Valid @RequestBody InputSupplierMaster inputSupplierMaster)
+	private ResponseEntity<MessageResponse> registerInputSupplier(@Valid @RequestBody InputSupplierMaster inputSupplierMaster) throws CustomException
 	{
 		if(inputSupplierMaster.getInputSupplierType()==1)
 		{
 			inputSupplierMaster.setBlockRefId(null);
 			inputSupplierMaster.setVillageRefId(null);
 		}
-			String inputSupplierDetails = registerServices.registerInputSuplier(inputSupplierMaster);
-			if(inputSupplierDetails=="exists")
-			{
-				throw new CustomException("Input Supplier already exists",HttpStatus.BAD_REQUEST);
-			}
-			else if(registerServices.checkUserInputSupplierExists(inputSupplierMaster.getUserInputSeller().getUserName())>0)
-			{
-				throw new CustomException("Input Supplier User Name already exists",HttpStatus.BAD_REQUEST);
-			}
-			else
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
+		if(registerServices.checkUserInputSupplierExists(inputSupplierMaster.getUserInputSeller().getUserName())>0)
+		{
+			throw new CustomException("Input Supplier User Name already exists",HttpStatus.BAD_REQUEST);
+		}
+		if(registerServices.checkInputSupplierExists(inputSupplierMaster.getMobile_number())>0)
+		{
+			throw new CustomException("Input Supplier already exists",HttpStatus.BAD_REQUEST);
+		}
+			registerServices.registerInputSuplier(inputSupplierMaster);
+			return ResponseEntity	
+					.ok(new MessageResponse("SuccessFully Saved!"));
+		
 		//return new ResponseEntity<InputSupplierMaster>(inputSupplierDetails,new HttpHeaders(), HttpStatus.OK);
 	}
 	
@@ -176,20 +169,17 @@ public class RegistrationController
 			throw new ValidationException();
 		}
 		else {
-			String chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
-			if(chcFmbDetails=="exists")
-			{
-				throw new CustomException("CHC/FMB already exists",HttpStatus.BAD_REQUEST);
-			}
-			else if(registerServices.checkUserChcFmbExists(chcFmbMaster.getUser().getUserName())>0)
+			if(registerServices.checkUserChcFmbExists(chcFmbMaster.getUser().getUserName())>0)
 			{
 				throw new CustomException("CHC/FMB User Name already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
+			if(registerServices.checkChcFmbExists(chcFmbMaster.getMobileNumber())>0)
 			{
+				throw new CustomException("CHC/FMB already exists",HttpStatus.BAD_REQUEST);
+			}
+			 registerServices.registerChcFmb(chcFmbMaster);
 				return ResponseEntity
 						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
 		}
 	}
 	
