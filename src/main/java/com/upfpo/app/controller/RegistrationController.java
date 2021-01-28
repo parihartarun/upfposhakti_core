@@ -84,20 +84,17 @@ public class RegistrationController
 			throw new ValidationException();
 		}
 		else {
-			String farmer = registerServices.registerFarmer(farmerRegister);
-			if(farmer=="exists")
-			{
-				throw new CustomException("Farmer already exists",HttpStatus.BAD_REQUEST);
-			}
-			else if(registerServices.checkUserFarmerExists(farmerRegister.getUserFar().getUserName())>0)
+			if(registerServices.checkUserFarmerExists(farmerRegister.getUserFar().getUserName())>0)
 			{
 				throw new CustomException("Farmer User Name already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
+			if(registerServices.checkFarmerExists(farmerRegister.getFarmerMob())>0)
 			{
+				throw new CustomException("Farmer already exists",HttpStatus.BAD_REQUEST);
+			}
+				registerServices.registerFarmer(farmerRegister);
 				return ResponseEntity	
 						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
 		}
 	}
 		

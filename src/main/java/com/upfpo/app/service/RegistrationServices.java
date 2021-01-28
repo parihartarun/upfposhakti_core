@@ -12,6 +12,7 @@ public interface RegistrationServices
 	public int checkFPOExists(String email);
 	public int checkUserFpoExists(String userName);
 	public String registerFarmer(FarmerMaster farmerRegister);
+	public int checkFarmerExists(long mobileNo);
 	public int checkUserFarmerExists(String userName);
 	public String registerBuyerSeller(BuyerSellerMaster buyerSeller);
 	public int checkBuyerSellerExists(long mobileNo);

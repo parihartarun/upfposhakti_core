@@ -52,6 +52,12 @@ public class RegistrationServicesImpl implements RegistrationServices
 	}
 	
 	@Override
+	public int checkFarmerExists(long mobileNo) 
+	{
+		return farmerMasterRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
 	public int checkUserFarmerExists(String userName) 
 	{
 		return farmerMasterRepository.checkUserFarmerExists(userName.toUpperCase());
