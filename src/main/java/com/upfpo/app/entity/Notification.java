@@ -11,9 +11,9 @@ import javax.persistence.Table;
 @Table(name = "notification")
 public class Notification {
 
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="production_id")
+    @Column(name="notification_id")
     private Integer id;
 
     @Column(name = "title")

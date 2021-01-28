@@ -49,11 +49,11 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createNotification(@RequestBody Notification notifications) {
-        LOG.info("Inside NotificationController saving Notification ", notifications);
+    public ResponseEntity<String> createNotification(@RequestBody Notification notification) {
+        LOG.info("Inside NotificationController saving Notification ", notification);
         ResponseEntity<String> resp = null;
         try {
-            Notification id = notificationService.createNotification(notifications);
+            Notification id = notificationService.createNotification(notification);
             resp = new ResponseEntity<String>("Notification created Successfully!", HttpStatus.OK );
             LOG.info("Notification  created Successfully!");
             //}
@@ -62,7 +62,7 @@ public class NotificationController {
             LOG.info("Failed to Save the Notification");
             e.printStackTrace();
         }
-        LOG.info("Exiting Notification Of Controller with response ", resp);
+        LOG.info("Existing Notification Of Controller with response ", resp);
         return resp;
     }
 

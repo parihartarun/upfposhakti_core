@@ -94,6 +94,7 @@ public class FPOServiceImpl implements FPOService {
 
 	@Override
 	public Boolean deleteFpo(Integer id) {
+
 		 fpoRepository.deleteById(id);
 		try {
 		FPORegister fpoRegister = fpoRepository.getOne(id);
@@ -103,6 +104,7 @@ public class FPOServiceImpl implements FPOService {
 		return true;
 		}catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new NotFoundException();
 		}
 	}

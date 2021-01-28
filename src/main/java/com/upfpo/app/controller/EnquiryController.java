@@ -69,7 +69,7 @@ public class EnquiryController {
     }
 
 
-    @PutMapping("/update1/{id}")
+    @PutMapping("/update/{id}")
     @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -94,7 +94,7 @@ public class EnquiryController {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

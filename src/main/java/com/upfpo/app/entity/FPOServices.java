@@ -65,6 +65,12 @@ public class FPOServices {
         this.setDescriptions(description);
     }
 
+    public FPOServices(Integer id, String description, String servicename) {
+        this.setId(id);
+        this.setServicename(servicename);
+        this.setDescriptions(description);
+    }
+
     public Integer getId() {
         return id;
     }
