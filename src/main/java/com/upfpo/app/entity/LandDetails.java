@@ -1,4 +1,5 @@
 package com.upfpo.app.entity;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -65,6 +66,14 @@ public class LandDetails {
 	 * @Column(name="farmer_id") private Integer farmerId;
 	 */
 	
+	public FarmerMaster getFarmerProfile() {
+		return farmerProfile;
+	}
+
+	public void setFarmerProfile(FarmerMaster farmerProfile) {
+		this.farmerProfile = farmerProfile;
+	}
+
 	@Column(name="is_organic")
 	private String isorganc;
 	
