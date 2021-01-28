@@ -4,14 +4,14 @@ import javax.validation.constraints.NotNull;
 
 public class PasswordResetRequest {
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 	
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public PasswordResetRequest(Integer userId, String password, String confirmPassword) {
+	public PasswordResetRequest(Long userId, String password, String confirmPassword) {
 		super();
 		this.userId = userId;
 		Password = password;
@@ -33,7 +33,7 @@ public class PasswordResetRequest {
 	}
 	
 	@NotNull
-	private Integer userId;
+	private Long userId;
 	
 	@NotNull
 	private String Password;
