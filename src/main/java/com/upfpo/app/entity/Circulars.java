@@ -59,6 +59,66 @@ public class Circulars implements Serializable{
 		this.setDescription(description);
 	}
 
+	public Circulars() {
+
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Date createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(Date deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public Date getDeleteBy() {
+		return deleteBy;
+	}
+
+	public void setDeleteBy(Date deleteBy) {
+		this.deleteBy = deleteBy;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
+	}
+
 	/* fields needed
 	 * @Column(name="is_deleted") private boolean isDeleted;
 	 * 

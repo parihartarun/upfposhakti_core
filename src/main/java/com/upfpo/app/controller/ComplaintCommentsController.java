@@ -38,7 +38,7 @@ public class ComplaintCommentsController {
     }
 
     //Create ComplaintsComments by UserID
-    @PostMapping("/user/{Id}/complaintscomments")
+    @PostMapping("/complaint/{Id}/complaintscomments")
     @ApiOperation(value="Insert Comments on Complaint id" ,code=201, produces = "application/json", notes="Api for Add Comment on  Complaints Id",response= ComplaintsComments.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -51,7 +51,7 @@ public class ComplaintCommentsController {
 
 
     //Delete ComplaintsComments by Complaint
-    @DeleteMapping("/user/{Id}/complaintscomments/{comlaintComment}")
+    @DeleteMapping("/complaint/{Id}/complaintscomments/{comlaintComment}")
     @ApiOperation(value="Delete Comments by Complaint Id" ,code=201, produces = "application/json", notes="Api for Delete Comments by ComplaintID",response= ComplaintsComments.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

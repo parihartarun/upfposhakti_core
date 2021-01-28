@@ -3,10 +3,7 @@ package com.upfpo.app.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.entity.ComplaintCatgories;
-import com.upfpo.app.entity.Complaints;
-import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.FileStorageProperties;
+import com.upfpo.app.entity.*;
 import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -69,17 +66,6 @@ public class ComplaintServiceImpl implements ComplaintService {
 
         return complaintRepository.save(complaints);
     }
-
-
-    public Complaints updateComplaintDetail(Integer id, Complaints complaints) {
-        Optional<Complaints> sd = complaintRepository.findById(id);
-        if(!sd.isPresent()) {
-            return null;
-        }
-        complaints.setId(id);
-        return complaintRepository.save(complaints);
-    }
-
 
 
     public Boolean deleteComplaint(Integer id) {
@@ -150,6 +136,38 @@ public class ComplaintServiceImpl implements ComplaintService {
         } catch (MalformedURLException ex) {
             throw new ResourceNotFoundException("File not found " + fileName, ex);
         }
+    }
+
+    public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
+
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Path targetLocation;
+        try {
+            // Check if the file's name contains invalid characters
+            if (fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+
+        return complaintRepository.findById(id)
+                .map(complaints -> {
+                    complaints.setTitle(complaints1.getTitle());
+                    complaints.setDescription(complaints1.getDescription());
+                    complaints.setIssueType(complaints1.getIssueType());
+                    complaints.setId(complaints1.getId());
+                    complaints.setFilePath(String.valueOf(targetLocation));
+                    return complaintRepository.save(complaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
+
     }
 
 
