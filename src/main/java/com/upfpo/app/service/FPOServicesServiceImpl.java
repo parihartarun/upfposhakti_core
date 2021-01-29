@@ -75,32 +75,22 @@ public class FPOServicesServiceImpl implements FPOServicesService{
     }
 
 
-
-   /* @Override
-    public FPOServices insertFPOServices(FPOServices FPOServices) {
-        fpoServicesRepository.save(FPOServices);
-        return FPOServices;
-    }*/
-
-
     public FPOServices updateFPOServices(Integer id, FPOServices fpoServices1, String description, String servicename, MultipartFile file) {
-
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path targetLocation;
-        try {
-            // Check if the file's name contains invalid characters
-            if (fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            try {
+                // Check if the file's name contains invalid characters
+                if (fileName.contains("..")) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence or its null " + fileName);
+                }
+                // Copy file to the target location (Replacing existing file with the same name)
+
+                targetLocation = this.fileStorageLocation.resolve(fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
-            // Copy file to the target location (Replacing existing file with the same name)
-            targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
 
         return fpoServicesRepository.findById(id)
                 .map(fpoServices -> {
@@ -110,8 +100,6 @@ public class FPOServicesServiceImpl implements FPOServicesService{
                     fpoServices.setFilePath(String.valueOf(targetLocation));
                     return fpoServicesRepository.save(fpoServices);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
-
     }
 
     @Override
