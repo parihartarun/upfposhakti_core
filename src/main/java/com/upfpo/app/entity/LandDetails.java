@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import com.upfpo.app.dto.FarmerLandDetailDto;
 
 @Entity
@@ -91,8 +93,8 @@ public class LandDetails {
 	@Column(name="is_deleted")
     private boolean isDeleted;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="farmer_id")
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="farmer_id",updatable = true)
 	private FarmerMaster farmerProfile;
 	
 	
@@ -122,10 +124,6 @@ public class LandDetails {
 	public void setLand_area(double land_area) {
 		this.land_area = land_area;
 	}
-
-
-
-
 
 
 	public Integer getMasterId() {

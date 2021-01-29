@@ -196,6 +196,32 @@ public class FPOServiceImpl implements FPOService {
 	public LandDetails addLand(LandDetails ld) {
 		return landDetailsRepo.save(ld);
 	}
+	
+	@Override
+	public LandDetails updateLand(LandDetails landDetailsMaster, int landId) 
+	{
+		Optional<LandDetails> landDetails = landDetailsRepo.findById(landId);
+		if(landDetails.isPresent())
+		{
+			LandDetails newLandDetails = landDetailsRepo.findById(landId).get();
+			newLandDetails.setGuardianName(landDetailsMaster.getGuardianName());
+			newLandDetails.setIsorganc(landDetailsMaster.getIsorganc());
+			newLandDetails.setOwnerShip(landDetailsMaster.getOwnerShip());
+			newLandDetails.setFarmerProfile(farmerMasterRepository.findById(landDetailsMaster.getFarmerProfile().getFarmerId()).get());
+			newLandDetails.setLand_area(landDetailsMaster.getLand_area());
+			newLandDetails.setMasterId(landDetailsMaster.getMasterId());
+			newLandDetails.setUpdateDate(landDetailsMaster.getUpdateDate());
+			newLandDetails.setUpdatedBy(landDetailsMaster.getUpdatedBy());
+			
+			newLandDetails = landDetailsRepo.save(newLandDetails);
+			return newLandDetails;
+		}
+		else
+		{
+			landDetailsMaster = landDetailsRepo.save(landDetailsMaster);
+			return landDetailsMaster;
+		}
+	}
 
 	@Override
 	public boolean deleteLandDetailById(Integer id) {
