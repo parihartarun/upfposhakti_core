@@ -11,51 +11,20 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Create ACR
-      id: create-acr
-      run: |
-        az acr create -n regjava -g fpobmgf --location "Central India" --sku Standard --admin-enabled
-        echo "::set-output name=acr_username::`az acr credential show -n regjava --query username | xargs`"
-        echo "::set-output name=acr_password::`az acr credential show -n regjava --query passwords[0].value | xargs`"
-        echo "::add-mask::`az acr credential show -n regjava --query passwords[0].value | xargs`"
     
     - uses: azure/docker-login@v1
       with:
-        login-server: regjava.azurecr.io
-        username: ${{ steps.create-acr.outputs.acr_username }}
-        password: ${{ steps.create-acr.outputs.acr_password }}
+        login-server: contregistryupfpodev.azurecr.io
+        username: ${{ secrets.acr_contregistryupfpodev_username }}
+        password: ${{ secrets.acr_contregistryupfpodev_password }}
     
     - name: Build and push image to ACR
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t regjava.azurecr.io/fpowebapp-img:${{ github.sha }}
-        docker push regjava.azurecr.io/fpowebapp-img:${{ github.sha }}
-      
-    - name: Set Web App ACR authentication
-      uses: Azure/appservice-settings@v1
-      with: 
-        app-name: fpowebapp
-        app-settings-json: | 
-          [
-            {
-              "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "regjava.azurecr.io",
-              "slotSetting": false
-            },
-            {
-              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-              "value": "${{ steps.create-acr.outputs.acr_username }}",
-              "slotSetting": false
-            },
-            {
-              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-              "value": "${{ steps.create-acr.outputs.acr_password }}",
-              "slotSetting": false
-            }
-          ]
-        
+        docker build -t contregistryupfpodev.azurecr.io/java:latest .
+        docker push contregistryupfpodev.azurecr.io/java:latest
+
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: fpowebapp
-        images: regjava.azurecr.io/fpowebapp-img:${{ github.sha }}
+        app-name: java
+        images: contregistryupfpodev.azurecr.io/java:latest
