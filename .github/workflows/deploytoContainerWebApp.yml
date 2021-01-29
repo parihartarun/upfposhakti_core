@@ -26,5 +26,5 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: java
+        app-name: api-upfposhakti
         images: contregistryupfpodev.azurecr.io/java:latest
