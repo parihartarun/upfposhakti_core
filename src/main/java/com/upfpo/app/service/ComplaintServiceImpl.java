@@ -11,6 +11,7 @@ import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
@@ -140,7 +141,6 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
 
-
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path targetLocation;
         try {
@@ -166,9 +166,8 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setFilePath(String.valueOf(targetLocation));
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
-
     }
+
 
 
 
