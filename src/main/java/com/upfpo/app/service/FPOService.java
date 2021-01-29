@@ -28,6 +28,7 @@ public interface FPOService {
 	public BoardMember updateBoardMember(BoardMember boardMember, long id);
 	public BoardMember deleteBoardMembersById(Long id);
 	public LandDetails addLand(LandDetails ld);
+	public LandDetails updateLand(LandDetails landDetails, int landId);
 	public List<FarmerLandDetailDto> getAllLandDetail(Integer masterId);
 	public LandDetails getLandDetailById(Integer id);
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
