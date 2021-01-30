@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -193,6 +194,7 @@ public class FPOServiceImpl implements FPOService {
 	}
 
 	@Override
+	@Transactional
 	public LandDetails addLand(LandDetails ld) {
 		return landDetailsRepo.save(ld);
 	}
