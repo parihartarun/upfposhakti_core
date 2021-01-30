@@ -229,14 +229,14 @@ public class FPOController {
 		return fpoService.updateLand(landDetails, landId);
 	}
 	
-	@DeleteMapping(value= {"/land/{id}"})
+	@DeleteMapping(value= {"/land/deleteDetails/{landId}"})
 	@ApiOperation(value="View Land by Id",code=204,produces = "text/plain",notes="Api to view Land by Id",response=boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public boolean deleteLandDetailsById(@PathVariable("id")Integer id)
+	public boolean deleteLandDetailsById(@PathVariable("landId")Integer landId)
 	{
-		return fpoService.deleteLandDetailById(id);
+		return fpoService.deleteLandDetailById(landId);
 	}
 	
 	

@@ -93,7 +93,7 @@ public class LandDetails {
 	@Column(name="is_deleted")
     private boolean isDeleted;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="farmer_id",updatable = true)
 	private FarmerMaster farmerProfile;
 	
