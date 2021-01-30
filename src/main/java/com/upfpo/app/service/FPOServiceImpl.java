@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import com.upfpo.app.entity.*;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -196,6 +197,7 @@ public class FPOServiceImpl implements FPOService {
 	}
 
 	@Override
+	@Transactional
 	public LandDetails addLand(LandDetails ld) {
 		return landDetailsRepo.save(ld);
 	}
