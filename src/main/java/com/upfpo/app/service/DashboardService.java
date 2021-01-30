@@ -29,6 +29,16 @@ public interface DashboardService {
 	public List <ReportDTO> rabiProductionCropWise_actual_all();
 	public List <ReportDTO> kharifProductionCropWise_actual_all();
 	public List <ReportDTO> zayadProductionCropWise_actual_all();
-	
-
+	public Double  totalLand();
+	public Double  totalLand(Integer fpoid);
+	public Integer  numberCrops();
+	public Integer  numberCrops(Integer fpoId);
+	public Integer totalFarmerCount();
+	public Integer totalSmallFarmerCount();
+	public Integer totalMarginalFarmerCount();
+	public Integer totalOtherFarmerCount();
+	public Integer totalFarmerCount(Integer fpoId);
+	public Integer totalSmallFarmerCount(Integer fpoId);
+	public Integer totalMarginalFarmerCount(Integer fpoId);
+	public Integer totalOtherFarmerCount(Integer fpoId);
 }

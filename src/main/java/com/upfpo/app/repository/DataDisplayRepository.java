@@ -68,6 +68,29 @@ public class DataDisplayRepository {
 	
 		
 	
+	@Transactional
+	public Double totalLand(Integer fpoId) {
+		Double totalland = 0.0;
+		try {
+			
+			session = this.getCurrentSession();
+			//sql = "Select sum(land.land_area) FROM Landmaster land where masterId=:fpoId ";
+			sql ="select sum(coalesce(total_land,0)) from fpo where fpo_id=:fpoId ";
+			query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+			totalland = (Double) query.uniqueResult();
+			if (totalland == null) {
+				totalland = 0.0;
+			}return totalland;
+
+		} catch (Exception e) {
+			e.printStackTrace();return totalland;
+		} /*
+			 * finally { session.close(); }
+			 */
+		
+	}
+	
+	
 	
 	
 	public ProductionDTO productions(String finYear)

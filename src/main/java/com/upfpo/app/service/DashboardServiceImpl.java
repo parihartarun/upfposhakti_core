@@ -185,5 +185,125 @@ public class DashboardServiceImpl implements DashboardService {
 		
 		return dataDisplayRepository.zayadProductionCropWise_actual_all(GetFinYear.getCurrentFinYear());
 	}
+
+
+
+
+
+	@Override
+	public Double totalLand() {
+		// TODO Auto-generated method stub
+return null;	
+	}
+
+
+
+
+
+	@Override
+	public Double totalLand(Integer fpoid) {
+		// TODO Auto-generated method stub
+		return this.dataDisplayRepository.totalLand(fpoid);
+	}
+
+
+
+
+
+	@Override
+	public Integer numberCrops() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer numberCrops(Integer fpoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalFarmerCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalSmallFarmerCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalMarginalFarmerCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalOtherFarmerCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalFarmerCount(Integer fpoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalSmallFarmerCount(Integer fpoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalMarginalFarmerCount(Integer fpoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public Integer totalOtherFarmerCount(Integer fpoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
