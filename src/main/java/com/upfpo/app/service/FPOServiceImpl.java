@@ -1,29 +1,32 @@
 package com.upfpo.app.service;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
+import com.upfpo.app.entity.*;
+import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.upfpo.app.entity.BoardMember;
-import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.configuration.exception.AlreadyExistsException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.UserDetailsDto;
-import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.FarmerMaster;
-import com.upfpo.app.entity.LandDetails;
-import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
 import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.util.GetCurrentDate;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FPOServiceImpl implements FPOService {
@@ -270,6 +273,9 @@ public class FPOServiceImpl implements FPOService {
 		  return obj;
 		    
 	}
-	 
+
+	
+
+
 
 }

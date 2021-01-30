@@ -95,6 +95,9 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
 
+	@Column(name = "description")
+	private String description ;
+
 	/*
 	 * @Column(name="users_id") private long userRefId;
 	 */
@@ -170,6 +173,8 @@ public class FPORegister implements Serializable {
 	public FPORegister() {
 
 	}
+
+
 
 	public Integer getFpoId() {
 		return fpoId;

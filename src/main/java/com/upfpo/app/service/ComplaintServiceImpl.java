@@ -169,6 +169,24 @@ public class ComplaintServiceImpl implements ComplaintService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
+    public Complaints deptComplaintAssign(Integer id, Complaints complaints1){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return complaintRepository.findById(id)
+                .map(complaints -> {
+                    complaints.setId(complaints1.getId());
+                    complaints.setAssignTo(complaints1.getAssignTo());
+                    complaints.setAssignBy(currentPrincipalName);
+                    complaints.setAssigned_date(Calendar.getInstance().getTime());
+                    complaints.setDeptComment(complaints1.getDeptComment());
+                    complaints.setStatus(complaints1.getStatus());
+
+                    return complaintRepository.save(complaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
     
 
 
