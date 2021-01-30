@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/FPOServices")
+@RequestMapping(value = "/fposervices")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Api(produces = "application/json", value = "FPOServicess Information", tags="FPOServicess Controller",description="Proucts Details")
 public class FPOServicesController {
@@ -61,7 +61,7 @@ public class FPOServicesController {
     }
 
 
-    @PostMapping("/insert")
+    @PostMapping
     @ApiOperation(value="Add FPOServicess Details" ,code=201, produces = "application/json", notes="Api for add new FPOServicess Details",response= FPOServices.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -130,9 +130,9 @@ public class FPOServicesController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateFPOServices(@PathVariable Integer id,
-                                                             @RequestParam(value = "description", required = false) String description,
-                                                             @RequestParam(value = "servicename", required = false) String servicename,
-                                                             @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                             @RequestPart(value = "description") String description,
+                                                             @RequestPart(value = "servicename") String servicename,
+                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
 
         LOG.info("Inside FPOServices updating FPOServices detail ");
 

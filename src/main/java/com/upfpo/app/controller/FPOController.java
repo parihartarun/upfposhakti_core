@@ -32,10 +32,12 @@ import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 
+import ch.qos.logback.classic.Logger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
@@ -213,6 +215,18 @@ public class FPOController {
 	public LandDetails createLand(@RequestBody LandDetails landDetails)
 	{
 		return fpoService.addLand(landDetails);
+	}
+	
+	@PutMapping(value="/land/editDetails/{landId}")
+	@ApiOperation(value="Edit Land Info",code=201, produces = "application/json", notes="Api for editing Land",response=LandDetails.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"), })
+	@ResponseStatus(HttpStatus.CREATED)
+	public LandDetails updateLand(@RequestBody LandDetails landDetails, @PathVariable("landId") int landId)
+	{
+		System.out.println("Farmer Profile Object:"+landDetails.getFarmerProfile().getFarmerId());
+		return fpoService.updateLand(landDetails, landId);
 	}
 	
 	@DeleteMapping(value= {"/land/{id}"})
