@@ -176,4 +176,5 @@ public class LandDetails {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
 }
