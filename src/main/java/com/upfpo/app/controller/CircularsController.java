@@ -63,7 +63,8 @@ public class CircularsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> uploadCircular(@RequestParam("description") String description, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadCircular(@RequestParam("description") String description,
+                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
         ResponseEntity<MessageResponse> resp = null;
         try {

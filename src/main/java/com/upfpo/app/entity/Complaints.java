@@ -24,7 +24,7 @@ public class Complaints {
     private String message;
 
     @Column(name="status")
-    private String status;
+    private Status status;
     
     @Column(name="fpo_id")
     private Integer fpoId;
@@ -88,7 +88,7 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message,  String status,
+    public Complaints(Integer id, String title, String message,  Status status,
                       Integer fpoId, String issueType, String otherType, String descriptions,
                       String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath,
                       String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime) {
@@ -115,9 +115,9 @@ public class Complaints {
         this.createDateTime = createDateTime;
     }
 
-    public Complaints(Integer id, String title, String message, String status, Integer fpoId, String issueType, String otherType, String description,
-                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
-                      Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
+                      String otherType, String description, String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo,
+                      String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -159,7 +159,7 @@ public class Complaints {
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title) {
@@ -174,11 +174,11 @@ public class Complaints {
         this.message = message;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

@@ -9,6 +9,7 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 
+import com.upfpo.app.service.ComplaintService;
 import com.upfpo.app.service.ComplaintServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -45,7 +46,7 @@ public class ComplaintContoller {
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
     @Autowired
-    private ComplaintServiceImpl complaintService;
+    private ComplaintService complaintService;
 
     @GetMapping
     @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= Complaints.class)
@@ -55,7 +56,6 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public List<Complaints> getAllComplaints (){
-
         return complaintService.getAllComplaint();
     }
 

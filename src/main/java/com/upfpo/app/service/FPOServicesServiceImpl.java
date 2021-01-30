@@ -37,7 +37,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     @Autowired
     public FPOServicesServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getfposervicesDir())
                 .toAbsolutePath().normalize();
 
         try {
