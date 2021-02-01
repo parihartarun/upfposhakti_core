@@ -1,16 +1,43 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.CropListOfFarmersDTO;
+
 @Entity
+@SqlResultSetMapping(name="CropListOfFarmersDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = CropListOfFarmersDTO.class,
+            columns = {
+                @ColumnResult(name = "id", type = Integer.class),
+                @ColumnResult(name = "farmer_id", type = Integer.class),
+                @ColumnResult(name = "farmer_name", type = String.class),
+                @ColumnResult(name = "father_husband_name", type = String.class),
+                @ColumnResult(name = "financial_year", type = String.class),
+                @ColumnResult(name = "season_id", type = Integer.class),
+                @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "sowing_id", type = Integer.class),
+                @ColumnResult(name = "crop_id", type = Integer.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+                @ColumnResult(name = "sowing_area", type = Double.class),
+                @ColumnResult(name = "ex_yield", type = BigInteger.class),
+                @ColumnResult(name = "veriety_id", type = Integer.class),
+           })
+})
 @Table(name = "crop_details")
 public class CropDatails implements Serializable {
 
