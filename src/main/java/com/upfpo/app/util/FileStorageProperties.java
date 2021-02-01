@@ -1,4 +1,4 @@
-package com.upfpo.app.entity;
+package com.upfpo.app.util;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -13,38 +13,6 @@ public class FileStorageProperties {
     private String complaintDir;
 
     private String circularDir;
-
-    private String photouploadDir;
-
-    private String schemedetailDir;
-
-    public String getSchemedetailDir() {
-        return schemedetailDir;
-    }
-
-    public void setSchemedetailDir(String schemedetailDir) {
-        this.schemedetailDir = schemedetailDir;
-    }
-
-    public String getFposervicesDir() {
-        return fposervicesDir;
-    }
-
-    public String getFpoguidelinesDir() {
-        return fpoguidelinesDir;
-    }
-
-    public void setFpoguidelinesDir(String fpoguidelinesDir) {
-        this.fpoguidelinesDir = fpoguidelinesDir;
-    }
-
-    public String getPhotouploadDir() {
-        return photouploadDir;
-    }
-
-    public void setPhotouploadDir(String photouploadDir) {
-        this.photouploadDir = photouploadDir;
-    }
 
     public String getUploadDir() {
         return uploadDir;

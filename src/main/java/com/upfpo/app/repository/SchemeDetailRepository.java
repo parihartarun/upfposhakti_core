@@ -1,13 +1,13 @@
 package com.upfpo.app.repository;
 
-
-import com.upfpo.app.entity.Notification;
+import com.upfpo.app.entity.SchemeDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
-public interface NotificationRepository extends JpaRepository <Notification, Integer> {
-    List<Notification> findByIsDeleted(boolean b);
+public interface SchemeDetailRepository extends JpaRepository<SchemeDetail, Integer> {
+    List<SchemeDetail> findByIsDeleted(boolean b);
 }

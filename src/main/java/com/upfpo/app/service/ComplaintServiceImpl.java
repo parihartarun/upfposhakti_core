@@ -54,7 +54,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     public List<Complaints> getAllComplaint(){
-        return complaintRepository.findAll();
+        return complaintRepository.findByIsDeleted(false);
     }
 
     @Override

@@ -168,7 +168,7 @@ public class FPOServicesController {
         LOG.info("Inside SalesDetailsController delete sales details ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            fpoServicesService.deleteFPOServices(id);
+            fpoServicesService.deleteFPOService(id);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOServices Details Deleted Successfully!"), HttpStatus.OK );
             LOG.info("FPOServicess Details Deleted Successfully!");
             //}
