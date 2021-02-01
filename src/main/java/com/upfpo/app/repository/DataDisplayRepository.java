@@ -68,6 +68,55 @@ public class DataDisplayRepository {
 	
 		
 	
+
+	
+	@Transactional
+	public Integer numberCrops(Integer fpoId) {
+		Integer numberCrops = 0;
+
+		try {
+			
+			session = getCurrentSession();
+			sql = "Select cast(count(distinct crop_ref_name)as Integer) FROM marketable_surplus where master_id=:fpoId ";
+			query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+			numberCrops = ((Integer) query.uniqueResult()).intValue();
+			if (numberCrops == null) {
+				numberCrops = 0;
+			}
+			return numberCrops;
+		} catch (Exception e) {
+			e.printStackTrace();return numberCrops;
+		} /*
+			 * finally { session.close(); }
+			 */
+		
+	}
+	
+	
+	
+	@Transactional
+	public Integer totalFarmerCount(Integer fpoId) {
+		Integer totalFarmerCount = 0;
+
+		try {
+			
+			session = getCurrentSession();
+			// sql = "Select sum(land.land_area) FROM Landmaster land";
+			sql = "select cast(sum(coalesce(total_farmers,0))as Integer) from fpo where fpo_id=:fpoId";
+			query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+			totalFarmerCount = (Integer) query.uniqueResult();
+			if (totalFarmerCount == null) {
+				totalFarmerCount = 0;
+			}return totalFarmerCount;
+
+		} catch (Exception e) {
+			e.printStackTrace();return totalFarmerCount;
+		} /*
+			 * finally { session.close(); }
+			 */
+		
+	}
+	
 	@Transactional
 	public Double totalLand(Integer fpoId) {
 		Double totalland = 0.0;
@@ -88,6 +137,86 @@ public class DataDisplayRepository {
 			 * finally { session.close(); }
 			 */
 		
+	}
+	
+	
+	
+	
+	
+	@Transactional
+	public Integer totalOtherFarmerCount(Integer fpoId)
+	{
+		Integer totalFarmerCount = 0;
+
+		try {
+			
+			session = getCurrentSession();
+			// sql = "Select sum(land.land_area) FROM Landmaster land";
+			sql = "select cast(sum(coalesce(total_big_farmers,0))as Integer) from fpo where fpo_id=:fpoId";
+			query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+			totalFarmerCount = (Integer) query.uniqueResult();
+			if (totalFarmerCount == null) {
+				totalFarmerCount = 0;
+			}return totalFarmerCount;
+
+		} catch (Exception e) {
+			e.printStackTrace();return totalFarmerCount;
+		} /*
+			 * finally { session.close(); }
+			 */
+		
+
+	}
+	
+
+	@Transactional
+	public Integer totalMarginalFarmerCount(Integer fpoId)
+	{Integer totalFarmerCount = 0;
+
+	try {
+		
+		session = getCurrentSession();
+		// sql = "Select sum(land.land_area) FROM Landmaster land";
+		sql = "select cast(sum(coalesce(total_marginal_farmers,0))as Integer) from fpo where fpo_id=:fpoId";
+		query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+		totalFarmerCount = (Integer) query.uniqueResult();
+		if (totalFarmerCount == null) {
+			totalFarmerCount = 0;
+		}return totalFarmerCount;
+
+	} catch (Exception e) {
+		e.printStackTrace();return totalFarmerCount;
+	} /*
+		 * finally { session.close(); }
+		 */
+	
+
+		
+	}
+	
+	@Transactional
+	public Integer totalSmallFarmerCount(Integer fpoId)
+	{
+		Integer totalFarmerCount = 0;
+
+		try {
+			
+			session = getCurrentSession();
+			// sql = "Select sum(land.land_area) FROM Landmaster land";
+			sql = "select cast(sum(coalesce(total_small_farmers,0))as Integer) from fpo where fpo_id=:fpoId";
+			query = session.createSQLQuery(sql).setParameter("fpoId", fpoId);
+			totalFarmerCount = (Integer) query.uniqueResult();
+			if (totalFarmerCount == null) {
+				totalFarmerCount = 0;
+			}return totalFarmerCount;
+
+		} catch (Exception e) {
+			e.printStackTrace();return totalFarmerCount;
+		} /*
+			 * finally { session.close(); }
+			 */
+		
+
 	}
 	
 	
