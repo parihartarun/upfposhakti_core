@@ -8,17 +8,14 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.upfpo.app.entity.BoardMember;
-import com.upfpo.app.entity.BuyerSellerMaster;
-import com.upfpo.app.configuration.exception.AlreadyExistsException;
+
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
-import com.upfpo.app.dto.UserDetailsDto;
+import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
-import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
@@ -256,12 +253,6 @@ public class FPOServiceImpl implements FPOService {
 		
 	}
 	
-	@Override 
-	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
-	  {
-		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
-	  }
-	
 	//get land detail of farmer
 	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
 	{
@@ -271,6 +262,31 @@ public class FPOServiceImpl implements FPOService {
 		List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
 		  return obj;
 		    
+	}
+	
+	@Override 
+	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
+	  {
+		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
+	  }
+	
+	@Override
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) 
+	{
+		String  sql =     "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" + 
+		        		"cd.financial_year,sm.season_id,sm.season_name,nsi.sowing_id, \r\n" + 
+		        		"cm.id crop_id,cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 \r\n" + 
+		        		"then cv.crop_veriety else 'Other'end crop_veriety\r\n" + 
+		        		",cd.sowing_area,cd.ex_yield,cv.veriety_id from crop_details cd\r\n" + 
+		        		"inner join farmer f on f.farmer_id = cd.farmer_id \r\n" + 
+		        		"inner join season_master sm on sm.season_id=cd.season_ref \r\n" + 
+		        		"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" + 
+		        		"left join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer) \r\n" + 
+		        		"left join new_sowing_info nsi on nsi.sowing_id = cd.sowing_id\r\n" + 
+		        		"where f.fpo_ref_id = :masterId and cd.is_deleted=false";
+		  
+		List<CropListOfFarmersDTO> obj =  (List<CropListOfFarmersDTO>) entityManager.createNativeQuery(sql,"CropListOfFarmersDTO").setParameter("masterId", masterId).getResultList();
+		  return obj;
 	}
 	 
 
