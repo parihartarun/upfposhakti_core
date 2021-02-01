@@ -35,12 +35,12 @@ public class DashboardServiceImpl implements DashboardService {
 	public FpoDashboardData getFpoDashboardData(Integer masterId) {
 		
 		FpoDashboardData fpoDashboardData = new FpoDashboardData();
-		fpoDashboardData.setCropNo(null);
-		fpoDashboardData.setFarmers(null);
-		fpoDashboardData.setLand(null);
-		fpoDashboardData.setSmallFarmers(null);
-		fpoDashboardData.setMarginalFarmers(null);
-		fpoDashboardData.setOtherfarmers(null);
+		fpoDashboardData.setCropNo(numberCrops(masterId));
+		fpoDashboardData.setFarmers(totalFarmerCount(masterId));
+		fpoDashboardData.setLand(Integer.parseInt(totalLand(masterId).toString()));
+		fpoDashboardData.setSmallFarmers(totalSmallFarmerCount(masterId));
+		fpoDashboardData.setMarginalFarmers(totalMarginalFarmerCount(masterId));
+		fpoDashboardData.setOtherfarmers(totalOtherFarmerCount(masterId));
 		
 		fpoDashboardData.setRabiProdList(getFPOprodrabi(masterId));
 		fpoDashboardData.setRabiProdListActual(rabiProductionCropWise_actual(masterId));
@@ -223,7 +223,7 @@ return null;
 	@Override
 	public Integer numberCrops(Integer fpoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dataDisplayRepository.numberCrops(fpoId);
 	}
 
 
@@ -273,7 +273,7 @@ return null;
 	@Override
 	public Integer totalFarmerCount(Integer fpoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dataDisplayRepository.totalFarmerCount(fpoId);
 	}
 
 
@@ -283,7 +283,7 @@ return null;
 	@Override
 	public Integer totalSmallFarmerCount(Integer fpoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dataDisplayRepository.totalSmallFarmerCount(fpoId);
 	}
 
 
@@ -293,7 +293,7 @@ return null;
 	@Override
 	public Integer totalMarginalFarmerCount(Integer fpoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dataDisplayRepository.totalMarginalFarmerCount(fpoId);
 	}
 
 
@@ -303,7 +303,7 @@ return null;
 	@Override
 	public Integer totalOtherFarmerCount(Integer fpoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dataDisplayRepository.totalOtherFarmerCount(fpoId);
 	}
 	
 }
