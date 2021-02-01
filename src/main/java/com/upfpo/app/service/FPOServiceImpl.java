@@ -257,7 +257,7 @@ public class FPOServiceImpl implements FPOService {
 	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
 	{
 		String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc, f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
-				+ "on l.farmer_id = f.farmer_id where l.master_id = :masterId";
+				+ "on l.farmer_id = f.farmer_id where l.master_id = :masterId and l.is_deleted = false order by l.land_id desc";
 		  
 		List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
 		  return obj;

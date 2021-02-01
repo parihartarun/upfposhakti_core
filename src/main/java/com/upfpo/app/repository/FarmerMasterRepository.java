@@ -23,7 +23,7 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 @Query("select count(f) from FarmerMaster f where f.farmerMob = :farmerMob")
 	 public int alreadyExists(long farmerMob);
 	
-	 @Query("select f from FarmerMaster f where f.userFar.userId <> :userId")
+	 @Query("select f from FarmerMaster f where f.userFar.userId <> :userId and f.isDeleted = false order by f.farmerId desc")
 	 public List<FarmerMaster> getFarmers(long userId);	 
 	 
 	 public Optional<FarmerMaster> findByUserNameAndFarmerMob(String userName,Long farmerMob);
