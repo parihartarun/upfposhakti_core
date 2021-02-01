@@ -37,7 +37,7 @@ public class DashboardServiceImpl implements DashboardService {
 		FpoDashboardData fpoDashboardData = new FpoDashboardData();
 		fpoDashboardData.setCropNo(numberCrops(masterId));
 		fpoDashboardData.setFarmers(totalFarmerCount(masterId));
-		fpoDashboardData.setLand(Integer.parseInt(totalLand(masterId).toString()));
+		fpoDashboardData.setLand((int)Math.round(totalLand(masterId)));
 		fpoDashboardData.setSmallFarmers(totalSmallFarmerCount(masterId));
 		fpoDashboardData.setMarginalFarmers(totalMarginalFarmerCount(masterId));
 		fpoDashboardData.setOtherfarmers(totalOtherFarmerCount(masterId));
