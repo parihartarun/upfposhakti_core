@@ -35,12 +35,26 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public CollectionCenter updateCollectionCenter(int id, CollectionCenter e) {
 		// TODO Auto-generated method stub
-		e.setId(id);
+		/*e.setId(id);
 	    DistrictMaster district = districtRepository.findById(e.getDistId()).get();
 	    e.setUpdatedBy("ROLE_FPO");
 		e.setStateId(district.getState_id());
 		e.setDeleted(false);
-		return collectionCenterRepository.save(e);
+		return collectionCenterRepository.save(e);*/
+		
+		CollectionCenter cc = collectionCenterRepository.findById(id).get();
+        cc.setStateId(e.getStateId());
+        cc.setUpdatedBy("ROLE_FPC");
+        cc.setAddress(e.getAddress());
+        cc.setFascilities(e.getFascilities());
+        cc.setBlockId(e.getBlockId());
+        cc.setFpoRefId(e.getFpoRefId());
+        cc.setDistId(e.getDistId());
+        cc.setStateId(e.getStateId());
+        cc.setDeleted(e.isDeleted());
+        cc.setStorageCapacity(e.getStorageCapacity());
+        cc.setStorageType(e.getStorageType());
+        return collectionCenterRepository.save(cc);
 	}
 
 	@Override
