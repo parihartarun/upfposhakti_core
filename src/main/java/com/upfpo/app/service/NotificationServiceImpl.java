@@ -28,6 +28,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public Notification createNotification (Notification notification){
+        notification.setDeleted(false);
         return notificationRepository.save(notification);
     }
 
@@ -39,6 +40,7 @@ public class NotificationServiceImpl implements NotificationService{
             return null;
         }
         notification.setId(id);
+        notification.setDeleted(false);
         return notificationRepository.save(notification);
     }
 
