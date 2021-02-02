@@ -1,10 +1,21 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.entity.*;
+import com.upfpo.app.entity.Circulars;
+import com.upfpo.app.repository.CircularsRepository;
+import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.stream.Stream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,10 +27,104 @@ import org.springframework.util.FileSystemUtils;
 @Service
 public class CircularsServiceImpl implements CircularsService {
 
+    @Autowired
+    private CircularsRepository circularsRepository;
 
-    private final Path root = Paths.get("uploads");
+    private final Path fileStorageLocation;
+
+    @Autowired
+    public CircularsServiceImpl(FileStorageProperties fileStorageProperties) {
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getCircularDir())
+                .toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
+        }
+    }
 
     @Override
+    public List<Circulars> getCirculars() {
+        return circularsRepository.findByIsDeleted(false);
+    }
+
+    @Override
+    public Circulars createCircular (Circulars  circulars, MultipartFile file){
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            circulars.setFilePath(String.valueOf(targetLocation));
+            //complaintRepository.save(complaints);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+        return circularsRepository.save(circulars);
+    }
+
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new ResourceNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
+        }
+    }
+
+    @Override
+    public Circulars updateCirculars(Integer id, Circulars circulars1, String description,  MultipartFile file) {
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Path targetLocation;
+        try {
+            // Check if the file's name contains invalid characters
+            if (fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+
+        return circularsRepository.findById(id)
+                .map(circular -> {
+                    circular.setDescription(circulars1.getDescription());
+                    circular.setId(circulars1.getId());
+                    circular.setFilePath(String.valueOf(targetLocation));
+                    return circularsRepository.save(circular);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+    @Override
+    public Boolean deleteCircular(Integer id) {
+
+        try {
+            Circulars circulars = circularsRepository.findById(id).get();
+            circulars.setDeleted(true);
+            circularsRepository.save(circulars);
+            return true;
+        }catch(Exception e)
+        {
+            throw new NotFoundException();
+        }
+    }
+
+
+
+    /*@Override
     public void init() {
         try {
             Files.createDirectory(root);
@@ -65,6 +170,8 @@ public class CircularsServiceImpl implements CircularsService {
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }
-    }
+    }*/
+
+
 }
 

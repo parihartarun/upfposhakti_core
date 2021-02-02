@@ -43,7 +43,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
             return null;
         }
 
-        salesDetails.setId(new Long(id));
+        salesDetails.setId(new Integer(id));
 
         return salesDetailsRepository.save(salesDetails);
     }

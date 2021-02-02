@@ -3,8 +3,12 @@ package com.upfpo.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +23,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.BoardMember;
+import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 
+import ch.qos.logback.classic.Logger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
@@ -131,7 +140,7 @@ public class FPOController {
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"), })
 	@ResponseStatus(HttpStatus.CREATED)
-	public BoardMember createBoardMember(@RequestBody BoardMember boardMember)
+	public BoardMember createBoardMember(@Valid @RequestBody BoardMember boardMember)
 	{
 		return fpoService.addBoardMember(boardMember);
 	}
@@ -146,7 +155,7 @@ public class FPOController {
 		return fpoService.getBoardMembers();
 	}
 	
-	@GetMapping(value= {"/boardmember/{id}"})
+	@GetMapping(value= {"/boardmember/getBoardMemberById/{id}"})
 	@ApiOperation(value="View BoardMember by Id",code=200,produces = "application/json",notes="Api to view Board Member by Id",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -156,7 +165,18 @@ public class FPOController {
 		return fpoService.getBoardMembersById(id);
 	}
 	
-	@DeleteMapping(value= {"/boardmember/{id}"})
+	@PutMapping(value = "/boardmember/editBoardMember/{id}")
+	@ApiOperation(value="Edit BoardMember by Id",code=200,produces = "application/json",notes="Api to edit Board Member by Id",response=BoardMember.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+	public ResponseEntity<BoardMember> updateBoardMember(@RequestBody BoardMember boardMember, @PathVariable("id")Long id)
+	{
+		BoardMember boardMemberEntity = fpoService.updateBoardMember(boardMember,id);
+		return new ResponseEntity<BoardMember>(boardMemberEntity, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value= {"/boardmember/deleteBoardMember/{id}"})
 	@ApiOperation(value="Delete BoardMember by Id",code=204,produces = "application/json",notes="API to delete Board Member by ID",response=BoardMember.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -166,14 +186,14 @@ public class FPOController {
 		return fpoService.deleteBoardMembersById(id);
 	}
 	
-	@GetMapping(value= {"/land"})
-	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
+	@GetMapping(value= {"/landfarmer/{masterId}"})
+	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details",response=LandDetails.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public @ResponseBody List<LandDetails> getLandDetails()
+	public @ResponseBody List<FarmerLandDetailDto> getLandDetails(@PathVariable("masterId")Integer masterId)
 	{
-		return fpoService.getAllLandDetail();
+		return fpoService.getAllLandDetail(masterId);
 	}
 	
 	@GetMapping(value= {"/land/{id}"})
@@ -197,23 +217,33 @@ public class FPOController {
 		return fpoService.addLand(landDetails);
 	}
 	
-	@DeleteMapping(value= {"/land/{id}"})
+	@PutMapping(value="/land/editDetails/{landId}")
+	@ApiOperation(value="Edit Land Info",code=201, produces = "application/json", notes="Api for editing Land",response=LandDetails.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"), })
+	@ResponseStatus(HttpStatus.CREATED)
+	public LandDetails updateLand(@RequestBody LandDetails landDetails, @PathVariable("landId") int landId)
+	{
+		System.out.println("Farmer Profile Object:"+landDetails.getFarmerProfile().getFarmerId());
+		return fpoService.updateLand(landDetails, landId);
+	}
+	
+	@DeleteMapping(value= {"/land/deleteDetails/{landId}"})
 	@ApiOperation(value="View Land by Id",code=204,produces = "text/plain",notes="Api to view Land by Id",response=boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public boolean deleteLandDetailsById(@PathVariable("id")Integer id)
+	public boolean deleteLandDetailsById(@PathVariable("landId")Integer landId)
 	{
-		return fpoService.deleteLandDetailById(id);
+		return fpoService.deleteLandDetailById(landId);
 	}
 	
-	@GetMapping(value= {"/land/farmer/{id}"})
-	@ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details")
-	@ApiResponses(value= {
-	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
-	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public @ResponseBody List<FarmerMaster> getLandFarmer(@PathVariable("id")Iterable<Integer> id)
-	{
-		return fpoService.getLandFarmerByFpoId(id);
-	}
+	
+	 @GetMapping(value="/getFarmerDetailsForCropSowing/{farmerId}") 
+	 public  FarmerCropSowingDTO getFarmerDetailsForCropSowing(@PathVariable("farmerId") Integer farmerId) 
+	 { 
+		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
+     }
+
 }

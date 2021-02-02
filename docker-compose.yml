@@ -1,25 +1,6 @@
 version: "3.5"
 
-volumes:
-  shared_database:
-    driver: local
-
 services:
-    database:
-      image: postgres
-      container_name: database
-      restart: always
-      environment:
-        - POSTGRES_DB=postgres
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-      volumes:
-        - shared_database:/data/db/:rw
-      networks:
-        - backend
-      ports:
-        - 5433:5432
-
     fpoapp:
       build:
         context: ./
@@ -27,9 +8,6 @@ services:
       container_name: core
       ports:
         - 8082:8085
+        - 80:8085
       volumes:
         - .:/code
-
-networks:
-  frontend:
-  backend:

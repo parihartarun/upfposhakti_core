@@ -1,7 +1,6 @@
 package com.upfpo.app.controller;
 
 
-
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.service.NotificationServiceImpl;
@@ -29,8 +28,8 @@ public class NotificationController {
     @Autowired
     private NotificationServiceImpl notificationService;
 
-    @GetMapping("/getall")
-    @ApiOperation(value="Notification List" ,code=201, produces = "application/json", notes="Api for all Notification Info",response= Notification.class)
+    @GetMapping
+    @ApiOperation(value="Notification List" ,code=201, produces = "application/json", notes="Api for all Notification Info")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -43,18 +42,18 @@ public class NotificationController {
 
 
 
-    @PostMapping("/insert")
-    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
+    @PostMapping
+    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createNotification(@RequestBody Notification notifications) {
-        LOG.info("Inside NotificationController saving Notification ", notifications);
+    public ResponseEntity<String> createNotification(@RequestBody Notification notification) {
+        LOG.info("Inside NotificationController saving Notification ", notification);
         ResponseEntity<String> resp = null;
         try {
-            Notification id = notificationService.createNotification(notifications);
+            Notification id = notificationService.createNotification(notification);
             resp = new ResponseEntity<String>("Notification created Successfully!", HttpStatus.OK );
             LOG.info("Notification  created Successfully!");
             //}
@@ -63,13 +62,13 @@ public class NotificationController {
             LOG.info("Failed to Save the Notification");
             e.printStackTrace();
         }
-        LOG.info("Exiting Notification Of Controller with response ", resp);
+        LOG.info("Existing Notification Of Controller with response ", resp);
         return resp;
     }
 
 
-    @PutMapping("/update1/{id}")
-    @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info",response= Notification.class)
+    @PutMapping("{id}")
+    @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -93,8 +92,8 @@ public class NotificationController {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion",response= Notification.class)
+    @DeleteMapping("{id}")
+    @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

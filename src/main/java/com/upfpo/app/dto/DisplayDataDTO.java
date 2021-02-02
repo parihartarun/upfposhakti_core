@@ -10,10 +10,6 @@ public class DisplayDataDTO {
 	private BigInteger marginalfarmers;
 	private Double totalland;
 
-	
-	
-	
-	
 
 	public DisplayDataDTO(BigInteger totalfarmers, BigInteger smalltotal, BigInteger bigfarmers,
 			BigInteger marginalfarmers, Double totalland) {

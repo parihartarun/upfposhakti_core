@@ -15,11 +15,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.Errors;
 
 import com.upfpo.app.dto.DisplayDataDTO;
+
 
 @Entity
 
@@ -73,6 +77,8 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_landline")
 	private BigInteger fpolandLine;
 	
+	@Email
+	@NotNull(message = "Please provide email id")
 	@Column(name = "fpo_email")
 	private String fpoEmail;
 	
@@ -85,9 +91,12 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_account_no")
 	private BigInteger fpoBankAccNo;
 	
-//	@NotBlank(message="Please Provide the Valid IFSC Code")
+    @NotBlank(message="Please Provide the Valid IFSC Code")
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
+
+	@Column(name = "description")
+	private String description ;
 
 	/*
 	 * @Column(name="users_id") private long userRefId;
@@ -131,7 +140,7 @@ public class FPORegister implements Serializable {
 	
 	
 	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="users_id")
 	private User userFpo;
 	
 	public User getUserFpo() {
@@ -164,6 +173,8 @@ public class FPORegister implements Serializable {
 	public FPORegister() {
 
 	}
+
+
 
 	public Integer getFpoId() {
 		return fpoId;
@@ -380,7 +391,6 @@ public class FPORegister implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
 	
 
 }

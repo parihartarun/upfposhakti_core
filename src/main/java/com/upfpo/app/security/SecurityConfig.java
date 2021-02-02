@@ -36,9 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.csrf().disable()
 		.authorizeRequests()
 		//.antMatchers("/UPFPO/**").permitAll()
-		.antMatchers("/signin","/home/farmer","/home/production","/home/search","/signin/home","/register/**","/api/v1/**",
+		.antMatchers("/signin","/home/farmer",
+				"/api/fpos/**",
+				"/home/production","/home/search","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
 				"/v2/api-docs",
+                "/signin/test",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",

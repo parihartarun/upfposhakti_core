@@ -32,7 +32,10 @@ classes = {
 		  @ColumnResult(name = "fpo_lot_no", type = String.class),
 		  @ColumnResult(name = "associationdate", type = String.class),
 		  @ColumnResult(name = "crops", type = String.class),
-		  @ColumnResult(name = "services", type = String.class)
+		  @ColumnResult(name = "services", type = String.class),
+		  @ColumnResult(name = "marketableSurplus", type = Double.class),
+		  @ColumnResult(name = "actualProduction", type = Double.class),
+		  @ColumnResult(name = "cropVeriety", type = String.class),
 		  })
 })
 

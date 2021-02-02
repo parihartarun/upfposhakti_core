@@ -1,26 +1,33 @@
 package com.upfpo.app.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="complaints_suggestions")
+@Table(name = "complaints")
 public class Complaints {
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id")
+    private Integer id;
 
-    @Transient
-    private MultipartFile file;
+    @Column(name="title")
+    private String title;
+
+    @Column(name="message")
+    private String message;
+
+    @Column(name="status")
+    private Status status;
+    
+    @Column(name="fpo_id")
+    private Integer fpoId;
 
     @Column(name="issue_type")
     private String issueType;
@@ -29,31 +36,31 @@ public class Complaints {
     private String otherType;
 
     @Column(name="description")
-    private String descriptions;
-
-    @Column(name="status")
-    private String status;
-
-    @Column(name="assigned_to")
-    private String assigned_to;
+    private String description;
 
     @Column(name="assigned_other")
     private String otherAssigned;
 
+    @Column(name="assigned_to")
+    private String assignTo;
+
+    @Column(name="assigned_By")
+    private String assignBy;
+
     @Column(name="assigned_date")
-    private String assigned_date;
+    private Date assigned_date;
 
     @Column(name="resolve_date")
-    private String resolve_date;
+    private Date resolve_date;
+
+    @Column(name="comment")
+    private String deptComment;
 
     @Column(name="remarks")
     private String remarks;
 
     @Column(name="file_path")
     private String filePath;
-
-    @Column(name="fpo_id")
-    private Integer fpoId;
 
     @Column(name="role")
     private String role;
@@ -64,14 +71,122 @@ public class Complaints {
     @Column(name="uplaoded_by")
     private String uploadedBy;
 
+    @Column(name="is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name="delete_date")
+    private Date deleteDate;
+
+    @Column(name = "create_by")
+    private String createBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date_time")
+    private Calendar createDateTime;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "complaints", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ComplaintsComments> complaintsComments;
 
 
-    public MultipartFile getFile() {
-        return file;
+
+    public Complaints() {
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
+                      String otherType, String description, String otherAssigned, String assignTo, String assignBy,
+                      Date assigned_date, Date resolve_date, String deptComment, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
+                      Boolean isDeleted, Date deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.status = status;
+        this.fpoId = fpoId;
+        this.issueType = issueType;
+        this.otherType = otherType;
+        this.description = description;
+        this.otherAssigned = otherAssigned;
+        this.assignTo = assignTo;
+        this.assignBy = assignBy;
+        this.assigned_date = assigned_date;
+        this.resolve_date = resolve_date;
+        this.deptComment = deptComment;
+        this.remarks = remarks;
+        this.filePath = filePath;
+        this.role = role;
+        this.uploadDate = uploadDate;
+        this.uploadedBy = uploadedBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
+        this.createBy = createBy;
+        this.createDateTime = createDateTime;
+        this.complaintsComments = complaintsComments;
+    }
+
+    public String getAssignBy() {
+        return assignBy;
+    }
+
+    public void setAssignBy(String assignBy) {
+        this.assignBy = assignBy;
+    }
+
+    public String getDeptComment() {
+        return deptComment;
+    }
+
+    public void setDeptComment(String deptComment) {
+        this.deptComment = deptComment;
+    }
+
+
+
+    public Complaints(String description, String title, String issueType) {
+
+        this.setIssueType(issueType);
+        this.setDescription(description);
+        this.setTitle(title);
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Integer getFpoId() {
+        return fpoId;
+    }
+
+    public void setFpoId(Integer fpoId) {
+        this.fpoId = fpoId;
     }
 
     public String getIssueType() {
@@ -82,28 +197,44 @@ public class Complaints {
         this.issueType = issueType;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getOtherType() {
+        return otherType;
     }
 
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setOtherType(String otherType) {
+        this.otherType = otherType;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getAssigned_to() {
-        return assigned_to;
+    public String getOtherAssigned() {
+        return otherAssigned;
     }
 
-    public void setAssigned_to(String assigned_to) {
-        this.assigned_to = assigned_to;
+    public void setOtherAssigned(String otherAssigned) {
+        this.otherAssigned = otherAssigned;
+    }
+
+    public Date getAssigned_date() {
+        return assigned_date;
+    }
+
+    public void setAssigned_date(Date assigned_date) {
+        this.assigned_date = assigned_date;
+    }
+
+    public Date getResolve_date() {
+        return resolve_date;
+    }
+
+    public void setResolve_date(Date resolve_date) {
+        this.resolve_date = resolve_date;
     }
 
     public String getRemarks() {
@@ -120,14 +251,6 @@ public class Complaints {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public Integer getFpoId() {
-        return fpoId;
-    }
-
-    public void setFpoId(Integer fpoId) {
-        this.fpoId = fpoId;
     }
 
     public String getRole() {
@@ -154,40 +277,51 @@ public class Complaints {
         this.uploadedBy = uploadedBy;
     }
 
-
-
-    public String getAssigned_date() {
-        return assigned_date;
+    public Boolean getDeleted() {
+        return isDeleted;
     }
 
-    public void setAssigned_date(String assigned_date) {
-        this.assigned_date = assigned_date;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
-    public String getOtherType() {
-        return otherType;
+    public Date getDeleteDate() {
+        return deleteDate;
     }
 
-    public void setOtherType(String otherType) {
-        this.otherType = otherType;
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
-    public String getResolve_date() {
-        return resolve_date;
+    public String getAssignTo() {
+        return assignTo;
     }
 
-    public void setResolve_date(String resolve_date) {
-        this.resolve_date = resolve_date;
+    public void setAssignTo(String assignTo) {
+        this.assignTo = assignTo;
     }
 
-    public String getOtherAssigned() {
-        return otherAssigned;
+    public String getCreateBy() {
+        return createBy;
     }
 
-    public void setOtherAssigned(String otherAssigned) {
-        this.otherAssigned = otherAssigned;
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 
+    public Calendar getCreateDateTime() {
+        return createDateTime;
+    }
 
+    public void setCreateDateTime(Calendar createDateTime) {
+        this.createDateTime = createDateTime;
+    }
 
+    public List<ComplaintsComments> getComplaintsComments() {
+        return complaintsComments;
+    }
+
+    public void setComplaintsComments(List<ComplaintsComments> complaintsComments) {
+        this.complaintsComments = complaintsComments;
+    }
 }

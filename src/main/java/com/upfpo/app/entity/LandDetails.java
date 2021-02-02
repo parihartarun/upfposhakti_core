@@ -1,12 +1,37 @@
 package com.upfpo.app.entity;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.upfpo.app.dto.FarmerLandDetailDto;
 
 @Entity
+@SqlResultSetMapping(name="FarmerLandDetailDto",
+classes = {
+    @ConstructorResult(
+            targetClass = FarmerLandDetailDto.class,
+            columns = {
+                @ColumnResult(name = "landId", type = Integer.class),
+                @ColumnResult(name = "landArea", type = double.class),
+                @ColumnResult(name = "masterId", type = Integer.class),
+                @ColumnResult(name = "isorganc", type = String.class),
+                @ColumnResult(name = "farmerId", type = Integer.class),
+                @ColumnResult(name = "parantsName", type = String.class),
+                @ColumnResult(name = "farmerName", type = String.class),
+           })
+})
+
 @Table(name="land_details")
 public class LandDetails {
 	
@@ -39,15 +64,38 @@ public class LandDetails {
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
 	
-	@Column(name="farmer_id")
-	private Integer farmerId;
+	/*
+	 * @Column(name="farmer_id") private Integer farmerId;
+	 */
 	
+	public FarmerMaster getFarmerProfile() {
+		return farmerProfile;
+	}
+
+	public void setFarmerProfile(FarmerMaster farmerProfile) {
+		this.farmerProfile = farmerProfile;
+	}
+
 	@Column(name="is_organic")
 	private String isorganc;
 	
+	@Column(name="nature_of_ownership")
+	private String ownerShip;
+	
+	public String getOwnerShip() {
+		return ownerShip;
+	}
+
+	public void setOwnerShip(String ownerShip) {
+		this.ownerShip = ownerShip;
+	}
+
 	@Column(name="is_deleted")
     private boolean isDeleted;
 
+	@ManyToOne
+	@JoinColumn(name="farmer_id",updatable = true)
+	private FarmerMaster farmerProfile;
 	
 	
 	
@@ -76,10 +124,6 @@ public class LandDetails {
 	public void setLand_area(double land_area) {
 		this.land_area = land_area;
 	}
-
-
-
-
 
 
 	public Integer getMasterId() {
@@ -122,13 +166,11 @@ public class LandDetails {
 		this.deleteDate = deleteDate;
 	}
 
-	public Integer getFarmerId() {
-		return farmerId;
-	}
-
-	public void setFarmerId(Integer farmerId) {
-		this.farmerId = farmerId;
-	}
+	/*
+	 * public Integer getFarmerId() { return farmerId; }
+	 * 
+	 * public void setFarmerId(Integer farmerId) { this.farmerId = farmerId; }
+	 */
 
 	public String getGuardianName() {
 		return guardianName;
@@ -153,4 +195,5 @@ public class LandDetails {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
 }

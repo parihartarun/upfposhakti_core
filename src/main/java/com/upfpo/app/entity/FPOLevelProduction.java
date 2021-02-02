@@ -64,6 +64,9 @@ public class FPOLevelProduction {
     @Column(name="veriety_id")
     private Integer verietyId;
 
+    public FPOLevelProduction() {
+    }
+
     public Integer getProductionId() {
         return id;
     }

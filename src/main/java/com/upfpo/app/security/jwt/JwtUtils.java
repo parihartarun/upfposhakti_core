@@ -52,8 +52,12 @@ public class JwtUtils {
 	private Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
-	
-	public String generateToken(User userDetails) {
+
+	public String extractMasterId(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("masterId",String.class);
+	}
+
+	public String generateToken(User userDetails,Integer masterId) {
 		if(userDetails.isDeleted() || !userDetails.isEnabled()){
 			throw new CustomException("Deleted/Inactive user", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
@@ -61,6 +65,7 @@ public class JwtUtils {
 		Map<String,Object> claims = new HashMap<>();
 		claims.put("userName",userDetails.getUserName());
 		claims.put("userId",userDetails.getUserId());
+		claims.put("masterId",masterId);
 		claims.put("userRole",userDetails.getRoleRefId());
 		return createToken(claims,userDetails.getUserId().toString());
 	}
@@ -89,7 +94,7 @@ public class JwtUtils {
 	}
 
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetail.loadUserByUsername(extractUsername(token));
+		UserDetails userDetails = userDetail.loadUserByUsername(getUserNameFromJwtToken(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
 
@@ -103,8 +108,16 @@ public class JwtUtils {
 		}
 	}
 
+	public String getUserIdFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userId",String.class);
+	}
+
+	public String getMasterIdFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("masterId",String.class);
+	}
+
 	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userName",String.class);
 	}
 
 	public boolean validateJwtToken(String authToken) {

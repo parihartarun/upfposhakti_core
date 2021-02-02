@@ -12,4 +12,6 @@ public interface CollectionCenterRepository extends JpaRepository<CollectionCent
 
 	List<CollectionCenter> findByIsDeleted(boolean b);
 
+	List<CollectionCenter> findByFpoRefId(Integer id);
+
 }

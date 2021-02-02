@@ -3,54 +3,40 @@ package com.upfpo.app;
 import java.util.Properties;
 
 
-import com.upfpo.app.service.FPOGuidelineServiceImpl;
+import com.upfpo.app.entity.Complaints;
+import com.upfpo.app.entity.FileStorageProperties;
+import com.upfpo.app.service.CircularsServiceImpl;
+import com.upfpo.app.service.ComplaintServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
 
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class UpFPOApplication  {
-
-	/*@Autowired
-	@Qualifier("javasampleapproachMailSender")
-	public MailSender mailSender;*/
+@EnableConfigurationProperties({FileStorageProperties.class})
+public class UpFPOApplication {
 
 
-
-	@RequestMapping("/")
-	String home() {
-		return "Hello World!";
-	}
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
-
-
-
-
 	/*@Override
-	public void run(String... arg0) throws Exception {
-
-		String from = "rahul.pande@neosoftmail.com";
-		String to = "rahul.pande@neosoftmail.com";
-		String subject = "JavaMailSender";
-		String body = "Just-Testing!";
-	}
-
-	@Override
 	public void run(String... arg) throws Exception {
 		circularsService.deleteAll();
 		circularsService.init();
 
+		complaintService.deleteAll();
+		complaintService.init();
 	}*/
 
 	@Bean

@@ -15,11 +15,38 @@ public class FPODetailsDTO {
 	private String associationdate;
 	private String crops;
 	private String services;
+	   
+
+
+
+
+
+
+
+	public String getCropVeriety() {
+		return cropVeriety;
+	}
+
+
+
+	public void setCropVeriety(String cropVeriety) {
+		this.cropVeriety = cropVeriety;
+	}
+
+
+
+	private Double marketableSurplus;
+	private Double actualProduction;
+	private String cropVeriety;
 	
 	
-	
+
+
+
+
 	public FPODetailsDTO(Integer id, String unitassla, String state, String district, String nodal, BigInteger mobile,
-			String email, String fpo_lot_no, String associationdate, String crops, String services) {
+			String email, String fpo_lot_no, String associationdate, String crops, String services,
+			Double marketableSurplus, Double actualProduction, String cropVeriety) {
 		super();
 		this.id = id;
 		this.unitassla = unitassla;
@@ -32,6 +59,9 @@ public class FPODetailsDTO {
 		this.associationdate = associationdate;
 		this.crops = crops;
 		this.services = services;
+		this.marketableSurplus = marketableSurplus;
+		this.actualProduction = actualProduction;
+		this.cropVeriety = cropVeriety;
 	}
 
 
@@ -146,6 +176,30 @@ public class FPODetailsDTO {
 
 	public String getCrops() {
 		return crops;
+	}
+
+
+
+	public Double getMarketableSurplus() {
+		return marketableSurplus;
+	}
+
+
+
+	public void setMarketableSurplus(Double marketableSurplus) {
+		this.marketableSurplus = marketableSurplus;
+	}
+
+
+
+	public Double getActualProduction() {
+		return actualProduction;
+	}
+
+
+
+	public void setActualProduction(Double actualProduction) {
+		this.actualProduction = actualProduction;
 	}
 
 

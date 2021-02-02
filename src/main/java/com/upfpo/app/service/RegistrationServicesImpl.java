@@ -1,7 +1,6 @@
 package com.upfpo.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +39,77 @@ public class RegistrationServicesImpl implements RegistrationServices
 	int count = 0;
 	
 	String target = "";
+
+
+	public int checkFPOExists(String email){
+		return fpoRepository.alreadyExists(email);
+	}
+	
+	@Override
+	public int checkUserFpoExists(String userName) 
+	{
+		return fpoRepository.checkUserFpoExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkFarmerExists(long mobileNo) 
+	{
+		return farmerMasterRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
+	public int checkUserFarmerExists(String userName) 
+	{
+		return farmerMasterRepository.checkUserFarmerExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkBuyerSellerExists(long mobileNo) 
+	{
+		int ss= buyerSellerRepository.alreadyExists(mobileNo);
+		System.err.println("Count::"+ss);
+		return buyerSellerRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
+	public int checkUserBuyerSellerExists(String userName) 
+	{
+		return buyerSellerRepository.checkUserBuyerSellerExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkUserInputSupplierExists(String userName) 
+	{
+		return inputSupplierRepository.checkUserInputSupplierExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkInputSupplierExists(long mobileNo) 
+	{
+		return inputSupplierRepository.alreadyExists(mobileNo);
+	}
+	
+	@Override
+	public int checkUserChcFmbExists(String userName) 
+	{
+		return chcFmbRepository.checkUserChcFmbExists(userName.toUpperCase());
+	}
+	
+	@Override
+	public int checkChcFmbExists(long mobileNo) 
+	{
+		return chcFmbRepository.alreadyExists(mobileNo);
+	}
 	
 	@Override
 	public String registerFPO(FPORegister fpoRegister) 
 	{
 		String password = fpoRegister.getUserFpo().getPassword();
 		fpoRegister.getUserFpo().setPassword(passwordEncoder.encode(password));
+		fpoRegister.setUserName(fpoRegister.getUserFpo().getUserName());
+		fpoRegister.getUserFpo().setRoleRefId("4");
+		fpoRegister.setStateref(9);
+		fpoRegister.getUserFpo().setEnabled(true);
 		count = fpoRepository.alreadyExists(fpoRegister.getFpoEmail());
 		if(count==1)
 		{

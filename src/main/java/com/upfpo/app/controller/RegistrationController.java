@@ -1,16 +1,28 @@
 package com.upfpo.app.controller;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.ChcFmbMaster;
 import com.upfpo.app.entity.FPORegister;
@@ -32,30 +44,30 @@ public class RegistrationController
 {
 	@Autowired
 	RegistrationServices registerServices;
-	
+
+	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	Validator validator = factory.getValidator();
 	
 	@PostMapping(value="/fpo")
-	private ResponseEntity<MessageResponse> registerFPO(@RequestBody FPORegister fpoRegister)
+	@ApiOperation(value="Register new Fpo " ,code=201, produces = "application/json", notes="Api for add new Farmer",response=MessageResponse.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus( HttpStatus.OK)
+	private ResponseEntity<MessageResponse> registerFPO(@Valid @RequestBody FPORegister fpoRegister) throws CustomException
 	{
-		
-		if(fpoRegister==null)
-		{
-			throw new ValidationException();
-		}
-		else {
-			String fpo = registerServices.registerFPO(fpoRegister);
-			if(fpo=="exists")
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("Fpo already exists!"));
-			}
-			else
-			{
-				//return new ResponseEntity<String>("", new HttpHeaders(), HttpStatus.CREATED);
-				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
-		}
+				if(registerServices.checkFPOExists(fpoRegister.getFpoEmail())>0){
+					throw new CustomException("FPO already exists",HttpStatus.BAD_REQUEST);
+				}
+				if(registerServices.checkUserFpoExists(fpoRegister.getUserFpo().getUserName())>0)
+				{
+					throw new CustomException("FPO User Name already exists",HttpStatus.BAD_REQUEST);
+				}
+				registerServices.registerFPO(fpoRegister);
+				return ResponseEntity.ok(new MessageResponse("SuccessFully Saved!"));
+
 	}
 	
 	@PostMapping(value="/farmer")
@@ -65,24 +77,24 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerFarmer(@RequestBody FarmerMaster farmerRegister)
+	private ResponseEntity<MessageResponse> registerFarmer(@Valid @RequestBody FarmerMaster farmerRegister) throws CustomException
 	{
 		if(farmerRegister==null)
 		{
 			throw new ValidationException();
 		}
 		else {
-			String farmer = registerServices.registerFarmer(farmerRegister);
-			if(farmer=="exists")
+			if(registerServices.checkUserFarmerExists(farmerRegister.getUserFar().getUserName())>0)
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("Farmer already exists!"));
+				throw new CustomException("Farmer User Name already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
+			if(registerServices.checkFarmerExists(farmerRegister.getFarmerMob())>0)
 			{
-				return ResponseEntity
+				throw new CustomException("Farmer already exists",HttpStatus.BAD_REQUEST);
+			}
+				registerServices.registerFarmer(farmerRegister);
+				return ResponseEntity	
 						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
 		}
 	}
 		
@@ -93,7 +105,7 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerBuyerSeller(@RequestBody BuyerSellerMaster buyerSeller)
+	private ResponseEntity<MessageResponse> registerBuyerSeller(@Valid @RequestBody BuyerSellerMaster buyerSeller) throws CustomException
 	{
 		//return new ResponseEntity<MessageResponse>(buyerSellerdetails, new HttpHeaders(), HttpStatus.CREATED);
 		if(buyerSeller==null)
@@ -101,17 +113,16 @@ public class RegistrationController
 			throw new ValidationException();
 		}
 		else {
-			String buyerSellerdetails = registerServices.registerBuyerSeller(buyerSeller);
-			if(buyerSellerdetails=="exists")
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("Buyer Seller already exists!"));
+			if(registerServices.checkBuyerSellerExists(buyerSeller.getMobileNumber())==1){
+				throw new CustomException("Buyer/Seller already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
+			if(registerServices.checkUserBuyerSellerExists(buyerSeller.getUserBuyerSeller().getUserName())>0)
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
+				throw new CustomException("Buyer Seller User Name already exists",HttpStatus.BAD_REQUEST);
 			}
+				registerServices.registerBuyerSeller(buyerSeller);
+				return ResponseEntity
+						.ok(new MessageResponse("SuccessFully Saved!"));	
 		}
 	}
 	
@@ -122,24 +133,25 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerInputSupplier(@RequestBody InputSupplierMaster inputSupplierMaster)
+	private ResponseEntity<MessageResponse> registerInputSupplier(@Valid @RequestBody InputSupplierMaster inputSupplierMaster) throws CustomException
 	{
 		if(inputSupplierMaster.getInputSupplierType()==1)
 		{
 			inputSupplierMaster.setBlockRefId(null);
 			inputSupplierMaster.setVillageRefId(null);
 		}
-			String inputSupplierDetails = registerServices.registerInputSuplier(inputSupplierMaster);
-			if(inputSupplierDetails=="exists")
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("Input Supplier already exists!"));
-			}
-			else
-			{
-				return ResponseEntity
-						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
+		if(registerServices.checkUserInputSupplierExists(inputSupplierMaster.getUserInputSeller().getUserName())>0)
+		{
+			throw new CustomException("Input Supplier User Name already exists",HttpStatus.BAD_REQUEST);
+		}
+		if(registerServices.checkInputSupplierExists(inputSupplierMaster.getMobile_number())>0)
+		{
+			throw new CustomException("Input Supplier already exists",HttpStatus.BAD_REQUEST);
+		}
+			registerServices.registerInputSuplier(inputSupplierMaster);
+			return ResponseEntity	
+					.ok(new MessageResponse("SuccessFully Saved!"));
+		
 		//return new ResponseEntity<InputSupplierMaster>(inputSupplierDetails,new HttpHeaders(), HttpStatus.OK);
 	}
 	
@@ -150,24 +162,24 @@ public class RegistrationController
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	private ResponseEntity<MessageResponse> registerChcFmb(@RequestBody ChcFmbMaster chcFmbMaster)
+	private ResponseEntity<MessageResponse> registerChcFmb(@Valid @RequestBody ChcFmbMaster chcFmbMaster) throws CustomException
 	{
 		if(chcFmbMaster==null)
 		{
 			throw new ValidationException();
 		}
 		else {
-			String chcFmbDetails = registerServices.registerChcFmb(chcFmbMaster);
-			if(chcFmbDetails=="exists")
+			if(registerServices.checkUserChcFmbExists(chcFmbMaster.getUser().getUserName())>0)
 			{
-				return ResponseEntity
-						.ok(new MessageResponse("CHC FMB already exists!"));
+				throw new CustomException("CHC/FMB User Name already exists",HttpStatus.BAD_REQUEST);
 			}
-			else
+			if(registerServices.checkChcFmbExists(chcFmbMaster.getMobileNumber())>0)
 			{
+				throw new CustomException("CHC/FMB already exists",HttpStatus.BAD_REQUEST);
+			}
+			 registerServices.registerChcFmb(chcFmbMaster);
 				return ResponseEntity
 						.ok(new MessageResponse("SuccessFully Saved!"));
-			}
 		}
 	}
 	

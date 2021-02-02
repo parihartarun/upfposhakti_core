@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.CollectionCenter;
+import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.repository.CollectionCenterRepository;
+import com.upfpo.app.repository.DistrictMasterRepository;
 
 @Service
 public class CollectionCenterServiceImpl implements CollectionCenterService {
@@ -16,10 +18,16 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Autowired
 	private CollectionCenterRepository collectionCenterRepository; 
 	
+	@Autowired
+	private DistrictMasterRepository districtRepository;
+	
 	@Override
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
 		// TODO Auto-generated method stub
-		
+		//DistrictMaster district = districtRepository.findById(e.getDistId()).get();
+		e.setUpdatedBy("ROLE_FPO");
+		e.setStateId(6);
+		//e.setDistId(6);
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
@@ -28,6 +36,9 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter updateCollectionCenter(int id, CollectionCenter e) {
 		// TODO Auto-generated method stub
 		e.setId(id);
+	    DistrictMaster district = districtRepository.findById(e.getDistId()).get();
+	    e.setUpdatedBy("ROLE_FPO");
+		e.setStateId(district.getState_id());
 		e.setDeleted(false);
 		return collectionCenterRepository.save(e);
 	}
@@ -43,12 +54,13 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public boolean deleteCollectionCenter(int id) {
 		// TODO Auto-generated method stub
 		try {
-			CollectionCenter collectionCenter = collectionCenterRepository.getOne(id);
+			CollectionCenter collectionCenter = collectionCenterRepository.findById(id).get();
 			collectionCenter.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
 			collectionCenter.setDeleted(true);
 			collectionCenterRepository.save(collectionCenter);
 	          return true;
 		}catch(Exception e){
+			e.printStackTrace();
 		      return false;	
 		}
 		
@@ -65,12 +77,19 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public CollectionCenter selectCollectionCenterById(int id) {
 		// TODO Auto-generated method stub
 		try {
-		return collectionCenterRepository.getOne(id);
+		return collectionCenterRepository.findById(id).get();
 		}catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new NotFoundException();
 		}
 		}
+
+	@Override
+	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id) {
+		// TODO Auto-generated method stub
+		return collectionCenterRepository.findByFpoRefId(id);
+	}
 
 
 

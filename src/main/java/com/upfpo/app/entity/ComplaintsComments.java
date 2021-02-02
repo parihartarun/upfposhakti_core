@@ -1,6 +1,8 @@
 package com.upfpo.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -11,7 +13,7 @@ public class ComplaintsComments {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
-    private Long id;
+    private Integer id;
 
     private String comment;
 
@@ -19,22 +21,25 @@ public class ComplaintsComments {
     private String createBy;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "complaints_id",referencedColumnName="id", nullable = false)
+    @JoinColumn(name="complaints_id")
     @JsonIgnore
-    private Complaints complaints;
+    private Complaints  complaints;
 
-    public ComplaintsComments(Long id, String comment, String createBy, Complaints complaints) {
+    public ComplaintsComments() {
+    }
+
+    public ComplaintsComments(Integer id, String comment, String createBy, Complaints complaints) {
         this.id = id;
         this.comment = comment;
         this.createBy = createBy;
         this.complaints = complaints;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
