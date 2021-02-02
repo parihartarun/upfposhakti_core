@@ -127,7 +127,7 @@ public class EnquiryController {
         return resp;
     }
     
-    @PostMapping("/enquiry")
+    @PostMapping()
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
