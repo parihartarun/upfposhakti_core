@@ -4,13 +4,27 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.MasterDataDto;
+
 @Entity
+@SqlResultSetMapping(name="MasterDataDto",
+classes = {
+    @ConstructorResult(
+            targetClass = MasterDataDto.class,
+            columns = {
+                @ColumnResult(name = "district_id", type = Integer.class),
+                @ColumnResult(name = "district_name", type = String.class),
+           })
+})
 @Table(name="districts")
 public class DistrictMaster implements Serializable{
 	

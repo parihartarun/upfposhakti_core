@@ -3,21 +3,26 @@ package com.upfpo.app.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "enquiry")
-public class Enquiry {
+public class Enquiry implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 8235023558272315275L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
     private Long quantity;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fulfillmentDate;
 
     private String status;
@@ -32,96 +37,141 @@ public class Enquiry {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
-    private Calendar createDateTime;
+    private Date createDateTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EnquiryComments> comments;
-
+    
+    @OneToOne
+    @JoinColumn(name="crop_id")
+    private CropMaster cropMaster;
+    
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
+    
+    @OneToOne
+    @JoinColumn(name="fpo_id")
+    private FPORegister fpo;
+    
     public Enquiry() {
     }
 
-    public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, String assignTo, String createBy, Calendar createDateTime, List<EnquiryComments> comments) {
-        this.id = id;
-        this.quantity = quantity;
-        this.fulfillmentDate = fulfillmentDate;
-        this.status = status;
-        this.reason = reason;
-        this.assignTo = assignTo;
-        this.createBy = createBy;
-        this.createDateTime = createDateTime;
-        this.comments = comments;
-    }
+	public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, String assignTo,
+			String createBy, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, User user,
+			FPORegister fpo) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+		this.fulfillmentDate = fulfillmentDate;
+		this.status = status;
+		this.reason = reason;
+		this.assignTo = assignTo;
+		this.createBy = createBy;
+		this.createDateTime = createDateTime;
+		this.comments = comments;
+		this.cropMaster = cropMaster;
+		this.user = user;
+		this.fpo = fpo;
+	}
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getQuantity() {
-        return quantity;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
+	public Long getQuantity() {
+		return quantity;
+	}
 
-    public Date getFulfillmentDate() {
-        return fulfillmentDate;
-    }
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setFulfillmentDate(Date fulfillmentDate) {
-        this.fulfillmentDate = fulfillmentDate;
-    }
+	public Date getFulfillmentDate() {
+		return fulfillmentDate;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setFulfillmentDate(Date fulfillmentDate) {
+		this.fulfillmentDate = fulfillmentDate;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getReason() {
-        return reason;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+	public String getReason() {
+		return reason;
+	}
 
-    public String getAssignTo() {
-        return assignTo;
-    }
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
-    public void setAssignTo(String assignTo) {
-        this.assignTo = assignTo;
-    }
+	public String getAssignTo() {
+		return assignTo;
+	}
 
-    public String getCreateBy() {
-        return createBy;
-    }
+	public void setAssignTo(String assignTo) {
+		this.assignTo = assignTo;
+	}
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
+	public String getCreateBy() {
+		return createBy;
+	}
 
-    public Calendar getCreateDateTime() {
-        return createDateTime;
-    }
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 
-    public void setCreateDateTime(Calendar createDateTime) {
-        this.createDateTime = createDateTime;
-    }
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
 
-    public List<EnquiryComments> getComments() {
-        return comments;
-    }
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
 
-    public void setComments(List<EnquiryComments> comments) {
-        this.comments = comments;
-    }
+	public List<EnquiryComments> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<EnquiryComments> comments) {
+		this.comments = comments;
+	}
+
+	public CropMaster getCropMaster() {
+		return cropMaster;
+	}
+
+	public void setCropMaster(CropMaster cropMaster) {
+		this.cropMaster = cropMaster;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public FPORegister getFpo() {
+		return fpo;
+	}
+
+	public void setFpo(FPORegister fpo) {
+		this.fpo = fpo;
+	}
+
+    
 }

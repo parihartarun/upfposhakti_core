@@ -46,6 +46,8 @@ public class DashboardServiceImpl implements DashboardService {
 		fpoDashboardData.setRabiProdListActual(rabiProductionCropWise_actual(masterId));
 		fpoDashboardData.setZayadProdList(getFPOprodzayad(masterId));
 		fpoDashboardData.setZayadProdListActual(zayadProductionCropWise_actual(masterId));
+		//===========working fine======================
+		
 		fpoDashboardData.setKharifProdList(getFPOprodkharif(masterId));
 		fpoDashboardData.setKharifProdListActual(kharifProductionCropWise_actual(masterId));
 		

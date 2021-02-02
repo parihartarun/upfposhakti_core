@@ -921,7 +921,7 @@ public class DataDisplayRepository {
 					"where fpo.fpo_id = :masterId and pd.marketable_quantity>1\r\n" + 
 					"group by  cm.crop_name\r\n" + 
 					" ) Q\r\n" + 
-					"order by actual_production desc limit 5";
+					"order by actual_production desc";
 			
 			session = getCurrentSession();
 			//tx = session.beginTransaction();
