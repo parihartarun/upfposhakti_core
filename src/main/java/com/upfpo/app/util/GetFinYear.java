@@ -20,7 +20,7 @@ public class GetFinYear {
 		return finYear;
 	}
 	
-	  public static void main(String[] args) {
-	  System.out.println(getCurrentFinYear()); }
+//	  public static void main(String[] args) {
+//	  System.out.println(getCurrentFinYear()); }
 	 
 }

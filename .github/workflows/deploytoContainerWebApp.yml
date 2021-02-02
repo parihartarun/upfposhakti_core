@@ -1,0 +1,30 @@
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: contregistryupfpodev.azurecr.io
+        username: ${{ secrets.acr_contregistryupfpodev_username }}
+        password: ${{ secrets.acr_contregistryupfpodev_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build -t contregistryupfpodev.azurecr.io/java:latest .
+        docker push contregistryupfpodev.azurecr.io/java:latest
+
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: api-upfposhakti
+        images: contregistryupfpodev.azurecr.io/java:latest
