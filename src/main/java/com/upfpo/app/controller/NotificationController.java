@@ -28,7 +28,7 @@ public class NotificationController {
     @Autowired
     private NotificationServiceImpl notificationService;
 
-    @GetMapping("/getall")
+    @GetMapping
     @ApiOperation(value="Notification List" ,code=201, produces = "application/json", notes="Api for all Notification Info")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -42,7 +42,7 @@ public class NotificationController {
 
 
 
-    @PostMapping("/insert")
+    @PostMapping
     @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -67,7 +67,7 @@ public class NotificationController {
     }
 
 
-    @PutMapping("/update1/{id}")
+    @PutMapping("{id}")
     @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -92,7 +92,7 @@ public class NotificationController {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
+    @DeleteMapping("{id}")
     @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

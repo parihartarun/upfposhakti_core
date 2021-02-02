@@ -11,6 +11,8 @@ import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -24,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -39,41 +42,51 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     private final Path fileStorageLocation;
 
-
-    public List<Complaints> getAllComplaint(){
-        return complaintRepository.findAll();
+    @Autowired
+    public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getComplaintDir())
+                .toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
+        }
     }
 
+    public List<Complaints> getAllComplaint(){
+        return complaintRepository.findByIsDeleted(false);
+    }
+
+    @Override
     public Complaints createComplaint (Complaints complaints, MultipartFile file){
-
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        complaints.setCreateBy(currentPrincipalName);
+        complaints.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             complaints.setFilePath(String.valueOf(targetLocation));
             //complaintRepository.save(complaints);
-
-
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-
         return complaintRepository.save(complaints);
     }
 
-
+    @Override
     public Boolean deleteComplaint(Integer id) {
 
         try {
             Complaints complaints = complaintRepository.findById(id).get();
             complaints.setDeleted(true);
+            complaints.setDeleteDate(Calendar.getInstance().getTime());
             complaintRepository.save(complaints);
             return true;
         }catch(Exception e)
@@ -82,26 +95,13 @@ public class ComplaintServiceImpl implements ComplaintService {
         }
     }
 
-
     @Override
     public List<ComplaintCatgories> getComplaintsCatgories() {
         return complaintCatgoriesRepository.findAll();
     }
 
 
-
-    @Autowired
-    public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-                .toAbsolutePath().normalize();
-
-        try {
-            Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
-        }
-    }
-
+    @Override
     public String storeFile(MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -125,6 +125,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         }
     }
 
+    @Override
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
@@ -139,6 +140,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         }
     }
 
+    @Override
     public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -151,7 +153,6 @@ public class ComplaintServiceImpl implements ComplaintService {
             // Copy file to the target location (Replacing existing file with the same name)
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
 
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
@@ -167,6 +168,28 @@ public class ComplaintServiceImpl implements ComplaintService {
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
+
+    public Complaints deptComplaintAssign(Integer id, Complaints complaints1){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return complaintRepository.findById(id)
+                .map(complaints -> {
+                    complaints.setId(complaints1.getId());
+                    complaints.setAssignTo(complaints1.getAssignTo());
+                    complaints.setAssignBy(currentPrincipalName);
+                    complaints.setAssigned_date(Calendar.getInstance().getTime());
+                    complaints.setDeptComment(complaints1.getDeptComment());
+                    complaints.setStatus(complaints1.getStatus());
+
+                    return complaintRepository.save(complaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+    
+
+
 
 
 

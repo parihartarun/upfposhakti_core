@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.entity.FPOServices;
@@ -18,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +34,12 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     @Override
     public List<FPOServices> getFPOServices() {
-        return fpoServicesRepository.findAll();
+        return fpoServicesRepository.findByIsDeleted(false);
     }
 
     @Autowired
     public FPOServicesServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getfposervicesDir())
                 .toAbsolutePath().normalize();
 
         try {
@@ -103,12 +105,20 @@ public class FPOServicesServiceImpl implements FPOServicesService{
     }
 
     @Override
-    public Optional deleteFPOServices(Integer id) {
-        return fpoServicesRepository.findById(id)
-                .map(FPOServices -> {
-                    fpoServicesRepository.delete(FPOServices);
-                    return "Delete Successfully!";
-                });
+    public Boolean deleteFPOService(Integer id) {
+        if(fpoServicesRepository.findById(id) != null)
+        try {
+            FPOServices fpoServices = fpoServicesRepository.findById(id).get();
+            fpoServices.setDeleted(true);
+            fpoServices.setDeleteDate(Calendar.getInstance().getTime());
+            fpoServicesRepository.save(fpoServices);
+            return true;
+        }catch(Exception e)
+        {
+            throw new NotFoundException();
+        }
+        else
+            return false;
     }
 
 

@@ -25,6 +25,9 @@ public class ComplaintsComments {
     @JsonIgnore
     private Complaints  complaints;
 
+    public ComplaintsComments() {
+    }
+
     public ComplaintsComments(Integer id, String comment, String createBy, Complaints complaints) {
         this.id = id;
         this.comment = comment;

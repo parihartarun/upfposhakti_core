@@ -22,8 +22,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         return enquiryRepository.save(enquiry);
     }
 
-
-
     public Enquiry updateEnquiryDetail(Long id, Enquiry enquiry) {
         Optional<Enquiry> sd = enquiryRepository.findById(id);
         if(!sd.isPresent()) {
