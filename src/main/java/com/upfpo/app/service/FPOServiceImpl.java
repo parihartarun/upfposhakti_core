@@ -261,17 +261,6 @@ public class FPOServiceImpl implements FPOService {
 		
 	}
 	
-	@Override 
-	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
-	  {
-		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
-	  }
-
-	@Override
-	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
-		return null;
-	}
-
 	//get land detail of farmer
 	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
 	{
@@ -282,9 +271,16 @@ public class FPOServiceImpl implements FPOService {
 		  return obj;
 		    
 	}
-
 	
+	@Override 
+	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
+	  {
+		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
+	  }
 
-
+	@Override
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
+		return null;
+	}
 
 }
