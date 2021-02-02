@@ -32,11 +32,6 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     private final Path fileStorageLocation;
 
-    @Override
-    public List<FPOServices> getFPOServices() {
-        return fpoServicesRepository.findByIsDeleted(false);
-    }
-
     @Autowired
     public FPOServicesServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getfposervicesDir())
@@ -47,6 +42,13 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         } catch (Exception ex) {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
+    }
+
+    @Override
+    public List<FPOServices> getFPOServices() {
+        return fpoServicesRepository.findByIsDeleted(false);
+
+
     }
 
     @Override
