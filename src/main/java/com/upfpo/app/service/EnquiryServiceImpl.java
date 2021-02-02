@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.EnquiryDTO;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.repository.EnquiryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,9 @@ public class EnquiryServiceImpl implements EnquiryService{
                     return "Delete Successfully!";
                 });
     }
+
+	public void saveEnquiry(Enquiry enquiry) {
+		enquiryRepository.save(enquiry);
+	}
 
 }
