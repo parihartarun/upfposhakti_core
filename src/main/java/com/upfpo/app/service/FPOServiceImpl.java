@@ -20,8 +20,10 @@ import com.upfpo.app.configuration.exception.AlreadyExistsException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
+import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.dto.UserDetailsDto;
 import com.upfpo.app.repository.BoardMembersRepo;
+import com.upfpo.app.repository.DistrictMasterRepository;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
@@ -51,6 +53,9 @@ public class FPOServiceImpl implements FPOService {
 	
 	@Resource
 	private FarmerMasterRepository farmerMasterRepository;
+	
+	@Autowired
+	private DistrictMasterRepository districtMasterRepository;
 	
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
@@ -124,6 +129,15 @@ public class FPOServiceImpl implements FPOService {
 	public FPORegister selectFpoById(Integer id) {
 
 		return fpoRepository.findById(id).get();
+	}
+	
+	@Override
+	public MasterDataDto getDistrictByFpoId(int fpoId) 
+	{
+		String  sql = "select d.district_id as district_id, d.district_name as district_name from districts d join fpo f on d.district_id = f.dist_ref_id where f.fpo_id = :fpoId";
+		  
+		MasterDataDto obj =  (MasterDataDto) entityManager.createNativeQuery(sql,"MasterDataDto").setParameter("fpoId", fpoId).getSingleResult();
+		return obj;
 	}
 	
 	@Override
