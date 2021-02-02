@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -264,7 +265,12 @@ public class FPOServiceImpl implements FPOService {
 	  {
 		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
 	  }
-	
+
+	@Override
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
+		return null;
+	}
+
 	//get land detail of farmer
 	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
 	{
