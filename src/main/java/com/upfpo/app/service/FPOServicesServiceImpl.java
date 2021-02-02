@@ -75,6 +75,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+        fposervices.setDeleted(false);
         return fpoServicesRepository.save(fposervices);
     }
 
@@ -101,6 +102,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
                     fpoServices.setServicename(fpoServices1.getServicename());
                     fpoServices.setDescriptions(fpoServices1.getDescriptions());
                     fpoServices.setId(fpoServices1.getId());
+                    fpoServices.setDeleted(false);
                     fpoServices.setFilePath(String.valueOf(targetLocation));
                     return fpoServicesRepository.save(fpoServices);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

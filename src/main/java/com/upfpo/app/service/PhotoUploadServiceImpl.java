@@ -66,6 +66,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+        photoUpload.setDeleted(false);
         return photoUploadRepository.save(photoUpload);
     }
 
@@ -91,6 +92,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 .map(photoUploads -> {
                     photoUploads.setDescription(photoUploads1.getDescription());
                     photoUploads.setId(photoUploads1.getId());
+                    photoUploads.setDeleted(false);
                     photoUploads.setFilePath(String.valueOf(targetLocation));
                     return photoUploadRepository.save(photoUploads);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

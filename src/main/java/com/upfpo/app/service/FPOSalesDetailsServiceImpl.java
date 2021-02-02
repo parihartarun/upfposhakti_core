@@ -17,7 +17,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 
     @Override
     public FPOSalesDetails insertSalesDetails(FPOSalesDetails salesDetails) {
-
+        salesDetails.setDeleted(false);
         salesDetailsRepository.save(salesDetails);
         return salesDetails;
     }
@@ -42,7 +42,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
         if(!sd.isPresent()) {
             return null;
         }
-
+        salesDetails.setDeleted(false);
         salesDetails.setId(new Integer(id));
 
         return salesDetailsRepository.save(salesDetails);
