@@ -54,7 +54,7 @@ public class FPOGuidelines {
 
     @Column(name="fpo_guideline_type")
     private FPOGuidelineType fpoGuidelineType;
-    
+
 
     public FPOGuidelines() {
     }

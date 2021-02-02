@@ -44,7 +44,7 @@ public class CircularsController {
     @Autowired
     CircularsServiceImpl circularsService;
 
-    @GetMapping
+    @GetMapping(value = "/getall")
     @ApiOperation(value="Circular List" ,code=201, produces = "application/json", notes="Api for all Circular Info",response= Circulars.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
