@@ -1,6 +1,7 @@
 package com.upfpo.app.entity;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -81,7 +82,7 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private ChcFmbMaster chcProfile;
 	
-	@OneToOne(mappedBy = "userFar")
+	@OneToOne(mappedBy = "userFar", cascade = CascadeType.ALL, orphanRemoval = true)
 	private FarmerMaster farmerProfile;
 	
 	@OneToOne(mappedBy = "userFpo")
