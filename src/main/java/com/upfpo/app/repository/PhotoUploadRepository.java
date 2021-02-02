@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PhotoUploadRepository extends JpaRepository<PhotoUpload,Integer> {
-    List<PhotoUpload> findByIsDeleted(boolean b);
+    List<PhotoUpload> findByIsDeleted(Boolean b);
 }

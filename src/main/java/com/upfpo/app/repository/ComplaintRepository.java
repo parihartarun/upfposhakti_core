@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ComplaintRepository extends JpaRepository<Complaints, Integer> {
 
-    List<Complaints> findByIsDeleted(boolean b);
+    List<Complaints> findByIsDeleted(Boolean b);
 }
