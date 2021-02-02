@@ -30,14 +30,12 @@ public class CircularsServiceImpl implements CircularsService {
     @Autowired
     private CircularsRepository circularsRepository;
 
-
     private final Path fileStorageLocation;
 
     @Autowired
     public CircularsServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getCircularDir())
                 .toAbsolutePath().normalize();
-
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
@@ -45,12 +43,12 @@ public class CircularsServiceImpl implements CircularsService {
         }
     }
 
-
+    @Override
     public List<Circulars> getCirculars() {
-
         return circularsRepository.findByIsDeleted(false);
     }
 
+    @Override
     public Circulars createCircular (Circulars  circulars, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
@@ -66,10 +64,10 @@ public class CircularsServiceImpl implements CircularsService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-
         return circularsRepository.save(circulars);
     }
 
+    @Override
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
@@ -84,8 +82,8 @@ public class CircularsServiceImpl implements CircularsService {
         }
     }
 
+    @Override
     public Circulars updateCirculars(Integer id, Circulars circulars1, String description,  MultipartFile file) {
-
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path targetLocation;
@@ -97,8 +95,6 @@ public class CircularsServiceImpl implements CircularsService {
             // Copy file to the target location (Replacing existing file with the same name)
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -110,9 +106,9 @@ public class CircularsServiceImpl implements CircularsService {
                     circular.setFilePath(String.valueOf(targetLocation));
                     return circularsRepository.save(circular);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
     }
 
+    @Override
     public Boolean deleteCircular(Integer id) {
 
         try {

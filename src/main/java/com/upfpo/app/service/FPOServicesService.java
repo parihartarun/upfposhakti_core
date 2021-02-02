@@ -8,10 +8,11 @@ import java.util.Optional;
 
 public interface FPOServicesService {
 
-    public Optional deleteFPOServices(Integer id);
+    public Boolean deleteFPOService(Integer id);
     //public FPOServices updateFPOServices(Integer id, FPOServices FPOServices, MultipartFile file);
     public List<FPOServices> getFPOServices();
     public Optional<FPOServices> getFPOServicesById(Integer id);
    // public FPOServices insertFPOServices(FPOServices FPOServices);
+
 
 }

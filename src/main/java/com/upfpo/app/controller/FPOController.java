@@ -23,21 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.BoardMember;
-import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 
-import ch.qos.logback.classic.Logger;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
@@ -240,10 +237,16 @@ public class FPOController {
 	}
 	
 	
-	 @GetMapping(value="/getFarmerDetailsForCropSowing/{farmerId}") 
+	 @GetMapping(value="/cropSowing/getFarmerDetailsForCropSowing/{farmerId}") 
 	 public  FarmerCropSowingDTO getFarmerDetailsForCropSowing(@PathVariable("farmerId") Integer farmerId) 
 	 { 
 		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
      }
+	 
+	 @GetMapping(value="/cropSowing/farmersCropList/{masterId}")
+	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
+	 {
+		 return fpoService.getCropListForFarmersByFpo(masterId);
+	 }
 
 }

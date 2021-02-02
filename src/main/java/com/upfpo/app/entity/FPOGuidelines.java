@@ -3,6 +3,7 @@ package com.upfpo.app.entity;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -32,22 +33,86 @@ public class FPOGuidelines {
     @Column(name = "file_name")
     private String fileName;
 
-    @Column(name = "notificaton_type")
-    private NotificationType type;
+    @Column(name="uplaoded_by")
+    private String uploadedBy;
+
+    @Column(name="is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name="delete_by")
+    private String deleteBy;
+
+    @Column(name="delete_date")
+    private Date deleteDate;
+
+    @Column(name = "create_by")
+    private String createBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Calendar createDate;
+
+    @Column(name="fpo_guideline_type")
+    private FPOGuidelineType fpoGuidelineType;
 
 
     public FPOGuidelines() {
     }
 
-    public FPOGuidelines(Long id, String desc, Date uploadDate, Integer registrationType, Boolean isActive, String filePath, String fileName, NotificationType type) {
-        this.id = id;
-        this.desc = desc;
-        this.uploadDate = uploadDate;
-        this.registrationType = registrationType;
-        this.isActive = isActive;
-        this.filePath = filePath;
-        this.fileName = fileName;
-        this.type = type;
+    public FPOGuidelineType getFpoGuidelineType() {
+        return fpoGuidelineType;
+    }
+
+    public void setFpoGuidelineType(FPOGuidelineType fpoGuidelineType) {
+        this.fpoGuidelineType = fpoGuidelineType;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getDeleteBy() {
+        return deleteBy;
+    }
+
+    public void setDeleteBy(String deleteBy) {
+        this.deleteBy = deleteBy;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
     }
 
     public String getFileName() {
@@ -106,13 +171,7 @@ public class FPOGuidelines {
         this.filePath = filePath;
     }
 
-    public NotificationType getType() {
-        return type;
-    }
 
-    public void setType(NotificationType type) {
-        this.type = type;
-    }
 }
 
 

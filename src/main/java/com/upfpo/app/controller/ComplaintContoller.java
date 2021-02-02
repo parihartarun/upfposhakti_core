@@ -9,6 +9,8 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 
+import com.upfpo.app.entity.Status;
+import com.upfpo.app.service.ComplaintService;
 import com.upfpo.app.service.ComplaintServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -45,7 +47,7 @@ public class ComplaintContoller {
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
     @Autowired
-    private ComplaintServiceImpl complaintService;
+    private ComplaintService complaintService;
 
     @GetMapping
     @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= Complaints.class)
@@ -55,7 +57,6 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public List<Complaints> getAllComplaints (){
-
         return complaintService.getAllComplaint();
     }
 
@@ -199,6 +200,37 @@ public class ComplaintContoller {
         return resp;
     }
 
+    @PostMapping("/dept/{id}")
+    @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> deptComplaintAssign(@PathVariable Integer id,
+                                                           @RequestParam(value = "assign_to") String assignTo,
+                                                           @RequestParam(value = "status") Status status,
+                                                           @RequestParam(value = "comment") String deptComment) {
+        LOG.info("Inside Complaint updating Complaint detail ");
+        Complaints complaints = new Complaints();
+        complaints.setId(id);
+        complaints.setAssignTo(assignTo);
+        complaints.setDeptComment(deptComment);
+        complaints.setStatus(status);
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            complaintService.deptComplaintAssign(id, complaints);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
+            LOG.info("Complaint Updated Successfully!");
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Update the Complaint Details");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
 
 
 

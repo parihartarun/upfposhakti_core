@@ -6,9 +6,13 @@ import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.repository.ComplaintsCommentsRepository;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+
 
 @Service
 public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
@@ -20,25 +24,32 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
     private ComplaintRepository  complaintRepository;
 
     //Getting Comment by Complaint id
-    public Optional<ComplaintsComments> getCommentByComplaintId(Integer id) {
+    @Override
+    public Page<ComplaintsComments> getCommentByComplaintId(Integer id, Pageable pageable) {
         if(!complaintRepository.existsById(id)) {
             throw new ResourceNotFoundException("Complaint not found!");
         }
 
-        return complaintsCommentsRepository.findByComplaints_id(id);
+        return complaintsCommentsRepository.findByComplaints_id(id, pageable);
     }
 
     //Add comment by complaintid
+    @Override
     public ComplaintsComments addComment(Integer complaintId, ComplaintsComments complaintsComments) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
         return complaintRepository.findById(complaintId)
                 .map(complaints -> {
                     complaintsComments.setComplaints(complaints);
+                    complaintsComments.setCreateBy(currentPrincipalName);
                     return complaintsCommentsRepository.save(complaintsComments);
                 }).orElseThrow(() -> new ResourceNotFoundException(" not found!"));
     }
 
-
     //Delete comment by complaintID
+    @Override
     public String deleteComment( Integer complaintId, Integer commentId) {
 
         if(!complaintRepository.existsById(complaintId)) {
@@ -50,8 +61,7 @@ public class ComplaintCommentsServiceImpl implements ComplaintCommentsService {
                     return "Deleted Successfully!";
                 }).orElseThrow(() -> new ResourceNotFoundException("Complaint Commment id not found!"));
     }
-
-
 }
+
 
 

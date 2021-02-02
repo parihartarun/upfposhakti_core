@@ -24,11 +24,10 @@ public class Complaints {
     private String message;
 
     @Column(name="status")
-    private String status;
+    private Status status;
     
     @Column(name="fpo_id")
     private Integer fpoId;
-
 
     @Column(name="issue_type")
     private String issueType;
@@ -42,11 +41,20 @@ public class Complaints {
     @Column(name="assigned_other")
     private String otherAssigned;
 
+    @Column(name="assigned_to")
+    private String assignTo;
+
+    @Column(name="assigned_By")
+    private String assignBy;
+
     @Column(name="assigned_date")
     private Date assigned_date;
 
     @Column(name="resolve_date")
     private Date resolve_date;
+
+    @Column(name="comment")
+    private String deptComment;
 
     @Column(name="remarks")
     private String remarks;
@@ -69,9 +77,6 @@ public class Complaints {
     @Column(name="delete_date")
     private Date deleteDate;
 
-    @Column(name = "assign_to")
-    private String assignTo;
-
     @Column(name = "create_by")
     private String createBy;
 
@@ -88,36 +93,10 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message,  String status,
-                      Integer fpoId, String issueType, String otherType, String descriptions,
-                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath,
-                      String role, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime) {
-        this.id = id;
-        this.title = title;
-        this.message = message;
-        this.status = status;
-        this.fpoId = fpoId;
-        this.issueType = issueType;
-        this.otherType = otherType;
-        this.description = descriptions;
-        this.otherAssigned = otherAssigned;
-        this.assigned_date = assigned_date;
-        this.resolve_date = resolve_date;
-        this.remarks = remarks;
-        this.filePath = filePath;
-        this.role = role;
-        this.uploadDate = uploadDate;
-        this.uploadedBy = uploadedBy;
-        this.isDeleted = isDeleted;
-        this.deleteDate = deleteDate;
-        this.assignTo = assignTo;
-        this.createBy = createBy;
-        this.createDateTime = createDateTime;
-    }
-
-    public Complaints(Integer id, String title, String message, String status, Integer fpoId, String issueType, String otherType, String description,
-                      String otherAssigned, Date assigned_date, Date resolve_date, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
-                      Boolean isDeleted, Date deleteDate, String assignTo, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
+                      String otherType, String description, String otherAssigned, String assignTo, String assignBy,
+                      Date assigned_date, Date resolve_date, String deptComment, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
+                      Boolean isDeleted, Date deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
         this.id = id;
         this.title = title;
         this.message = message;
@@ -127,8 +106,11 @@ public class Complaints {
         this.otherType = otherType;
         this.description = description;
         this.otherAssigned = otherAssigned;
+        this.assignTo = assignTo;
+        this.assignBy = assignBy;
         this.assigned_date = assigned_date;
         this.resolve_date = resolve_date;
+        this.deptComment = deptComment;
         this.remarks = remarks;
         this.filePath = filePath;
         this.role = role;
@@ -136,11 +118,28 @@ public class Complaints {
         this.uploadedBy = uploadedBy;
         this.isDeleted = isDeleted;
         this.deleteDate = deleteDate;
-        this.assignTo = assignTo;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
         this.complaintsComments = complaintsComments;
     }
+
+    public String getAssignBy() {
+        return assignBy;
+    }
+
+    public void setAssignBy(String assignBy) {
+        this.assignBy = assignBy;
+    }
+
+    public String getDeptComment() {
+        return deptComment;
+    }
+
+    public void setDeptComment(String deptComment) {
+        this.deptComment = deptComment;
+    }
+
+
 
     public Complaints(String description, String title, String issueType) {
 
@@ -159,7 +158,7 @@ public class Complaints {
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title) {
@@ -174,11 +173,11 @@ public class Complaints {
         this.message = message;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

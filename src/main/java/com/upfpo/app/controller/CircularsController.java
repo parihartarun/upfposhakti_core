@@ -44,7 +44,7 @@ public class CircularsController {
     @Autowired
     CircularsServiceImpl circularsService;
 
-    @GetMapping
+    @GetMapping(value = "/getall")
     @ApiOperation(value="Circular List" ,code=201, produces = "application/json", notes="Api for all Circular Info",response= Circulars.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -63,7 +63,8 @@ public class CircularsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> uploadCircular(@RequestParam("description") String description, @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadCircular(@RequestParam("description") String description,
+                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
         ResponseEntity<MessageResponse> resp = null;
         try {
