@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
+import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
@@ -20,6 +21,7 @@ public interface FPOService {
 	public Boolean deleteFpo(Integer id);
 	public List<FPORegister> selectFpos();
 	public FPORegister selectFpoById(Integer id);
+	public MasterDataDto getDistrictByFpoId(int fpoId);
 	public FPORegister selectFpoByUserName(String username);
 	public BoardMember addBoardMember(BoardMember bm);
 	public List <BoardMember> getBoardMembers();
