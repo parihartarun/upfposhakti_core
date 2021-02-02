@@ -125,8 +125,9 @@ public class FPOServiceImpl implements FPOService {
 	}
 
 	@Override
-	public List<BoardMember> getBoardMembers() {
-		return boardMembersRepo.findAll();
+	public List<BoardMember> getBoardMembers(){
+		//return boardMembersRepo.findAll();
+		return boardMembersRepo.findAllByOrderByIdDesc(false);
 	}
 
 	@Override
