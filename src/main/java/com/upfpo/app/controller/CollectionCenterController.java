@@ -56,8 +56,6 @@ public class CollectionCenterController {
 		return collectionCenterService.insertCollectionCenter(collectionCenter);
 	}
 	
-
-		
 	}
 	@PutMapping("/{id}")
 	@ApiOperation(value="Update Collection Center", code=200, produces = "application/json", notes="Api for update Collection Center",response=CollectionCenter.class)

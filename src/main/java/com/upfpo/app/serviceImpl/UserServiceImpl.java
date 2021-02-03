@@ -7,6 +7,8 @@ import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.UserDetailsDto;
 import com.upfpo.app.security.jwt.JwtUtils;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,4 +153,38 @@ if(userOpt.isPresent()) {
 		
 	}
 
+	public User registerUser(User user) {
+		return userRepository.save(user);
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public User getUserById(Long userId) {
+		java.util.Optional<User> userOpt = userRepository.findById(userId);
+		if(userOpt.isPresent()) {
+			return userOpt.get();
+		}
+		return null;
+		
+	}
+
+	@Override
+	public User updateUser(Long userId, User user) {
+		User currentUser = getUserById(userId);
+		if ( null == currentUser) {
+			throw new NotFoundException();
+		} else {
+			user.setUserId(currentUser.getUserId());
+		}
+		return userRepository.save(user);
+	}
+
+	@Override
+	public void deleteUserById(Long userId) {
+		userRepository.deleteById(userId);
+	}
 }

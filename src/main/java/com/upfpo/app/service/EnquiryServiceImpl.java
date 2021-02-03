@@ -21,6 +21,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     }
 
     public Enquiry createEnquiry (Enquiry enquiry){
+
         return enquiryRepository.save(enquiry);
     }
 

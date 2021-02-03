@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "fpo_additonal_services")
 public class FPOServices {
 
 
@@ -45,8 +46,8 @@ public class FPOServices {
     @Column(name="update_date")
     private Date updateDate;
 
-    @Column(name="is_deleted")
-    private boolean isDeleted;
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
+    private Boolean isDeleted;
 
     @Column(name="delete_date")
     private Date deleteDate;

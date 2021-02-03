@@ -35,7 +35,7 @@ public class FPOServicesController {
     private FPOServicesServiceImpl fpoServicesService;
 
     @GetMapping("/getall")
-    @ApiOperation(value="Fetch All FPOServicess" ,code=201, produces = "application/json", notes="API to Get all FPOServicess Details",response= FPOServices.class)
+    @ApiOperation(value="Fetch All FPOServices" ,code=201, produces = "application/json", notes="API to Get all FPOServicess Details",response= FPOServices.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -96,31 +96,6 @@ public class FPOServicesController {
         return resp;
     }
 
-
-
-   /* @PostMapping("/insert")
-    @ApiOperation(value="Add FPOServicess Details" ,code=201, produces = "application/json", notes="Api for add new FPOServicess Details",response= FPOServices.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> insertFPOServices(@RequestBody FPOServices fpoServices) {
-        LOG.info("Inside SalesDetailsController saving sales details ", fpoServices);
-        ResponseEntity<String> resp = null;
-        try {
-            FPOServices id = fpoServicesService.insertFPOServices(fpoServices);
-            resp = new ResponseEntity<String>("FPOServices details created Successfully!", HttpStatus.OK );
-            LOG.info("FPOSalesDetails  created Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the FPOServices Details", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOServices Details");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting FPOServices Of Controller with response ", resp);
-        return resp;
-    }*/
 
 
     @PutMapping("/{id}")
