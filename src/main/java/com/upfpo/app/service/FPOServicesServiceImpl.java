@@ -83,11 +83,10 @@ public class FPOServicesServiceImpl implements FPOServicesService{
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/FPOService")
+                    .path("uploads/FPOService/")
                     .path(fileName)
                     .toUriString();
             fposervices.setFilePath(fileDownloadUri);
-            //fposerviceRepository.save(fposervices);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
