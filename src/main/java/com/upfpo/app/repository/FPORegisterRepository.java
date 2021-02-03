@@ -22,6 +22,8 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	  
 	 @Query("SELECT new com.upfpo.app.dto.FarmerCropSowingDTO(f.parantsName, sum(l.land_area)) FROM LandDetails l join l.farmerProfile f where f.farmerId= :farmerId group by f.parantsName")
 	 public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
+
+	Optional<FPORegister> findById(Integer fpoId);
 	 
 	
 		/*
