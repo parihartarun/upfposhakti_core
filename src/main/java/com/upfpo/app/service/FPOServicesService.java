@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.entity.FPOServices;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,7 +13,9 @@ public interface FPOServicesService {
     //public FPOServices updateFPOServices(Integer id, FPOServices FPOServices, MultipartFile file);
     public List<FPOServices> getFPOServices();
     public Optional<FPOServices> getFPOServicesById(Integer id);
-   // public FPOServices insertFPOServices(FPOServices FPOServices);
+
+    Resource loadFileAsResource(String fileName);
+    // public FPOServices insertFPOServices(FPOServices FPOServices);
 
 
 }

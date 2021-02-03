@@ -80,7 +80,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         try {
             SchemeDetail schemeDetail = schemeDetailRepository.findById(id).get();
             schemeDetail.setDeleted(true);
-            schemeDetail.setDeleteDate(Calendar.getInstance().getTime());
+            schemeDetail.setDeleteDate(Calendar.getInstance());
             schemeDetailRepository.save(schemeDetail);
             return true;
         }catch(Exception e)

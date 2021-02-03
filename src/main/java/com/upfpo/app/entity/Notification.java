@@ -14,7 +14,7 @@ public class Notification {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id")
+    @Column(name="notification_id")
     private Integer id;
 
     @Column(name = "title")
@@ -66,6 +66,12 @@ public class Notification {
         this.senderId = senderId;
         this.isRead = isRead;
         this.type = type;
+    }
+
+    public Notification(Integer receiverId, Integer senderId, String title) {
+        this.receiverId = receiverId;
+        this.senderId = senderId;
+        this.title = title;
     }
 
     public Date getUploadDate() {
