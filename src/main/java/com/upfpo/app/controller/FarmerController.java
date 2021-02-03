@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -62,7 +63,7 @@ public class FarmerController
 	 * registerServices.getFarmerDetailsById(farmerId); }
 	 */
 	
-	@PutMapping(value="/deleteFarmer/{farmerId}")
+	@DeleteMapping(value="/deleteFarmer/{farmerId}")
 	@ApiOperation(value="Delete Farmer deatails by id",code=204,produces = "text/plain",notes="Api for delete FPO by id",response=Boolean.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
