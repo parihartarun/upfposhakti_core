@@ -297,4 +297,9 @@ public class FPOServiceImpl implements FPOService {
 		return null;
 	}
 
+	@Override
+	public Optional<FPORegister> findById(Integer fpoId) {
+		 return fpoRepository.findById(fpoId);
+	}
+
 }
