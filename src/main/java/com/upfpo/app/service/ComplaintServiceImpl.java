@@ -77,6 +77,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+        complaints.setDeleted(false);
         return complaintRepository.save(complaints);
     }
 
@@ -164,6 +165,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setDescription(complaints1.getDescription());
                     complaints.setIssueType(complaints1.getIssueType());
                     complaints.setId(complaints1.getId());
+                    complaints.setDeleted(false);
                     complaints.setFilePath(String.valueOf(targetLocation));
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
@@ -181,6 +183,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setAssignBy(currentPrincipalName);
                     complaints.setAssigned_date(Calendar.getInstance().getTime());
                     complaints.setDeptComment(complaints1.getDeptComment());
+                    complaints.setDeleted(false);
                     complaints.setStatus(complaints1.getStatus());
 
                     return complaintRepository.save(complaints);

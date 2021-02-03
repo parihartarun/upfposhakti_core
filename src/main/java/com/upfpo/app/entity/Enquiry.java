@@ -11,71 +11,61 @@ import java.util.List;
 
 @Entity
 @Table(name = "enquiry")
-public class Enquiry implements Serializable{
+public class Enquiry implements Serializable {
 
 	private static final long serialVersionUID = 8235023558272315275L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    private Long quantity;
+	private Long quantity;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fulfillmentDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fulfillmentDate;
 
-    private String status;
+	private String status;
 
-    private String reason;
+	private String reason;
 
-    @Column(name = "assign_to")
-    private String assignTo;
+	@OneToOne
+	@JoinColumn(name = "created_by")
+	private User user;
 
-    @Column(name = "create_by")
-    private String createBy;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date_time")
+	private Date createDateTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date_time")
-    private Date createDateTime;
+	@JsonIgnore
+	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<EnquiryComments> comments;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<EnquiryComments> comments;
-    
-    @OneToOne
-    @JoinColumn(name="crop_id")
-    private CropMaster cropMaster;
-    
-    @OneToOne
-    @JoinColumn(name="user_id")
-    private User user;
-    
-    @OneToOne
-    @JoinColumn(name="fpo_id")
-    private FPORegister fpo;
-    
-    public Enquiry() {
-    }
+	@OneToOne
+	@JoinColumn(name = "crop_id")
+	private CropMaster cropMaster;
 
-	public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, String assignTo,
-			String createBy, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, User user,
-			FPORegister fpo) {
+	@OneToOne
+	@JoinColumn(name = "fpo_id")
+	private FPORegister fpo;
+
+	public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, User user,
+			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {
 		super();
 		this.id = id;
 		this.quantity = quantity;
 		this.fulfillmentDate = fulfillmentDate;
 		this.status = status;
 		this.reason = reason;
-		this.assignTo = assignTo;
-		this.createBy = createBy;
+		this.user = user;
 		this.createDateTime = createDateTime;
 		this.comments = comments;
 		this.cropMaster = cropMaster;
-		this.user = user;
 		this.fpo = fpo;
 	}
 
+	public Enquiry() {
+	}
 
 	public Long getId() {
 		return id;
@@ -117,20 +107,12 @@ public class Enquiry implements Serializable{
 		this.reason = reason;
 	}
 
-	public String getAssignTo() {
-		return assignTo;
+	public User getUser() {
+		return user;
 	}
 
-	public void setAssignTo(String assignTo) {
-		this.assignTo = assignTo;
-	}
-
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getCreateDateTime() {
@@ -157,14 +139,6 @@ public class Enquiry implements Serializable{
 		this.cropMaster = cropMaster;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public FPORegister getFpo() {
 		return fpo;
 	}
@@ -173,5 +147,4 @@ public class Enquiry implements Serializable{
 		this.fpo = fpo;
 	}
 
-    
 }

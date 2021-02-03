@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface FPOServicesRepository extends JpaRepository<FPOServices, Integer> {
-    List<FPOServices> findByIsDeleted(boolean b);
+    List<FPOServices> findByIsDeleted(Boolean b);
+
 }
