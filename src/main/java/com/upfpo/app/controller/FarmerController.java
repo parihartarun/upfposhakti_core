@@ -37,7 +37,7 @@ public class FarmerController
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response = ExceptionResponse.class, message = "Validation Failed"),
 	})
-	private ResponseEntity<FarmerMaster> editFarmer(@RequestBody FarmerMaster farmerMaster, @PathVariable("farmerMaster") int farmerId )
+	private ResponseEntity<FarmerMaster> editFarmer(@RequestBody FarmerMaster farmerMaster, @PathVariable("farmerId") int farmerId )
 	{
 		FarmerMaster farmerEntity = farmerService.updateFarmer(farmerMaster, farmerId);
 		return new ResponseEntity<FarmerMaster>(farmerEntity, new HttpHeaders(), HttpStatus.OK);
