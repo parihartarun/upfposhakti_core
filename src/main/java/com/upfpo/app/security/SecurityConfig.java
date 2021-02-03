@@ -49,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/swagger-ui/**",
                 "/api/v1/**",
                 "/webjars/**",
-				"/circulars/getall"
+				"/circulars/getall",
+				"/enquiry/"
 				).permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
