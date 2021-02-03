@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.EnquiryRepository;
 
 @Service
@@ -43,6 +44,10 @@ public class EnquiryServiceImpl implements EnquiryService{
 
 	public void saveEnquiry(Enquiry enquiry) {
 		enquiryRepository.save(enquiry);
+	}
+
+	public Enquiry getEnquiryInfo(Optional<User> user) {
+		 return enquiryRepository.findByUser(user);
 	}
 
 }

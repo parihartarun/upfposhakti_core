@@ -1,6 +1,8 @@
 package com.upfpo.app.controller;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.User;
 import com.upfpo.app.service.EnquiryServiceImpl;
+import com.upfpo.app.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,8 +42,10 @@ public class EnquiryController {
 
     @Autowired
     private EnquiryServiceImpl enquiryService;
-
-
+    @Autowired
+    private UserService userService;
+	
+    
     @GetMapping("/getall")
     @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= Enquiry.class)
     @ApiResponses(value= {
@@ -151,5 +159,21 @@ public class EnquiryController {
         return resp;
     }   
     
+    
+    @GetMapping("/findByUser")
+    @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public Enquiry getEnquiryByUser(@RequestParam Long userId) throws UserPrincipalNotFoundException{
+    	Optional<User> user = userService.findById(userId);
+    	if(user.equals(null)) {
+    		throw new UserPrincipalNotFoundException("User does not exist for "+userId +"id");
+    	}
+        LOG.info("Inside EnquiryController gettting list of Enquiry ");
+        return enquiryService.getEnquiryInfo(user);
+    }
 
 }

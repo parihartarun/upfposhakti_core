@@ -145,4 +145,10 @@ if(userOpt.isPresent()) {
 		return new ResponseEntity<String>("Password Updated Successfully", HttpStatus.OK);
 	}
 
+	@Override
+	public java.util.Optional<User> findById(Long userId) {
+		return userRepository.findById(userId);
+		
+	}
+
 }
