@@ -1,12 +1,14 @@
 package com.upfpo.app.service;
 
-import com.upfpo.app.entity.Enquiry;
-import com.upfpo.app.repository.EnquiryRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.User;
+import com.upfpo.app.repository.EnquiryRepository;
 
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
@@ -19,6 +21,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     }
 
     public Enquiry createEnquiry (Enquiry enquiry){
+
         return enquiryRepository.save(enquiry);
     }
 
@@ -39,5 +42,13 @@ public class EnquiryServiceImpl implements EnquiryService{
                     return "Delete Successfully!";
                 });
     }
+
+	public void saveEnquiry(Enquiry enquiry) {
+		enquiryRepository.save(enquiry);
+	}
+
+	public Enquiry getEnquiryInfo(Optional<User> user) {
+		 return enquiryRepository.findByUser(user);
+	}
 
 }

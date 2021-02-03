@@ -70,6 +70,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+        schemeDetail.setDeleted(false);
         return schemeDetailRepository.save(schemeDetail);
     }
 
@@ -130,6 +131,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                     schemeDetail.setDescription(schemeDetail1.getDescription());
                     schemeDetail.setId(schemeDetail1.getId());
                     schemeDetail.setFilePath(String.valueOf(targetLocation));
+                    schemeDetail.setDeleted(false);
                     return schemeDetailRepository.save(schemeDetail);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }

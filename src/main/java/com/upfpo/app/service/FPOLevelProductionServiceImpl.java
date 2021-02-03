@@ -28,6 +28,7 @@ public class FPOLevelProductionServiceImpl implements FPOLevelProductionService 
     }
 
     public FPOLevelProduction addLevelProduction (FPOLevelProduction levelProduction){
+
         return levelProductionRepository.save(levelProduction);
     }
 
@@ -37,6 +38,7 @@ public class FPOLevelProductionServiceImpl implements FPOLevelProductionService 
             return null;
         }
         levelProduction.setId(id);
+
         return levelProductionRepository.save(levelProduction);
     }
 

@@ -1,5 +1,6 @@
 package com.upfpo.app.controller;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +27,14 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
+import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.service.FPOService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -63,9 +67,6 @@ public class FPOController {
 			return fpoService.insertFpo(newFpoRegister);
 		}    
 	}
-	
-
-
 
 	@GetMapping(value="/getByUsername/{username}")
 	@ApiOperation(value="Get FPO profile by username", code=200, produces = "application/json",notes="Api for get FPO by username",response=FPORegister.class)
@@ -90,6 +91,18 @@ public class FPOController {
 	public FPORegister getFpoById(@PathVariable("id") Integer id)
 	{
 		return fpoService.selectFpoById(id);
+	}
+	
+	@GetMapping(value="/getDistrictByFpoId/{fpoId}")
+	@ApiOperation(value="Get District details of FPO", code=200, produces = "application/json",notes="Api for get FPO by username",response=FPORegister.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public MasterDataDto disrtrictName(@PathVariable("fpoId") Integer fpoId)
+	{
+		return fpoService.getDistrictByFpoId(fpoId);
 	}
 	
 	@DeleteMapping(value="/{id}")

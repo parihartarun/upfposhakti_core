@@ -32,7 +32,7 @@ public class PhotoUpload {
     @Column(name="uplaoded_by")
     private String uploadedBy;
 
-    @Column(name="is_deleted")
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
@@ -44,6 +44,9 @@ public class PhotoUpload {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
     private Calendar createdDate;
+
+    public PhotoUpload() {
+    }
 
     public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
                        Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate) {

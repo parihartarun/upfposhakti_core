@@ -53,6 +53,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     //create new FPOGuidelines
     public FPOGuidelines createFPOGuidelines(FPOGuidelines fpoGuidelines){
+        fpoGuidelines.setDeleted(false);
         return fpoGuidelinesRepository.save(fpoGuidelines);
     }
 
@@ -64,7 +65,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         if(!sd.isPresent()) {
             return null;
         }
-
+        fpoGuidelines.setDeleted(false);
         fpoGuidelines.setId(new Long(id));
 
         return fpoGuidelinesRepository.save(fpoGuidelines);

@@ -12,16 +12,27 @@ public class FarmerLandDetailDto
 	 
 	 private String isorganc;
 	 
-	 public FarmerLandDetailDto(Integer landId, double landArea, Integer masterId, String isorganc, Integer farmerId,
+	 private String ownership;
+	 
+	 public FarmerLandDetailDto(Integer landId, double landArea, Integer masterId, String isorganc, String ownership, Integer farmerId,
 			String parantsName, String farmerName) {
 		super();
 		this.landId = landId;
 		this.landArea = landArea;
 		this.masterId = masterId;
 		this.isorganc = isorganc;
+		this.ownership = ownership;
 		this.farmerId = farmerId;
 		this.parantsName = parantsName;
 		this.farmerName = farmerName;
+	}
+
+	public String getOwnership() {
+		return ownership;
+	}
+
+	public void setOwnership(String ownership) {
+		this.ownership = ownership;
 	}
 
 	private Integer farmerId;
