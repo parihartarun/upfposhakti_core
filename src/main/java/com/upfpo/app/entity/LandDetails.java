@@ -26,6 +26,7 @@ classes = {
                 @ColumnResult(name = "landArea", type = double.class),
                 @ColumnResult(name = "masterId", type = Integer.class),
                 @ColumnResult(name = "isorganc", type = String.class),
+                @ColumnResult(name = "ownership", type = String.class),
                 @ColumnResult(name = "farmerId", type = Integer.class),
                 @ColumnResult(name = "parantsName", type = String.class),
                 @ColumnResult(name = "farmerName", type = String.class),

@@ -87,7 +87,7 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 	@Override
 	public List<FarmMachineryBank> selectFarmMachineryBank() {
 		// TODO Auto-generated method stub
-		return farmMachineryBankRepository.findByIsDeleted(false);
+		return farmMachineryBankRepository.findByIsDeletedOrderByIdDesc(false);
 	}
 
 //	@Override
