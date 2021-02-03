@@ -94,6 +94,12 @@ public class FPOController {
 	}
 	
 	@GetMapping(value="/getDistrictByFpoId/{fpoId}")
+	@ApiOperation(value="Get District details of FPO", code=200, produces = "application/json",notes="Api for get FPO by username",response=FPORegister.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
 	public MasterDataDto disrtrictName(@PathVariable("fpoId") Integer fpoId)
 	{
 		return fpoService.getDistrictByFpoId(fpoId);
