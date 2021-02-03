@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -35,4 +36,5 @@ public interface FPOService {
 	public boolean deleteLandDetailById(Integer id);
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
+	public Optional<FPORegister> findById(Integer fpoId);
 }

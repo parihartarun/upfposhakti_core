@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.EnquiryRepository;
 
@@ -49,6 +50,10 @@ public class EnquiryServiceImpl implements EnquiryService{
 
 	public Enquiry getEnquiryInfo(Optional<User> user) {
 		 return enquiryRepository.findByUser(user);
+	}
+
+	public Enquiry getEnquiryInfoByFpo(Optional<FPORegister> fpo) {
+		return enquiryRepository.findByFpo(fpo);
 	}
 
 }
