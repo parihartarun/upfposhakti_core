@@ -11,6 +11,7 @@ import com.upfpo.app.entity.LicenseMaster;
 @Repository
 public interface LicenseMasterRepository extends JpaRepository<LicenseMaster, Integer> {
 
-	List<LicenseMaster> findByIsDeleted(boolean b);
+	//List<LicenseMaster> findByIsDeleted(boolean b);
+	List<LicenseMaster> findByIsDeletedOrderByIdDesc(boolean b);
 
 }
