@@ -4,12 +4,8 @@ import com.upfpo.app.auth.response.LoginResponse;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.util.PasswordResetRequest;
 
-<<<<<<< HEAD
 import java.util.Optional;
-=======
 import java.util.List;
->>>>>>> 9f5eed78101ca9f03db6070a5c29660b1d4814ab
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 //import reactor.core.publisher.Mono;
