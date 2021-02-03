@@ -30,7 +30,7 @@ public class SchemeDetail {
     private Boolean isActive;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
@@ -39,7 +39,7 @@ public class SchemeDetail {
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -103,11 +103,11 @@ public class SchemeDetail {
         isActive = active;
     }
 
-    public Date getUploadDate() {
+    public Calendar getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(Calendar uploadDate) {
         this.uploadDate = uploadDate;
     }
 
@@ -127,11 +127,11 @@ public class SchemeDetail {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 

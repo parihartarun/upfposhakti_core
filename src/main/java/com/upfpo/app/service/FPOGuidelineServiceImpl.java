@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
@@ -24,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +56,10 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     //create new FPOGuidelines
     public FPOGuidelines createFPOGuidelines(FPOGuidelines fpoGuidelines){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        fpoGuidelines.setCreateBy(currentPrincipalName);
+        fpoGuidelines.setCreateDate(Calendar.getInstance());
         fpoGuidelines.setDeleted(false);
         return fpoGuidelinesRepository.save(fpoGuidelines);
     }
