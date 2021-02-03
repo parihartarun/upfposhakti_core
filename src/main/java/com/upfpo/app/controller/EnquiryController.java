@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -161,7 +162,7 @@ public class EnquiryController {
     
     
     @GetMapping("/findByUser")
-    @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
+    @ApiOperation(value="Enquiry" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -170,9 +171,9 @@ public class EnquiryController {
     public Enquiry getEnquiryByUser(@RequestParam Long userId) throws UserPrincipalNotFoundException{
     	Optional<User> user = userService.findById(userId);
     	if(user.equals(null)) {
-    		throw new UserPrincipalNotFoundException("User does not exist for "+userId +"id");
+    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
     	}
-        LOG.info("Inside EnquiryController gettting list of Enquiry ");
+        LOG.info("Inside EnquiryController gettting Enquiry by userId");
         return enquiryService.getEnquiryInfo(user);
     }
 
