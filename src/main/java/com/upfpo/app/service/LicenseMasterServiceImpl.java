@@ -75,7 +75,7 @@ public class LicenseMasterServiceImpl implements LicenseMasterService {
 	@Override
 	public List<LicenseMaster> selectLicenseMaster() {
 		// TODO Auto-generated method stub
-		return licenseMasterRepository.findByIsDeleted(false);
+		return licenseMasterRepository.findByIsDeletedOrderByIdDesc(false);
 	}
 
 //	@Override

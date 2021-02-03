@@ -148,6 +148,11 @@ if(userOpt.isPresent()) {
 	}
 
 	@Override
+	public java.util.Optional<User> findById(Long userId) {
+		return userRepository.findById(userId);
+		
+	}
+
 	public User registerUser(User user) {
 		return userRepository.save(user);
 	}
@@ -182,5 +187,4 @@ if(userOpt.isPresent()) {
 	public void deleteUserById(Long userId) {
 		userRepository.deleteById(userId);
 	}
-
 }

@@ -24,4 +24,5 @@ public class MasterDataDto
 		this.district_name = district_name;
 	}
 	
+	
 }
