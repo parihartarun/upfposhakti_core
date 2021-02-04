@@ -27,6 +27,7 @@ import com.upfpo.app.repository.DistrictMasterRepository;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
+import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.util.GetCurrentDate;
 import org.springframework.util.StringUtils;
@@ -56,6 +57,9 @@ public class FPOServiceImpl implements FPOService {
 	
 	@Autowired
 	private DistrictMasterRepository districtMasterRepository;
+	
+	@Autowired
+	private NewSowingMasterRepository newSowingMasterRepository;
 	
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
@@ -293,8 +297,28 @@ public class FPOServiceImpl implements FPOService {
 	  }
 
 	@Override
-	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
-		return null;
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) 
+	{
+		String sql =  "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" + 
+        		"cd.financial_year,sm.season_id,sm.season_name,nsi.sowing_id, \r\n" + 
+        		"cm.id crop_id,cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 \r\n" + 
+        		"then cv.crop_veriety else 'Other'end crop_veriety\r\n" + 
+        		",cd.sowing_area,cd.ex_yield,cv.veriety_id from crop_details cd\r\n" + 
+        		"inner join farmer f on f.farmer_id = cd.farmer_id \r\n" + 
+        		"inner join season_master sm on sm.season_id=cd.season_ref \r\n" + 
+        		"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" + 
+        		"left join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer) \r\n" + 
+        		"left join new_sowing_info nsi on nsi.sowing_id = cd.sowing_id\r\n" + 
+        		"where f.fpo_ref_id = :masterId and cd.is_deleted=false";
+		
+		List<CropListOfFarmersDTO> obj =  (List<CropListOfFarmersDTO>) entityManager.createNativeQuery(sql,"CropListOfFarmersDTO").setParameter("masterId", masterId).getResultList();
+		  return obj;
+	}
+	
+	@Override
+	public NewSowing addFarmerCropDetails(NewSowing newSowing) 
+	{
+		return newSowingMasterRepository.save(newSowing);
 	}
 
 	@Override

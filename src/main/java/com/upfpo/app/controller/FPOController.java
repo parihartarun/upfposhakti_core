@@ -1,6 +1,5 @@
 package com.upfpo.app.controller;
 
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +30,9 @@ import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
+import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.service.FPOService;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -260,6 +258,12 @@ public class FPOController {
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
 	 {
 		 return fpoService.getCropListForFarmersByFpo(masterId);
+	 }
+	 
+	 @PostMapping(value="/cropSowing/addFarmerCropDetails")
+	 public NewSowing addFarmerCropDetails(@RequestBody NewSowing newSowing)
+	 {
+		 return fpoService.addFarmerCropDetails(newSowing);
 	 }
 
 }
