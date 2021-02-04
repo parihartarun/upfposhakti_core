@@ -1,10 +1,15 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.FPOSalesDetails;
+import com.upfpo.app.entity.FPOServices;
 import com.upfpo.app.repository.FPOSalesDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +22,10 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 
     @Override
     public FPOSalesDetails insertSalesDetails(FPOSalesDetails salesDetails) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        salesDetails.setCreatedDate(Calendar.getInstance());
+        salesDetails.setCreatedBy(currentPrincipalName);
         salesDetails.setDeleted(false);
         salesDetailsRepository.save(salesDetails);
         return salesDetails;
@@ -25,7 +34,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     @Override
     public List<FPOSalesDetails> getSalesDetails() {
 
-        return salesDetailsRepository.findAll();
+        return salesDetailsRepository.findByIsDeleted(false);
     }
 
     @Override
@@ -42,18 +51,30 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
         if(!sd.isPresent()) {
             return null;
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        salesDetails.setUpdateDate(Calendar.getInstance());
+        salesDetails.setUpdatedBy(currentPrincipalName);
         salesDetails.setDeleted(false);
-        salesDetails.setId(new Integer(id));
+        salesDetails.setId(id);
 
         return salesDetailsRepository.save(salesDetails);
     }
 
     @Override
-    public Optional deleteSalesDetails(Integer id) {
-        return salesDetailsRepository.findById(id)
-                .map(salesDetails -> {
-                    salesDetailsRepository.delete(salesDetails);
-                    return "Delete Successfully!";
-                });
+    public Boolean deleteFPOSalesDetails(Integer id) {
+        if(salesDetailsRepository.findById(id) != null)
+            try {
+                FPOSalesDetails fpoSalesDetails = salesDetailsRepository.findById(id).get();
+                fpoSalesDetails.setDeleted(true);
+                fpoSalesDetails.setDeleteDate(Calendar.getInstance());
+                salesDetailsRepository.save(fpoSalesDetails);
+                return true;
+            }catch(Exception e)
+            {
+                throw new NotFoundException();
+            }
+        else
+            return false;
     }
 }

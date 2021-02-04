@@ -14,7 +14,7 @@ public interface ComplaintService {
     public List<Complaints> getAllComplaint();
     public Complaints createComplaint (Complaints complaints, MultipartFile file);
     public Boolean deleteComplaint(Integer id);
-    public String storeFile(MultipartFile file);
+
     public Resource loadFileAsResource(String fileName);
     public Complaints deptComplaintAssign(Integer id, Complaints complaints1);
     public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file);

@@ -52,11 +52,35 @@ public class FPOGuidelines {
     @Column(name = "create_date")
     private Calendar createDate;
 
+    @Column(name="updated_by")
+    private String updatedBy;
+
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+
+
     @Column(name="fpo_guideline_type")
     private FPOGuidelineType fpoGuidelineType;
 
 
     public FPOGuidelines() {
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
     }
 
     public FPOGuidelineType getFpoGuidelineType() {

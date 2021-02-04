@@ -11,6 +11,6 @@ public interface FPOLevelProductionService {
     public Optional<FPOLevelProduction> getLevelProductionById (Integer id);
     public FPOLevelProduction addLevelProduction (FPOLevelProduction levelProduction);
     public FPOLevelProduction updateLevelProduction (Integer id, FPOLevelProduction levelProduction);
-    public Optional deleteLevelProduction (Integer id);
+    public Boolean deleteLevelProduction (Integer id);
 
 }
