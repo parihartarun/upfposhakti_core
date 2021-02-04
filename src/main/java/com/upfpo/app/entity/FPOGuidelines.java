@@ -43,7 +43,7 @@ public class FPOGuidelines {
     private String deleteBy;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -91,11 +91,11 @@ public class FPOGuidelines {
         this.deleteBy = deleteBy;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 

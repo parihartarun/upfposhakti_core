@@ -8,6 +8,8 @@ import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Stream;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @Service
@@ -51,6 +55,14 @@ public class CircularsServiceImpl implements CircularsService {
     @Override
     public Circulars createCircular (Circulars  circulars, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        circulars.setCreateBy(currentPrincipalName);
+        circulars.setCreateDate(Calendar.getInstance());
+        circulars.setUploadedBy(currentPrincipalName);
+        circulars.setUploadDate(Calendar.getInstance());
+        circulars.setFileName(fileName);
+        circulars.setDeleted(false);
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -59,7 +71,11 @@ public class CircularsServiceImpl implements CircularsService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            circulars.setFilePath(String.valueOf(targetLocation));
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/Circular")
+                    .path(fileName)
+                    .toUriString();
+            circulars.setFilePath(fileDownloadUri);
             //complaintRepository.save(complaints);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
