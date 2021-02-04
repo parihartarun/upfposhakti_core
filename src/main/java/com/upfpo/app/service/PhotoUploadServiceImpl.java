@@ -53,30 +53,32 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     }
 
     @Override
-    public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file){
+    public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         photoUpload.setFileName(fileName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         photoUpload.setCreateBy(currentPrincipalName);
         photoUpload.setCreateDate(Calendar.getInstance());
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/FPOService")
-                    .path(fileName)
-                    .toUriString();
-            photoUpload.setFilePath(fileDownloadUri);
-            //photoUploadRepository.save(photoUploads);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        if (file != null){
+            try {
+                // Check if the file's name contains invalid characters
+                if (fileName.contains("..")) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                }
+                // Copy file to the target location (Replacing existing file with the same name)
+                Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("uploads/Photos/")
+                        .path(fileName)
+                        .toUriString();
+                photoUpload.setFilePath(fileDownloadUri);
+                //photoUploadRepository.save(photoUploads);
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            }}
+
         photoUpload.setDeleted(false);
         return photoUploadRepository.save(photoUpload);
     }
@@ -97,7 +99,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/FPOService")
+                    .path("uploads/Photos/")
                     .path(fileName)
                     .toUriString();
 

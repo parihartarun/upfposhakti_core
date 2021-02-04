@@ -72,7 +72,7 @@ public class CircularsServiceImpl implements CircularsService {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/Circular")
+                    .path("uploads/Circular/")
                     .path(fileName)
                     .toUriString();
             circulars.setFilePath(fileDownloadUri);

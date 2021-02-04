@@ -1,7 +1,9 @@
 package com.upfpo.app.service;
 
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.FPOGuidelines;
+import com.upfpo.app.entity.FPOLevelProduction;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.repository.FPOGuidelinesRepository;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -41,7 +43,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     //Get all FPOGuidelines
     public List<FPOGuidelines> getAllFPOGuidelines (){
-        return fpoGuidelinesRepository.findAll();
+        return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
     //Find By Id
@@ -72,20 +74,31 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         if(!sd.isPresent()) {
             return null;
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         fpoGuidelines.setDeleted(false);
         fpoGuidelines.setId(new Long(id));
-
+        fpoGuidelines.setUpdatedBy(currentPrincipalName);
+        fpoGuidelines.setUpdateDate(Calendar.getInstance());
         return fpoGuidelinesRepository.save(fpoGuidelines);
     }
 
 
     //Delete FPOGuidelines
-    public Optional deleteFPOGuidelines(Long id) {
-        return fpoGuidelinesRepository.findById(id)
-                .map(fpoGuidelines -> {
-                    fpoGuidelinesRepository.delete(fpoGuidelines);
-                    return "Delete Successfully!";
-                });
+    public Boolean deleteFPOGuidelines(Long id) {
+        if(fpoGuidelinesRepository.findById(id) != null)
+            try {
+                FPOGuidelines fpoGuidelines = fpoGuidelinesRepository.findById(id).get();
+                fpoGuidelines.setDeleted(true);
+                fpoGuidelines.setDeleteDate(Calendar.getInstance());
+                fpoGuidelinesRepository.save(fpoGuidelines);
+                return true;
+            }catch(Exception e)
+            {
+                throw new NotFoundException();
+            }
+        else
+            return false;
     }
 
     public void save(MultipartFile file) {

@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -57,6 +58,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         String currentPrincipalName = authentication.getName();
         schemeDetail.setCreateBy(currentPrincipalName);
         schemeDetail.setCreateDate(Calendar.getInstance());
+        schemeDetail.setDeleted(false);
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -65,8 +67,11 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            schemeDetail.setFilePath(String.valueOf(targetLocation));
-            //schemeDetailRepository.save(schemeDetail);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/SchemeDetail/")
+                    .path(fileName)
+                    .toUriString();
+            schemeDetail.setFilePath(fileDownloadUri);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -89,9 +94,6 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         }
     }
 
-   
-
-
 
     @Override
     public Resource loadFileAsResource(String fileName) {
@@ -112,6 +114,9 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     public SchemeDetail updateSchemeDetail(Integer id, SchemeDetail schemeDetail1,  MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String fileDownloadUri;
         Path targetLocation;
         try {
             // Check if the file's name contains invalid characters
@@ -121,7 +126,10 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
             // Copy file to the target location (Replacing existing file with the same name)
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
+            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/SchemeDetail/")
+                    .path(fileName)
+                    .toUriString();
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -130,6 +138,9 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                 .map(schemeDetail -> {
                     schemeDetail.setDescription(schemeDetail1.getDescription());
                     schemeDetail.setId(schemeDetail1.getId());
+                    schemeDetail.setFilePath(fileDownloadUri);
+                    schemeDetail.setUploadDate(Calendar.getInstance());
+                    schemeDetail.setUploadedBy(currentPrincipalName);
                     schemeDetail.setFilePath(String.valueOf(targetLocation));
                     schemeDetail.setDeleted(false);
                     return schemeDetailRepository.save(schemeDetail);

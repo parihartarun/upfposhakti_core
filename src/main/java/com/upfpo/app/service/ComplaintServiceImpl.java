@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.io.IOException;
@@ -72,8 +73,11 @@ public class ComplaintServiceImpl implements ComplaintService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            complaints.setFilePath(String.valueOf(targetLocation));
-            //complaintRepository.save(complaints);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/Complaint&Suggestion/")
+                    .path(fileName)
+                    .toUriString();
+            complaints.setFilePath(fileDownloadUri);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -102,29 +106,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
-    @Override
-    public String storeFile(MultipartFile file) {
-        // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Complaints complaints= new Complaints();
-
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            complaints.setFilePath(String.valueOf(targetLocation));
-            complaintRepository.save(complaints);
-
-            return fileName;
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
 
     @Override
     public Resource loadFileAsResource(String fileName) {
@@ -145,6 +126,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileDownloadUri;
         Path targetLocation;
         try {
             // Check if the file's name contains invalid characters
@@ -154,7 +136,10 @@ public class ComplaintServiceImpl implements ComplaintService {
             // Copy file to the target location (Replacing existing file with the same name)
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
+            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/Complaint/Suggestion/")
+                    .path(fileName)
+                    .toUriString();
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -166,7 +151,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setIssueType(complaints1.getIssueType());
                     complaints.setId(complaints1.getId());
                     complaints.setDeleted(false);
-                    complaints.setFilePath(String.valueOf(targetLocation));
+                    complaints.setFilePath(fileDownloadUri);
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
