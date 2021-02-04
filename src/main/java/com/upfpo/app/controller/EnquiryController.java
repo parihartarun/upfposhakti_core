@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
@@ -146,22 +147,21 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
-        LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
-        ResponseEntity<String> resp = null;
-        try {
-             enquiryService.saveEnquiry(enquiry);
-            resp = new ResponseEntity<String>("Enquiry created Successfully!", HttpStatus.OK );
-            LOG.info("Enquiry created Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Enquiry", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Enquiry");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Enquiry Of Controller with response ", resp);
-        return resp;
-    }   
+    public  ResponseEntity<MessageResponse> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
+		LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
+		ResponseEntity<MessageResponse> resp = null;
+		try {
+			enquiryService.saveEnquiry(enquiry);
+			ResponseEntity.ok(new MessageResponse("Enquiry created Successfully!"));
+			LOG.info("Enquiry created Successfully!");
+		} catch (Exception e) {
+			new ResponseEntity<String>("Failed to Save the Enquiry", HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Save the Enquiry");
+			e.printStackTrace();
+		}
+		LOG.info("Exiting Enquiry Of Controller with response ", resp);
+		return resp;
+	}
     
     
     @GetMapping("/findByUser")
