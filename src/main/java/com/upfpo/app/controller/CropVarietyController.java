@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.entity.CropVerietyMaster;
 import com.upfpo.app.service.CropVarietyService;
 
@@ -31,4 +30,5 @@ public class CropVarietyController
 		List<CropVerietyMaster> list = cropVarietyService.getCropVarietiesOnCropId(cropRefId);
 		return new ResponseEntity<List<CropVerietyMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
+
 }
