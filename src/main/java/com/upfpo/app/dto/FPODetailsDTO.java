@@ -5,6 +5,43 @@ import java.math.BigInteger;
 public class FPODetailsDTO {
 	
 	private Integer id;
+	private Integer cropid;
+	
+	public FPODetailsDTO(Integer id, Integer cropid, String unitassla, String state, String district, String nodal,
+			BigInteger mobile, String email, String fpo_lot_no, String associationdate, String crops, String services,
+			Double marketableSurplus, Double actualProduction, String cropVeriety) {
+		super();
+		this.id = id;
+		this.cropid = cropid;
+		this.unitassla = unitassla;
+		this.state = state;
+		this.district = district;
+		this.nodal = nodal;
+		this.mobile = mobile;
+		this.email = email;
+		this.fpo_lot_no = fpo_lot_no;
+		this.associationdate = associationdate;
+		this.crops = crops;
+		this.services = services;
+		this.marketableSurplus = marketableSurplus;
+		this.actualProduction = actualProduction;
+		this.cropVeriety = cropVeriety;
+	}
+
+
+
+	public Integer getCropid() {
+		return cropid;
+	}
+
+
+
+	public void setCropid(Integer cropid) {
+		this.cropid = cropid;
+	}
+
+
+
 	private String unitassla;
 	private String state;
 	private String district;
@@ -44,25 +81,25 @@ public class FPODetailsDTO {
 
 
 
-	public FPODetailsDTO(Integer id, String unitassla, String state, String district, String nodal, BigInteger mobile,
-			String email, String fpo_lot_no, String associationdate, String crops, String services,
-			Double marketableSurplus, Double actualProduction, String cropVeriety) {
-		super();
-		this.id = id;
-		this.unitassla = unitassla;
-		this.state = state;
-		this.district = district;
-		this.nodal = nodal;
-		this.mobile = mobile;
-		this.email = email;
-		this.fpo_lot_no = fpo_lot_no;
-		this.associationdate = associationdate;
-		this.crops = crops;
-		this.services = services;
-		this.marketableSurplus = marketableSurplus;
-		this.actualProduction = actualProduction;
-		this.cropVeriety = cropVeriety;
-	}
+//	public FPODetailsDTO(Integer id, String unitassla, String state, String district, String nodal, BigInteger mobile,
+//			String email, String fpo_lot_no, String associationdate, String crops, String services,
+//			Double marketableSurplus, Double actualProduction, String cropVeriety) {
+//		super();
+//		this.id = id;
+//		this.unitassla = unitassla;
+//		this.state = state;
+//		this.district = district;
+//		this.nodal = nodal;
+//		this.mobile = mobile;
+//		this.email = email;
+//		this.fpo_lot_no = fpo_lot_no;
+//		this.associationdate = associationdate;
+//		this.crops = crops;
+//		this.services = services;
+//		this.marketableSurplus = marketableSurplus;
+//		this.actualProduction = actualProduction;
+//		this.cropVeriety = cropVeriety;
+//	}
 
 
 
