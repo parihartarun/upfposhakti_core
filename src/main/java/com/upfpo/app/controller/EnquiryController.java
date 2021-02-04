@@ -147,15 +147,15 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public  ResponseEntity<MessageResponse> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
+	public ResponseEntity<MessageResponse> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
 		LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
 		ResponseEntity<MessageResponse> resp = null;
 		try {
 			enquiryService.saveEnquiry(enquiry);
-			ResponseEntity.ok(new MessageResponse("Enquiry created Successfully!"));
+			resp = ResponseEntity.ok(new MessageResponse("Enquiry created Successfully!"));
 			LOG.info("Enquiry created Successfully!");
 		} catch (Exception e) {
-			new ResponseEntity<String>("Failed to Save the Enquiry", HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
 			LOG.info("Failed to Save the Enquiry");
 			e.printStackTrace();
 		}
