@@ -21,11 +21,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 
 @RestController
 @RequestMapping(value="/api/v1/District")
+@CrossOrigin(origins = "*",allowCredentials="true")
 @Api(produces = "application/json", value = "Retrive Districts", tags="District Entity",description="Retrive districts")
+
 public class DistrictController 
 {
 	@Autowired
