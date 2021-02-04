@@ -35,15 +35,15 @@ public class CircularsServiceImpl implements CircularsService {
     @Autowired
     private CircularsRepository circularsRepository;
 
-    @Value("${upload.path}")
+    @Value("${upload.path.circulars}")
     private String fileBasePath;
 
 
 
 
-    /*private final Path fileStorageLocation;
+    //private final Path fileStorageLocation;
 
-    @Autowired
+    /*@Autowired
     public CircularsServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getCircularDir())
                 .toAbsolutePath().normalize();
