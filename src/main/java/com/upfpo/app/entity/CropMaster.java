@@ -23,6 +23,7 @@ classes = {
 		  @ConstructorResult(targetClass = FPODetailsDTO.class, 
 		  columns = {
 		  @ColumnResult(name = "id", type = Integer.class),
+		  @ColumnResult(name = "cropid", type = Integer.class),
 		  @ColumnResult(name = "unitassla", type = String.class),
 		  @ColumnResult(name = "state", type = String.class),
 		  @ColumnResult(name = "district", type = String.class),

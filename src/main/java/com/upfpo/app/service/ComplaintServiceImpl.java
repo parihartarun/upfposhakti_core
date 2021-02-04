@@ -9,6 +9,7 @@ import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.io.IOException;
@@ -40,7 +42,10 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintCatgoriesRepository complaintCatgoriesRepository;
 
-    private final Path fileStorageLocation;
+    @Value("${upload.path.complaint}")
+    private String fileBasePath;
+
+    /*private final Path fileStorageLocation;
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -51,7 +56,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         } catch (Exception ex) {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
-    }
+    }*/
 
     public List<Complaints> getAllComplaint(){
         return complaintRepository.findByIsDeleted(false);
@@ -70,10 +75,14 @@ public class ComplaintServiceImpl implements ComplaintService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            complaints.setFilePath(String.valueOf(targetLocation));
-            //complaintRepository.save(complaints);
+            //Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/Complaint/")
+                    .path(fileName)
+                    .toUriString();
+            complaints.setFilePath(fileDownloadUri);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -102,35 +111,13 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
 
-    @Override
-    public String storeFile(MultipartFile file) {
-        // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Complaints complaints= new Complaints();
-
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            complaints.setFilePath(String.valueOf(targetLocation));
-            complaintRepository.save(complaints);
-
-            return fileName;
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
 
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
+            //Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Path path = Paths.get( fileBasePath+fileName);
+            Resource resource = new UrlResource(path.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
@@ -145,6 +132,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileDownloadUri;
         Path targetLocation;
         try {
             // Check if the file's name contains invalid characters
@@ -152,9 +140,13 @@ public class ComplaintServiceImpl implements ComplaintService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
+            //targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/Complaint/Suggestion/")
+                    .path(fileName)
+                    .toUriString();
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -166,7 +158,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setIssueType(complaints1.getIssueType());
                     complaints.setId(complaints1.getId());
                     complaints.setDeleted(false);
-                    complaints.setFilePath(String.valueOf(targetLocation));
+                    complaints.setFilePath(fileDownloadUri);
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }

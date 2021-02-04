@@ -81,7 +81,7 @@ public class FPOLevelProductionContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public Optional<FPOLevelProduction> deleteLevelProduction(@PathVariable Integer id){
+    public Boolean deleteLevelProduction(@PathVariable Integer id){
         return levelProductionService.deleteLevelProduction(id);
     }
 

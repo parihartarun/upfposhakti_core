@@ -72,11 +72,6 @@ public class PhotoUploadController {
             LOG.info("Photo uploaded Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();
-            //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Photo"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the Photo");

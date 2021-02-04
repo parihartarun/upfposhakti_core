@@ -11,5 +11,6 @@ public interface FPOSalesDetailsService {
     public List<FPOSalesDetails> getSalesDetails();
     public Optional<FPOSalesDetails> getSalesDetailsById (Integer id);
     public FPOSalesDetails updateSalesDetails(Integer id, FPOSalesDetails salesDetails);
-    public Optional deleteSalesDetails (Integer id);
+
+    Boolean deleteFPOSalesDetails(Integer id);
 }

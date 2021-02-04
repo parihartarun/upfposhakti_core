@@ -2,6 +2,7 @@ package com.upfpo.app.entity;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.Calendar;
 
 
 @Entity
@@ -64,7 +65,110 @@ public class FPOLevelProduction {
     @Column(name="veriety_id")
     private Integer verietyId;
 
+    @Column(name="upload_date")
+    private Calendar uploadDate;
+
+    @Column(name="uploaded_by")
+    private String uploadedBy;
+
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+    @Column(name="updated_by")
+    private String updatedBy;
+
+    @Column(name="create_date")
+    private Calendar createDate;
+
+    @Column(name="create_by")
+    private String createBy;
+
+    @Column(name="delete_date")
+    private Calendar deleteDate;
+
+    @Column(name="delete_by")
+    private String deleteBy;
+
+    @Column(name="is_deleted")
+    private boolean isDeleted;
+
     public FPOLevelProduction() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Calendar getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Calendar deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
+    public String getDeleteBy() {
+        return deleteBy;
+    }
+
+    public void setDeleteBy(String deleteBy) {
+        this.deleteBy = deleteBy;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public Integer getProductionId() {

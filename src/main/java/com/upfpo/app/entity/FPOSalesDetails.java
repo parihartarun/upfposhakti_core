@@ -35,32 +35,32 @@ public class FPOSalesDetails {
     private String updatedBy;
 
     @Column(name="update_date")
-    private Date updateDate;
+    private Calendar updateDate;
 
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private Calendar createdDate;
 
     @Column(name="is_deleted")
     private boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name="delete_By")
-    private Date deleteBy;
+    private String deleteBy;
 
 
     public FPOSalesDetails() {
     }
 
-    public Date getDeleteBy() {
+    public String getDeleteBy() {
         return deleteBy;
     }
 
-    public void setDeleteBy(Date deleteBy) {
+    public void setDeleteBy(String deleteBy) {
         this.deleteBy = deleteBy;
     }
 
@@ -128,28 +128,12 @@ public class FPOSalesDetails {
         this.updatedBy = updatedBy;
     }
 
-    public Date getUpdateDate() {
+    public Calendar getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(Calendar updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
     }
 
     public String getCreatedBy() {
@@ -160,11 +144,27 @@ public class FPOSalesDetails {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedDate() {
+    public Calendar getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Calendar getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Calendar deleteDate) {
+        this.deleteDate = deleteDate;
     }
 }
