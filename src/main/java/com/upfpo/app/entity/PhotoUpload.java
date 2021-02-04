@@ -43,7 +43,8 @@ public class PhotoUpload {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
-    private Calendar createdDate;
+    private Calendar createDate;
+
 
     public PhotoUpload() {
     }
@@ -60,7 +61,7 @@ public class PhotoUpload {
         this.isDeleted = isDeleted;
         this.deleteDate = deleteDate;
         this.createBy = createBy;
-        this.createdDate = createdDate;
+
     }
 
     public PhotoUpload(String description) {
@@ -147,11 +148,12 @@ public class PhotoUpload {
         this.createBy = createBy;
     }
 
-    public Calendar getCreatedDate() {
-        return createdDate;
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
     }
 
-    public void setCreatedDate(Calendar createdDate) {
-        this.createdDate = createdDate;
+    public Calendar getCreateDate() {
+        return createDate;
     }
 }

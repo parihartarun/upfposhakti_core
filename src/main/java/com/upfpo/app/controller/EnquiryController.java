@@ -26,6 +26,7 @@ import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.service.EnquiryServiceImpl;
+import com.upfpo.app.service.FPOService;
 import com.upfpo.app.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -45,6 +46,8 @@ public class EnquiryController {
     private EnquiryServiceImpl enquiryService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FPOService fpoService;
 	
     
     @GetMapping("/getall")
@@ -162,7 +165,7 @@ public class EnquiryController {
     
     
     @GetMapping("/findByUser")
-    @ApiOperation(value="Enquiry" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
+    @ApiOperation(value="Enquiry By User" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -177,4 +180,19 @@ public class EnquiryController {
         return enquiryService.getEnquiryInfo(user);
     }
 
+    @GetMapping("/findByFpo")
+    @ApiOperation(value="Enquiry By Fpo" ,code=201, produces = "application/json", notes="Api for find Enquiry By Fpo",response= Enquiry.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public Enquiry getEnquiryByFpo(@RequestParam Integer fpoId) throws UserPrincipalNotFoundException{
+    	Optional<FPORegister> fpo = fpoService.findById(fpoId);
+    	if(fpo.equals(null)) {
+    		throw new UsernameNotFoundException("Fpo does not exist for "+fpoId +"id");
+    	}
+        LOG.info("Inside EnquiryController gettting Enquiry by fpoId");
+        return enquiryService.getEnquiryInfoByFpo(fpo);
+}
 }

@@ -73,11 +73,6 @@ public class CircularsController {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular created Successfully!"), HttpStatus.OK );
             LOG.info("Circular created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();
             //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,7 +84,7 @@ public class CircularsController {
     }
 
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="Circularss Download" ,code=201, produces = "application/json", notes="Api for Download Circulars File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

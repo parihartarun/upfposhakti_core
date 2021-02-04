@@ -1,6 +1,7 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,31 +30,34 @@ public class Circulars implements Serializable{
 	private String description;
 
 	@Column(name="upload_date")
-	private Date uploadDate;
+	private Calendar uploadDate;
 
 	@Column(name="uploaded_by")
 	private String uploadedBy;
 
 	@Column(name="update_date")
-	private Date updateDate;
+	private Calendar updateDate;
 
 	@Column(name="updated_by")
 	private String updatedBy;
 
 	@Column(name="create_date")
-	private Date createDate;
+	private Calendar createDate;
 
 	@Column(name="create_by")
-	private Date createBy;
+	private String createBy;
 
 	@Column(name="delete_date")
-	private Date deleteDate;
+	private Calendar deleteDate;
 
 	@Column(name="delete_by")
-	private Date deleteBy;
+	private String deleteBy;
 
 	@Column(name="is_deleted")
 	private boolean isDeleted;
+
+	@Column(name = "file_name")
+	private String fileName;
 
 	public Circulars(String description) {
 		this.setDescription(description);
@@ -62,75 +66,6 @@ public class Circulars implements Serializable{
 	public Circulars() {
 
 	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Date getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(Date createBy) {
-		this.createBy = createBy;
-	}
-
-	public Date getDeleteDate() {
-		return deleteDate;
-	}
-
-	public void setDeleteDate(Date deleteDate) {
-		this.deleteDate = deleteDate;
-	}
-
-	public Date getDeleteBy() {
-		return deleteBy;
-	}
-
-	public void setDeleteBy(Date deleteBy) {
-		this.deleteBy = deleteBy;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		isDeleted = deleted;
-	}
-
-	/* fields needed
-	 * @Column(name="is_deleted") private boolean isDeleted;
-	 * 
-	 * @Column(name="delete_date") private java.sql.Date deleteDate;
-	 * 
-	 * @Column(name="update_date") private java.sql.Date updateDate;
-	 * 
-	 * @Column(name="updated_by") private String updatedBy;
-	 */
-
-
-
 
 
 	public Integer getId() {
@@ -141,28 +76,12 @@ public class Circulars implements Serializable{
 		this.id = id;
 	}
 
-	public Date getUploadDate() {
-		return uploadDate;
-	}
-
-	public void setUploadDate(Date uploadDate) {
-		this.uploadDate = uploadDate;
-	}
-
 	public String getFilePath() {
 		return filePath;
 	}
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
-	}
-
-	public String getUploadedBy() {
-		return uploadedBy;
-	}
-
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
 	}
 
 	public Integer getUsersId() {
@@ -179,5 +98,85 @@ public class Circulars implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Calendar getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(Calendar uploadDate) {
+		this.uploadDate = uploadDate;
+	}
+
+	public String getUploadedBy() {
+		return uploadedBy;
+	}
+
+	public void setUploadedBy(String uploadedBy) {
+		this.uploadedBy = uploadedBy;
+	}
+
+	public Calendar getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Calendar updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Calendar getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Calendar createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Calendar getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(Calendar deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public String getDeleteBy() {
+		return deleteBy;
+	}
+
+	public void setDeleteBy(String deleteBy) {
+		this.deleteBy = deleteBy;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

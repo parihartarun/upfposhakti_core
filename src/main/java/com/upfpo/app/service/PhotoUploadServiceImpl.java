@@ -12,9 +12,12 @@ import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,6 +56,10 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         photoUpload.setFileName(fileName);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        photoUpload.setCreateBy(currentPrincipalName);
+        photoUpload.setCreateDate(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -61,7 +68,11 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            photoUpload.setFilePath(String.valueOf(targetLocation));
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/FPOService")
+                    .path(fileName)
+                    .toUriString();
+            photoUpload.setFilePath(fileDownloadUri);
             //photoUploadRepository.save(photoUploads);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
@@ -73,7 +84,9 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     @Override
     public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUploads1,  MultipartFile file) {
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename()); Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String fileDownloadUri;
         Path targetLocation;
         try {
             // Check if the file's name contains invalid characters
@@ -83,6 +96,10 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
             // Copy file to the target location (Replacing existing file with the same name)
             targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/FPOService")
+                    .path(fileName)
+                    .toUriString();
 
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
@@ -91,6 +108,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         return photoUploadRepository.findById(id)
                 .map(photoUploads -> {
                     photoUploads.setDescription(photoUploads1.getDescription());
+                    photoUploads.setFilePath(fileDownloadUri);
                     photoUploads.setId(photoUploads1.getId());
                     photoUploads.setDeleted(false);
                     photoUploads.setFilePath(String.valueOf(targetLocation));
