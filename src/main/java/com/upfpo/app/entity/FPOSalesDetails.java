@@ -50,17 +50,17 @@ public class FPOSalesDetails {
     private Calendar deleteDate;
 
     @Column(name="delete_By")
-    private Date deleteBy;
+    private String deleteBy;
 
 
     public FPOSalesDetails() {
     }
 
-    public Date getDeleteBy() {
+    public String getDeleteBy() {
         return deleteBy;
     }
 
-    public void setDeleteBy(Date deleteBy) {
+    public void setDeleteBy(String deleteBy) {
         this.deleteBy = deleteBy;
     }
 

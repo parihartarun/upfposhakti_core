@@ -118,6 +118,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         String currentPrincipalName = authentication.getName();
         String fileDownloadUri;
         Path targetLocation;
+        if(file!=null){
         try {
             // Check if the file's name contains invalid characters
             if (fileName.contains("..")) {
@@ -130,18 +131,21 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                     .path("uploads/SchemeDetail/")
                     .path(fileName)
                     .toUriString();
+            schemeDetail1.setFilePath(fileDownloadUri);
+            schemeDetail1.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
         }
 
         return schemeDetailRepository.findById(id)
                 .map(schemeDetail -> {
                     schemeDetail.setDescription(schemeDetail1.getDescription());
                     schemeDetail.setId(schemeDetail1.getId());
-                    schemeDetail.setFilePath(fileDownloadUri);
+                    schemeDetail.setFilePath(schemeDetail1.getFilePath());
+                    schemeDetail.setFileName(schemeDetail1.getFileName());
                     schemeDetail.setUploadDate(Calendar.getInstance());
                     schemeDetail.setUploadedBy(currentPrincipalName);
-                    schemeDetail.setFilePath(String.valueOf(targetLocation));
                     schemeDetail.setDeleted(false);
                     return schemeDetailRepository.save(schemeDetail);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
