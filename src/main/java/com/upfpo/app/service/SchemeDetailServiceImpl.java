@@ -34,11 +34,11 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     @Autowired
     private SchemeDetailRepository schemeDetailRepository;
 
-    @Value("${upload.path.schemedetail}")
-    private String fileBasePath;
+    //@Value("${upload.path.schemedetail}")
+    //private String fileBasePath;
     
 
-    /*private final Path fileStorageLocation;
+    private final Path fileStorageLocation;
 
     @Autowired
     public SchemeDetailServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -49,7 +49,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
         } catch (Exception ex) {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
-    }*/
+    }
 
     public List<SchemeDetail> getAllSchemeDetail(){
         return schemeDetailRepository.findByIsDeleted(false);
@@ -69,9 +69,9 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get(fileBasePath + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get(fileBasePath + fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("uploads/SchemeDetail/")
                     .path(fileName)
@@ -103,9 +103,9 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            //Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Path path = Paths.get(fileBasePath + fileName);
-            Resource resource = new UrlResource(path.toUri());
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
@@ -131,9 +131,9 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get(fileBasePath + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get(fileBasePath + fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("uploads/SchemeDetail/")
                     .path(fileName)
