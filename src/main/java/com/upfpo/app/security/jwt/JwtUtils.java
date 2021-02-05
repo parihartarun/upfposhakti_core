@@ -1,5 +1,6 @@
 package com.upfpo.app.security.jwt;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class JwtUtils {
 				.setClaims(claims)
 				.setSubject(username)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis()+10000*60*60*10))
+				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(20000).toInstant()))
 				.signWith(SignatureAlgorithm.HS256, jwtSecret)
 				.compact();
 	}
