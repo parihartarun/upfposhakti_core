@@ -1,12 +1,17 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name="marketable_surplus")
@@ -50,14 +55,16 @@ public class MarketableSurplus implements Serializable {
 	@Column(name="master_id")
 	private Integer masterId;
 	
+	@CreatedDate
 	@Column(name="create_date")
-	private java.sql.Date createDate;
-
+	private Date createDate;
+	
+	@UpdateTimestamp
 	@Column(name="update_date")
-	private java.sql.Date updateDate;
+	private Date updateDate;
 
 	@Column(name="delete_date")
-	private java.sql.Date deleteDate;
+	private Date deleteDate;
 	
 	@Column(name="is_deleted")
 	private boolean isDeleted;
@@ -128,23 +135,23 @@ public class MarketableSurplus implements Serializable {
 		this.masterId = masterId;
 	}
 
-	public java.sql.Date getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(java.sql.Date createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	public java.sql.Date getUpdateDate() {
+	public Date getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(java.sql.Date updateDate) {
+	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 
-	public java.sql.Date getDeleteDate() {
+	public Date getDeleteDate() {
 		return deleteDate;
 	}
 

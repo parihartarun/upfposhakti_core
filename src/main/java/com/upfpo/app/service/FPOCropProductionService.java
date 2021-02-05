@@ -8,4 +8,10 @@ public interface FPOCropProductionService {
 
 	List<MarketableSurplus> getAllMarketableSurplus();
 
+	void saveMarketableSurplus(MarketableSurplus marketableSurplus);
+
+	MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplus);
+
+	void deleteMarketableSurplus(Integer id);
+
 }
