@@ -52,119 +52,132 @@ public class FPOSalesDetails {
     @Column(name="delete_By")
     private String deleteBy;
 
+    @OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pid", referencedColumnName = "pid")
+	private TotalProduction totalProduction;
 
     public FPOSalesDetails() {
     }
 
-    public String getDeleteBy() {
-        return deleteBy;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setDeleteBy(String deleteBy) {
-        this.deleteBy = deleteBy;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public String getFinYear() {
+		return finYear;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setFinYear(String finYear) {
+		this.finYear = finYear;
+	}
 
-    public String getFinYear() {
-        return finYear;
-    }
+	public String getSeason() {
+		return season;
+	}
 
-    public void setFinYear(String finYear) {
-        this.finYear = finYear;
-    }
+	public void setSeason(String season) {
+		this.season = season;
+	}
 
-    public String getSeason() {
-        return season;
-    }
+	public Integer getCropRefName() {
+		return cropRefName;
+	}
 
-    public void setSeason(String season) {
-        this.season = season;
-    }
+	public void setCropRefName(Integer cropRefName) {
+		this.cropRefName = cropRefName;
+	}
 
-    public Integer getCropRefName() {
-        return cropRefName;
-    }
+	public String getVerietyId() {
+		return verietyId;
+	}
 
-    public void setCropRefName(Integer cropRefName) {
-        this.cropRefName = cropRefName;
-    }
+	public void setVerietyId(String verietyId) {
+		this.verietyId = verietyId;
+	}
 
-    public String getVerietyId() {
-        return verietyId;
-    }
+	public Long getSoldQuantity() {
+		return soldQuantity;
+	}
 
-    public void setVerietyId(String verietyId) {
-        this.verietyId = verietyId;
-    }
+	public void setSoldQuantity(Long soldQuantity) {
+		this.soldQuantity = soldQuantity;
+	}
 
-    public Long getSoldQuantity() {
-        return soldQuantity;
-    }
+	public Integer getFpoId() {
+		return fpoId;
+	}
 
-    public void setSoldQuantity(Long soldQuantity) {
-        this.soldQuantity = soldQuantity;
-    }
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
 
-    public Integer getFpoId() {
-        return fpoId;
-    }
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
 
-    public void setFpoId(Integer fpoId) {
-        this.fpoId = fpoId;
-    }
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
+	public Calendar getUpdateDate() {
+		return updateDate;
+	}
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+	public void setUpdateDate(Calendar updateDate) {
+		this.updateDate = updateDate;
+	}
 
-    public Calendar getUpdateDate() {
-        return updateDate;
-    }
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-    public void setUpdateDate(Calendar updateDate) {
-        this.updateDate = updateDate;
-    }
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+	public Calendar getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setCreatedDate(Calendar createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public Calendar getCreatedDate() {
-        return createdDate;
-    }
+	public boolean isDeleted() {
+		return isDeleted;
+	}
 
-    public void setCreatedDate(Calendar createdDate) {
-        this.createdDate = createdDate;
-    }
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
+	public Calendar getDeleteDate() {
+		return deleteDate;
+	}
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
+	public void setDeleteDate(Calendar deleteDate) {
+		this.deleteDate = deleteDate;
+	}
 
-    public Calendar getDeleteDate() {
-        return deleteDate;
-    }
+	public String getDeleteBy() {
+		return deleteBy;
+	}
 
-    public void setDeleteDate(Calendar deleteDate) {
-        this.deleteDate = deleteDate;
-    }
+	public void setDeleteBy(String deleteBy) {
+		this.deleteBy = deleteBy;
+	}
+
+	public TotalProduction getTotalProduction() {
+		return totalProduction;
+	}
+
+	public void setTotalProduction(TotalProduction totalProduction) {
+		this.totalProduction = totalProduction;
+	}
+
+   
 }
