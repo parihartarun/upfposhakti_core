@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import reactor.util.annotation.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -147,11 +148,11 @@ public class PhotoUploadController {
                                                            @RequestPart(value = "description") String description,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside PhotoUpload updating PhotoUpload detail ");
-        PhotoUpload photoUploads = new PhotoUpload(description);
-        photoUploads.setId(id);
-        //photoUploads.setDescription(description);
+        PhotoUpload photoUploads = new PhotoUpload(id,description);
+
         ResponseEntity<MessageResponse> resp = null;
         try {
+            LOG.info("test");
             photoUploadService.updatePhotoUpload(id, photoUploads,  file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("PhotoUpload Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("PhotoUpload Updated Successfully!");

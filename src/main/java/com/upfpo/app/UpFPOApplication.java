@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.Resource;
 
@@ -23,7 +25,6 @@ import javax.annotation.Resource;
 @EnableJpaRepositories
 @EnableConfigurationProperties({FileStorageProperties.class})
 public class UpFPOApplication {
-
 
 
 

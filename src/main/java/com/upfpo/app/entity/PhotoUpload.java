@@ -27,10 +27,16 @@ public class PhotoUpload {
     private String role;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
+
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+    @Column(name="updated_by")
+    private String updatedBy;
 
     @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
@@ -50,7 +56,8 @@ public class PhotoUpload {
     }
 
     public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate) {
+                       Calendar uploadDate, String uploadedBy, Calendar updateDate,
+                       String updatedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createDate) {
         this.id = id;
         this.description = description;
         this.filePath = filePath;
@@ -58,13 +65,20 @@ public class PhotoUpload {
         this.role = role;
         this.uploadDate = uploadDate;
         this.uploadedBy = uploadedBy;
+        this.updateDate = updateDate;
+        this.updatedBy = updatedBy;
         this.isDeleted = isDeleted;
         this.deleteDate = deleteDate;
         this.createBy = createBy;
-
+        this.createDate = createDate;
     }
 
     public PhotoUpload(String description) {
+        this.description=description;
+    }
+
+    public PhotoUpload(Integer id, String description) {
+        this.id=id;
         this.description=description;
     }
 
@@ -108,12 +122,28 @@ public class PhotoUpload {
         this.role = role;
     }
 
-    public Date getUploadDate() {
+    public Calendar getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(Calendar uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public String getUploadedBy() {
