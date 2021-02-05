@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Table(name="crop_veriety_master")
 public class CropVerietyMaster implements Serializable{
 
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 3919518454117121902L;
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name="veriety_id")
