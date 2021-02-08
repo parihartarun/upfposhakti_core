@@ -2,6 +2,7 @@ package com.upfpo.app.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -10,9 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.upfpo.app.dto.FPODetailsDTO;
 
 @Entity
@@ -58,8 +61,9 @@ public class CropMaster implements Serializable {
 	@Column(name="season_ref_id")
 	private Integer seasonRefId;
 	
-	@Column(name="crop_cat_ref_id")
-	private Integer cropTypeRefId;
+	@JsonManagedReference
+	@OneToMany(mappedBy="crop")
+	private List<CropVerietyMaster> cropTypes;
 	
 	@Column(name="is_active")
 	private Boolean isActive;
@@ -89,12 +93,16 @@ public class CropMaster implements Serializable {
 		this.seasonRefId = seasonRefId;
 	}
 
-	public Integer getCropTypeRefId() {
-		return cropTypeRefId;
+	
+
+
+
+	public List<CropVerietyMaster> getCropTypes() {
+		return cropTypes;
 	}
 
-	public void setCropTypeRefId(Integer cropTypeRefId) {
-		this.cropTypeRefId = cropTypeRefId;
+	public void setCropTypes(List<CropVerietyMaster> cropTypes) {
+		this.cropTypes = cropTypes;
 	}
 
 	public Boolean getIsActive() {
