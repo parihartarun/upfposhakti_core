@@ -26,7 +26,7 @@ import com.upfpo.app.custom.annotations.Mobile;
 		@UniqueConstraint(columnNames = "aadhaar") })
 public class FarmerMaster implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6350271754607764701L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -48,7 +48,7 @@ classes = {
 @Table(name="crop_master")
 public class CropMaster implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1087510302226095291L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

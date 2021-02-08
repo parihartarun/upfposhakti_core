@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import reactor.util.annotation.Nullable;
 
 
 @Service
@@ -35,15 +36,15 @@ public class CircularsServiceImpl implements CircularsService {
     @Autowired
     private CircularsRepository circularsRepository;
 
-    @Value("${upload.path.circulars}")
-    private String fileBasePath;
+    //@Value("${upload.path.circulars}")
+    //private String fileBasePath;
 
 
 
 
-    //private final Path fileStorageLocation;
+    private final Path fileStorageLocation;
 
-    /*@Autowired
+    @Autowired
     public CircularsServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getCircularDir())
                 .toAbsolutePath().normalize();
@@ -52,7 +53,7 @@ public class CircularsServiceImpl implements CircularsService {
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
-    }*/
+    }
 
     @Override
     public List<Circulars> getCirculars() {
@@ -76,9 +77,9 @@ public class CircularsServiceImpl implements CircularsService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get( fileBasePath+fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("uploads/Circular/")
                     .path(fileName)
@@ -95,9 +96,9 @@ public class CircularsServiceImpl implements CircularsService {
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            //Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Path path = Paths.get(fileBasePath + fileName);
-            Resource resource = new UrlResource(path.toUri());
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
@@ -113,27 +114,34 @@ public class CircularsServiceImpl implements CircularsService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileDownloadUri;
+        String fileName;
         Path targetLocation;
+        if(file!=null){
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             // Check if the file's name contains invalid characters
             if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get(fileBasePath + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get(fileBasePath + fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/SchemeDetail/")
+                    .path("uploads/Circular/")
                     .path(fileName)
                     .toUriString();
-            circulars1.setFileName(fileName);
-            circulars1.setFilePath(fileDownloadUri);
+            circularsRepository.findById(id)
+                    .map(circular -> {
+                        circular.setFilePath(fileDownloadUri);
+                        circular.setFileName(fileName);
+                        return circularsRepository.saveAndFlush(circular);
+                    }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
 
         return circularsRepository.findById(id)
                 .map(circular -> {
@@ -142,9 +150,7 @@ public class CircularsServiceImpl implements CircularsService {
                     circular.setDeleted(false);
                     circular.setUpdatedBy(currentPrincipalName);
                     circular.setUpdateDate(Calendar.getInstance());
-                    circular.setFilePath(circulars1.getFilePath());
-                    circular.setFileName(circulars1.getFileName());
-                    return circularsRepository.save(circular);
+                    return circularsRepository.saveAndFlush(circular);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 

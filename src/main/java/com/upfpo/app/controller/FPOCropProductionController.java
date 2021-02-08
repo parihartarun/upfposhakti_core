@@ -62,7 +62,7 @@ public class FPOCropProductionController {
 	            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	    })
-		public ResponseEntity<MessageResponse> saveEnquiryHandler(@RequestBody MarketableSurplus marketableSurplus) {
+		public ResponseEntity<MessageResponse> saveMarketableSurplus(@RequestBody MarketableSurplus marketableSurplus) {
 			LOG.info("Inside FPOCropProductionController saving marketableSurplus ", marketableSurplus);
 			ResponseEntity<MessageResponse> resp = null;
 			try {
