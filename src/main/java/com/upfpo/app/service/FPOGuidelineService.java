@@ -2,14 +2,24 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.entity.FPOGuidelines;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.util.annotation.Nullable;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface FPOGuidelineService {
 
-    public List<FPOGuidelines> getAllFPOGuidelines ();
-    public FPOGuidelines getFPOGuidelinesByID(Long id);
-    public FPOGuidelines createFPOGuidelines(FPOGuidelines fpoGuidelines);
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines);
+
+    List<FPOGuidelines> getAllFPOGuidelines();
+
+
+    FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file);
+
+    FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, @Nullable MultipartFile file) throws IOException;
+
     public Boolean deleteFPOGuidelines(Long id);
+
+    Resource loadFileAsResource(String fileName);
 }

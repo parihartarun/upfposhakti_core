@@ -42,10 +42,8 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintCatgoriesRepository complaintCatgoriesRepository;
 
-    @Value("${upload.path.complaint}")
-    private String fileBasePath;
 
-    /*private final Path fileStorageLocation;
+    private final Path fileStorageLocation;
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -56,7 +54,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         } catch (Exception ex) {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
-    }*/
+    }
 
     public List<Complaints> getAllComplaint(){
         return complaintRepository.findByIsDeleted(false);
@@ -75,9 +73,9 @@ public class ComplaintServiceImpl implements ComplaintService {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get( fileBasePath+fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("uploads/Complaint/")
                     .path(fileName)
@@ -96,7 +94,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         try {
             Complaints complaints = complaintRepository.findById(id).get();
             complaints.setDeleted(true);
-            complaints.setDeleteDate(Calendar.getInstance().getTime());
+            complaints.setDeleteDate(Calendar.getInstance());
             complaintRepository.save(complaints);
             return true;
         }catch(Exception e)
@@ -115,9 +113,9 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public Resource loadFileAsResource(String fileName) {
         try {
-            //Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Path path = Paths.get( fileBasePath+fileName);
-            Resource resource = new UrlResource(path.toUri());
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get( fileBasePath+fileName);
+            Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
@@ -129,36 +127,49 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file) {
+    public Complaints updateComplaint(Integer id, Complaints complaints1,  MultipartFile file) {
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         String fileDownloadUri;
+        String fileName;
         Path targetLocation;
+        if(file!=null){
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             // Check if the file's name contains invalid characters
             if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
-            //targetLocation = this.fileStorageLocation.resolve(fileName);
-            Path path = Paths.get( fileBasePath+fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/Complaint/Suggestion/")
+                    .path("uploads/Complaint")
                     .path(fileName)
                     .toUriString();
+            complaintRepository.findById(id)
+                    .map(complaints -> {
+                        complaints.setFilePath(fileDownloadUri);
+                        complaints.setFileName(fileName);
+                        return complaintRepository.saveAndFlush(complaints);
+                    }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
 
         return complaintRepository.findById(id)
                 .map(complaints -> {
                     complaints.setTitle(complaints1.getTitle());
                     complaints.setDescription(complaints1.getDescription());
                     complaints.setIssueType(complaints1.getIssueType());
+                    complaints.setUpdateBy(currentPrincipalName);
+                    complaints.setUpdateDate(Calendar.getInstance());
                     complaints.setId(complaints1.getId());
                     complaints.setDeleted(false);
-                    complaints.setFilePath(fileDownloadUri);
                     return complaintRepository.save(complaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
