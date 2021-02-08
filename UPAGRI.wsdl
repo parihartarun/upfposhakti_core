@@ -1,0 +1,307 @@
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org/">
+<wsdl:types>
+<s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+<s:element name="DBTDATA">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="SCHEME_CODE" type="s:string"/>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="DBTDATAResponse">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="DBTDATAResult">
+<s:complexType>
+<s:sequence>
+<s:element ref="s:schema"/>
+<s:any/>
+</s:sequence>
+</s:complexType>
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="UPAGRI">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="REG_NO" type="s:string"/>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="UPAGRIResponse">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="UPAGRIResult">
+<s:complexType>
+<s:sequence>
+<s:element ref="s:schema"/>
+<s:any/>
+</s:sequence>
+</s:complexType>
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="UPAGRI_AREA">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="REG_NO" type="s:string"/>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="UPAGRI_AREAResponse">
+<s:complexType>
+<s:sequence>
+<s:element minOccurs="0" maxOccurs="1" name="UPAGRI_AREAResult">
+<s:complexType>
+<s:sequence>
+<s:element ref="s:schema"/>
+<s:any/>
+</s:sequence>
+</s:complexType>
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="DataSet" nillable="true">
+<s:complexType>
+<s:sequence>
+<s:element ref="s:schema"/>
+<s:any/>
+</s:sequence>
+</s:complexType>
+</s:element>
+</s:schema>
+</wsdl:types>
+<wsdl:message name="DBTDATASoapIn">
+<wsdl:part name="parameters" element="tns:DBTDATA"/>
+</wsdl:message>
+<wsdl:message name="DBTDATASoapOut">
+<wsdl:part name="parameters" element="tns:DBTDATAResponse"/>
+</wsdl:message>
+<wsdl:message name="UPAGRISoapIn">
+<wsdl:part name="parameters" element="tns:UPAGRI"/>
+</wsdl:message>
+<wsdl:message name="UPAGRISoapOut">
+<wsdl:part name="parameters" element="tns:UPAGRIResponse"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREASoapIn">
+<wsdl:part name="parameters" element="tns:UPAGRI_AREA"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREASoapOut">
+<wsdl:part name="parameters" element="tns:UPAGRI_AREAResponse"/>
+</wsdl:message>
+<wsdl:message name="DBTDATAHttpGetIn">
+<wsdl:part name="SCHEME_CODE" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="DBTDATAHttpGetOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:message name="UPAGRIHttpGetIn">
+<wsdl:part name="REG_NO" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="UPAGRIHttpGetOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREAHttpGetIn">
+<wsdl:part name="REG_NO" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREAHttpGetOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:message name="DBTDATAHttpPostIn">
+<wsdl:part name="SCHEME_CODE" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="DBTDATAHttpPostOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:message name="UPAGRIHttpPostIn">
+<wsdl:part name="REG_NO" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="UPAGRIHttpPostOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREAHttpPostIn">
+<wsdl:part name="REG_NO" type="s:string"/>
+</wsdl:message>
+<wsdl:message name="UPAGRI_AREAHttpPostOut">
+<wsdl:part name="Body" element="tns:DataSet"/>
+</wsdl:message>
+<wsdl:portType name="DbtServiceSoap">
+<wsdl:operation name="DBTDATA">
+<wsdl:input message="tns:DBTDATASoapIn"/>
+<wsdl:output message="tns:DBTDATASoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<wsdl:input message="tns:UPAGRISoapIn"/>
+<wsdl:output message="tns:UPAGRISoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<wsdl:input message="tns:UPAGRI_AREASoapIn"/>
+<wsdl:output message="tns:UPAGRI_AREASoapOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:portType name="DbtServiceHttpGet">
+<wsdl:operation name="DBTDATA">
+<wsdl:input message="tns:DBTDATAHttpGetIn"/>
+<wsdl:output message="tns:DBTDATAHttpGetOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<wsdl:input message="tns:UPAGRIHttpGetIn"/>
+<wsdl:output message="tns:UPAGRIHttpGetOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<wsdl:input message="tns:UPAGRI_AREAHttpGetIn"/>
+<wsdl:output message="tns:UPAGRI_AREAHttpGetOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:portType name="DbtServiceHttpPost">
+<wsdl:operation name="DBTDATA">
+<wsdl:input message="tns:DBTDATAHttpPostIn"/>
+<wsdl:output message="tns:DBTDATAHttpPostOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<wsdl:input message="tns:UPAGRIHttpPostIn"/>
+<wsdl:output message="tns:UPAGRIHttpPostOut"/>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<wsdl:input message="tns:UPAGRI_AREAHttpPostIn"/>
+<wsdl:output message="tns:UPAGRI_AREAHttpPostOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="DbtServiceSoap" type="tns:DbtServiceSoap">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="DBTDATA">
+<soap:operation soapAction="http://tempuri.org/DBTDATA" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<soap:operation soapAction="http://tempuri.org/UPAGRI" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<soap:operation soapAction="http://tempuri.org/UPAGRI_AREA" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="DbtServiceSoap12" type="tns:DbtServiceSoap">
+<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="DBTDATA">
+<soap12:operation soapAction="http://tempuri.org/DBTDATA" style="document"/>
+<wsdl:input>
+<soap12:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<soap12:operation soapAction="http://tempuri.org/UPAGRI" style="document"/>
+<wsdl:input>
+<soap12:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<soap12:operation soapAction="http://tempuri.org/UPAGRI_AREA" style="document"/>
+<wsdl:input>
+<soap12:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="DbtServiceHttpGet" type="tns:DbtServiceHttpGet">
+<http:binding verb="GET"/>
+<wsdl:operation name="DBTDATA">
+<http:operation location="/DBTDATA"/>
+<wsdl:input>
+<http:urlEncoded/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<http:operation location="/UPAGRI"/>
+<wsdl:input>
+<http:urlEncoded/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<http:operation location="/UPAGRI_AREA"/>
+<wsdl:input>
+<http:urlEncoded/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="DbtServiceHttpPost" type="tns:DbtServiceHttpPost">
+<http:binding verb="POST"/>
+<wsdl:operation name="DBTDATA">
+<http:operation location="/DBTDATA"/>
+<wsdl:input>
+<mime:content type="application/x-www-form-urlencoded"/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI">
+<http:operation location="/UPAGRI"/>
+<wsdl:input>
+<mime:content type="application/x-www-form-urlencoded"/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="UPAGRI_AREA">
+<http:operation location="/UPAGRI_AREA"/>
+<wsdl:input>
+<mime:content type="application/x-www-form-urlencoded"/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="DbtService">
+<wsdl:port name="DbtServiceSoap" binding="tns:DbtServiceSoap">
+<soap:address location="http://upagriculture.com:81/DbtService.asmx"/>
+</wsdl:port>
+<wsdl:port name="DbtServiceSoap12" binding="tns:DbtServiceSoap12">
+<soap12:address location="http://upagriculture.com:81/DbtService.asmx"/>
+</wsdl:port>
+<wsdl:port name="DbtServiceHttpGet" binding="tns:DbtServiceHttpGet">
+<http:address location="http://upagriculture.com:81/DbtService.asmx"/>
+</wsdl:port>
+<wsdl:port name="DbtServiceHttpPost" binding="tns:DbtServiceHttpPost">
+<http:address location="http://upagriculture.com:81/DbtService.asmx"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
