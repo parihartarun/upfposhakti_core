@@ -16,10 +16,7 @@ public class FPOGuidelines {
     private Long id;
 
     @Column(name = "description")
-    private String desc;
-
-    @Column(name = "upload_date")
-    private Date uploadDate;
+    private String description;
 
     @Column(name = "registration_type")
     private Integer registrationType;
@@ -32,9 +29,6 @@ public class FPOGuidelines {
 
     @Column(name = "file_name")
     private String fileName;
-
-    @Column(name="uplaoded_by")
-    private String uploadedBy;
 
     @Column(name="is_deleted")
     private Boolean isDeleted;
@@ -52,13 +46,17 @@ public class FPOGuidelines {
     @Column(name = "create_date")
     private Calendar createDate;
 
-    @Column(name="updated_by")
-    private String updatedBy;
+    @Column(name="update_by")
+    private String updateBy;
 
-    @Column(name="update_date")
+    @Column(name = "update_date")
     private Calendar updateDate;
 
+    @Column(name="upload_by")
+    private String uploadBy;
 
+    @Column(name = "upload_date")
+    private Calendar uploadDate;
 
     @Column(name="fpo_guideline_type")
     private FPOGuidelineType fpoGuidelineType;
@@ -67,12 +65,21 @@ public class FPOGuidelines {
     public FPOGuidelines() {
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public FPOGuidelines(FPOGuidelineType fpoGuidelineType, String description) {
+        this.description=description;
+        this.fpoGuidelineType=fpoGuidelineType;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
     public Calendar getUpdateDate() {
@@ -83,6 +90,11 @@ public class FPOGuidelines {
         this.updateDate = updateDate;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     public FPOGuidelineType getFpoGuidelineType() {
         return fpoGuidelineType;
     }
@@ -91,12 +103,20 @@ public class FPOGuidelines {
         this.fpoGuidelineType = fpoGuidelineType;
     }
 
-    public String getUploadedBy() {
-        return uploadedBy;
+    public String getUploadBy() {
+        return uploadBy;
     }
 
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
+    public void setUploadBy(String uploadBy) {
+        this.uploadBy = uploadBy;
+    }
+
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public Boolean getDeleted() {
@@ -156,20 +176,13 @@ public class FPOGuidelines {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
 
     public Integer getRegistrationType() {
         return registrationType;

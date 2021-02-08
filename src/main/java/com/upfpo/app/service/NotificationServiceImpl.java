@@ -35,18 +35,27 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public Notification createNotification (Notification notification){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         notification.setDeleted(false);
+        notification.setCreateDate(Calendar.getInstance());
+        notification.setCreateBy(currentPrincipalName);
         return notificationRepository.save(notification);
     }
 
 
     @Override
     public Notification updateNotification(Integer id, Notification notification) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Optional<Notification> sd = notificationRepository.findById(id);
         if(!sd.isPresent()) {
             return null;
         }
         notification.setId(id);
+        notification.setUpdateBy(currentPrincipalName);
+        notification.setUpdateDate(Calendar.getInstance());
         notification.setDeleted(false);
         return notificationRepository.save(notification);
     }

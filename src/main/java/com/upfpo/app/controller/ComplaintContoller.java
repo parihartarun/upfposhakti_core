@@ -187,7 +187,7 @@ public class ComplaintContoller {
         complaints.setIssueType(issueType);
         ResponseEntity<MessageResponse> resp = null;
         try {
-            complaintService.updateComplaint(id, complaints, description, title, issueType, file);
+            complaintService.updateComplaint(id, complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Updated Successfully!");
             //}
