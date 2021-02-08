@@ -2,20 +2,41 @@ package com.upfpo.app.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+
 @Entity
+@SqlResultSetMapping(name="FpoCropProductionDetailsDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FpoCropProductionDetailsDTO.class,
+            columns = {
+                @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "category", type = String.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "id", type = Integer.class),
+                @ColumnResult(name = "marketable_quantity", type = Double.class),
+                @ColumnResult(name = "actual_quantity", type = Double.class),
+                @ColumnResult(name = "financial_year", type = String.class),
+                @ColumnResult(name = "crop_variety", type = String.class),
+           })
+})
 @Table(name = "marketable_surplus_new")
 public class MarketableSurplus implements Serializable {
 

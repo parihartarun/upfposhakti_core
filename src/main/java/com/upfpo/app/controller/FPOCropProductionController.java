@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
 import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.service.FPOCropProductionService;
 
@@ -42,17 +42,17 @@ public class FPOCropProductionController {
 	private FPOCropProductionService fpoCropProductionService;
 	
 	
-	 @GetMapping("/getall")
+	 @GetMapping("/getFpoCropProductionDetails/{masterId}")
 	    @ApiOperation(value="MarketableSurplus List" ,code=201, produces = "application/json", notes="Api for all MarketableSurplus Info",response= MarketableSurplus.class)
 	    @ApiResponses(value= {
 	            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	    })
-	    public List<MarketableSurplus> getAllEnquiryDetails (){
+	    public List<FpoCropProductionDetailsDTO> getAllFpoCropProductionDetails (@PathVariable("masterId") Integer masterId){
 
 	        LOG.info("Inside FPOCropProductionController gettting list of Enquiry ");
-	        return fpoCropProductionService.getAllMarketableSurplus();
+	        return fpoCropProductionService.getAllMarketableSurplus(masterId);
 	    }
 	 
 	 @PostMapping()
