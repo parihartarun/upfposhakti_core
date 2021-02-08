@@ -62,20 +62,29 @@ public class Complaints {
     @Column(name="file_path")
     private String filePath;
 
+    @Column(name="file_name")
+    private String fileName;
+
     @Column(name="role")
     private String role;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
+
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+    @Column(name="update_by")
+    private String updateBy;
 
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -114,10 +123,10 @@ public class Complaints {
         this.remarks = remarks;
         this.filePath = filePath;
         this.role = role;
-        this.uploadDate = uploadDate;
+
         this.uploadedBy = uploadedBy;
         this.isDeleted = isDeleted;
-        this.deleteDate = deleteDate;
+
         this.createBy = createBy;
         this.createDateTime = createDateTime;
         this.complaintsComments = complaintsComments;
@@ -147,6 +156,23 @@ public class Complaints {
         this.setDescription(description);
         this.setTitle(title);
 
+    }
+
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
     public Integer getId() {
@@ -261,13 +287,7 @@ public class Complaints {
         this.role = role;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
-    }
 
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
 
     public String getUploadedBy() {
         return uploadedBy;
@@ -285,11 +305,27 @@ public class Complaints {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 

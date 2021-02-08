@@ -100,7 +100,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     }
 
     @Override
-    public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUploads1, @Nullable MultipartFile file) throws IOException {
+    public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUploads1,  MultipartFile file) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
