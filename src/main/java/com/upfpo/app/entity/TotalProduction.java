@@ -1,10 +1,12 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,39 +44,20 @@ public class TotalProduction implements Serializable {
 	@Column(name="total_sowing")
 	private Double total_sowing;
    
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "crop_id", referencedColumnName = "id")
-	private CropMaster cropMaster;
+	 @OneToOne(cascade = CascadeType.MERGE)
+	 @JoinColumn(name = "crop_id", referencedColumnName = "id")
+	 private CropMaster cropMaster;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
 	private CropVerietyMaster cropVerityMaster;
+
+	@Column(name="fpo_id")
+	private Integer fpoRegister;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fpo_id", referencedColumnName = "fpo_id")
-	private FPORegister fpoRegister;
-	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "farmer_id", referencedColumnName = "farmer_id")
 	private FarmerMaster farmerMaster;
-
-	public TotalProduction(Integer pid, Double totalProduction, Double totalMarketable, Double totalSold,
-		    Double total_actual_prod, Double total_expected_prod, Double total_sowing,
-			CropMaster cropMaster, CropVerietyMaster cropVerityMaster, FPORegister fpoRegister,
-			FarmerMaster farmerMaster) {
-		super();
-		this.pid = pid;
-		this.totalProduction = totalProduction;
-		this.totalMarketable = totalMarketable;
-		this.totalSold = totalSold;
-		this.total_actual_prod = total_actual_prod;
-		this.total_expected_prod = total_expected_prod;
-		this.total_sowing = total_sowing;
-		this.cropMaster = cropMaster;
-		this.cropVerityMaster = cropVerityMaster;
-		this.fpoRegister = fpoRegister;
-		this.farmerMaster = farmerMaster;
-	}
 
 	public TotalProduction() {
 		
@@ -153,11 +136,11 @@ public class TotalProduction implements Serializable {
 		this.cropVerityMaster = cropVerityMaster;
 	}
 
-	public FPORegister getFpoRegister() {
+	public Integer getFpoRegister() {
 		return fpoRegister;
 	}
 
-	public void setFpoRegister(FPORegister fpoRegister) {
+	public void setFpoRegister(Integer fpoRegister) {
 		this.fpoRegister = fpoRegister;
 	}
 
@@ -168,5 +151,4 @@ public class TotalProduction implements Serializable {
 	public void setFarmerMaster(FarmerMaster farmerMaster) {
 		this.farmerMaster = farmerMaster;
 	}
-	
 }

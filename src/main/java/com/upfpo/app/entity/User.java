@@ -1,4 +1,5 @@
 package com.upfpo.app.entity;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,9 @@ classes = {
            })
 })
 @Table(name="users")
-public class User {
+public class User implements Serializable
+{
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue

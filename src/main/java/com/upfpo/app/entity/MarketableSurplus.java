@@ -33,7 +33,7 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "season_id")
 	private Integer season;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "crop_id", referencedColumnName = "id")
 	private CropMaster crop_id;
 
@@ -43,14 +43,10 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "actual_quantity")
 	private Double actualQuantity;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
 	private CropVerietyMaster verietyId;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pid", referencedColumnName = "pid")
-	private TotalProduction totalProduction;
-	
 	@Column(name = "master_id")
 	private Integer masterId;
 
@@ -131,14 +127,6 @@ public class MarketableSurplus implements Serializable {
 		this.verietyId = verietyId;
 	}
 
-	public TotalProduction getTotalProduction() {
-		return totalProduction;
-	}
-
-	public void setTotalProduction(TotalProduction totalProduction) {
-		this.totalProduction = totalProduction;
-	}
-
 	public Integer getMasterId() {
 		return masterId;
 	}
@@ -186,5 +174,6 @@ public class MarketableSurplus implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
+
+		
 }
