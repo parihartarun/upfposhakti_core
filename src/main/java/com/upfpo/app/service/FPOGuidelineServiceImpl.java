@@ -62,7 +62,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     @Override
     public List<FPOGuidelines> getAllFPOGuidelines(){
-        return fpoGuidelinesRepository.findAll();
+        return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
     @Override
@@ -149,9 +149,12 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     @Override
     public Boolean deleteFPOGuidelines(Long id) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentPrincipalName = authentication.getName();
             FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id).get();
             fpoGuideline.setDeleted(true);
             fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)

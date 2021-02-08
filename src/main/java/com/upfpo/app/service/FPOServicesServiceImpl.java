@@ -96,9 +96,11 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     public FPOServices updateFPOServices(Integer id, FPOServices fpoServices1, String description, String servicename, MultipartFile file) {
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName;
         String fileDownloadUri;
         Path targetLocation;
+        if(file!=null) {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -112,19 +114,28 @@ public class FPOServicesServiceImpl implements FPOServicesService{
                         .path("uploads/FPOService/")
                         .path(fileName)
                         .toUriString();
+                fpoServicesRepository.findById(id)
+                        .map(fpoServices -> {
+                            fpoServices.setFilePath(fileDownloadUri);
+                            fpoServices.setFileName(fileName);
+                            return fpoServicesRepository.saveAndFlush(fpoServices);
+                        }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
 
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
+        }
 
         return fpoServicesRepository.findById(id)
                 .map(fpoServices -> {
                     fpoServices.setServicename(fpoServices1.getServicename());
                     fpoServices.setDescriptions(fpoServices1.getDescriptions());
-                    fpoServices.setFileName(fileName);
+                    fpoServices.setFileName(fpoServices1.getFileName());
+                    fpoServices.setFilePath(fpoServices1.getFilePath());
                     fpoServices.setId(fpoServices1.getId());
                     fpoServices.setDeleted(false);
-                    fpoServices.setFilePath(fileDownloadUri);
+                    fpoServices.setUpdateDate(Calendar.getInstance());
                     return fpoServicesRepository.save(fpoServices);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
@@ -135,7 +146,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         try {
             FPOServices fpoServices = fpoServicesRepository.findById(id).get();
             fpoServices.setDeleted(true);
-            fpoServices.setDeleteDate(Calendar.getInstance().getTime());
+            fpoServices.setDeleteDate(Calendar.getInstance());
             fpoServicesRepository.save(fpoServices);
             return true;
         }catch(Exception e)
