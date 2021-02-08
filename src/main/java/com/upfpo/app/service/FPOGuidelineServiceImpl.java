@@ -95,6 +95,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                         .path(fileName)
                         .toUriString();
                 fpoGuideline.setFilePath(fileDownloadUri);
+                fpoGuideline.setFileName(fileName);
                 fpoGuideline.setUploadDate(Calendar.getInstance());
                 fpoGuideline.setUploadBy(currentPrincipalName);
                 //fpoGuidelinesRepository.save(fpoGuidelines);
@@ -146,7 +147,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                     fpoGuidelines.setUpdateBy(currentPrincipalName);
                     fpoGuidelines.setUpdateDate(Calendar.getInstance());
                     fpoGuidelines.setDeleted(false);
-                    return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                    return fpoGuidelinesRepository.save(fpoGuidelines);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 

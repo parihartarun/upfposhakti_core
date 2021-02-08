@@ -131,8 +131,6 @@ public class FPOServicesServiceImpl implements FPOServicesService{
                 .map(fpoServices -> {
                     fpoServices.setServicename(fpoServices1.getServicename());
                     fpoServices.setDescriptions(fpoServices1.getDescriptions());
-                    fpoServices.setFileName(fpoServices1.getFileName());
-                    fpoServices.setFilePath(fpoServices1.getFilePath());
                     fpoServices.setId(fpoServices1.getId());
                     fpoServices.setDeleted(false);
                     fpoServices.setUpdateDate(Calendar.getInstance());
