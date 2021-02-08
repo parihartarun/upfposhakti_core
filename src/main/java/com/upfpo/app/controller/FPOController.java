@@ -29,7 +29,10 @@ import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FpoAdditionalServices;
 import com.upfpo.app.entity.LandDetails;
+import com.upfpo.app.repository.FPOAdditionalServicesRepository;
+import com.upfpo.app.repository.FPOServicesRepository;
 import com.upfpo.app.service.FPOService;
 
 import io.swagger.annotations.Api;
@@ -252,5 +255,14 @@ public class FPOController {
 	 {
 		 return fpoService.getCropListForFarmersByFpo(masterId);
 	 }
+	 @GetMapping(value= {"/FpoAdditionalServices/getFpoAdditionalServicesById/{id}"})
+		@ApiOperation(value="View FpoAdditionalServices by Id",code=200,produces = "application/json",notes="Api to view Fpo Additional Services  by Id",response=FpoAdditionalServices.class)
+		@ApiResponses(value= {
+		@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+		@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+		public FpoAdditionalServices getFpoAdditionalServicesById(@PathVariable("id")Integer id)
+		{
+			return fpoService.getFpoAdditionalServicesById(id);
+		}
 
 }

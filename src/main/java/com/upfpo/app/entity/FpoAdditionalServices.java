@@ -43,8 +43,8 @@ public class FpoAdditionalServices {
 	@Column(name="uplaoded_by")
 	private String uploadedBy;
 	
-	@Column(name="is_deleted")
-	private boolean isDeleted;
+	@Column(nullable = true,name="is_deleted")
+	private Boolean isDeleted;
 	
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
@@ -128,11 +128,11 @@ public class FpoAdditionalServices {
 		this.id = id;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 

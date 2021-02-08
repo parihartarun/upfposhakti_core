@@ -24,6 +24,7 @@ import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.dto.UserDetailsDto;
 import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.DistrictMasterRepository;
+import com.upfpo.app.repository.FPOAdditionalServicesRepository;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
@@ -56,6 +57,9 @@ public class FPOServiceImpl implements FPOService {
 	
 	@Autowired
 	private DistrictMasterRepository districtMasterRepository;
+	
+	@Resource
+	private FPOAdditionalServicesRepository fPOAdditionalServicesRepository;
 	
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
@@ -295,6 +299,12 @@ public class FPOServiceImpl implements FPOService {
 	@Override
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
 		return null;
+	}
+
+	@Override
+	public FpoAdditionalServices getFpoAdditionalServicesById(Integer id) {
+		return fPOAdditionalServicesRepository.findById(id).get();
+
 	}
 
 }

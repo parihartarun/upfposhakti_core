@@ -134,8 +134,8 @@ public class FPORegister implements Serializable {
 	@Column(name = "total_land")
 	private Double totalland;
 	
-	@Column(name="is_deleted")
-    private boolean isDeleted;
+	@Column(nullable = true,name="is_deleted")
+    private Boolean isDeleted;
 	
 	
 	
@@ -384,11 +384,11 @@ public class FPORegister implements Serializable {
 		this.totalland = totalland;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 	

@@ -10,6 +10,7 @@ import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.FpoAdditionalServices;
 import com.upfpo.app.entity.LandDetails;
 
 @Service
@@ -35,4 +36,5 @@ public interface FPOService {
 	public boolean deleteLandDetailById(Integer id);
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
+	public FpoAdditionalServices getFpoAdditionalServicesById(Integer id);
 }
