@@ -27,14 +27,18 @@ classes = {
     @ConstructorResult(
             targetClass = FpoCropProductionDetailsDTO.class,
             columns = {
+            	@ColumnResult(name = "season_id", type = Integer.class),
                 @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "category_id", type = Integer.class),
                 @ColumnResult(name = "category", type = String.class),
+                @ColumnResult(name = "crop_id", type = Integer.class),
                 @ColumnResult(name = "crop_name", type = String.class),
-                @ColumnResult(name = "id", type = Integer.class),
+                @ColumnResult(name = "marketable_id", type = Integer.class),
                 @ColumnResult(name = "marketable_quantity", type = Double.class),
                 @ColumnResult(name = "actual_quantity", type = Double.class),
                 @ColumnResult(name = "financial_year", type = String.class),
-                @ColumnResult(name = "crop_variety", type = String.class),
+                @ColumnResult(name = "veriety_id", type = Integer.class),
+                @ColumnResult(name = "crop_variety", type = String.class)
            })
 })
 @Table(name = "marketable_surplus_new")
