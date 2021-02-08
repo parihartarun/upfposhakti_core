@@ -35,14 +35,14 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Override
 	public List<FpoCropProductionDetailsDTO> getAllMarketableSurplus(int masterId) 
 	{
-			String  sql =  	" Select s.season_name, cc.category, cm.crop_name,m.id,m.marketable_quantity,m.actual_quantity,\r\n"
-					+ "		m.financial_year, case when cast(m.veriety_id as integer)!=0 then cvm.crop_veriety else 'Other' end\r\n"
-					+ "		crop_variety from marketable_surplus_new m\r\n"
-					+ "		inner join season_master s on CAST ( m.season_id as integer)=s.season_id \r\n"
-					+ "		inner join crop_master cm on cm.id= m.crop_id\r\n"
-					+ "		inner join crop_category cc on cc.id= cm.crop_cat_ref_id \r\n"
-					+ "		left join crop_veriety_master cvm on cvm.veriety_id=cast(m.veriety_id as integer) \r\n"
-					+ "		where m.master_id = :masterId  and m.is_deleted = false order by m.id desc;" ;
+			String  sql =  	" Select s.season_id,s.season_name, cc.id as category_id, cc.category, cm.id as crop_id ,cm.crop_name, m.id as marketable_id,m.marketable_quantity,m.actual_quantity,\r\n"
+					+ "			m.financial_year,cvm.veriety_id, case when cast(m.veriety_id as integer)!=0 then cvm.crop_veriety else 'Other' end\r\n"
+					+ "			crop_variety from marketable_surplus_new m\r\n"
+					+ "			inner join season_master s on CAST ( m.season_id as integer)=s.season_id \r\n"
+					+ "			inner join crop_master cm on cm.id= m.crop_id\r\n"
+					+ "			inner join crop_category cc on cc.id= cm.crop_cat_ref_id \r\n"
+					+ "			left join crop_veriety_master cvm on cvm.veriety_id=cast(m.veriety_id as integer) \r\n"
+					+ "			where m.master_id = :masterId  and m.is_deleted = false order by m.id desc ;" ;
 			  
 			  List<FpoCropProductionDetailsDTO> obj =  (List<FpoCropProductionDetailsDTO>) entityManager.createNativeQuery(sql,"FpoCropProductionDetailsDTO").setParameter("masterId", masterId).getResultList();
 			  return obj;
@@ -60,7 +60,6 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 		totProd.setFpoRegister(marketableSurplus.getMasterId());
 		totProd.setTotalMarketable(marketableSurplus.getMarketableQuantity());
 		totProd.setTotal_actual_prod(marketableSurplus.getActualQuantity());
-		
 		marketableSurplus.setFinancialYear(GetFinYear.getCurrentFinYear());
 		fpoCropProductionRepo.save(marketableSurplus);
 		totalProductionRepository.save(totProd);
