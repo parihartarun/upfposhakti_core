@@ -8,8 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 public class UpAgriClient {
 	
-	
-	
     public static String upagri(String reg_no) throws MalformedURLException, RemoteException
     {
     	List list_any16 = null;
