@@ -23,6 +23,9 @@ public class Notification {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "farmer_name")
+    private String farmerName;
+
     @Column(name = "receiver_id")
     private Integer receiverId;
 
@@ -54,6 +57,12 @@ public class Notification {
     @Column(name = "create_date")
     private Calendar createDate;
 
+    @Column(name="update_by")
+    private String updateBy;
+
+    @Column(name = "update_date")
+    private Calendar updateDate;
+
 
     public Notification() {
     }
@@ -68,10 +77,36 @@ public class Notification {
         this.type = type;
     }
 
+
     public Notification(Integer receiverId, Integer senderId, String title) {
         this.receiverId = receiverId;
         this.senderId = senderId;
         this.title = title;
+    }
+
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getFarmerName() {
+        return farmerName;
+    }
+
+    public void setFarmerName(String farmerName) {
+        this.farmerName = farmerName;
     }
 
     public Date getUploadDate() {

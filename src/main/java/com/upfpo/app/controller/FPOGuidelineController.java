@@ -1,6 +1,10 @@
 package com.upfpo.app.controller;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.FPOGuidelineType;
+import com.upfpo.app.entity.FPOGuidelines;
 import com.upfpo.app.entity.FPOGuidelines;
 import com.upfpo.app.service.FPOGuidelineServiceImpl;
 
@@ -12,15 +16,19 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.UIResource;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,7 +42,7 @@ public class FPOGuidelineController {
     @Autowired
     private FPOGuidelineServiceImpl fpoGuidelineService;
 
-    @GetMapping("/getall")
+    @GetMapping
     @ApiOperation(value="Fetch All FPO FPOGuidelines" ,code=201, produces = "application/json", notes="API to Get all FPO FPOGuidelines",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -45,39 +53,28 @@ public class FPOGuidelineController {
 
         return fpoGuidelineService.getAllFPOGuidelines();
     }
-
-
-
-    @GetMapping("/{id}")
-    @ApiOperation(value="Fetch FPOGuidelines By ID" ,code=201, produces = "application/json", notes="Api to FPO FPOGuideliness By ID",response=FPOGuidelines.class)
+    
+    @PostMapping
+    @ApiOperation(value="Create FPOGuidelines" ,code=201, produces = "application/json", notes="Api for all Upload FPOGuidelines",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public FPOGuidelines getFPOGuidelinesById(@PathVariable Long id) {
-
-        return fpoGuidelineService.getFPOGuidelinesByID(id);
-    }
-
-
-    @PostMapping("/insert")
-    @ApiOperation(value="Add FPO FPOGuidelines" ,code=201, produces = "application/json", notes="Api for add new FPO FPOGuidelines",response= FPOGuidelines.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> insertFPOGuidelines(@RequestBody FPOGuidelines fpoGuidelines) {
-        LOG.info("Inside FPOGuidelinesController saving FPOGuidelines ", fpoGuidelines);
-        ResponseEntity<String> resp = null;
+    public ResponseEntity<MessageResponse> uploadFPOGuidline(@RequestParam("description") String description,
+                                                             @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                       @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines id = fpoGuidelineService.createFPOGuidelines(fpoGuidelines);
-            resp = new ResponseEntity<String>("FPOGuidelines created Successfully!", HttpStatus.OK );
-            LOG.info("FPOGuidelines  created Successfully!");
-            //}
+            FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
+            LOG.info("FPOGuidelines uploaded Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the FPOGuidelines", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the FPOGuidelines");
             e.printStackTrace();
         }
@@ -85,49 +82,24 @@ public class FPOGuidelineController {
         return resp;
     }
 
-
-    @PutMapping("/update1/{id}")
-    @ApiOperation(value="Update FPO FPOGuidelines" ,code=201, produces = "application/json", notes="Api To Update FPO FPOGuidelines",response=FPOGuidelines.class)
+    @DeleteMapping(value="/{id}")
+    @ApiOperation(value="Delete FPOGuidelines",code=204,produces = "text/plain",notes="Api for delete FPOGuidelines by id",response=Boolean.class)
     @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
     })
-    public ResponseEntity<String> updateFPOGuidelines(@PathVariable Long id, @RequestBody FPOGuidelines fpoGuidelines) {
-        LOG.info("Inside FPOGuidelinesController updating FPOGuidelines ", fpoGuidelines);
-        ResponseEntity<String> resp = null;
+    public ResponseEntity<MessageResponse> deleteFPOGuidelines(@PathVariable Long id) {
+        LOG.info("Inside FPOGuidelinesController delete sales details ");
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fsd = fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines);
-            resp = new ResponseEntity<String>("FPOGuidelines Updated Successfully!", HttpStatus.OK );
-            LOG.info("FPOGuidelines Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Update the FPOGuidelines", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the FPOGuidelines");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
-        return resp;
-    }
-
-
-    @DeleteMapping("/delete1/{id}")
-    @ApiOperation(value="Delete FPO FPOGuidelines" ,code=201, produces = "application/json", notes="Api To Delete FPO FPOGuidelines",response=FPOGuidelines.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> deleteFPOGuidelines1(@PathVariable Long id) {
-        LOG.info("Inside FPOGuidelinesController delete FPOGuidelines ");
-        ResponseEntity<String> resp = null;
-        try {
-            fpoGuidelineService.deleteFPOGuidelines(id);
-            resp = new ResponseEntity<String>("FPOGuidelines Deleted Successfully!", HttpStatus.OK );
+            if(fpoGuidelineService.deleteFPOGuidelines(id)==true)
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Deleted Successfully!"), HttpStatus.OK );
             LOG.info("FPOGuidelines Deleted Successfully!");
             //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Delete the FPOGuidelines", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Delete the FPOGuidelines");
             e.printStackTrace();
         }
@@ -135,38 +107,61 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @PostMapping("/upload")
-    @ApiOperation(value="Upload FPOGuidelines" ,code=201, produces = "application/json", notes="Api To Upload FPOGuidelines",response=FPOGuidelines.class)
+    @GetMapping("/downloadFile/{fileName:.+}")
+    @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
-            fpoGuidelineService.save(file);
+    public ResponseEntity<org.springframework.core.io.Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = fpoGuidelineService.loadFileAsResource(fileName);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            LOG.info("Could not determine file type.");
         }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
-    @GetMapping("/download/{filename:.+}")
-    @ApiOperation(value="Download FPOGuidelines" ,code=201, produces = "application/json", notes="Api To Download FPOGuidelines",response=FPOGuidelines.class)
+    @PutMapping("/{id}")
+    @ApiOperation(value="Update FPOGuidelines Details" ,code=201, produces = "application/json", notes="Api To Update FPOGuidelines Details",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    @ResponseBody
-    public ResponseEntity<UrlResource> getFile(@PathVariable String filename) {
-        UrlResource file = fpoGuidelineService.load(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Long id,
+                                                             @RequestPart(value = "description") String description, @RequestPart("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines,  file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Details Updated Successfully!"), HttpStatus.OK );
+            LOG.info("FPOGuidelines Updated Successfully!");
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the FPOGuidelines Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Update the FPOGuidelines Details");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
+        return resp;
     }
     
 }

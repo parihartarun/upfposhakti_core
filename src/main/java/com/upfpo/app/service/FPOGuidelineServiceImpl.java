@@ -2,12 +2,15 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.entity.FPOGuidelines;
-import com.upfpo.app.entity.FPOLevelProduction;
-import com.upfpo.app.entity.FPOSalesDetails;
+import com.upfpo.app.entity.*;
 import com.upfpo.app.repository.FPOGuidelinesRepository;
+import com.upfpo.app.repository.FPOGuidelinesRepository;
+import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,13 +23,14 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import reactor.util.annotation.Nullable;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -35,118 +39,140 @@ import java.util.Optional;
 @Service
 public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
-    private final Path root = Paths.get("uploads/FPOGuidelines");
-
-
     @Autowired
     private FPOGuidelinesRepository fpoGuidelinesRepository;
 
-    //Get all FPOGuidelines
-    public List<FPOGuidelines> getAllFPOGuidelines (){
-        return fpoGuidelinesRepository.findByIsDeleted(false);
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineServiceImpl.class);
 
-    //Find By Id
-    public FPOGuidelines getFPOGuidelinesByID(Long id) {
-        Optional<FPOGuidelines> FPOGuidelines = fpoGuidelinesRepository.findById(id);
-        if(FPOGuidelines.isPresent()) {
-            return FPOGuidelines.get();
-        }else {
-            throw new ResourceNotFoundException("Not Found");
+    //@Value("${upload.path.photo}")
+    //String fileBasePath;
+
+    private final Path fileStorageLocation;
+
+    @Autowired
+    public FPOGuidelineServiceImpl(FileStorageProperties fileStorageProperties) {
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getFpoGuidelinesDir())
+                .toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
     }
 
-    //create new FPOGuidelines
-    public FPOGuidelines createFPOGuidelines(FPOGuidelines fpoGuidelines){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        fpoGuidelines.setCreateBy(currentPrincipalName);
-        fpoGuidelines.setCreateDate(Calendar.getInstance());
-        fpoGuidelines.setDeleted(false);
-        return fpoGuidelinesRepository.save(fpoGuidelines);
+    @Override
+    public List<FPOGuidelines> getAllFPOGuidelines(){
+        return fpoGuidelinesRepository.findAll();
     }
 
+    @Override
+    public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file) {
 
-
-    //Update FPOGuidelines
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines) {
-        Optional<FPOGuidelines> sd = fpoGuidelinesRepository.findById(id);
-        if(!sd.isPresent()) {
-            return null;
-        }
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        fpoGuidelines.setDeleted(false);
-        fpoGuidelines.setId(new Long(id));
-        fpoGuidelines.setUpdatedBy(currentPrincipalName);
-        fpoGuidelines.setUpdateDate(Calendar.getInstance());
-        return fpoGuidelinesRepository.save(fpoGuidelines);
-    }
-
-
-    //Delete FPOGuidelines
-    public Boolean deleteFPOGuidelines(Long id) {
-        if(fpoGuidelinesRepository.findById(id) != null)
+        fpoGuideline.setFileName(fileName);
+        fpoGuideline.setCreateBy(currentPrincipalName);
+        fpoGuideline.setCreateDate(Calendar.getInstance());
+        if (file != null){
             try {
-                FPOGuidelines fpoGuidelines = fpoGuidelinesRepository.findById(id).get();
-                fpoGuidelines.setDeleted(true);
-                fpoGuidelines.setDeleteDate(Calendar.getInstance());
-                fpoGuidelinesRepository.save(fpoGuidelines);
-                return true;
-            }catch(Exception e)
-            {
-                throw new NotFoundException();
-            }
-        else
-            return false;
+                // Check if the file's name contains invalid characters
+                if (fileName.contains("..")) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                }
+                // Copy file to the target location (Replacing existing file with the same name)
+                Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                //Path path = Paths.get(fileBasePath + fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("uploads/FPOGuidelines/")
+                        .path(fileName)
+                        .toUriString();
+                fpoGuideline.setFilePath(fileDownloadUri);
+                fpoGuideline.setUploadDate(Calendar.getInstance());
+                fpoGuideline.setUploadBy(currentPrincipalName);
+                //fpoGuidelinesRepository.save(fpoGuidelines);
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            }}
+        fpoGuideline.setDeleted(false);
+        return fpoGuidelinesRepository.save(fpoGuideline);
     }
 
-    public void save(MultipartFile file) {
-        FPOGuidelines fpoGuidelines = new FPOGuidelines();
+    @Override
+    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file) throws IOException {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String fileName;
+        String currentPrincipalName = authentication.getName();
+        String fileDownloadUri;
+        Path targetLocation;
+        if (file != null ) {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            try {
+                // Check if the file's name contains invalid characters
+                if (fileName.contains("..")) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                }
+                // Copy file to the target location (Replacing existing file with the same name)
+                targetLocation = this.fileStorageLocation.resolve(fileName);
+                //Path path = Paths.get(fileBasePath + fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("uploads/FPOGuidelines/")
+                        .path(fileName)
+                        .toUriString();
+                fpoGuidelinesRepository.findById(id)
+                        .map(fpoGuidelines -> {
+                            fpoGuidelines.setFilePath(fileDownloadUri);
+                            fpoGuidelines.setFileName(fileName);
+                            return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                        }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            }
+        }
+        return fpoGuidelinesRepository.findById(id)
+                .map(fpoGuidelines -> {
+                    fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
+                    fpoGuidelines.setId(fpoGuidelines1.getId());
+                    fpoGuidelines.setFileName(fpoGuidelines1.getFileName());
+                    fpoGuidelines.setFilePath(fpoGuidelines1.getFilePath());
+                    fpoGuidelines.setUpdateBy(currentPrincipalName);
+                    fpoGuidelines.setUpdateDate(Calendar.getInstance());
+                    fpoGuidelines.setDeleted(false);
+                    return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+    @Override
+    public Boolean deleteFPOGuidelines(Long id) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            /*String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            String filePath = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/upload/FPOGuidelines")
-                    .path(String.valueOf(fpoGuidelines.getId()))
-                    .toUriString();
-            fpoGuidelines.setFilePath(filePath);
-            fpoGuidelines.setFileName(fileName);
-            fpoGuidelinesRepository.save(fpoGuidelines);*/
-        } catch (Exception e) {
-            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+            FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id).get();
+            fpoGuideline.setDeleted(true);
+            fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuidelinesRepository.save(fpoGuideline);
+            return true;
+        }catch(Exception e)
+        {
+            throw new NotFoundException();
         }
     }
 
-
-    public UrlResource load(String filename) {
+    @Override
+    public Resource loadFileAsResource(String fileName) {
         try {
-            Path file = root.resolve(filename);
-            UrlResource resource = new UrlResource(file.toUri());
-
-            if (resource.exists() || resource.isReadable()) {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
                 return resource;
             } else {
-                throw new RuntimeException("Could not read the file!");
+                throw new ResourceNotFoundException("File not found " + fileName);
             }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
         }
     }
-
-    public void init() {
-        try {
-            Files.createDirectory(root);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
-        }
-    }
-
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-
 }
