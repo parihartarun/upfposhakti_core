@@ -12,14 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -137,8 +133,6 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 .map(fpoGuidelines -> {
                     fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
                     fpoGuidelines.setId(fpoGuidelines1.getId());
-                    fpoGuidelines.setFileName(fpoGuidelines1.getFileName());
-                    fpoGuidelines.setFilePath(fpoGuidelines1.getFilePath());
                     fpoGuidelines.setUpdateBy(currentPrincipalName);
                     fpoGuidelines.setUpdateDate(Calendar.getInstance());
                     fpoGuidelines.setDeleted(false);

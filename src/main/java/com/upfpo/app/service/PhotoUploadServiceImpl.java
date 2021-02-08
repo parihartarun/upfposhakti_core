@@ -3,9 +3,7 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.controller.PhotoUploadController;
-import com.upfpo.app.entity.Circulars;
-import com.upfpo.app.entity.PhotoUpload;
-import com.upfpo.app.entity.FileStorageProperties;
+import com.upfpo.app.entity.*;
 import com.upfpo.app.entity.PhotoUpload;
 import com.upfpo.app.repository.PhotoUploadRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -100,11 +98,11 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     }
 
     @Override
-    public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUploads1,  MultipartFile file) throws IOException {
+    public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUpload1, MultipartFile file) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
         String fileName;
+        String currentPrincipalName = authentication.getName();
         String fileDownloadUri;
         Path targetLocation;
         if (file != null ) {
@@ -123,29 +121,29 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                         .path(fileName)
                         .toUriString();
                 photoUploadRepository.findById(id)
-                        .map(photoUploads -> {
-                            photoUploads.setFilePath(fileDownloadUri);
-                            photoUploads.setFileName(fileName);
-                            return photoUploadRepository.saveAndFlush(photoUploads);
+                        .map(photoUpload -> {
+                            photoUpload.setFilePath(fileDownloadUri);
+                            photoUpload.setFileName(fileName);
+                            return photoUploadRepository.saveAndFlush(photoUpload);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
         }
-
         return photoUploadRepository.findById(id)
-                .map(photoUploads -> {
-                    photoUploads.setDescription(photoUploads1.getDescription());
-                    photoUploads.setId(photoUploads1.getId());
-                    photoUploads.setFileName(photoUploads1.getFileName());
-                    photoUploads.setFilePath(photoUploads1.getFilePath());
-                    photoUploads.setUpdatedBy(currentPrincipalName);
-                    photoUploads.setUpdateDate(Calendar.getInstance());
-                    photoUploads.setDeleted(false);
-                    return photoUploadRepository.saveAndFlush(photoUploads);
+                .map(photoUpload -> {
+                    photoUpload.setDescription(photoUpload1.getDescription());
+                    photoUpload.setId(photoUpload1.getId());
+                    photoUpload.setFileName(photoUpload1.getFileName());
+                    photoUpload.setFilePath(photoUpload1.getFilePath());
+                    photoUpload.setUpdateBy(currentPrincipalName);
+                    photoUpload.setUpdateDate(Calendar.getInstance());
+                    photoUpload.setDeleted(false);
+                    return photoUploadRepository.saveAndFlush(photoUpload);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
+
 
     @Override
     public Boolean deletePhotoUpload(Integer id) {
