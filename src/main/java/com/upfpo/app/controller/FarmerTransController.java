@@ -1,8 +1,15 @@
 package com.upfpo.app.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
+
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.FarmerRegister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +34,8 @@ public class FarmerTransController {
 	
 	@Resource
 	private FarmerServices farmerServices;
+
+	private static final Logger LOG = LoggerFactory.getLogger(FarmerTransController.class);
 	
 	@PostMapping
 	@ApiOperation(value="Add new Farmer",code=201, produces = "application/json", notes="Api for add new Farmer",response=FarmerRegister.class)
@@ -70,4 +79,56 @@ public class FarmerTransController {
 	{
 		return farmerServices.deleteFarmerById(id);
 	}
+
+
+	@PutMapping("/update/{id}")
+	@ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response= FarmerRegister.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	public ResponseEntity<String> updateFarmerRegister(@PathVariable Integer id, @RequestBody FarmerRegister farmerRegister) {
+		LOG.info("Inside FarmerRegisterController updating sales details ", farmerRegister);
+		ResponseEntity<String> resp = null;
+		try {
+			FarmerRegister fsd = farmerServices.updateFarmerDetails(id, farmerRegister);
+			resp = new ResponseEntity<String>("FarmerRegister Updated Successfully!", HttpStatus.OK );
+			LOG.info("FarmerRegister Updated Successfully!");
+			//}
+		} catch (Exception e) {
+			resp = new ResponseEntity<String>("Failed to Update the Sales Details", HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Update the Sales Details");
+			e.printStackTrace();
+		}
+		LOG.info("Exiting FarmerRegister Of Controller with response ", resp);
+		return resp;
+	}
+
+	@GetMapping("/getall")
+	@ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FarmerRegister.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	public List<FarmerRegister> getFarmerRegister (){
+
+		return farmerServices.getAllFarmerList();
+	}
+
+
+
+	@GetMapping("/profile/{id}")
+	@ApiOperation(value="Fetch FarmerRegister By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FarmerRegister.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	public Optional<FarmerRegister> getFarmerRegisterById(@PathVariable Integer id) {
+
+		return farmerServices.getFarmerDetailById(id);
+	}
+
 }

@@ -148,7 +148,10 @@ public class PhotoUploadController {
                                                            @RequestPart(value = "description") String description,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside PhotoUpload updating PhotoUpload detail ");
-        PhotoUpload photoUploads = new PhotoUpload(id,description);
+        PhotoUpload photoUploads = new PhotoUpload();
+        photoUploads.setId(id);
+        photoUploads.setDescription(description);
+
 
         ResponseEntity<MessageResponse> resp = null;
         try {

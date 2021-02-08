@@ -57,6 +57,16 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     }
 
     @Override
+    public List<FPOGuidelines> getFPOGuidelineByType(FPOGuidelineType fpoGuidelineType){
+        //FPOGuidelineType type= FPOGuidelineType.POSTREGISTRATION;
+        if(fpoGuidelineType == FPOGuidelineType.POSTREGISTRATION){
+
+            return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.POSTREGISTRATION);
+        }
+        return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.PREREGISTRATION);
+    }
+
+    @Override
     public List<FPOGuidelines> getAllFPOGuidelines(){
         return fpoGuidelinesRepository.findByIsDeleted(false);
     }
@@ -70,7 +80,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         fpoGuideline.setFileName(fileName);
         fpoGuideline.setCreateBy(currentPrincipalName);
         fpoGuideline.setCreateDate(Calendar.getInstance());
-        if (file != null){
+
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -90,13 +100,13 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 //fpoGuidelinesRepository.save(fpoGuidelines);
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-            }}
+            }
         fpoGuideline.setDeleted(false);
         return fpoGuidelinesRepository.save(fpoGuideline);
     }
 
     @Override
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file) throws IOException {
+    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String fileName;

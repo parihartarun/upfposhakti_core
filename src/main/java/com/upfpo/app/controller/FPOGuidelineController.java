@@ -42,7 +42,7 @@ public class FPOGuidelineController {
     @Autowired
     private FPOGuidelineServiceImpl fpoGuidelineService;
 
-    @GetMapping
+    @GetMapping("/getall")
     @ApiOperation(value="Fetch All FPO FPOGuidelines" ,code=201, produces = "application/json", notes="API to Get all FPO FPOGuidelines",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -52,6 +52,18 @@ public class FPOGuidelineController {
     public List<FPOGuidelines> getFPOGuidelines (){
 
         return fpoGuidelineService.getAllFPOGuidelines();
+    }
+
+    @GetMapping(value="/{type}")
+    @ApiOperation(value="Fetch  FPOGuidelines by Type" ,code=201, produces = "application/json", notes="API to Get all FPO FPOGuidelines",response= FPOGuidelines.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOGuidelines> getFPOGuidelineByType (@PathVariable("type") FPOGuidelineType guidelineType){
+
+        return fpoGuidelineService.getFPOGuidelineByType(guidelineType);
     }
     
     @PostMapping
@@ -150,7 +162,12 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            //FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            FPOGuidelines fpoGuidelines = new FPOGuidelines();
+            fpoGuidelines.setId(id);
+            fpoGuidelines.setDescription(description);
+            fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
+
             fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines,  file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("FPOGuidelines Updated Successfully!");
