@@ -1,5 +1,6 @@
 package com.upfpo.app.repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -976,7 +977,7 @@ public class DataDisplayRepository {
 
 
 	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn, List<String> fileterdistricts,
-			List<Integer> fileterqty) {
+			List<Integer> fileterqty,List<String> filtercrops) {
 		// TODO Auto-generated method stub
 // first we are searching from home page by two inputs one is value other is search in
 //		
@@ -1190,14 +1191,37 @@ public class DataDisplayRepository {
 					
 				  });				  
 			  }
-	
-		  //fileterqty.forEach();
-
-		 
-		 
-		  
-		  //return obj;
-		return obj.stream().filter(finalpredicate).collect(Collectors.toList());
+			  
+			  if(filtercrops!=null)
+			  {
+				  filtercrops.forEach(cropdetails->{
+					  Predicate<FPODetailsDTO> croppredicate;
+					  
+					  String arr[] = cropdetails.split("@");
+					  System.out.println("arr string = "+cropdetails);
+					  System.out.println("array = "+arr.toString());
+					
+					  Arrays.asList(arr).forEach(System.out::println);
+					  if(arr.length==1)
+					  {
+						  croppredicate = cropdata->cropdata.getCrops().contentEquals(arr[0]);
+					  }else
+					  {
+						  croppredicate = cropdata->cropdata.getCrops().contentEquals(arr[0]) && cropdata.getCropVeriety().contentEquals(arr[1]);
+					  }
+					  
+					  if(finalpredicate == null)
+						 {
+							 finalpredicate = croppredicate;
+						 }else
+						 {
+							 finalpredicate =  finalpredicate.or(croppredicate);
+						 }
+					  
+				  });
+			  }
+			 
+		return finalpredicate!=null?obj.stream().filter(finalpredicate).collect(Collectors.toList()):obj;
 		
 	}
 	

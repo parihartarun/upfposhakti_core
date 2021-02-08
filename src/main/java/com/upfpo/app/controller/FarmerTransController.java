@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.FarmerRegister;
 import org.slf4j.Logger;
@@ -88,16 +89,16 @@ public class FarmerTransController {
 			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
-	public ResponseEntity<String> updateFarmerRegister(@PathVariable Integer id, @RequestBody FarmerRegister farmerRegister) {
+	public ResponseEntity<MessageResponse> updateFarmerRegister(@PathVariable Integer id, @RequestBody FarmerRegister farmerRegister) {
 		LOG.info("Inside FarmerRegisterController updating sales details ", farmerRegister);
-		ResponseEntity<String> resp = null;
+		ResponseEntity<MessageResponse> resp = null;
 		try {
 			FarmerRegister fsd = farmerServices.updateFarmerDetails(id, farmerRegister);
-			resp = new ResponseEntity<String>("FarmerRegister Updated Successfully!", HttpStatus.OK );
+			resp = new ResponseEntity<MessageResponse>(new MessageResponse("FarmerRegister Updated Successfully!"), HttpStatus.OK );
 			LOG.info("FarmerRegister Updated Successfully!");
 			//}
 		} catch (Exception e) {
-			resp = new ResponseEntity<String>("Failed to Update the Sales Details", HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Sales Details"), HttpStatus.INTERNAL_SERVER_ERROR);
 			LOG.info("Failed to Update the Sales Details");
 			e.printStackTrace();
 		}
