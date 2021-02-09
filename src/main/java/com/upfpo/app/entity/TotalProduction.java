@@ -58,6 +58,9 @@ public class TotalProduction implements Serializable {
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "farmer_id", referencedColumnName = "farmer_id")
 	private FarmerMaster farmerMaster;
+	
+	@Column(name = "marketable_surplus_id")
+	private Integer marketableSurplusId;
 
 	public TotalProduction() {
 		
@@ -151,4 +154,19 @@ public class TotalProduction implements Serializable {
 	public void setFarmerMaster(FarmerMaster farmerMaster) {
 		this.farmerMaster = farmerMaster;
 	}
+
+
+	public Integer getMarketableSurplusId() {
+		return marketableSurplusId;
+	}
+
+
+	public void setMarketableSurplusId(Integer marketableSurplusId) {
+		this.marketableSurplusId = marketableSurplusId;
+	}
+
+
+	
+	
+	
 }

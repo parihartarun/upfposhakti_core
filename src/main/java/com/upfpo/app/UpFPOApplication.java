@@ -31,14 +31,6 @@ public class UpFPOApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);
 	}
-	/*@Override
-	public void run(String... arg) throws Exception {
-		circularsService.deleteAll();
-		circularsService.init();
-
-		complaintService.deleteAll();
-		complaintService.init();
-	}*/
 
 	@Bean
 	public JavaMailSender getJavaMailSender() {
