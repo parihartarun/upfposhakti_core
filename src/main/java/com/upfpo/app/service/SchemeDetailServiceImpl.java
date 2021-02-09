@@ -119,12 +119,13 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     @Override
     public SchemeDetail updateSchemeDetail(Integer id, SchemeDetail schemeDetail1,  MultipartFile file) {
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String fileDownloadUri;
         Path targetLocation;
         if(file!=null){
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             // Check if the file's name contains invalid characters
             if (fileName.contains("..")) {
@@ -138,8 +139,13 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                     .path("uploads/SchemeDetail/")
                     .path(fileName)
                     .toUriString();
-            schemeDetail1.setFilePath(fileDownloadUri);
-            schemeDetail1.setFileName(fileName);
+            schemeDetailRepository.findById(id)
+                    .map(schemeDetail -> {
+                        schemeDetail.setFilePath(fileDownloadUri);
+                        schemeDetail.setFileName(fileName);
+                        return schemeDetailRepository.saveAndFlush(schemeDetail);
+                    }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -149,8 +155,6 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                 .map(schemeDetail -> {
                     schemeDetail.setDescription(schemeDetail1.getDescription());
                     schemeDetail.setId(schemeDetail1.getId());
-                    schemeDetail.setFilePath(schemeDetail1.getFilePath());
-                    schemeDetail.setFileName(schemeDetail1.getFileName());
                     schemeDetail.setUploadDate(Calendar.getInstance());
                     schemeDetail.setUploadedBy(currentPrincipalName);
                     schemeDetail.setDeleted(false);

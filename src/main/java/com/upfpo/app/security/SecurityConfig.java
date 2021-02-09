@@ -50,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/api/v1/**",
                 "/webjars/**",
 				"/circulars/getall",
+				"/fpoguidelines/getall",
+				"/fpoguidelines/{type}",
 				"/marketablesurplus/**"
 				).permitAll()
 		.anyRequest().authenticated()

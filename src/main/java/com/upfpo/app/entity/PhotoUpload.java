@@ -51,6 +51,9 @@ public class PhotoUpload {
     @Column(name = "create_date")
     private Calendar createDate;
 
+    @Column(name = "update_by")
+    private String updateBy;
+
 
     public PhotoUpload() {
     }
@@ -185,5 +188,13 @@ public class PhotoUpload {
 
     public Calendar getCreateDate() {
         return createDate;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
     }
 }

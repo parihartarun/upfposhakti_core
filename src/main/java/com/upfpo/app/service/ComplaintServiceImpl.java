@@ -129,7 +129,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public Complaints updateComplaint(Integer id, Complaints complaints1,  MultipartFile file) {
 
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String fileDownloadUri;

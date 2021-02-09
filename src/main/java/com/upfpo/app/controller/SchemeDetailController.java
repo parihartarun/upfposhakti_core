@@ -59,12 +59,13 @@ public class SchemeDetailController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
+                                                              @RequestParam("title") String schemeType,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            SchemeDetail schemeDetails = new SchemeDetail(description);
+            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType);
 
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
@@ -154,11 +155,13 @@ public class SchemeDetailController {
     })
     public ResponseEntity<MessageResponse> updateSchemeDetail(@PathVariable Integer id,
                                                            @RequestPart(value = "description") String description,
+                                                           @RequestPart(value ="title") String schemeType,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetail updating SchemeDetail detail ");
         SchemeDetail schemeDetails = new SchemeDetail(description);
         schemeDetails.setId(id);
         schemeDetails.setDescription(description);
+        schemeDetails.setSchemeType(schemeType);
         ResponseEntity<MessageResponse> resp = null;
         try {
             schemeDetailService.updateSchemeDetail(id, schemeDetails, file);

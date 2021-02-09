@@ -12,14 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -61,8 +57,18 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     }
 
     @Override
+    public List<FPOGuidelines> getFPOGuidelineByType(FPOGuidelineType fpoGuidelineType){
+        //FPOGuidelineType type= FPOGuidelineType.POSTREGISTRATION;
+        if(fpoGuidelineType == FPOGuidelineType.POSTREGISTRATION){
+
+            return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.POSTREGISTRATION);
+        }
+        return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.PREREGISTRATION);
+    }
+
+    @Override
     public List<FPOGuidelines> getAllFPOGuidelines(){
-        return fpoGuidelinesRepository.findAll();
+        return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
     @Override
@@ -74,7 +80,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         fpoGuideline.setFileName(fileName);
         fpoGuideline.setCreateBy(currentPrincipalName);
         fpoGuideline.setCreateDate(Calendar.getInstance());
-        if (file != null){
+
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -89,18 +95,19 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                         .path(fileName)
                         .toUriString();
                 fpoGuideline.setFilePath(fileDownloadUri);
+                fpoGuideline.setFileName(fileName);
                 fpoGuideline.setUploadDate(Calendar.getInstance());
                 fpoGuideline.setUploadBy(currentPrincipalName);
                 //fpoGuidelinesRepository.save(fpoGuidelines);
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-            }}
+            }
         fpoGuideline.setDeleted(false);
         return fpoGuidelinesRepository.save(fpoGuideline);
     }
 
     @Override
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file) throws IOException {
+    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String fileName;
@@ -137,21 +144,22 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 .map(fpoGuidelines -> {
                     fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
                     fpoGuidelines.setId(fpoGuidelines1.getId());
-                    fpoGuidelines.setFileName(fpoGuidelines1.getFileName());
-                    fpoGuidelines.setFilePath(fpoGuidelines1.getFilePath());
                     fpoGuidelines.setUpdateBy(currentPrincipalName);
                     fpoGuidelines.setUpdateDate(Calendar.getInstance());
                     fpoGuidelines.setDeleted(false);
-                    return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                    return fpoGuidelinesRepository.save(fpoGuidelines);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
     @Override
     public Boolean deleteFPOGuidelines(Long id) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentPrincipalName = authentication.getName();
             FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id).get();
             fpoGuideline.setDeleted(true);
             fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)

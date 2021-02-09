@@ -49,13 +49,13 @@ public class FPOServices {
     private String updatedBy;
 
     @Column(name="update_date")
-    private Date updateDate;
+    private Calendar updateDate;
 
     @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -175,13 +175,7 @@ public class FPOServices {
         this.updatedBy = updatedBy;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 
     public boolean isDeleted() {
         return isDeleted;
@@ -191,11 +185,19 @@ public class FPOServices {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 
