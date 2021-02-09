@@ -6,4 +6,5 @@ import com.upfpo.app.entity.LandDetails;
 
 public interface LandDetailsRepo extends JpaRepository<LandDetails, Integer>{
 
+
 }

@@ -24,19 +24,24 @@ public class LandDetailController {
     private LandDetailsService landDetailsService;
 
     @GetMapping("/{id}")
-    public FarmerLandDTO getFarmerLandDetails(@PathVariable Integer id){
+    @ApiOperation(value="Get LandDetails",code=200,produces = "application/json",notes="Api to view Land Detail by farmer id",response= FarmerLandDetailDto.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+            @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+             @ResponseBody
+    public List<FarmerLandDetailDto> getFarmerLandDetails(@PathVariable Integer id){
 
         return landDetailsService.getfarmerLandDetailById(id);
     }
 
 
     @GetMapping(value= {"/getall/{masterId}"})
-    @ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details",response= LandDetails.class)
+    @ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details",response= FarmerLandDetailDto.class)
     @ApiResponses(value= {
             @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
             @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-    public @ResponseBody
-    List<FarmerLandDetailDto> getLandDetails(@PathVariable("masterId")Integer masterId)
+     @ResponseBody
+    public List<FarmerLandDetailDto> getLandDetails(@PathVariable("masterId")Integer masterId)
     {
         return landDetailsService.getAllLandDetail(masterId);
     }
