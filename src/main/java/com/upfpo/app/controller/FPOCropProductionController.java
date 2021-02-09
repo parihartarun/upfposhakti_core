@@ -43,6 +43,9 @@ public class FPOCropProductionController {
 	@Autowired
 	private FPOCropProductionService fpoCropProductionService;
 	
+	@Autowired 
+	TotalProductionCalculation totalProductionCalculation;
+	
 	
 	 @GetMapping("/getFpoCropProductionDetails/{masterId}")
 	    @ApiOperation(value="MarketableSurplus List" ,code=201, produces = "application/json", notes="Api for all MarketableSurplus Info",response= MarketableSurplus.class)
@@ -131,10 +134,9 @@ public class FPOCropProductionController {
 	    }
 	    
 	  @GetMapping("/getActualProduction")
-	    public TotalProductionDTO getValues()
+	   public TotalProductionDTO getValues()
 	    {
-	    	TotalProductionCalculation obj = new TotalProductionCalculation();
-	    	return obj.getActualProduction(77, 1, 1, "2020-2021",6);
+	    	return totalProductionCalculation.getActualProduction(77, 1, 1, "2020-2021",6);
 	    	
 	    }
 	    

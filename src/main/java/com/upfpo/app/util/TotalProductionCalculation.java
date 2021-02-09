@@ -24,16 +24,14 @@ public class TotalProductionCalculation
 				+ "and f.master_id = :masterId\r\n"
 				+ "and f.crop_id = :cropId\r\n"
 				+ "and f.veriety_id = :cropVarietyId,\r\n"
-				+ "and f.season_id = :seasonId\r\n"
-				+ "and f.financial_year=:'financialYear'";
+				+ "and f.season_id = :seasonId\r\n";
+				//+ "and f.financial_year=:'financialYear'";
 		
 		TotalProductionDTO obj =  (TotalProductionDTO) entityManager.createNativeQuery(sql,"TotalProductionDTO").setParameter("masterId", masterId).setParameter("cropId",cropId).setParameter("cropVarietyId", cropVarietyId)
 						.setParameter("seasonId",seasonId ).
-						setParameter("financialYear", financialYear). 
+						//setParameter("financialYear", financialYear). 
 						getSingleResult();
 		 return obj;
 	}
-	
-	
 	
 }

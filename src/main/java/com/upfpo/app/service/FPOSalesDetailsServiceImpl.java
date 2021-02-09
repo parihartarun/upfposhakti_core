@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FPOSalesDetailsDTO;
 import com.upfpo.app.entity.FPOSaleInfo;
-import com.upfpo.app.repository.FPOSalesDetailsRepository;
 import com.upfpo.app.repository.FpoSalesInfoMasterRepository;
 import com.upfpo.app.util.GetFinYear;
 
@@ -21,6 +20,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 	@Autowired
 	EntityManager entityManager;
     
+	@Autowired
     private FpoSalesInfoMasterRepository fpoSalesInfoMasterRepository;
     
     @Override
