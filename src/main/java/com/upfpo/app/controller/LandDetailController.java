@@ -30,7 +30,7 @@ public class LandDetailController {
     }
 
 
-    @GetMapping(value= {"/{masterId}"})
+    @GetMapping(value= {"/getall/{masterId}"})
     @ApiOperation(value="View All LandDetails",code=200,produces = "application/json",notes="Api to view all Land Details",response= LandDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
