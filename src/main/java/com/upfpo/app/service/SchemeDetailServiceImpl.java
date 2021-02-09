@@ -9,7 +9,6 @@ import com.upfpo.app.repository.SchemeDetailRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
@@ -53,6 +52,13 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
 
     public List<SchemeDetail> getAllSchemeDetail(){
         return schemeDetailRepository.findByIsDeleted(false);
+    }
+
+    @Override
+    public List<SchemeDetail> getSchemeByType(String schemeType){
+
+        List<SchemeDetail> schemeDetails= schemeDetailRepository.findBySchemeType(schemeType);
+        return schemeDetails;
     }
 
     @Override

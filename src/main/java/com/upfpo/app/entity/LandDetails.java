@@ -169,7 +169,7 @@ public class LandDetails {
 
 	/*
 	 * public Integer getFarmerId() { return farmerId; }
-	 * 
+	 *
 	 * public void setFarmerId(Integer farmerId) { this.farmerId = farmerId; }
 	 */
 
