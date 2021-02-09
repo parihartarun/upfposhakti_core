@@ -5,6 +5,6 @@ WORKDIR /app/
 RUN mvn package -Dmaven.test.skip=true -X
 EXPOSE 8081
 EXPOSE 80
-CMD java -jar -D spring.profiles.active=prod target/fpoapp-0.0.1.jar
+CMD java -jar target/fpoapp-0.0.1.jar
 
 
