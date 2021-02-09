@@ -190,7 +190,6 @@ public class ComplaintContoller {
             complaintService.updateComplaint(id, complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Updated Successfully!");
-            //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Update the Complaint Details");

@@ -55,6 +55,11 @@ public class SchemeDetail {
         this.description=description;
     }
 
+    public SchemeDetail(String description, String schemeType) {
+        this.schemeType=schemeType;
+        this.description=description;
+    }
+
     public String getDescription() {
         return description;
     }

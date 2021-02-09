@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 
+import com.upfpo.app.entity.FPOGuidelineType;
 import com.upfpo.app.entity.FPOGuidelines;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,8 @@ import java.util.List;
 
 public interface FPOGuidelineService {
 
+
+    List<FPOGuidelines> getFPOGuidelineByType(FPOGuidelineType fpoGuidelineType);
 
     List<FPOGuidelines> getAllFPOGuidelines();
 

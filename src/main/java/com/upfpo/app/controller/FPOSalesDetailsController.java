@@ -59,7 +59,7 @@ public class FPOSalesDetailsController {
     }
 
 
-    @PostMapping("/insert")
+    @PostMapping
     @ApiOperation(value="Add FPO Sales Details" ,code=201, produces = "application/json", notes="Api for add new FPO Sales Details",response= FPOSalesDetails.class)
     @ApiResponses(value= {
     		@ApiResponse(code = 201, message = "Created",response = ExceptionResponse.class),
@@ -89,7 +89,7 @@ public class FPOSalesDetailsController {
     }
 
 
-    @PutMapping("/update1/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -114,7 +114,7 @@ public class FPOSalesDetailsController {
     }
 
 
-    @DeleteMapping("/delete1/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value="Delete FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Delete FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
