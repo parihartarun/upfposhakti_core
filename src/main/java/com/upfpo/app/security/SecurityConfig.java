@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/webjars/**",
 				"/circulars/getall",
 				"/fpoguidelines/getall",
+				"/fpoguidelines/{type}",
 				"/marketablesurplus/**"
 				).permitAll()
 		.anyRequest().authenticated()
