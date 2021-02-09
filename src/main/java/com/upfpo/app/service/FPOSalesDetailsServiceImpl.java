@@ -1,42 +1,36 @@
 package com.upfpo.app.service;
 
-import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.dto.FPOSalesDetailsDTO;
-import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
-import com.upfpo.app.entity.FPOSalesDetails;
-import com.upfpo.app.entity.FPOServices;
-import com.upfpo.app.repository.FPOSalesDetailsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.FPOSalesDetailsDTO;
+import com.upfpo.app.entity.FPOSaleInfo;
+import com.upfpo.app.repository.FPOSalesDetailsRepository;
+import com.upfpo.app.repository.FpoSalesInfoMasterRepository;
+import com.upfpo.app.util.GetFinYear;
 
 @Service
 public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 
 	@Autowired
 	EntityManager entityManager;
-	
-    @Autowired
-    private FPOSalesDetailsRepository salesDetailsRepository;
-
-
+    
+    private FpoSalesInfoMasterRepository fpoSalesInfoMasterRepository;
+    
     @Override
-    public FPOSalesDetails insertSalesDetails(FPOSalesDetails salesDetails) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        salesDetails.setCreatedDate(Calendar.getInstance());
-        salesDetails.setCreatedBy(currentPrincipalName);
-        salesDetails.setDeleted(false);
-        salesDetailsRepository.save(salesDetails);
-        return salesDetails;
+    public FPOSaleInfo insertSalesDetails(FPOSaleInfo fPOSaleInfo) 
+    {
+    	fPOSaleInfo.setDeleted(false);
+    	fPOSaleInfo.setFinYear(GetFinYear.getCurrentFinYear());
+		return fpoSalesInfoMasterRepository.save(fPOSaleInfo);
     }
+    
 
     @Override
     public List<FPOSalesDetailsDTO> getSalesDetails(Integer masterId) 
@@ -58,37 +52,46 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     }
 
     @Override
-    public Optional<FPOSalesDetails> getSalesDetailsById(Integer id) {
-        if(!salesDetailsRepository.existsById(id)) {
+    public Optional<FPOSaleInfo> getSalesDetailsById(Integer id) {
+        if(!fpoSalesInfoMasterRepository.existsById(id)) {
             return null;
         }
-        return salesDetailsRepository.findById(id);
+        return fpoSalesInfoMasterRepository.findById(id);
     }
 
     @Override
-    public FPOSalesDetails updateSalesDetails(Integer id, FPOSalesDetails salesDetails) {
-        Optional<FPOSalesDetails> sd = salesDetailsRepository.findById(id);
-        if(!sd.isPresent()) {
-            return null;
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        salesDetails.setUpdateDate(Calendar.getInstance());
-        salesDetails.setUpdatedBy(currentPrincipalName);
-        salesDetails.setDeleted(false);
-        salesDetails.setId(id);
-
-        return salesDetailsRepository.save(salesDetails);
+    public FPOSaleInfo updateSalesDetails(Integer id, FPOSaleInfo fpoSalesInfoMaster) 
+    {
+        Optional<FPOSaleInfo> fpoSalesDetails = fpoSalesInfoMasterRepository.findById(id);
+		if(fpoSalesDetails.isPresent())
+		{
+			FPOSaleInfo newFpoSalesDetails = fpoSalesInfoMasterRepository.findById(id).get();
+			newFpoSalesDetails.setCropRefName(fpoSalesInfoMaster.getCropRefName());
+			newFpoSalesDetails.setVerietyId(fpoSalesInfoMaster.getVerietyId());
+			newFpoSalesDetails.setFinYear(GetFinYear.getCurrentFinYear());
+			newFpoSalesDetails.setSoldQuantity(fpoSalesInfoMaster.getSoldQuantity());
+			newFpoSalesDetails.setDeleted(false);
+			newFpoSalesDetails.setMasterId(fpoSalesInfoMaster.getMasterId());
+			newFpoSalesDetails.setFpoId(fpoSalesInfoMaster.getMasterId());
+			
+			newFpoSalesDetails = fpoSalesInfoMasterRepository.save(newFpoSalesDetails);
+			return newFpoSalesDetails;
+		}
+		else
+		{
+			fpoSalesInfoMaster = fpoSalesInfoMasterRepository.save(fpoSalesInfoMaster);
+			return fpoSalesInfoMaster;
+		}
     }
 
     @Override
-    public Boolean deleteFPOSalesDetails(Integer id) {
-        if(salesDetailsRepository.findById(id) != null)
+    public Boolean deleteFPOSalesDetails(Integer id) 
+    {
+        if(fpoSalesInfoMasterRepository.findById(id) != null)
             try {
-                FPOSalesDetails fpoSalesDetails = salesDetailsRepository.findById(id).get();
-                fpoSalesDetails.setDeleted(true);
-                fpoSalesDetails.setDeleteDate(Calendar.getInstance());
-                salesDetailsRepository.save(fpoSalesDetails);
+                FPOSaleInfo fpoSalesInfo = fpoSalesInfoMasterRepository.findById(id).get();
+                fpoSalesInfo.setDeleted(true);
+                fpoSalesInfoMasterRepository.save(fpoSalesInfo);
                 return true;
             }catch(Exception e)
             {

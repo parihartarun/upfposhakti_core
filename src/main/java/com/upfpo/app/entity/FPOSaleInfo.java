@@ -35,6 +35,7 @@ classes = {
                 @ColumnResult(name = "crop_ref_name", type = Integer.class),
                 @ColumnResult(name = "season_ref", type = Integer.class),
            })
+    
 })
 @Table(name="fpo_saleInfo")
 public class FPOSaleInfo implements Serializable{
