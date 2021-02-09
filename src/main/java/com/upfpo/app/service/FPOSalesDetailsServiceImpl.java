@@ -31,7 +31,6 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 		return fpoSalesInfoMasterRepository.save(fPOSaleInfo);
     }
     
-
     @Override
     public List<FPOSalesDetailsDTO> getSalesDetails(Integer masterId) 
     {
