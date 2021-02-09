@@ -71,15 +71,15 @@ public class UserServiceImpl implements UserService {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			//API call
 			User user = userRepository.findByUserName(username);
-			//TODO fetch master ID. Fetch master id from join query
-			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
 			  UserDetailsDto userDetailsDto = userMasterId(user.getUserId()); 
 			  Integer masterId = userDetailsDto.getMasterid();
 			  String userRoleName     = userDetailsDto.getRole();
-			  System.err.print("Role Name"+userRoleName+"Master Id for user::"+masterId);
+
 			return new LoginResponse(jwtTokenProvider.generateToken(user,masterId),user,userRoleName,masterId);
 		} catch (AuthenticationException e) {
-			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+			throw new CustomException("AuthenticationException -> "+e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+		}catch(Exception e){
+			throw new CustomException(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
