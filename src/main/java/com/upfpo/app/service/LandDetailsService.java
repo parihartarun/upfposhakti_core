@@ -9,7 +9,11 @@ import java.util.List;
 public interface LandDetailsService {
 
 
+    //List<FarmerLandDetailDto> getAllLandDetail(Integer masterId);
+
     List<FarmerLandDetailDto> getAllLandDetail(Integer masterId);
+
+    List<FarmerLandDetailDto> getfarmerLandDetailById(Integer farmerId);
 
     //@Transactional
     LandDetails addLand(LandDetails ld);
@@ -18,5 +22,5 @@ public interface LandDetailsService {
 
     boolean deleteLandDetailById(Integer id);
 
-    FarmerLandDTO getfarmerLandDetailById(Integer id);
+    //FarmerLandDTO getfarmerLandDetailById(Integer id);
 }

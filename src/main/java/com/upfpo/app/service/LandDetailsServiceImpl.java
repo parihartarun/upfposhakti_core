@@ -51,21 +51,39 @@ public class LandDetailsServiceImpl implements LandDetailsService {
         return landDetailsRepo.;
     }*/
 
-    public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
+    public List<FarmerLandDetailDto> getLandDetailWithFarmerByFarmerId(Integer farmerId)
     {
         String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
-                + "on l.farmer_id = f.farmer_id where l.master_id = :masterId and l.is_deleted = false order by l.land_id desc";
+                + "on l.farmer_id = f.farmer_id where l.farmer_id = :farmerId and l.is_deleted = false order by l.land_id desc";
 
-        List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
+        List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("farmerId", farmerId).getResultList();
+        return obj;
+
+    }
+
+    public List<FarmerLandDetailDto> getLandDetailByFarmerId(Integer farmerId)
+    {
+        String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
+                + "on l.farmer_id = f.farmer_id where l.farmer_id = :farmerId and l.is_deleted = false order by l.land_id desc";
+
+
+        List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("farmerId", farmerId).getResultList();
         return obj;
 
     }
 
 
     @Override
-    public List<FarmerLandDetailDto> getAllLandDetail(Integer masterId) {
+    public List<FarmerLandDetailDto> getAllLandDetail(Integer farmerId) {
         //return landDetailsRepo.findAll();
-        List<FarmerLandDetailDto> landDetail = getLandDetailWithFarmerByFpoId(masterId);
+        List<FarmerLandDetailDto> landDetail = getLandDetailWithFarmerByFarmerId(farmerId);
+        return landDetail;
+    }
+
+    @Override
+    public List<FarmerLandDetailDto> getfarmerLandDetailById(Integer farmerId) {
+        //return landDetailsRepo.findAll();
+        List<FarmerLandDetailDto> landDetail = getLandDetailByFarmerId(farmerId);
         return landDetail;
     }
 
@@ -121,25 +139,20 @@ public class LandDetailsServiceImpl implements LandDetailsService {
 
     }*/
 
-    @Override
+    /*@Override
     public FarmerLandDTO getfarmerLandDetailById(Integer id)  {
 
         FarmerMaster farmer = farmerMasterRepository.findById(id).get();
-        FarmerLandDTO landDetail=new FarmerLandDTO();
+        FarmerLandDTO farmerland=new FarmerLandDTO();
+        LandDetails landDetails=landDetailsRepo.findByFarmerId(id);
         String pardarshiId= farmer.getUpBSMId();
 
-        landDetail.setFarmerName(farmer.getFarmerName());
-        landDetail.setGuardianName(farmer.getParantsName());
-        try {
-            landDetail.setLandArea(UpAgriClient.upagri_area(pardarshiId));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        farmerland.setFarmerName(farmer.getFarmerName());
+        farmerland.setGuardianName(farmer.getParantsName());
+        farmerland.setOwnership(landDetails.getOwnerShip());
+        farmerland.setIsorganc(landDetails.getIsorganc());
+        farmerland.setLandArea(String.valueOf(landDetails.getLand_area()));
+        return farmerland;
 
-
-        return landDetail;
-
-    }
+    }*/
 }
