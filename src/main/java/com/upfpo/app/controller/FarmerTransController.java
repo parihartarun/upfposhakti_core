@@ -83,14 +83,14 @@ public class FarmerTransController {
 
 
 	@PutMapping("/update/{id}")
-	@ApiOperation(value="Update FPO Sales Details" ,code=201, produces = "application/json", notes="Api To Update FPO Sales Details",response= FarmerRegister.class)
+	@ApiOperation(value="Update FPO Farmer" ,code=201, produces = "application/json", notes="Api To Update FPO Farmer",response= FarmerRegister.class)
 	@ApiResponses(value= {
 			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	})
 	public ResponseEntity<MessageResponse> updateFarmerRegister(@PathVariable Integer id, @RequestBody FarmerRegister farmerRegister) {
-		LOG.info("Inside FarmerRegisterController updating sales details ", farmerRegister);
+		LOG.info("Inside FarmerRegisterController updating Farmer ", farmerRegister);
 		ResponseEntity<MessageResponse> resp = null;
 		try {
 			FarmerRegister fsd = farmerServices.updateFarmerDetails(id, farmerRegister);
@@ -98,8 +98,8 @@ public class FarmerTransController {
 			LOG.info("FarmerRegister Updated Successfully!");
 			//}
 		} catch (Exception e) {
-			resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Sales Details"), HttpStatus.INTERNAL_SERVER_ERROR);
-			LOG.info("Failed to Update the Sales Details");
+			resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Farmer"), HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Update the Farmer");
 			e.printStackTrace();
 		}
 		LOG.info("Exiting FarmerRegister Of Controller with response ", resp);
@@ -107,7 +107,7 @@ public class FarmerTransController {
 	}
 
 	@GetMapping("/getall")
-	@ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FarmerRegister.class)
+	@ApiOperation(value="Fetch All Farmer" ,code=201, produces = "application/json", notes="API to Get all Farmer",response=FarmerRegister.class)
 	@ApiResponses(value= {
 			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -121,7 +121,7 @@ public class FarmerTransController {
 
 
 	@GetMapping("/profile/{id}")
-	@ApiOperation(value="Fetch FarmerRegister By ID" ,code=201, produces = "application/json", notes="Api to FPO Sales Detailss By ID",response=FarmerRegister.class)
+	@ApiOperation(value="Fetch FarmerRegister By ID" ,code=201, produces = "application/json", notes="Api to FPO Farmers By ID",response=FarmerRegister.class)
 	@ApiResponses(value= {
 			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -130,6 +130,32 @@ public class FarmerTransController {
 	public Optional<FarmerRegister> getFarmerRegisterById(@PathVariable Integer id) {
 
 		return farmerServices.getFarmerDetailById(id);
+	}
+
+
+	@GetMapping("/user/{username}")
+	@ApiOperation(value="Get Farmer By Username" ,code=201, produces = "application/json", notes="Get Farmer By username",response= FarmerRegister.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	public Optional<FarmerRegister> getFarmerByUsername(@PathVariable String username) {
+		LOG.info("Inside FarmerRegisterController fetching Farmerdetail ");
+		Optional<FarmerRegister> fsd=null;
+		ResponseEntity<MessageResponse> resp = null;
+		try {
+			fsd = farmerServices.getFarmerDetailByUsername(username);
+			resp = new ResponseEntity<MessageResponse>(new MessageResponse("Farmer Get Successfully!"), HttpStatus.OK );
+			LOG.info("FarmerRegister Get Successfully!");
+			//}
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Get the Farmer detail"), HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Update the Farmer");
+			e.printStackTrace();
+		}
+		LOG.info("Exiting FarmerRegister Of Controller with response ", resp);
+		return fsd;
 	}
 
 }

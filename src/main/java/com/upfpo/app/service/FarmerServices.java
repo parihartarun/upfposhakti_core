@@ -17,5 +17,7 @@ public interface FarmerServices {
 
 	Optional<FarmerRegister> getFarmerDetailById(Integer id);
 
-	FarmerRegister updateFarmerDetails(Integer id, FarmerRegister farmerRegister);
+    Optional<FarmerRegister> getFarmerDetailByUsername(String username);
+
+    FarmerRegister updateFarmerDetails(Integer id, FarmerRegister farmerRegister);
 }
