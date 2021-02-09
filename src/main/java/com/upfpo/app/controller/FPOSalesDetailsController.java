@@ -1,6 +1,7 @@
 package com.upfpo.app.controller;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.FPOSalesDetailsDTO;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.service.FPOSalesDetailsServiceImpl;
@@ -32,16 +33,16 @@ public class FPOSalesDetailsController {
     @Autowired
     private FPOSalesDetailsServiceImpl fpoSalesDetailsService;
 
-    @GetMapping("/getall")
+    @GetMapping("/getFpoSalesDetails/{masterId}")
     @ApiOperation(value="Fetch All FPO Sales Details" ,code=201, produces = "application/json", notes="API to Get all FPO Sales Details",response=FPOSalesDetails.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FPOSalesDetails> getSalesDetails (){
+    public List<FPOSalesDetailsDTO> getSalesDetails(@PathVariable("masterId") Integer masterId){
 
-        return fpoSalesDetailsService.getSalesDetails();
+        return fpoSalesDetailsService.getSalesDetails(masterId);
     }
 
 
