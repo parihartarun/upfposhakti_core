@@ -9,7 +9,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.entity.TotalProduction;
@@ -17,6 +19,7 @@ import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.FPOCropProductionReporisitory;
 import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
+import com.upfpo.app.util.GetCurrentDate;
 import com.upfpo.app.util.GetFinYear;
 
 @Service
@@ -76,27 +79,6 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Override
 	public MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplusMaster) 
 	{
-		TotalProduction totalProduction = totalProductionRepository.findByMarketableSurplusId(id).get();
-		Integer farmerid = totalProduction.getFarmerMaster().getFarmerId();
-		String crop_id = Integer.toString(marketableSurplusMaster.getCrop_id().getCropId());
-		String variety_id = Integer.toString(marketableSurplusMaster.getVerietyId().getVerietyId());
-		String financialYear = GetFinYear.getCurrentFinYear();
-		String seasonId = Integer.toString(marketableSurplusMaster.getSeason());
-		
-		double updatedActualProduction = marketableSurplusMaster.getActualQuantity();
-		double actualProductionByfarmer = 0.0;
-		double totalProductionVal = 0.0;
-		if(farmerid != null|| farmerid != 0)
-		{
-			actualProductionByfarmer = productionDetailsRepository.getActualProduction(farmerid,crop_id,variety_id,financialYear,seasonId);
-			totalProductionVal = actualProductionByfarmer+updatedActualProduction;	
-		}
-		else
-		{
-			totalProductionVal = updatedActualProduction;
-		}
-		
-		Optional<TotalProduction> totalProductionDetails = totalProductionRepository.findByMarketableSurplusId(id);
 		Optional<MarketableSurplus> marketableSurplus = fpoCropProductionRepo.findById(id);
 		MarketableSurplus newMarketableSurplus = null;
 		if(marketableSurplus.isPresent())
@@ -113,35 +95,26 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 		}
 		else
 		{
-			newMarketableSurplus = fpoCropProductionRepo.save(marketableSurplusMaster);
+			marketableSurplusMaster = fpoCropProductionRepo.save(marketableSurplusMaster);
 		}
-		if(totalProductionDetails.isPresent())
-		{
-			TotalProduction newTotalProduction = totalProductionRepository.findByMarketableSurplusId(id).get();
-			newTotalProduction.setTotal_actual_prod(totalProductionVal);
-			newTotalProduction.setCropMaster(marketableSurplusMaster.getCrop_id());
-			newTotalProduction.setCropVerityMaster(marketableSurplusMaster.getVerietyId());
-			newTotalProduction.setTotalMarketable(marketableSurplusMaster.getMarketableQuantity());
-			newTotalProduction.setFpoRegister(marketableSurplusMaster.getMasterId());
-			
-			newTotalProduction = totalProductionRepository.save(newTotalProduction);
-		}
-		else
-		{
-			totalProduction = totalProductionRepository.save(totalProduction);
-		}
-		
 		return newMarketableSurplus;
 		
 	}
 
 	@Override
-	public void deleteMarketableSurplus(Integer id) {
-		 fpoCropProductionRepo.findById(id)
-                .map(marketableSurplus -> {
-                	fpoCropProductionRepo.delete(marketableSurplus);
-                    return "Delete Successfully!";
-                });
+	public Boolean deleteMarketableSurplus(Integer id) 
+	{
+		try {
+		MarketableSurplus marketableSurplus = fpoCropProductionRepo.findById(id).get();
+		marketableSurplus.setDeleted(true);
+		fpoCropProductionRepo.save(marketableSurplus);
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new NotFoundException();
+		}
+		return true;
     }
 	
 	

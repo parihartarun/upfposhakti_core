@@ -13,6 +13,6 @@ public interface FPOCropProductionService {
 
 	MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplus);
 
-	void deleteMarketableSurplus(Integer id);
+	Boolean deleteMarketableSurplus(Integer id);
 
 }
