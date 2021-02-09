@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/swagger-ui/**",
                 "/api/v1/**",
                 "/webjars/**",
+				"/schemes/**",
 				"/circulars/getall",
 				"/fpoguidelines/getall",
 				"/fpoguidelines/{type}",
