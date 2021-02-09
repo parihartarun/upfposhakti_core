@@ -1,5 +1,9 @@
 package com.upfpo.app.dto;
 
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.SqlResultSetMapping;
+
 public class FarmerLandDTO {
 
     private Integer landId;
@@ -11,6 +15,8 @@ public class FarmerLandDTO {
     private String guardianName;
 
     private String farmerName;
+
+    private String farmerId;
 
     private String ownership;
 
@@ -73,3 +79,20 @@ public class FarmerLandDTO {
         this.ownership = ownership;
     }
 }
+
+
+/*@SqlResultSetMapping(name="FarmerLandDetailDto",
+        classes = {
+                @ConstructorResult(
+                        targetClass = FarmerLandDTO.class,
+                        columns = {
+                                @ColumnResult(name = "landId", type = Integer.class),
+                                @ColumnResult(name = "landArea", type = double.class),
+                                @ColumnResult(name = "masterId", type = Integer.class),
+                                @ColumnResult(name = "isorganc", type = String.class),
+                                @ColumnResult(name = "ownership", type = String.class),
+                                @ColumnResult(name = "farmerId", type = Integer.class),
+                                @ColumnResult(name = "guardianName", type = String.class),
+                                @ColumnResult(name = "farmerName", type = String.class),
+                        })
+        })*/

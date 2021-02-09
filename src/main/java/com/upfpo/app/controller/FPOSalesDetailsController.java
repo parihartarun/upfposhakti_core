@@ -48,7 +48,7 @@ public class FPOSalesDetailsController {
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+            @ApiResponse(code=403, message = "Forb	idden" , response = ExceptionResponse.class)
     })
     public List<FPOSalesDetailsDTO> getSalesDetails(@PathVariable("masterId") Integer masterId){
 
@@ -77,16 +77,16 @@ public class FPOSalesDetailsController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<MessageResponse> insertSalesDetails(@RequestBody FPOSaleInfo salesInfo) {
+    public ResponseEntity<String> insertSalesDetails(@RequestBody FPOSaleInfo salesInfo) throws Exception
+    {
         
         try {
             FPOSaleInfo id = fpoSalesDetailsService.insertSalesDetails(salesInfo);
-            return ResponseEntity
-					.ok(new MessageResponse("SuccessFully Saved!"));
+            return new ResponseEntity<String>("FPOSalesDetails Saved Successfully!", HttpStatus.OK );
             
         } catch (Exception e) {
-        	return ResponseEntity
-					.ok(new MessageResponse("Failed to Save"));
+        	System.out.print(e.getMessage());
+        	return new ResponseEntity<String>("Failed to save FPOSalesDetails", HttpStatus.INTERNAL_SERVER_ERROR );
         }
         
     }

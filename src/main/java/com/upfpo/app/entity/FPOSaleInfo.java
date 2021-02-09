@@ -37,7 +37,7 @@ classes = {
            })
     
 })
-@Table(name="fpo_saleInfo")
+@Table(name="fpo_sale_info")
 public class FPOSaleInfo implements Serializable{
 	
 private static final long serialVersionUID = 1L;
