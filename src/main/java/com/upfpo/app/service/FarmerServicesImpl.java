@@ -64,6 +64,12 @@ public class FarmerServicesImpl implements FarmerServices{
 	}
 
 	@Override
+	public Optional<FarmerRegister> getFarmerDetailByUsername(String username) {
+
+		return farmerRegisterRepo.findByUserName(username);
+	}
+
+	@Override
 	public FarmerRegister updateFarmerDetails(Integer id, FarmerRegister farmerRegister) {
 		Optional<FarmerRegister> sd = farmerRegisterRepo.findById(id);
 		if(!sd.isPresent()) {
