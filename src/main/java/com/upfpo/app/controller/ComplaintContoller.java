@@ -62,6 +62,17 @@ public class ComplaintContoller {
         return complaintService.getAllComplaint();
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info",response= Complaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Complaints> getComplaintByFarmerId (@PathVariable Integer id){
+        return complaintService.getComplaintByFarmerId(id);
+    }
+
     @PostMapping
     @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= Complaints.class)
     @ApiResponses(value= {
@@ -70,14 +81,14 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                           @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") String farmerId,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") Integer farmerId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            Complaints complaints = new Complaints(description, title, issueType);
-            Complaints id = complaintService.createComplaint(complaints, file);
+            Complaints complaints = new Complaints(description, title, issueType, farmerId);
+            Complaints id = complaintService.createComplaintByFarmer(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -232,16 +243,16 @@ public class ComplaintContoller {
         return resp;
     }
 
-    @GetMapping("getcomplaint/{id}")
+    /*@GetMapping("getcomplaint/{id}")
     @ApiOperation(value="Get Complaints By Farmer",code=200,produces = "application/json",notes="Api to view Complaint Detail by farmer id",response= FarmerComplaintDTO.class)
     @ApiResponses(value= {
     @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
     @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
     @ResponseBody
-    public List<FarmerComplaintDTO> getFarmerLandDetails(@PathVariable Integer id){
+    public List<FarmerComplaintDTO> getComplaintByFarmerToFPO(@PathVariable Integer id){
 
         return complaintService.getFarmerComplaintToFpo(id);
-    }
+    }*/
 
 
 }

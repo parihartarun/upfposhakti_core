@@ -68,12 +68,13 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public Complaints createComplaint (Complaints complaints, MultipartFile file){
+    public Complaints createComplaintByFarmer(Complaints complaints, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-
+        String role = "ROLE_FARMER";
         complaints.setCreateBy(currentPrincipalName);
+        complaints.setStatus(Status.OPEN);
         complaints.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
@@ -209,7 +210,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("farmerId", farmerId).getResultList();
         return obj;
 
-    }*/
+    }
 
     public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
     {
@@ -226,6 +227,15 @@ public class ComplaintServiceImpl implements ComplaintService {
         //return landDetailsRepo.findAll();
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
+    }*/
+
+    @Override
+    public List<Complaints> getComplaintByFarmerId(Integer farmerId){
+
+        return complaintRepository.findByFarmerId(farmerId);
     }
+
+
+
 }
 

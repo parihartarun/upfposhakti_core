@@ -12,8 +12,12 @@ import java.util.List;
 public interface ComplaintService {
 
     public List<ComplaintCatgories> getComplaintsCatgories();
+
     public List<Complaints> getAllComplaint();
-    public Complaints createComplaint (Complaints complaints, MultipartFile file);
+    //public Complaints createComplaint (Complaints complaints, MultipartFile file);
+
+    Complaints createComplaintByFarmer(Complaints complaints, MultipartFile file);
+
     public Boolean deleteComplaint(Integer id);
 
     public Resource loadFileAsResource(String fileName);
@@ -22,5 +26,7 @@ public interface ComplaintService {
 
     public Complaints deptComplaintAssign(Integer id, Complaints complaints1);
 
-    List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
+    //List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
+
+    List<Complaints> getComplaintByFarmerId(Integer farmerId);
 }

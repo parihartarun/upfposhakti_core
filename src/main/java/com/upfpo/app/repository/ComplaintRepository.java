@@ -11,4 +11,8 @@ import java.util.List;
 public interface ComplaintRepository extends JpaRepository<Complaints, Integer> {
 
     List<Complaints> findByIsDeleted(Boolean b);
+
+    List<Complaints> findByFarmerId(Integer id);
+
+    //List<Complaints> findAllByFarmerId(Integer farmerId);
 }

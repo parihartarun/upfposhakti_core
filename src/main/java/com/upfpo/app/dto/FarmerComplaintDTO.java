@@ -15,6 +15,8 @@ public class FarmerComplaintDTO {
 
     Status status;
 
+    String role;
+
     String message;
 
     String description;
@@ -22,8 +24,6 @@ public class FarmerComplaintDTO {
     Calendar createdate;
 
     String filepath;
-
-    String role;
 
     String othertype;
 
@@ -40,16 +40,17 @@ public class FarmerComplaintDTO {
     public FarmerComplaintDTO() {
     }
 
-    public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, Status status, String message, String description, Calendar createdate, String filepath, String role, String othertype, String assignto, String assignby, String deptcomment, String remarks, String filename) {
+
+    public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, Status status, String role, String message, String description, Calendar createdate, String filepath, String othertype, String assignto, String assignby, String deptcomment, String remarks, String filename) {
         this.id = id;
         this.fpoid = fpoid;
         this.issuetype = issuetype;
         this.status = status;
+        this.role = role;
         this.message = message;
         this.description = description;
         this.createdate = createdate;
         this.filepath = filepath;
-        this.role = role;
         this.othertype = othertype;
         this.assignto = assignto;
         this.assignby = assignby;
