@@ -2,7 +2,7 @@ package com.upfpo.app.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "files")
+@ConfigurationProperties(prefix = "file")
 public class FileStorageProperties {
     private String uploadDir;
 

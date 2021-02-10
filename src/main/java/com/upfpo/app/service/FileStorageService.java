@@ -36,6 +36,8 @@ public class FileStorageService {
     }
 
     public String storeFile(MultipartFile file) {
+        if(file == null)
+            return null;
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 

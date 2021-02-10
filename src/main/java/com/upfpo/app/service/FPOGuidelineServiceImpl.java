@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 
+import com.upfpo.app.auth.response.UploadFileResponse;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.properties.FileStorageProperties;
@@ -39,6 +40,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     @Autowired
     private FPOGuidelinesRepository fpoGuidelinesRepository;
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
     private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineServiceImpl.class);
 
     //@Value("${upload.path.photo}")
@@ -74,36 +78,25 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     @Override
     public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file) {
-
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        fpoGuideline.setFileName(fileName);
-        fpoGuideline.setCreateBy(currentPrincipalName);
-        fpoGuideline.setCreateDate(Calendar.getInstance());
-
-            try {
-                // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
-                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-                }
-                // Copy file to the target location (Replacing existing file with the same name)
-                Path targetLocation = this.fileStorageLocation.resolve(fileName);
-                //Path path = Paths.get(fileBasePath + fileName);
-                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        String fileName = fileStorageService.storeFile(file);
+            if(fileName != null) {
+                fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/uploads/FPOGuidelines/")
+                        .path("/downloadFile/")
                         .path(fileName)
                         .toUriString();
+
                 fpoGuideline.setFilePath(fileDownloadUri);
                 fpoGuideline.setFileName(fileName);
-                fpoGuideline.setUploadDate(Calendar.getInstance());
-                fpoGuideline.setUploadBy(currentPrincipalName);
-                //fpoGuidelinesRepository.save(fpoGuidelines);
-            } catch (IOException ex) {
-                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+
             }
         fpoGuideline.setDeleted(false);
+        fpoGuideline.setUploadDate(Calendar.getInstance());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        fpoGuideline.setUploadBy(currentPrincipalName);
+        fpoGuideline.setCreateBy(currentPrincipalName);
+        fpoGuideline.setCreateDate(Calendar.getInstance());
         return fpoGuidelinesRepository.save(fpoGuideline);
     }
 
