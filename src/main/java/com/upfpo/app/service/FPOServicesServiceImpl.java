@@ -5,7 +5,8 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.entity.FPOServices;
 
-import com.upfpo.app.entity.FileStorageProperties;
+
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FPOServicesRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -40,7 +41,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     @Autowired
     public FPOServicesServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getfposervicesDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
         try {

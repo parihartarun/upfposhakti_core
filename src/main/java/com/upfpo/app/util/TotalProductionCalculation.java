@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.TotalProductionDTO;
+import com.upfpo.app.repository.TotalProductionRepository;
 
 @Service
 public class TotalProductionCalculation 
 {
 	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+	TotalProductionRepository totalProductionRepository;
 	
 	String sql = "";
 	
@@ -33,5 +37,10 @@ public class TotalProductionCalculation
 						getSingleResult();
 		 return obj;
 	}
+	
+	/*
+	 * public void updateTotalProduction(TotalProductionDTO totalProduction); {
+	 * totalProductionRepository. }
+	 */
 	
 }

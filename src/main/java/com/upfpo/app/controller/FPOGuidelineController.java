@@ -70,14 +70,14 @@ public class FPOGuidelineController {
         return fpoGuidelineService.getFPOGuidelineByType(guidelineType);
     }
     
-    @PostMapping
+    @PostMapping(value = "/uploadFPOGuideline")
     @ApiOperation(value="Create FPOGuidelines" ,code=201, produces = "application/json", notes="Api for all Upload FPOGuidelines",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> uploadFPOGuidline(@RequestParam("description") String description,
+    public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
