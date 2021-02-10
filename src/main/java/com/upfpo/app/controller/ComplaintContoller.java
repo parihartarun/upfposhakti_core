@@ -70,14 +70,13 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                           @RequestParam("issue_type") String issueType,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") String farmerId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
             Complaints complaints = new Complaints(description, title, issueType);
-
             Complaints id = complaintService.createComplaint(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");

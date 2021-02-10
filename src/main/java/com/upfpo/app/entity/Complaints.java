@@ -28,8 +28,6 @@ import java.util.List;
                                 @ColumnResult(name = "othertype", type = String.class),
                                 @ColumnResult(name = "assignto", type = String.class),
                                 @ColumnResult(name = "assignby", type = String.class),
-                                @ColumnResult(name = "assigndate", type = Date.class),
-                                @ColumnResult(name = "resolvedate", type = Date.class),
                                 @ColumnResult(name = "deptcomment", type = String.class),
                                 @ColumnResult(name = "remarks", type = String.class),
                                 @ColumnResult(name = "filename", type = String.class)
@@ -55,6 +53,9 @@ public class Complaints {
     
     @Column(name="fpo_id")
     private Integer fpoId;
+
+    @Column(name="farmerId")
+    private Integer farmerId;
 
     @Column(name="issue_type")
     private String issueType;
@@ -157,6 +158,14 @@ public class Complaints {
         this.createBy = createBy;
         this.createDateTime = createDateTime;
         this.complaintsComments = complaintsComments;
+    }
+
+    public Integer getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(Integer farmerId) {
+        this.farmerId = farmerId;
     }
 
     public String getAssignBy() {

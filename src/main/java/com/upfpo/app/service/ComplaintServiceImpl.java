@@ -71,6 +71,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+
         complaints.setCreateBy(currentPrincipalName);
         complaints.setCreateDateTime(Calendar.getInstance());
         try {
@@ -211,10 +212,10 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
     {
-        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.file_path as filepath, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby, c.assigned_date as assigndate, c.resolve_date as resolvedate, c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
+        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.file_path as filepath, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
                 + "on c.fpo_id = f.fpo_id where c.fpo_id = :fpoId and c.is_deleted = false order by c.id desc";
 
-        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql,"FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
+        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
         return obj;
 
     }

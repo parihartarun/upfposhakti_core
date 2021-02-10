@@ -123,7 +123,7 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/uploads/FPOGuidelines/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -186,22 +186,5 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping(value = "/downloadfile")
-    public StreamingResponseBody getSteamingFile(HttpServletResponse response, @PathVariable String filepath) throws IOException {
 
-            response.setContentType("application/json");
-            response.setHeader("Content-Disposition", "attachment; filename=\"filepath\"");
-
-            InputStream inputStream = new FileInputStream(filepath);
-            return outputStream -> {
-                int nRead;
-                byte[] data = new byte[1024];
-                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                    System.out.println("Writing some bytes of file...");
-                    outputStream.write(data, 0, nRead);
-                }
-            };
-
-    }
-    
 }

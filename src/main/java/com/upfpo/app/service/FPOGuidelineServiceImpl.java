@@ -126,7 +126,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/FPOGuidelines/")
+                        .path("fpoguidelines/uploads/FPOGuidelines/")
                         .path(fileName)
                         .toUriString();
                 fpoGuidelinesRepository.findById(id)
