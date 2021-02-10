@@ -6,6 +6,7 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.*;
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -53,7 +54,7 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getComplaintDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);

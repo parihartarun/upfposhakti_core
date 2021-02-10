@@ -3,6 +3,7 @@ package com.upfpo.app.service;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.entity.Circulars;
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.CircularsRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -46,7 +47,7 @@ public class CircularsServiceImpl implements CircularsService {
 
     @Autowired
     public CircularsServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getCircularDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
