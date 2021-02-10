@@ -26,6 +26,9 @@ public class SchemeDetail {
     @Column(name="file_name")
     private String fileName;
 
+    @Column(name="parent_department")
+    private String parentDepartment;
+
     @Column(name="is_active")
     private Boolean isActive;
 
@@ -55,9 +58,18 @@ public class SchemeDetail {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment) {
         this.schemeType=schemeType;
         this.description=description;
+        this.parentDepartment=parentDepartment;
+    }
+
+    public void setParentDepartment(String parentDepartment) {
+        this.parentDepartment = parentDepartment;
+    }
+
+    public String getParentDepartment() {
+        return parentDepartment;
     }
 
     public String getDescription() {
