@@ -14,15 +14,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -45,8 +51,8 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineServiceImpl.class);
 
-    //@Value("${upload.path.photo}")
-    //String fileBasePath;
+    @Autowired
+    private FileStorageProperties fileStorageProperties;
 
     private final Path fileStorageLocation;
 
@@ -76,13 +82,37 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
+    @GetMapping("/downloadFile/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = fileStorageService.loadFileAsResource(fileName);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
     @Override
     public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
             if(fileName != null) {
                 fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/downloadFile/")
+                        .path("/fpoguidelines/downloadFile/")
                         .path(fileName)
                         .toUriString();
 
@@ -123,10 +153,10 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                         .path("uploads/FPOGuidelines/")
                         .path(fileName)
                         .toUriString();
-                fpoGuidelinesRepository.findById(id)
+                fpoGuidelinesRepository.findById(id.intValue())
                         .map(fpoGuidelines -> {
-                            fpoGuidelines.setFilePath(fileDownloadUri);
-                            fpoGuidelines.setFileName(fileName);
+                            //fpoGuidelines.setFilePath(fileDownloadUri);
+                            //fpoGuidelines.setFileName(fileName);
                             return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
@@ -134,13 +164,13 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
         }
-        return fpoGuidelinesRepository.findById(id)
+        return fpoGuidelinesRepository.findById(id.intValue())
                 .map(fpoGuidelines -> {
                     fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
-                    fpoGuidelines.setId(fpoGuidelines1.getId());
-                    fpoGuidelines.setUpdateBy(currentPrincipalName);
-                    fpoGuidelines.setUpdateDate(Calendar.getInstance());
-                    fpoGuidelines.setDeleted(false);
+                    //fpoGuidelines.setId(fpoGuidelines1.getId());
+                    //fpoGuidelines.setUpdateBy(currentPrincipalName);
+                    //fpoGuidelines.setUpdateDate(Calendar.getInstance());
+                    //fpoGuidelines.setDeleted(false);
                     return fpoGuidelinesRepository.save(fpoGuidelines);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
@@ -150,10 +180,10 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentPrincipalName = authentication.getName();
-            FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id).get();
-            fpoGuideline.setDeleted(true);
-            fpoGuideline.setDeleteDate(Calendar.getInstance());
-            fpoGuideline.setDeleteBy(currentPrincipalName);
+            FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id.intValue()).get();
+            //fpoGuideline.setDeleted(true);
+            //fpoGuideline.setDeleteDate(Calendar.getInstance());
+            //fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)
