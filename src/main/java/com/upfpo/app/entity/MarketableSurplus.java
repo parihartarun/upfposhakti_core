@@ -1,6 +1,5 @@
 package com.upfpo.app.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,9 +13,9 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.dto.TotalProductionDTO;
 
 @Entity
 @SqlResultSetMapping(name = "FpoCropProductionDetailsDTO", classes = {
@@ -33,14 +32,19 @@ import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
 				@ColumnResult(name = "financial_year", type = String.class),
 				@ColumnResult(name = "veriety_id", type = Integer.class),
 				@ColumnResult(name = "crop_variety", type = String.class) }) })
-@Table(name = "marketable_surplus_new1")
-public class MarketableSurplus implements Serializable {
 
+@SqlResultSetMapping(name = "TotalProductionDTO", classes = {
+		@ConstructorResult(targetClass = TotalProductionDTO.class, columns = {
+				@ColumnResult(name = "totalActualProdction", type = Double.class),
+				@ColumnResult(name = "totalMarketableQty", type = Double.class) }) })
+@Table(name = "marketable_surplus_new")
+public class MarketableSurplus 
+{
 	private static final long serialVersionUID = -5034497351916605256L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "mid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer markId;
 	
 	@Column(name = "financial_year")
@@ -48,12 +52,7 @@ public class MarketableSurplus implements Serializable {
 
 	@Column(name = "season_id")
 	private Integer season;
-
-	/*
-	 * @OneToOne(cascade = CascadeType.MERGE)
-	 * 
-	 * @JoinColumn(name = "crop_id", referencedColumnName = "id")
-	 */
+	
 	@Column(name = "crop_id")
 	private Integer crop_id;
 
@@ -63,11 +62,6 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "actual_quantity")
 	private Double actualQuantity;
 
-	/*
-	 * @OneToOne(cascade = CascadeType.MERGE)
-	 * 
-	 * @JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
-	 */
 	@Column(name = "veriety_id")
 	private Integer verietyId;
 
@@ -77,7 +71,6 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "updated_by")
 	private String updatedBy;
 
-	@CreatedDate
 	@Column(name = "create_date")
 	private Date createDate;
 
@@ -194,8 +187,6 @@ public class MarketableSurplus implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
-
 	
-
+	
 }
