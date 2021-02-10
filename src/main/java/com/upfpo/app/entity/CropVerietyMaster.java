@@ -1,17 +1,42 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
+import java.math.BigInteger;
+
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.upfpo.app.dto.DepartmentProdReportDto;
 
 @Entity
+@SqlResultSetMapping(name="DepartmentProdReportDto",
+classes = {
+    @ConstructorResult(
+            targetClass = DepartmentProdReportDto.class,
+            columns = {
+                @ColumnResult(name = "district_name", type = String.class),
+                @ColumnResult(name = "fpo_name", type = String.class),
+                @ColumnResult(name = "fpo_address", type = String.class),
+                @ColumnResult(name = "fpo_landline", type = BigInteger.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+                @ColumnResult(name = "total_farmers", type = BigInteger.class),
+                @ColumnResult(name = "sowing_area", type = Integer.class),
+                @ColumnResult(name = "estimated_production", type = BigInteger.class),
+                @ColumnResult(name = "actual_production", type = BigInteger.class),
+                //@ColumnResult(name = "sold_quantity", type = Double.class),
+                
+           })
+})
 @Table(name="crop_veriety_master")
 public class CropVerietyMaster implements Serializable{
 
