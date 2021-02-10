@@ -3,8 +3,9 @@ package com.upfpo.app.service;
 import java.util.List;
 
 import com.upfpo.app.dto.FarmerWiseProductionDTO;
+import com.upfpo.app.requestStrings.ReportRequestString;
 
 public interface FarmerWiseProductionService 
 {
-	public List<FarmerWiseProductionDTO> getReport(Integer fpoId, String finYear, Integer seasonId);
+	public List<FarmerWiseProductionDTO> getReport(ReportRequestString reportRequestString);
 }

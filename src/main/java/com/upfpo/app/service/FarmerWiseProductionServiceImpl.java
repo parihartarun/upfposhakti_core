@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.FarmerWiseProductionDTO;
-import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.requestStrings.ReportRequestString;
 
 @Service
 public class FarmerWiseProductionServiceImpl implements FarmerWiseProductionService 
@@ -16,8 +16,10 @@ public class FarmerWiseProductionServiceImpl implements FarmerWiseProductionServ
 	@Autowired
 	EntityManager entityManager;
 	
+	List<FarmerWiseProductionDTO> obj = null;
+	
 	@Override
-	public List<FarmerWiseProductionDTO> getReport(Integer fpoId, String finYear, Integer seasonId) 
+	public List<FarmerWiseProductionDTO> getReport(ReportRequestString reportRequestString) 
 	{
 		String sql = "Select f.farmer_name,f.farmer_parants father_husband_name,f.farmer_mob mobile, \r\n"
 				+ "	            			case when farm_gen='male' then cast('Male' as varchar) else case when farm_gen='male' then cast('Female' as varchar) else cast('Other' as varchar) end end  gender,\r\n"
@@ -31,18 +33,19 @@ public class FarmerWiseProductionServiceImpl implements FarmerWiseProductionServ
 				+ "	            			inner join crop_master cm on cm.id = cast (crop_ref_name as integer)\r\n"
 				+ "	            			inner join crop_veriety_master cvm on cvm.veriety_id=cast(veriety_ref as integer)\r\n"
 				+ "	            			 inner join season_master sm on sm.season_id=cast(pd.season_ref as integer) \r\n";
-				if(seasonId != null)
+				if(reportRequestString.getSeasonId() != null && reportRequestString.getSeasonId() != 0)
 				{
 					sql = sql+"where f.fpo_ref_id=:fpoId and pd.financial_year=:finYear and cast(pd.season_ref as integer)=:seasonId and actual_production is not null \r\n"
 							+ "group by f.farmer_name,f.farmer_mob, cm.crop_name, cvm.crop_veriety, farm_gen, farm_category,sm.season_name, f.farmer_parants";
+					 obj =  (List<FarmerWiseProductionDTO>) entityManager.createNativeQuery(sql,"FarmerWiseProductionDTO").setParameter("fpoId", reportRequestString.getFpoId()).setParameter("finYear", reportRequestString.getFinYear()).setParameter("seasonId", reportRequestString.getSeasonId()).getResultList();
 				}
 				else
 				{
 					sql = sql+"where f.fpo_ref_id=:fpoId and pd.financial_year=:finYear and actual_production is not null \r\n"
 							+ "group by f.farmer_name,f.farmer_mob, cm.crop_name, cvm.crop_veriety, farm_gen, farm_category,sm.season_name, f.farmer_parants";
+					 obj =  (List<FarmerWiseProductionDTO>) entityManager.createNativeQuery(sql,"FarmerWiseProductionDTO").setParameter("fpoId", reportRequestString.getFpoId()).setParameter("finYear", reportRequestString.getFinYear()).getResultList();
 				}
 				System.out.println("Sql String::"+sql.toString());
-		List<FarmerWiseProductionDTO> obj =  (List<FarmerWiseProductionDTO>) entityManager.createNativeQuery(sql,"FarmerWiseProductionDTO").setParameter("fpoId", fpoId).setParameter("finYear", finYear).setParameter("seasonId", seasonId).getResultList();
 		return obj;
 	}
 }
