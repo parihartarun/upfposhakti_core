@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.Status;
@@ -21,4 +22,5 @@ public interface ComplaintService {
 
     public Complaints deptComplaintAssign(Integer id, Complaints complaints1);
 
+    List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
 }

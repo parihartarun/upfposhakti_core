@@ -72,24 +72,19 @@ public class SchemeDetailController {
     })
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
                                                               @RequestParam("title") String schemeType,
-
+                                                           @RequestParam("parent_department") String parentDepartment,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType);
+            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment);
 
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
             LOG.info("SchemeDetail  created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();
-            //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the SchemeDetail");
@@ -169,12 +164,14 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> updateSchemeDetail(@PathVariable Integer id,
                                                            @RequestPart(value = "description") String description,
                                                            @RequestPart(value ="title") String schemeType,
+                                                              @RequestPart("parent_department") String parentDepartment,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetail updating SchemeDetail detail ");
         SchemeDetail schemeDetails = new SchemeDetail(description);
         schemeDetails.setId(id);
         schemeDetails.setDescription(description);
         schemeDetails.setSchemeType(schemeType);
+        schemeDetails.setParentDepartment(parentDepartment);
         ResponseEntity<MessageResponse> resp = null;
         try {
             schemeDetailService.updateSchemeDetail(id, schemeDetails, file);
