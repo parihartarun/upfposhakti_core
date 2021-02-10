@@ -5,6 +5,7 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.controller.PhotoUploadController;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.entity.PhotoUpload;
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.PhotoUploadRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -47,7 +48,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
 
     @Autowired
     public PhotoUploadServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getPhotouploadDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);

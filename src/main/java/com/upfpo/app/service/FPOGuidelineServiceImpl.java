@@ -3,6 +3,7 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.*;
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FPOGuidelinesRepository;
 import com.upfpo.app.repository.FPOGuidelinesRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -47,7 +48,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
     @Autowired
     public FPOGuidelineServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getFpoGuidelinesDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -91,7 +92,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/FPOGuidelines/")
+                        .path("/uploads/FPOGuidelines/")
                         .path(fileName)
                         .toUriString();
                 fpoGuideline.setFilePath(fileDownloadUri);

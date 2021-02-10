@@ -3,8 +3,7 @@ package com.upfpo.app.service;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.SchemeDetail;
 
-import com.upfpo.app.entity.FileStorageProperties;
-
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.SchemeDetailRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -41,7 +40,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
 
     @Autowired
     public SchemeDetailServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getSchemedetailDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
