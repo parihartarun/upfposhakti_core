@@ -83,14 +83,12 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            FPOGuidelines fpoGuidelines = new FPOGuidelines();
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
-            LOG.info("FPOGuidelines uploaded Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the FPOGuidelines");
             e.printStackTrace();
         }
@@ -166,9 +164,9 @@ public class FPOGuidelineController {
                                                              @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
-        fpoGuidelines.setId(id);
+        //fpoGuidelines.setId(id.intValue());
         fpoGuidelines.setDescription(description);
-        fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
+        //fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
         ResponseEntity<MessageResponse> resp = null;
         try {
             //FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
