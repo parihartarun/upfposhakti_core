@@ -4,6 +4,8 @@ package com.upfpo.app.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.ComplaintCatgories;
@@ -231,6 +233,16 @@ public class ComplaintContoller {
         return resp;
     }
 
+    @GetMapping("getcomplaint/{id}")
+    @ApiOperation(value="Get Complaints By Farmer",code=200,produces = "application/json",notes="Api to view Complaint Detail by farmer id",response= FarmerComplaintDTO.class)
+    @ApiResponses(value= {
+    @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+    @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+    @ResponseBody
+    public List<FarmerComplaintDTO> getFarmerLandDetails(@PathVariable Integer id){
+
+        return complaintService.getFarmerComplaintToFpo(id);
+    }
 
 
 }
