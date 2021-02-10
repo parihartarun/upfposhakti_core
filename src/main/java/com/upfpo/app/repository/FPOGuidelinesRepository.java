@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FPOGuidelinesRepository extends JpaRepository<FPOGuidelines, Long> {
+public interface FPOGuidelinesRepository extends JpaRepository<FPOGuidelines, Integer> {
 
     List<FPOGuidelines> findByIsDeleted(Boolean b);
 
