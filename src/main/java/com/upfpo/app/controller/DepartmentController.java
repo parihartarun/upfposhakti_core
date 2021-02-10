@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.DepartmentSalesReportDto;
@@ -35,11 +37,9 @@ public class DepartmentController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	})
-	public List<DepartmentProdReportDto> productionReport(@RequestParam("finYear") String finYear,
-			@RequestParam("distId") Integer distId, @RequestParam("cropId") Integer cropId,
-			@RequestParam("seasonId") Integer seasonId) {
+	public List<DepartmentProdReportDto> productionReport(@RequestBody ProdRequest prodRequest) {
 		
-		return departmentService.getDepartmentProductionReport(finYear, distId, cropId, seasonId);
+		return departmentService.getDepartmentProductionReport(prodRequest.getFinYear(), prodRequest.getDistId(), prodRequest.getCropId(), prodRequest.getSeasonId());
 	}
 	
 	@PostMapping(value="/getSalesReport")
@@ -49,11 +49,12 @@ public class DepartmentController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	})
-	public List<DepartmentSalesReportDto> salesReport(@RequestParam("finYear") String finYear,
-			@RequestParam("distId") Integer distId, @RequestParam("cropId") Integer cropId,
-			@RequestParam("seasonId") Integer seasonId) {
+//	public List<DepartmentSalesReportDto> salesReport(@RequestParam("finYear") String finYear,
+//			@RequestParam("distId") Integer distId, @RequestParam("cropId") Integer cropId,
+//			@RequestParam("seasonId") Integer seasonId){
+	public List<DepartmentSalesReportDto> salesReport(@RequestBody ProdRequest prodRequest){
 		
-		return departmentService.getDepartmentSalesReport(finYear, distId, cropId, seasonId);
+		return departmentService.getDepartmentSalesReport(prodRequest.getFinYear(), prodRequest.getDistId(), prodRequest.getCropId(), prodRequest.getSeasonId());
 	}
 
 }
