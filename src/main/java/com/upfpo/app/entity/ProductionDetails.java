@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.FarmerWiseProductionDTO;
 import com.upfpo.app.dto.ProductionDTO;
 
 @Entity
@@ -26,6 +27,43 @@ classes = {
                 @ColumnResult(name = "zayadprod", type = Double.class)
            })
 })
+@SqlResultSetMapping(name="FarmerWiseProductionDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FarmerWiseProductionDTO.class,
+            columns = {
+                @ColumnResult(name = "farmer_name", type = String.class),
+                @ColumnResult(name = "father_husband_name", type = String.class),
+                @ColumnResult(name = "mobile", type = BigInteger.class),
+                @ColumnResult(name = "gender", type = String.class),
+                @ColumnResult(name = "category", type = String.class),
+                @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+                @ColumnResult(name = "marketable_surplus", type = Double.class)
+           })
+})
+/*@SqlResultSetMapping(name =
+"TestMapping", entities = {
+    @EntityResult(entityClass = ProductionDTO.class, fields = {
+        @FieldResult(name = "totalprod", column = "totalprod"),
+        @FieldResult(name = "rabiprod", column = "rabiprod"),
+        @FieldResult(name = "kharifprod", column = "kharifprod"),
+        @FieldResult(name = "zayadprod", column = "zayadprod")}
+        ),
+    @EntityResult(entityClass = FarmerWiseProductionDTO.class, fields = {
+        @FieldResult(name = "farmer_name", column = "farmer_name"),
+        @FieldResult(name = "father_husband_name", column = "father_husband_name"),
+        @FieldResult(name = "mobile", column = "mobile"),
+        @FieldResult(name = "gender", column = "gender"),
+        @FieldResult(name = "category", column = "category"),
+        @FieldResult(name = "season_name", column = "season_name"),
+        @FieldResult(name = "crop_name", column = "crop_name"),
+        @FieldResult(name = "crop_veriety", column = "crop_veriety"),
+        @FieldResult(name = "marketable_surplus", column = "marketable_surplus")
+        }
+        )
+    } )*/
 
 @Table(name="production_details")
 public class ProductionDetails implements Serializable {
