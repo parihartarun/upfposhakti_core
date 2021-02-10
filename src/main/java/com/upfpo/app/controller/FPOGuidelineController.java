@@ -25,10 +25,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.UIResource;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -180,6 +184,24 @@ public class FPOGuidelineController {
         }
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
+    }
+
+    @GetMapping(value = "/downloadfile")
+    public StreamingResponseBody getSteamingFile(HttpServletResponse response, @PathVariable String filepath) throws IOException {
+
+            response.setContentType("application/json");
+            response.setHeader("Content-Disposition", "attachment; filename=\"filepath\"");
+
+            InputStream inputStream = new FileInputStream(filepath);
+            return outputStream -> {
+                int nRead;
+                byte[] data = new byte[1024];
+                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                    System.out.println("Writing some bytes of file...");
+                    outputStream.write(data, 0, nRead);
+                }
+            };
+
     }
     
 }
