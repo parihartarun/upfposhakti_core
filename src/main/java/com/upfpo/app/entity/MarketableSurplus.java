@@ -57,9 +57,9 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "season_id")
 	private Integer season;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "crop_id", referencedColumnName = "id")
-	private CropMaster crop_id;
+   /*@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "crop_id", referencedColumnName = "id")*/
+	private Integer crop_id;
 
 	@Column(name = "marketable_quantity")
 	private Double marketableQuantity;
@@ -67,9 +67,9 @@ public class MarketableSurplus implements Serializable {
 	@Column(name = "actual_quantity")
 	private Double actualQuantity;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
-	private CropVerietyMaster verietyId;
+	/*@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")*/
+	private Integer verietyId;
 
 	@Column(name = "master_id")
 	private Integer masterId;
@@ -119,11 +119,11 @@ public class MarketableSurplus implements Serializable {
 		this.season = season;
 	}
 
-	public CropMaster getCrop_id() {
+	public Integer getCrop_id() {
 		return crop_id;
 	}
 
-	public void setCrop_id(CropMaster crop_id) {
+	public void setCrop_id(Integer crop_id) {
 		this.crop_id = crop_id;
 	}
 
@@ -143,11 +143,11 @@ public class MarketableSurplus implements Serializable {
 		this.actualQuantity = actualQuantity;
 	}
 
-	public CropVerietyMaster getVerietyId() {
+	public Integer getVerietyId() {
 		return verietyId;
 	}
 
-	public void setVerietyId(CropVerietyMaster verietyId) {
+	public void setVerietyId(Integer verietyId) {
 		this.verietyId = verietyId;
 	}
 

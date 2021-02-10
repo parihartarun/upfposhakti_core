@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.dto.TotalProductionDTO;
 import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.service.FPOCropProductionService;
+import com.upfpo.app.util.TotalProductionCalculation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +42,9 @@ public class FPOCropProductionController {
 	
 	@Autowired
 	private FPOCropProductionService fpoCropProductionService;
+	
+	@Autowired 
+	TotalProductionCalculation totalProductionCalculation;
 	
 	
 	 @GetMapping("/getFpoCropProductionDetails/{masterId}")
@@ -110,12 +115,12 @@ public class FPOCropProductionController {
 	            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	    })
-	    public ResponseEntity<String> deleteEnquiry(@PathVariable Integer id) {
-	        LOG.info("Inside FPOCropProductionController MarketableSurplus details ");
-	        ResponseEntity<String> resp = null;
+	    public Boolean delete(@PathVariable Integer id) {
+	        /*LOG.info("Inside FPOCropProductionController MarketableSurplus details ");
+	        ResponseEntity<Boolean> resp = null;
 	        try {
 	        	fpoCropProductionService.deleteMarketableSurplus(id);
-	            resp = new ResponseEntity<String>("MarketableSurplus Deleted Successfully!", HttpStatus.OK );
+	            resp = new ResponseEntity<Boolean>("MarketableSurplus Deleted Successfully!", HttpStatus.OK );
 	            LOG.info("MarketableSurplus Deleted Successfully!");
 	            //}
 	        } catch (Exception e) {
@@ -124,8 +129,15 @@ public class FPOCropProductionController {
 	            e.printStackTrace();
 	        }
 	        LOG.info("Exiting MarketableSurplus Of Controller with response ", resp);
-	        return resp;
+	        return resp;*/
+		  return fpoCropProductionService.deleteMarketableSurplus(id);
 	    }
 	    
+	  @GetMapping("/getActualProduction")
+	   public TotalProductionDTO getValues()
+	    {
+	    	return totalProductionCalculation.getActualProduction(77, 1, 1, "2020-2021",6);
+	    	
+	    }
 	    
 }

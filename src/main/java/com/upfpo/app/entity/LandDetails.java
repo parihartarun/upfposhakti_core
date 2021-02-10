@@ -14,6 +14,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.upfpo.app.dto.FarmerLandDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 
 @Entity
@@ -52,7 +53,7 @@ public class LandDetails {
 	
 	@Column(name="master_id")
 	private Integer masterId;
-	
+
 	@Column(name="updated_by")
 	private String updatedBy;
 	
@@ -97,8 +98,6 @@ public class LandDetails {
 	@ManyToOne
 	@JoinColumn(name="farmer_id",updatable = true)
 	private FarmerMaster farmerProfile;
-	
-	
 	
 	public Integer getLandId() {
 		return landId;
@@ -169,7 +168,7 @@ public class LandDetails {
 
 	/*
 	 * public Integer getFarmerId() { return farmerId; }
-	 * 
+	 *
 	 * public void setFarmerId(Integer farmerId) { this.farmerId = farmerId; }
 	 */
 

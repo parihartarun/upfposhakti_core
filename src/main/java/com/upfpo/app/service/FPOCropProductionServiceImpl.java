@@ -9,12 +9,17 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.entity.TotalProduction;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.FPOCropProductionReporisitory;
+import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
+import com.upfpo.app.util.GetCurrentDate;
 import com.upfpo.app.util.GetFinYear;
 
 @Service
@@ -31,6 +36,9 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	
 	@Autowired
 	private CropDetailsMasterRepository cropDetailsMasterRepository;
+	
+	@Autowired
+	private ProductionDetailsRepository productionDetailsRepository;
 
 	@Override
 	public List<FpoCropProductionDetailsDTO> getAllMarketableSurplus(int masterId) 
@@ -42,7 +50,8 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 					+ "			inner join crop_master cm on cm.id= m.crop_id\r\n"
 					+ "			inner join crop_category cc on cc.id= cm.crop_cat_ref_id \r\n"
 					+ "			left join crop_veriety_master cvm on cvm.veriety_id=cast(m.veriety_id as integer) \r\n"
-					+ "			where m.master_id = :masterId  and m.is_deleted = false order by m.id desc ;" ;
+					+ "			where m.master_id = :masterId  and m.is_deleted = false order by m.id desc" ;
+
 			  
 			  List<FpoCropProductionDetailsDTO> obj =  (List<FpoCropProductionDetailsDTO>) entityManager.createNativeQuery(sql,"FpoCropProductionDetailsDTO").setParameter("masterId", masterId).getResultList();
 			  return obj;
@@ -54,36 +63,60 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Transactional
 	public void saveMarketableSurplus(MarketableSurplus marketableSurplus) 
 	{
-		TotalProduction totProd = new TotalProduction();
+		marketableSurplus.setDeleted(false);
+		fpoCropProductionRepo.save(marketableSurplus);
+		/*TotalProduction totProd = new TotalProduction();
 		totProd.setCropMaster(marketableSurplus.getCrop_id());
 		totProd.setCropVerityMaster(marketableSurplus.getVerietyId());
 		totProd.setFpoRegister(marketableSurplus.getMasterId());
 		totProd.setTotalMarketable(marketableSurplus.getMarketableQuantity());
 		totProd.setTotal_actual_prod(marketableSurplus.getActualQuantity());
+		totProd.setMarketableSurplusId(marketableSurplus.getId());	
 		marketableSurplus.setFinancialYear(GetFinYear.getCurrentFinYear());
-		fpoCropProductionRepo.save(marketableSurplus);
-		totalProductionRepository.save(totProd);
+		totalProductionRepository.save(totProd);*/
 		
 	}
 
 	@Override
-	public MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplus) {
-		 Optional<MarketableSurplus> sd = fpoCropProductionRepo.findById(id);
-	        if(!sd.isPresent()) {
-	            return null;
-	        }
-	        marketableSurplus.setId(id);
-	        return fpoCropProductionRepo.save(marketableSurplus);
+	public MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplusMaster) 
+	{
+		Optional<MarketableSurplus> marketableSurplus = fpoCropProductionRepo.findById(id);
+		MarketableSurplus newMarketableSurplus = null;
+		if(marketableSurplus.isPresent())
+		{
+			newMarketableSurplus = fpoCropProductionRepo.findById(id).get();
+			newMarketableSurplus.setActualQuantity(marketableSurplusMaster.getActualQuantity());
+			newMarketableSurplus.setCrop_id(marketableSurplusMaster.getCrop_id());
+			newMarketableSurplus.setVerietyId(marketableSurplusMaster.getVerietyId());
+			newMarketableSurplus.setMarketableQuantity(marketableSurplusMaster.getMarketableQuantity());
+			newMarketableSurplus.setSeason(marketableSurplusMaster.getSeason());
+			
+			newMarketableSurplus = fpoCropProductionRepo.save(newMarketableSurplus);
+		}
+		else
+		{
+			marketableSurplusMaster = fpoCropProductionRepo.save(marketableSurplusMaster);
+		}
+		return newMarketableSurplus;
+		
 	}
 
 	@Override
-	public void deleteMarketableSurplus(Integer id) {
-		 fpoCropProductionRepo.findById(id)
-                .map(marketableSurplus -> {
-                	fpoCropProductionRepo.delete(marketableSurplus);
-                    return "Delete Successfully!";
-                });
+	public Boolean deleteMarketableSurplus(Integer id) 
+	{
+		try {
+		MarketableSurplus marketableSurplus = fpoCropProductionRepo.findById(id).get();
+		marketableSurplus.setDeleted(true);
+		fpoCropProductionRepo.save(marketableSurplus);
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new NotFoundException();
+		}
+		return true;
     }
 	
 	
 }
+;

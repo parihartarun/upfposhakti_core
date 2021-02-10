@@ -3,6 +3,7 @@ package com.upfpo.app.service;
 import java.util.List;
 
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
+import com.upfpo.app.dto.TotalProductionDTO;
 import com.upfpo.app.entity.MarketableSurplus;
 
 public interface FPOCropProductionService {
@@ -13,6 +14,6 @@ public interface FPOCropProductionService {
 
 	MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplus);
 
-	void deleteMarketableSurplus(Integer id);
-
+	Boolean deleteMarketableSurplus(Integer id);
+	
 }

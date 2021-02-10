@@ -51,6 +51,18 @@ public class SchemeDetailController {
         return schemeDetailService.getAllSchemeDetail();
     }
 
+    @GetMapping("/{type}")
+    @ApiOperation(value="SchemeDetail List" ,code=201, produces = "application/json", notes="Api for all SchemeDetail Info",response= SchemeDetail.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<SchemeDetail> getBySchemeType (@PathVariable String type){
+        return schemeDetailService.getSchemeByType(type);
+    }
+
+
     @PostMapping
     @ApiOperation(value="Create SchemeDetail" ,code=201, produces = "application/json", notes="Api for all create SchemeDetail",response= SchemeDetail.class)
     @ApiResponses(value= {
@@ -59,12 +71,14 @@ public class SchemeDetailController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
+                                                              @RequestParam("title") String schemeType,
+
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            SchemeDetail schemeDetails = new SchemeDetail(description);
+            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType);
 
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
@@ -154,11 +168,13 @@ public class SchemeDetailController {
     })
     public ResponseEntity<MessageResponse> updateSchemeDetail(@PathVariable Integer id,
                                                            @RequestPart(value = "description") String description,
+                                                           @RequestPart(value ="title") String schemeType,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetail updating SchemeDetail detail ");
         SchemeDetail schemeDetails = new SchemeDetail(description);
         schemeDetails.setId(id);
         schemeDetails.setDescription(description);
+        schemeDetails.setSchemeType(schemeType);
         ResponseEntity<MessageResponse> resp = null;
         try {
             schemeDetailService.updateSchemeDetail(id, schemeDetails, file);

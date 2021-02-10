@@ -1,16 +1,18 @@
 package com.upfpo.app.service;
 
-import com.upfpo.app.entity.FPOSalesDetails;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.upfpo.app.dto.FPOSalesDetailsDTO;
+import com.upfpo.app.entity.FPOSaleInfo;
+import com.upfpo.app.entity.FPOSalesDetails;
+
 public interface FPOSalesDetailsService {
 
-    public FPOSalesDetails insertSalesDetails ( FPOSalesDetails salesDetails);
-    public List<FPOSalesDetails> getSalesDetails();
-    public Optional<FPOSalesDetails> getSalesDetailsById (Integer id);
-    public FPOSalesDetails updateSalesDetails(Integer id, FPOSalesDetails salesDetails);
+    public FPOSaleInfo insertSalesDetails ( FPOSaleInfo salesInfo);
+    public List<FPOSalesDetailsDTO> getSalesDetails(Integer masterId);
+    public Optional<FPOSaleInfo> getSalesDetailsById (Integer id);
+    public FPOSaleInfo updateSalesDetails(Integer id, FPOSaleInfo salesDetails);
 
     Boolean deleteFPOSalesDetails(Integer id);
 }
