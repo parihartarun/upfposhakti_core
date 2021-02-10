@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ public class DepartmentController {
 	@Autowired
 	DepartmentService departmentService;
 	
-	@GetMapping(value="/getProductionReport")
+	@PostMapping(value="/getProductionReport")
 	@ApiOperation(value="Get production report", code=200, produces = "application/json",notes="Api for get production report",response=DepartmentProdReportDto.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
@@ -42,7 +42,7 @@ public class DepartmentController {
 		return departmentService.getDepartmentProductionReport(finYear, distId, cropId, seasonId);
 	}
 	
-	@GetMapping(value="/getSalesReport")
+	@PostMapping(value="/getSalesReport")
 	@ApiOperation(value="Get sales report", code=200, produces = "application/json",notes="Api for get sales report",response=DepartmentSalesReportDto.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
