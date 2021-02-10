@@ -63,8 +63,9 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Transactional
 	public void saveMarketableSurplus(MarketableSurplus marketableSurplus) 
 	{
+		marketableSurplus.setDeleted(false);
 		fpoCropProductionRepo.save(marketableSurplus);
-		TotalProduction totProd = new TotalProduction();
+		/*TotalProduction totProd = new TotalProduction();
 		totProd.setCropMaster(marketableSurplus.getCrop_id());
 		totProd.setCropVerityMaster(marketableSurplus.getVerietyId());
 		totProd.setFpoRegister(marketableSurplus.getMasterId());
@@ -72,7 +73,7 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 		totProd.setTotal_actual_prod(marketableSurplus.getActualQuantity());
 		totProd.setMarketableSurplusId(marketableSurplus.getId());	
 		marketableSurplus.setFinancialYear(GetFinYear.getCurrentFinYear());
-		totalProductionRepository.save(totProd);
+		totalProductionRepository.save(totProd);*/
 		
 	}
 
@@ -91,7 +92,6 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 			newMarketableSurplus.setSeason(marketableSurplusMaster.getSeason());
 			
 			newMarketableSurplus = fpoCropProductionRepo.save(newMarketableSurplus);
-			//return newMarketableSurplus;
 		}
 		else
 		{

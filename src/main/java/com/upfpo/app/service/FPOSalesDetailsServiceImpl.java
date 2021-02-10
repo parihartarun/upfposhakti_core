@@ -31,7 +31,6 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 		return fpoSalesInfoMasterRepository.save(fPOSaleInfo);
     }
     
-
     @Override
     public List<FPOSalesDetailsDTO> getSalesDetails(Integer masterId) 
     {
@@ -39,7 +38,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
         
         String  sql =  	"Select m.id,s.season_id, s.season_name,cc.id as category_id, cc.category,cm.id as crop_id,cm.crop_name,m.sold_quantity sold_quantity,\r\n"
         		+ "    				m.financial_year,cvm.veriety_id, case when cast(m.veriety_ref as integer)!=0 then cvm.crop_veriety else 'Other' \r\n"
-        		+ "    					end  crop_variety,cast(m.veriety_ref as integer),m.crop_ref_name,cast(m.season_ref as integer) from fpo_saleInfo m\r\n"
+        		+ "    					end  crop_variety,cast(m.veriety_ref as integer),m.crop_ref_name,cast(m.season_ref as integer) from fpo_sale_Info m\r\n"
         		+ "    					inner join season_master s on CAST ( m.season_ref as integer)=s.season_id\r\n"
         		+ "    					inner join crop_master cm on cm.id=crop_ref_name\r\n"
         		+ "    					inner join crop_category cc on cc.id= cm.crop_cat_ref_id \r\n"
