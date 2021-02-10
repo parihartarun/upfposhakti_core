@@ -3,6 +3,8 @@ package com.upfpo.app.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -44,6 +47,9 @@ public class ComplaintServiceImpl implements ComplaintService {
 
 
     private final Path fileStorageLocation;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -192,5 +198,32 @@ public class ComplaintServiceImpl implements ComplaintService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
+
+    /*public List<FarmerLandDetailDto> getLandDetailWithFarmerByFarmerId(Integer fpoId)
+    {
+        String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
+                + "on l.farmer_id = f.farmer_id where l.farmer_id = :farmerId and l.is_deleted = false order by l.land_id desc";
+
+        List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("farmerId", farmerId).getResultList();
+        return obj;
+
+    }*/
+
+    public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
+    {
+        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.file_path as filepath, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby, c.assigned_date as assigndate, c.resolve_date as resolvedate, c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
+                + "on c.fpo_id = f.fpo_id where c.fpo_id = :fpoId and c.is_deleted = false order by c.id desc";
+
+        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql,"FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
+        return obj;
+
+    }
+
+    @Override
+    public List<FarmerComplaintDTO> getFarmerComplaintToFpo (Integer fpoId){
+        //return landDetailsRepo.findAll();
+        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
+        return complaint;
+    }
 }
 

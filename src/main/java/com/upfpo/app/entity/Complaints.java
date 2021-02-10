@@ -2,6 +2,8 @@ package com.upfpo.app.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -9,6 +11,31 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@SqlResultSetMapping(name="FarmerComplaintDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = FarmerComplaintDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "fpoid", type = Integer.class),
+                                @ColumnResult(name = "issuetype", type = String.class),
+                                @ColumnResult(name = "status", type = String.class),
+                                @ColumnResult(name = "role", type = String.class),
+                                @ColumnResult(name = "message", type = String.class),
+                                @ColumnResult(name = "description", type = String.class),
+                                @ColumnResult(name = "createdate", type = Calendar.class),
+                                @ColumnResult(name = "filepath", type = String.class),
+                                @ColumnResult(name = "othertype", type = String.class),
+                                @ColumnResult(name = "assignto", type = String.class),
+                                @ColumnResult(name = "assignby", type = String.class),
+                                @ColumnResult(name = "assigndate", type = Date.class),
+                                @ColumnResult(name = "resolvedate", type = Date.class),
+                                @ColumnResult(name = "deptcomment", type = String.class),
+                                @ColumnResult(name = "remarks", type = String.class),
+                                @ColumnResult(name = "filename", type = String.class)
+                        })
+        })
+
 @Table(name = "complaints")
 public class Complaints {
 
