@@ -85,4 +85,67 @@ public class FPOComplaintController {
         return fpoComplaintService.getFarmerComplaintByFPOId(id);
     }
 
+
+    @PostMapping("/inputsupplier")
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintInputSupplier(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("supplier_id") Integer supplierId,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOComplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            FPOComplaints complaints = new FPOComplaints();
+            complaints.setDescription(description);
+            complaints.setIssueType(issueType);
+            complaints.setTitle(title);
+            complaints.setInputSupplierId(supplierId);
+            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+            LOG.info("FPOComplaint  created Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the FPOComplaint");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+
+    @PostMapping("/chcfmb")
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintCHCFMB(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                                 @RequestParam("issue_type") String issueType, @RequestParam("chc_fmb_id") Integer chcid,
+                                                                 @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOComplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            FPOComplaints complaints = new FPOComplaints();
+            complaints.setDescription(description);
+            complaints.setIssueType(issueType);
+            complaints.setTitle(title);
+            complaints.setChcFmbId(chcid);
+            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+            LOG.info("FPOComplaint  created Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the FPOComplaint");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+
 }
