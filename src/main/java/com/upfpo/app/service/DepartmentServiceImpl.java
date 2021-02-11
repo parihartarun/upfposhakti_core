@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.DepartmentSalesReportDto;
 
@@ -23,7 +24,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<DepartmentProdReportDto> getDepartmentProdReport(String finYear, Integer distId, Integer cropId, Integer seasonId) {
 		List<DepartmentProdReportDto> list = null;
 		String sql = null;
@@ -139,7 +139,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<DepartmentSalesReportDto> getDepartmentSalesReport(String finYear, Integer distId, Integer cropId,
 			Integer seasonId) {
@@ -255,6 +254,24 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 		}
 		return list;
+	}
+
+	@Override
+	public List<DepartmentAllUserDto> getAllUser() {
+		List <DepartmentAllUserDto> list = null;
+		   try
+			{
+			  String sql = "select users.user_id,users.user_name,fpo_name,district_name,date_of_regi,fpo_landline,fpo_email,users.enabled from fpo \r\n" + 
+			   		"join districts on fpo.dist_ref_id = districts.district_id  \r\n" + 
+			   		"join users on fpo.users_id = users.user_id";
+			   
+			  list = (List<DepartmentAllUserDto>) entityManager.createNativeQuery(sql, "DepartmentAllUserDto").getResultList();
+			  System.out.println(list.size());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		   return list;
 	}
 
 
