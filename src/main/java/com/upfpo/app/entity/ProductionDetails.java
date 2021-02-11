@@ -43,28 +43,6 @@ classes = {
                 @ColumnResult(name = "marketable_surplus", type = Double.class)
            })
 })
-/*@SqlResultSetMapping(name =
-"TestMapping", entities = {
-    @EntityResult(entityClass = ProductionDTO.class, fields = {
-        @FieldResult(name = "totalprod", column = "totalprod"),
-        @FieldResult(name = "rabiprod", column = "rabiprod"),
-        @FieldResult(name = "kharifprod", column = "kharifprod"),
-        @FieldResult(name = "zayadprod", column = "zayadprod")}
-        ),
-    @EntityResult(entityClass = FarmerWiseProductionDTO.class, fields = {
-        @FieldResult(name = "farmer_name", column = "farmer_name"),
-        @FieldResult(name = "father_husband_name", column = "father_husband_name"),
-        @FieldResult(name = "mobile", column = "mobile"),
-        @FieldResult(name = "gender", column = "gender"),
-        @FieldResult(name = "category", column = "category"),
-        @FieldResult(name = "season_name", column = "season_name"),
-        @FieldResult(name = "crop_name", column = "crop_name"),
-        @FieldResult(name = "crop_veriety", column = "crop_veriety"),
-        @FieldResult(name = "marketable_surplus", column = "marketable_surplus")
-        }
-        )
-    } )*/
-
 @Table(name="production_details")
 public class ProductionDetails implements Serializable {
 
