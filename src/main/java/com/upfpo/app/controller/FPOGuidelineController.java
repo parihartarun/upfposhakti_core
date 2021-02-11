@@ -121,7 +121,7 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping("/uploads/FPOGuidelines/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
