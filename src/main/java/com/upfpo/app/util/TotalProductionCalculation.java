@@ -56,34 +56,62 @@ public class TotalProductionCalculation
 	
 	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
-		double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId);
-		double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId);
+		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId);
+		if(fpoActulaProduction == null)
+		{
+			fpoActulaProduction = 0.0;
+		}
 		
-		double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
+		Double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId);
 		
-		double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
-		double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		if(farmerActualProduction == null)
+		{
+			farmerActualProduction = 0.0;
+		}
 		
-		double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
+		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
+		
+		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		
+		if(fpoMarketableQty != null)
+		{
+			fpoMarketableQty = 0.0;
+		}
+		
+		Double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		
+		if(farmerMarketableQty == null)
+		{
+			farmerMarketableQty = 0.0;
+		}
+		
+		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
 		
 		int count = 0;
 		
 		try
 		{
-			count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
-			if(count != 0 && count > 0 )
+			if(fpoActulaProduction != null && farmerActualProduction != null && totalActualProduction != null && fpoMarketableQty != null && farmerMarketableQty != null && totalMarketableQty != null)
 			{
-				totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
+				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+				if(count != 0 && count > 0 )
+				{
+					totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
+				}
+				else
+				{
+					TotalProduction totalProduction = new TotalProduction();
+					totalProduction.setCropMaster(cropDetailsMasterRepository.findById(cropId).get());
+					totalProduction.setCropVerityMaster(cropVarietyRepository.findById(cropVarietyId).get());
+					totalProduction.setFpoRegister(masterId);
+					totalProduction.setTotal_actual_prod(totalActualProduction);
+					totalProduction.setTotalMarketable(totalMarketableQty);
+					totalProductionRepository.save(totalProduction);
+				}
 			}
 			else
 			{
-				TotalProduction totalProduction = new TotalProduction();
-				totalProduction.setCropMaster(cropDetailsMasterRepository.findById(cropId).get());
-				totalProduction.setCropVerityMaster(cropVarietyRepository.findById(cropVarietyId).get());
-				totalProduction.setFpoRegister(masterId);
-				totalProduction.setTotal_actual_prod(totalActualProduction);
-				totalProduction.setTotalMarketable(totalMarketableQty);
-				totalProductionRepository.save(totalProduction);
+				throw new Exception("No record is available");
 			}
 		}
 		catch(Exception e)
@@ -94,22 +122,34 @@ public class TotalProductionCalculation
 	
 	public void updateTotalProductionForSalesDetails(double soldQty, int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
-		double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId);
+		Double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId);
 		
-		double updatedMarketableQty = totalMarketableQty - soldQty;
+		if(totalMarketableQty != null)
+		{
+			totalMarketableQty = 0.0;
+		}
+		
+		Double updatedMarketableQty = totalMarketableQty - soldQty;
 		
 		int count = 0;
 		
 		try
 		{
-			count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
-			if(count != 0 && count > 0 )
+			if(totalMarketableQty != null && updatedMarketableQty != null)
 			{
-				totalProductionRepository.updateMarketable(soldQty, updatedMarketableQty, cropId, cropVarietyId, masterId);
+				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+				if(count != 0 && count > 0 )
+				{
+					totalProductionRepository.updateMarketable(soldQty, updatedMarketableQty, cropId, cropVarietyId, masterId);
+				}
+				else
+				{
+					throw new Exception("No record is available");
+				}
 			}
 			else
 			{
-				throw new Exception("No record is available");
+				
 			}
 		}
 		catch(Exception e)
