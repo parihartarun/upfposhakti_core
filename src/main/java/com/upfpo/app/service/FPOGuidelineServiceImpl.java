@@ -94,12 +94,10 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         // Fallback to the default content type if type could not be determined
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
@@ -150,7 +148,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/FPOGuidelines/")
+                        .path("fpoguidelines/uploads/FPOGuidelines/")
                         .path(fileName)
                         .toUriString();
                 fpoGuidelinesRepository.findById(id.intValue())
