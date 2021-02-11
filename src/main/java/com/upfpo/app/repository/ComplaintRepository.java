@@ -14,5 +14,7 @@ public interface ComplaintRepository extends JpaRepository<Complaints, Integer> 
 
     List<Complaints> findByFarmerId(Integer id);
 
+    List<Complaints> findByFpoId(Integer fpoId);
+
     //List<Complaints> findAllByFarmerId(Integer farmerId);
 }

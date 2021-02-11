@@ -94,12 +94,10 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         // Fallback to the default content type if type could not be determined
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

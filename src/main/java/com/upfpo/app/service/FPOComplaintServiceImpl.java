@@ -5,6 +5,7 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
+import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.repository.FPOComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     @Autowired
     FPOComplaintRepository fpoComplaintRepository;
+
+    @Autowired
+    ComplaintRepository complaintRepository;
 
     private final Path fileStorageLocation;
 
@@ -92,6 +96,14 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
         return obj;
 
+    }
+
+    @Override
+    public List<Complaints> getFarmerComplaintByFPOId(Integer fpoId){
+
+
+        List<Complaints> complaint = complaintRepository.findByFpoId(fpoId);
+        return complaint;
     }
 
 }
