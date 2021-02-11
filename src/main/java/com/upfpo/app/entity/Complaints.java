@@ -165,6 +165,8 @@ public class Complaints {
         this.complaintsComments = complaintsComments;
     }
 
+
+
     public Integer getFarmerId() {
         return farmerId;
     }
@@ -189,12 +191,13 @@ public class Complaints {
         this.fpoComment = fpoComment;
     }
 
-    public Complaints(String description, String title, String issueType , Integer farmerId) {
+    public Complaints(String description, String title, String issueType , Integer farmerId, Integer fpoId) {
 
         this.setIssueType(issueType);
         this.setDescription(description);
         this.setTitle(title);
         this.farmerId=farmerId;
+        this.fpoId=fpoId;
     }
 
 

@@ -151,7 +151,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         try {
             PhotoUpload photoUpload = photoUploadRepository.findById(id).get();
             photoUpload.setDeleted(true);
-            photoUpload.setDeleteDate(Calendar.getInstance().getTime());
+            photoUpload.setDeleteDate(Calendar.getInstance());
             photoUploadRepository.save(photoUpload);
             return true;
         }catch(Exception e)
