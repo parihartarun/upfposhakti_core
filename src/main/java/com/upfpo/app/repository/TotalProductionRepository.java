@@ -31,7 +31,7 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 public int getCountTotalProductionCount(int cropId, int cropVarietyId, int masterId);
 	 
 	 @Query("select t.totalMarketable from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId")
-	 public double getTotalMarketableQty(int cropId, int cropVarietyId, int masterId);
+	 public Double getTotalMarketableQty(int cropId, int cropVarietyId, int masterId);
 	
 	 @Modifying
 	 @Transactional

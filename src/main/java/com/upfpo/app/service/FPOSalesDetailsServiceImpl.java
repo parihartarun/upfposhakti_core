@@ -67,19 +67,21 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     @Override
     public FPOSaleInfo updateSalesDetails(Integer id, FPOSaleInfo fpoSalesInfoMaster) 
     {
+    	String financialYear = GetFinYear.getCurrentFinYear();
         Optional<FPOSaleInfo> fpoSalesDetails = fpoSalesInfoMasterRepository.findById(id);
 		if(fpoSalesDetails.isPresent())
 		{
 			FPOSaleInfo newFpoSalesDetails = fpoSalesInfoMasterRepository.findById(id).get();
 			newFpoSalesDetails.setCropRefName(fpoSalesInfoMaster.getCropRefName());
 			newFpoSalesDetails.setVerietyId(fpoSalesInfoMaster.getVerietyId());
-			newFpoSalesDetails.setFinYear(GetFinYear.getCurrentFinYear());
+			newFpoSalesDetails.setFinYear(financialYear);
 			newFpoSalesDetails.setSoldQuantity(fpoSalesInfoMaster.getSoldQuantity());
 			newFpoSalesDetails.setDeleted(false);
 			newFpoSalesDetails.setMasterId(fpoSalesInfoMaster.getMasterId());
 			newFpoSalesDetails.setFpoId(fpoSalesInfoMaster.getMasterId());
 			
 			newFpoSalesDetails = fpoSalesInfoMasterRepository.save(newFpoSalesDetails);
+			totalProductionCalculation.updateTotalProductionForSalesDetails(fpoSalesInfoMaster.getSoldQuantity(), fpoSalesInfoMaster.getCropRefName(), fpoSalesInfoMaster.getVerietyId(), fpoSalesInfoMaster.getSeason(), financialYear, fpoSalesInfoMaster.getMasterId());
 			return newFpoSalesDetails;
 		}
 		else
