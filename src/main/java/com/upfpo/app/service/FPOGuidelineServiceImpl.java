@@ -179,9 +179,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentPrincipalName = authentication.getName();
             FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id.intValue()).get();
-            //fpoGuideline.setDeleted(true);
-            //fpoGuideline.setDeleteDate(Calendar.getInstance());
-            //fpoGuideline.setDeleteBy(currentPrincipalName);
+            fpoGuideline.setDeleted(true);
+            fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)

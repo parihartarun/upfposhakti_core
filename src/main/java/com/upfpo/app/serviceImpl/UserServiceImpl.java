@@ -187,4 +187,9 @@ if(userOpt.isPresent()) {
 	public void deleteUserById(Long userId) {
 		userRepository.deleteById(userId);
 	}
+
+	@Override
+	public List<User> getByDepartment (String id){
+		return userRepository.findByRoleRefId(id);
+	}
 }
