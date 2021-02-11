@@ -1,7 +1,9 @@
 package com.upfpo.app.entity;
 
 public enum Status {
+
+
     OPEN,
-    ASSOGNED,
+    ASSIGNED,
     RESOLVED
 }

@@ -50,6 +50,19 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         }
     }
 
+    @Override
+    public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
+
+        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getAllComplaintToDept(){
+
+        return fpoComplaintRepository.findAll();
+    }
+
 
     @Override
     public FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file){
@@ -139,13 +152,6 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         return fpoComplaintRepository.save(complaints);
     }
 
-    @Override
-    public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
-
-        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
-        return complaint;
-    }
-
 
     public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
     {
@@ -165,6 +171,11 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         return complaint;
     }
 
+
+    @Override
+    public List<FPOComplaints> getAllFPOComplaint() {
+        return fpoComplaintRepository.findAll();
+    }
 }
 
 

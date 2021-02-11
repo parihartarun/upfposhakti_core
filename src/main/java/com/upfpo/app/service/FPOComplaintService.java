@@ -10,6 +10,8 @@ import java.util.List;
 public interface FPOComplaintService {
     FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file);
 
+    List<FPOComplaints> getAllComplaintToDept();
+
     FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file);
 
     FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file);
@@ -17,4 +19,6 @@ public interface FPOComplaintService {
     List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
 
     List<Complaints> getFarmerComplaintByFPOId(Integer fpoId);
+
+    List<FPOComplaints> getAllFPOComplaint();
 }
