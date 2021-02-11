@@ -77,17 +77,29 @@ public class FPOSalesDetailsController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> insertSalesDetails(@RequestBody FPOSaleInfo salesInfo) throws Exception
+    public ResponseEntity<MessageResponse> insertSalesDetails(@RequestBody FPOSaleInfo salesInfo) throws Exception
     {
         
-        try {
+        /*try {
             FPOSaleInfo id = fpoSalesDetailsService.insertSalesDetails(salesInfo);
             return new ResponseEntity<String>("FPOSalesDetails Saved Successfully!", HttpStatus.OK );
             
         } catch (Exception e) {
         	System.out.print(e.getMessage());
         	return new ResponseEntity<String>("Failed to save FPOSalesDetails", HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+        }*/
+        
+		ResponseEntity<MessageResponse> resp = null;
+		try {
+			fpoSalesDetailsService.insertSalesDetails(salesInfo);
+			resp = ResponseEntity.ok(new MessageResponse("Fpo sales details created Successfully!"));
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Save the Fpo sales details");
+			e.printStackTrace();
+		}
+		LOG.info("Exiting MarketableSurplus Of Controller with response ", resp);
+		return resp;
         
     }
 
@@ -99,9 +111,9 @@ public class FPOSalesDetailsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> updateSalesDetails1(@PathVariable Integer id, @RequestBody FPOSaleInfo fpoSalesInfo) 
+    public ResponseEntity<MessageResponse> updateSalesDetails1(@PathVariable Integer id, @RequestBody FPOSaleInfo fpoSalesInfo) 
     {
-        ResponseEntity<String> resp = null;
+       /* ResponseEntity<String> resp = null;
         try {
             FPOSaleInfo fsd = fpoSalesDetailsService.updateSalesDetails(id, fpoSalesInfo);
             resp = new ResponseEntity<String>("FPOSalesDetails Updated Successfully!", HttpStatus.OK );
@@ -113,7 +125,18 @@ public class FPOSalesDetailsController {
             e.printStackTrace();
         }
         LOG.info("Exiting FPOSalesDetails Of Controller with response ", resp);
-        return resp;
+        return resp;*/
+        
+        ResponseEntity<MessageResponse> resp = null;
+		try {
+			fpoSalesDetailsService.updateSalesDetails(id, fpoSalesInfo);
+			resp = ResponseEntity.ok(new MessageResponse("Fpo sales details updated Successfully!"));
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Update the Fpo sales details");
+			e.printStackTrace();
+		}
+		return resp;
     }
 
 
@@ -124,8 +147,8 @@ public class FPOSalesDetailsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> deleteSalesDetails1(@PathVariable Integer id) {
-        LOG.info("Inside SalesDetailsController delete sales details ");
+    public ResponseEntity<MessageResponse> deleteSalesDetails1(@PathVariable Integer id) {
+        /*LOG.info("Inside SalesDetailsController delete sales details ");
         ResponseEntity<String> resp = null;
         try {
             fpoSalesDetailsService.deleteFPOSalesDetails(id);
@@ -137,8 +160,17 @@ public class FPOSalesDetailsController {
             LOG.info("Failed to Delete the Sales Details");
             e.printStackTrace();
         }
-        LOG.info("Exiting FPOSalesDetails Of Controller with response ", resp);
-        return resp;
+        LOG.info("Exiting FPOSalesDetails Of Controller with response ", resp);*/
+    	ResponseEntity<MessageResponse> resp = null;
+		try {
+			fpoSalesDetailsService.deleteFPOSalesDetails(id);
+			resp = ResponseEntity.ok(new MessageResponse("Fpo sales details deleted Successfully!"));
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to delete the Fpo sales details");
+			e.printStackTrace();
+		}
+		return resp;
     }
 
 }
