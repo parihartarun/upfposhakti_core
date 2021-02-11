@@ -147,8 +147,8 @@ public class FPOSalesDetailsController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> deleteSalesDetails1(@PathVariable Integer id) {
-        LOG.info("Inside SalesDetailsController delete sales details ");
+    public ResponseEntity<MessageResponse> deleteSalesDetails1(@PathVariable Integer id) {
+        /*LOG.info("Inside SalesDetailsController delete sales details ");
         ResponseEntity<String> resp = null;
         try {
             fpoSalesDetailsService.deleteFPOSalesDetails(id);
@@ -160,8 +160,17 @@ public class FPOSalesDetailsController {
             LOG.info("Failed to Delete the Sales Details");
             e.printStackTrace();
         }
-        LOG.info("Exiting FPOSalesDetails Of Controller with response ", resp);
-        return resp;
+        LOG.info("Exiting FPOSalesDetails Of Controller with response ", resp);*/
+    	ResponseEntity<MessageResponse> resp = null;
+		try {
+			fpoSalesDetailsService.deleteFPOSalesDetails(id);
+			resp = ResponseEntity.ok(new MessageResponse("Fpo sales details deleted Successfully!"));
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to delete the Fpo sales details");
+			e.printStackTrace();
+		}
+		return resp;
     }
 
 }
