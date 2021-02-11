@@ -83,7 +83,7 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines();
+            FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType);
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
 
@@ -121,7 +121,7 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping("/uploads/FPOGuidelines/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -165,7 +165,7 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
         //fpoGuidelines.setId(id.intValue());
-        fpoGuidelines.setDescription(description);
+        //fpoGuidelines.setDescription(description);
         //fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
         ResponseEntity<MessageResponse> resp = null;
         try {

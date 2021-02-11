@@ -82,7 +82,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -110,7 +110,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             if(fileName != null) {
                 fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/fpoguidelines/downloadFile/")
+                        .path("/fpoguidelines/download/")
                         .path(fileName)
                         .toUriString();
 
@@ -179,9 +179,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentPrincipalName = authentication.getName();
             FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id.intValue()).get();
-            //fpoGuideline.setDeleted(true);
-            //fpoGuideline.setDeleteDate(Calendar.getInstance());
-            //fpoGuideline.setDeleteBy(currentPrincipalName);
+            fpoGuideline.setDeleted(true);
+            fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)

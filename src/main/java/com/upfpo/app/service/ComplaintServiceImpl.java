@@ -86,7 +86,7 @@ public class ComplaintServiceImpl implements ComplaintService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/Complaint/")
+                    .path("/complaint/download/")
                     .path(fileName)
                     .toUriString();
             complaints.setFilePath(fileDownloadUri);
@@ -182,7 +182,9 @@ public class ComplaintServiceImpl implements ComplaintService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
-    public Complaints deptComplaintAssign(Integer id, Complaints complaints1){
+
+    @Override
+    public Complaints complaintAssign(Integer id, Complaints complaints1){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -193,7 +195,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     complaints.setAssignTo(complaints1.getAssignTo());
                     complaints.setAssignBy(currentPrincipalName);
                     complaints.setAssigned_date(Calendar.getInstance().getTime());
-                    complaints.setDeptComment(complaints1.getDeptComment());
+                    complaints.setFpoComment(complaints1.getFpoComment());
                     complaints.setDeleted(false);
                     complaints.setStatus(complaints1.getStatus());
 

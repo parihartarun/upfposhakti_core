@@ -1,5 +1,6 @@
 package com.upfpo.app.repository;
 
+import java.util.List;
 import java.util.OptionalDouble;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	java.util.Optional<User> findByUserNameAndIsEnabledTrueAndIsDeletedFalse(String username);
 
-	
+
+    List<User> findByRoleRefId(String id);
 }

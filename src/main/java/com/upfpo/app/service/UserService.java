@@ -30,5 +30,7 @@ public interface UserService {
 
 	User updateUser(Long userId, User user);
 	
-	void deleteUserById(Long userId);	
+	void deleteUserById(Long userId);
+
+	List<User> getByDepartment(String id);
 }

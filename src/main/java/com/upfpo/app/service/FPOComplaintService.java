@@ -8,7 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface FPOComplaintService {
+    FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file);
+
     FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file);
+
+    FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file);
 
     List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
 

@@ -118,7 +118,7 @@ public class SchemeDetailController {
     }
 
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="SchemeDetail Download" ,code=201, produces = "application/json", notes="Api for Download SchemeDetail File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
