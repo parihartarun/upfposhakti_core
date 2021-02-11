@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.TotalProductionDTO;
+import com.upfpo.app.repository.FPOCropProductionReporisitory;
 import com.upfpo.app.repository.TotalProductionRepository;
 
 @Service
@@ -17,6 +18,9 @@ public class TotalProductionCalculation
 	
 	@Autowired
 	TotalProductionRepository totalProductionRepository;
+	
+	@Autowired
+	FPOCropProductionReporisitory fPOCropProductionReporisitory;
 	
 	String sql = "";
 	
@@ -43,4 +47,9 @@ public class TotalProductionCalculation
 	 * totalProductionRepository. }
 	 */
 	
+	
+	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	{
+		double fpoActulaProduction = 
+	}
 }

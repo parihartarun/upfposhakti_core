@@ -8,5 +8,5 @@ import com.upfpo.app.entity.FPOSaleInfo;
 @Repository
 public interface FpoSalesInfoMasterRepository extends JpaRepository<FPOSaleInfo, Integer>
 {
-
+	
 }
