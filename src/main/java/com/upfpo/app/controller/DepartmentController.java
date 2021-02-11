@@ -62,13 +62,13 @@ public class DepartmentController {
 	}
 	
 	@GetMapping(value="/getAlluser")
-	@ApiOperation(value="Get All user for department",code=200,produces = "application/json",notes="Api for view all users")
+	@ApiOperation(value="Get All user for department",code=200,produces = "application/json",notes="Api for view all users",response=DepartmentAllUserDto.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public @ResponseBody List<DepartmentAllUserDto> getUsers()
+	public List<DepartmentAllUserDto> getUsers()
 	{
 		return departmentService.getAllUser();
 	}
