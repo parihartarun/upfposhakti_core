@@ -212,7 +212,7 @@ public class ComplaintContoller {
         return resp;
     }
 
-    @PostMapping("/dept/{id}")
+    @PutMapping("/dept/{id}")
     @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -220,9 +220,9 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> deptComplaintAssign(@PathVariable Integer id,
-                                                           @RequestParam(value = "assign_to") String assignTo,
-                                                           @RequestParam(value = "status") Status status,
-                                                           @RequestParam(value = "comment") String fpoComment) {
+                                                           @RequestPart(value = "assign_to") String assignTo,
+                                                           @RequestPart(value = "status") Status status,
+                                                           @RequestPart(value = "comment") String fpoComment) {
         LOG.info("Inside Complaint updating Complaint detail ");
         Complaints complaints = new Complaints();
         complaints.setId(id);

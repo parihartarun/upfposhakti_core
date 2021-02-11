@@ -151,8 +151,6 @@ public class PhotoUploadController {
         PhotoUpload photoUploads = new PhotoUpload();
         photoUploads.setId(id);
         photoUploads.setDescription(description);
-
-
         ResponseEntity<MessageResponse> resp = null;
         try {
             LOG.info("test");

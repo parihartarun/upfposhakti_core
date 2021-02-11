@@ -129,7 +129,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     }
 
     @Override
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
+    public FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String fileName;
