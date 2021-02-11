@@ -1,7 +1,6 @@
 package com.upfpo.app.repository;
 
 import java.util.List;
-import java.util.OptionalDouble;
 
 import javax.transaction.Transactional;
 
