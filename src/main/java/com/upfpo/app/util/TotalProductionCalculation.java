@@ -73,7 +73,7 @@ public class TotalProductionCalculation
 		
 		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
 		
-		if(fpoMarketableQty != null)
+		if(fpoMarketableQty == null)
 		{
 			fpoMarketableQty = 0.0;
 		}
@@ -124,7 +124,7 @@ public class TotalProductionCalculation
 	{
 		Double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId);
 		
-		if(totalMarketableQty != null)
+		if(totalMarketableQty == null)
 		{
 			totalMarketableQty = 0.0;
 		}
