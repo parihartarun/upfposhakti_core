@@ -1,11 +1,13 @@
 package com.upfpo.app.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
@@ -21,9 +23,17 @@ public class EnquiryServiceImpl implements EnquiryService{
         return enquiryRepository.findAll();
     }
 
-    public Enquiry createEnquiry (Enquiry enquiry){
-
-        return enquiryRepository.save(enquiry);
+    public Enquiry createEnquiry (EnquieryRequest enquiryRequest){
+   
+    	
+    	Enquiry enquiry =  new Enquiry();
+    	enquiry.setCreateDateTime(new Date());
+    	enquiry.setCropMaster(null);
+    	enquiry.setFulfillmentDate(null);
+    	enquiry.setFpo(null);
+    	enquiry.setQuantity(null);
+    	
+    	return enquiryRepository.save(enquiry);
     }
 
     public Enquiry updateEnquiryDetail(Long id, Enquiry enquiry) {
@@ -35,7 +45,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         return enquiryRepository.save(enquiry);
     }
 
-
     public Optional deleteEnquiry(Long id) {
         return enquiryRepository.findById(id)
                 .map(enquiry -> {
@@ -45,6 +54,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     }
 
 	public void saveEnquiry(Enquiry enquiry) {
+	
 		enquiryRepository.save(enquiry);
 	}
 
@@ -56,4 +66,6 @@ public class EnquiryServiceImpl implements EnquiryService{
 		return enquiryRepository.findByFpo(fpo);
 	}
 
+	
+	
 }

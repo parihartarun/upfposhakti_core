@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
@@ -73,7 +74,7 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createEnquiry(@RequestBody Enquiry enquiry) {
+    public ResponseEntity<String> createEnquiry(@RequestBody EnquieryRequest enquiry) {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
@@ -142,7 +143,7 @@ public class EnquiryController {
     
     @PostMapping()
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
-    @ApiResponses(value= {
+    @ApiResponses(value = {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
