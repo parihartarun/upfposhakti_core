@@ -50,6 +50,6 @@ public class TotalProductionCalculation
 	
 	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
-		double fpoActulaProduction = 
+		//double fpoActulaProduction = 
 	}
 }

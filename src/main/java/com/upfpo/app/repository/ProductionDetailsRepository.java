@@ -20,7 +20,7 @@ public interface ProductionDetailsRepository extends JpaRepository<ProductionDet
 	public double getMarketableQty(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId);
 	
 	
-	@Column(name="season_ref")
+	/*@Column(name="season_ref")
 	private Integer  seasonName;
     
     @Column(name="crop_type")
@@ -42,5 +42,5 @@ public interface ProductionDetailsRepository extends JpaRepository<ProductionDet
 	private Double  actualProdcution;
     
     @Column(name="marketable_surplus")
-	private Double marketableSurplus;
+	private Double marketableSurplus;*/
 }
