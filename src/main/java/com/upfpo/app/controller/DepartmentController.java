@@ -1,23 +1,22 @@
 package com.upfpo.app.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.upfpo.app.auth.request.LoginRequest;
+import com.upfpo.app.auth.request.UserDeactivateRequest;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.DepartmentSalesReportDto;
-import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.ReasonsMaster;
 import com.upfpo.app.service.DepartmentService;
 
 import io.swagger.annotations.Api;
@@ -71,6 +70,70 @@ public class DepartmentController {
 	public List<DepartmentAllUserDto> getUsers()
 	{
 		return departmentService.getAllUser();
+	}
+	
+	@GetMapping(value="/getAllReasons")
+	@ApiOperation(value="Get All user for department",code=200,produces = "application/json",notes="Api for view all users",response=ReasonsMaster.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<ReasonsMaster> getReasons()
+	{
+		return departmentService.getAllReasons();
+	}
+	
+	@PutMapping(value="/deactivateUser")
+	@ApiOperation(value="Deactivate user by department",code=200,produces = "application/json",notes="Api for deactivate users",response=String.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public String deActivateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+		String msg = null;
+		try {
+			if ( userDeactivateRequest.getUserrole()!= null
+					&& userDeactivateRequest.getUserrole().equals("ROLE_MIN")) {
+				Long uid = new Long(userDeactivateRequest.getUserid());
+				Integer masterId = userDeactivateRequest.getMasterId();
+				departmentService.deActivateUser(uid, userDeactivateRequest.getReason(), masterId);
+				msg = "SUCCESS";
+			} 
+			else {
+				msg = "FAIL";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return msg;
+	}
+	
+	@PutMapping(value="/activateUser")
+	@ApiOperation(value="Activate user by department",code=200,produces = "application/json",notes="Api for Activate users",response=String.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public String activateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+		String msg = null;
+		try {
+			if ( userDeactivateRequest.getUserrole()!= null
+					&& userDeactivateRequest.getUserrole().equals("ROLE_MIN")) {
+				Long uid = new Long(userDeactivateRequest.getUserid());
+				Integer masterId = userDeactivateRequest.getMasterId();
+				departmentService.activateUser(uid, masterId);
+				msg = "SUCCESS";
+			} 
+			else {
+				msg = "FAIL";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return msg;
 	}
 
 }
