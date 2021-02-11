@@ -70,10 +70,13 @@ public class FPOGuidelines implements Serializable {
     public FPOGuidelines() {
     }
 
-    public FPOGuidelines(FPOGuidelineType fpoGuidelineType, String description) {
+
+
+    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType) {
         this.description=description;
         this.fpoGuidelineType=fpoGuidelineType;
     }
+
 
     public String getDescription() {
         return description;
