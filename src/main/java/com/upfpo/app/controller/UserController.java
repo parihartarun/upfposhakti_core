@@ -94,4 +94,16 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
 	}
+
+	@GetMapping("/dept/{role_id}")
+	@ApiOperation(value="Get user with role Department", code=200, produces = "application/json", notes="Api for get user with role department",response=User.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response = ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response = ExceptionResponse.class, message = "Validation Failed"),
+	})
+	//@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getUserByDepartment(@PathVariable(value = "role_id") String roleid) {
+		return new ResponseEntity<List<User>>(userService.getByDepartment(roleid), HttpStatus.OK);
+	}
 }
