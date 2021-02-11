@@ -13,6 +13,7 @@ import com.upfpo.app.dto.FPOSalesDetailsDTO;
 import com.upfpo.app.entity.FPOSaleInfo;
 import com.upfpo.app.repository.FpoSalesInfoMasterRepository;
 import com.upfpo.app.util.GetFinYear;
+import com.upfpo.app.util.TotalProductionCalculation;
 
 @Service
 public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
@@ -22,13 +23,18 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     
 	@Autowired
     private FpoSalesInfoMasterRepository fpoSalesInfoMasterRepository;
+	
+	@Autowired
+	private TotalProductionCalculation totalProductionCalculation;
     
     @Override
-    public FPOSaleInfo insertSalesDetails(FPOSaleInfo fPOSaleInfo) 
+    public void insertSalesDetails(FPOSaleInfo fPOSaleInfo) 
     {
+    	String financialYear = GetFinYear.getCurrentFinYear();
     	fPOSaleInfo.setDeleted(false);
-    	fPOSaleInfo.setFinYear(GetFinYear.getCurrentFinYear());
-		return fpoSalesInfoMasterRepository.save(fPOSaleInfo);
+    	fPOSaleInfo.setFinYear(financialYear);
+		fpoSalesInfoMasterRepository.save(fPOSaleInfo);
+		totalProductionCalculation.updateTotalProductionForSalesDetails(fPOSaleInfo.getSoldQuantity(), fPOSaleInfo.getCropRefName(), fPOSaleInfo.getVerietyId(), fPOSaleInfo.getSeason(), financialYear, fPOSaleInfo.getMasterId());
     }
     
     @Override

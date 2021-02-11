@@ -71,42 +71,40 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 		marketableSurplus.setFinancialYear(financialYear);
 		marketableSurplus.setDeleted(false);
 		fpoCropProductionRepo.save(marketableSurplus);
-		//totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
-		
-		/*TotalProduction totProd = new TotalProduction();
-		totProd.setCropMaster(marketableSurplus.getCrop_id());
-		totProd.setCropVerityMaster(marketableSurplus.getVerietyId());
-		totProd.setFpoRegister(marketableSurplus.getMasterId());
-		totProd.setTotalMarketable(marketableSurplus.getMarketableQuantity());
-		totProd.setTotal_actual_prod(marketableSurplus.getActualQuantity());
-		totProd.setMarketableSurplusId(marketableSurplus.getId());	
-		marketableSurplus.setFinancialYear(GetFinYear.getCurrentFinYear());
-		totalProductionRepository.save(totProd);*/
-		
+		totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
 	}
 
 	@Override
 	public MarketableSurplus updateMarketableSurplus(Integer id, MarketableSurplus marketableSurplusMaster) 
 	{
 		Optional<MarketableSurplus> marketableSurplus = fpoCropProductionRepo.findById(id);
+		String financialYear = GetFinYear.getCurrentFinYear();
 		MarketableSurplus newMarketableSurplus = null;
-		if(marketableSurplus.isPresent())
+		try
 		{
-			newMarketableSurplus = fpoCropProductionRepo.findById(id).get();
-			newMarketableSurplus.setActualQuantity(marketableSurplusMaster.getActualQuantity());
-			newMarketableSurplus.setCrop_id(marketableSurplusMaster.getCrop_id());
-			newMarketableSurplus.setVerietyId(marketableSurplusMaster.getVerietyId());
-			newMarketableSurplus.setMarketableQuantity(marketableSurplusMaster.getMarketableQuantity());
-			newMarketableSurplus.setSeason(marketableSurplusMaster.getSeason());
-			
-			newMarketableSurplus = fpoCropProductionRepo.save(newMarketableSurplus);
+			if(marketableSurplus.isPresent())
+			{
+				newMarketableSurplus = fpoCropProductionRepo.findById(id).get();
+				newMarketableSurplus.setActualQuantity(marketableSurplusMaster.getActualQuantity());
+				newMarketableSurplus.setCrop_id(marketableSurplusMaster.getCrop_id());
+				newMarketableSurplus.setVerietyId(marketableSurplusMaster.getVerietyId());
+				newMarketableSurplus.setMarketableQuantity(marketableSurplusMaster.getMarketableQuantity());
+				newMarketableSurplus.setSeason(marketableSurplusMaster.getSeason());
+				newMarketableSurplus.setFinancialYear(financialYear);
+				
+				newMarketableSurplus = fpoCropProductionRepo.save(newMarketableSurplus);
+			}
+			else
+			{
+				newMarketableSurplus = fpoCropProductionRepo.save(marketableSurplusMaster);
+			}
+			totalProductionCalculation.updateTotalProduction(marketableSurplusMaster.getCrop_id(), marketableSurplusMaster.getVerietyId(), marketableSurplusMaster.getSeason(), financialYear, marketableSurplusMaster.getMasterId());
 		}
-		else
+		catch(Exception e)
 		{
-			marketableSurplusMaster = fpoCropProductionRepo.save(marketableSurplusMaster);
+			System.err.print(e.getMessage());
 		}
 		return newMarketableSurplus;
-		
 	}
 
 	@Override

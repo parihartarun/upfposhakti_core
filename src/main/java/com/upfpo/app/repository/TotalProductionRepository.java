@@ -21,12 +21,23 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 {
 	//public Optional<TotalProduction> findByMarketableSurplusId(Integer id);
 	
-	 /*@Modifying
+	 @Modifying
 	 @Transactional
-	 @Query("update TotalProduction t set t.totalProduction = :actualProduction and t.totalMarketable = :totalMarketable "
-	 		+ "where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :varietyId and t.fpoRegister = :masterId")
-	 public void updateTotalProduction(Double actualProduction, Double totalMarketable, int cropId, int varietyId, int masterId);*/
+	 @Query("update com.upfpo.app.entity.TotalProduction t set t.total_actual_prod= :actualProduction, t.totalMarketable= :totalMarketable "
+	 		+ "where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :varietyId and t.fpoRegister= :masterId")
+	 public void updateTotalProduction(Double actualProduction, Double totalMarketable, int cropId, int varietyId, int masterId);
 	 
-	// @Query("select count(*) from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId ")
-	 //public int getCountTotalProductionCount(int cropId, int cropVarietyId, int masterId);
+	 @Query("select count(*) from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId ")
+	 public int getCountTotalProductionCount(int cropId, int cropVarietyId, int masterId);
+	 
+	 @Query("select t.totalMarketable from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId")
+	 public double getTotalMarketableQty(int cropId, int cropVarietyId, int masterId);
+	
+	 @Modifying
+	 @Transactional
+	 @Query("update com.upfpo.app.entity.TotalProduction t set t.totalSold= :totalSold, t.currentMarketable= :currentMarketable "
+	 		+ "where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister= :masterId")
+	 public void updateMarketable(double totalSold, double currentMarketable, int cropId, int cropVarietyId, int masterId);
 }
+
+

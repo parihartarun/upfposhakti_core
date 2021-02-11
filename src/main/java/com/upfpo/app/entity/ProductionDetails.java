@@ -94,8 +94,8 @@ public class ProductionDetails implements Serializable {
 	    @Column(name="delete_date")
 	    private java.sql.Date deleteDate;
 	    
-	    @Column(name="farmer_id")
-		private Integer farmerId;
+	    /*@Column(name="farmer_id")
+		private Integer farmerId;*/
 	    
 	    @Column(name="base_land") 
 	    private Integer baseland;
@@ -121,9 +121,9 @@ public class ProductionDetails implements Serializable {
 	    @Column(name="is_deleted")
 	    private boolean isDeleted;
 	    
-	    /*@ManyToOne
+	    @ManyToOne
 		@JoinColumn(name="farmer_id",updatable = true)
-		private FarmerMaster farmerProfile;*/
+		private FarmerMaster farmerProfile;
 	    
 
 	    
@@ -220,13 +220,13 @@ public class ProductionDetails implements Serializable {
 			this.deleteDate = deleteDate;
 		}
 
-		public Integer getFarmerId() {
+		/*public Integer getFarmerId() {
 			return farmerId;
 		}
 
 		public void setFarmerId(Integer farmerId) {
 			this.farmerId = farmerId;
-		}
+		}*/
 
 		public String getGuardianName() {
 			return guardianName;
@@ -316,12 +316,12 @@ public class ProductionDetails implements Serializable {
 			this.isDeleted = isDeleted;
 		}
 
-		/*public FarmerMaster getFarmerProfile() {
+		public FarmerMaster getFarmerProfile() {
 			return farmerProfile;
 		}
 
 		public void setFarmerProfile(FarmerMaster farmerProfile) {
 			this.farmerProfile = farmerProfile;
-		}*/
+		}
 		
 	}

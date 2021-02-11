@@ -1,13 +1,14 @@
 package com.upfpo.app.util;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.TotalProductionDTO;
 import com.upfpo.app.entity.TotalProduction;
+import com.upfpo.app.repository.CropDetailsMasterRepository;
+import com.upfpo.app.repository.CropVarietyRepository;
 import com.upfpo.app.repository.FPOCropProductionReporisitory;
 import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
@@ -26,6 +27,12 @@ public class TotalProductionCalculation
 	
 	@Autowired
 	ProductionDetailsRepository productionDetailsRepository; 
+	
+	@Autowired
+	CropDetailsMasterRepository cropDetailsMasterRepository;
+	
+	@Autowired
+	CropVarietyRepository cropVarietyRepository;
 	
 	String sql = "";
 	
@@ -47,7 +54,7 @@ public class TotalProductionCalculation
 		 return obj;
 	}
 	
-	/*public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
 		double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId);
 		double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId);
@@ -64,16 +71,15 @@ public class TotalProductionCalculation
 		try
 		{
 			count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
-			if(count > 0)
+			if(count != 0 && count > 0 )
 			{
-				//totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
-				count = 10;
+				totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
 			}
 			else
 			{
 				TotalProduction totalProduction = new TotalProduction();
-				totalProduction.getCropMaster().setCropId(cropId);
-				totalProduction.getCropVerityMaster().setVerietyId(cropVarietyId);
+				totalProduction.setCropMaster(cropDetailsMasterRepository.findById(cropId).get());
+				totalProduction.setCropVerityMaster(cropVarietyRepository.findById(cropVarietyId).get());
 				totalProduction.setFpoRegister(masterId);
 				totalProduction.setTotal_actual_prod(totalActualProduction);
 				totalProduction.setTotalMarketable(totalMarketableQty);
@@ -84,7 +90,32 @@ public class TotalProductionCalculation
 		{
 			System.err.print(e.getMessage());
 		}
+	}
+	
+	public void updateTotalProductionForSalesDetails(double soldQty, int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	{
+		double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId);
 		
+		double updatedMarketableQty = totalMarketableQty - soldQty;
 		
-	}*/
+		int count = 0;
+		
+		try
+		{
+			count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+			if(count != 0 && count > 0 )
+			{
+				totalProductionRepository.updateMarketable(soldQty, updatedMarketableQty, cropId, cropVarietyId, masterId);
+			}
+			else
+			{
+				throw new Exception("No record is available");
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.print(e.getMessage());
+		}
+	}
+	
 }
