@@ -171,6 +171,27 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         return complaint;
     }
 
+    @Override
+    public List<FPOComplaints> getComplaintBySupplierId(Integer supplierId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByInputSupplierId(supplierId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getComplaintByFpoId(Integer fpoId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getComplaintByChcFmbId(Integer chcId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbId(chcId);
+        return complaint;
+    }
+
 
     @Override
     public List<FPOComplaints> getAllFPOComplaint() {

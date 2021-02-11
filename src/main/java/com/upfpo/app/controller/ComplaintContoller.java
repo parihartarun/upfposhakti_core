@@ -82,12 +82,13 @@ public class ComplaintContoller {
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
                                                            @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") Integer farmerId,
+                                                           @RequestParam("fpo_id") Integer fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            Complaints complaints = new Complaints(description, title, issueType, farmerId);
+            Complaints complaints = new Complaints(description, title, issueType, farmerId, fpoId);
             Complaints id = complaintService.createComplaintByFarmer(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");

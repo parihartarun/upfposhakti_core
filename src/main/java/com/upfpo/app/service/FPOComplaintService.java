@@ -20,5 +20,11 @@ public interface FPOComplaintService {
 
     List<Complaints> getFarmerComplaintByFPOId(Integer fpoId);
 
+    List<FPOComplaints> getComplaintBySupplierId(Integer supplierId);
+
+    List<FPOComplaints> getComplaintByFpoId(Integer fpoId);
+
+    List<FPOComplaints> getComplaintByChcFmbId(Integer chcId);
+
     List<FPOComplaints> getAllFPOComplaint();
 }
