@@ -99,7 +99,6 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Override
     public Boolean deleteComplaint(Integer id) {
-
         try {
             Complaints complaints = complaintRepository.findById(id).get();
             complaints.setDeleted(true);
@@ -155,7 +154,7 @@ public class ComplaintServiceImpl implements ComplaintService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/Complaint")
+                    .path("/complaint/download")
                     .path(fileName)
                     .toUriString();
             complaintRepository.findById(id)
