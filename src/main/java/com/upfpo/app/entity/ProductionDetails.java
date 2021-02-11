@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
@@ -118,6 +120,10 @@ public class ProductionDetails implements Serializable {
 
 	    @Column(name="is_deleted")
 	    private boolean isDeleted;
+	    
+	    /*@ManyToOne
+		@JoinColumn(name="farmer_id",updatable = true)
+		private FarmerMaster farmerProfile;*/
 	    
 
 	    
@@ -309,5 +315,13 @@ public class ProductionDetails implements Serializable {
 		public void setDeleted(boolean isDeleted) {
 			this.isDeleted = isDeleted;
 		}
+
+		/*public FarmerMaster getFarmerProfile() {
+			return farmerProfile;
+		}
+
+		public void setFarmerProfile(FarmerMaster farmerProfile) {
+			this.farmerProfile = farmerProfile;
+		}*/
 		
 	}

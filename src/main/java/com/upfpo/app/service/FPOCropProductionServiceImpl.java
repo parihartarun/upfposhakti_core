@@ -21,6 +21,7 @@ import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
 import com.upfpo.app.util.GetCurrentDate;
 import com.upfpo.app.util.GetFinYear;
+import com.upfpo.app.util.TotalProductionCalculation;
 
 @Service
 public class FPOCropProductionServiceImpl implements FPOCropProductionService {
@@ -33,6 +34,9 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	
 	@Autowired
 	private TotalProductionRepository totalProductionRepository;
+	
+	@Autowired
+	TotalProductionCalculation totalProductionCalculation;
 	
 	@Autowired
 	private CropDetailsMasterRepository cropDetailsMasterRepository;
@@ -63,8 +67,12 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Transactional
 	public void saveMarketableSurplus(MarketableSurplus marketableSurplus) 
 	{
+		String financialYear = GetFinYear.getCurrentFinYear();
+		marketableSurplus.setFinancialYear(financialYear);
 		marketableSurplus.setDeleted(false);
 		fpoCropProductionRepo.save(marketableSurplus);
+		//totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
+		
 		/*TotalProduction totProd = new TotalProduction();
 		totProd.setCropMaster(marketableSurplus.getCrop_id());
 		totProd.setCropVerityMaster(marketableSurplus.getVerietyId());

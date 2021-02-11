@@ -11,10 +11,10 @@ import com.upfpo.app.entity.MarketableSurplus;
 @Repository
 public interface FPOCropProductionReporisitory extends JpaRepository<MarketableSurplus, Integer>
 {
-	@Query("select sum(m.actualQuantity) from MarketableSurplus m where m.crop_id = :cropId and m.verietyId=:cropVarietyId and m.season=:seasonId and m.masterId")
-	public double getActulaProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId);
+	/*@Query("select sum(m.actualQuantity) from MarketableSurplus m where m.crop_id = :cropId and m.verietyId=:cropVarietyId and m.season=:seasonId and m.masterId=:masterId")
+	public double getActulaProduction(int cropId, int cropVarietyId, int seasonId, int masterId);
 	
-	@Query("select sum(m.marketableQuantity) from MarketableSurplus m where m.crop_id = :cropId and m.verietyId=:cropVarietyId and m.season=:seasonId and m.masterId")
-	public double getMarketableQty(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId);
+	@Query("select sum(m.marketableQuantity) from MarketableSurplus m where m.crop_id = :cropId and m.verietyId=:cropVarietyId and m.season=:seasonId and m.masterId=:masterId")
+	public double getMarketableQty(int cropId, int cropVarietyId, int seasonId, int masterId);*/
 	
 }
