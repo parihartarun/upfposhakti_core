@@ -70,27 +70,25 @@ public class FPOGuidelineController {
         return fpoGuidelineService.getFPOGuidelineByType(guidelineType);
     }
     
-    @PostMapping
+    @PostMapping(value = "/uploadFPOGuideline")
     @ApiOperation(value="Create FPOGuidelines" ,code=201, produces = "application/json", notes="Api for all Upload FPOGuidelines",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> uploadFPOGuidline(@RequestParam("description") String description,
+    public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
+            FPOGuidelines fpoGuidelines = new FPOGuidelines();
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
-            LOG.info("FPOGuidelines uploaded Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the FPOGuidelines");
             e.printStackTrace();
         }
@@ -123,7 +121,7 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/uploads/FPOGuidelines/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -166,9 +164,9 @@ public class FPOGuidelineController {
                                                              @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
-        fpoGuidelines.setId(id);
+        //fpoGuidelines.setId(id.intValue());
         fpoGuidelines.setDescription(description);
-        fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
+        //fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
         ResponseEntity<MessageResponse> resp = null;
         try {
             //FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
@@ -186,22 +184,5 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping(value = "/downloadfile")
-    public StreamingResponseBody getSteamingFile(HttpServletResponse response, @PathVariable String filepath) throws IOException {
 
-            response.setContentType("application/json");
-            response.setHeader("Content-Disposition", "attachment; filename=\"filepath\"");
-
-            InputStream inputStream = new FileInputStream(filepath);
-            return outputStream -> {
-                int nRead;
-                byte[] data = new byte[1024];
-                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                    System.out.println("Writing some bytes of file...");
-                    outputStream.write(data, 0, nRead);
-                }
-            };
-
-    }
-    
 }

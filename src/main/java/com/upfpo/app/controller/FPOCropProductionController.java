@@ -91,21 +91,20 @@ public class FPOCropProductionController {
 	            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
 	            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
 	    })
-	    public ResponseEntity<String> updateEnquiry(@PathVariable Integer id, @RequestBody MarketableSurplus marketableSurplus) {
-	        LOG.info("Inside FPOCropProductionController updating sales details ", marketableSurplus);
-	        ResponseEntity<String> resp = null;
-	        try {
-	        	MarketableSurplus MarketableSplus = fpoCropProductionService.updateMarketableSurplus(id, marketableSurplus);
-	            resp = new ResponseEntity<String>("MarketableSurplus Updated Successfully!", HttpStatus.OK );
-	            LOG.info("MarketableSurplus Updated Successfully!");
-	            //}
-	        } catch (Exception e) {
-	            resp = new ResponseEntity<String>("Failed to Update the MarketableSurplus", HttpStatus.INTERNAL_SERVER_ERROR);
-	            LOG.info("Failed to Update the MarketableSurplus");
-	            e.printStackTrace();
-	        }
-	        LOG.info("Exiting MarketableSurplus Of Controller with response ", resp);
-	        return resp;
+	    public ResponseEntity<MessageResponse> updateEnquiry(@PathVariable Integer id, @RequestBody MarketableSurplus marketableSurplus) {
+	        
+			ResponseEntity<MessageResponse> resp = null;
+			try {
+				fpoCropProductionService.updateMarketableSurplus(id, marketableSurplus);
+				resp = ResponseEntity.ok(new MessageResponse("MarketableSurplus updated Successfully!"));
+				LOG.info("MarketableSurplus created Successfully!");
+			} catch (Exception e) {
+				resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+				LOG.info("Failed to Update the MarketableSurplus");
+				e.printStackTrace();
+			}
+			LOG.info("Exiting MarketableSurplus Of Controller with response ", resp);
+			return resp;
 	    }
 	  
 	  @DeleteMapping("/delete/{id}")

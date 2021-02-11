@@ -77,9 +77,7 @@ public class SchemeDetailController {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-
             SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment);
-
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
             LOG.info("SchemeDetail  created Successfully!");
@@ -93,10 +91,6 @@ public class SchemeDetailController {
         LOG.info("Exiting SchemeDetail Of Controller with response ", resp);
         return resp;
     }
-
-
-
-
 
     @DeleteMapping(value="/{id}")
     @ApiOperation(value="Delete SchemeDetail",code=204,produces = "text/plain",notes="Api for delete SchemeDetail by id",response=Boolean.class)

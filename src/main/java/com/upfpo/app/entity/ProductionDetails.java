@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
@@ -43,28 +45,6 @@ classes = {
                 @ColumnResult(name = "marketable_surplus", type = Double.class)
            })
 })
-/*@SqlResultSetMapping(name =
-"TestMapping", entities = {
-    @EntityResult(entityClass = ProductionDTO.class, fields = {
-        @FieldResult(name = "totalprod", column = "totalprod"),
-        @FieldResult(name = "rabiprod", column = "rabiprod"),
-        @FieldResult(name = "kharifprod", column = "kharifprod"),
-        @FieldResult(name = "zayadprod", column = "zayadprod")}
-        ),
-    @EntityResult(entityClass = FarmerWiseProductionDTO.class, fields = {
-        @FieldResult(name = "farmer_name", column = "farmer_name"),
-        @FieldResult(name = "father_husband_name", column = "father_husband_name"),
-        @FieldResult(name = "mobile", column = "mobile"),
-        @FieldResult(name = "gender", column = "gender"),
-        @FieldResult(name = "category", column = "category"),
-        @FieldResult(name = "season_name", column = "season_name"),
-        @FieldResult(name = "crop_name", column = "crop_name"),
-        @FieldResult(name = "crop_veriety", column = "crop_veriety"),
-        @FieldResult(name = "marketable_surplus", column = "marketable_surplus")
-        }
-        )
-    } )*/
-
 @Table(name="production_details")
 public class ProductionDetails implements Serializable {
 
@@ -140,6 +120,10 @@ public class ProductionDetails implements Serializable {
 
 	    @Column(name="is_deleted")
 	    private boolean isDeleted;
+	    
+	    /*@ManyToOne
+		@JoinColumn(name="farmer_id",updatable = true)
+		private FarmerMaster farmerProfile;*/
 	    
 
 	    
@@ -331,5 +315,13 @@ public class ProductionDetails implements Serializable {
 		public void setDeleted(boolean isDeleted) {
 			this.isDeleted = isDeleted;
 		}
+
+		/*public FarmerMaster getFarmerProfile() {
+			return farmerProfile;
+		}
+
+		public void setFarmerProfile(FarmerMaster farmerProfile) {
+			this.farmerProfile = farmerProfile;
+		}*/
 		
 	}

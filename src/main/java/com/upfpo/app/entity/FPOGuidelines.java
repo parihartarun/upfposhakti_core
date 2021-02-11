@@ -1,19 +1,24 @@
 package com.upfpo.app.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "fpo_guidelines")
-public class FPOGuidelines {
+public class FPOGuidelines implements Serializable {
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
-    private Long id;
+    @ApiModelProperty(notes = "Serializable fpo_guidelines_id",name="id",required=true)
+    private Integer id;
 
     @Column(name = "description")
     private String description;
@@ -167,11 +172,11 @@ public class FPOGuidelines {
         this.fileName = fileName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

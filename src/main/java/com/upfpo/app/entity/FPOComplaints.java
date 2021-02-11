@@ -3,7 +3,6 @@ package com.upfpo.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upfpo.app.dto.FarmerComplaintDTO;
-import com.upfpo.app.dto.FarmerLandDetailDto;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -11,31 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@SqlResultSetMapping(name="FarmerComplaintDTO",
-        classes = {
-                @ConstructorResult(
-                        targetClass = FarmerComplaintDTO.class,
-                        columns = {
-                                @ColumnResult(name = "id", type = Integer.class),
-                                @ColumnResult(name = "fpoid", type = Integer.class),
-                                @ColumnResult(name = "issuetype", type = String.class),
-                                @ColumnResult(name = "status", type = String.class),
-                                @ColumnResult(name = "role", type = String.class),
-                                @ColumnResult(name = "message", type = String.class),
-                                @ColumnResult(name = "description", type = String.class),
-                                @ColumnResult(name = "createdate", type = Calendar.class),
-                                @ColumnResult(name = "filepath", type = String.class),
-                                @ColumnResult(name = "othertype", type = String.class),
-                                @ColumnResult(name = "assignto", type = String.class),
-                                @ColumnResult(name = "assignby", type = String.class),
-                                @ColumnResult(name = "deptcomment", type = String.class),
-                                @ColumnResult(name = "remarks", type = String.class),
-                                @ColumnResult(name = "filename", type = String.class)
-                        })
-        })
-
-@Table(name = "complaints")
-public class Complaints {
+@Table(name = "fpo_complaints")
+public class FPOComplaints {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -50,12 +26,9 @@ public class Complaints {
 
     @Column(name="status")
     private Status status;
-    
+
     @Column(name="fpo_id")
     private Integer fpoId;
-
-    @Column(name="farmerId")
-    private Integer farmerId;
 
     @Column(name="issue_type")
     private String issueType;
@@ -69,17 +42,17 @@ public class Complaints {
     @Column(name="assigned_other")
     private String otherAssigned;
 
-    @Column(name="assigned_to")
+    @Column(name="assign_to")
     private String assignTo;
 
-    @Column(name="assigned_By")
+    @Column(name="assign_By")
     private String assignBy;
 
-    @Column(name="assigned_date")
-    private Date assigned_date;
+    @Column(name="assign_date")
+    private Calendar assign_date;
 
     @Column(name="resolve_date")
-    private Date resolve_date;
+    private Calendar resolve_date;
 
     @Column(name="comment")
     private String deptComment;
@@ -127,47 +100,15 @@ public class Complaints {
 
 
 
-    public Complaints() {
+    public FPOComplaints() {
     }
 
-    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
-                      String otherType, String description, String otherAssigned, String assignTo, String assignBy,
-                      Date assigned_date, Date resolve_date, String deptComment, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
-                      Boolean isDeleted, Date deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
-        this.id = id;
-        this.title = title;
-        this.message = message;
-        this.status = status;
-        this.fpoId = fpoId;
-        this.issueType = issueType;
-        this.otherType = otherType;
-        this.description = description;
-        this.otherAssigned = otherAssigned;
-        this.assignTo = assignTo;
-        this.assignBy = assignBy;
-        this.assigned_date = assigned_date;
-        this.resolve_date = resolve_date;
-        this.deptComment = deptComment;
-        this.remarks = remarks;
-        this.filePath = filePath;
-        this.role = role;
+    public FPOComplaints(String description, String title, String issueType ,Integer fpoId) {
 
-        this.uploadedBy = uploadedBy;
-        this.isDeleted = isDeleted;
-
-        this.createBy = createBy;
-        this.createDateTime = createDateTime;
-        this.complaintsComments = complaintsComments;
-    }
-
-
-
-    public Integer getFarmerId() {
-        return farmerId;
-    }
-
-    public void setFarmerId(Integer farmerId) {
-        this.farmerId = farmerId;
+        this.setIssueType(issueType);
+        this.setDescription(description);
+        this.setTitle(title);
+        this.fpoId=fpoId;
     }
 
     public String getAssignBy() {
@@ -186,14 +127,12 @@ public class Complaints {
         this.deptComment = deptComment;
     }
 
-
-
-    public Complaints(String description, String title, String issueType ,Integer farmerId) {
+    public FPOComplaints(String description, String title, String issueType) {
 
         this.setIssueType(issueType);
         this.setDescription(description);
         this.setTitle(title);
-        this.farmerId=farmerId;
+
     }
 
 
@@ -285,19 +224,20 @@ public class Complaints {
         this.otherAssigned = otherAssigned;
     }
 
-    public Date getAssigned_date() {
-        return assigned_date;
+
+    public Calendar getAssign_date() {
+        return assign_date;
     }
 
-    public void setAssigned_date(Date assigned_date) {
-        this.assigned_date = assigned_date;
+    public void setAssign_date(Calendar assign_date) {
+        this.assign_date = assign_date;
     }
 
-    public Date getResolve_date() {
+    public Calendar getResolve_date() {
         return resolve_date;
     }
 
-    public void setResolve_date(Date resolve_date) {
+    public void setResolve_date(Calendar resolve_date) {
         this.resolve_date = resolve_date;
     }
 
@@ -324,8 +264,6 @@ public class Complaints {
     public void setRole(String role) {
         this.role = role;
     }
-
-
 
     public String getUploadedBy() {
         return uploadedBy;

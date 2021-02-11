@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.dto.FarmerWiseProductionDTO;
 import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.FarmerWiseProductionService;
 
 import io.swagger.annotations.Api;
@@ -33,9 +36,10 @@ public class FarmerWiseProductionReportController
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	})
-	@GetMapping("/getFarmerProductionReport/{fpoId}/{finYear}/{seasonId}")
-	public List<FarmerWiseProductionDTO> getFarmerWiseProductionReport(@PathVariable("fpoId") Integer fpoId,@PathVariable("finYear") String finYear,@PathVariable("seasonId") Integer seasonId)
+	@PostMapping("/getFarmerProductionReport")
+			//+ "/{fpoId}/{finYear}/{seasonId}")
+	public List<FarmerWiseProductionDTO> getFarmerWiseProductionReport(@RequestBody ReportRequestString reportRequestString)
 	{
-		return farmerWiseProductionService.getReport(fpoId,finYear,seasonId);
+		return farmerWiseProductionService.getReport(reportRequestString);
 	}
 }

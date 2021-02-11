@@ -15,6 +15,8 @@ public class FarmerComplaintDTO {
 
     Status status;
 
+    String role;
+
     String message;
 
     String description;
@@ -23,17 +25,11 @@ public class FarmerComplaintDTO {
 
     String filepath;
 
-    String role;
-
     String othertype;
 
     String assignto;
 
      String assignby;
-
-     Date assigndate;
-
-     Date resolvedate;
 
      String deptcomment;
 
@@ -44,21 +40,20 @@ public class FarmerComplaintDTO {
     public FarmerComplaintDTO() {
     }
 
-    public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, Status status, String message, String description, Calendar createdate, String filepath, String role, String othertype, String assignto, String assignby, Date assigndate, Date resolvedate, String deptcomment, String remarks, String filename) {
+
+    public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, Status status, String role, String message, String description, Calendar createdate, String filepath, String othertype, String assignto, String assignby, String deptcomment, String remarks, String filename) {
         this.id = id;
         this.fpoid = fpoid;
         this.issuetype = issuetype;
         this.status = status;
+        this.role = role;
         this.message = message;
         this.description = description;
         this.createdate = createdate;
         this.filepath = filepath;
-        this.role = role;
         this.othertype = othertype;
         this.assignto = assignto;
         this.assignby = assignby;
-        this.assigndate = assigndate;
-        this.resolvedate = resolvedate;
         this.deptcomment = deptcomment;
         this.remarks = remarks;
         this.filename = filename;
@@ -72,13 +67,6 @@ public class FarmerComplaintDTO {
         this.role = role;
     }
 
-    public Date getAssigndate() {
-        return assigndate;
-    }
-
-    public void setAssigndate(Date assigndate) {
-        this.assigndate = assigndate;
-    }
 
     public Status getStatus() {
         return status;
@@ -118,14 +106,6 @@ public class FarmerComplaintDTO {
 
     public void setAssignby(String assignby) {
         this.assignby = assignby;
-    }
-
-    public Date getResolvedate() {
-        return resolvedate;
-    }
-
-    public void setResolvedate(Date resolvedate) {
-        this.resolvedate = resolvedate;
     }
 
     public String getDeptcomment() {

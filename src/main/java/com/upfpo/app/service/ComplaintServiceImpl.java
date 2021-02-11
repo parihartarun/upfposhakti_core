@@ -6,6 +6,7 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.entity.*;
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.ComplaintCatgoriesRepository;
 import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -53,7 +54,7 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Autowired
     public ComplaintServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getComplaintDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -67,11 +68,13 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public Complaints createComplaint (Complaints complaints, MultipartFile file){
+    public Complaints createComplaintByFarmer(Complaints complaints, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        String role = "ROLE_FARMER";
         complaints.setCreateBy(currentPrincipalName);
+        complaints.setStatus(Status.OPEN);
         complaints.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
@@ -207,14 +210,14 @@ public class ComplaintServiceImpl implements ComplaintService {
         List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("farmerId", farmerId).getResultList();
         return obj;
 
-    }*/
+    }
 
     public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
     {
-        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.file_path as filepath, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby, c.assigned_date as assigndate, c.resolve_date as resolvedate, c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
+        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.file_path as filepath, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
                 + "on c.fpo_id = f.fpo_id where c.fpo_id = :fpoId and c.is_deleted = false order by c.id desc";
 
-        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql,"FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
+        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
         return obj;
 
     }
@@ -224,6 +227,15 @@ public class ComplaintServiceImpl implements ComplaintService {
         //return landDetailsRepo.findAll();
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
+    }*/
+
+    @Override
+    public List<Complaints> getComplaintByFarmerId(Integer farmerId){
+
+        return complaintRepository.findByFarmerId(farmerId);
     }
+
+
+
 }
 

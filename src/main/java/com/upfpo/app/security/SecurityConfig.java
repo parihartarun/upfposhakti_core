@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/v3/api-docs",
 				"/v2/api-docs",
                 "/signin/test",
+                "/fpoguidelines/**",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",

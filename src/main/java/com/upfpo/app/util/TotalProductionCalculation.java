@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.TotalProductionDTO;
+import com.upfpo.app.entity.TotalProduction;
+import com.upfpo.app.repository.FPOCropProductionReporisitory;
+import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
 
 @Service
@@ -17,6 +20,12 @@ public class TotalProductionCalculation
 	
 	@Autowired
 	TotalProductionRepository totalProductionRepository;
+	
+	@Autowired
+	FPOCropProductionReporisitory fPOCropProductionReporisitory;
+	
+	@Autowired
+	ProductionDetailsRepository productionDetailsRepository; 
 	
 	String sql = "";
 	
@@ -38,9 +47,44 @@ public class TotalProductionCalculation
 		 return obj;
 	}
 	
-	/*
-	 * public void updateTotalProduction(TotalProductionDTO totalProduction); {
-	 * totalProductionRepository. }
-	 */
-	
+	/*public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	{
+		double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId);
+		double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId);
+		
+		double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
+		
+		double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		
+		double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
+		
+		int count = 0;
+		
+		try
+		{
+			count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+			if(count > 0)
+			{
+				//totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
+				count = 10;
+			}
+			else
+			{
+				TotalProduction totalProduction = new TotalProduction();
+				totalProduction.getCropMaster().setCropId(cropId);
+				totalProduction.getCropVerityMaster().setVerietyId(cropVarietyId);
+				totalProduction.setFpoRegister(masterId);
+				totalProduction.setTotal_actual_prod(totalActualProduction);
+				totalProduction.setTotalMarketable(totalMarketableQty);
+				totalProductionRepository.save(totalProduction);
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.print(e.getMessage());
+		}
+		
+		
+	}*/
 }
