@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,10 +11,17 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.DepartmentSalesReportDto;
+import com.upfpo.app.entity.ReasonsMaster;
+import com.upfpo.app.repository.DepartmentRepository;
+import com.upfpo.app.repository.UserRepository;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
-
+	
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private DepartmentRepository departmentRepository;
 	
 	@Autowired
 	private  EntityManager entityManager;
@@ -272,6 +280,21 @@ public class DepartmentServiceImpl implements DepartmentService{
 				e.printStackTrace();
 			}
 		   return list;
+	}
+
+	@Override
+	public List<ReasonsMaster> getAllReasons() {
+		return departmentRepository.findAll();
+	}
+
+	@Override
+	public void deActivateUser(Long uid, String reason, Integer masterId) {
+		userRepository.deActivateUserByDept(uid,reason, masterId);
+	}
+	
+	@Override
+	public void activateUser(Long uid, Integer masterId) {
+		userRepository.activateUserByDept(uid, masterId);
 	}
 
 
