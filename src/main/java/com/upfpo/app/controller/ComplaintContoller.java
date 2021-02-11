@@ -149,7 +149,7 @@ public class ComplaintContoller {
 
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -221,16 +221,16 @@ public class ComplaintContoller {
     public ResponseEntity<MessageResponse> deptComplaintAssign(@PathVariable Integer id,
                                                            @RequestParam(value = "assign_to") String assignTo,
                                                            @RequestParam(value = "status") Status status,
-                                                           @RequestParam(value = "comment") String deptComment) {
+                                                           @RequestParam(value = "comment") String fpoComment) {
         LOG.info("Inside Complaint updating Complaint detail ");
         Complaints complaints = new Complaints();
         complaints.setId(id);
         complaints.setAssignTo(assignTo);
-        complaints.setDeptComment(deptComment);
+        complaints.setFpoComment(fpoComment);
         complaints.setStatus(status);
         ResponseEntity<MessageResponse> resp = null;
         try {
-            complaintService.deptComplaintAssign(id, complaints);
+            complaintService.complaintAssign(id, complaints);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Updated Successfully!");
             //}

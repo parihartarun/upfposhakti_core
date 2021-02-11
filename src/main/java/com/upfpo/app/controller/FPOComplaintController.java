@@ -44,12 +44,12 @@ public class FPOComplaintController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                           @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") Integer farmerId,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("fpo_id") Integer fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOComplaints complaints = new FPOComplaints(description, title, issueType, farmerId);
+            FPOComplaints complaints = new FPOComplaints(description, title, issueType, fpoId);
             FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
             LOG.info("FPOComplaint  created Successfully!");

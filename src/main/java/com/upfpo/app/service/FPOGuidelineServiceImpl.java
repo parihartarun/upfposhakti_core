@@ -110,7 +110,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             if(fileName != null) {
                 fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/fpoguidelines/downloadFile/")
+                        .path("/fpoguidelines/download/")
                         .path(fileName)
                         .toUriString();
 
