@@ -34,8 +34,7 @@ classes = {
                 columns = {
                         @ColumnResult(name = "fpoid", type = Integer.class),
                         @ColumnResult(name = "farmerId", type = Integer.class),
-                        @ColumnResult(name = "fponame", type = String.class),
-                        @ColumnResult(name = "fpoemail", type = String.class),
+                        @ColumnResult(name = "farmername", type = String.class),
                         @ColumnResult(name = "farmermobile", type = BigInteger.class)
                 })
 })

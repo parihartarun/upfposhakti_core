@@ -6,17 +6,16 @@ public class FarmerComplaintDetailDTO {
 	
 	private Integer farmerId;
 	private Integer fpoId;
-	private String fponame;
-	private String fpoemail;
+	private String farmername;
+	//private String farmeremail;
 	private BigInteger farmermobile;
 	
-	public FarmerComplaintDetailDTO(Integer farmerId, Integer fpoId, String fponame, String fpoemail,
+	public FarmerComplaintDetailDTO(Integer farmerId, Integer fpoId, String fponame,
 			BigInteger farmermobile) {
 		super();
 		this.farmerId = farmerId;
 		this.fpoId = fpoId;
-		this.fponame = fponame;
-		this.fpoemail = fpoemail;
+		this.farmername = fponame;
 		this.farmermobile = farmermobile;
 	}
 	
@@ -32,18 +31,15 @@ public class FarmerComplaintDetailDTO {
 	public void setFpoId(Integer fpoId) {
 		this.fpoId = fpoId;
 	}
-	public String getFponame() {
-		return fponame;
+	
+	public String getFarmername() {
+		return farmername;
 	}
-	public void setFponame(String fponame) {
-		this.fponame = fponame;
+
+	public void setFarmername(String farmername) {
+		this.farmername = farmername;
 	}
-	public String getFpoemail() {
-		return fpoemail;
-	}
-	public void setFpoemail(String fpoemail) {
-		this.fpoemail = fpoemail;
-	}
+
 	public BigInteger getFarmermobile() {
 		return farmermobile;
 	}

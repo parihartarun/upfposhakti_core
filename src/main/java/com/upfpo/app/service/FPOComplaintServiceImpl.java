@@ -171,7 +171,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     @Override//R Api
     public List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId)
     {
-        String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fp.fpo_name as fponame ,fp.fpo_email as fpoemail, fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
+        String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fm.farmer_name as farmername , fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
                 + "on fm.fpo_ref_id = fp.fpo_id where fm.fpo_ref_id = :fpoId and fm.is_deleted = false order by fm.farmer_id desc";
 
         List<FarmerComplaintDetailDTO> obj =  (List<FarmerComplaintDetailDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDetailDTO").setParameter("fpoId", fpoId).getResultList();
