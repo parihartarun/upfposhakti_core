@@ -52,12 +52,12 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         }
     }
 
-    @Override
+    /*@Override
     public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
 
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
-    }
+    }*/
 
     @Override
     public List<FPOComplaints> getAllComplaintToDept(){
@@ -167,7 +167,8 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         return obj;
 
     }
-    
+
+    @Override//R Api
     public List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId)
     {
         String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fp.fpo_name as fponame ,fp.fpo_email as fpoemail, fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
@@ -246,6 +247,13 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
                     fpoComplaints.setStatus(complaints.getStatus());
                     return fpoComplaintRepository.save(fpoComplaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+
+
+    @Override
+    public List<Complaints> getFPOComplaints(Integer id) {
+        return complaintRepository.findByFpoId(id);
     }
 }
 
