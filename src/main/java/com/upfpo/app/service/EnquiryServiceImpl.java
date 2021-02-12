@@ -39,13 +39,15 @@ public class EnquiryServiceImpl implements EnquiryService{
     public Enquiry createEnquiry (EnquieryRequest enquiryRequest){
    
     	
+    	System.out.println("Date Has been received"+enquiryRequest.getFulfillmentDate());
     	
     	Enquiry enquiry =  new Enquiry(); 
     	enquiry.setCreateDateTime(new Date());  // filled
-    	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate().toString());       // from ui
+    	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate());       // from ui
     	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
     	enquiry.setReason(null);                // no idea hence empty
-    	enquiry.setStatus("Active");            // active   
+    	enquiry.setStatus("Active");            // active
+    	enquiry.setEnquieryNumber("INDNT"+enquiryRequest.getUserId()+new Date().getTime());
     	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
     	enquiry.setUser(userRepository.findById(Long.parseLong(""+enquiryRequest.getUserId())).orElseThrow(UserNotFoundException::new));                  // from user	
       	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  	 	 	
@@ -74,11 +76,11 @@ public class EnquiryServiceImpl implements EnquiryService{
 		enquiryRepository.save(enquiry);
 	}
 
-	public Enquiry getEnquiryInfo(Optional<User> user) {
+	public List<Enquiry> getEnquiryInfo(User user) {
 		 return enquiryRepository.findByUser(user);
 	}
 
-	public Enquiry getEnquiryInfoByFpo(Optional<FPORegister> fpo) {
+	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		return enquiryRepository.findByFpo(fpo);
 	}
 

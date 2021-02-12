@@ -11,6 +11,7 @@ public class EnquieryRequest {
     private Date fulfillmentDate; 
     private Double quantity;
     
+    
 	public Integer getFpoId() {
 		return fpoId;
 	}
