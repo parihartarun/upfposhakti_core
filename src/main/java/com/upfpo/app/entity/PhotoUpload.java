@@ -58,7 +58,9 @@ public class PhotoUpload {
     public PhotoUpload() {
     }
 
-    public PhotoUpload(Integer id, String description, String filePath, String fpoId, String fileName, String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted, Calendar deleteDate, String createBy, Calendar createDate, String updateBy) {
+    public PhotoUpload(Integer id, String description, String filePath, String fpoId, String fileName,
+                       String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted,
+                       Calendar deleteDate, String createBy, Calendar createDate, String updateBy) {
         this.id = id;
         this.description = description;
         this.filePath = filePath;
@@ -75,6 +77,20 @@ public class PhotoUpload {
         this.updateBy = updateBy;
     }
 
+    public PhotoUpload(String description) {
+        this.description=description;
+    }
+
+    public PhotoUpload(Integer id, String description) {
+        this.id=id;
+        this.description=description;
+    }
+
+    public PhotoUpload(String description, String fpoId) {
+        this.description=description;
+        this.fpoId=fpoId;
+    }
+
     public String getFpoId() {
         return fpoId;
     }
@@ -89,15 +105,6 @@ public class PhotoUpload {
 
     public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
-    }
-
-    public PhotoUpload(String description) {
-        this.description=description;
-    }
-
-    public PhotoUpload(Integer id, String description) {
-        this.id=id;
-        this.description=description;
     }
 
     public Integer getId() {
@@ -156,8 +163,6 @@ public class PhotoUpload {
         this.updateDate = updateDate;
     }
 
-
-
     public String getUploadedBy() {
         return uploadedBy;
     }
@@ -174,8 +179,6 @@ public class PhotoUpload {
         isDeleted = deleted;
     }
 
-
-
     public String getCreateBy() {
         return createBy;
     }
@@ -183,7 +186,6 @@ public class PhotoUpload {
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
-
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;

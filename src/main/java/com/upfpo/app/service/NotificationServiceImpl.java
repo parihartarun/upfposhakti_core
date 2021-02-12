@@ -148,6 +148,16 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByFarmerId(farmerId);
     }
 
+    @Override
+    public List<Notification> viewAllNotificationOfDepartment(String deptId){
+        return notificationRepository.findByDeptId(deptId);
+    }
+
+    @Override
+    public List<Notification> viewAllNotificationofFPO(String fpoId){
+        return notificationRepository.findByFpoId(fpoId);
+    }
+
 
 
 

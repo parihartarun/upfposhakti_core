@@ -18,4 +18,8 @@ public interface NotificationService {
     List<Notification> getAllNotificationByDepartment(String fpoId);
 
     List<Notification> getAllNotificationByFPO(String farmerId);
+
+    List<Notification> viewAllNotificationOfDepartment(String deptId);
+
+    List<Notification> viewAllNotificationofFPO(String fpoId);
 }
