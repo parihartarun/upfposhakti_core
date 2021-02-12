@@ -3,15 +3,19 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.request.UserDeactivateRequest;
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
@@ -85,13 +89,14 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="/deactivateUser")
-	@ApiOperation(value="Deactivate user by department",code=200,produces = "application/json",notes="Api for deactivate users",response=String.class)
+	@ApiOperation(value="Deactivate user by department",code=200,produces = "application/json",notes="Api for deactivate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public String deActivateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+	@ResponseStatus( HttpStatus.OK)
+	public ResponseEntity<MessageResponse> deActivateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
 		String msg = null;
 		try {
 			if ( userDeactivateRequest.getUserrole()!= null
@@ -99,7 +104,7 @@ public class DepartmentController {
 				Long uid = new Long(userDeactivateRequest.getUserid());
 				Integer masterId = userDeactivateRequest.getMasterId();
 				departmentService.deActivateUser(uid, userDeactivateRequest.getReason(), masterId);
-				msg = "SUCCESS";
+				msg = userDeactivateRequest.getUsername()+ " deactive successfully";
 			} 
 			else {
 				msg = "FAIL";
@@ -107,17 +112,18 @@ public class DepartmentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return msg;
+		return ResponseEntity.ok(new MessageResponse(msg));
 	}
 	
 	@PutMapping(value="/activateUser")
-	@ApiOperation(value="Activate user by department",code=200,produces = "application/json",notes="Api for Activate users",response=String.class)
+	@ApiOperation(value="Activate user by department",code=200,produces = "application/json",notes="Api for Activate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public String activateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+	@ResponseStatus( HttpStatus.OK)
+	public ResponseEntity<MessageResponse> activateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
 		String msg = null;
 		try {
 			if ( userDeactivateRequest.getUserrole()!= null
@@ -125,7 +131,7 @@ public class DepartmentController {
 				Long uid = new Long(userDeactivateRequest.getUserid());
 				Integer masterId = userDeactivateRequest.getMasterId();
 				departmentService.activateUser(uid, masterId);
-				msg = "SUCCESS";
+				msg = userDeactivateRequest.getUsername()+ " active successfully";
 			} 
 			else {
 				msg = "FAIL";
@@ -133,7 +139,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return msg;
+		return ResponseEntity.ok(new MessageResponse(msg));
 	}
 
 }
