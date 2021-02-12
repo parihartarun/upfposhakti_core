@@ -38,7 +38,7 @@ public class Enquiry implements Serializable {
 	
 	
 
-	public Enquiry(Long id, Double quantity, String enquieryNumber, Date fulfillmentDate, String status,
+	public Enquiry(Long id, Double quantity, String enquieryNumber, String fulfillmentDate, String status,
 			String reason, User user, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
 			FPORegister fpo) {
 		super();
@@ -63,7 +63,7 @@ public class Enquiry implements Serializable {
 		this.enquieryNumber = enquieryNumber;
 	}
 
-	private Date fulfillmentDate;
+	private String fulfillmentDate;
 
 	private String status;
 
@@ -89,7 +89,7 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
 
-	public Enquiry(Long id, Double quantity, Date fulfillmentDate, String status, String reason, User user,
+	public Enquiry(Long id, Double quantity, String fulfillmentDate, String status, String reason, User user,
 			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {
 		super();
 		this.id = id;
@@ -123,11 +123,11 @@ public class Enquiry implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public Date getFulfillmentDate() {
+	public String getFulfillmentDate() {
 		return fulfillmentDate;
 	}
 
-	public void setFulfillmentDate(Date fulfillmentDate) {
+	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
 	
