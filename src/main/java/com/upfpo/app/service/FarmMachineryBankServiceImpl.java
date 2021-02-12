@@ -50,7 +50,6 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 			machinery.setMasterId(farmMachineryBank.getMasterId());
 			machinery.setDeleted(false);
 			machinery.setUpdateDate(new java.sql.Date(new java.util.Date().getTime()));
-			machinery.setMasterId(farmMachineryBank.getMasterId());
 			machinery = farmMachineryBankRepository.save(machinery);
 			return machinery;
 		}

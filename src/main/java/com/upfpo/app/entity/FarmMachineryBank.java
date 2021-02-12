@@ -40,7 +40,7 @@ public class FarmMachineryBank implements Serializable{
 	private String UpdatedBy;
 	
 	@Column(name="master_id")
-	private Integer MasterId;
+	private Integer masterId;
 	
 	@Column(name="create_date")
 	private java.sql.Date createDate;
@@ -96,14 +96,6 @@ public class FarmMachineryBank implements Serializable{
 		UpdatedBy = updatedBy;
 	}
 
-	public Integer getMasterId() {
-		return MasterId;
-	}
-
-	public void setMasterId(Integer masterId) {
-		MasterId = masterId;
-	}
-
 	public java.sql.Date getCreateDate() {
 		return createDate;
 	}
@@ -146,6 +138,11 @@ public class FarmMachineryBank implements Serializable{
 		this.updateDate = updateDate;
 	}
 	
-	
-							
+	public Integer getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
+	}						
 }
