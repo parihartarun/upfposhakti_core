@@ -2,16 +2,22 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
@@ -19,6 +25,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.Errors;
 
@@ -134,10 +142,29 @@ public class FPORegister implements Serializable {
 	@Column(name = "total_land")
 	private Double totalland;
 	
-	@Column(nullable = true,name="is_deleted")
+	@Column(name="is_deleted")
     private Boolean isDeleted;
+	 
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name = "master_id" ,referencedColumnName="fpo_id")
+    private List <BoardMember> boardMember;
 	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name = "master_id" ,referencedColumnName="fpo_id")
+    private List <FpoLicenceDetails> fpoLicenceDetails;
 	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name = "master_id" ,referencedColumnName="fpo_id")
+    private List <FarmMachineryBank> farmMachineryBank;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)	
+	@JoinColumn(name="fpo_id")
+	private List<FpoAdditionalServices> fpoAdditionalServices;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true) 
+	@JoinColumn(name = "fpo_id") 
+	@Fetch(value=FetchMode.SELECT)
+	private List <PhotoUpload> photoUpload;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="users_id")
@@ -147,10 +174,9 @@ public class FPORegister implements Serializable {
 		return userFpo;
 	}
 
-	public void setUserFpo(User userFpo) {
-		this.userFpo = userFpo;
-	}
-
+	/*
+	 * public void setUserFpo(User userFpo) { this.userFpo = userFpo; }
+	 */
 	/*
 	 * @NotEmpty(message="required")
 	 * 
@@ -392,5 +418,45 @@ public class FPORegister implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 	
+	public List<FpoAdditionalServices> getFpoAdditionalServices() { 
+		return fpoAdditionalServices; 
+	}
+	  
+	public void listFpoAdditionalServices(List<FpoAdditionalServices> fpoAdditionalServices) { 
+		this.fpoAdditionalServices = fpoAdditionalServices; 
+	}
 
+	public List<FarmMachineryBank> getFarmMachineryBank() {
+		return farmMachineryBank;
+	}
+
+	public void setFarmMachineryBank(List<FarmMachineryBank> farmMachineryBank) {
+		this.farmMachineryBank = farmMachineryBank;
+	}
+
+	public List<FpoLicenceDetails> getFpoLicenceDetails() {
+		return fpoLicenceDetails;
+	}
+
+	public void setFpoLicenceDetails(List<FpoLicenceDetails> fpoLicenceDetails) {
+		this.fpoLicenceDetails = fpoLicenceDetails;
+	}
+
+	public List<BoardMember> getBoardMember() {
+		return boardMember;
+	}
+
+	public void setBoardMember(List<BoardMember> boardMember) {
+		this.boardMember = boardMember;
+	}
+
+	
+	public List<PhotoUpload> getPhotoUpload() { 
+		return photoUpload; 
+	}
+	
+	public void setPhotoUpload(List<PhotoUpload> photoUpload) { 
+		this.photoUpload=photoUpload; 
+	}
+	 
 }

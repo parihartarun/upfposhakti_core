@@ -2,12 +2,16 @@ package com.upfpo.app.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -46,14 +50,13 @@ public class FarmMachineryBank implements Serializable{
 	private java.sql.Date createDate;
 	
 	@Column(name="is_deleted")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 		
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;	
 	
 	@Column(name="update_date")
 	private java.sql.Date updateDate;
-
 	
 	
 	public String getEqupment_name() {
@@ -122,11 +125,11 @@ public class FarmMachineryBank implements Serializable{
 		this.id = id;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -145,7 +148,6 @@ public class FarmMachineryBank implements Serializable{
 	public void setUpdateDate(java.sql.Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	
+
 							
 }

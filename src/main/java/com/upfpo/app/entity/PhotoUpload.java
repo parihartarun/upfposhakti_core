@@ -44,9 +44,17 @@ public class PhotoUpload {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
     private Calendar createdDate;
+    
+    @Column(name = "fpo_id")
+	private Integer fpoId;
+    
 
-    public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate) {
+    public PhotoUpload() {
+
+	}
+
+	public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
+                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate,Integer fpoId) {
         this.id = id;
         this.description = description;
         this.filePath = filePath;
@@ -58,6 +66,7 @@ public class PhotoUpload {
         this.deleteDate = deleteDate;
         this.createBy = createBy;
         this.createdDate = createdDate;
+        this.fpoId=fpoId;
     }
 
     public PhotoUpload(String description) {
@@ -151,4 +160,13 @@ public class PhotoUpload {
     public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
     }
+
+	public Integer getFpoId() {
+		return fpoId;
+	}
+
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
+    
 }

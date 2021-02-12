@@ -52,7 +52,7 @@ public class FpoLicenceDetails implements Serializable {
 	private java.sql.Date deleteDate;
 	
 	 @Column(name="is_deleted")
-	private boolean isDeleted;						
+	private Boolean isDeleted;						
 	
 	
 
@@ -151,11 +151,11 @@ public class FpoLicenceDetails implements Serializable {
 	public void setLicenceValidTill(String licenceValidTill) {
 		this.licenceValidTill = licenceValidTill;
 	}
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 	

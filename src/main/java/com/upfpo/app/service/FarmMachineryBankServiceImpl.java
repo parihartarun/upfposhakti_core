@@ -47,10 +47,10 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 			machinery.setEqupment_no(farmMachineryBank.getEqupment_no());
 			machinery.setEqupmnet_capacity(farmMachineryBank.getEqupmnet_capacity());
 			machinery.setFpoRefId(farmMachineryBank.getFpoRefId());
-			machinery.setMasterId(farmMachineryBank.getMasterId());
+		//	machinery.setMasterId(farmMachineryBank.getMasterId());
 			machinery.setDeleted(false);
 			machinery.setUpdateDate(new java.sql.Date(new java.util.Date().getTime()));
-			machinery.setMasterId(farmMachineryBank.getMasterId());
+		//	machinery.setMasterId(farmMachineryBank.getMasterId());
 			machinery = farmMachineryBankRepository.save(machinery);
 			return machinery;
 		}

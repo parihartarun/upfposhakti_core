@@ -255,14 +255,21 @@ public class FPOController {
 	 {
 		 return fpoService.getCropListForFarmersByFpo(masterId);
 	 }
-	 @GetMapping(value= {"/FpoAdditionalServices/getFpoAdditionalServicesById/{id}"})
-		@ApiOperation(value="View FpoAdditionalServices by Id",code=200,produces = "application/json",notes="Api to view Fpo Additional Services  by Id",response=FpoAdditionalServices.class)
-		@ApiResponses(value= {
-		@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
-		@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-		public FpoAdditionalServices getFpoAdditionalServicesById(@PathVariable("id")Integer id)
-		{
-			return fpoService.getFpoAdditionalServicesById(id);
-		}
-
+		/*
+		 * @GetMapping(value=
+		 * {"/FpoAdditionalServices/getFpoAdditionalServicesById/{id}"})
+		 * 
+		 * @ApiOperation(value="View FpoAdditionalServices by Id",code=200,produces =
+		 * "application/json",notes="Api to view Fpo Additional Services  by Id"
+		 * ,response=FpoAdditionalServices.class)
+		 * 
+		 * @ApiResponses(value= {
+		 * 
+		 * @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+		 * 
+		 * @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+		 * public FpoAdditionalServices
+		 * getFpoAdditionalServicesById(@PathVariable("id")Integer id) { return
+		 * fpoService.getFpoAdditionalServicesById(id); }
+		 */
 }

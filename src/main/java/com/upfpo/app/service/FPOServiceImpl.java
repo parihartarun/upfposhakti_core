@@ -58,7 +58,7 @@ public class FPOServiceImpl implements FPOService {
 	@Autowired
 	private DistrictMasterRepository districtMasterRepository;
 	
-	@Resource
+	@Autowired
 	private FPOAdditionalServicesRepository fPOAdditionalServicesRepository;
 	
 	@Override
@@ -301,10 +301,11 @@ public class FPOServiceImpl implements FPOService {
 		return null;
 	}
 
-	@Override
-	public FpoAdditionalServices getFpoAdditionalServicesById(Integer id) {
-		return fPOAdditionalServicesRepository.findById(id).get();
-
-	}
+	/*
+	 * @Override public FpoAdditionalServices getFpoAdditionalServicesById(Integer
+	 * id) { return fPOAdditionalServicesRepository.findById(id).get();
+	 * 
+	 * }
+	 */
 
 }

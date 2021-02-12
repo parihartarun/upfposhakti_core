@@ -36,5 +36,5 @@ public interface FPOService {
 	public boolean deleteLandDetailById(Integer id);
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
-	public FpoAdditionalServices getFpoAdditionalServicesById(Integer id);
+//	public FpoAdditionalServices getFpoAdditionalServicesById(Integer id);
 }
