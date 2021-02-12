@@ -40,13 +40,22 @@ public class PhotoUpload {
 
     @Column(name = "create_by")
     private String createBy;
+    
+    @Column(name = "fpo_id")
+    private Integer fpoId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
     private Calendar createdDate;
+    
+    
 
-    public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate) {
+    public PhotoUpload() {
+
+	}
+
+	public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
+                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate,Integer fpoId) {
         this.id = id;
         this.description = description;
         this.filePath = filePath;
@@ -58,6 +67,7 @@ public class PhotoUpload {
         this.deleteDate = deleteDate;
         this.createBy = createBy;
         this.createdDate = createdDate;
+        this.fpoId=fpoId;
     }
 
     public PhotoUpload(String description) {
@@ -120,14 +130,6 @@ public class PhotoUpload {
         this.uploadedBy = uploadedBy;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
     public Date getDeleteDate() {
         return deleteDate;
     }
@@ -151,4 +153,21 @@ public class PhotoUpload {
     public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
     }
+
+	public Integer getFpoId() {
+		return fpoId;
+	}
+
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+    
 }

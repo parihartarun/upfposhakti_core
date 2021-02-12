@@ -73,7 +73,7 @@ public class BoardMember implements Serializable {
 	private String guardianName;
 	
 	@Column(name="is_deleted")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 	
 	@Column(name="master_id")
 	private Integer masterId;
@@ -214,11 +214,11 @@ public class BoardMember implements Serializable {
 		this.guardianName = guardianName;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 	

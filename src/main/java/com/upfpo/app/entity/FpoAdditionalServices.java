@@ -44,7 +44,7 @@ public class FpoAdditionalServices {
 	private String uploadedBy;
 	
 	@Column(name="is_deleted")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 	
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
