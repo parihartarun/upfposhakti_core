@@ -139,7 +139,7 @@ public class FPORegister implements Serializable {
 	private Double totalland;
 	
 	@Column(name="is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
@@ -157,6 +157,10 @@ public class FPORegister implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <FarmMachineryBank> farmMachineryBank;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="farmer_id",referencedColumnName="fpo_id")
+	private List <ProductionDetails> productionDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
@@ -407,11 +411,11 @@ public class FPORegister implements Serializable {
 		this.totalland = totalland;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -446,4 +450,13 @@ public class FPORegister implements Serializable {
 	public void setFpoAdditionalServices(List<FpoAdditionalServices> fpoAdditionalServices) {
 		this.fpoAdditionalServices = fpoAdditionalServices;
 	}
+
+	public List<ProductionDetails> getProductionDetails() {
+		return productionDetails;
+	}
+
+	public void setProductionDetails(List<ProductionDetails> productionDetails) {
+		this.productionDetails = productionDetails;
+	}
+	
 }
