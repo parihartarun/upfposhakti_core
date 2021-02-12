@@ -111,6 +111,10 @@ public class FarmMachineryBankServiceImpl implements FarmMachineryBankService {
 
 	}
 
-
+	@Override
+	public List<FarmMachineryBank> selectFarmMachineryBankByFpo(Integer masterId) 
+	{
+		return farmMachineryBankRepository.findBymasterIdAndIsDeletedOrderByIdDesc(masterId);
+	}
 
 }
