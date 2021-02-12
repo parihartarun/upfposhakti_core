@@ -1,7 +1,9 @@
 package com.upfpo.app.controller;
 
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.Notification;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.service.NotificationServiceImpl;
 import io.swagger.annotations.Api;
@@ -13,7 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -42,7 +47,7 @@ public class NotificationController {
 
 
 
-    @PostMapping
+    /*@PostMapping
     @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -114,34 +119,90 @@ public class NotificationController {
         }
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
-    }
+    }*/
 
-    @PostMapping("/send")
-    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
+    @PostMapping("/fposend")
+    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> sendNotification(@RequestParam("receiver_id") Integer receiverId, @RequestParam("sender_id") Integer senderId,
-                                                   @RequestParam("title") String title) {
+    public ResponseEntity<MessageResponse> sendNotificationToFPO(@RequestParam("message") String message,
+                                                                 @RequestParam("dept_id") String departmentId,
+                                                                 @RequestParam("role") String role,
+                                                           @RequestParam("fpo_id") String fpoId,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
-        Notification notification = new Notification(receiverId,senderId,title);
-        ResponseEntity<String> resp = null;
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            Notification id = notificationService.sendNotification(notification);
-            resp = new ResponseEntity<String>("Notification created Successfully!", HttpStatus.OK );
+
+            Notification notification = new Notification(role, message, departmentId,  fpoId);
+            Notification id = notificationService.sendNotification(notification, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To FPO successfully"), HttpStatus.OK );
             LOG.info("Notification  created Successfully!");
-            //}
         } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Notification", HttpStatus.INTERNAL_SERVER_ERROR);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the Notification");
             e.printStackTrace();
         }
-        LOG.info("Existing Notification Of Controller with response ", resp);
+        LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
     }
 
+    @PostMapping("/farmersend")
+    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam("message") String message,
+                                                                 @RequestParam("role") String role,
+                                                                 @RequestParam("farmer_id") String farmerId,
+                                                                 @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside NotificationController saving Notification ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+
+            Notification notification = new Notification(role, message, farmerId);
+            Notification id = notificationService.sendNotification(notification, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
+            LOG.info("Notification  created Successfully!");
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the Notification");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Notification Of Controller with response ", resp);
+        return resp;
+    }
+
+
+
+    @GetMapping("/fponotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getNotificationByFPOID (String id){
+
+        return notificationService.getAllNotificationByDepartment(id);
+    }
+
+    @GetMapping("/farmernotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getAllNotificationByFarmerId (String id){
+
+        return notificationService.getAllNotification();
+    }
 
 }
 
