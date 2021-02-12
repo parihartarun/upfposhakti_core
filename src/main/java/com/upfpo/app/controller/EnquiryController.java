@@ -51,7 +51,7 @@ public class EnquiryController {
     @Autowired
     private FPOService fpoService;
 	
-    
+       
     @GetMapping("/getall")
     @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= Enquiry.class)
     @ApiResponses(value= {
@@ -66,7 +66,7 @@ public class EnquiryController {
     }
 
 
-
+    
     @PostMapping("/insert")
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
     @ApiResponses(value= {
@@ -91,7 +91,9 @@ public class EnquiryController {
         return resp;
     }
 
-
+    
+    
+    
     @PutMapping("/update/{id}")
     @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= Enquiry.class)
     @ApiResponses(value= {
@@ -116,7 +118,7 @@ public class EnquiryController {
         return resp;
     }
 
-
+       
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= Enquiry.class)
     @ApiResponses(value= {
