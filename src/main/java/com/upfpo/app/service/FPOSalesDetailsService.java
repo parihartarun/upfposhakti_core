@@ -9,7 +9,7 @@ import com.upfpo.app.entity.FPOSalesDetails;
 
 public interface FPOSalesDetailsService {
 
-    public FPOSaleInfo insertSalesDetails ( FPOSaleInfo salesInfo);
+    public void insertSalesDetails ( FPOSaleInfo salesInfo);
     public List<FPOSalesDetailsDTO> getSalesDetails(Integer masterId);
     public Optional<FPOSaleInfo> getSalesDetailsById (Integer id);
     public FPOSaleInfo updateSalesDetails(Integer id, FPOSaleInfo salesDetails);

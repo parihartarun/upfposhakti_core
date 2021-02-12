@@ -51,13 +51,13 @@ private static final long serialVersionUID = 1L;
 	private String finYear;
 	
 	@Column(name="season_ref")
-	private String season;
+	private Integer season;
 	
 	@Column(name="crop_ref_name")
 	private Integer cropRefName;
 	
 	@Column(name="veriety_ref")
-	private String verietyId;
+	private Integer verietyId;
 	
 
 	@Column(name="sold_quantity")
@@ -94,11 +94,11 @@ private static final long serialVersionUID = 1L;
 		this.finYear = finYear;
 	}
 
-	public String getSeason() {
+	public Integer getSeason() {
 		return season;
 	}
 
-	public void setSeason(String season) {
+	public void setSeason(Integer season) {
 		this.season = season;
 	}
 
@@ -110,11 +110,11 @@ private static final long serialVersionUID = 1L;
 		this.cropRefName = cropRefName;
 	}
 
-	public String getVerietyId() {
+	public Integer getVerietyId() {
 		return verietyId;
 	}
 
-	public void setVerietyId(String verietyId) {
+	public void setVerietyId(Integer verietyId) {
 		this.verietyId = verietyId;
 	}
 
