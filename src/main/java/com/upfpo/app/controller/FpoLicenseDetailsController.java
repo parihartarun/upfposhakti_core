@@ -107,6 +107,7 @@ public class FpoLicenseDetailsController {
 	{
 		return fpoLicenseDetailsService.deleteFpoLicenceDetails(id);
 	}
+	
 	@GetMapping
 	@ApiOperation(value="Get All Fpo License Details",code=200,produces = "application/json",notes="Api for view all Fpo License Details",response=FpoLicenceDetails.class,responseContainer="List")
 	@ApiResponses(value= {
@@ -117,5 +118,17 @@ public class FpoLicenseDetailsController {
 	public List<FpoLicenceDetails> getFpoLicenseDetails()
 	{
 		return fpoLicenseDetailsService.selectFpoLicenceDetails();
+	}
+	
+	@GetMapping("/getFpoLicenseDetailsByFpoId/{masterId}")
+	@ApiOperation(value="Get All Fpo License Details By Fpo Id",code=200,produces = "application/json",notes="Api for view all Fpo License Details",response=FpoLicenceDetails.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<FpoLicenceDetails> getFpoLicenseDetailsByFpoId(@PathVariable("masterId") Integer masterId)
+	{
+		return fpoLicenseDetailsService.getFpoLicenceDetailsByFpo(masterId);
 	}
 }

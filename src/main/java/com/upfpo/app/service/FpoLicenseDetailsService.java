@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.FpoLicenceDetails;
-import com.upfpo.app.entity.LicenseMaster;
 
 @Service
 public interface FpoLicenseDetailsService {
@@ -15,5 +14,6 @@ public interface FpoLicenseDetailsService {
 	public boolean deleteFpoLicenceDetails(int id);	
 	public List<FpoLicenceDetails> selectFpoLicenceDetails();
 	public FpoLicenceDetails selectFpoLicenceDetailsById(int id);
+	public List<FpoLicenceDetails> getFpoLicenceDetailsByFpo(Integer masterId);
 
 }
