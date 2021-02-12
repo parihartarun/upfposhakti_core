@@ -119,7 +119,7 @@ public class ProductionDetails implements Serializable {
 		private Integer season_id;
 
 	    @Column(name="is_deleted")
-	    private boolean isDeleted;
+	    private Boolean isDeleted;
 	    
 	    @ManyToOne
 		@JoinColumn(name="farmer_id",updatable = true)
@@ -308,11 +308,11 @@ public class ProductionDetails implements Serializable {
 			this.baseland = baseland;
 		}
 
-		public boolean isDeleted() {
+		public Boolean isDeleted() {
 			return isDeleted;
 		}
 
-		public void setDeleted(boolean isDeleted) {
+		public void setDeleted(Boolean isDeleted) {
 			this.isDeleted = isDeleted;
 		}
 

@@ -123,4 +123,18 @@ public class FarmMachineryBankController {
 	{
 		return farmMachineryBankService.selectFarmMachineryBank();
 	}
+	
+	@GetMapping("/getFarmMachineryBankByFpo/{masterId}")
+	@ApiOperation(value="Get All Farm Machinery Banks",code=200,produces = "application/json",notes="Api for view all Farm Machinery Banks",response=FarmMachineryBank.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<FarmMachineryBank> getFarmMachineryBankByFpo(@PathVariable("masterId") Integer masterId)
+	{
+		return farmMachineryBankService.selectFarmMachineryBankByFpo(masterId);
+	}
+	
+	
 }

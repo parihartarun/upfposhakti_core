@@ -133,7 +133,7 @@ public class PhotoUploadController {
         }
 
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
@@ -152,6 +152,8 @@ public class PhotoUploadController {
         PhotoUpload photoUploads = new PhotoUpload();
         photoUploads.setId(id);
         photoUploads.setDescription(description);
+
+
         ResponseEntity<MessageResponse> resp = null;
         try {
             LOG.info("test");

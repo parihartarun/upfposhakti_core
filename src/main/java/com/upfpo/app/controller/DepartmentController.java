@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.request.UserDeactivateRequest;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.DepartmentSalesReportDto;
@@ -89,7 +90,7 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="/deactivateUser")
-	@ApiOperation(value="Deactivate user by department",code=200,produces = "application/json",notes="Api for deactivate users",response=MessageResponse.class)
+	@ApiOperation(value="Deactivate user by department",code=201,produces = "application/json",notes="Api for deactivate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
@@ -104,10 +105,10 @@ public class DepartmentController {
 				Long uid = new Long(userDeactivateRequest.getUserid());
 				Integer masterId = userDeactivateRequest.getMasterId();
 				departmentService.deActivateUser(uid, userDeactivateRequest.getReason(), masterId);
-				msg = userDeactivateRequest.getUsername()+ " deactive successfully";
+				msg = userDeactivateRequest.getUsername()+ " user deactivate successfully";
 			} 
 			else {
-				msg = "FAIL";
+				throw new CustomException("user deactivation fail",HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -116,7 +117,7 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="/activateUser")
-	@ApiOperation(value="Activate user by department",code=200,produces = "application/json",notes="Api for Activate users",response=MessageResponse.class)
+	@ApiOperation(value="Activate user by department",code=201,produces = "application/json",notes="Api for Activate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
@@ -131,10 +132,10 @@ public class DepartmentController {
 				Long uid = new Long(userDeactivateRequest.getUserid());
 				Integer masterId = userDeactivateRequest.getMasterId();
 				departmentService.activateUser(uid, masterId);
-				msg = userDeactivateRequest.getUsername()+ " active successfully";
+				msg = userDeactivateRequest.getUsername()+ " user activate successfully";
 			} 
 			else {
-				msg = "FAIL";
+				throw new CustomException("user activation fail",HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

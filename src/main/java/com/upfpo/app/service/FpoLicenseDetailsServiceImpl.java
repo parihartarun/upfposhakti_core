@@ -20,7 +20,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 	public FpoLicenceDetails insertFpoLicenceDetails(FpoLicenceDetails e) {
 		// TODO Auto-generated method stub
 		
-		e.setDeleted(false);
+		e.setIsDeleted(false);
 		return fpoLicenseDetailsRepository.save(e);
 	}
 
@@ -43,7 +43,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 			newfboLicense.setIssuedate(fpoLicenceDetails.getIssuedate());
 			
 			newfboLicense.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
-			newfboLicense.setDeleted(false);
+			newfboLicense.setIsDeleted(false);
 			newfboLicense = fpoLicenseDetailsRepository.save(newfboLicense);
 			return newfboLicense;
 		}
@@ -57,7 +57,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 	@Override
 	public FpoLicenceDetails insertOrUpdateFpoLicenceDetails(FpoLicenceDetails e) {
 		// TODO Auto-generated method stub
-		e.setDeleted(false);
+		e.setIsDeleted(false);
 		return fpoLicenseDetailsRepository.save(e);
 	}
 
@@ -67,7 +67,7 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 		try {
 			FpoLicenceDetails fpoLicenceDetails = fpoLicenseDetailsRepository.getOne(id);
 			fpoLicenceDetails.setDeleteDate(new java.sql.Date(new java.util.Date().getTime()));
-			fpoLicenceDetails.setDeleted(true);
+			fpoLicenceDetails.setIsDeleted(true);
 			fpoLicenseDetailsRepository.save(fpoLicenceDetails);
 	          return true;
 		}catch(Exception e){
@@ -101,7 +101,11 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 		}
 	}
 
-
+	@Override
+	public List<FpoLicenceDetails> getFpoLicenceDetailsByFpo(Integer masterId) 
+	{
+		return fpoLicenseDetailsRepository.findByMasterIdAndIsDeletedOrderByIdDesc(masterId, false);
+	}
 
 
 }

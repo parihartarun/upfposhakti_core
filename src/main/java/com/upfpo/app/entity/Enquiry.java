@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,7 +32,36 @@ public class Enquiry implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	private Long quantity;
+	private Double quantity;
+
+	private String enquieryNumber;
+	
+	
+
+	public Enquiry(Long id, Double quantity, String enquieryNumber, String fulfillmentDate, String status,
+			String reason, User user, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
+			FPORegister fpo) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+		this.enquieryNumber = enquieryNumber;
+		this.fulfillmentDate = fulfillmentDate;
+		this.status = status;
+		this.reason = reason;
+		this.user = user;
+		this.createDateTime = createDateTime;
+		this.comments = comments;
+		this.cropMaster = cropMaster;
+		this.fpo = fpo;
+	}
+
+	public String getEnquieryNumber() {
+		return enquieryNumber;
+	}
+
+	public void setEnquieryNumber(String enquieryNumber) {
+		this.enquieryNumber = enquieryNumber;
+	}
 
 	private String fulfillmentDate;
 
@@ -51,7 +81,7 @@ public class Enquiry implements Serializable {
 	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<EnquiryComments> comments;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "crop_id")
 	private CropMaster cropMaster;
 
@@ -59,7 +89,7 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
 
-	public Enquiry(Long id, Long quantity, String fulfillmentDate, String status, String reason, User user,
+	public Enquiry(Long id, Double quantity, String fulfillmentDate, String status, String reason, User user,
 			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {
 		super();
 		this.id = id;
@@ -85,11 +115,11 @@ public class Enquiry implements Serializable {
 		this.id = id;
 	}
 
-	public Long getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Long quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 

@@ -85,6 +85,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	public List<CollectionCenter> selectCollectionCenter() {
 		// TODO Auto-generated method stub
 		return collectionCenterRepository.findByIsDeletedOrderByIdDesc(false);
+		
 	}
 
 	@Override

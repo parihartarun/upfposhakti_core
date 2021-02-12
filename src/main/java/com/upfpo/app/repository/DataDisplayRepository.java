@@ -1204,10 +1204,10 @@ public class DataDisplayRepository {
 					  Arrays.asList(arr).forEach(System.out::println);
 					  if(arr.length==1)
 					  {
-						  croppredicate = cropdata->cropdata.getCrops().contentEquals(arr[0]);
+						  croppredicate = cropdata->cropdata.getCrops()!=null&&cropdata.getCrops().contentEquals(arr[0]);
 					  }else
 					  {
-						  croppredicate = cropdata->cropdata.getCrops().contentEquals(arr[0]) && cropdata.getCropVeriety().contentEquals(arr[1]);
+						  croppredicate = cropdata->cropdata.getCrops()!=null&&cropdata.getCrops().contentEquals(arr[0]) && cropdata.getCropVeriety()!=null&&cropdata.getCropVeriety().contentEquals(arr[1]);
 					  }
 					  
 					  if(finalpredicate == null)
@@ -1215,6 +1215,7 @@ public class DataDisplayRepository {
 							 finalpredicate = croppredicate;
 						 }else
 						 {
+							 
 							 finalpredicate =  finalpredicate.or(croppredicate);
 						 }
 					  
