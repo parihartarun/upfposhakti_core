@@ -187,7 +187,7 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Notification> getNotificationByFPOID (String id){
+    public List<Notification> getNotificationByFPOID (@PathVariable String id){
 
         return notificationService.getAllNotificationByDepartment(id);
     }
@@ -199,9 +199,9 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Notification> getAllNotificationByFarmerId (String id){
+    public List<Notification> getAllNotificationByFarmerId (@PathVariable String id){
 
-        return notificationService.getAllNotification();
+        return notificationService.getAllNotificationByFPO(id);
     }
 
 }
