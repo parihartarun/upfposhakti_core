@@ -21,6 +21,17 @@ public class ReasonsMaster implements Serializable
 	
 	@Column(name="reasons")
 	private String reason;
+	
+	@Column(name="reasons_hi")
+	private String reasonHi;
+
+	public String getReasonHi() {
+		return reasonHi;
+	}
+
+	public void setReasonHi(String reasonHi) {
+		this.reasonHi = reasonHi;
+	}
 
 	public Integer getReasonId() {
 		return reasonId;

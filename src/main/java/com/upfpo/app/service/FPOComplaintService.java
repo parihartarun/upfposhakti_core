@@ -27,4 +27,6 @@ public interface FPOComplaintService {
     List<FPOComplaints> getComplaintByChcFmbId(Integer chcId);
 
     List<FPOComplaints> getAllFPOComplaint();
+
+    FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints);
 }

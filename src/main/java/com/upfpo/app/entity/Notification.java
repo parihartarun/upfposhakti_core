@@ -23,11 +23,29 @@ public class Notification {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "user_role")
+    private String role;
+
+    @Column(name = "filePath")
+    private String filePath;
+
+    @Column(name = "file_name")
+    private String filName;
+
     @Column(name = "farmer_name")
     private String farmerName;
 
     @Column(name = "receiver_id")
     private Integer receiverId;
+
+    @Column(name = "farmer_id")
+    private String farmerId;
+
+    @Column(name = "fpo_id")
+    private String fpoId;
+
+    @Column(name = "dept_id")
+    private String deptId;
 
     @Column(name = "sender_id")
     private Integer senderId;
@@ -84,6 +102,27 @@ public class Notification {
         this.title = title;
     }
 
+    public Notification(String role, String message, String departmentId, String fpoId) {
+        this.role=role;
+        this.message=message;
+        this.deptId=departmentId;
+        this.fpoId=fpoId;
+    }
+
+    public Notification(String role, String message,String farmerId) {
+        this.role=role;
+        this.message=message;
+        this.farmerId=farmerId;
+    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getUpdateBy() {
         return updateBy;
@@ -207,6 +246,47 @@ public class Notification {
 
     public NotificationType getType() {
         return type;
+    }
+
+
+    public String getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(String farmerId) {
+        this.farmerId = farmerId;
+    }
+
+    public String getFpoId() {
+        return fpoId;
+    }
+
+    public void setFpoId(String fpoId) {
+        this.fpoId = fpoId;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilName() {
+        return filName;
+    }
+
+    public void setFilName(String filName) {
+        this.filName = filName;
     }
 
     public void setType(NotificationType type) {

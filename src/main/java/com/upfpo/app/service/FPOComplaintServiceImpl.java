@@ -8,6 +8,7 @@ import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.repository.FPOComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -196,6 +197,24 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     @Override
     public List<FPOComplaints> getAllFPOComplaint() {
         return fpoComplaintRepository.findAll();
+    }
+
+    @Override
+    public FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return fpoComplaintRepository.findById(id)
+                .map(fpoComplaints -> {
+                    fpoComplaints.setId(complaints.getId());
+                    fpoComplaints.setAssignTo(complaints.getAssignTo());
+                    fpoComplaints.setAssignBy(currentPrincipalName);
+                    fpoComplaints.setAssign_date(Calendar.getInstance());
+                    fpoComplaints.setDeptComment(complaints.getDeptComment());
+                    fpoComplaints.setDeleted(false);
+                    fpoComplaints.setStatus(complaints.getStatus());
+                    return fpoComplaintRepository.save(fpoComplaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 }
 

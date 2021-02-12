@@ -2,6 +2,7 @@ package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
@@ -19,6 +21,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.Errors;
 
@@ -137,7 +141,26 @@ public class FPORegister implements Serializable {
 	@Column(name="is_deleted")
     private boolean isDeleted;
 	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="fpo_id")
+	@Fetch(value=FetchMode.SELECT)
+	private List <PhotoUpload> photoUpload;
 	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
+	private List <BoardMember> boardMember;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
+	private List <FpoLicenceDetails> fpoLicenceDetails;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
+	private List <FarmMachineryBank> farmMachineryBank;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="fpo_id")
+	private List <FpoAdditionalServices> fpoAdditionalServices;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_id")
@@ -391,6 +414,36 @@ public class FPORegister implements Serializable {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
 
+	public List<PhotoUpload> getPhotoUpload() {
+		return photoUpload;
+	}
+
+	public void setPhotoUpload(List<PhotoUpload> photoUpload) {
+		this.photoUpload = photoUpload;
+	}
+
+	public List<BoardMember> getBoardMember() {
+		return boardMember;
+	}
+
+	public void setBoardMember(List<BoardMember> boardMember) {
+		this.boardMember = boardMember;
+	}
+
+	public List<FpoLicenceDetails> getFpoLicenceDetails() {
+		return fpoLicenceDetails;
+	}
+
+	public void setFpoLicenceDetails(List<FpoLicenceDetails> fpoLicenceDetails) {
+		this.fpoLicenceDetails = fpoLicenceDetails;
+	}
+
+	public List<FpoAdditionalServices> getFpoAdditionalServices() {
+		return fpoAdditionalServices;
+	}
+
+	public void setFpoAdditionalServices(List<FpoAdditionalServices> fpoAdditionalServices) {
+		this.fpoAdditionalServices = fpoAdditionalServices;
+	}
 }

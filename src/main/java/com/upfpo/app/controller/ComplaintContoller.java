@@ -210,7 +210,7 @@ public class ComplaintContoller {
     }
 
 
-    @PutMapping("/dept/{id}")
+    @PutMapping("/complaintstatus/{id}")
     @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

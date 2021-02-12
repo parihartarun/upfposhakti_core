@@ -46,7 +46,7 @@ public class FarmMachineryBank implements Serializable{
 	private java.sql.Date createDate;
 	
 	@Column(name="is_deleted")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 		
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;	
@@ -122,11 +122,11 @@ public class FarmMachineryBank implements Serializable{
 		this.id = id;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 

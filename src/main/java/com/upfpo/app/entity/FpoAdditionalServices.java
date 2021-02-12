@@ -44,7 +44,7 @@ public class FpoAdditionalServices {
 	private String uploadedBy;
 	
 	@Column(name="is_deleted")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 	
 	@Column(name="delete_date")
 	private java.sql.Date deleteDate;
@@ -55,7 +55,14 @@ public class FpoAdditionalServices {
 	@Column(name="updated_by")
 	private String updatedBy;
 
-	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public MultipartFile getFile() {
 		return file;
 	}
@@ -120,19 +127,11 @@ public class FpoAdditionalServices {
 		this.uploadedBy = uploadedBy;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public boolean isDeleted() {
+	public Boolean getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -158,7 +157,5 @@ public class FpoAdditionalServices {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
-	}
-	
-	
+	}		
 }
