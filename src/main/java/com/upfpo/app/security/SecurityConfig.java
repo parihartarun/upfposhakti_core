@@ -54,7 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/circulars/getall",
 				"/fpoguidelines/getall",
 				"/fpoguidelines/{type}",
-				"/marketablesurplus/**"
+				"/marketablesurplus/**",
+				"/fpocomplaint/fpo/**"
 				).permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

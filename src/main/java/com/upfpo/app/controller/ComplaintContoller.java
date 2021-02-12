@@ -109,9 +109,6 @@ public class ComplaintContoller {
     }
 
 
-
-
-
     @DeleteMapping(value="/{id}")
     @ApiOperation(value="Delete Complaint",code=204,produces = "text/plain",notes="Api for delete Complaint by id",response=Boolean.class)
     @ApiResponses(value= {
@@ -212,6 +209,7 @@ public class ComplaintContoller {
         return resp;
     }
 
+
     @PutMapping("/dept/{id}")
     @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
     @ApiResponses(value= {
@@ -219,10 +217,10 @@ public class ComplaintContoller {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> deptComplaintAssign(@PathVariable Integer id,
+    public ResponseEntity<MessageResponse> updateComplaintStatus(@PathVariable Integer id,
                                                            @RequestPart(value = "assign_to") String assignTo,
-                                                           @RequestPart(value = "status") Status status,
-                                                           @RequestPart(value = "comment") String fpoComment) {
+                                                           @RequestPart(value = "comment") String fpoComment,
+                                                           @RequestParam(value = "status") Status status) {
         LOG.info("Inside Complaint updating Complaint detail ");
         Complaints complaints = new Complaints();
         complaints.setId(id);

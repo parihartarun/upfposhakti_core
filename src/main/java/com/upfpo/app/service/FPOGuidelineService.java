@@ -20,9 +20,11 @@ public interface FPOGuidelineService {
 
     FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file);
 
-    FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, @Nullable MultipartFile file) ;
+
 
     //FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file);
+
+    FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file);
 
     public Boolean deleteFPOGuidelines(Long id);
 
