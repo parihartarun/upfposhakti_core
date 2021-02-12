@@ -47,8 +47,8 @@ public class Notification {
     @Column(name = "dept_id")
     private String deptId;
 
-    @Column(name = "sender_id")
-    private Integer senderId;
+    @Column(name = "farmer_fpo_id")
+    private String farmerFpoId;
 
     @Column(name ="is_read")
     private Boolean isRead;
@@ -85,20 +85,20 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Integer id, String title, String message, Integer receiverId, Integer senderId, Boolean isRead, NotificationType type) {
+    public Notification(Integer id, String title, String message, Integer receiverId, String senderId, Boolean isRead, NotificationType type) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.receiverId = receiverId;
-        this.senderId = senderId;
+        this.farmerFpoId = senderId;
         this.isRead = isRead;
         this.type = type;
     }
 
 
-    public Notification(Integer receiverId, Integer senderId, String title) {
+    public Notification(Integer receiverId, String  senderId, String title) {
         this.receiverId = receiverId;
-        this.senderId = senderId;
+        this.farmerFpoId = senderId;
         this.title = title;
     }
 
@@ -228,12 +228,12 @@ public class Notification {
         this.receiverId = receiverId;
     }
 
-    public Integer getSenderId() {
-        return senderId;
+    public String getFarmerFpoId() {
+        return farmerFpoId;
     }
 
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
+    public void setFarmerFpoId(String farmerFpoId) {
+        this.farmerFpoId = farmerFpoId;
     }
 
     public Boolean getRead() {

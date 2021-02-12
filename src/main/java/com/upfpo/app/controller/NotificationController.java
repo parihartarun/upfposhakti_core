@@ -160,12 +160,14 @@ public class NotificationController {
     public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam("message") String message,
                                                                  @RequestParam("role") String role,
                                                                  @RequestParam("farmer_id") String farmerId,
+                                                                 @RequestParam("fpo_id")String fpoId,
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
             Notification notification = new Notification(role, message, farmerId);
+            notification.setFarmerFpoId(fpoId);
             Notification id = notificationService.sendNotification(notification, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
             LOG.info("Notification  created Successfully!");
@@ -202,6 +204,30 @@ public class NotificationController {
     public List<Notification> getAllNotificationByFarmerId (@PathVariable String id){
 
         return notificationService.getAllNotificationByFPO(id);
+    }
+
+    @GetMapping("/viewdeptnotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> viewAllNotificationOfDepartment (@PathVariable String id){
+
+        return notificationService.viewAllNotificationOfDepartment(id);
+    }
+
+    @GetMapping("/viewfponotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> viewAllNotificationofFPO (@PathVariable String id){
+
+        return notificationService.viewAllNotificationofFPO(id);
     }
 
 }

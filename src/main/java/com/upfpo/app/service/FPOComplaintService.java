@@ -10,15 +10,16 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 
 public interface FPOComplaintService {
-    FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file);
 
     List<FPOComplaints> getAllComplaintToDept();
 
     FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file);
 
+    FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file);
+
     FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file);
 
-    List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
+    List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId);
 
     List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer fpoId);
 
@@ -31,4 +32,6 @@ public interface FPOComplaintService {
     List<FarmerComplaintDTO> getAllFPOComplaint();
 
     FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints);
+
+    List<Complaints> getFPOComplaints(Integer id);
 }
