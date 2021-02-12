@@ -90,6 +90,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                     .path(fileName)
                     .toUriString();
             complaints.setFilePath(fileDownloadUri);
+            complaints.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }

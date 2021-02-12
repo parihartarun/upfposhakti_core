@@ -10,4 +10,8 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository <Notification, Integer> {
     List<Notification> findByIsDeleted(boolean b);
+
+    List<Notification> findByFarmerId(String farmerId);
+
+    List<Notification> findByFpoId(String fpoId);
 }
