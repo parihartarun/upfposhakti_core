@@ -101,7 +101,11 @@ public class FpoLicenseDetailsServiceImpl implements FpoLicenseDetailsService {
 		}
 	}
 
-
+	@Override
+	public List<FpoLicenceDetails> getFpoLicenceDetailsByFpo(Integer masterId) 
+	{
+		return fpoLicenseDetailsRepository.findByMasterIdAndIsDeletedOrderByIdDesc(masterId, false);
+	}
 
 
 }
