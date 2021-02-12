@@ -6,6 +6,7 @@ import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FPOGuidelineType;
 import com.upfpo.app.entity.FPOGuidelines;
 import com.upfpo.app.entity.FPOGuidelines;
+import com.upfpo.app.entity.FPOGuidelines;
 import com.upfpo.app.service.FPOGuidelineServiceImpl;
 
 import com.upfpo.app.util.ResponseMessage;
@@ -83,7 +84,7 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines();
+            FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType);
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
 
@@ -121,7 +122,7 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @GetMapping("/uploads/FPOGuidelines/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -152,29 +153,28 @@ public class FPOGuidelineController {
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value="Update FPOGuidelines Details" ,code=201, produces = "application/octet-stream" , notes="Api To Update FPOGuidelines Details",response= FPOGuidelines.class)
+    @ApiOperation(value="Update FPOGuidelines Details" ,code=201, produces = "application/json", notes="Api To Update FPOGuidelines Details",response= FPOGuidelines.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Long id,
-                                                             @RequestPart(value = "description") String description,
-                                                               @RequestPart("guideline_type") FPOGuidelineType fpoGuidelineType,
-                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Integer id,
+                                                               @RequestPart("description") String description,
+                                                               @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                               @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
-        //fpoGuidelines.setId(id.intValue());
+        fpoGuidelines.setId(id);
         fpoGuidelines.setDescription(description);
-        //fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
+        fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
         ResponseEntity<MessageResponse> resp = null;
         try {
-            //FPOGuidelines fpoGuidelines = new FPOGuidelines(fpoGuidelineType,description);
-
-            fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines,  file);
+            LOG.info("test");
+            fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("FPOGuidelines Updated Successfully!");
-
+            //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the FPOGuidelines Details"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Update the FPOGuidelines Details");
@@ -183,6 +183,5 @@ public class FPOGuidelineController {
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
     }
-
 
 }

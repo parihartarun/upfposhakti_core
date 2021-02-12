@@ -36,20 +36,81 @@ public class FPOComplaintController {
     FPOComplaintService fpoComplaintService;
 
 
+
+
+
+    @GetMapping("/getall")
+    @ApiOperation(value="All Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info to Department",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOComplaints> getAllComplaints (){
+        return fpoComplaintService.getAllFPOComplaint();
+    }
+
+
+
+    @GetMapping("/{id}")
+    @ApiOperation(value="Farmer Complaints List" ,code=201, produces = "application/json", notes="Api for all Farmer Complaints Info By FPO ID",response= Complaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Complaints> getComplaintByFarmerId (@PathVariable Integer id){
+        return fpoComplaintService.getFarmerComplaintByFPOId(id);
+    }
+
+    @GetMapping("/fpo/{id}")
+    @ApiOperation(value="FPO Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By FPO ID",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOComplaints> getComplaintByFpoId (@PathVariable Integer fpoId){
+        return fpoComplaintService.getComplaintByFpoId(fpoId);
+    }
+
+    @GetMapping("/chcfmb/{id}")
+    @ApiOperation(value="CHC/FMB Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By CHC/FMB ID",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOComplaints> getComplaintByChcFmbId (@PathVariable Integer id){
+        return fpoComplaintService.getComplaintByChcFmbId(id);
+    }
+
+    @GetMapping("/inputsupplier/{id}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Supplier ID",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOComplaints> getComplaintBySupplierId(@PathVariable Integer id){
+        return fpoComplaintService.getComplaintBySupplierId(id);
+    }
+
+
     @PostMapping
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all FPO Create Complaint",response= FPOComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                           @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") Integer farmerId,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("fpo_id") Integer fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOComplaints complaints = new FPOComplaints(description, title, issueType, farmerId);
+            FPOComplaints complaints = new FPOComplaints(description, title, issueType, fpoId);
             FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
             LOG.info("FPOComplaint  created Successfully!");
@@ -63,7 +124,69 @@ public class FPOComplaintController {
         return resp;
     }
 
-    @GetMapping("/getcomplaint/{id}")
+    @PostMapping("/inputsupplier")
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintInputSupplier(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("supplier_id") Integer supplierId,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOComplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            FPOComplaints complaints = new FPOComplaints();
+            complaints.setDescription(description);
+            complaints.setIssueType(issueType);
+            complaints.setTitle(title);
+            complaints.setInputSupplierId(supplierId);
+            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+            LOG.info("FPOComplaint  created Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the FPOComplaint");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+
+    @PostMapping("/chcfmb")
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintCHCFMB(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                                 @RequestParam("issue_type") String issueType, @RequestParam("chc_fmb_id") Integer chcid,
+                                                                 @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOComplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            FPOComplaints complaints = new FPOComplaints();
+            complaints.setDescription(description);
+            complaints.setIssueType(issueType);
+            complaints.setTitle(title);
+            complaints.setChcFmbId(chcid);
+            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+            LOG.info("FPOComplaint  created Successfully!");
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the FPOComplaint");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+
+     /*@GetMapping("/getcomplaint/{id}")
     @ApiOperation(value="Get Complaints By Farmer",code=200,produces = "application/json",notes="Api to view Complaint Detail by farmer id",response= FarmerComplaintDTO.class)
     @ApiResponses(value= {
             @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
@@ -72,17 +195,17 @@ public class FPOComplaintController {
     public List<FarmerComplaintDTO> getComplaintByFarmerToFPO(@PathVariable Integer id){
 
         return fpoComplaintService.getFarmerComplaintToFpo(id);
-    }
+    }*/
 
-    @GetMapping("/{id}")
-    @ApiOperation(value="Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By FPO ID",response= Complaints.class)
+     /*@GetMapping("/getcomplaint/{id}")
+    @ApiOperation(value="Get Complaints By Farmer",code=200,produces = "application/json",notes="Api to view Complaint Detail by farmer id",response= FarmerComplaintDTO.class)
     @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<Complaints> getComplaintByFarmerId (@PathVariable Integer id){
-        return fpoComplaintService.getFarmerComplaintByFPOId(id);
-    }
+            @ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
+            @ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
+    @ResponseBody
+    public List<FarmerComplaintDTO> getComplaintByFarmerToFPO(@PathVariable Integer id){
+
+        return fpoComplaintService.getFarmerComplaintToFpo(id);
+    }*/
 
 }

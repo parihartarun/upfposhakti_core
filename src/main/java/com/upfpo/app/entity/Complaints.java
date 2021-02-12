@@ -82,7 +82,7 @@ public class Complaints {
     private Date resolve_date;
 
     @Column(name="comment")
-    private String deptComment;
+    private String fpoComment;
 
     @Column(name="remarks")
     private String remarks;
@@ -130,15 +130,17 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
+    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, Integer farmerId, String issueType,
                       String otherType, String description, String otherAssigned, String assignTo, String assignBy,
-                      Date assigned_date, Date resolve_date, String deptComment, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
-                      Boolean isDeleted, Date deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+                      Date assigned_date, Date resolve_date, String fpoComment, String remarks, String filePath,
+                      String fileName, String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, String updateBy,
+                      Boolean isDeleted, Calendar deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.status = status;
         this.fpoId = fpoId;
+        this.farmerId = farmerId;
         this.issueType = issueType;
         this.otherType = otherType;
         this.description = description;
@@ -147,14 +149,17 @@ public class Complaints {
         this.assignBy = assignBy;
         this.assigned_date = assigned_date;
         this.resolve_date = resolve_date;
-        this.deptComment = deptComment;
+        this.fpoComment = fpoComment;
         this.remarks = remarks;
         this.filePath = filePath;
+        this.fileName = fileName;
         this.role = role;
-
+        this.uploadDate = uploadDate;
         this.uploadedBy = uploadedBy;
+        this.updateDate = updateDate;
+        this.updateBy = updateBy;
         this.isDeleted = isDeleted;
-
+        this.deleteDate = deleteDate;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
         this.complaintsComments = complaintsComments;
@@ -178,22 +183,21 @@ public class Complaints {
         this.assignBy = assignBy;
     }
 
-    public String getDeptComment() {
-        return deptComment;
+    public String getFpoComment() {
+        return fpoComment;
     }
 
-    public void setDeptComment(String deptComment) {
-        this.deptComment = deptComment;
+    public void setFpoComment(String fpoComment) {
+        this.fpoComment = fpoComment;
     }
 
-
-
-    public Complaints(String description, String title, String issueType ,Integer farmerId) {
+    public Complaints(String description, String title, String issueType , Integer farmerId, Integer fpoId) {
 
         this.setIssueType(issueType);
         this.setDescription(description);
         this.setTitle(title);
         this.farmerId=farmerId;
+        this.fpoId=fpoId;
     }
 
 

@@ -78,7 +78,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
             //Path path = Paths.get(fileBasePath + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/SchemeDetail/")
+                    .path("/schemes/download/")
                     .path(fileName)
                     .toUriString();
             schemeDetail.setFilePath(fileDownloadUri);

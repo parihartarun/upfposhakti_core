@@ -82,7 +82,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findByIsDeleted(false);
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -110,7 +110,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             if(fileName != null) {
                 fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/fpoguidelines/downloadFile/")
+                        .path("/fpoguidelines/download/")
                         .path(fileName)
                         .toUriString();
 
@@ -128,8 +128,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.save(fpoGuideline);
     }
 
+
     @Override
-    public FPOGuidelines updateFPOGuidelines(Long id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
+    public FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String fileName;
@@ -148,13 +149,57 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("fpoguidelines/uploads/FPOGuidelines/")
+                        .path("/fpoguidelines/download/")
+                        .path(fileName)
+                        .toUriString();
+                fpoGuidelinesRepository.findById(id)
+                        .map(fpoGuidelines -> {
+                            fpoGuidelines.setFilePath(fileDownloadUri);
+                            fpoGuidelines.setFileName(fileName);
+                            return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                        }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            }
+        }
+        return fpoGuidelinesRepository.findById(id)
+                .map(fpoGuidelines -> {
+                    fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
+                    fpoGuidelines.setId(fpoGuidelines1.getId());
+                    fpoGuidelines.setUpdateBy(currentPrincipalName);
+                    fpoGuidelines.setUpdateDate(Calendar.getInstance());
+                    fpoGuidelines.setDeleted(false);
+                    return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+    /*@Override
+    public FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String fileName;
+        String currentPrincipalName = authentication.getName();
+        String fileDownloadUri;
+        Path targetLocation;
+        if (file != null ) {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            try {
+                // Check if the file's name contains invalid characters
+                if (fileName.contains("..")) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                }
+                // Copy file to the target location (Replacing existing file with the same name)
+                targetLocation = this.fileStorageLocation.resolve(fileName);
+                //Path path = Paths.get(fileBasePath + fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/fpoguidelines/download/")
                         .path(fileName)
                         .toUriString();
                 fpoGuidelinesRepository.findById(id.intValue())
                         .map(fpoGuidelines -> {
-                            //fpoGuidelines.setFilePath(fileDownloadUri);
-                            //fpoGuidelines.setFileName(fileName);
+                            fpoGuidelines.setFilePath(fileDownloadUri);
+                            fpoGuidelines.setFileName(fileName);
                             return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
@@ -165,13 +210,13 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findById(id.intValue())
                 .map(fpoGuidelines -> {
                     fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
-                    //fpoGuidelines.setId(fpoGuidelines1.getId());
-                    //fpoGuidelines.setUpdateBy(currentPrincipalName);
-                    //fpoGuidelines.setUpdateDate(Calendar.getInstance());
-                    //fpoGuidelines.setDeleted(false);
+                    fpoGuidelines.setId(fpoGuidelines1.getId());
+                    fpoGuidelines.setUpdateBy(currentPrincipalName);
+                    fpoGuidelines.setUpdateDate(Calendar.getInstance());
+                    fpoGuidelines.setDeleted(false);
                     return fpoGuidelinesRepository.save(fpoGuidelines);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-    }
+    }*/
 
     @Override
     public Boolean deleteFPOGuidelines(Long id) {
@@ -179,9 +224,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentPrincipalName = authentication.getName();
             FPOGuidelines fpoGuideline = fpoGuidelinesRepository.findById(id.intValue()).get();
-            //fpoGuideline.setDeleted(true);
-            //fpoGuideline.setDeleteDate(Calendar.getInstance());
-            //fpoGuideline.setDeleteBy(currentPrincipalName);
+            fpoGuideline.setDeleted(true);
+            fpoGuideline.setDeleteDate(Calendar.getInstance());
+            fpoGuideline.setDeleteBy(currentPrincipalName);
             fpoGuidelinesRepository.save(fpoGuideline);
             return true;
         }catch(Exception e)

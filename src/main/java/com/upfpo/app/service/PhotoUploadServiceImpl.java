@@ -83,7 +83,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/Photos/")
+                        .path("/photo/download/")
                         .path(fileName)
                         .toUriString();
                 photoUpload.setFilePath(fileDownloadUri);
@@ -118,7 +118,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/Photos/")
+                        .path("/photo/download/")
                         .path(fileName)
                         .toUriString();
                 photoUploadRepository.findById(id)
@@ -136,8 +136,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 .map(photoUpload -> {
                     photoUpload.setDescription(photoUpload1.getDescription());
                     photoUpload.setId(photoUpload1.getId());
-                    photoUpload.setFileName(photoUpload1.getFileName());
-                    photoUpload.setFilePath(photoUpload1.getFilePath());
                     photoUpload.setUpdateBy(currentPrincipalName);
                     photoUpload.setUpdateDate(Calendar.getInstance());
                     photoUpload.setDeleted(false);
@@ -151,7 +149,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         try {
             PhotoUpload photoUpload = photoUploadRepository.findById(id).get();
             photoUpload.setDeleted(true);
-            photoUpload.setDeleteDate(Calendar.getInstance().getTime());
+            photoUpload.setDeleteDate(Calendar.getInstance());
             photoUploadRepository.save(photoUpload);
             return true;
         }catch(Exception e)

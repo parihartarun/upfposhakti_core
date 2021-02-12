@@ -24,9 +24,12 @@ public interface ComplaintService {
 
     Complaints updateComplaint(Integer id, Complaints complaints1, MultipartFile file);
 
-    public Complaints deptComplaintAssign(Integer id, Complaints complaints1);
 
     //List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
+
+
+
+    Complaints complaintAssign(Integer id, Complaints complaints1);
 
     List<Complaints> getComplaintByFarmerId(Integer farmerId);
 }

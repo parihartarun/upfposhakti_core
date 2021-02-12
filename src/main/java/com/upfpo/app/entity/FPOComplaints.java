@@ -30,6 +30,12 @@ public class FPOComplaints {
     @Column(name="fpo_id")
     private Integer fpoId;
 
+    @Column(name="chc_fmb_id")
+    private Integer chcFmbId;
+
+    @Column(name="input_supplier_id")
+    private Integer inputSupplierId;
+
     @Column(name="issue_type")
     private String issueType;
 
@@ -111,6 +117,8 @@ public class FPOComplaints {
         this.fpoId=fpoId;
     }
 
+
+
     public String getAssignBy() {
         return assignBy;
     }
@@ -135,6 +143,22 @@ public class FPOComplaints {
 
     }
 
+
+    public Integer getChcFmbId() {
+        return chcFmbId;
+    }
+
+    public void setChcFmbId(Integer chcFmbId) {
+        this.chcFmbId = chcFmbId;
+    }
+
+    public Integer getInputSupplierId() {
+        return inputSupplierId;
+    }
+
+    public void setInputSupplierId(Integer inputSupplierId) {
+        this.inputSupplierId = inputSupplierId;
+    }
 
     public Calendar getUpdateDate() {
         return updateDate;

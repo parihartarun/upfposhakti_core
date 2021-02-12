@@ -50,6 +50,19 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         }
     }
 
+    @Override
+    public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
+
+        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getAllComplaintToDept(){
+
+        return fpoComplaintRepository.findAll();
+    }
+
 
     @Override
     public FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file){
@@ -69,7 +82,37 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
+                    .path("/fpocomplaint/download/")
+                    .path(fileName)
+                    .toUriString();
+            complaints.setFilePath(fileDownloadUri);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+        complaints.setDeleted(false);
+        return fpoComplaintRepository.save(complaints);
+    }
+
+
+    @Override
+    public FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file){
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        complaints.setStatus(Status.OPEN);
+        complaints.setCreateBy(currentPrincipalName);
+        complaints.setCreateDateTime(Calendar.getInstance());
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/fpocomplaint/download/")
                     .path(fileName)
                     .toUriString();
             complaints.setFilePath(fileDownloadUri);
@@ -81,10 +124,32 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
-
-        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
-        return complaint;
+    public FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file){
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        complaints.setStatus(Status.OPEN);
+        complaints.setCreateBy(currentPrincipalName);
+        complaints.setCreateDateTime(Calendar.getInstance());
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/fpocomplaint/download/")
+                    .path(fileName)
+                    .toUriString();
+            complaints.setFilePath(fileDownloadUri);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+        complaints.setDeleted(false);
+        return fpoComplaintRepository.save(complaints);
     }
 
 
@@ -106,6 +171,32 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         return complaint;
     }
 
+    @Override
+    public List<FPOComplaints> getComplaintBySupplierId(Integer supplierId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByInputSupplierId(supplierId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getComplaintByFpoId(Integer fpoId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
+        return complaint;
+    }
+
+    @Override
+    public List<FPOComplaints> getComplaintByChcFmbId(Integer chcId){
+
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbId(chcId);
+        return complaint;
+    }
+
+
+    @Override
+    public List<FPOComplaints> getAllFPOComplaint() {
+        return fpoComplaintRepository.findAll();
+    }
 }
 
 

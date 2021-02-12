@@ -15,8 +15,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.upfpo.app.dto.UserDetailsDto;
 import org.hibernate.validator.constraints.Length;
+
+import com.upfpo.app.dto.UserDetailsDto;
 
 
 @Entity

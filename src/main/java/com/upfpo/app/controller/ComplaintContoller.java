@@ -82,12 +82,13 @@ public class ComplaintContoller {
     })
     public ResponseEntity<MessageResponse> createComplaint(@RequestParam("description") String description, @RequestParam("title") String title,
                                                            @RequestParam("issue_type") String issueType, @RequestParam("farmer_id") Integer farmerId,
+                                                           @RequestParam("fpo_id") Integer fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         try {
 
-            Complaints complaints = new Complaints(description, title, issueType, farmerId);
+            Complaints complaints = new Complaints(description, title, issueType, farmerId, fpoId);
             Complaints id = complaintService.createComplaintByFarmer(complaints, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
             LOG.info("Complaint  created Successfully!");
@@ -106,9 +107,6 @@ public class ComplaintContoller {
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
     }
-
-
-
 
 
     @DeleteMapping(value="/{id}")
@@ -149,7 +147,7 @@ public class ComplaintContoller {
 
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -211,26 +209,27 @@ public class ComplaintContoller {
         return resp;
     }
 
-    @PostMapping("/dept/{id}")
+
+    @PutMapping("/dept/{id}")
     @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> deptComplaintAssign(@PathVariable Integer id,
-                                                           @RequestParam(value = "assign_to") String assignTo,
-                                                           @RequestParam(value = "status") Status status,
-                                                           @RequestParam(value = "comment") String deptComment) {
+    public ResponseEntity<MessageResponse> updateComplaintStatus(@PathVariable Integer id,
+                                                           @RequestPart(value = "assign_to") String assignTo,
+                                                           @RequestPart(value = "comment") String fpoComment,
+                                                           @RequestParam(value = "status") Status status) {
         LOG.info("Inside Complaint updating Complaint detail ");
         Complaints complaints = new Complaints();
         complaints.setId(id);
         complaints.setAssignTo(assignTo);
-        complaints.setDeptComment(deptComment);
+        complaints.setFpoComment(fpoComment);
         complaints.setStatus(status);
         ResponseEntity<MessageResponse> resp = null;
         try {
-            complaintService.deptComplaintAssign(id, complaints);
+            complaintService.complaintAssign(id, complaints);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Updated Successfully!");
             //}
