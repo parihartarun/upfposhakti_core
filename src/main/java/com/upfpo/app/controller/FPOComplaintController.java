@@ -4,6 +4,7 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerComplaintDetailDTO;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 import com.upfpo.app.entity.Status;
@@ -47,20 +48,20 @@ public class FPOComplaintController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FPOComplaints> getAllComplaints (){
+    public List<FarmerComplaintDTO> getAllComplaints (){
         return fpoComplaintService.getAllFPOComplaint();
     }
 
 
 
-    @GetMapping("/{id}")
-    @ApiOperation(value="Farmer Complaints List to FPO" ,code=201, produces = "application/json", notes="Api for all Farmer Complaints Info By FPO ID",response= Complaints.class)
+    @GetMapping("farmerComplaint/{id}")
+    @ApiOperation(value="Farmer Complaints List to FPO" ,code=201, produces = "application/json", notes="Api for all Farmer Complaints Info By FPO ID",response= FarmerComplaintDetailDTO.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Complaints> getFarmerComplaintByFPOId (@PathVariable Integer id){
+    public List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId (@PathVariable Integer id){
         return fpoComplaintService.getFarmerComplaintByFPOId(id);
     }
 
@@ -73,7 +74,7 @@ public class FPOComplaintController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FPOComplaints> getComplaintByFpoId (@PathVariable Integer id){
+    public List<FarmerComplaintDTO> getComplaintByFpoId (@PathVariable Integer id){
         return fpoComplaintService.getComplaintByFpoId(id);
     }
 
