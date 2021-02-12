@@ -9,7 +9,9 @@ import com.upfpo.app.entity.BoardMember;
 
 public interface BoardMembersRepo extends JpaRepository<BoardMember, Long>{
 	
-	@Query("select b from BoardMember b where b.isDeleted = :val order by b.id desc")
-	public List<BoardMember> findAllByOrderByIdDesc(boolean val);
+	@Query("select b from BoardMember b where b.isDeleted = :val and b.masterId = :masterId order by b.id desc")
+	public List<BoardMember> findAllByOrderByIdDesc(boolean val, Integer masterId);
+	
+	//public List<BoardMember> findBymasterIdByAndisDeletedOrderByIdDesc(Integer masterId, boolean val);
 
 }

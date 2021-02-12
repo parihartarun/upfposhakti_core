@@ -14,11 +14,11 @@ public interface ProductionDetailsRepository extends JpaRepository<ProductionDet
 
 	
 	@Query("select sum(p.actualProdcution) from ProductionDetails p join p.farmerProfile f where p.farmerProfile.farmerId = f.farmerId and "
-			+ "p.crop_id = :cropId and p.veriety_id=:cropVarietyId and p.season_id=:seasonId and f.fpoRefId=:masterId")
+			+ "p.crop_id = :cropId and p.veriety_id=:cropVarietyId and p.season_id=:seasonId and f.fpoRefId=:masterId and p.isDeleted = false")
 	public Double getActualProductionbyFarmer(int cropId, int cropVarietyId, int seasonId, int masterId);
 	
 	@Query("select sum(p.marketableSurplus) from ProductionDetails p join p.farmerProfile f where p.farmerProfile.farmerId = f.farmerId and "
-			+ "p.crop_id = :cropId and p.veriety_id=:cropVarietyId and p.season_id=:seasonId and f.fpoRefId=:masterId")
+			+ "p.crop_id = :cropId and p.veriety_id=:cropVarietyId and p.season_id=:seasonId and f.fpoRefId=:masterId and p.isDeleted = false")
 	public Double getMarketableQty(int cropId, int cropVarietyId, int seasonId, int masterId);
 	
 }
