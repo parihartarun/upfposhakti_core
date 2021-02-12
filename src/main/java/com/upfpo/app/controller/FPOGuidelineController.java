@@ -161,7 +161,7 @@ public class FPOGuidelineController {
     })
     public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Integer id,
                                                                @RequestPart("description") String description,
-                                                               @RequestPart("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                               @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
                                                                @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
@@ -171,7 +171,7 @@ public class FPOGuidelineController {
         ResponseEntity<MessageResponse> resp = null;
         try {
             LOG.info("test");
-            fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines,  file);
+            fpoGuidelineService.updateFPOGuidelines(id, fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("FPOGuidelines Updated Successfully!");
             //}
