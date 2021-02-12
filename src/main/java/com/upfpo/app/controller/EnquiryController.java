@@ -1,12 +1,15 @@
 package com.upfpo.app.controller;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.User;
 import com.upfpo.app.service.EnquiryServiceImpl;
+import com.upfpo.app.service.FPOService;
+import com.upfpo.app.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,8 +46,12 @@ public class EnquiryController {
 
     @Autowired
     private EnquiryServiceImpl enquiryService;
-
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FPOService fpoService;
+	
+       
     @GetMapping("/getall")
     @ApiOperation(value="Enquiry List" ,code=201, produces = "application/json", notes="Api for all Enquiry Info",response= Enquiry.class)
     @ApiResponses(value= {
@@ -52,7 +66,7 @@ public class EnquiryController {
     }
 
 
-
+    
     @PostMapping("/insert")
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
     @ApiResponses(value= {
@@ -60,7 +74,7 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createEnquiry(@RequestBody Enquiry enquiry) {
+    public ResponseEntity<String> createEnquiry(@RequestBody EnquieryRequest enquiry) {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
@@ -77,7 +91,9 @@ public class EnquiryController {
         return resp;
     }
 
-
+    
+    
+    
     @PutMapping("/update/{id}")
     @ApiOperation(value="Enquiry Update" ,code=201, produces = "application/json", notes="Api for all Enquiry Update",response= Enquiry.class)
     @ApiResponses(value= {
@@ -102,7 +118,7 @@ public class EnquiryController {
         return resp;
     }
 
-
+       
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= Enquiry.class)
     @ApiResponses(value= {
@@ -129,27 +145,57 @@ public class EnquiryController {
     
     @PostMapping()
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response= Enquiry.class)
+    @ApiResponses(value = {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+	public ResponseEntity<MessageResponse> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
+		LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
+		ResponseEntity<MessageResponse> resp = null;
+		try {
+			enquiryService.saveEnquiry(enquiry);
+			resp = ResponseEntity.ok(new MessageResponse("Enquiry created Successfully!"));
+			LOG.info("Enquiry created Successfully!");
+		} catch (Exception e) {
+			resp = new ResponseEntity<MessageResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.info("Failed to Save the Enquiry");
+			e.printStackTrace();
+		}
+		LOG.info("Exiting Enquiry Of Controller with response ", resp);
+		return resp;
+	}
+    
+    
+    @GetMapping("/findByUser")
+    @ApiOperation(value="Enquiry By User" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> saveEnquiryHandler(@RequestBody Enquiry enquiry) {
-        LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
-        ResponseEntity<String> resp = null;
-        try {
-             enquiryService.saveEnquiry(enquiry);
-            resp = new ResponseEntity<String>("Enquiry created Successfully!", HttpStatus.OK );
-            LOG.info("Enquiry created Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Enquiry", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Enquiry");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Enquiry Of Controller with response ", resp);
-        return resp;
-    }   
-    
+    public Enquiry getEnquiryByUser(@RequestParam Long userId) throws UserPrincipalNotFoundException{
+    	Optional<User> user = userService.findById(userId);
+    	if(user.equals(null)) {
+    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
+    	}
+        LOG.info("Inside EnquiryController gettting Enquiry by userId");
+        return enquiryService.getEnquiryInfo(user);
+    }
 
+    @GetMapping("/findByFpo")
+    @ApiOperation(value="Enquiry By Fpo" ,code=201, produces = "application/json", notes="Api for find Enquiry By Fpo",response= Enquiry.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public Enquiry getEnquiryByFpo(@RequestParam Integer fpoId) throws UserPrincipalNotFoundException{
+    	Optional<FPORegister> fpo = fpoService.findById(fpoId);
+    	if(fpo.equals(null)) {
+    		throw new UsernameNotFoundException("Fpo does not exist for "+fpoId +"id");
+    	}
+        LOG.info("Inside EnquiryController gettting Enquiry by fpoId");
+        return enquiryService.getEnquiryInfoByFpo(fpo);
+}
 }

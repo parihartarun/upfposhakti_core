@@ -84,7 +84,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public List<CollectionCenter> selectCollectionCenter() {
 		// TODO Auto-generated method stub
-		return collectionCenterRepository.findByIsDeleted(false);
+		return collectionCenterRepository.findByIsDeletedOrderByIdDesc(false);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	@Override
 	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id) {
 		// TODO Auto-generated method stub
-		return collectionCenterRepository.findByFpoRefId(id);
+		return collectionCenterRepository.findByFpoRefIdAndIsDeletedOrderByIdDesc(id, false);
 	}
 
 

@@ -5,16 +5,23 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOSalesDetails;
 import com.upfpo.app.entity.FPOServices;
 
-import com.upfpo.app.entity.FileStorageProperties;
+
+import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FPOServicesRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,14 +39,9 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     private final Path fileStorageLocation;
 
-    @Override
-    public List<FPOServices> getFPOServices() {
-        return fpoServicesRepository.findByIsDeleted(false);
-    }
-
     @Autowired
     public FPOServicesServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getfposervicesDir())
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
         try {
@@ -47,6 +49,11 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         } catch (Exception ex) {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
+    }
+
+    @Override
+    public List<FPOServices> getFPOServices() {
+        return fpoServicesRepository.findByIsDeleted(false);
     }
 
     @Override
@@ -60,6 +67,14 @@ public class FPOServicesServiceImpl implements FPOServicesService{
     public FPOServices insertFPOServices (FPOServices fposervices, MultipartFile file){
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        fposervices.setCreatedBy(currentPrincipalName);
+        fposervices.setCreatedDate(Calendar.getInstance());
+        fposervices.setUploadedBy(currentPrincipalName);
+        fposervices.setUploadDate(Calendar.getInstance());
+        fposervices.setFileName(fileName);
+        fposervices.setDeleted(false);
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -68,8 +83,11 @@ public class FPOServicesServiceImpl implements FPOServicesService{
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            fposervices.setFilePath(String.valueOf(targetLocation));
-            //fposerviceRepository.save(fposervices);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("uploads/FPOService/")
+                    .path(fileName)
+                    .toUriString();
+            fposervices.setFilePath(fileDownloadUri);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -79,8 +97,11 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     public FPOServices updateFPOServices(Integer id, FPOServices fpoServices1, String description, String servicename, MultipartFile file) {
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName;
+        String fileDownloadUri;
         Path targetLocation;
+        if(file!=null) {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -90,16 +111,30 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
                 targetLocation = this.fileStorageLocation.resolve(fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("uploads/FPOService/")
+                        .path(fileName)
+                        .toUriString();
+                fpoServicesRepository.findById(id)
+                        .map(fpoServices -> {
+                            fpoServices.setFilePath(fileDownloadUri);
+                            fpoServices.setFileName(fileName);
+                            return fpoServicesRepository.saveAndFlush(fpoServices);
+                        }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+
+
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
+        }
 
         return fpoServicesRepository.findById(id)
                 .map(fpoServices -> {
                     fpoServices.setServicename(fpoServices1.getServicename());
                     fpoServices.setDescriptions(fpoServices1.getDescriptions());
                     fpoServices.setId(fpoServices1.getId());
-                    fpoServices.setFilePath(String.valueOf(targetLocation));
+                    fpoServices.setDeleted(false);
+                    fpoServices.setUpdateDate(Calendar.getInstance());
                     return fpoServicesRepository.save(fpoServices);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
@@ -110,7 +145,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
         try {
             FPOServices fpoServices = fpoServicesRepository.findById(id).get();
             fpoServices.setDeleted(true);
-            fpoServices.setDeleteDate(Calendar.getInstance().getTime());
+            fpoServices.setDeleteDate(Calendar.getInstance());
             fpoServicesRepository.save(fpoServices);
             return true;
         }catch(Exception e)
@@ -121,6 +156,20 @@ public class FPOServicesServiceImpl implements FPOServicesService{
             return false;
     }
 
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new ResourceNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
+        }
+    }
 
 
 }

@@ -26,11 +26,14 @@ public class SchemeDetail {
     @Column(name="file_name")
     private String fileName;
 
+    @Column(name="parent_department")
+    private String parentDepartment;
+
     @Column(name="is_active")
     private Boolean isActive;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
@@ -39,7 +42,7 @@ public class SchemeDetail {
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -48,8 +51,25 @@ public class SchemeDetail {
     @Column(name = "create_date")
     private Calendar createDate;
 
+    public SchemeDetail() {
+    }
+
     public SchemeDetail(String description) {
         this.description=description;
+    }
+
+    public SchemeDetail(String description, String schemeType,String parentDepartment) {
+        this.schemeType=schemeType;
+        this.description=description;
+        this.parentDepartment=parentDepartment;
+    }
+
+    public void setParentDepartment(String parentDepartment) {
+        this.parentDepartment = parentDepartment;
+    }
+
+    public String getParentDepartment() {
+        return parentDepartment;
     }
 
     public String getDescription() {
@@ -100,11 +120,11 @@ public class SchemeDetail {
         isActive = active;
     }
 
-    public Date getUploadDate() {
+    public Calendar getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(Calendar uploadDate) {
         this.uploadDate = uploadDate;
     }
 
@@ -124,11 +144,11 @@ public class SchemeDetail {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 

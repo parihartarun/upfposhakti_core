@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.BankMaster;
+import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.service.CropDetailsService;
 
@@ -40,6 +41,19 @@ public class CropDetailsController
 	public ResponseEntity<List<CropMaster>> getCropDetails()
 	{
 		List<CropMaster> list = cropDetailsService.getCropDetails();
+		return new ResponseEntity<List<CropMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getCropsBySeasonId/{seasonId}")
+	@ApiOperation(value="Get Crop master details by seasonId", code=200, produces = "application/json",notes="Api for get crop by seasonId",response=CropMaster.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public ResponseEntity<List<CropMaster>> getCrops(@PathVariable("seasonId") Integer seasonId)
+	{
+		List<CropMaster> list =  cropDetailsService.getCropsBySeasonId(seasonId);
 		return new ResponseEntity<List<CropMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 }

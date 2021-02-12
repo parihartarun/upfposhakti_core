@@ -2,6 +2,8 @@ package com.upfpo.app.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -9,6 +11,29 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@SqlResultSetMapping(name="FarmerComplaintDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = FarmerComplaintDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "fpoid", type = Integer.class),
+                                @ColumnResult(name = "issuetype", type = String.class),
+                                @ColumnResult(name = "status", type = String.class),
+                                @ColumnResult(name = "role", type = String.class),
+                                @ColumnResult(name = "message", type = String.class),
+                                @ColumnResult(name = "description", type = String.class),
+                                @ColumnResult(name = "createdate", type = Calendar.class),
+                                @ColumnResult(name = "filepath", type = String.class),
+                                @ColumnResult(name = "othertype", type = String.class),
+                                @ColumnResult(name = "assignto", type = String.class),
+                                @ColumnResult(name = "assignby", type = String.class),
+                                @ColumnResult(name = "deptcomment", type = String.class),
+                                @ColumnResult(name = "remarks", type = String.class),
+                                @ColumnResult(name = "filename", type = String.class)
+                        })
+        })
+
 @Table(name = "complaints")
 public class Complaints {
 
@@ -28,6 +53,9 @@ public class Complaints {
     
     @Column(name="fpo_id")
     private Integer fpoId;
+
+    @Column(name="farmerId")
+    private Integer farmerId;
 
     @Column(name="issue_type")
     private String issueType;
@@ -54,7 +82,7 @@ public class Complaints {
     private Date resolve_date;
 
     @Column(name="comment")
-    private String deptComment;
+    private String fpoComment;
 
     @Column(name="remarks")
     private String remarks;
@@ -62,20 +90,29 @@ public class Complaints {
     @Column(name="file_path")
     private String filePath;
 
+    @Column(name="file_name")
+    private String fileName;
+
     @Column(name="role")
     private String role;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
+
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+    @Column(name="update_by")
+    private String updateBy;
 
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -93,15 +130,17 @@ public class Complaints {
     public Complaints() {
     }
 
-    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, String issueType,
+    public Complaints(Integer id, String title, String message, Status status, Integer fpoId, Integer farmerId, String issueType,
                       String otherType, String description, String otherAssigned, String assignTo, String assignBy,
-                      Date assigned_date, Date resolve_date, String deptComment, String remarks, String filePath, String role, Date uploadDate, String uploadedBy,
-                      Boolean isDeleted, Date deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
+                      Date assigned_date, Date resolve_date, String fpoComment, String remarks, String filePath,
+                      String fileName, String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, String updateBy,
+                      Boolean isDeleted, Calendar deleteDate, String createBy, Calendar createDateTime, List<ComplaintsComments> complaintsComments) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.status = status;
         this.fpoId = fpoId;
+        this.farmerId = farmerId;
         this.issueType = issueType;
         this.otherType = otherType;
         this.description = description;
@@ -110,17 +149,30 @@ public class Complaints {
         this.assignBy = assignBy;
         this.assigned_date = assigned_date;
         this.resolve_date = resolve_date;
-        this.deptComment = deptComment;
+        this.fpoComment = fpoComment;
         this.remarks = remarks;
         this.filePath = filePath;
+        this.fileName = fileName;
         this.role = role;
         this.uploadDate = uploadDate;
         this.uploadedBy = uploadedBy;
+        this.updateDate = updateDate;
+        this.updateBy = updateBy;
         this.isDeleted = isDeleted;
         this.deleteDate = deleteDate;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
         this.complaintsComments = complaintsComments;
+    }
+
+
+
+    public Integer getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(Integer farmerId) {
+        this.farmerId = farmerId;
     }
 
     public String getAssignBy() {
@@ -131,22 +183,38 @@ public class Complaints {
         this.assignBy = assignBy;
     }
 
-    public String getDeptComment() {
-        return deptComment;
+    public String getFpoComment() {
+        return fpoComment;
     }
 
-    public void setDeptComment(String deptComment) {
-        this.deptComment = deptComment;
+    public void setFpoComment(String fpoComment) {
+        this.fpoComment = fpoComment;
     }
 
-
-
-    public Complaints(String description, String title, String issueType) {
+    public Complaints(String description, String title, String issueType , Integer farmerId, Integer fpoId) {
 
         this.setIssueType(issueType);
         this.setDescription(description);
         this.setTitle(title);
+        this.farmerId=farmerId;
+        this.fpoId=fpoId;
+    }
 
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
     public Integer getId() {
@@ -261,13 +329,7 @@ public class Complaints {
         this.role = role;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
-    }
 
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
 
     public String getUploadedBy() {
         return uploadedBy;
@@ -285,11 +347,27 @@ public class Complaints {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 

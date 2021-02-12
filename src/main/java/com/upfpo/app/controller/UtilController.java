@@ -63,10 +63,20 @@ public class UtilController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn)
+	
+	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn,@RequestParam(value = "filterdist",required = false) List<String> districts,@RequestParam(value = "filterqty",required = false) List<Integer> qty,@RequestParam(value = "filtercrop",required = false) List<String> crops)
 	{
-		return masterServices.homeSearch(searchVal,searchIn);
+		
+//		crops.forEach(data->{
+//			System.out.println("String of filterCrops = "+data);		
+//		});
+	
+	
+		return masterServices.homeSearch(searchVal,searchIn,districts,qty,crops);
+			
 	}
+	
+	
 	//two parameters -> val in = type
 	//fpo district crop any  --> types
 	

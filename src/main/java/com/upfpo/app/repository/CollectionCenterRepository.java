@@ -10,8 +10,12 @@ import com.upfpo.app.entity.CollectionCenter;
 @Repository
 public interface CollectionCenterRepository extends JpaRepository<CollectionCenter, Integer>{
 
-	List<CollectionCenter> findByIsDeleted(boolean b);
+	//List<CollectionCenter> findByIsDeleted(boolean b);
 
-	List<CollectionCenter> findByFpoRefId(Integer id);
+	List<CollectionCenter> findByFpoRefIdAndIsDeletedOrderByIdDesc(Integer id, boolean b);
+	
+	List<CollectionCenter> findByIsDeletedOrderByIdDesc(boolean b);
+	
+	
 
 }

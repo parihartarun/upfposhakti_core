@@ -7,9 +7,16 @@ import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.Notification;
 
 import com.upfpo.app.repository.NotificationRepository;
+import com.upfpo.app.user.exception.FileStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -28,17 +35,28 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public Notification createNotification (Notification notification){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        notification.setDeleted(false);
+        notification.setCreateDate(Calendar.getInstance());
+        notification.setCreateBy(currentPrincipalName);
         return notificationRepository.save(notification);
     }
 
 
     @Override
     public Notification updateNotification(Integer id, Notification notification) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Optional<Notification> sd = notificationRepository.findById(id);
         if(!sd.isPresent()) {
             return null;
         }
         notification.setId(id);
+        notification.setUpdateBy(currentPrincipalName);
+        notification.setUpdateDate(Calendar.getInstance());
+        notification.setDeleted(false);
         return notificationRepository.save(notification);
     }
 
@@ -56,6 +74,18 @@ public class NotificationServiceImpl implements NotificationService{
         {
             throw new NotFoundException();
         }
+    }
+
+    public Notification sendNotification (Notification notification){
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        notification.setCreateBy(currentPrincipalName);
+        notification.setCreateDate(Calendar.getInstance());
+        notification.setDeleted(false);
+        return notificationRepository.save(notification);
+
     }
 
 

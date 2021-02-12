@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/v3/api-docs",
 				"/v2/api-docs",
                 "/signin/test",
+                "/fpoguidelines/**",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",
@@ -49,7 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 "/swagger-ui/**",
                 "/api/v1/**",
                 "/webjars/**",
-				"/circulars/getall"
+				"/schemes/**",
+				"/circulars/getall",
+				"/fpoguidelines/getall",
+				"/fpoguidelines/{type}",
+				"/marketablesurplus/**"
 				).permitAll()
 		.anyRequest().authenticated()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

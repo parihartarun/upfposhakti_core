@@ -4,10 +4,13 @@ package com.upfpo.app.entity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
+@Table(name = "fpo_additonal_services")
 public class FPOServices {
+
 
 
     @Id
@@ -24,6 +27,9 @@ public class FPOServices {
     @Column(name="description")
     private String descriptions;
 
+    @Column(name = "file_name")
+    public String fileName;
+
     @Column(name="file_path")
     private String filePath;
 
@@ -34,7 +40,7 @@ public class FPOServices {
     private String role;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
@@ -43,19 +49,19 @@ public class FPOServices {
     private String updatedBy;
 
     @Column(name="update_date")
-    private Date updateDate;
+    private Calendar updateDate;
 
-    @Column(name="is_deleted")
-    private boolean isDeleted;
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
+    private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private Calendar createdDate;
 
     public FPOServices() {
     }
@@ -69,6 +75,26 @@ public class FPOServices {
         this.setId(id);
         this.setServicename(servicename);
         this.setDescriptions(description);
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public Integer getId() {
@@ -127,13 +153,11 @@ public class FPOServices {
         this.role = role;
     }
 
-    public Date getUploadDate() {
+    public Calendar getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(java.sql.Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
+
 
     public String getUploadedBy() {
         return uploadedBy;
@@ -151,13 +175,7 @@ public class FPOServices {
         this.updatedBy = updatedBy;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 
     public boolean isDeleted() {
         return isDeleted;
@@ -167,11 +185,19 @@ public class FPOServices {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 
@@ -183,11 +209,11 @@ public class FPOServices {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedDate() {
+    public Calendar getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
     }
 }

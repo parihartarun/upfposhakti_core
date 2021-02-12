@@ -1,8 +1,16 @@
 package com.upfpo.app.entity;
 
-import javax.persistence.*;
 import java.util.Calendar;
-import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "fpo_sales_details")
@@ -35,136 +43,149 @@ public class FPOSalesDetails {
     private String updatedBy;
 
     @Column(name="update_date")
-    private Date updateDate;
+    private Calendar updateDate;
 
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private Calendar createdDate;
 
     @Column(name="is_deleted")
     private boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name="delete_By")
-    private Date deleteBy;
+    private String deleteBy;
 
+    @OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pid", referencedColumnName = "pid")
+	private TotalProduction totalProduction;
 
     public FPOSalesDetails() {
     }
 
-    public Date getDeleteBy() {
-        return deleteBy;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setDeleteBy(Date deleteBy) {
-        this.deleteBy = deleteBy;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public String getFinYear() {
+		return finYear;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setFinYear(String finYear) {
+		this.finYear = finYear;
+	}
 
-    public String getFinYear() {
-        return finYear;
-    }
+	public String getSeason() {
+		return season;
+	}
 
-    public void setFinYear(String finYear) {
-        this.finYear = finYear;
-    }
+	public void setSeason(String season) {
+		this.season = season;
+	}
 
-    public String getSeason() {
-        return season;
-    }
+	public Integer getCropRefName() {
+		return cropRefName;
+	}
 
-    public void setSeason(String season) {
-        this.season = season;
-    }
+	public void setCropRefName(Integer cropRefName) {
+		this.cropRefName = cropRefName;
+	}
 
-    public Integer getCropRefName() {
-        return cropRefName;
-    }
+	public String getVerietyId() {
+		return verietyId;
+	}
 
-    public void setCropRefName(Integer cropRefName) {
-        this.cropRefName = cropRefName;
-    }
+	public void setVerietyId(String verietyId) {
+		this.verietyId = verietyId;
+	}
 
-    public String getVerietyId() {
-        return verietyId;
-    }
+	public Long getSoldQuantity() {
+		return soldQuantity;
+	}
 
-    public void setVerietyId(String verietyId) {
-        this.verietyId = verietyId;
-    }
+	public void setSoldQuantity(Long soldQuantity) {
+		this.soldQuantity = soldQuantity;
+	}
 
-    public Long getSoldQuantity() {
-        return soldQuantity;
-    }
+	public Integer getFpoId() {
+		return fpoId;
+	}
 
-    public void setSoldQuantity(Long soldQuantity) {
-        this.soldQuantity = soldQuantity;
-    }
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
 
-    public Integer getFpoId() {
-        return fpoId;
-    }
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
 
-    public void setFpoId(Integer fpoId) {
-        this.fpoId = fpoId;
-    }
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
+	public Calendar getUpdateDate() {
+		return updateDate;
+	}
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+	public void setUpdateDate(Calendar updateDate) {
+		this.updateDate = updateDate;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
+	public Calendar getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
+	public void setCreatedDate(Calendar createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
+	public boolean isDeleted() {
+		return isDeleted;
+	}
 
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+	public Calendar getDeleteDate() {
+		return deleteDate;
+	}
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setDeleteDate(Calendar deleteDate) {
+		this.deleteDate = deleteDate;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public String getDeleteBy() {
+		return deleteBy;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public void setDeleteBy(String deleteBy) {
+		this.deleteBy = deleteBy;
+	}
+
+	public TotalProduction getTotalProduction() {
+		return totalProduction;
+	}
+
+	public void setTotalProduction(TotalProduction totalProduction) {
+		this.totalProduction = totalProduction;
+	}
+
+   
 }

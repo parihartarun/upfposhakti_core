@@ -116,6 +116,32 @@ public class NotificationController {
         return resp;
     }
 
+    @PostMapping("/send")
+    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<String> sendNotification(@RequestParam("receiver_id") Integer receiverId, @RequestParam("sender_id") Integer senderId,
+                                                   @RequestParam("title") String title) {
+        LOG.info("Inside NotificationController saving Notification ");
+        Notification notification = new Notification(receiverId,senderId,title);
+        ResponseEntity<String> resp = null;
+        try {
+            Notification id = notificationService.sendNotification(notification);
+            resp = new ResponseEntity<String>("Notification created Successfully!", HttpStatus.OK );
+            LOG.info("Notification  created Successfully!");
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<String>("Failed to Save the Notification", HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Save the Notification");
+            e.printStackTrace();
+        }
+        LOG.info("Existing Notification Of Controller with response ", resp);
+        return resp;
+    }
+
 
 }
 

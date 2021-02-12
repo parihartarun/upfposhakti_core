@@ -27,16 +27,19 @@ public class PhotoUpload {
     private String role;
 
     @Column(name="upload_date")
-    private Date uploadDate;
+    private Calendar uploadDate;
 
     @Column(name="uplaoded_by")
     private String uploadedBy;
 
-    @Column(name="is_deleted")
+    @Column(name="update_date")
+    private Calendar updateDate;
+
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -48,118 +51,91 @@ public class PhotoUpload {
     @Column(name = "create_date")
     private Calendar createdDate;
     
-    
-
-    public PhotoUpload() {
-
-	}
+    @Column(name = "update_by")
+    private String updateBy;
 
 	public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-                       Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createdDate,Integer fpoId) {
-        this.id = id;
-        this.description = description;
-        this.filePath = filePath;
-        this.fileName = fileName;
-        this.role = role;
-        this.uploadDate = uploadDate;
-        this.uploadedBy = uploadedBy;
-        this.isDeleted = isDeleted;
-        this.deleteDate = deleteDate;
-        this.createBy = createBy;
-        this.createdDate = createdDate;
-        this.fpoId=fpoId;
-    }
-
-    public PhotoUpload(String description) {
-        this.description=description;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    public String getUploadedBy() {
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public Calendar getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Calendar createdDate) {
-        this.createdDate = createdDate;
-    }
-
-	public Integer getFpoId() {
-		return fpoId;
+			Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted, Calendar deleteDate,
+			String createBy, Integer fpoId, Calendar createdDate, String updateBy) {
+	
+		this.id = id;
+		this.description = description;
+		this.filePath = filePath;
+		this.fileName = fileName;
+		this.role = role;
+		this.uploadDate = uploadDate;
+		this.uploadedBy = uploadedBy;
+		this.updateDate = updateDate;
+		this.isDeleted = isDeleted;
+		this.deleteDate = deleteDate;
+		this.createBy = createBy;
+		this.fpoId = fpoId;
+		this.createdDate = createdDate;
+		this.updateBy = updateBy;
 	}
 
-	public void setFpoId(Integer fpoId) {
-		this.fpoId = fpoId;
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Calendar getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(Calendar uploadDate) {
+		this.uploadDate = uploadDate;
+	}
+
+	public String getUploadedBy() {
+		return uploadedBy;
+	}
+
+	public void setUploadedBy(String uploadedBy) {
+		this.uploadedBy = uploadedBy;
+	}
+
+	public Calendar getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Calendar updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public Boolean getIsDeleted() {
@@ -169,5 +145,47 @@ public class PhotoUpload {
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-    
+
+	public Calendar getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(Calendar deleteDate) {
+		this.deleteDate = deleteDate;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Integer getFpoId() {
+		return fpoId;
+	}
+
+	public void setFpoId(Integer fpoId) {
+		this.fpoId = fpoId;
+	}
+
+	public Calendar getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Calendar createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
 }
+
+    
+    

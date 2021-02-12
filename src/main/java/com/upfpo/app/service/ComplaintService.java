@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.entity.ComplaintCatgories;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.Status;
@@ -11,12 +12,24 @@ import java.util.List;
 public interface ComplaintService {
 
     public List<ComplaintCatgories> getComplaintsCatgories();
-    public List<Complaints> getAllComplaint();
-    public Complaints createComplaint (Complaints complaints, MultipartFile file);
-    public Boolean deleteComplaint(Integer id);
-    public String storeFile(MultipartFile file);
-    public Resource loadFileAsResource(String fileName);
-    public Complaints deptComplaintAssign(Integer id, Complaints complaints1);
-    public Complaints updateComplaint(Integer id, Complaints complaints1, String description, String title, String issueType, MultipartFile file);
 
+    public List<Complaints> getAllComplaint();
+    //public Complaints createComplaint (Complaints complaints, MultipartFile file);
+
+    Complaints createComplaintByFarmer(Complaints complaints, MultipartFile file);
+
+    public Boolean deleteComplaint(Integer id);
+
+    public Resource loadFileAsResource(String fileName);
+
+    Complaints updateComplaint(Integer id, Complaints complaints1, MultipartFile file);
+
+
+    //List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId);
+
+
+
+    Complaints complaintAssign(Integer id, Complaints complaints1);
+
+    List<Complaints> getComplaintByFarmerId(Integer farmerId);
 }

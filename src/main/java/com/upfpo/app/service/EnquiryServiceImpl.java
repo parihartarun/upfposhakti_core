@@ -1,26 +1,55 @@
 package com.upfpo.app.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.configuration.exception.CropNotFoundException;
+import com.upfpo.app.configuration.exception.FpoNotFoundException;
+import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.configuration.exception.UserNotFoundException;
+import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.User;
+import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.EnquiryRepository;
+import com.upfpo.app.repository.FpoMasterRepository;
+import com.upfpo.app.repository.UserRepository;
 
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
 
     @Autowired
     private EnquiryRepository enquiryRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private FpoMasterRepository fpoRepository;
+    @Autowired
+    private CropDetailsMasterRepository cropMasterRepository;
 
     public List<Enquiry> getAllEnquiryInfo(){
         return enquiryRepository.findAll();
     }
 
-    public Enquiry createEnquiry (Enquiry enquiry){
-        return enquiryRepository.save(enquiry);
+    public Enquiry createEnquiry (EnquieryRequest enquiryRequest){
+   
+    	
+    	
+    	Enquiry enquiry =  new Enquiry(); 
+    	enquiry.setCreateDateTime(new Date());  // filled
+    	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate().toString());       // from ui
+    	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
+    	enquiry.setReason(null);                // no idea hence empty
+    	enquiry.setStatus("Active");            // active   
+    	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
+    	enquiry.setUser(userRepository.findById(Long.parseLong(""+enquiryRequest.getUserId())).orElseThrow(UserNotFoundException::new));                  // from user	
+      	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  	 	 	
+      	return enquiryRepository.save(enquiry);
     }
 
     public Enquiry updateEnquiryDetail(Long id, Enquiry enquiry) {
@@ -32,7 +61,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         return enquiryRepository.save(enquiry);
     }
 
-
     public Optional deleteEnquiry(Long id) {
         return enquiryRepository.findById(id)
                 .map(enquiry -> {
@@ -42,7 +70,18 @@ public class EnquiryServiceImpl implements EnquiryService{
     }
 
 	public void saveEnquiry(Enquiry enquiry) {
+	
 		enquiryRepository.save(enquiry);
 	}
 
+	public Enquiry getEnquiryInfo(Optional<User> user) {
+		 return enquiryRepository.findByUser(user);
+	}
+
+	public Enquiry getEnquiryInfoByFpo(Optional<FPORegister> fpo) {
+		return enquiryRepository.findByFpo(fpo);
+	}
+
+	
+	
 }

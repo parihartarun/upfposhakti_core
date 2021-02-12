@@ -11,6 +11,9 @@ public interface SchemeDetailService {
     public SchemeDetail updateSchemeDetail(Integer id, SchemeDetail schemeDetail1, MultipartFile file);
     public Resource loadFileAsResource(String fileName);
     public Boolean deleteSchemeDetail(Integer id);
+
+    List<SchemeDetail> getSchemeByType(String schemeType);
+
     public SchemeDetail createSchemeDetail (SchemeDetail schemeDetail, MultipartFile file);
     public List<SchemeDetail> getAllSchemeDetail();
 }

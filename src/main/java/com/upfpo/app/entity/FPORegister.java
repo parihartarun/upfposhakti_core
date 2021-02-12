@@ -162,7 +162,7 @@ public class FPORegister implements Serializable {
 	private List <FpoAdditionalServices> fpoAdditionalServices;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="users_id")
+	@JoinColumn(name="user_id")
 	private User userFpo;
 	
 	public User getUserFpo() {

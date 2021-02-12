@@ -1,6 +1,9 @@
 package com.upfpo.app.repository;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -32,7 +35,7 @@ public class DataDisplayRepository {
 	Session session = null;
 	Query query = null;
 	Transaction tx = null;
-
+	Predicate<FPODetailsDTO> finalpredicate=null;
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
@@ -255,34 +258,15 @@ public class DataDisplayRepository {
 	{
 		if(searchIn.equalsIgnoreCase("any"))
 		{
-//			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services from\r\n" + 
-//					"(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n" + 
-//					"districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
-//					"fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n" + 
-//					"CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services\r\n" + 
-//					"from fpo inner join states on states.state_id = fpo.state_ref\r\n" + 
-//					"inner join districts on district_id =  fpo.dist_ref_id\r\n" + 
-//					"left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n" + 
-//					"left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n" + 
-//					"left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n" + 
-//					"left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id \r\n" + 
-//					"group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name ,\r\n" + 
-//					"fpo.fpo_landline ,fpo.fpo_email,\r\n" + 
-//					"fpo_lot_no , \r\n" + 
-//					"substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) )  as Q \r\n" + 
-//					"where \r\n" + 
-//					"UPPER(district) like '%"+searchVal.toUpperCase()+"%' \r\n" + 
-//					"or UPPER(nodal) like '%"+searchVal.toUpperCase()+"%' \r\n" + 
-//					"or UPPER(crops) like '%"+searchVal.toUpperCase()+"%' \r\n" + 
-//					"or UPPER(services) like '%"+searchVal.toUpperCase()+"%'";
+
 			
 			
-			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+			sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id as cropid, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, pd.marketable_quantity\r\n"
-					+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+					+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
 					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
 					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
 					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
@@ -291,7 +275,7 @@ public class DataDisplayRepository {
 					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
 					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
 					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
-					+ "group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
 					+ "apro.actual_production,\r\n"
 					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
 					+ "fpo_lot_no ,\r\n"
@@ -307,29 +291,14 @@ public class DataDisplayRepository {
 		}
 		else if (searchIn.equalsIgnoreCase("fpo_name")) 
 		{
-//			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services from\r\n" + 
-//					"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
-//					"fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops, \r\n" + 
-//					"CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services\r\n" + 
-//					"from fpo \r\n" + 
-//					"inner join states on states.state_id = fpo.state_ref\r\n" + 
-//					"inner join districts on district_id =  fpo.dist_ref_id\r\n" + 
-//					"left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n" + 
-//					"left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n" + 
-//					"left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n" + 
-//					"left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n" + 
-//					"group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name ,\r\n" + 
-//					" fpo.fpo_landline , fpo.fpo_email ,\r\n" + 
-//					"fpo_lot_no , substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10))  as Q\r\n" + 
-//					"where UPPER(nodal) like '%"+searchVal.toUpperCase()+"%'\r\n" + 
-//					"";
+
 			
-			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+			sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id as cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, pd.marketable_quantity\r\n"
-					+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+					+ "as marketableSurplus, cm.id as cropid,apro.actual_production as actualProduction\r\n"
 					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
 					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
 					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
@@ -338,7 +307,7 @@ public class DataDisplayRepository {
 					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
 					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
 					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
-					+ "group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "group by fpo.fpo_id, cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
 					+ "apro.actual_production,\r\n"
 					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
 					+ "fpo_lot_no ,\r\n"
@@ -348,32 +317,13 @@ public class DataDisplayRepository {
 		}
 		else if (searchIn.equalsIgnoreCase("district")) 
 		{
-//			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
-//					"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
-//					"districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
-//					"fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) \r\n" + 
-//					"associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops, \r\n" + 
-//					"CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' '\r\n" + 
-//					",cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services\r\n" + 
-//					"from fpo\r\n" + 
-//					"inner join states on states.state_id = fpo.state_ref\r\n" + 
-//					"inner join districts on district_id =  fpo.dist_ref_id\r\n" + 
-//					"left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n" + 
-//					"left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n" + 
-//					"left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n" + 
-//					"left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n" + 
-//					"group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,\r\n" + 
-//					"fpo.fpo_name ,fpo.fpo_landline ,fpo.fpo_email ,\r\n" + 
-//					"fpo_lot_no , substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) )  as Q\r\n" + 
-//					"where UPPER(district) like '%"+searchVal.toUpperCase()+"%'\r\n" + 
-//					"";
-			
-			sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+	
+			sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, pd.marketable_quantity\r\n"
-					+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+					+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
 					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
 					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
 					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
@@ -382,7 +332,7 @@ public class DataDisplayRepository {
 					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
 					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
 					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
-					+ "group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name,districts.district_name, cm.id, fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
 					+ "apro.actual_production,\r\n"
 					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
 					+ "fpo_lot_no ,\r\n"
@@ -393,31 +343,14 @@ public class DataDisplayRepository {
 		}
 			else if (searchIn.equalsIgnoreCase("crop")) 
 			{
-//				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
-//						"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
-//						"districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
-//						"fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops, \r\n" + 
-//						"CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services\r\n" + 
-//						"from fpo  \r\n" + 
-//						"inner join states on states.state_id = fpo.state_ref\r\n" + 
-//						"inner join districts on district_id =  fpo.dist_ref_id\r\n" + 
-//						"left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n" + 
-//						"left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n" + 
-//						"left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n" + 
-//						"left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n" + 
-//						"group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name,\r\n" + 
-//						"fpo.fpo_landline ,fpo.fpo_email ,\r\n" + 
-//						"fpo_lot_no , substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) )  as Q\r\n" + 
-//						"where  UPPER(crops) like '%"+searchVal.toUpperCase()+"%'\r\n" + 
-//						"";
+
 				
-				
-				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+				sql = "Select id, unitassla,state, district,cropid,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 						+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 						+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id as cropid, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 						+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, pd.marketable_quantity\r\n"
-						+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+						+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
 						+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
 						+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
 						+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
@@ -426,7 +359,7 @@ public class DataDisplayRepository {
 						+ "left join production_details apro on apro.crop_id = cm.id\r\n"
 						+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
 						+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
-						+ "group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+						+ "group by fpo.fpo_id,cm.id, fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
 						+ "apro.actual_production,\r\n"
 						+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
 						+ "fpo_lot_no ,\r\n"
@@ -437,29 +370,14 @@ public class DataDisplayRepository {
 			
 			else if (searchIn.equalsIgnoreCase("services")) 
 			{
-//				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops,services from\r\n" + 
-//						"(select distinct fpo.fpo_id id,fpo.agency_associated  unitassla,states.state_name state,\r\n" + 
-//						"districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n" + 
-//						"fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n" + 
-//						"CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services\r\n" + 
-//						"from fpo \r\n" + 
-//						"inner join states on states.state_id = fpo.state_ref\r\n" + 
-//						"inner join districts on district_id =  fpo.dist_ref_id\r\n" + 
-//						"left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n" + 
-//						"left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n" + 
-//						"left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n" + 
-//						"left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n" + 
-//						"group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name ,\r\n" + 
-//						"fpo.fpo_landline ,fpo.fpo_email ,\r\n" + 
-//						"fpo_lot_no , substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) )  as Q\r\n" + 
-//						"where  UPPER(services) like '%"+searchVal.toUpperCase()+"%'";
+
 				
-				sql = "Select id, unitassla,state, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+				sql = "Select id, unitassla,state, district,cropid,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 						+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 						+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid, cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 						+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, pd.marketable_quantity\r\n"
-						+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+						+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
 						+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
 						+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
 						+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
@@ -468,7 +386,7 @@ public class DataDisplayRepository {
 						+ "left join production_details apro on apro.crop_id = cm.id\r\n"
 						+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
 						+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
-						+ "group by fpo.fpo_id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+						+ "group by fpo.fpo_id,cm.id, fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
 						+ "apro.actual_production,\r\n"
 						+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
 						+ "fpo_lot_no ,\r\n"
@@ -1029,17 +947,7 @@ public class DataDisplayRepository {
 	public List<ReportDTO> zayadProductionCropWise_actual_all(String finyear) {
 		try 
 		{
-			/*
-			 * sql = " Select  crop_name, actual_production from (" +
-			 * "Select  cm.crop_name,   sum(pd.actual_production) \"actual_production\" \r\n"
-			 * + "from fpo\r\n" +
-			 * "inner join production_details pd on  pd.master_id=fpo.fpo_id and pd.financial_year=:finyear\r\n"
-			 * + "inner join crop_master cm on cast(pd.crop_ref_name as integer)=cm.id\r\n"
-			 * +
-			 * "inner join season_master sm on sm.season_id=cast(pd.season_ref as integer) and sm.season_name='Zayad'\r\n"
-			 * + "where fpo.fpo_id = :masterId\r\n" + "group by  cm.crop_name" + ") Q\r\n" +
-			 * " order by actual_production desc limit 5";
-			 */
+
 			sql="Select  crop_name, actual_production from (\r\n" + 
 					"Select  cm.crop_name,   coalesce (sum(pd.actual_quantity),0) \"actual_production\" \r\n" + 
 					"from fpo\r\n" + 
@@ -1064,6 +972,257 @@ public class DataDisplayRepository {
 		 * finally { //tx.commit(); session.clear(); session.clear(); }
 		 */
 		return result;
+		
+	}
+
+
+	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn, List<String> fileterdistricts,
+			List<Integer> fileterqty,List<String> filtercrops) {
+		// TODO Auto-generated method stub
+// first we are searching from home page by two inputs one is value other is search in
+//		
+//		
+		
+		if(searchIn.equalsIgnoreCase("any"))
+		{
+
+	
+			
+			sql = "Select id, unitassla,state, cropid, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
+					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
+					+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
+					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
+					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
+					+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
+					+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
+					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
+					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
+					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
+					+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "apro.actual_production,\r\n"
+					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
+					+ "fpo_lot_no ,\r\n"
+					+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
+					+ "where\r\n"
+					+ "UPPER (district) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "or UPPER(crops) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "or UPPER(services) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "or UPPER(nodal) like '%"+searchVal.toUpperCase()+"%'";
+		
+		
+		
+		}
+		else if (searchIn.equalsIgnoreCase("fpo_name")) 
+		{
+
+			
+			sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
+					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
+					+ "as marketableSurplus, apro.actual_production as actualProduction\r\n"
+					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
+					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
+					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
+					+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
+					+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
+					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
+					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
+					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
+					+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "apro.actual_production,\r\n"
+					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
+					+ "fpo_lot_no ,\r\n"
+					+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
+					+ "where\r\n"
+					+ "UPPER(nodal) like '%"+searchVal.toUpperCase()+"%'";
+		}
+		else if (searchIn.equalsIgnoreCase("district")) 
+		{
+		
+			sql = "Select id, unitassla,state, district, cropid, nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
+					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
+					+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
+					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
+					+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
+					+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
+					+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
+					+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
+					+ "left join production_details apro on apro.crop_id = cm.id\r\n"
+					+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
+					+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
+					+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+					+ "apro.actual_production,\r\n"
+					+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
+					+ "fpo_lot_no ,\r\n"
+					+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
+					+ "where\r\n"
+					+ "UPPER(district) like '%"+searchVal.toUpperCase()+"%'";
+					
+		}
+			else if (searchIn.equalsIgnoreCase("crop")) 
+			{
+
+				
+				
+				sql = "Select id, unitassla,state, cropid, district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+						+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
+						+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
+						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate,cm.id as cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+						+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
+						+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
+						+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
+						+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
+						+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
+						+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
+						+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
+						+ "left join production_details apro on apro.crop_id = cm.id\r\n"
+						+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
+						+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
+						+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+						+ "apro.actual_production,\r\n"
+						+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
+						+ "fpo_lot_no ,\r\n"
+						+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
+						+ "where\r\n"
+						+ "UPPER(crops) like '%"+searchVal.toUpperCase()+"%'";
+			}
+			
+			else if (searchIn.equalsIgnoreCase("services")) 
+			{
+
+				
+				sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
+						+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
+						+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
+						+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate,cm.id as cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+						+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
+						+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
+						+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
+						+ "inner join districts on district_id = fpo.dist_ref_id\r\n"
+						+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
+						+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
+						+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
+						+ "left join production_details apro on apro.crop_id = cm.id\r\n"
+						+ "left join fpo_additonal_services ads on ads.fpo_id=fpo.fpo_id\r\n"
+						+ "left join farm_manchinery_bank fmb on fmb.master_id=fpo.fpo_id\r\n"
+						+ "group by fpo.fpo_id,cm.id,fpo.agency_associated,states.state_name ,districts.district_name ,fpo.fpo_name, cv.crop_veriety, pd.marketable_quantity,\r\n"
+						+ "apro.actual_production,\r\n"
+						+ "fpo.fpo_landline ,fpo.fpo_email,\r\n"
+						+ "fpo_lot_no ,\r\n"
+						+ "substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10) ) as Q\r\n"
+						+ "where\r\n"
+						+ "UPPER(services) like '%"+searchVal.toUpperCase()+"%'";
+			   }
+	
+		
+	//String finalsql = 	"Select * from ("+sql+")";
+		
+		  List<FPODetailsDTO> obj = entityManager.createNativeQuery(sql,"FPODetailsDTO").getResultList();
+			  finalpredicate=null;
+				 System.out.println("Here all records we are processing predictes..start");
+			  if(fileterdistricts!=null)
+			  {
+				  fileterdistricts.forEach(data->{
+						 Predicate<FPODetailsDTO> samplepredicate =  samplepredecate->samplepredecate.getDistrict().contentEquals(data);
+						 System.out.println("Here all records we are processing predictes");
+						 if(finalpredicate == null)
+						 {
+							 finalpredicate = samplepredicate;
+						 }else
+						 {
+							 finalpredicate =  finalpredicate.or(samplepredicate);
+						 }
+				  });				  
+			  }
+			  
+			  if(fileterqty != null)
+			  {
+				  fileterqty.forEach(data -> {
+					  Predicate<FPODetailsDTO> maxpredicate;
+					  switch(data)
+					  {
+					  
+						  
+					  case 100:
+						  maxpredicate =  samplepredecate->samplepredecate.getMarketableSurplus()<100 && samplepredecate.getMarketableSurplus()>0;
+							
+							 if(finalpredicate == null)
+							 {
+								 finalpredicate = maxpredicate;
+							 }else
+							 {
+								 finalpredicate =  finalpredicate.or(maxpredicate);
+							 }
+						  break;
+					  case 200:
+						   maxpredicate =  samplepredecate->samplepredecate.getMarketableSurplus()<300 && samplepredecate.getMarketableSurplus()>199;
+							
+							 if(finalpredicate == null)
+							 {
+								 finalpredicate = maxpredicate;
+							 }else
+							 {
+								 finalpredicate =  finalpredicate.or(maxpredicate);
+							 }
+						  break;
+					  case 300:
+						   maxpredicate =  samplepredecate->samplepredecate.getMarketableSurplus()<399 && samplepredecate.getMarketableSurplus()>299;
+							
+							 if(finalpredicate == null)
+							 {
+								 finalpredicate = maxpredicate;
+							 }else
+							 {
+								 finalpredicate =  finalpredicate.or(maxpredicate);
+							 }
+						  break;
+						  default:
+							  break;
+					  }
+					
+				  });				  
+			  }
+			  
+			  if(filtercrops!=null)
+			  {
+				  filtercrops.forEach(cropdetails->{
+					  Predicate<FPODetailsDTO> croppredicate;
+					  
+					  String arr[] = cropdetails.split("@");
+					  System.out.println("arr string = "+cropdetails);
+					  System.out.println("array = "+arr.toString());
+					
+					  Arrays.asList(arr).forEach(System.out::println);
+					  if(arr.length==1)
+					  {
+						  croppredicate = cropdata->cropdata.getCrops()!=null&&cropdata.getCrops().contentEquals(arr[0]);
+					  }else
+					  {
+						  croppredicate = cropdata->cropdata.getCrops()!=null&&cropdata.getCrops().contentEquals(arr[0]) && cropdata.getCropVeriety()!=null&&cropdata.getCropVeriety().contentEquals(arr[1]);
+					  }
+					  
+					  if(finalpredicate == null)
+						 {
+							 finalpredicate = croppredicate;
+						 }else
+						 {
+							 
+							 finalpredicate =  finalpredicate.or(croppredicate);
+						 }
+					  
+				  });
+			  }
+			 
+		return finalpredicate!=null?obj.stream().filter(finalpredicate).collect(Collectors.toList()):obj;
 		
 	}
 	

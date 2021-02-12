@@ -1,25 +1,27 @@
 package com.upfpo.app.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "fpo_guidelines")
-public class FPOGuidelines {
+public class FPOGuidelines implements Serializable {
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
-    private Long id;
+    @ApiModelProperty(notes = "Serializable fpo_guidelines_id",name="id",required=true)
+    private Integer id;
 
     @Column(name = "description")
-    private String desc;
-
-    @Column(name = "upload_date")
-    private Date uploadDate;
+    private String description;
 
     @Column(name = "registration_type")
     private Integer registrationType;
@@ -33,9 +35,6 @@ public class FPOGuidelines {
     @Column(name = "file_name")
     private String fileName;
 
-    @Column(name="uplaoded_by")
-    private String uploadedBy;
-
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
@@ -43,7 +42,7 @@ public class FPOGuidelines {
     private String deleteBy;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -52,12 +51,57 @@ public class FPOGuidelines {
     @Column(name = "create_date")
     private Calendar createDate;
 
+    @Column(name="update_by")
+    private String updateBy;
+
+    @Column(name = "update_date")
+    private Calendar updateDate;
+
+    @Column(name="upload_by")
+    private String uploadBy;
+
+    @Column(name = "upload_date")
+    private Calendar uploadDate;
+
     @Column(name="fpo_guideline_type")
     private FPOGuidelineType fpoGuidelineType;
 
 
     public FPOGuidelines() {
     }
+
+
+
+    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType) {
+        this.description=description;
+        this.fpoGuidelineType=fpoGuidelineType;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public FPOGuidelineType getFpoGuidelineType() {
         return fpoGuidelineType;
@@ -67,12 +111,20 @@ public class FPOGuidelines {
         this.fpoGuidelineType = fpoGuidelineType;
     }
 
-    public String getUploadedBy() {
-        return uploadedBy;
+    public String getUploadBy() {
+        return uploadBy;
     }
 
-    public void setUploadedBy(String uploadedBy) {
-        this.uploadedBy = uploadedBy;
+    public void setUploadBy(String uploadBy) {
+        this.uploadBy = uploadBy;
+    }
+
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public Boolean getDeleted() {
@@ -91,11 +143,11 @@ public class FPOGuidelines {
         this.deleteBy = deleteBy;
     }
 
-    public Date getDeleteDate() {
+    public Calendar getDeleteDate() {
         return deleteDate;
     }
 
-    public void setDeleteDate(Date deleteDate) {
+    public void setDeleteDate(Calendar deleteDate) {
         this.deleteDate = deleteDate;
     }
 
@@ -123,29 +175,22 @@ public class FPOGuidelines {
         this.fileName = fileName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
 
     public Integer getRegistrationType() {
         return registrationType;

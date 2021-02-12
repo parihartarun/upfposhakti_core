@@ -71,15 +71,15 @@ public class UserServiceImpl implements UserService {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			//API call
 			User user = userRepository.findByUserName(username);
-			//TODO fetch master ID. Fetch master id from join query
-			//Integer masterId = fPOService.getFpoUserId(user.getUserId());
 			  UserDetailsDto userDetailsDto = userMasterId(user.getUserId()); 
 			  Integer masterId = userDetailsDto.getMasterid();
 			  String userRoleName     = userDetailsDto.getRole();
-			  System.err.print("Role Name"+userRoleName+"Master Id for user::"+masterId);
+
 			return new LoginResponse(jwtTokenProvider.generateToken(user,masterId),user,userRoleName,masterId);
 		} catch (AuthenticationException e) {
-			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+			throw new CustomException("AuthenticationException -> "+e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+		}catch(Exception e){
+			throw new CustomException(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 				+ " left join chc_fmb b on a.user_id = b.user_id\r\n"
 				+ " left join buyer_seller c on a.user_id=c.user_id\r\n"
 				+ " left join input_supplier e on a.user_id=e.user_id\r\n"
-				+ " left join fpo d on a.user_id=d.users_id\r\n"
+				+ " left join fpo d on a.user_id=d.user_id\r\n"
 				+ " left join farmer f on a.user_id=f.user_id where a.user_id= :userId" ;
 		  
 		  UserDetailsDto obj =  (UserDetailsDto) entityManager.createNativeQuery(sql,"UserDetailsDto").setParameter("userId", userId).getSingleResult();
@@ -148,6 +148,11 @@ if(userOpt.isPresent()) {
 	}
 
 	@Override
+	public java.util.Optional<User> findById(Long userId) {
+		return userRepository.findById(userId);
+		
+	}
+
 	public User registerUser(User user) {
 		return userRepository.save(user);
 	}
@@ -183,4 +188,8 @@ if(userOpt.isPresent()) {
 		userRepository.deleteById(userId);
 	}
 
+	@Override
+	public List<User> getByDepartment (String id){
+		return userRepository.findByRoleRefId(id);
+	}
 }

@@ -30,6 +30,7 @@ import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
+import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.service.FPOService;
 
 import io.swagger.annotations.Api;
@@ -91,6 +92,12 @@ public class FPOController {
 	}
 	
 	@GetMapping(value="/getDistrictByFpoId/{fpoId}")
+	@ApiOperation(value="Get District details of FPO", code=200, produces = "application/json",notes="Api for get FPO by username",response=FPORegister.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
 	public MasterDataDto disrtrictName(@PathVariable("fpoId") Integer fpoId)
 	{
 		return fpoService.getDistrictByFpoId(fpoId);
@@ -251,6 +258,12 @@ public class FPOController {
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
 	 {
 		 return fpoService.getCropListForFarmersByFpo(masterId);
+	 }
+	 
+	 @PostMapping(value="/cropSowing/addFarmerCropDetails")
+	 public NewSowing addFarmerCropDetails(@RequestBody NewSowing newSowing)
+	 {
+		 return fpoService.addFarmerCropDetails(newSowing);
 	 }
 
 }

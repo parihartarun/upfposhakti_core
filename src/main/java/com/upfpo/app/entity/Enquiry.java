@@ -1,13 +1,24 @@
 package com.upfpo.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "enquiry")
@@ -20,10 +31,9 @@ public class Enquiry implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	private Long quantity;
+	private Double quantity;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fulfillmentDate;
+	private String fulfillmentDate;
 
 	private String status;
 
@@ -49,7 +59,7 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
 
-	public Enquiry(Long id, Long quantity, Date fulfillmentDate, String status, String reason, User user,
+	public Enquiry(Long id, Double quantity, String fulfillmentDate, String status, String reason, User user,
 			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {
 		super();
 		this.id = id;
@@ -75,21 +85,22 @@ public class Enquiry implements Serializable {
 		this.id = id;
 	}
 
-	public Long getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Long quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 
-	public Date getFulfillmentDate() {
+	public String getFulfillmentDate() {
 		return fulfillmentDate;
 	}
 
-	public void setFulfillmentDate(Date fulfillmentDate) {
+	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
+	
 
 	public String getStatus() {
 		return status;

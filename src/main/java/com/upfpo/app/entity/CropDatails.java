@@ -49,9 +49,6 @@ public class CropDatails implements Serializable {
 	@Column(name = "user_ref_id")
 	private Integer userRefId;
 
-	/*
-	 * @Column(name = "guardian_name") private String guardianName;
-	 */
 	@Column(name = "season_ref")
 	private Integer seasonRefName;
 
@@ -61,18 +58,6 @@ public class CropDatails implements Serializable {
 	@Column(name = "veriety_ref")
 	private String verietyRef;
 
-	/*
-	 * @Column(name = "sown_date_from") private String sowingDateFrom;
-	 * 
-	 * @Column(name = "sown_date_to") private String sowingDateTo;
-	 */
-	/*
-	 * @Column(name = "ex_harvest_date_from") private String
-	 * expectedHarvestDateFrom;
-	 * 
-	 * @Column(name = "ex_harvest_date_to") private String expectedHarvestDateTO;
-	 */
-
 	@Column(name = "ex_yield")
 	private double expectedYield;
 
@@ -81,16 +66,6 @@ public class CropDatails implements Serializable {
 
 	@Column(name = "sowing_area")
 	private Double sowingArea;
-
-	/*
-	 * @Column(name = "crop_type") private Integer cropType;
-	 */
-
-	/*
-	 * @Column(name = "sustainable") private double forSustainable;
-	 * 
-	 * @Column(name = "for_planting") private double forPlanting;
-	 */
 
 	@Column(name = "master_id")
 	private Integer masterId;
@@ -113,9 +88,6 @@ public class CropDatails implements Serializable {
 	@ManyToOne(cascade=CascadeType.ALL)
     private NewSowing newSowing;
 
-	/*
-	 * @Column(name = "croping_type") private String cropingType;
-	 */
 
 	@Column(name = "land_id")
 	private Integer baseland;

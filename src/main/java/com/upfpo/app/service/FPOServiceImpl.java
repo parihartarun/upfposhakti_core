@@ -1,8 +1,4 @@
 package com.upfpo.app.service;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,27 +6,26 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import com.upfpo.app.dto.CropListOfFarmersDTO;
-import com.upfpo.app.entity.*;
-import com.upfpo.app.user.exception.FileStorageException;
-import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.upfpo.app.configuration.exception.AlreadyExistsException;
+
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
-import com.upfpo.app.dto.UserDetailsDto;
+import com.upfpo.app.entity.BoardMember;
+import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.LandDetails;
+import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.repository.BoardMembersRepo;
 import com.upfpo.app.repository.DistrictMasterRepository;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
+import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.util.GetCurrentDate;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FPOServiceImpl implements FPOService {
@@ -56,6 +51,9 @@ public class FPOServiceImpl implements FPOService {
 	
 	@Autowired
 	private DistrictMasterRepository districtMasterRepository;
+	
+	@Autowired
+	private NewSowingMasterRepository newSowingMasterRepository;
 	
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
@@ -278,13 +276,14 @@ public class FPOServiceImpl implements FPOService {
 	//get land detail of farmer
 	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
 	{
-		String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc, f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
+		String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
 				+ "on l.farmer_id = f.farmer_id where l.master_id = :masterId and l.is_deleted = false order by l.land_id desc";
 		  
 		List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
 		  return obj;
 		    
 	}
+
 	
 	@Override 
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
@@ -293,8 +292,34 @@ public class FPOServiceImpl implements FPOService {
 	  }
 
 	@Override
-	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
-		return null;
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) 
+	{
+		String sql =  "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" + 
+        		"cd.financial_year,sm.season_id,sm.season_name,nsi.sowing_id, \r\n" + 
+        		"cm.id crop_id,cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 \r\n" + 
+        		"then cv.crop_veriety else 'Other'end crop_veriety\r\n" + 
+        		",cd.sowing_area,cd.ex_yield,cv.veriety_id from crop_details cd\r\n" + 
+        		"inner join farmer f on f.farmer_id = cd.farmer_id \r\n" + 
+        		"inner join season_master sm on sm.season_id=cd.season_ref \r\n" + 
+        		"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" + 
+        		"left join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer) \r\n" + 
+        		"left join new_sowing_info nsi on nsi.sowing_id = cd.sowing_id\r\n" + 
+        		"where f.fpo_ref_id = :masterId and cd.is_deleted=false";
+		
+		List<CropListOfFarmersDTO> obj =  (List<CropListOfFarmersDTO>) entityManager.createNativeQuery(sql,"CropListOfFarmersDTO").setParameter("masterId", masterId).getResultList();
+		  return obj;
+	}
+	
+	@Override
+	public NewSowing addFarmerCropDetails(NewSowing newSowing) 
+	{
+		return newSowingMasterRepository.save(newSowing);
+	}
+
+	@Override
+	public Optional<FPORegister> findById(Integer fpoId) {
+		return fpoRepository.findById(fpoId);
+		
 	}
 
 }

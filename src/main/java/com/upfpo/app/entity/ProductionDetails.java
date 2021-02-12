@@ -9,9 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.FarmerWiseProductionDTO;
 import com.upfpo.app.dto.ProductionDTO;
 
 @Entity
@@ -26,7 +29,22 @@ classes = {
                 @ColumnResult(name = "zayadprod", type = Double.class)
            })
 })
-
+@SqlResultSetMapping(name="FarmerWiseProductionDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FarmerWiseProductionDTO.class,
+            columns = {
+                @ColumnResult(name = "farmer_name", type = String.class),
+                @ColumnResult(name = "father_husband_name", type = String.class),
+                @ColumnResult(name = "mobile", type = BigInteger.class),
+                @ColumnResult(name = "gender", type = String.class),
+                @ColumnResult(name = "category", type = String.class),
+                @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+                @ColumnResult(name = "marketable_surplus", type = Double.class)
+           })
+})
 @Table(name="production_details")
 public class ProductionDetails implements Serializable {
 
@@ -76,8 +94,8 @@ public class ProductionDetails implements Serializable {
 	    @Column(name="delete_date")
 	    private java.sql.Date deleteDate;
 	    
-	    @Column(name="farmer_id")
-		private Integer farmerId;
+	    /*@Column(name="farmer_id")
+		private Integer farmerId;*/
 	    
 	    @Column(name="base_land") 
 	    private Integer baseland;
@@ -102,6 +120,10 @@ public class ProductionDetails implements Serializable {
 
 	    @Column(name="is_deleted")
 	    private boolean isDeleted;
+	    
+	    @ManyToOne
+		@JoinColumn(name="farmer_id",updatable = true)
+		private FarmerMaster farmerProfile;
 	    
 
 	    
@@ -198,13 +220,13 @@ public class ProductionDetails implements Serializable {
 			this.deleteDate = deleteDate;
 		}
 
-		public Integer getFarmerId() {
+		/*public Integer getFarmerId() {
 			return farmerId;
 		}
 
 		public void setFarmerId(Integer farmerId) {
 			this.farmerId = farmerId;
-		}
+		}*/
 
 		public String getGuardianName() {
 			return guardianName;
@@ -292,6 +314,14 @@ public class ProductionDetails implements Serializable {
 
 		public void setDeleted(boolean isDeleted) {
 			this.isDeleted = isDeleted;
+		}
+
+		public FarmerMaster getFarmerProfile() {
+			return farmerProfile;
+		}
+
+		public void setFarmerProfile(FarmerMaster farmerProfile) {
+			this.farmerProfile = farmerProfile;
 		}
 		
 	}

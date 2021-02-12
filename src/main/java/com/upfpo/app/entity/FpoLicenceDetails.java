@@ -158,7 +158,5 @@ public class FpoLicenceDetails implements Serializable {
 
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	}
-	
-	
+	}	
 }
