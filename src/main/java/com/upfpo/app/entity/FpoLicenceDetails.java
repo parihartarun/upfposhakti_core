@@ -52,9 +52,7 @@ public class FpoLicenceDetails implements Serializable {
 	private java.sql.Date deleteDate;
 	
 	 @Column(name="is_deleted")
-	private Boolean isDeleted;						
-	
-	
+	private Boolean isDeleted;
 
 	public Integer getId() {
 		return id;
@@ -72,6 +70,14 @@ public class FpoLicenceDetails implements Serializable {
 		this.licenceType = licenceType;
 	}
 
+	public String getIssuedate() {
+		return issuedate;
+	}
+
+	public void setIssuedate(String issuedate) {
+		this.issuedate = issuedate;
+	}
+
 	public String getLicenceIssuedBy() {
 		return licenceIssuedBy;
 	}
@@ -86,6 +92,14 @@ public class FpoLicenceDetails implements Serializable {
 
 	public void setLiceneceNumber(String liceneceNumber) {
 		this.liceneceNumber = liceneceNumber;
+	}
+
+	public String getLicenceValidTill() {
+		return licenceValidTill;
+	}
+
+	public void setLicenceValidTill(String licenceValidTill) {
+		this.licenceValidTill = licenceValidTill;
 	}
 
 	public Integer getUserRefId() {
@@ -136,27 +150,13 @@ public class FpoLicenceDetails implements Serializable {
 		this.deleteDate = deleteDate;
 	}
 
-	public String getIssuedate() {
-		return issuedate;
-	}
-
-	public void setIssuedate(String issuedate) {
-		this.issuedate = issuedate;
-	}
-
-	public String getLicenceValidTill() {
-		return licenceValidTill;
-	}
-
-	public void setLicenceValidTill(String licenceValidTill) {
-		this.licenceValidTill = licenceValidTill;
-	}
-
 	public Boolean getIsDeleted() {
 		return isDeleted;
 	}
 
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	}	
+	}
+
+			
 }

@@ -35,157 +35,166 @@ public class PhotoUpload {
     @Column(name="update_date")
     private Calendar updateDate;
 
+    @Column(name="updated_by")
+    private String updatedBy;
+
     @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Calendar deleteDate;
+    private Date deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
-    
-    @Column(name = "fpo_id")
-    private Integer fpoId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
-    private Calendar createdDate;
-    
+    private Calendar createDate;
+
     @Column(name = "update_by")
     private String updateBy;
 
-	public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-			Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted, Calendar deleteDate,
-			String createBy, Integer fpoId, Calendar createdDate, String updateBy) {
-	
-		this.id = id;
-		this.description = description;
-		this.filePath = filePath;
-		this.fileName = fileName;
-		this.role = role;
-		this.uploadDate = uploadDate;
-		this.uploadedBy = uploadedBy;
-		this.updateDate = updateDate;
-		this.isDeleted = isDeleted;
-		this.deleteDate = deleteDate;
-		this.createBy = createBy;
-		this.fpoId = fpoId;
-		this.createdDate = createdDate;
-		this.updateBy = updateBy;
-	}
 
-	public Integer getId() {
-		return id;
-	}
+    public PhotoUpload() {
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
+                       Calendar uploadDate, String uploadedBy, Calendar updateDate,
+                       String updatedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createDate) {
+        this.id = id;
+        this.description = description;
+        this.filePath = filePath;
+        this.fileName = fileName;
+        this.role = role;
+        this.uploadDate = uploadDate;
+        this.uploadedBy = uploadedBy;
+        this.updateDate = updateDate;
+        this.updatedBy = updatedBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
+        this.createBy = createBy;
+        this.createDate = createDate;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public PhotoUpload(String description) {
+        this.description=description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public PhotoUpload(Integer id, String description) {
+        this.id=id;
+        this.description=description;
+    }
 
-	public String getFilePath() {
-		return filePath;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getFileName() {
-		return fileName;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public String getFilePath() {
+        return filePath;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
-	public Calendar getUploadDate() {
-		return uploadDate;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public void setUploadDate(Calendar uploadDate) {
-		this.uploadDate = uploadDate;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	public String getUploadedBy() {
-		return uploadedBy;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public Calendar getUpdateDate() {
-		return updateDate;
-	}
+    public Calendar getUploadDate() {
+        return uploadDate;
+    }
 
-	public void setUpdateDate(Calendar updateDate) {
-		this.updateDate = updateDate;
-	}
+    public void setUploadDate(Calendar uploadDate) {
+        this.uploadDate = uploadDate;
+    }
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
+    public Calendar getUpdateDate() {
+        return updateDate;
+    }
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
+    }
 
-	public Calendar getDeleteDate() {
-		return deleteDate;
-	}
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
 
-	public void setDeleteDate(Calendar deleteDate) {
-		this.deleteDate = deleteDate;
-	}
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
-	public String getCreateBy() {
-		return createBy;
-	}
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
 
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
-	}
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
 
-	public Integer getFpoId() {
-		return fpoId;
-	}
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
 
-	public void setFpoId(Integer fpoId) {
-		this.fpoId = fpoId;
-	}
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
 
-	public Calendar getCreatedDate() {
-		return createdDate;
-	}
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
 
-	public void setCreatedDate(Calendar createdDate) {
-		this.createdDate = createdDate;
-	}
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
 
-	public String getUpdateBy() {
-		return updateBy;
-	}
+    public String getCreateBy() {
+        return createBy;
+    }
 
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+
+    public void setCreateDate(Calendar createDate) {
+        this.createDate = createDate;
+    }
+
+    public Calendar getCreateDate() {
+        return createDate;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
 }
-
-    
-    

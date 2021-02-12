@@ -140,6 +140,7 @@ public class FPORegister implements Serializable {
 	
 	@Column(name="is_deleted")
     private boolean isDeleted;
+	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
 	@Fetch(value=FetchMode.SELECT)
