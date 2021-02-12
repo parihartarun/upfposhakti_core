@@ -10,12 +10,13 @@ public class FarmerComplaintDTO {
 	private Integer id;
 	private Integer fpoid;
 	private String issuetype;
+	private String ftitle;
 	private String role;
 	private String status;
 	private String message;
 	private String description;
 	private String filepath;
-	//private Calendar createdate;
+	private String createdate;
 	private String othertype;
 	private String assignto;
 	private String assignby;
@@ -24,19 +25,20 @@ public class FarmerComplaintDTO {
 	private String filename;
 	private String fponame;
 	private String fpoemail;
-	public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, String role, String status, String message,
-			String description, String filepath, String othertype, String assignto, String assignby,
-			String deptcomment, String remarks, String filename, String fponame, String fpoemail) {
+	public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, String ftitle, String role, String status,
+			String message, String description, String filepath, String createdate, String othertype, String assignto,
+			String assignby, String deptcomment, String remarks, String filename, String fponame, String fpoemail) {
 		super();
 		this.id = id;
 		this.fpoid = fpoid;
 		this.issuetype = issuetype;
+		this.ftitle = ftitle;
 		this.role = role;
 		this.status = status;
 		this.message = message;
 		this.description = description;
 		this.filepath = filepath;
-		//this.createdate = createdate;
+		this.createdate = createdate;
 		this.othertype = othertype;
 		this.assignto = assignto;
 		this.assignby = assignby;
@@ -63,6 +65,12 @@ public class FarmerComplaintDTO {
 	}
 	public void setIssuetype(String issuetype) {
 		this.issuetype = issuetype;
+	}
+	public String getFtitle() {
+		return ftitle;
+	}
+	public void setFtitle(String ftitle) {
+		this.ftitle = ftitle;
 	}
 	public String getRole() {
 		return role;
@@ -94,12 +102,12 @@ public class FarmerComplaintDTO {
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
-//	public Calendar getCreatedate() {
-//		return createdate;
-//	}
-//	public void setCreatedate(Calendar createdate) {
-//		this.createdate = createdate;
-//	}
+	public String getCreatedate() {
+		return createdate;
+	}
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
 	public String getOthertype() {
 		return othertype;
 	}
@@ -148,4 +156,5 @@ public class FarmerComplaintDTO {
 	public void setFpoemail(String fpoemail) {
 		this.fpoemail = fpoemail;
 	}
+	
 }
