@@ -8,8 +8,9 @@ public class EnquieryRequest {
 	private Integer cropId;
 	private String  fpoDeliveryAddress;
     private Integer userId;
-    private Date fulfillmentDate; 
+    private String fulfillmentDate; 
     private Double quantity;
+    
     
 	public Integer getFpoId() {
 		return fpoId;
@@ -35,10 +36,10 @@ public class EnquieryRequest {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public Date getFulfillmentDate() {
+	public String getFulfillmentDate() {
 		return fulfillmentDate;
 	}
-	public void setFulfillmentDate(Date fulfillmentDate) {
+	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
 	public Double getQuantity() {

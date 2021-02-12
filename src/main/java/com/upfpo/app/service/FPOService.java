@@ -26,7 +26,7 @@ public interface FPOService {
 	public MasterDataDto getDistrictByFpoId(int fpoId);
 	public FPORegister selectFpoByUserName(String username);
 	public BoardMember addBoardMember(BoardMember bm);
-	public List <BoardMember> getBoardMembers();
+	public List <BoardMember> getBoardMembers(Integer masterId);
 	public BoardMember getBoardMembersById(Long id);
 	public BoardMember updateBoardMember(BoardMember boardMember, long id);
 	public BoardMember deleteBoardMembersById(Long id);

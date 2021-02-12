@@ -153,14 +153,14 @@ public class FPOController {
 		return fpoService.addBoardMember(boardMember);
 	}
 	
-	@GetMapping(value= {"/boardmember"})
+	@GetMapping(value= {"/boardmember/{masterId}"})
 	@ApiOperation(value="View All BoardMembers",code=200,produces = "application/json",notes="Api to view all Board Members")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),})
-	public @ResponseBody List<BoardMember> getBoardMembers()
+	public @ResponseBody List<BoardMember> getBoardMembers(@PathVariable("masterId")Integer masterId)
 	{
-		return fpoService.getBoardMembers();
+		return fpoService.getBoardMembers(masterId);
 	}
 	
 	@GetMapping(value= {"/boardmember/getBoardMemberById/{id}"})

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.upfpo.app.dto.FPODetailsDTO;
 
-@Entity
+
 
 
 @SqlResultSetMapping(name="FPODetailsDTO",
@@ -44,7 +44,7 @@ classes = {
 })
 
 
-
+@Entity
 @Table(name="crop_master")
 public class CropMaster implements Serializable {
 
