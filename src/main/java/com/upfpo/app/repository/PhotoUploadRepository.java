@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PhotoUploadRepository extends JpaRepository<PhotoUpload,Integer> {
     List<PhotoUpload> findByIsDeleted(Boolean b);
+
+    List<PhotoUpload> findByFpoId(Integer id);
 }

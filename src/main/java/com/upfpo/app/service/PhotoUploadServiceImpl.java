@@ -169,5 +169,11 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         }
     }
 
+    @Override
+    public List<PhotoUpload> getPhotoByFPOID(Integer id){
+
+        return photoUploadRepository.findByFpoId(id);
+    }
+
 
 }

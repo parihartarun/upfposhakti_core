@@ -18,4 +18,7 @@ public interface PhotoUploadService {
     public Boolean deletePhotoUpload(Integer id);
 
     public Resource loadFileAsResource(String fileName);
+
+
+    List<PhotoUpload> getPhotoByFPOID(Integer id);
 }

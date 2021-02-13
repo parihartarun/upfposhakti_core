@@ -55,6 +55,18 @@ public class PhotoUploadController {
         return photoUploadService.getAllPhotoUpload();
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation(value="PhotoUpload List By Id" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<PhotoUpload> getPhotoByFpoId (@PathVariable Integer id ){
+        return photoUploadService.getPhotoByFPOID(id);
+    }
+
+
     @PostMapping
     @ApiOperation(value="Create Photo" ,code=201, produces = "application/json", notes="Api for all Upload Photo",response= PhotoUpload.class)
     @ApiResponses(value= {
