@@ -42,7 +42,6 @@ public class PhotoUploadController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadController.class);
 
-    
 
     @GetMapping
     @ApiOperation(value="PhotoUpload List" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
