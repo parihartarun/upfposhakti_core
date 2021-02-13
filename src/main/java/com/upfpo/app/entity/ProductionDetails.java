@@ -85,6 +85,9 @@ public class ProductionDetails implements Serializable {
 	    @Column(name="user_id")
 		private Integer userId;
 	    
+	    @Column(name="master_id")
+		private Integer masterId;
+	    
 	    @Column(name="create_date")
 	    private java.sql.Date createDate;
 
@@ -192,10 +195,14 @@ public class ProductionDetails implements Serializable {
 		public void setUserId(Integer userId) {
 			this.userId = userId;
 		}
+		public Integer getMasterId() {
+			return masterId;
+		}
 
-
-
-
+		public void setMasterId(Integer masterId) {
+			this.masterId = masterId;
+		}
+		
 		public java.sql.Date getCreateDate() {
 			return createDate;
 		}
@@ -322,6 +329,5 @@ public class ProductionDetails implements Serializable {
 
 		public void setFarmerProfile(FarmerMaster farmerProfile) {
 			this.farmerProfile = farmerProfile;
-		}
-		
+		}		
 	}
