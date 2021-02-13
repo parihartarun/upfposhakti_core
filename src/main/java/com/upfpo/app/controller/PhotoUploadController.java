@@ -44,15 +44,15 @@ public class PhotoUploadController {
 
     
 
-    @GetMapping
+    @GetMapping("/getPhotoByFpo/{masterId}")
     @ApiOperation(value="PhotoUpload List" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<PhotoUpload> getAllPhotoUpload (){
-        return photoUploadService.getAllPhotoUpload();
+    public List<PhotoUpload> getAllPhotoUpload (@PathVariable("masterId") Integer masterId){
+        return photoUploadService.getAllPhotoUpload(masterId);
     }
 
     @PostMapping

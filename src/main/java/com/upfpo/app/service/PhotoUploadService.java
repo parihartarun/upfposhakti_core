@@ -12,7 +12,7 @@ public interface PhotoUploadService {
 
 
 
-    public List<PhotoUpload> getAllPhotoUpload();
+    public List<PhotoUpload> getAllPhotoUpload(Integer masterId);
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file);
     public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUploads1,  MultipartFile file) throws IOException;
     public Boolean deletePhotoUpload(Integer id);
