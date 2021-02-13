@@ -62,6 +62,24 @@ public class BuyerSellerMaster implements Serializable
 	@Column(name="website")
 	private String webSite;
 	
+	@Column(name="gst_number")
+	private String gstNumber;
+	
+	@Column(name="tin_number")
+	private String tinNumber;
+	
+	@Column(name="pan_number")
+	private String panNumber;
+	
+	@Column(name="company_category")
+	private String companyCategory;
+	
+	@Column(name="commdity_deals_in")
+	private String commdityDealsIn;
+	
+	@Column(name="variety_deals_in")
+	private String varietyDealsIn;
+	
 	@Column(name="state_ref_id")
 	private Integer stateRefId;
 	
@@ -178,6 +196,54 @@ public class BuyerSellerMaster implements Serializable
 
 	public void setWebSite(String webSite) {
 		this.webSite = webSite;
+	}
+	
+	
+	public String getGstNumber() {
+		return gstNumber;
+	}
+
+	public void setGstNumber(String gstNumber) {
+		this.gstNumber = gstNumber;
+	}
+
+	public String getTinNumber() {
+		return tinNumber;
+	}
+
+	public void setTinNumber(String tinNumber) {
+		this.tinNumber = tinNumber;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	public String getCompanyCategory() {
+		return companyCategory;
+	}
+
+	public void setCompanyCategory(String companyCategory) {
+		this.companyCategory = companyCategory;
+	}
+
+	public String getCommdityDealsIn() {
+		return commdityDealsIn;
+	}
+
+	public void setCommdityDealsIn(String commdityDealsIn) {
+		this.commdityDealsIn = commdityDealsIn;
+	}
+	public String getVarietyDealsIn() {
+		return varietyDealsIn;
+	}
+
+	public void setVarietyDealsIn(String varietyDealsIn) {
+		this.varietyDealsIn = varietyDealsIn;
 	}
 
 	public Integer getStateRefId() {

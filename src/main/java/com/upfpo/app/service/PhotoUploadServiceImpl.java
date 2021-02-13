@@ -55,8 +55,9 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     }
 
     @Override
-    public List<PhotoUpload> getAllPhotoUpload(){
-        return photoUploadRepository.findAll();
+    public List<PhotoUpload> getAllPhotoUpload(Integer masterId){
+        //return photoUploadRepository.findAll();
+    	return photoUploadRepository.findByFpoIdAndIsDeletedOrderByIdDesc(masterId, false);
     }
 
     @Override

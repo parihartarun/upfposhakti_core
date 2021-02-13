@@ -32,10 +32,16 @@ public class Enquiry implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	private Double quantity;
+
 
 	private String enquieryNumber;
-	
+	private String fulfillmentDate;
+
+	private String status;
+	private Double quantity;
+	private String reason;
+	private String cropVeriety;
+
 	
 
 	public Enquiry(Long id, Double quantity, String enquieryNumber, String fulfillmentDate, String status,
@@ -63,13 +69,7 @@ public class Enquiry implements Serializable {
 		this.enquieryNumber = enquieryNumber;
 	}
 
-	private String fulfillmentDate;
-
-	private String status;
-
-	private String reason;
-	private String cropVeriety;
-	public String getCropVeriety() {
+		public String getCropVeriety() {
 		return cropVeriety;
 	}
 
@@ -79,6 +79,7 @@ public class Enquiry implements Serializable {
 
 //	@OneToOne
 //	@JoinColumn(name = "created_by")
+	@Column(name="created_by")
 	private Integer masterId;
 
 	@Temporal(TemporalType.TIMESTAMP)
