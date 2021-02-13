@@ -60,8 +60,12 @@ public class EnquiryServiceImpl implements EnquiryService{
         if(!sd.isPresent()) {
             return null;
         }
-        enquiry.setId(id);
-        return enquiryRepository.save(enquiry);
+        
+        Enquiry upenquiry = sd.get(); 
+        upenquiry.setQuantity(enquiry.getQuantity());
+        upenquiry.setStatus(enquiry.getStatus());
+        upenquiry.setReason(enquiry.getReason());
+        return enquiryRepository.save(upenquiry);
     }
 
     public Optional deleteEnquiry(Long id) {
