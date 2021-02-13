@@ -179,13 +179,13 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Enquiry> getEnquiryByUser(@RequestParam Long userId) throws UserPrincipalNotFoundException{
-    	Optional<User> user = userService.findById(userId);
-    	if(!user.isPresent()) {
-    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
-    	}
+    public List<Enquiry> getEnquiryByUser(@RequestParam("id") Integer masterId) throws UserPrincipalNotFoundException{
+//    	Optional<User> user = userService.findById(masterId);
+//    	if(!user.isPresent()) {
+//    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
+//    	}
         LOG.info("Inside EnquiryController gettting Enquiry by userId");
-        return enquiryService.getEnquiryInfo(user.get());
+        return enquiryService.getEnquiryInfo(masterId);
     }
 
     // /getall            getmapping               get all enquiry details
