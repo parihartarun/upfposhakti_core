@@ -56,13 +56,13 @@ public class TotalProductionCalculation
 	
 	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
-		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId);
+		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		if(fpoActulaProduction == null)
 		{
 			fpoActulaProduction = 0.0;
 		}
 		
-		Double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId);
+		Double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId,financialYear);
 		
 		if(farmerActualProduction == null)
 		{
@@ -71,14 +71,14 @@ public class TotalProductionCalculation
 		
 		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
 		
-		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		
 		if(fpoMarketableQty == null)
 		{
 			fpoMarketableQty = 0.0;
 		}
 		
-		Double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId);
+		Double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		
 		if(farmerMarketableQty == null)
 		{
@@ -93,16 +93,18 @@ public class TotalProductionCalculation
 		{
 			if(fpoActulaProduction != null && farmerActualProduction != null && totalActualProduction != null && fpoMarketableQty != null && farmerMarketableQty != null && totalMarketableQty != null)
 			{
-				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId, seasonId, financialYear);
 				if(count != 0 && count > 0 )
 				{
-					totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId);
+					totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId, seasonId, financialYear);
 				}
 				else
 				{
 					TotalProduction totalProduction = new TotalProduction();
 					totalProduction.setCropMaster(cropDetailsMasterRepository.findById(cropId).get());
 					totalProduction.setCropVerityMaster(cropVarietyRepository.findById(cropVarietyId).get());
+					totalProduction.setSeasonId(seasonId);
+					totalProduction.setFinYear(financialYear);
 					totalProduction.setFpoRegister(masterId);
 					totalProduction.setTotal_actual_prod(totalActualProduction);
 					totalProduction.setTotalMarketable(totalMarketableQty);
@@ -120,16 +122,24 @@ public class TotalProductionCalculation
 		}
 	}
 	
-	public void updateTotalProductionForSalesDetails(double soldQty, int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	public void updateTotalProductionForSalesDetails(double soldQty, int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId, boolean status)
 	{
-		Double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId);
+		Double totalMarketableQty = totalProductionRepository.getTotalMarketableQty(cropId, cropVarietyId, masterId, seasonId, financialYear);
 		
 		if(totalMarketableQty == null)
 		{
 			totalMarketableQty = 0.0;
 		}
 		
-		Double updatedMarketableQty = totalMarketableQty - soldQty;
+		Double updatedMarketableQty = 0.0;
+		if(status == false)
+		{
+			updatedMarketableQty = totalMarketableQty - soldQty;
+		}
+		else
+		{
+			updatedMarketableQty = totalMarketableQty + soldQty;
+		}
 		
 		int count = 0;
 		
@@ -137,10 +147,10 @@ public class TotalProductionCalculation
 		{
 			if(totalMarketableQty != null && updatedMarketableQty != null)
 			{
-				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId);
+				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId, seasonId, financialYear);
 				if(count != 0 && count > 0 )
 				{
-					totalProductionRepository.updateMarketable(soldQty, updatedMarketableQty, cropId, cropVarietyId, masterId);
+					totalProductionRepository.updateMarketable(soldQty, updatedMarketableQty, cropId, cropVarietyId, masterId,seasonId, financialYear);
 				}
 				else
 				{
