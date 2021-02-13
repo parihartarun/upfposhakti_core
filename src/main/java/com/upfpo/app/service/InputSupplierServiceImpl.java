@@ -49,4 +49,9 @@ public class InputSupplierServiceImpl implements InputSupplierService
 	{
 		inputSupplierRepository.deleteInputSupplier(inputSupplierId);
 	}
+
+	@Override
+	public InputSupplierMaster selectInputSupplierById(Integer inputSupplierId) {
+		return inputSupplierRepository.findById(inputSupplierId).get();
+	}
 }

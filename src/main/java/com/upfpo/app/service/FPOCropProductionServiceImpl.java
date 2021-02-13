@@ -110,8 +110,9 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 	@Override
 	public Boolean deleteMarketableSurplus(Integer id) 
 	{
-		try {
 		MarketableSurplus marketableSurplus = fpoCropProductionRepo.findById(id).get();
+		String financialYear = GetFinYear.getCurrentFinYear();
+		try {
 		marketableSurplus.setDeleted(true);
 		fpoCropProductionRepo.save(marketableSurplus);
 
@@ -120,6 +121,7 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 			e.printStackTrace();
 			throw new NotFoundException();
 		}
+		totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
 		return true;
     }
 	

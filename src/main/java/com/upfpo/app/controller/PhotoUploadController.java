@@ -63,7 +63,7 @@ public class PhotoUploadController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> uploadPhoto(@RequestParam("description") String description,
-                                                          @RequestParam("fpo_id")String fpoId,
+                                                          @RequestParam("fpo_id")Integer fpoId,
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside PhotosController saving Photos ");
         ResponseEntity<MessageResponse> resp = null;

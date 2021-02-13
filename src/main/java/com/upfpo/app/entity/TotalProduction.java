@@ -45,10 +45,16 @@ public class TotalProduction implements Serializable {
 	
 	@Column(name="current_marketable")
 	private Double currentMarketable;
-   
+	
+	@Column(name="season_id")
+	private Integer seasonId;
+	
+	@Column(name="fin_year")
+	private String finYear;
+	
 	@OneToOne(cascade = CascadeType.MERGE)
-	 @JoinColumn(name = "crop_id", referencedColumnName = "id")
-	 private CropMaster cropMaster;
+	@JoinColumn(name = "crop_id", referencedColumnName = "id")
+	private CropMaster cropMaster;
 	
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
@@ -64,7 +70,6 @@ public class TotalProduction implements Serializable {
 	public TotalProduction() {
 		
 	}
-
 
 	public Integer getPid() {
 		return pid;
@@ -161,5 +166,24 @@ public class TotalProduction implements Serializable {
 
 	public void setCurrentMarketable(Double currentMarketable) {
 		this.currentMarketable = currentMarketable;
+	}
+	
+	public Integer getSeasonId() {
+		return seasonId;
+	}
+
+
+	public void setSeasonId(Integer seasonId) {
+		this.seasonId = seasonId;
+	}
+
+
+	public String getFinYear() {
+		return finYear;
+	}
+
+
+	public void setFinYear(String finYear) {
+		this.finYear = finYear;
 	}
 }

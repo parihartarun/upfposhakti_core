@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
-import com.upfpo.app.entity.CollectionCenter;
 import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.User;
 
 
 @Repository
@@ -24,10 +23,8 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	 public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 
 	Optional<FPORegister> findById(Integer fpoId);
-	 
 	
-		/*
-		 * @Query("Select fpo.fpoId from  FPORegister fpo where fpo.userFpo.userId = :userId"
-		 * ) Integer findByUserId(Long userId);
-		 */
+	@Query("Select new com.upfpo.app.dto.FPOListDTO(f.fpoId, f.fpoName) from FPORegister f where f.isDeleted = false order by f.fpoName asc")
+	List<FPOListDTO> getAllFpoDetails();
+	 
 }

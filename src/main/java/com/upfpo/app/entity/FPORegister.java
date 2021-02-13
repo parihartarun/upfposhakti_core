@@ -1,7 +1,6 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +24,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.validation.Errors;
 
 import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 
 
@@ -71,7 +70,15 @@ classes = {
                 @ColumnResult(name = "totalland", type = Double.class)
            })
 })
-
+@SqlResultSetMapping(name="FPOListDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FPOListDTO.class,
+            columns = {
+                @ColumnResult(name = "fpoId", type = BigInteger.class),
+                @ColumnResult(name = "fpoName", type = BigInteger.class)
+             })
+})
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 
@@ -145,7 +152,6 @@ public class FPORegister implements Serializable {
 	@Column(name="create_date")
 	private Date createdate;
 	
-	
 	@Column(name = "total_fmb")
 	private Integer fmbno;
 	
@@ -174,10 +180,15 @@ public class FPORegister implements Serializable {
 	@JoinColumn(name="fpo_id")
 	@Fetch(value=FetchMode.SELECT)
 	private List <PhotoUpload> photoUpload;
-	
+
+
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <BoardMember> boardMember;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="farmer_id",referencedColumnName="fpo_id")
+	private List <ProductionDetails> productionDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
@@ -186,10 +197,6 @@ public class FPORegister implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <FarmMachineryBank> farmMachineryBank;
-	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	@JoinColumn(name="farmer_id",referencedColumnName="fpo_id")
-	private List <ProductionDetails> productionDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
@@ -230,21 +237,15 @@ public class FPORegister implements Serializable {
 
 	}
 
-
-
-	public FPORegister(Integer fpoId, Integer stateref, Integer distRefId, String agency, Integer pincode,
-			Integer blockRef, @NotNull(message = "Please Provide the Name") String fpoName, String fpoAddress,
-			String dateOfRegistration, BigInteger fpolandLine,
-			@Email @NotNull(message = "Please provide email id") String fpoEmail, String fpoLotNo, Integer fpoBankName,
-			BigInteger fpoBankAccNo, @NotBlank(message = "Please Provide the Valid IFSC Code") String fpoIFSC,
-			String description,
-			@Length(min = 6, max = 20, message = "Username Should be in between 6 to 20 Characters") String userName,
-			Date updateDate, Date createdate, Integer fmbno, Integer seedprocessingunitno, Integer totalfarmers,
-			Integer totalbfarmer, Integer totalmfarmer, Integer totalsfarmer, Double totalland, boolean isDeleted,
-			List<PhotoUpload> photoUpload, List<BoardMember> boardMember, List<FpoLicenceDetails> fpoLicenceDetails,
-			List<FarmMachineryBank> farmMachineryBank, List<FpoAdditionalServices> fpoAdditionalServices,
-			User userFpo) {
-		super();
+	public FPORegister(Integer fpoId, Integer stateref, Integer distRefId, String agency, Integer pincode, Integer blockRef,
+					   @NotNull(message = "Please Provide the Name") String fpoName, String fpoAddress, String dateOfRegistration,
+					   BigInteger fpolandLine, @Email @NotNull(message = "Please provide email id") String fpoEmail, String fpoLotNo,
+					   Integer fpoBankName, BigInteger fpoBankAccNo, @NotBlank(message = "Please Provide the Valid IFSC Code") String fpoIFSC,
+					   String description, @Length(min = 6, max = 20, message = "Username Should be in between 6 to 20 Characters") String userName,
+					   Date updateDate, Date createdate, Integer fmbno, Integer seedprocessingunitno, Integer totalfarmers, Integer totalbfarmer,
+					   Integer totalmfarmer, Integer totalsfarmer, Double totalland, Boolean isDeleted, List<PhotoUpload> photoUpload,
+					   List<BoardMember> boardMember, List<ProductionDetails> productionDetails, List<FpoLicenceDetails> fpoLicenceDetails,
+					   List<FarmMachineryBank> farmMachineryBank, List<FpoAdditionalServices> fpoAdditionalServices, User userFpo) {
 		this.fpoId = fpoId;
 		this.stateref = stateref;
 		this.distRefId = distRefId;
@@ -274,10 +275,19 @@ public class FPORegister implements Serializable {
 		this.isDeleted = isDeleted;
 		this.photoUpload = photoUpload;
 		this.boardMember = boardMember;
+		this.productionDetails = productionDetails;
 		this.fpoLicenceDetails = fpoLicenceDetails;
 		this.farmMachineryBank = farmMachineryBank;
 		this.fpoAdditionalServices = fpoAdditionalServices;
 		this.userFpo = userFpo;
+	}
+
+	public List<PhotoUpload> getPhotoUpload() {
+		return photoUpload;
+	}
+
+	public void setPhotoUpload(List<PhotoUpload> photoUpload) {
+		this.photoUpload = photoUpload;
 	}
 
 	public Integer getFpoId() {
@@ -496,12 +506,28 @@ public class FPORegister implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 
-	public List<PhotoUpload> getPhotoUpload() {
-		return photoUpload;
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
 	}
 
-	public void setPhotoUpload(List<PhotoUpload> photoUpload) {
-		this.photoUpload = photoUpload;
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean getDeleted() {
+		return isDeleted;
+	}
+
+	public List<FarmMachineryBank> getFarmMachineryBank() {
+		return farmMachineryBank;
+	}
+
+	public void setFarmMachineryBank(List<FarmMachineryBank> farmMachineryBank) {
+		this.farmMachineryBank = farmMachineryBank;
 	}
 
 	public List<BoardMember> getBoardMember() {
