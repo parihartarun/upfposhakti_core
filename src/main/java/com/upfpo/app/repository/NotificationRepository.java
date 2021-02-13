@@ -14,4 +14,6 @@ public interface NotificationRepository extends JpaRepository <Notification, Int
     List<Notification> findByFarmerId(String farmerId);
 
     List<Notification> findByFpoId(String fpoId);
+
+    List<Notification> findByDeptId(String deptId);
 }

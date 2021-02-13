@@ -17,12 +17,13 @@ public class FarmerServiceImpl implements FarmerService
 	FarmerMasterRepository farmerMasterRepository;
 	
 	@Override
-	public List<FarmerMaster> getFarmer() 
+	public List<FarmerMaster> getFarmer(Integer masterId) 
 	{
 		List<FarmerMaster> farmerList = new ArrayList<FarmerMaster>();
 		//farmerMasterRepository.findAll().forEach(farmerList1->farmerList.add(farmerList1));
-		farmerMasterRepository.getFarmers(1001).forEach(farmerList1->farmerList.add(farmerList1));
-		return farmerList;
+		//farmerMasterRepository.getFarmers(1001).forEach(farmerList1->farmerList.add(farmerList1));
+		
+		return farmerMasterRepository.findByFpoRefIdAndIsDeletedOrderByFarmerIdDesc(masterId, false);
 	}
 	
 	@Override

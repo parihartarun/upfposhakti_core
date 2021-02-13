@@ -50,10 +50,10 @@ public class FarmerController
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	})
-	@GetMapping(value="/getFarmerDetails")
-	private ResponseEntity<List<FarmerMaster>> getFarmerDetailsById()
+	@GetMapping(value="/getFarmerDetails/{masterId}")
+	private ResponseEntity<List<FarmerMaster>> getFarmerDetailsById(@PathVariable("masterId") Integer masterId)
 	{
-		List<FarmerMaster> list = farmerService.getFarmer();
+		List<FarmerMaster> list = farmerService.getFarmer(masterId);
 		return new ResponseEntity<List<FarmerMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	

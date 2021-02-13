@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.dto.FarmerComplaintDTO;
+import com.upfpo.app.dto.FarmerComplaintDetailDTO;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 import com.upfpo.app.entity.Status;
@@ -51,12 +52,12 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         }
     }
 
-    @Override
+    /*@Override
     public List<FarmerComplaintDTO> getFarmerComplaintToFpo(Integer fpoId){
 
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
-    }
+    }*/
 
     @Override
     public List<FPOComplaints> getAllComplaintToDept(){
@@ -156,7 +157,10 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     public List<FarmerComplaintDTO> getComplaintByFPOId(Integer fpoId)
     {
-        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.role as role, c.status as status, c.message as message,  c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.other_type as othertype, c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename from complaints c join fpo f\r\n"
+        String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.title as ftitle, c.role as role, c.status as status, c.message as message,  "
+        		+ "c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.other_type as othertype, "
+        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename, c.assigned_date as assigneddate,"
+        		+ "f.fpo_name as fponame ,f.fpo_email as fpoemail from complaints c join fpo f\r\n"
                 + "on c.fpo_id = f.fpo_id where c.fpo_id = :fpoId and c.is_deleted = false order by c.id desc";
 
         List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDTO").setParameter("fpoId", fpoId).getResultList();
@@ -164,12 +168,23 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     }
 
+    public List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId)
+    {
+        String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fm.farmer_name as farmername , fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
+                + "on fm.fpo_ref_id = fp.fpo_id where fm.fpo_ref_id = :fpoId and fm.is_deleted = false order by fm.farmer_id desc";
+
+        List<FarmerComplaintDetailDTO> obj =  (List<FarmerComplaintDetailDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDetailDTO").setParameter("fpoId", fpoId).getResultList();
+        return obj;
+
+    }
+
     @Override
-    public List<Complaints> getFarmerComplaintByFPOId(Integer fpoId){
+    public List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer fpoId){
 
 
-        List<Complaints> complaint = complaintRepository.findByFpoId(fpoId);
-        return complaint;
+        //List<FarmerComplaintDetailDTO> complaint = complaintRepository.findByFpoId(fpoId);
+    	List<FarmerComplaintDetailDTO> farmer = getFarmerComplaintDetailByFPOId(fpoId);
+        return farmer;
     }
 
     @Override
@@ -180,9 +195,10 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FPOComplaints> getComplaintByFpoId(Integer fpoId){
+    public List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId){
 
-        List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
+        //List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
+        List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
     }
 
@@ -195,11 +211,26 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
 
     @Override
-    public List<FPOComplaints> getAllFPOComplaint() {
-        return fpoComplaintRepository.findAll();
+    public List<FarmerComplaintDTO> getAllFPOComplaint() {
+        //return fpoComplaintRepository.findAll();
+    	List<FarmerComplaintDTO> complaint = getAllFpoComplaint();
+        return complaint;
     }
 
-    @Override
+    public List<FarmerComplaintDTO> getAllFpoComplaint() 
+    {
+    	String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype,c.title as ftitle, c.role as role, c.status as status, c.message as message,  "
+        		+ "c.description as description, c.file_path as filepath,c.create_date_time as createdate, c.other_type as othertype, "
+        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename,c.assigned_date as assigneddate, "
+        		+ "f.fpo_name as fponame ,f.fpo_email as fpoemail from complaints c join fpo f \r\n"
+                + "on c.fpo_id = f.fpo_id where c.is_deleted = false order by c.id desc";
+
+        List<FarmerComplaintDTO> obj =  (List<FarmerComplaintDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDTO").getResultList();
+        return obj;
+
+	}
+
+	@Override
     public FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -216,6 +247,13 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
                     return fpoComplaintRepository.save(fpoComplaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
+
+
+
+//    @Override
+//    public List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpoByFpoId(Integer id) {
+//        return complaintRepository.findByFpoId(id);
+//    }
 }
 
 

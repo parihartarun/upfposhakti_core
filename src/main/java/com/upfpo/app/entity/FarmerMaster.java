@@ -1,12 +1,15 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,14 +17,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import com.upfpo.app.custom.annotations.Mobile;
+import com.upfpo.app.dto.FarmerComplaintDetailDTO;
 
 @Entity
+@SqlResultSetMapping(name="FarmerComplaintDetailDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = FarmerComplaintDetailDTO.class,
+                columns = {
+                        @ColumnResult(name = "fpoid", type = Integer.class),
+                        @ColumnResult(name = "farmerId", type = Integer.class),
+                        @ColumnResult(name = "farmername", type = String.class),
+                        @ColumnResult(name = "farmermobile", type = BigInteger.class)
+                })
+})
 @Table(name = "farmer", uniqueConstraints = { @UniqueConstraint(columnNames = "farmer_mob"),
 		@UniqueConstraint(columnNames = "aadhaar") })
 public class FarmerMaster implements Serializable {

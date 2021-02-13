@@ -41,9 +41,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadServiceImpl.class);
 
-    //@Value("${upload.path.photo}")
-    //String fileBasePath;
-
     private final Path fileStorageLocation;
 
     @Autowired
@@ -71,7 +68,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         String currentPrincipalName = authentication.getName();
         photoUpload.setCreateBy(currentPrincipalName);
         photoUpload.setCreateDate(Calendar.getInstance());
-
         if (file != null){
             try {
                 // Check if the file's name contains invalid characters
@@ -93,7 +89,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
-
         photoUpload.setDeleted(false);
         return photoUploadRepository.save(photoUpload);
     }
@@ -151,7 +146,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         try {
             PhotoUpload photoUpload = photoUploadRepository.findById(id).get();
             photoUpload.setDeleted(true);
-            photoUpload.setDeleteDate(Calendar.getInstance().getTime());
+            photoUpload.setDeleteDate(Calendar.getInstance());
             photoUploadRepository.save(photoUpload);
             return true;
         }catch(Exception e)

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.entity.FpoLicenceDetails;
 
 @Repository
 public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Integer>
@@ -32,4 +33,6 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 
 	 @Query("select count(f) from FarmerMaster f where upper(f.userFar.userName) = :userName")
 	 public int checkUserFarmerExists(String userName);
+	 
+	 public List<FarmerMaster> findByFpoRefIdAndIsDeletedOrderByFarmerIdDesc(Integer masterId, boolean val);
 }

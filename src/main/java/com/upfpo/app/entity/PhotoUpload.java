@@ -20,6 +20,9 @@ public class PhotoUpload {
     @Column(name="file_path")
     private String filePath;
 
+    @Column(name="fpo_id")
+    private String fpoId;
+
     @Column(name="file_name")
     private String fileName;
 
@@ -35,14 +38,11 @@ public class PhotoUpload {
     @Column(name="update_date")
     private Calendar updateDate;
 
-    @Column(name="updated_by")
-    private String updatedBy;
-
     @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean isDeleted;
 
     @Column(name="delete_date")
-    private Date deleteDate;
+    private Calendar deleteDate;
 
     @Column(name = "create_by")
     private String createBy;
@@ -58,22 +58,23 @@ public class PhotoUpload {
     public PhotoUpload() {
     }
 
-    public PhotoUpload(Integer id, String description, String filePath, String fileName, String role,
-                       Calendar uploadDate, String uploadedBy, Calendar updateDate,
-                       String updatedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createDate) {
+    public PhotoUpload(Integer id, String description, String filePath, String fpoId, String fileName,
+                       String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted,
+                       Calendar deleteDate, String createBy, Calendar createDate, String updateBy) {
         this.id = id;
         this.description = description;
         this.filePath = filePath;
+        this.fpoId = fpoId;
         this.fileName = fileName;
         this.role = role;
         this.uploadDate = uploadDate;
         this.uploadedBy = uploadedBy;
         this.updateDate = updateDate;
-        this.updatedBy = updatedBy;
         this.isDeleted = isDeleted;
         this.deleteDate = deleteDate;
         this.createBy = createBy;
         this.createDate = createDate;
+        this.updateBy = updateBy;
     }
 
     public PhotoUpload(String description) {
@@ -83,6 +84,27 @@ public class PhotoUpload {
     public PhotoUpload(Integer id, String description) {
         this.id=id;
         this.description=description;
+    }
+
+    public PhotoUpload(String description, String fpoId) {
+        this.description=description;
+        this.fpoId=fpoId;
+    }
+
+    public String getFpoId() {
+        return fpoId;
+    }
+
+    public void setFpoId(String fpoId) {
+        this.fpoId = fpoId;
+    }
+
+    public Calendar getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Calendar deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public Integer getId() {
@@ -141,14 +163,6 @@ public class PhotoUpload {
         this.updateDate = updateDate;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
     public String getUploadedBy() {
         return uploadedBy;
     }
@@ -165,14 +179,6 @@ public class PhotoUpload {
         isDeleted = deleted;
     }
 
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
-
     public String getCreateBy() {
         return createBy;
     }
@@ -180,7 +186,6 @@ public class PhotoUpload {
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
     }
-
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;

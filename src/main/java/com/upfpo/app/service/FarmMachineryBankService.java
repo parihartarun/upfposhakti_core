@@ -16,5 +16,6 @@ public interface FarmMachineryBankService {
 	public boolean deleteFarmMachineryBank(int id);	
 	public List<FarmMachineryBank> selectFarmMachineryBank();
 	public FarmMachineryBank selectFarmMachineryBankById(int id);
+	public List<FarmMachineryBank> selectFarmMachineryBankByFpo(Integer masterId);
 
 }

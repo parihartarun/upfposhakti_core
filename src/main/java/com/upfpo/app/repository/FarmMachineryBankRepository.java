@@ -18,4 +18,8 @@ public interface FarmMachineryBankRepository extends JpaRepository<FarmMachinery
 	 */
 	
 	List<FarmMachineryBank> findByIsDeletedOrderByIdDesc(boolean b);
+	
+	@Query("Select fm from FarmMachineryBank fm where fm.masterId = :masterId and fm.isDeleted = false order by fm.id desc")
+	List<FarmMachineryBank> findBymasterIdAndIsDeletedOrderByIdDesc(Integer masterId);
+	
 }
