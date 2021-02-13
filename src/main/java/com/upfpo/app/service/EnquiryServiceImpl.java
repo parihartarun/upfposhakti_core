@@ -44,6 +44,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     	Enquiry enquiry =  new Enquiry(); 
     	enquiry.setCreateDateTime(new Date());  // filled
     	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate());       // from ui
+    	enquiry.setCropVeriety(enquiryRequest.getCropVeriety());
     	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
     	enquiry.setReason(null);                // no idea hence empty
     	enquiry.setStatus("Active");            // active

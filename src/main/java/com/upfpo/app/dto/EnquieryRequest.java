@@ -10,8 +10,14 @@ public class EnquieryRequest {
     private Integer userId;
     private String fulfillmentDate; 
     private Double quantity;
+    private String cropVeriety;
     
-    
+	public String getCropVeriety() {
+		return cropVeriety;
+	}
+	public void setCropVeriety(String cropVeriety) {
+		this.cropVeriety = cropVeriety;
+	}
 	public Integer getFpoId() {
 		return fpoId;
 	}

@@ -68,6 +68,14 @@ public class Enquiry implements Serializable {
 	private String status;
 
 	private String reason;
+	private String cropVeriety;
+	public String getCropVeriety() {
+		return cropVeriety;
+	}
+
+	public void setCropVeriety(String cropVeriety) {
+		this.cropVeriety = cropVeriety;
+	}
 
 	@OneToOne
 	@JoinColumn(name = "created_by")
