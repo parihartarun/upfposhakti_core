@@ -39,7 +39,7 @@ public class Enquiry implements Serializable {
 	
 
 	public Enquiry(Long id, Double quantity, String enquieryNumber, String fulfillmentDate, String status,
-			String reason, User user, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
+			String reason, Integer masterId, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
 			FPORegister fpo) {
 		super();
 		this.id = id;
@@ -48,7 +48,7 @@ public class Enquiry implements Serializable {
 		this.fulfillmentDate = fulfillmentDate;
 		this.status = status;
 		this.reason = reason;
-		this.user = user;
+		this.masterId = masterId;
 		this.createDateTime = createDateTime;
 		this.comments = comments;
 		this.cropMaster = cropMaster;
@@ -77,9 +77,9 @@ public class Enquiry implements Serializable {
 		this.cropVeriety = cropVeriety;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "created_by")
-	private User user;
+//	@OneToOne
+//	@JoinColumn(name = "created_by")
+	private Integer masterId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date_time")
@@ -105,7 +105,7 @@ public class Enquiry implements Serializable {
 		this.fulfillmentDate = fulfillmentDate;
 		this.status = status;
 		this.reason = reason;
-		this.user = user;
+		this.masterId = masterId;
 		this.createDateTime = createDateTime;
 		this.comments = comments;
 		this.cropMaster = cropMaster;
@@ -156,12 +156,12 @@ public class Enquiry implements Serializable {
 		this.reason = reason;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getMasterId() {
+		return masterId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
 	}
 
 	public Date getCreateDateTime() {

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 
-	List<Enquiry> findByUser(User user);
+	List<Enquiry> findByMasterId(int masterId);
 	List<Enquiry> findByFpo(FPORegister fpo);
 	
 }
