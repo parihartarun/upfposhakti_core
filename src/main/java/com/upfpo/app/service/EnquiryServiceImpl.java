@@ -50,7 +50,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     	enquiry.setStatus("Active");            // active
     	enquiry.setEnquieryNumber("INDNT"+enquiryRequest.getUserId()+new Date().getTime());
     	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
-    	enquiry.setUser(userRepository.findById(Long.parseLong(""+enquiryRequest.getUserId())).orElseThrow(UserNotFoundException::new));                  // from user	
+    	enquiry.setMasterId(enquiryRequest.getUserId());                  // from user	
       	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  	 	 	
       	return enquiryRepository.save(enquiry);
     }
@@ -77,8 +77,8 @@ public class EnquiryServiceImpl implements EnquiryService{
 		enquiryRepository.save(enquiry);
 	}
 
-	public List<Enquiry> getEnquiryInfo(User user) {
-		 return enquiryRepository.findByUser(user);
+	public List<Enquiry> getEnquiryInfo(Integer masterId) {
+		 return enquiryRepository.findByMasterId(masterId);
 	}
 
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {

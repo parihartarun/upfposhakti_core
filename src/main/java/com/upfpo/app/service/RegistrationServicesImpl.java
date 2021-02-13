@@ -129,6 +129,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		String password = farmerRegister.getUserFar().getPassword();
 		farmerRegister.getUserFar().setPassword(passwordEncoder.encode(password));
 		farmerRegister.getUserFar().setRoleRefId("6");
+		farmerRegister.getUserFar().setEnabled(true);
 		count = farmerMasterRepository.alreadyExists(farmerRegister.getFarmerMob());
 		if(count==1)
 		{
@@ -148,6 +149,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		String password = buyerSeller.getUserBuyerSeller().getPassword();
 		buyerSeller.getUserBuyerSeller().setPassword(passwordEncoder.encode(password));
 		buyerSeller.getUserBuyerSeller().setRoleRefId("2");
+		buyerSeller.getUserBuyerSeller().setEnabled(true);
 		count = buyerSellerRepository.alreadyExists(buyerSeller.getMobileNumber());
 		if(count==1)
 		{
@@ -168,6 +170,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		String password = inputSupplierMaster.getUserInputSeller().getPassword();
 		inputSupplierMaster.getUserInputSeller().setPassword(passwordEncoder.encode(password));
 		inputSupplierMaster.getUserInputSeller().setRoleRefId("3");
+		inputSupplierMaster.getUserInputSeller().setEnabled(true);
 		count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
 		if(count==1)
 		{
@@ -187,6 +190,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		String password = chcFmbMaster.getUser().getPassword();
 		chcFmbMaster.getUser().setPassword(passwordEncoder.encode(password));
 		chcFmbMaster.getUser().setRoleRefId("5");
+		chcFmbMaster.getUser().setEnabled(true);
 		count = chcFmbRepository.alreadyExists(chcFmbMaster.getMobileNumber());
 		if(count==1)
 		{
