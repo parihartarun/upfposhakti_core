@@ -155,7 +155,7 @@ public class ComplaintServiceImpl implements ComplaintService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/complaint/download")
+                    .path("/complaint/download/")
                     .path(fileName)
                     .toUriString();
             complaintRepository.findById(id)
