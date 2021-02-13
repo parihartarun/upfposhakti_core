@@ -19,7 +19,7 @@ public interface FPOComplaintService {
 
     FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file);
 
-    List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId);
+    //List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpoByFpoId(Integer fpoId);
 
     List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer fpoId);
 
@@ -33,5 +33,5 @@ public interface FPOComplaintService {
 
     FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints);
 
-    List<Complaints> getFPOComplaints(Integer id);
+    //List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer id);
 }
