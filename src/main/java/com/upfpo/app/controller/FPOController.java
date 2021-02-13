@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
@@ -131,13 +132,13 @@ public class FPOController {
 	}
 
 	@GetMapping
-	@ApiOperation(value="Get All FPO profiles",code=200,produces = "application/json",notes="Api for view all FPOs",response=FPORegister.class,responseContainer="List")
+	@ApiOperation(value="Get All FPO profiles",code=200,produces = "application/json",notes="Api for view all FPOs",response=FPOListDTO.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public List<FPORegister> getFpos()
+	public List<FPOListDTO> getFpos()
 	{
 		return fpoService.selectFpos();
 	}

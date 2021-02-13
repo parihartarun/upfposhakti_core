@@ -1,7 +1,6 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +24,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.validation.Errors;
 
 import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 
 
@@ -70,7 +69,15 @@ classes = {
                 @ColumnResult(name = "totalland", type = Double.class)
            })
 })
-
+@SqlResultSetMapping(name="FPOListDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FPOListDTO.class,
+            columns = {
+                @ColumnResult(name = "fpoId", type = BigInteger.class),
+                @ColumnResult(name = "fpoName", type = BigInteger.class)
+             })
+})
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 
