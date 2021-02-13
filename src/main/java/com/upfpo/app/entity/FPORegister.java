@@ -139,7 +139,7 @@ public class FPORegister implements Serializable {
 	private Double totalland;
 	
 	@Column(name="is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
@@ -411,11 +411,11 @@ public class FPORegister implements Serializable {
 		this.totalland = totalland;
 	}
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
