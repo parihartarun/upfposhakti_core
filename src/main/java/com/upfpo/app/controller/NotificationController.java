@@ -167,7 +167,7 @@ public class NotificationController {
         try {
 
             Notification notification = new Notification(role, message, farmerId);
-            notification.setFarmerFpoId(fpoId);
+            notification.setFpoId(fpoId);
             Notification id = notificationService.sendNotification(notification, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
             LOG.info("Notification  created Successfully!");
