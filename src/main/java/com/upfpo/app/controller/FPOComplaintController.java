@@ -54,16 +54,16 @@ public class FPOComplaintController {
 
 
 
-    @GetMapping("farmerComplaint/{id}")
-    @ApiOperation(value="Farmer Complaints List to FPO" ,code=201, produces = "application/json", notes="Api for all Farmer Complaints Info By FPO ID",response= FarmerComplaintDetailDTO.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId (@PathVariable Integer id){
-        return fpoComplaintService.getFarmerComplaintByFPOId(id);
-    }
+//    @GetMapping("farmerComplaint/{id}")
+//    @ApiOperation(value="Farmer Complaints List to FPO" ,code=201, produces = "application/json", notes="Api for all Farmer Complaints Info By FPO ID",response= FarmerComplaintDetailDTO.class)
+//    @ApiResponses(value= {
+//            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+//            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+//            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+//    })
+//    public List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId (@PathVariable Integer id){
+//        return fpoComplaintService.getFarmerComplaintByFPOId(id);
+//    }
 
 
     @GetMapping("/{id}")
@@ -73,8 +73,8 @@ public class FPOComplaintController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Complaints> getFPOComplaints (@PathVariable Integer id){
-        return fpoComplaintService.getFPOComplaints(id);
+    public List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpo (@PathVariable Integer id){
+        return fpoComplaintService.getFarmerComplaintByFPOId(id);
     }
 
 

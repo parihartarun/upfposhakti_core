@@ -168,7 +168,6 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     }
 
-    @Override//R Api
     public List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId)
     {
         String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fm.farmer_name as farmername , fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
@@ -184,8 +183,8 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
 
         //List<FarmerComplaintDetailDTO> complaint = complaintRepository.findByFpoId(fpoId);
-    	List<FarmerComplaintDetailDTO> complaint = getFarmerComplaintDetailByFPOId(fpoId);
-        return complaint;
+    	List<FarmerComplaintDetailDTO> farmer = getFarmerComplaintDetailByFPOId(fpoId);
+        return farmer;
     }
 
     @Override
@@ -251,10 +250,10 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
 
 
-    @Override
-    public List<Complaints> getFPOComplaints(Integer id) {
-        return complaintRepository.findByFpoId(id);
-    }
+//    @Override
+//    public List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpoByFpoId(Integer id) {
+//        return complaintRepository.findByFpoId(id);
+//    }
 }
 
 
