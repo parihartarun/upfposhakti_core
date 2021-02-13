@@ -39,6 +39,15 @@ public class Enquiry implements Serializable {
 
 	private String status;
 	private Double quantity;
+	private Double soldQuantity;
+	public Double getSoldQuantity() {
+		return soldQuantity;
+	}
+
+	public void setSoldQuantity(Double soldQuantity) {
+		this.soldQuantity = soldQuantity;
+	}
+
 	private String reason;
 	private String cropVeriety;
 

@@ -62,7 +62,7 @@ public class EnquiryServiceImpl implements EnquiryService{
         }
         
         Enquiry upenquiry = sd.get(); 
-        upenquiry.setQuantity(enquiry.getQuantity());
+        upenquiry.setSoldQuantity(enquiry.getQuantity());
         upenquiry.setStatus(enquiry.getStatus());
         upenquiry.setReason(enquiry.getReason());
         return enquiryRepository.save(upenquiry);
