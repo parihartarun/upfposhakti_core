@@ -170,9 +170,15 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     public List<FarmerComplaintDetailDTO> getFarmerComplaintDetailByFPOId(Integer fpoId)
     {
-        String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fm.farmer_name as farmername , fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
-                + "on fm.fpo_ref_id = fp.fpo_id where fm.fpo_ref_id = :fpoId and fm.is_deleted = false order by fm.farmer_id desc";
-
+//        String  sql = "select fm.fpo_ref_id as fpoId ,fm.farmer_id as farmerId, fm.farmer_name as farmername, fm.farmer_mob as farmermobile from farmer fm join fpo fp \r\n"
+//                + "on fm.fpo_ref_id = fp.fpo_id where fm.fpo_ref_id = :fpoId and fm.is_deleted = false order by fm.farmer_id desc";
+       
+        String  sql = "select c.id as id, c.fpo_id as fpoid, f.farmer_id as farmerid, c.issue_type as issuetype,c.title as ftitle, c.role as role, c.status as status, c.message as message,  \r\n"
+        		+ "c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.other_type as othertype, \r\n"
+        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename,c.assigned_date as assigneddate,\r\n"
+        		+ "f.farmer_name as farmername ,f.farmer_mob as farmermobile from complaints c join farmer f\r\n"
+        		+ "on c.farmerid = f.farmer_id where f.fpo_ref_id = :fpoId and c.is_deleted = false order by c.id desc";
+        
         List<FarmerComplaintDetailDTO> obj =  (List<FarmerComplaintDetailDTO>) entityManager.createNativeQuery(sql, "FarmerComplaintDetailDTO").setParameter("fpoId", fpoId).getResultList();
         return obj;
 
