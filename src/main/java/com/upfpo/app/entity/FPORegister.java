@@ -145,7 +145,6 @@ public class FPORegister implements Serializable {
 	@Column(name="create_date")
 	private Date createdate;
 	
-	
 	@Column(name = "total_fmb")
 	private Integer fmbno;
 	
@@ -170,11 +169,12 @@ public class FPORegister implements Serializable {
 	@Column(name="is_deleted")
     private Boolean isDeleted;
 	
-	/*@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
 	@Fetch(value=FetchMode.SELECT)
-	private List <PhotoUpload> photoUpload;*/
-	
+	private List <PhotoUpload> photoUpload;
+
+
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <BoardMember> boardMember;
@@ -230,15 +230,14 @@ public class FPORegister implements Serializable {
 
 	}
 
-
 	public FPORegister(Integer fpoId, Integer stateref, Integer distRefId, String agency, Integer pincode, Integer blockRef,
 					   @NotNull(message = "Please Provide the Name") String fpoName, String fpoAddress, String dateOfRegistration,
 					   BigInteger fpolandLine, @Email @NotNull(message = "Please provide email id") String fpoEmail, String fpoLotNo,
 					   Integer fpoBankName, BigInteger fpoBankAccNo, @NotBlank(message = "Please Provide the Valid IFSC Code") String fpoIFSC,
 					   String description, @Length(min = 6, max = 20, message = "Username Should be in between 6 to 20 Characters") String userName,
 					   Date updateDate, Date createdate, Integer fmbno, Integer seedprocessingunitno, Integer totalfarmers, Integer totalbfarmer,
-					   Integer totalmfarmer, Integer totalsfarmer, Double totalland, Boolean isDeleted, List<BoardMember> boardMember,
-					   List<ProductionDetails> productionDetails, List<FpoLicenceDetails> fpoLicenceDetails,
+					   Integer totalmfarmer, Integer totalsfarmer, Double totalland, Boolean isDeleted, List<PhotoUpload> photoUpload,
+					   List<BoardMember> boardMember, List<ProductionDetails> productionDetails, List<FpoLicenceDetails> fpoLicenceDetails,
 					   List<FarmMachineryBank> farmMachineryBank, List<FpoAdditionalServices> fpoAdditionalServices, User userFpo) {
 		this.fpoId = fpoId;
 		this.stateref = stateref;
@@ -267,12 +266,21 @@ public class FPORegister implements Serializable {
 		this.totalsfarmer = totalsfarmer;
 		this.totalland = totalland;
 		this.isDeleted = isDeleted;
+		this.photoUpload = photoUpload;
 		this.boardMember = boardMember;
 		this.productionDetails = productionDetails;
 		this.fpoLicenceDetails = fpoLicenceDetails;
 		this.farmMachineryBank = farmMachineryBank;
 		this.fpoAdditionalServices = fpoAdditionalServices;
 		this.userFpo = userFpo;
+	}
+
+	public List<PhotoUpload> getPhotoUpload() {
+		return photoUpload;
+	}
+
+	public void setPhotoUpload(List<PhotoUpload> photoUpload) {
+		this.photoUpload = photoUpload;
 	}
 
 	public Integer getFpoId() {
