@@ -34,7 +34,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     	fPOSaleInfo.setDeleted(false);
     	fPOSaleInfo.setFinYear(financialYear);
 		fpoSalesInfoMasterRepository.save(fPOSaleInfo);
-		totalProductionCalculation.updateTotalProductionForSalesDetails(fPOSaleInfo.getSoldQuantity(), fPOSaleInfo.getCropRefName(), fPOSaleInfo.getVerietyId(), fPOSaleInfo.getSeason(), financialYear, fPOSaleInfo.getMasterId());
+		totalProductionCalculation.updateTotalProductionForSalesDetails(fPOSaleInfo.getSoldQuantity(), fPOSaleInfo.getCropRefName(), fPOSaleInfo.getVerietyId(), fPOSaleInfo.getSeason(), financialYear, fPOSaleInfo.getMasterId(), false);
     }
     
     @Override
@@ -81,7 +81,7 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
 			newFpoSalesDetails.setFpoId(fpoSalesInfoMaster.getMasterId());
 			
 			newFpoSalesDetails = fpoSalesInfoMasterRepository.save(newFpoSalesDetails);
-			totalProductionCalculation.updateTotalProductionForSalesDetails(fpoSalesInfoMaster.getSoldQuantity(), fpoSalesInfoMaster.getCropRefName(), fpoSalesInfoMaster.getVerietyId(), fpoSalesInfoMaster.getSeason(), financialYear, fpoSalesInfoMaster.getMasterId());
+			totalProductionCalculation.updateTotalProductionForSalesDetails(fpoSalesInfoMaster.getSoldQuantity(), fpoSalesInfoMaster.getCropRefName(), fpoSalesInfoMaster.getVerietyId(), fpoSalesInfoMaster.getSeason(), financialYear, fpoSalesInfoMaster.getMasterId(), false);
 			return newFpoSalesDetails;
 		}
 		else
@@ -94,11 +94,13 @@ public class FPOSalesDetailsServiceImpl implements FPOSalesDetailsService{
     @Override
     public Boolean deleteFPOSalesDetails(Integer id) 
     {
+    	String financialYear = GetFinYear.getCurrentFinYear();
         if(fpoSalesInfoMasterRepository.findById(id) != null)
             try {
                 FPOSaleInfo fpoSalesInfo = fpoSalesInfoMasterRepository.findById(id).get();
                 fpoSalesInfo.setDeleted(true);
                 fpoSalesInfoMasterRepository.save(fpoSalesInfo);
+                totalProductionCalculation.updateTotalProductionForSalesDetails(fpoSalesInfo.getSoldQuantity(), fpoSalesInfo.getCropRefName(), fpoSalesInfo.getVerietyId(), fpoSalesInfo.getSeason(), financialYear, fpoSalesInfo.getMasterId(), true);
                 return true;
             }catch(Exception e)
             {

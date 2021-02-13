@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
@@ -118,9 +119,10 @@ public class FPOServiceImpl implements FPOService {
 	}
 
 	@Override
-	public List<FPORegister> selectFpos() {
+	public List<FPOListDTO> selectFpos() {
 
-		return fpoRepository.findByIsDeleted(false);
+		//return fpoRepository.findByIsDeleted(false);
+		return fpoRepository.getAllFpoDetails();
 	}
 
 	@Override
@@ -139,7 +141,9 @@ public class FPOServiceImpl implements FPOService {
 	}
 	
 	@Override
-	public BoardMember addBoardMember(BoardMember bm) {
+	public BoardMember addBoardMember(BoardMember bm) 
+	{
+		bm.setDeleted(false);
 		return boardMembersRepo.save(bm); 
 	}
 

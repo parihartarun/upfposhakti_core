@@ -21,7 +21,7 @@ public class PhotoUpload {
     private String filePath;
 
     @Column(name="fpo_id")
-    private String fpoId;
+    private Integer fpoId;
 
     @Column(name="file_name")
     private String fileName;
@@ -58,7 +58,7 @@ public class PhotoUpload {
     public PhotoUpload() {
     }
 
-    public PhotoUpload(Integer id, String description, String filePath, String fpoId, String fileName,
+    public PhotoUpload(Integer id, String description, String filePath, Integer fpoId, String fileName,
                        String role, Calendar uploadDate, String uploadedBy, Calendar updateDate, Boolean isDeleted,
                        Calendar deleteDate, String createBy, Calendar createDate, String updateBy) {
         this.id = id;
@@ -86,16 +86,17 @@ public class PhotoUpload {
         this.description=description;
     }
 
-    public PhotoUpload(String description, String fpoId) {
+    public PhotoUpload(String description, Integer fpoId) {
         this.description=description;
         this.fpoId=fpoId;
     }
 
-    public String getFpoId() {
+
+    public Integer getFpoId() {
         return fpoId;
     }
 
-    public void setFpoId(String fpoId) {
+    public void setFpoId(Integer fpoId) {
         this.fpoId = fpoId;
     }
 

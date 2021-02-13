@@ -37,12 +37,6 @@ public class CircularsServiceImpl implements CircularsService {
     @Autowired
     private CircularsRepository circularsRepository;
 
-    //@Value("${upload.path.circulars}")
-    //private String fileBasePath;
-
-
-
-
     private final Path fileStorageLocation;
 
     @Autowired
@@ -130,7 +124,7 @@ public class CircularsServiceImpl implements CircularsService {
             //Path path = Paths.get(fileBasePath + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/Circular/")
+                    .path("/circulars/download/")
                     .path(fileName)
                     .toUriString();
             circularsRepository.findById(id)
