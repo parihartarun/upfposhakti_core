@@ -38,9 +38,6 @@ public class FPOComplaintController {
     FPOComplaintService fpoComplaintService;
 
 
-
-
-
     @GetMapping("/getall")
     @ApiOperation(value="All Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info to Department",response= FPOComplaints.class)
     @ApiResponses(value= {
