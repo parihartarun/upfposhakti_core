@@ -141,7 +141,9 @@ public class FPOServiceImpl implements FPOService {
 	}
 	
 	@Override
-	public BoardMember addBoardMember(BoardMember bm) {
+	public BoardMember addBoardMember(BoardMember bm) 
+	{
+		bm.setDeleted(false);
 		return boardMembersRepo.save(bm); 
 	}
 
