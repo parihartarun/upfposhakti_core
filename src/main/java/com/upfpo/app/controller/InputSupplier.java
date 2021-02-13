@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.InputSupplierMaster;
 import com.upfpo.app.service.InputSupplierService;
 
@@ -44,6 +45,18 @@ public class InputSupplier
 		return new ResponseEntity<List<InputSupplierMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/{inputSupplierId}")
+	@ApiOperation(value="Get InputSupplier profile by id", code=200, produces = "application/json",notes="Api for get FPO by id",response=InputSupplierMaster.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public InputSupplierMaster getInputSupplierById(@PathVariable("inputSupplierId") Integer inputSupplierId)
+	{
+		return inputSupplierService.selectInputSupplierById(inputSupplierId);
+	}
 	@PutMapping(value="/editInputSupplier/{inputSupplierId}")
 	@ApiOperation(value="Update Input Supplier", code=200, produces = "application/json", notes="Api for update Input Supplier",response=InputSupplierMaster.class)
 	@ApiResponses(value= {

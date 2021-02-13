@@ -62,4 +62,9 @@ public class BuyerSellerServiceImpl implements BuyerSellerService
 	{
 		buyerSellerRepositoy.deleteBuyerSeller(buyerSellerId);
 	}
+
+	@Override
+	public BuyerSellerMaster selectbuyerSellerById(Integer buyerSellerId) {
+		return buyerSellerRepositoy.findById(buyerSellerId).get();
+	}
 }

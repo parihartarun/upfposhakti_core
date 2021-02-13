@@ -23,11 +23,12 @@ public class FarmerComplaintDTO {
 	private String deptcomment;
 	private String remarks;
 	private String filename;
+	private String assigneddate;
 	private String fponame;
 	private String fpoemail;
 	public FarmerComplaintDTO(Integer id, Integer fpoid, String issuetype, String ftitle, String role, String status,
 			String message, String description, String filepath, String createdate, String othertype, String assignto,
-			String assignby, String deptcomment, String remarks, String filename, String fponame, String fpoemail) {
+			String assignby, String deptcomment, String remarks, String filename, String assigneddate, String fponame, String fpoemail) {
 		super();
 		this.id = id;
 		this.fpoid = fpoid;
@@ -45,6 +46,7 @@ public class FarmerComplaintDTO {
 		this.deptcomment = deptcomment;
 		this.remarks = remarks;
 		this.filename = filename;
+		this.assigneddate = assigneddate;
 		this.fponame = fponame;
 		this.fpoemail = fpoemail;
 	}
@@ -143,6 +145,12 @@ public class FarmerComplaintDTO {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public String getAssigneddate() {
+		return assigneddate;
+	}
+	public void setAssigneddate(String assigneddate) {
+		this.assigneddate = assigneddate;
 	}
 	public String getFponame() {
 		return fponame;

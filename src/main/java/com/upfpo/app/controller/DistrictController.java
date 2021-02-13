@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.service.DistrictService;
 
@@ -34,16 +35,16 @@ public class DistrictController
 	DistrictService districtService;
 	
 	@GetMapping(value="/getDistricts")
-	@ApiOperation(value="Get All District details",code=200,produces = "application/json",notes="Api for view all Districts",response=DistrictMaster.class,responseContainer="List")
+	@ApiOperation(value="Get All District details",code=200,produces = "application/json",notes="Api for view all Districts",response=MasterDataDto.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	private ResponseEntity<List<DistrictMaster>> getDistricts()
+	private ResponseEntity<List<MasterDataDto>> getDistricts()
 	{
-		List<DistrictMaster> list = districtService.getDistricts();
-		return new ResponseEntity<List<DistrictMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+		List<MasterDataDto> list = districtService.getDistricts();
+		return new ResponseEntity<List<MasterDataDto>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/getDistricts/{district_id}")

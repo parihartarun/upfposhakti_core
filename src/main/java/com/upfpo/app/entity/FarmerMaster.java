@@ -32,8 +32,24 @@ classes = {
         @ConstructorResult(
                 targetClass = FarmerComplaintDetailDTO.class,
                 columns = {
+                		@ColumnResult(name = "id", type = Integer.class),
                         @ColumnResult(name = "fpoid", type = Integer.class),
                         @ColumnResult(name = "farmerId", type = Integer.class),
+                        @ColumnResult(name = "issuetype", type = String.class),
+                        @ColumnResult(name = "ftitle", type = String.class),
+                        @ColumnResult(name = "role", type = String.class),
+                        @ColumnResult(name = "status", type = String.class),
+                        @ColumnResult(name = "message", type = String.class),
+                        @ColumnResult(name = "description", type = String.class),
+                        @ColumnResult(name = "filepath", type = String.class),
+                        @ColumnResult(name = "createdate", type = String.class),
+                        @ColumnResult(name = "othertype", type = String.class),
+                        @ColumnResult(name = "assignto", type = String.class),
+                        @ColumnResult(name = "assignby", type = String.class),
+                        @ColumnResult(name = "deptcomment", type = String.class),
+                        @ColumnResult(name = "remarks", type = String.class),
+                        @ColumnResult(name = "filename", type = String.class),
+                        @ColumnResult(name = "assigneddate", type = String.class),
                         @ColumnResult(name = "farmername", type = String.class),
                         @ColumnResult(name = "farmermobile", type = BigInteger.class)
                 })

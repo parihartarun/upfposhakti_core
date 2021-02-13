@@ -52,6 +52,7 @@ classes = {
                         @ColumnResult(name = "deptcomment", type = String.class),
                         @ColumnResult(name = "remarks", type = String.class),
                         @ColumnResult(name = "filename", type = String.class),
+                        @ColumnResult(name = "assigneddate", type = String.class),
                         @ColumnResult(name = "fponame", type = String.class),
                         @ColumnResult(name = "fpoemail", type = String.class)
                 })
@@ -186,16 +187,16 @@ public class FPORegister implements Serializable {
 	private List <BoardMember> boardMember;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="farmer_id",referencedColumnName="fpo_id")
+	private List <ProductionDetails> productionDetails;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <FpoLicenceDetails> fpoLicenceDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
 	private List <FarmMachineryBank> farmMachineryBank;
-	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	@JoinColumn(name="farmer_id",referencedColumnName="fpo_id")
-	private List <ProductionDetails> productionDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
