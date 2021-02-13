@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BuyerSellerMaster;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.InputSupplierMaster;
 import com.upfpo.app.service.BuyerSellerService;
 
@@ -42,7 +43,18 @@ public class BuyerSellerController
 		List<BuyerSellerMaster> list = buyerSellerService.getBuyerSeller();
 		return new ResponseEntity<List<BuyerSellerMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
-	
+	@GetMapping(value="/{buyerSellerId}")
+	@ApiOperation(value="Get buyerSeller profile by id", code=200, produces = "application/json",notes="Api for get buyerSeller by id",response=BuyerSellerMaster.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public BuyerSellerMaster getFpoById(@PathVariable("buyerSellerId") Integer buyerSellerId)
+	{
+		return buyerSellerService.selectbuyerSellerById(buyerSellerId);
+	}
 	@PutMapping(value="/editBuyerSeller/{buyerSellerId}")
 	@ApiOperation(value="Update Buyer Seller", code=200, produces = "application/json", notes="Api for update Input Supplier",response=InputSupplierMaster.class)
 	@ApiResponses(value= {

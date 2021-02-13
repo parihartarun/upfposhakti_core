@@ -9,4 +9,5 @@ public interface InputSupplierService
 	public InputSupplierMaster updateInputSupplier(InputSupplierMaster chcFmbMaster,int inputSupplierId);
 	public List<InputSupplierMaster> getInputSupplierDetails();
 	public void deleteInputSupplier(int inputSupplierId);
+	public InputSupplierMaster selectInputSupplierById(Integer inputSupplierId);
 }

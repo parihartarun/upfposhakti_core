@@ -10,4 +10,5 @@ public interface BuyerSellerService
 	public BuyerSellerMaster updateBuyerSeller(BuyerSellerMaster buyerSeller,int buyerSellerId);
 	public List<BuyerSellerMaster> getBuyerSeller();
 	public void deleteBuyerSeller(int buyerSellerId);
+	public BuyerSellerMaster selectbuyerSellerById(Integer buyerSellerId);
 }
