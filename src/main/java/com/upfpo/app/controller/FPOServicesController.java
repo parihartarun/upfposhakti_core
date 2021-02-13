@@ -98,13 +98,6 @@ public class FPOServicesController {
             FPOServices id = fpoServicesService.insertFPOServices(fposervices, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService created successfully"), HttpStatus.OK );
             LOG.info("FPOService  created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();
-            //}
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the FPOService");

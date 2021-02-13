@@ -37,12 +37,6 @@ public class CircularsServiceImpl implements CircularsService {
     @Autowired
     private CircularsRepository circularsRepository;
 
-    //@Value("${upload.path.circulars}")
-    //private String fileBasePath;
-
-
-
-
     private final Path fileStorageLocation;
 
     @Autowired

@@ -84,7 +84,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/FPOService/")
+                    .path("/fposervices/download/")
                     .path(fileName)
                     .toUriString();
             fposervices.setFilePath(fileDownloadUri);
