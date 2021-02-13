@@ -159,7 +159,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     {
         String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype, c.title as ftitle, c.role as role, c.status as status, c.message as message,  "
         		+ "c.description as description, c.file_path as filepath, c.create_date_time as createdate, c.other_type as othertype, "
-        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename, "
+        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename, c.assigned_date as assigneddate,"
         		+ "f.fpo_name as fponame ,f.fpo_email as fpoemail from complaints c join fpo f\r\n"
                 + "on c.fpo_id = f.fpo_id where c.fpo_id = :fpoId and c.is_deleted = false order by c.id desc";
 
@@ -222,7 +222,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     {
     	String  sql = "select c.id as id, c.fpo_id as fpoid, c.issue_type as issuetype,c.title as ftitle, c.role as role, c.status as status, c.message as message,  "
         		+ "c.description as description, c.file_path as filepath,c.create_date_time as createdate, c.other_type as othertype, "
-        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename, "
+        		+ "c.assigned_to as assignto, c.assigned_by as assignby,  c.comment as deptcomment, c.remarks as remarks, c.file_name as filename,c.assigned_date as assigneddate, "
         		+ "f.fpo_name as fponame ,f.fpo_email as fpoemail from complaints c join fpo f \r\n"
                 + "on c.fpo_id = f.fpo_id where c.is_deleted = false order by c.id desc";
 

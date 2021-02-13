@@ -53,6 +53,7 @@ classes = {
                         @ColumnResult(name = "deptcomment", type = String.class),
                         @ColumnResult(name = "remarks", type = String.class),
                         @ColumnResult(name = "filename", type = String.class),
+                        @ColumnResult(name = "assigneddate", type = String.class),
                         @ColumnResult(name = "fponame", type = String.class),
                         @ColumnResult(name = "fpoemail", type = String.class)
                 })
