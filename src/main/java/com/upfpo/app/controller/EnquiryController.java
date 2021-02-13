@@ -82,7 +82,7 @@ public class EnquiryController {
         
         	
             Enquiry id = enquiryService.createEnquiry(enquiry);
-            resp = new ResponseEntity<String>("Enquiry with id"+id.getEnquieryNumber()+"created Successfully!", HttpStatus.OK );
+            resp = new ResponseEntity<String>(id.getEnquieryNumber(), HttpStatus.OK );
             LOG.info("Enquiry created Successfully!");
             //}
         } catch (Exception e) {
