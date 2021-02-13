@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.MasterDataDto;
@@ -21,7 +22,7 @@ public interface FPOService {
 	public FPORegister updateFpo(Integer id,FPORegister e);
 	public FPORegister insertOrUpdateFpo(FPORegister e);
 	public Boolean deleteFpo(Integer id);
-	public List<FPORegister> selectFpos();
+	public List<FPOListDTO> selectFpos();
 	public FPORegister selectFpoById(Integer id);
 	public MasterDataDto getDistrictByFpoId(int fpoId);
 	public FPORegister selectFpoByUserName(String username);
