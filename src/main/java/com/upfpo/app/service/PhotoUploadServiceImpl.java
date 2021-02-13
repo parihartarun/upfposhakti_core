@@ -131,8 +131,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 .map(photoUpload -> {
                     photoUpload.setDescription(photoUpload1.getDescription());
                     photoUpload.setId(photoUpload1.getId());
-                    photoUpload.setFileName(photoUpload1.getFileName());
-                    photoUpload.setFilePath(photoUpload1.getFilePath());
                     photoUpload.setUpdateBy(currentPrincipalName);
                     photoUpload.setUpdateDate(Calendar.getInstance());
                     photoUpload.setDeleted(false);
