@@ -174,6 +174,7 @@ public class RegistrationServicesImpl implements RegistrationServices
 		inputSupplierMaster.getUserInputSeller().setPassword(passwordEncoder.encode(password));
 		inputSupplierMaster.getUserInputSeller().setRoleRefId("3");
 		inputSupplierMaster.getUserInputSeller().setEnabled(true);
+		inputSupplierMaster.setDeleted(false);
 		count = inputSupplierRepository.alreadyExists(inputSupplierMaster.getMobile_number());
 		if(count==1)
 		{
