@@ -73,11 +73,12 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
                                                               @RequestParam("title") String schemeType,
                                                            @RequestParam("parent_department") String parentDepartment,
+                                                              @RequestParam("url") String url,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment);
+            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment,url);
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
             LOG.info("SchemeDetail  created Successfully!");
@@ -158,6 +159,7 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> updateSchemeDetail(@PathVariable Integer id,
                                                            @RequestPart(value = "description") String description,
                                                            @RequestPart(value ="title") String schemeType,
+                                                              @RequestParam("url") String url,
                                                               @RequestPart("parent_department") String parentDepartment,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetail updating SchemeDetail detail ");
@@ -166,6 +168,7 @@ public class SchemeDetailController {
         schemeDetails.setDescription(description);
         schemeDetails.setSchemeType(schemeType);
         schemeDetails.setParentDepartment(parentDepartment);
+        schemeDetails.setUrl(url);
         ResponseEntity<MessageResponse> resp = null;
         try {
             schemeDetailService.updateSchemeDetail(id, schemeDetails, file);
