@@ -26,6 +26,9 @@ public class SchemeDetail {
     @Column(name="file_name")
     private String fileName;
 
+    @Column(name="url")
+    private String url;
+
     @Column(name="parent_department")
     private String parentDepartment;
 

@@ -14,4 +14,8 @@ public interface FPOGuidelinesRepository extends JpaRepository<FPOGuidelines, In
     List<FPOGuidelines> findByIsDeleted(Boolean b);
 
     List<FPOGuidelines> findByFpoGuidelineType(FPOGuidelineType type);
+
+    List<FPOGuidelines> findByIsDeletedOrderByIdDesc(boolean b);
+
+    List<FPOGuidelines> findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType preregistration);
 }

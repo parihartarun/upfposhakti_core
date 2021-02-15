@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.service.NotificationServiceImpl;
@@ -13,13 +14,18 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -228,6 +234,36 @@ public class NotificationController {
     public List<Notification> viewAllNotificationofFPO (@PathVariable String id){
 
         return notificationService.viewAllNotificationofFPO(id);
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    @ApiOperation(value="PhotoUpload Download" ,code=201, produces = "application/json", notes="Api for Download PhotoUpload File", response= UploadFileResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = notificationService.loadFileAsResource(fileName);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            LOG.info("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
 }

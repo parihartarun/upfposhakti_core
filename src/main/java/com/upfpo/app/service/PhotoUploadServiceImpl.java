@@ -94,6 +94,8 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         return photoUploadRepository.save(photoUpload);
     }
 
+
+
     @Override
     public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUpload1, MultipartFile file) throws IOException {
 
@@ -168,6 +170,12 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         } catch (MalformedURLException ex) {
             throw new ResourceNotFoundException("File not found " + fileName, ex);
         }
+    }
+
+    @Override
+    public List<PhotoUpload> getPhotoByFPOID(Integer id){
+
+        return photoUploadRepository.findByFpoId(id);
     }
 
 

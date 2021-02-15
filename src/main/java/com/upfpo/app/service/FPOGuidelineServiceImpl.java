@@ -72,14 +72,14 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         //FPOGuidelineType type= FPOGuidelineType.POSTREGISTRATION;
         if(fpoGuidelineType == FPOGuidelineType.POSTREGISTRATION){
 
-            return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.POSTREGISTRATION);
+            return fpoGuidelinesRepository.findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType.POSTREGISTRATION);
         }
-        return fpoGuidelinesRepository.findByFpoGuidelineType(FPOGuidelineType.PREREGISTRATION);
+        return fpoGuidelinesRepository.findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType.PREREGISTRATION);
     }
 
     @Override
     public List<FPOGuidelines> getAllFPOGuidelines(){
-        return fpoGuidelinesRepository.findByIsDeleted(false);
+        return fpoGuidelinesRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
     @GetMapping("/download/{fileName:.+}")

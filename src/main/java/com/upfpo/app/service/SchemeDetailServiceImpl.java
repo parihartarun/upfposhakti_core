@@ -56,7 +56,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     @Override
     public List<SchemeDetail> getSchemeByType(String schemeType){
 
-        List<SchemeDetail> schemeDetails= schemeDetailRepository.findBySchemeType(schemeType);
+        List<SchemeDetail> schemeDetails= schemeDetailRepository.findBySchemeTypeOrderByIdDesc(schemeType);
         return schemeDetails;
     }
 

@@ -11,6 +11,8 @@ import com.upfpo.app.repository.FPOComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -202,7 +205,6 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     @Override
     public List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId){
-
         //List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
         return complaint;
@@ -256,6 +258,21 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
 
 
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new ResourceNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
+        }
+    }
 //    @Override
 //    public List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpoByFpoId(Integer id) {
 //        return complaintRepository.findByFpoId(id);
