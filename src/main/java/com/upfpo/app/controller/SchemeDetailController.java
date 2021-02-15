@@ -73,7 +73,7 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
                                                               @RequestParam("title") String schemeType,
                                                            @RequestParam("parent_department") String parentDepartment,
-                                                              @RequestParam("url") String url,
+                                                              @RequestParam(value = "url", required = false) String url,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
@@ -159,7 +159,7 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> updateSchemeDetail(@PathVariable Integer id,
                                                            @RequestPart(value = "description") String description,
                                                            @RequestPart(value ="title") String schemeType,
-                                                              @RequestParam("url") String url,
+                                                              @RequestParam(value = "url", required = false) String url,
                                                               @RequestPart("parent_department") String parentDepartment,
                                                            @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetail updating SchemeDetail detail ");

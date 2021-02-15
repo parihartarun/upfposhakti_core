@@ -53,7 +53,7 @@ public class FPOServicesServiceImpl implements FPOServicesService{
 
     @Override
     public List<FPOServices> getFPOServices() {
-        return fpoServicesRepository.findByIsDeleted(false);
+        return fpoServicesRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
     @Override

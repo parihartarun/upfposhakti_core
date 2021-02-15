@@ -11,4 +11,5 @@ import java.util.List;
 public interface FPOServicesRepository extends JpaRepository<FPOServices, Integer> {
     List<FPOServices> findByIsDeleted(Boolean b);
 
+    List<FPOServices> findByIsDeletedOrderByIdDesc(boolean b);
 }
