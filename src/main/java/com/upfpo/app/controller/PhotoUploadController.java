@@ -54,7 +54,7 @@ public class PhotoUploadController {
         return photoUploadService.getAllPhotoUpload(masterId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/fpo/{id}")
     @ApiOperation(value="PhotoUpload List By Id" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),

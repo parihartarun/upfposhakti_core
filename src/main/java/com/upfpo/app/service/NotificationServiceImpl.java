@@ -10,7 +10,10 @@ import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.NotificationRepository;
 import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -158,6 +162,22 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByFpoId(fpoId);
     }
 
+
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new ResourceNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
+        }
+    }
 
 
 

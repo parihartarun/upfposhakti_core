@@ -94,6 +94,8 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         return photoUploadRepository.save(photoUpload);
     }
 
+
+
     @Override
     public PhotoUpload updatePhotoUpload(Integer id, PhotoUpload photoUpload1, MultipartFile file) throws IOException {
 
