@@ -54,17 +54,25 @@ public class SchemeDetail {
     @Column(name = "create_date")
     private Calendar createDate;
 
-    public SchemeDetail() {
-    }
+
 
     public SchemeDetail(String description) {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType,String parentDepartment) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment, String url) {
         this.schemeType=schemeType;
         this.description=description;
         this.parentDepartment=parentDepartment;
+        this.url=url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setParentDepartment(String parentDepartment) {
