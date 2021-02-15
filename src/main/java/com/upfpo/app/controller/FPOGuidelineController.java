@@ -80,11 +80,12 @@ public class FPOGuidelineController {
     })
     public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                              @RequestParam("guideline_type") String url,
                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType);
+            FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType,url);
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
 
@@ -162,12 +163,14 @@ public class FPOGuidelineController {
     public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Integer id,
                                                                @RequestPart("description") String description,
                                                                @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                               @RequestParam("guideline_type") String url,
                                                                @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
         fpoGuidelines.setId(id);
         fpoGuidelines.setDescription(description);
         fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
+        fpoGuidelines.setUrl(url);
         ResponseEntity<MessageResponse> resp = null;
         try {
             LOG.info("test");
