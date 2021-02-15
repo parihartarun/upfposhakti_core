@@ -88,7 +88,7 @@ boolean result = false;
 	try {
 		User user = null;
 		Optional<User> userOpt = userRepository.findByUserNameAndIsEnabledTrueAndIsDeletedFalse(userName);
-		if(userOpt.isEmpty())
+		if(userOpt.empty() == null)
 		{
 			throw new NotFoundException();
 		}else {
