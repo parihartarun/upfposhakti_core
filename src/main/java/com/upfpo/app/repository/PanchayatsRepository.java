@@ -11,6 +11,9 @@ import com.upfpo.app.entity.Panchayats;
 @Repository
 public interface PanchayatsRepository extends JpaRepository<Panchayats, Integer>
 {
-	@Query("Select c from Panchayats c where c.blockRef= :blockRef")
+	@Query("Select c from Panchayats c where c.blockRef= :blockRef order by c.panchayat_name asc")
 	List<Panchayats> getPanchayatByBlockId(int blockRef);
+	
+	@Query("Select c from Panchayats c order by c.panchayat_name asc")
+	List<Panchayats> getPanchayats();
 }
