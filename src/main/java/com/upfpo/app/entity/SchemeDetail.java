@@ -54,7 +54,8 @@ public class SchemeDetail {
     @Column(name = "create_date")
     private Calendar createDate;
 
-
+    public SchemeDetail() {
+    }
 
     public SchemeDetail(String description) {
         this.description=description;
