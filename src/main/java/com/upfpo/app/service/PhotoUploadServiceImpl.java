@@ -64,6 +64,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
         photoUpload.setFileName(fileName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();

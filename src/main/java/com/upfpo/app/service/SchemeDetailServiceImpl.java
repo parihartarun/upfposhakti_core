@@ -32,10 +32,6 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     @Autowired
     private SchemeDetailRepository schemeDetailRepository;
 
-    //@Value("${upload.path.schemedetail}")
-    //private String fileBasePath;
-    
-
     private final Path fileStorageLocation;
 
     @Autowired
@@ -82,6 +78,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
                     .path(fileName)
                     .toUriString();
             schemeDetail.setFilePath(fileDownloadUri);
+            schemeDetail.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
@@ -141,7 +138,7 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
             //Path path = Paths.get(fileBasePath + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("uploads/SchemeDetail/")
+                    .path("/schemes/download/")
                     .path(fileName)
                     .toUriString();
             schemeDetailRepository.findById(id)

@@ -80,7 +80,7 @@ public class FPOGuidelineController {
     })
     public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
-                                                              @RequestParam("guideline_type") String url,
+                                                              @RequestParam(value = "url", required = false) String url,
                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
         ResponseEntity<MessageResponse> resp = null;
@@ -163,7 +163,7 @@ public class FPOGuidelineController {
     public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Integer id,
                                                                @RequestPart("description") String description,
                                                                @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
-                                                               @RequestParam("guideline_type") String url,
+                                                               @RequestParam(value = "url", required = false) String url,
                                                                @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
