@@ -28,6 +28,7 @@ import reactor.util.annotation.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -39,6 +40,8 @@ public class PhotoUploadController {
     
     @Autowired
     private PhotoUploadService photoUploadService;
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadController.class);
 
@@ -78,18 +81,27 @@ public class PhotoUploadController {
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside PhotosController saving Photos ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-            PhotoUpload photo = new PhotoUpload(description,fpoId);
-            PhotoUpload id = photoUploadService.uploadPhoto(photo, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Photo uploaded Successfully!"), HttpStatus.OK );
-            LOG.info("Photo uploaded Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)) {
+            try {
+                PhotoUpload photo = new PhotoUpload(description, fpoId);
+                PhotoUpload id = photoUploadService.uploadPhoto(photo, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Photo uploaded Successfully!"), HttpStatus.OK);
+                LOG.info("Photo uploaded Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            }
+            catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Photo"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Photo");
+                e.printStackTrace();
+            }
 
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Photo"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Photo");
-            e.printStackTrace();
+        } else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF required."), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
+
+
         LOG.info("Exiting Photo Of Controller with response ", resp);
         return resp;
     }

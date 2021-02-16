@@ -34,6 +34,7 @@ import javax.swing.plaf.UIResource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,8 @@ public class FPOGuidelineController {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineController.class);
+
+    private static final String contentType = new String("application/pdf");
 
     @Autowired
     private FPOGuidelineServiceImpl fpoGuidelineService;
@@ -71,31 +74,28 @@ public class FPOGuidelineController {
         return fpoGuidelineService.getFPOGuidelineByType(guidelineType);
     }
     
-    @PostMapping(value = "/uploadFPOGuideline")
-    @ApiOperation(value="Create FPOGuidelines" ,code=201, produces = "application/json", notes="Api for all Upload FPOGuidelines",response= FPOGuidelines.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
     public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
-                                                             @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
                                                               @RequestParam(value = "url", required = false) String url,
-                                                       @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                              @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
-        MediaType mediaType = MediaType.parseMediaType(file.getContentType());
+        //MediaType mediaType = MediaType.parseMediaType(file.getContentType());
 
         ResponseEntity<MessageResponse> resp = null;
-        try {
-
-            FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType,url);
-            FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
-
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOGuidelines");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentType.equals(fileContentType)) {
+            try {
+                FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType, url);
+                FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK);
+            } catch(Exception e){
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOGuidelines");
+                e.printStackTrace();
+            }
+        }else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF required."), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new IllegalArgumentException("Incorrect file type, PDF required.");
         }
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
@@ -191,6 +191,7 @@ public class FPOGuidelineController {
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
     }
+
 
 
 }

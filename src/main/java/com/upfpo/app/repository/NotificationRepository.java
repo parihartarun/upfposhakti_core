@@ -22,4 +22,10 @@ public interface NotificationRepository extends JpaRepository <Notification, Int
     List<Notification> findByFarmerIdOrderByIdDesc(String farmerId);
 
     List<Notification> findByFpoIdOrderByIdDesc(String fpoId);
+
+    List<Notification> findByFarmerIdAndIsReadOrderByIdDesc(String farmerId, boolean b);
+
+    List<Notification> findByFpoIdAndIsReadOrderByIdDesc(String fpoId, boolean b);
+
+    List<Notification> findByDeptIdAndIsReadOrderByIdDesc(String deptId, boolean b);
 }

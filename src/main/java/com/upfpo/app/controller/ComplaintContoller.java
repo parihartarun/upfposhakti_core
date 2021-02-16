@@ -48,6 +48,8 @@ public class ComplaintContoller {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+
     @Autowired
     private ComplaintService complaintService;
 
@@ -86,23 +88,22 @@ public class ComplaintContoller {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-
-            Complaints complaints = new Complaints(description, title, issueType, farmerId, fpoId);
-            Complaints id = complaintService.createComplaintByFarmer(complaints, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
-            LOG.info("Complaint  created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/downloadFile/")
-                    .path(fileName)
-                    .toUriString();
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Complaint");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)) {
+            try {
+                Complaints complaints = new Complaints(description, title, issueType, farmerId, fpoId);
+                Complaints id = complaintService.createComplaintByFarmer(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint created successfully"), HttpStatus.OK );
+                LOG.info("Complaint  created Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Complaint");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
