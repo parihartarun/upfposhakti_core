@@ -32,7 +32,7 @@ public class DistrictServiceImpl implements DistrictService
 	
 	public List<MasterDataDto> getDistrictByStateId(int stateId) 
 	{
-		String  sql = "select d.district_id as district_id, d.district_name as district_name from districts d where d.state_id = :stateId";
+		String  sql = "select d.district_id as district_id, d.district_name as district_name from districts d where d.state_id = :stateId order by d.district_name asc";
 		  
 		List<MasterDataDto> obj =  (List<MasterDataDto>) entityManager.createNativeQuery(sql,"MasterDataDto").setParameter("stateId", stateId).getResultList();
 		return obj;

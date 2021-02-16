@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.entity.Notification;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public interface NotificationService {
     List<Notification> viewAllNotificationOfDepartment(String deptId);
 
     List<Notification> viewAllNotificationofFPO(String fpoId);
+
+    Resource loadFileAsResource(String fileName);
+
+    Notification notificationIsRead(Integer id);
 }

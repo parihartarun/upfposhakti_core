@@ -10,7 +10,10 @@ import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.NotificationRepository;
 import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -52,60 +56,6 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByIsDeleted(false);
     }
 
-    /*@Override
-    public Notification createNotification (Notification notification){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        notification.setDeleted(false);
-        notification.setCreateDate(Calendar.getInstance());
-        notification.setCreateBy(currentPrincipalName);
-        return notificationRepository.save(notification);
-    }
-
-
-    @Override
-    public Notification updateNotification(Integer id, Notification notification) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        Optional<Notification> sd = notificationRepository.findById(id);
-        if(!sd.isPresent()) {
-            return null;
-        }
-        notification.setId(id);
-        notification.setUpdateBy(currentPrincipalName);
-        notification.setUpdateDate(Calendar.getInstance());
-        notification.setDeleted(false);
-        return notificationRepository.save(notification);
-    }
-
-
-    @Override
-    public Boolean deleteNotification(Integer id) {
-
-        try {
-            Notification notification = notificationRepository.findById(id).get();
-            notification.setDeleted(true);
-            notification.setDeleteDate(Calendar.getInstance().getTime());
-            notificationRepository.save(notification);
-            return true;
-        }catch(Exception e)
-        {
-            throw new NotFoundException();
-        }
-    }
-
-    public Notification sendNotification (Notification notification){
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        notification.setCreateBy(currentPrincipalName);
-        notification.setCreateDate(Calendar.getInstance());
-        notification.setDeleted(false);
-        return notificationRepository.save(notification);
-
-    }*/
 
     @Override
     public Notification sendNotification(Notification notification, MultipartFile file){
@@ -134,31 +84,56 @@ public class NotificationServiceImpl implements NotificationService{
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
         notification.setDeleted(false);
+        notification.setRead(false);
         return notificationRepository.save(notification);
     }
 
 
     @Override
     public List<Notification> getAllNotificationByDepartment(String fpoId){
-        return notificationRepository.findByFpoId(fpoId);
+        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
     }
 
     @Override
     public List<Notification> getAllNotificationByFPO(String farmerId){
-        return notificationRepository.findByFarmerId(farmerId);
+        return notificationRepository.findByFarmerIdOrderByIdDesc(farmerId);
     }
 
     @Override
     public List<Notification> viewAllNotificationOfDepartment(String deptId){
-        return notificationRepository.findByDeptId(deptId);
+        return notificationRepository.findByDeptIdOrderByIdDesc(deptId);
     }
 
     @Override
     public List<Notification> viewAllNotificationofFPO(String fpoId){
-        return notificationRepository.findByFpoId(fpoId);
+        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
     }
 
 
+    @Override
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            //Path path = Paths.get(fileBasePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new ResourceNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new ResourceNotFoundException("File not found " + fileName, ex);
+        }
+    }
+
+    @Override
+    public Notification notificationIsRead(Integer id){
+        return notificationRepository.findById(id)
+                .map(notification -> {
+                    notification.setRead(true);
+                    return notificationRepository.saveAndFlush(notification);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
 
+    }
 }

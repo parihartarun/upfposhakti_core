@@ -40,13 +40,13 @@ public class UpAgriClient {
         return land_area;
     }
 
-    /*public static void main(String[] args){
-        try {
-            System.out.println( upagri_area("2055153400000"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }*/
+//    public static void main(String[] args){
+//        try {
+//            System.out.println( upagri_area("2055153400000"));
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

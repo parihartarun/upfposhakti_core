@@ -21,6 +21,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.upfpo.app.dto.FarmerComplaintDTO;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
@@ -43,6 +44,32 @@ classes = {
                 @ColumnResult(name = "totalland", type = Double.class)
            })
 })
+@SqlResultSetMapping(name="FarmerComplaintDTO",
+		classes = {
+				@ConstructorResult(
+						targetClass = FarmerComplaintDTO.class,
+						columns = {
+								@ColumnResult(name = "id", type = Integer.class),
+								@ColumnResult(name = "fpoid", type = Integer.class),
+								@ColumnResult(name = "issuetype", type = String.class),
+								@ColumnResult(name = "ftitle", type = String.class),
+								@ColumnResult(name = "role", type = String.class),
+								@ColumnResult(name = "status", type = String.class),
+								@ColumnResult(name = "message", type = String.class),
+								@ColumnResult(name = "description", type = String.class),
+								@ColumnResult(name = "filepath", type = String.class),
+								@ColumnResult(name = "createdate", type = String.class),
+								@ColumnResult(name = "othertype", type = String.class),
+								@ColumnResult(name = "assignto", type = String.class),
+								@ColumnResult(name = "assignby", type = String.class),
+								@ColumnResult(name = "deptcomment", type = String.class),
+								@ColumnResult(name = "remarks", type = String.class),
+								@ColumnResult(name = "filename", type = String.class),
+								@ColumnResult(name = "assigneddate", type = String.class),
+								@ColumnResult(name = "fponame", type = String.class),
+								@ColumnResult(name = "fpoemail", type = String.class)
+						})
+		})
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 
@@ -95,7 +122,7 @@ public class FPORegister implements Serializable {
 	@Column(name = "fpo_account_no")
 	private BigInteger fpoBankAccNo;
 	
-    @NotBlank(message="Please Provide the Valid IFSC Code")
+    //@NotBlank(message="Please Provide the Valid IFSC Code")
 	@Column(name = "fpo_ifsc")
 	private String fpoIFSC;
 

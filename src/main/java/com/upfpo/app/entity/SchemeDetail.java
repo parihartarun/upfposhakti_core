@@ -26,6 +26,9 @@ public class SchemeDetail {
     @Column(name="file_name")
     private String fileName;
 
+    @Column(name="url")
+    private String url;
+
     @Column(name="parent_department")
     private String parentDepartment;
 
@@ -58,10 +61,19 @@ public class SchemeDetail {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType,String parentDepartment) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment, String url) {
         this.schemeType=schemeType;
         this.description=description;
         this.parentDepartment=parentDepartment;
+        this.url=url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setParentDepartment(String parentDepartment) {

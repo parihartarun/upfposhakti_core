@@ -35,6 +35,9 @@ public class FPOGuidelines implements Serializable {
     @Column(name = "file_name")
     private String fileName;
 
+    @Column(name = "url")
+    private String url;
+
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
@@ -67,14 +70,15 @@ public class FPOGuidelines implements Serializable {
     private FPOGuidelineType fpoGuidelineType;
 
 
-    public FPOGuidelines() {
-    }
 
-
-
-    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType) {
+    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType, String url) {
         this.description=description;
         this.fpoGuidelineType=fpoGuidelineType;
+        this.url=url;
+    }
+
+    public FPOGuidelines() {
+
     }
 
 
@@ -102,6 +106,12 @@ public class FPOGuidelines implements Serializable {
         this.description = description;
     }
 
+
+
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public FPOGuidelineType getFpoGuidelineType() {
         return fpoGuidelineType;

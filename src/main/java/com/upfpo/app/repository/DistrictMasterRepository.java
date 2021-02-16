@@ -11,6 +11,6 @@ import com.upfpo.app.entity.DistrictMaster;
 @Repository
 public interface DistrictMasterRepository extends JpaRepository<DistrictMaster, Integer>
 {
-	@Query("Select d from DistrictMaster d where d.state_id= :state_id")
+	@Query("Select d from DistrictMaster d where d.state_id= :state_id order by d.district_name asc")
 	List<DistrictMaster> getDistrictsByStateId(int state_id);
 }

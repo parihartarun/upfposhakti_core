@@ -2,6 +2,7 @@ package com.upfpo.app.service;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.upfpo.app.dto.FarmerComplaintDTO;
@@ -32,6 +33,8 @@ public interface FPOComplaintService {
     List<FarmerComplaintDTO> getAllFPOComplaint();
 
     FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints);
+
+    Resource loadFileAsResource(String fileName);
 
     //List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer id);
 }

@@ -13,4 +13,6 @@ public interface SchemeDetailRepository extends JpaRepository<SchemeDetail, Inte
     List<SchemeDetail> findByIsDeleted(boolean b);
 
     List<SchemeDetail> findBySchemeType(String schemeType);
+
+    List<SchemeDetail> findBySchemeTypeOrderByIdDesc(String schemeType);
 }

@@ -42,7 +42,6 @@ public class PhotoUploadController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadController.class);
 
-    
 
     @GetMapping("/getPhotoByFpo/{masterId}")
     @ApiOperation(value="PhotoUpload List" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
@@ -54,6 +53,18 @@ public class PhotoUploadController {
     public List<PhotoUpload> getAllPhotoUpload (@PathVariable("masterId") Integer masterId){
         return photoUploadService.getAllPhotoUpload(masterId);
     }
+
+    @GetMapping("/fpo/{id}")
+    @ApiOperation(value="PhotoUpload List By Id" ,code=201, produces = "application/json", notes="Api for all PhotoUpload Info",response= PhotoUpload.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<PhotoUpload> getPhotoByFpoId (@PathVariable Integer id ){
+        return photoUploadService.getPhotoByFPOID(id);
+    }
+
 
     @PostMapping
     @ApiOperation(value="Create Photo" ,code=201, produces = "application/json", notes="Api for all Upload Photo",response= PhotoUpload.class)

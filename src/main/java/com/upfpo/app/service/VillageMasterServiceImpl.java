@@ -19,7 +19,8 @@ public class VillageMasterServiceImpl implements VillageMasterService
 	public List<VillageMaster> getVillages() 
 	{
 		List<VillageMaster> villagestList = new ArrayList<VillageMaster>();
-		villageRepository.findAll().forEach(villagestList1->villagestList.add(villagestList1));
+		//villageRepository.findAll().forEach(villagestList1->villagestList.add(villagestList1));
+		villageRepository.findAllByOrderByVillageNameAsc().forEach(villagestList1->villagestList.add(villagestList1));
 		return villagestList;
 	}
 	
