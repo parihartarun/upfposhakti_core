@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
@@ -15,6 +16,7 @@ import com.upfpo.app.repository.CropDetailsRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.util.GetFinYear;
 
+@Service
 public class FPOCropSowingServiceImpl implements FPOCropSowingService
 {
 	@Autowired
