@@ -4,6 +4,8 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.FPOGuidelineType;
+import com.upfpo.app.entity.Notification;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.entity.Notification;
 import com.upfpo.app.service.NotificationServiceImpl;
@@ -52,80 +54,6 @@ public class NotificationController {
     }
 
 
-
-    /*@PostMapping
-    @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> createNotification(@RequestBody Notification notification) {
-        LOG.info("Inside NotificationController saving Notification ", notification);
-        ResponseEntity<String> resp = null;
-        try {
-            Notification id = notificationService.createNotification(notification);
-            resp = new ResponseEntity<String>("Notification created Successfully!", HttpStatus.OK );
-            LOG.info("Notification  created Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Save the Notification", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Notification");
-            e.printStackTrace();
-        }
-        LOG.info("Existing Notification Of Controller with response ", resp);
-        return resp;
-    }
-
-
-    @PutMapping("{id}")
-    @ApiOperation(value="Notification Update" ,code=201, produces = "application/json", notes="Api for all Update Notification Info")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> updateNotification(@PathVariable Integer id, @RequestBody Notification notifications) {
-        LOG.info("Inside NotificationController updating sales details ", notifications);
-        ResponseEntity<String> resp = null;
-        try {
-            Notification fsd = notificationService.updateNotification(id, notifications);
-            resp = new ResponseEntity<String>("Notification Updated Successfully!", HttpStatus.OK );
-            LOG.info("Notification Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Update the Notification", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the Notification");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Notification Of Controller with response ", resp);
-        return resp;
-    }
-
-
-    @DeleteMapping("{id}")
-    @ApiOperation(value="Delete Notification" ,code=201, produces = "application/json", notes="Api for all Notification Deletion")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<String> deleteNotification(@PathVariable Integer id) {
-        LOG.info("Inside NotificationController delete sales details ");
-        ResponseEntity<String> resp = null;
-        try {
-            notificationService.deleteNotification(id);
-            resp = new ResponseEntity<String>("Notification Deleted Successfully!", HttpStatus.OK );
-            LOG.info("Notification Deleted Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<String>("Failed to Delete the Notification", HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Delete the Notification");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Notification Of Controller with response ", resp);
-        return resp;
-    }*/
 
     @PostMapping("/fposend")
     @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
@@ -234,6 +162,31 @@ public class NotificationController {
     public List<Notification> viewAllNotificationofFPO (@PathVariable String id){
 
         return notificationService.viewAllNotificationofFPO(id);
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value="Update Notification Details" ,code=201, produces = "application/json", notes="Api To Update Notification Details",response= Notification.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> updateNotification(@PathVariable Integer id) {
+        LOG.info("Inside Notification updating Notification detail ");
+        Notification notification = new Notification();
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            notificationService.notificationIsRead(id);
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Details Updated Successfully!"), HttpStatus.OK );
+            LOG.info("Notification Updated Successfully!");
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Notification Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Update the Notification Details");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting Notification Of Controller with response ", resp);
+        return resp;
     }
 
     @GetMapping("/download/{fileName:.+}")

@@ -64,13 +64,15 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String contentType= file.getContentType();
 
         photoUpload.setFileName(fileName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         photoUpload.setCreateBy(currentPrincipalName);
         photoUpload.setCreateDate(Calendar.getInstance());
-        if (file != null){
+
+        if (file != null && !isSupportedContentType(contentType)){
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -142,7 +144,6 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
-
     @Override
     public Boolean deletePhotoUpload(Integer id) {
         try {
@@ -175,8 +176,13 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
 
     @Override
     public List<PhotoUpload> getPhotoByFPOID(Integer id){
-
         return photoUploadRepository.findByFpoId(id);
+    }
+
+    private boolean isSupportedContentType(String contentType) {
+        return contentType.equals("image/png")
+                || contentType.equals("image/jpg")
+                || contentType.equals("image/jpeg");
     }
 
 
