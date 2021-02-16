@@ -82,6 +82,10 @@ public class FPOGuidelines implements Serializable {
     }
 
 
+    public String getUrl() {
+        return url;
+    }
+
     public String getDescription() {
         return description;
     }
