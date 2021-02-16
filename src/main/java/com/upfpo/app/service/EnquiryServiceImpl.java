@@ -43,6 +43,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     	
     	Enquiry enquiry =  new Enquiry(); 
     	enquiry.setCreateDateTime(new Date());  // filled
+    	enquiry.setDeliveryAddress(enquiryRequest.getFpoDeliveryAddress());
     	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate());       // from ui
     	enquiry.setCropVeriety(enquiryRequest.getCropVeriety());
     	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
@@ -56,6 +57,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     }
 
     public Enquiry updateEnquiryDetail(Long id, Enquiry enquiry) {
+    	
         Optional<Enquiry> sd = enquiryRepository.findById(id);
         if(!sd.isPresent()) {
             return null;
@@ -64,7 +66,7 @@ public class EnquiryServiceImpl implements EnquiryService{
         Enquiry upenquiry = sd.get(); 
         upenquiry.setSoldQuantity(enquiry.getQuantity());
         upenquiry.setStatus(enquiry.getStatus());
-        upenquiry.setReason(enquiry.getReason());
+        upenquiry.setReason(enquiry.getReason());        
         return enquiryRepository.save(upenquiry);
     }
 

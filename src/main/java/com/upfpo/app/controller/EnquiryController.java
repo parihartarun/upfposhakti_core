@@ -79,7 +79,6 @@ public class EnquiryController {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
-        
         	
             Enquiry id = enquiryService.createEnquiry(enquiry);
             resp = new ResponseEntity<String>(id.getEnquieryNumber(), HttpStatus.OK );

@@ -83,8 +83,11 @@ public class FPOGuidelineController {
                                                               @RequestParam(value = "url", required = false) String url,
                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
+        MediaType mediaType = MediaType.parseMediaType(file.getContentType());
+
         ResponseEntity<MessageResponse> resp = null;
         try {
+
             FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType,url);
             FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK );
@@ -98,30 +101,6 @@ public class FPOGuidelineController {
         return resp;
     }
 
-    @DeleteMapping(value="/{id}")
-    @ApiOperation(value="Delete FPOGuidelines",code=204,produces = "text/plain",notes="Api for delete FPOGuidelines by id",response=Boolean.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
-            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
-            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
-            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
-    })
-    public ResponseEntity<MessageResponse> deleteFPOGuidelines(@PathVariable Long id) {
-        LOG.info("Inside FPOGuidelinesController delete sales details ");
-        ResponseEntity<MessageResponse> resp = null;
-        try {
-            if(fpoGuidelineService.deleteFPOGuidelines(id)==true)
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Deleted Successfully!"), HttpStatus.OK );
-            LOG.info("FPOGuidelines Deleted Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Delete the FPOGuidelines");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
-        return resp;
-    }
 
     @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="FPOGuidelines Download" ,code=201, produces = "application/json", notes="Api for Download FPOGuidelines File", response= UploadFileResponse.class)
@@ -186,5 +165,32 @@ public class FPOGuidelineController {
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
     }
+
+
+    @DeleteMapping(value="/{id}")
+    @ApiOperation(value="Delete FPOGuidelines",code=204,produces = "text/plain",notes="Api for delete FPOGuidelines by id",response=Boolean.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+    })
+    public ResponseEntity<MessageResponse> deleteFPOGuidelines(@PathVariable Long id) {
+        LOG.info("Inside FPOGuidelinesController delete sales details ");
+        ResponseEntity<MessageResponse> resp = null;
+        try {
+            if(fpoGuidelineService.deleteFPOGuidelines(id)==true)
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines Deleted Successfully!"), HttpStatus.OK );
+            LOG.info("FPOGuidelines Deleted Successfully!");
+            //}
+        } catch (Exception e) {
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the FPOGuidelines"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Delete the FPOGuidelines");
+            e.printStackTrace();
+        }
+        LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
+        return resp;
+    }
+
 
 }

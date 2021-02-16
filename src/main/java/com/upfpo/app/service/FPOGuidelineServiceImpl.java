@@ -82,32 +82,13 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
-    @GetMapping("/download/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
 
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
 
     @Override
     public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
-            if(fileName != null) {
+        String contentType = file.getContentType();
+            if(fileName != null && !isSupportedContentType(contentType)) {
                 fileName = fileName.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                         .path("/fpoguidelines/download/")
@@ -173,50 +154,11 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                     return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
-    /*@Override
-    public FPOGuidelines updateFPOGuidelines(Integer id, FPOGuidelines fpoGuidelines1, MultipartFile file)  {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String fileName;
-        String currentPrincipalName = authentication.getName();
-        String fileDownloadUri;
-        Path targetLocation;
-        if (file != null ) {
-            fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            try {
-                // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
-                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-                }
-                // Copy file to the target location (Replacing existing file with the same name)
-                targetLocation = this.fileStorageLocation.resolve(fileName);
-                //Path path = Paths.get(fileBasePath + fileName);
-                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-                fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/fpoguidelines/download/")
-                        .path(fileName)
-                        .toUriString();
-                fpoGuidelinesRepository.findById(id.intValue())
-                        .map(fpoGuidelines -> {
-                            fpoGuidelines.setFilePath(fileDownloadUri);
-                            fpoGuidelines.setFileName(fileName);
-                            return fpoGuidelinesRepository.saveAndFlush(fpoGuidelines);
-                        }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    private boolean isSupportedContentType(String contentType) {
+        return contentType.equals("application/pdf");
 
-            } catch (IOException ex) {
-                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-            }
-        }
-        return fpoGuidelinesRepository.findById(id.intValue())
-                .map(fpoGuidelines -> {
-                    fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
-                    fpoGuidelines.setId(fpoGuidelines1.getId());
-                    fpoGuidelines.setUpdateBy(currentPrincipalName);
-                    fpoGuidelines.setUpdateDate(Calendar.getInstance());
-                    fpoGuidelines.setDeleted(false);
-                    return fpoGuidelinesRepository.save(fpoGuidelines);
-                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-    }*/
+    }
 
     @Override
     public Boolean deleteFPOGuidelines(Long id) {
@@ -249,5 +191,26 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         } catch (MalformedURLException ex) {
             throw new ResourceNotFoundException("File not found " + fileName, ex);
         }
+    }
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = fileStorageService.loadFileAsResource(fileName);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

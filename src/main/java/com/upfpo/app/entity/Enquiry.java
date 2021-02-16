@@ -31,8 +31,33 @@ public class Enquiry implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+//	@OneToOne
+//	@JoinColumn(name = "created_by")
+	@Column(name="created_by")
+	private Integer masterId;
+
+	@Column(name="deliveryaddress")
+	private String deliveryAddress;
+	
 
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date_time")
+	private Date createDateTime;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<EnquiryComments> comments;
+
+	@ManyToOne
+	@JoinColumn(name = "crop_id")
+	private CropMaster cropMaster;
+
+	@OneToOne
+	@JoinColumn(name = "fpo_id")
+	private FPORegister fpo;
+	private String reason;
+	private String cropVeriety;
 
 	private String enquieryNumber;
 	private String fulfillmentDate;
@@ -47,11 +72,6 @@ public class Enquiry implements Serializable {
 	public void setSoldQuantity(Double soldQuantity) {
 		this.soldQuantity = soldQuantity;
 	}
-
-	private String reason;
-	private String cropVeriety;
-
-	
 
 	public Enquiry(Long id, Double quantity, String enquieryNumber, String fulfillmentDate, String status,
 			String reason, Integer masterId, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
@@ -86,26 +106,13 @@ public class Enquiry implements Serializable {
 		this.cropVeriety = cropVeriety;
 	}
 
-//	@OneToOne
-//	@JoinColumn(name = "created_by")
-	@Column(name="created_by")
-	private Integer masterId;
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_date_time")
-	private Date createDateTime;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<EnquiryComments> comments;
-
-	@ManyToOne
-	@JoinColumn(name = "crop_id")
-	private CropMaster cropMaster;
-
-	@OneToOne
-	@JoinColumn(name = "fpo_id")
-	private FPORegister fpo;
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
+	}
 
 	public Enquiry(Long id, Double quantity, String fulfillmentDate, String status, String reason, User user,
 			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {

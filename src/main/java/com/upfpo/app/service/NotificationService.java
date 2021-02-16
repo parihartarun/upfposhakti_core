@@ -25,4 +25,6 @@ public interface NotificationService {
     List<Notification> viewAllNotificationofFPO(String fpoId);
 
     Resource loadFileAsResource(String fileName);
+
+    Notification notificationIsRead(Integer id);
 }
