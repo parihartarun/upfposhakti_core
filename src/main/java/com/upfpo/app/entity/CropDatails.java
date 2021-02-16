@@ -97,9 +97,6 @@ public class CropDatails implements Serializable {
 	
 	@Column(name="is_deleted")
     private boolean isDeleted;
-	
-	@Column(name="crop_variety_id")
-	private String cropVarietyId;
    
 	public Integer getCropId() {
 		return cropId;
@@ -252,14 +249,6 @@ public class CropDatails implements Serializable {
 		this.newSowing = newSowing;
 	}
 	
-	public String getCropVarietyId() {
-		return cropVarietyId;
-	}
-
-	public void setCropVarietyId(String cropVarietyId) {
-		this.cropVarietyId = cropVarietyId;
-	}
-
 }
 
 
