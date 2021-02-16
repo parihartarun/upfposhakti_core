@@ -56,7 +56,7 @@ public class CropDatails implements Serializable {
 	private Integer cropRefName;
 
 	@Column(name = "veriety_ref")
-	private String verietyRef;
+	private Integer verietyRef;
 
 	@Column(name = "ex_yield")
 	private double expectedYield;
@@ -97,10 +97,10 @@ public class CropDatails implements Serializable {
 	
 	@Column(name="is_deleted")
     private boolean isDeleted;
+	
+	@Column(name="crop_variety_id")
+	private String cropVarietyId;
    
-	
-	
-	
 	public Integer getCropId() {
 		return cropId;
 	}
@@ -125,11 +125,11 @@ public class CropDatails implements Serializable {
 		this.cropRefName = cropRefName;
 	}
 
-	public String getVerietyRef() {
+	public Integer getVerietyRef() {
 		return verietyRef;
 	}
 
-	public void setVerietyRef(String verietyRef) {
+	public void setVerietyRef(Integer verietyRef) {
 		this.verietyRef = verietyRef;
 	}
 
@@ -250,6 +250,14 @@ public class CropDatails implements Serializable {
 
 	public void setNewSowing(NewSowing newSowing) {
 		this.newSowing = newSowing;
+	}
+	
+	public String getCropVarietyId() {
+		return cropVarietyId;
+	}
+
+	public void setCropVarietyId(String cropVarietyId) {
+		this.cropVarietyId = cropVarietyId;
 	}
 
 }
