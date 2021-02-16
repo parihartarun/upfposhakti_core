@@ -54,6 +54,56 @@ public class NotificationController {
     }
 
 
+    @GetMapping("/fponotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getNotificationByFPOID (@PathVariable String id){
+
+        return notificationService.getAllNotificationByDepartment(id);
+    }
+
+    @GetMapping("/farmernotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getAllNotificationByFarmerId (@PathVariable String id){
+
+        return notificationService.getAllNotificationByFPO(id);
+    }
+
+    @GetMapping("/viewdeptnotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> viewAllNotificationOfDepartment (@PathVariable String id){
+
+        return notificationService.viewAllNotificationOfDepartment(id);
+    }
+
+    @GetMapping("/viewfponotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> viewAllNotificationofFPO (@PathVariable String id){
+
+        return notificationService.viewAllNotificationofFPO(id);
+    }
+
+
+
 
     @PostMapping("/fposend")
     @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
@@ -115,54 +165,6 @@ public class NotificationController {
     }
 
 
-
-    @GetMapping("/fponotification/{id}")
-    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<Notification> getNotificationByFPOID (@PathVariable String id){
-
-        return notificationService.getAllNotificationByDepartment(id);
-    }
-
-    @GetMapping("/farmernotification/{id}")
-    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<Notification> getAllNotificationByFarmerId (@PathVariable String id){
-
-        return notificationService.getAllNotificationByFPO(id);
-    }
-
-    @GetMapping("/viewdeptnotification/{id}")
-    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<Notification> viewAllNotificationOfDepartment (@PathVariable String id){
-
-        return notificationService.viewAllNotificationOfDepartment(id);
-    }
-
-    @GetMapping("/viewfponotification/{id}")
-    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<Notification> viewAllNotificationofFPO (@PathVariable String id){
-
-        return notificationService.viewAllNotificationofFPO(id);
-    }
 
     @PutMapping("/{id}")
     @ApiOperation(value="Update Notification Details" ,code=201, produces = "application/json", notes="Api To Update Notification Details",response= Notification.class)
