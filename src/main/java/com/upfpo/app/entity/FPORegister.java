@@ -159,12 +159,12 @@ public class FPORegister implements Serializable {
 	private List <FpoLicenceDetails> fpoLicenceDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
-	private List <FarmMachineryBank> farmMachineryBank;
-	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="fpo_id")
 	private List <FpoAdditionalServices> fpoAdditionalServices;
+	
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
+	private List <FarmMachineryBank> farmMachineryBank;
 	
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_id")
@@ -426,6 +426,14 @@ public class FPORegister implements Serializable {
 	public void setPhotoUpload(List<PhotoUpload> photoUpload) {
 		this.photoUpload = photoUpload;
 	}
+	
+	public void setFpoAdditionalServices(List<FpoAdditionalServices> fpoAdditionalServices) {
+		this.fpoAdditionalServices = fpoAdditionalServices;
+	}
+
+	public List<ProductionDetails> getProductionDetails() {
+		return productionDetails;
+	}
 
 	public List<BoardMember> getBoardMember() {
 		return boardMember;
@@ -445,14 +453,6 @@ public class FPORegister implements Serializable {
 
 	public List<FpoAdditionalServices> getFpoAdditionalServices() {
 		return fpoAdditionalServices;
-	}
-
-	public void setFpoAdditionalServices(List<FpoAdditionalServices> fpoAdditionalServices) {
-		this.fpoAdditionalServices = fpoAdditionalServices;
-	}
-
-	public List<ProductionDetails> getProductionDetails() {
-		return productionDetails;
 	}
 
 	public void setProductionDetails(List<ProductionDetails> productionDetails) {
