@@ -75,6 +75,19 @@ public class ComplaintContoller {
         return complaintService.getComplaintByFarmerId(id);
     }
 
+
+    @GetMapping("/catgories")
+    @ApiOperation(value="Complaint Catgories" ,code=201, produces = "application/json", notes="Api to get Complaints Catgories",response= ComplaintCatgories.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ComplaintCatgories> getComplaintCatgories() {
+        return complaintService.getComplaintsCatgories();
+    }
+
+
     @PostMapping
     @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= Complaints.class)
     @ApiResponses(value= {
@@ -135,48 +148,8 @@ public class ComplaintContoller {
         return resp;
     }
 
-    @GetMapping("/catgories")
-    @ApiOperation(value="Complaint Catgories" ,code=201, produces = "application/json", notes="Api to get Complaints Catgories",response= ComplaintCatgories.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<ComplaintCatgories> getComplaintCatgories() {
 
-        return complaintService.getComplaintsCatgories();
 
-    }
-
-    @GetMapping("/download/{fileName:.+}")
-    @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = complaintService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            LOG.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
 
     @PutMapping("/{id}")
     @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= Complaints.class)
@@ -197,14 +170,17 @@ public class ComplaintContoller {
         complaints.setTitle(title);
         complaints.setIssueType(issueType);
         ResponseEntity<MessageResponse> resp = null;
-        try {
-            complaintService.updateComplaint(id, complaints, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
-            LOG.info("Complaint Updated Successfully!");
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the Complaint Details");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                complaintService.updateComplaint(id, complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
+                LOG.info("Complaint Updated Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Update the Complaint Details");
+                e.printStackTrace();
+            }
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
@@ -241,6 +217,37 @@ public class ComplaintContoller {
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
+    }
+
+
+    @GetMapping("/download/{fileName:.+}")
+    @ApiOperation(value="Complaints Download" ,code=201, produces = "application/json", notes="Api for Download Complaint File", response= UploadFileResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = complaintService.loadFileAsResource(fileName);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            LOG.info("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
     /*@GetMapping("getcomplaint/{id}")

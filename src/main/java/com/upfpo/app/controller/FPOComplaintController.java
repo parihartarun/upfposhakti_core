@@ -29,6 +29,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class FPOComplaintController {
     @Autowired
     FPOComplaintService fpoComplaintService;
 
-
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
 
 
 
@@ -133,16 +134,23 @@ public class FPOComplaintController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-            FPOComplaints complaints = new FPOComplaints(description, title, issueType, fpoId);
-            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-            LOG.info("FPOComplaint  created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOComplaint");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                FPOComplaints complaints = new FPOComplaints(description, title, issueType, fpoId);
+                FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+                LOG.info("FPOComplaint  created Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOComplaint");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
@@ -161,7 +169,9 @@ public class FPOComplaintController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
             FPOComplaints complaints = new FPOComplaints();
             complaints.setDescription(description);
             complaints.setIssueType(issueType);
@@ -175,6 +185,10 @@ public class FPOComplaintController {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the FPOComplaint");
             e.printStackTrace();
+        }}
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
@@ -193,20 +207,27 @@ public class FPOComplaintController {
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-            FPOComplaints complaints = new FPOComplaints();
-            complaints.setDescription(description);
-            complaints.setIssueType(issueType);
-            complaints.setTitle(title);
-            complaints.setChcFmbId(chcid);
-            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-            LOG.info("FPOComplaint  created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOComplaint");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                FPOComplaints complaints = new FPOComplaints();
+                complaints.setDescription(description);
+                complaints.setIssueType(issueType);
+                complaints.setTitle(title);
+                complaints.setChcFmbId(chcid);
+                FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+                LOG.info("FPOComplaint  created Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOComplaint");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
@@ -232,6 +253,7 @@ public class FPOComplaintController {
         complaints.setDeptComment(deptComment);
         complaints.setStatus(status);
         ResponseEntity<MessageResponse> resp = null;
+
         try {
             fpoComplaintService.updateFPOComplaintStatus(id, complaints);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );

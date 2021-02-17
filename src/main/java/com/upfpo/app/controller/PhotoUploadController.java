@@ -95,7 +95,6 @@ public class PhotoUploadController {
                 LOG.info("Failed to Save the Photo");
                 e.printStackTrace();
             }
-
         } else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF required."), HttpStatus.INTERNAL_SERVER_ERROR);
             throw new IllegalArgumentException("Incorrect file type, Photo required.");
@@ -105,6 +104,41 @@ public class PhotoUploadController {
         LOG.info("Exiting Photo Of Controller with response ", resp);
         return resp;
     }
+
+
+    @PutMapping("/{id}")
+    @ApiOperation(value="Update PhotoUpload Details" ,code=201, produces = "application/json", notes="Api To Update PhotoUpload Details",response= PhotoUpload.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> updatePhotoUpload(@PathVariable Integer id,
+                                                             @RequestPart(value = "description") String description,
+                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside PhotoUpload updating PhotoUpload detail ");
+        PhotoUpload photoUploads = new PhotoUpload();
+        photoUploads.setId(id);
+        photoUploads.setDescription(description);
+        ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                LOG.info("test");
+                photoUploadService.updatePhotoUpload(id, photoUploads,  file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("PhotoUpload Details Updated Successfully!"), HttpStatus.OK );
+                LOG.info("PhotoUpload Updated Successfully!");
+                //}
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the PhotoUpload Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Update the PhotoUpload Details");
+                e.printStackTrace();
+            }
+        }
+        LOG.info("Exiting PhotoUpload Of Controller with response ", resp);
+        return resp;
+    }
+
 
     @DeleteMapping(value="/{id}")
     @ApiOperation(value="Delete PhotoUpload",code=204,produces = "text/plain",notes="Api for delete PhotoUpload by id",response=Boolean.class)
@@ -161,37 +195,7 @@ public class PhotoUploadController {
                 .body(resource);
     }
 
-    @PutMapping("/{id}")
-    @ApiOperation(value="Update PhotoUpload Details" ,code=201, produces = "application/json", notes="Api To Update PhotoUpload Details",response= PhotoUpload.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<MessageResponse> updatePhotoUpload(@PathVariable Integer id,
-                                                           @RequestPart(value = "description") String description,
-                                                           @RequestPart(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside PhotoUpload updating PhotoUpload detail ");
-        PhotoUpload photoUploads = new PhotoUpload();
-        photoUploads.setId(id);
-        photoUploads.setDescription(description);
 
-
-        ResponseEntity<MessageResponse> resp = null;
-        try {
-            LOG.info("test");
-            photoUploadService.updatePhotoUpload(id, photoUploads,  file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("PhotoUpload Details Updated Successfully!"), HttpStatus.OK );
-            LOG.info("PhotoUpload Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the PhotoUpload Details"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the PhotoUpload Details");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting PhotoUpload Of Controller with response ", resp);
-        return resp;
-    }
 
 
 }

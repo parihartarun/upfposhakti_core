@@ -28,6 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -37,6 +38,9 @@ import java.util.List;
 public class NotificationController {
 
     private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+
 
     @Autowired
     private NotificationServiceImpl notificationService;
@@ -120,16 +124,22 @@ public class NotificationController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-
-            Notification notification = new Notification(role, message, departmentId,  fpoId);
-            Notification id = notificationService.sendNotification(notification, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To FPO successfully"), HttpStatus.OK );
-            LOG.info("Notification  created Successfully!");
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Notification");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                Notification notification = new Notification(role, message, departmentId,  fpoId);
+                Notification id = notificationService.sendNotification(notification, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To FPO successfully"), HttpStatus.OK );
+                LOG.info("Notification  created Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Notification");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
@@ -149,17 +159,23 @@ public class NotificationController {
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-
-            Notification notification = new Notification(role, message, farmerId);
-            notification.setFpoId(fpoId);
-            Notification id = notificationService.sendNotification(notification, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
-            LOG.info("Notification  created Successfully!");
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Notification");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                Notification notification = new Notification(role, message, farmerId);
+                notification.setFpoId(fpoId);
+                Notification id = notificationService.sendNotification(notification, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
+                LOG.info("Notification  created Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Notification");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
