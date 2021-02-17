@@ -16,9 +16,10 @@ public interface NotificationService {
 
     Notification sendNotification(Notification notification, MultipartFile file);
 
-    List<Notification> getAllNotificationByDepartment(String fpoId);
 
-    List<Notification> getAllNotificationByFPO(String farmerId);
+    List<Notification> getAllNotificationByDepartment(String fpoId, Boolean read);
+
+    List<Notification> getAllNotificationByFPO(String farmerId, Boolean read);
 
     List<Notification> viewAllNotificationOfDepartment(String deptId);
 

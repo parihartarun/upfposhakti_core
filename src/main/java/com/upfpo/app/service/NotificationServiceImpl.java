@@ -56,15 +56,18 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByIsDeleted(false);
     }
 
+
     @Override
-    public List<Notification> getAllNotificationByDepartment(String fpoId){
-        return notificationRepository.findByFpoIdAndIsReadOrderByIdDesc(fpoId,true);
+    public List<Notification> getAllNotificationByDepartment(String fpoId, Boolean read){
+        return notificationRepository.findByFpoIdAndIsReadOrderByIdDesc(fpoId, read);
     }
 
     @Override
-    public List<Notification> getAllNotificationByFPO(String farmerId){
-        return notificationRepository.findByFarmerIdAndIsReadOrderByIdDesc(farmerId,true);
+    public List<Notification> getAllNotificationByFPO(String farmerId, Boolean read){
+        return notificationRepository.findByFarmerIdAndIsReadOrderByIdDesc(farmerId, read);
     }
+
+
 
     @Override
     public List<Notification> viewAllNotificationOfDepartment(String deptId){
