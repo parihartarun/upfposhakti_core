@@ -16,6 +16,8 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.upfpo.app.dto.CropMasterDto;
+import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 
 
@@ -43,6 +45,17 @@ classes = {
 		  })
 })
 
+@SqlResultSetMapping(name="CropMasterDto",
+classes = {
+    @ConstructorResult(
+            targetClass = CropMasterDto.class,
+            columns = {
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "cropName", type = String.class),
+                @ColumnResult(name = "seasonRefId", type = Integer.class),
+                @ColumnResult(name = "isActive", type = Boolean.class),
+           })
+})
 
 @Entity
 @Table(name="crop_master")
