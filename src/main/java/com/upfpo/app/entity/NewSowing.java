@@ -36,7 +36,7 @@ public class NewSowing {
 	private Integer farmerId;
 	
 	@Column(name = "land_id")
-	private Double baseland;
+	private Integer baseland;
 	
 	@Column(name = "user_ref_id")
 	private Integer userRefId;
@@ -59,8 +59,6 @@ public class NewSowing {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="sowing_id")
 	private List<CropDatails> list;
-	
-	
 	
 	
 	public Integer getSowingId() {
@@ -152,11 +150,11 @@ public class NewSowing {
 		this.userRefId = userRefId;
 	}
 
-	public Double getBaseland() {
+	public Integer getBaseland() {
 		return baseland;
 	}
 
-	public void setBaseland(Double baseland) {
+	public void setBaseland(Integer baseland) {
 		this.baseland = baseland;
 	}
 

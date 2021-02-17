@@ -77,6 +77,9 @@ public class BuyerSellerMaster implements Serializable
 	@Column(name="commdity_deals_in")
 	private String commdityDealsIn;
 	
+	@Column(name="variety_deals_in")
+	private String varietyDealsIn;
+	
 	@Column(name="state_ref_id")
 	private Integer stateRefId;
 	
@@ -234,6 +237,13 @@ public class BuyerSellerMaster implements Serializable
 
 	public void setCommdityDealsIn(String commdityDealsIn) {
 		this.commdityDealsIn = commdityDealsIn;
+	}
+	public String getVarietyDealsIn() {
+		return varietyDealsIn;
+	}
+
+	public void setVarietyDealsIn(String varietyDealsIn) {
+		this.varietyDealsIn = varietyDealsIn;
 	}
 
 	public Integer getStateRefId() {

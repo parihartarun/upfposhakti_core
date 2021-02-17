@@ -19,7 +19,8 @@ public class PanchayatMasterServiceImpl implements PanchayatMasterService
 	public List<Panchayats> getPanchayats() 
 	{
 		List<Panchayats> panchayatList = new ArrayList<Panchayats>();
-		panchayatRepository.findAll().forEach(panchayatList1->panchayatList.add(panchayatList1));
+		//panchayatRepository.findAll().forEach(panchayatList1->panchayatList.add(panchayatList1));
+		panchayatRepository.getPanchayats().forEach(panchayatList1->panchayatList.add(panchayatList1));
 		return panchayatList;
 	}
 	

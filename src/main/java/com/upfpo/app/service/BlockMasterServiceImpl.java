@@ -19,7 +19,8 @@ public class BlockMasterServiceImpl implements BlockMasterService
 	public List<BlockMaster> getBlocks() 
 	{
 		List<BlockMaster> blockList = new ArrayList<BlockMaster>();
-		blockRepository.findAll().forEach(blockList1->blockList.add(blockList1));
+		//blockRepository.findAll().forEach(blockList1->blockList.add(blockList1));
+		blockRepository.findAllByOrderByBlockNameAsc().forEach(blockList1->blockList.add(blockList1));
 		return blockList;
 	}
 	

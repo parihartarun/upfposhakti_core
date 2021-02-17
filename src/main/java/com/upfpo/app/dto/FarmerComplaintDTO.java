@@ -1,11 +1,17 @@
 package com.upfpo.app.dto;
 
 import com.upfpo.app.entity.Status;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.SqlResultSetMapping;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class FarmerComplaintDTO {
+
+public class FarmerComplaintDTO implements Serializable {
 
 	private Integer id;
 	private Integer fpoid;
