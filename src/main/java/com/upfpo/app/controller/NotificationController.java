@@ -54,29 +54,30 @@ public class NotificationController {
     }
 
 
-    @GetMapping("/fponotification/{id}")
+    @GetMapping("/fponotification/{id}/{read}")
     @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Notification> getNotificationByFPOID (@PathVariable String id){
+    public List<Notification> getNotificationByFPOID (@PathVariable String id, @PathVariable Boolean read){
 
-        return notificationService.getAllNotificationByDepartment(id);
+        return notificationService.getAllNotificationByDepartment(id, read);
     }
 
-    @GetMapping("/farmernotification/{id}")
+    @GetMapping("/farmernotification/{id}/{read}")
     @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Notification> getAllNotificationByFarmerId (@PathVariable String id){
+    public List<Notification> getAllNotificationByFarmerId (@PathVariable String id, @PathVariable Boolean read){
 
-        return notificationService.getAllNotificationByFPO(id);
+        return notificationService.getAllNotificationByFPO(id, read);
     }
+
 
     @GetMapping("/viewdeptnotification/{id}")
     @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
