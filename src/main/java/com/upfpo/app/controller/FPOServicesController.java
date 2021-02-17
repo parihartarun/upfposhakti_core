@@ -1,6 +1,7 @@
 package com.upfpo.app.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,9 @@ public class FPOServicesController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FPOServicesController.class);
 
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+
+
     @Autowired
     private FPOServicesServiceImpl fpoServicesService;
 
@@ -91,17 +95,18 @@ public class FPOServicesController {
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOServiceController saving FPOService ");
         ResponseEntity<MessageResponse> resp = null;
-        try {
-
-            FPOServices fposervices = new FPOServices(description, servicename);
-
-            FPOServices id = fpoServicesService.insertFPOServices(fposervices, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService created successfully"), HttpStatus.OK );
-            LOG.info("FPOService  created Successfully!");
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOService");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                FPOServices fposervices = new FPOServices(description, servicename);
+                FPOServices id = fpoServicesService.insertFPOServices(fposervices, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService created successfully"), HttpStatus.OK );
+                LOG.info("FPOService  created Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOService");
+                e.printStackTrace();
+            }
         }
         LOG.info("Exiting FPOService Of Controller with response ", resp);
         return resp;
@@ -128,15 +133,18 @@ public class FPOServicesController {
         fpoServices.setServicename(servicename);
         fpoServices.setDescriptions(description);
         ResponseEntity<MessageResponse> resp = null;
-        try {
-            fpoServicesService.updateFPOServices(id, fpoServices, description, servicename, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOServices Details Updated Successfully!"), HttpStatus.OK );
-            LOG.info("FPOServices Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the FPOServices Details"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the FPOServices Details");
-            e.printStackTrace();
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                fpoServicesService.updateFPOServices(id, fpoServices, description, servicename, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOServices Details Updated Successfully!"), HttpStatus.OK );
+                LOG.info("FPOServices Updated Successfully!");
+                //}
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the FPOServices Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Update the FPOServices Details");
+                e.printStackTrace();
+            }
         }
         LOG.info("Existing FPOServices Of Controller with response ", resp);
         return resp;
