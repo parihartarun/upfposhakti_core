@@ -58,6 +58,29 @@ public class NotificationServiceImpl implements NotificationService{
 
 
     @Override
+    public List<Notification> getAllNotificationByDepartment(String fpoId, Boolean read){
+        return notificationRepository.findByFpoIdAndIsReadOrderByIdDesc(fpoId, read);
+    }
+
+    @Override
+    public List<Notification> getAllNotificationByFPO(String farmerId, Boolean read){
+        return notificationRepository.findByFarmerIdAndIsReadOrderByIdDesc(farmerId, read);
+    }
+
+
+
+    @Override
+    public List<Notification> viewAllNotificationOfDepartment(String deptId){
+        return notificationRepository.findByDeptIdOrderByIdDesc(deptId);
+    }
+
+    @Override
+    public List<Notification> viewAllNotificationofFPO(String fpoId){
+        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
+    }
+
+
+    @Override
     public Notification sendNotification(Notification notification, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -90,23 +113,14 @@ public class NotificationServiceImpl implements NotificationService{
 
 
     @Override
-    public List<Notification> getAllNotificationByDepartment(String fpoId){
-        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
-    }
+    public Notification notificationIsRead(Integer id){
+        return notificationRepository.findById(id)
+                .map(notification -> {
+                    notification.setRead(true);
+                    return notificationRepository.saveAndFlush(notification);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
-    @Override
-    public List<Notification> getAllNotificationByFPO(String farmerId){
-        return notificationRepository.findByFarmerIdOrderByIdDesc(farmerId);
-    }
 
-    @Override
-    public List<Notification> viewAllNotificationOfDepartment(String deptId){
-        return notificationRepository.findByDeptIdOrderByIdDesc(deptId);
-    }
-
-    @Override
-    public List<Notification> viewAllNotificationofFPO(String fpoId){
-        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
     }
 
 
@@ -126,14 +140,5 @@ public class NotificationServiceImpl implements NotificationService{
         }
     }
 
-    @Override
-    public Notification notificationIsRead(Integer id){
-        return notificationRepository.findById(id)
-                .map(notification -> {
-                    notification.setRead(true);
-                    return notificationRepository.saveAndFlush(notification);
-                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
-
-    }
 }

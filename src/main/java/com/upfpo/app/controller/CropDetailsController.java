@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.CropMasterDto;
 import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.service.CropDetailsService;
@@ -55,5 +56,18 @@ public class CropDetailsController
 	{
 		List<CropMaster> list =  cropDetailsService.getCropsBySeasonId(seasonId);
 		return new ResponseEntity<List<CropMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getCropsBySearch/{searchtext}")
+	@ApiOperation(value="Get Crop master details by seasonId", code=200, produces = "application/json",notes="Api for get crop by seasonId",response=CropMasterDto.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public ResponseEntity<List<CropMasterDto>> getCropsBySearch(@PathVariable("searchtext") String searchtext)
+	{
+		List<CropMasterDto> list =  cropDetailsService.getCropsBySearchText(searchtext);
+		return new ResponseEntity<List<CropMasterDto>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 }

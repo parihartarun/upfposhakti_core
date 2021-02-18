@@ -30,6 +30,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -40,6 +41,8 @@ import java.util.List;
 public class CircularsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CircularsController.class);
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
 
     @Autowired
     CircularsServiceImpl circularsService;
@@ -67,16 +70,83 @@ public class CircularsController {
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
         ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                Circulars circulars = new Circulars(description);
+                Circulars id = circularsService.createCircular(circulars, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular created Successfully!"), HttpStatus.OK );
+                LOG.info("Circular created Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Circular");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
+        LOG.info("Exiting Circular Of Controller with response ", resp);
+        return resp;
+    }
+
+    
+    
+    @PutMapping("/{id}")
+    @ApiOperation(value="Update Circular Details" ,code=201, produces = "application/json", notes="Api To Update Circular Details",response= Circulars.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> updateCircular(@PathVariable Integer id,
+                                                             @RequestPart(value = "description") String description,
+                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside Circular updating Circular detail ");
+        Circulars circular = new Circulars();
+        circular.setId(id);
+        circular.setDescription(description);
+        ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                circularsService.updateCirculars(id, circular, description,  file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular Details Updated Successfully!"), HttpStatus.OK );
+                LOG.info("Circular Updated Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Circular Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Update the Circular Details");
+                e.printStackTrace();
+            }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
+        LOG.info("Exiting Circular Of Controller with response ", resp);
+        return resp;
+    }
+
+
+    @DeleteMapping(value="/{id}")
+    @ApiOperation(value="Delete Circular",code=204,produces = "text/plain",notes="Api for delete Circular by id",response=Boolean.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+    })
+    public ResponseEntity<MessageResponse> deleteCircular(@PathVariable Integer id) {
+        LOG.info("Inside CircularController delete sales details ");
+        ResponseEntity<MessageResponse> resp = null;
         try {
-            Circulars circulars = new Circulars(description);
-            Circulars id = circularsService.createCircular(circulars, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular created Successfully!"), HttpStatus.OK );
-            LOG.info("Circular created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            //}
+            if(circularsService.deleteCircular(id)==true)
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular Deleted Successfully!"), HttpStatus.OK );
+            LOG.info("Circular Deleted Successfully!");
         } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the Circular");
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
+            LOG.info("Failed to Delete the Circular");
             e.printStackTrace();
         }
         LOG.info("Exiting Circular Of Controller with response ", resp);
@@ -110,97 +180,6 @@ public class CircularsController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
-
     
-    
-    @PutMapping("/{id}")
-    @ApiOperation(value="Update Circular Details" ,code=201, produces = "application/json", notes="Api To Update Circular Details",response= Circulars.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<MessageResponse> updateCircular(@PathVariable Integer id,
-                                                             @RequestPart(value = "description") String description,
-                                                             @RequestPart(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside Circular updating Circular detail ");
-        Circulars circular = new Circulars();
-        circular.setId(id);
-        circular.setDescription(description);
-        ResponseEntity<MessageResponse> resp = null;
-        try {
-            circularsService.updateCirculars(id, circular, description,  file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular Details Updated Successfully!"), HttpStatus.OK );
-            LOG.info("Circular Updated Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Circular Details"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Update the Circular Details");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Circular Of Controller with response ", resp);
-        return resp;
-    }
 
-
-    @DeleteMapping(value="/{id}")
-    @ApiOperation(value="Delete Circular",code=204,produces = "text/plain",notes="Api for delete Circular by id",response=Boolean.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
-            @ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
-            @ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
-            @ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
-    })
-    public ResponseEntity<MessageResponse> deleteCircular(@PathVariable Integer id) {
-        LOG.info("Inside CircularController delete sales details ");
-        ResponseEntity<MessageResponse> resp = null;
-        try {
-            if(circularsService.deleteCircular(id)==true)
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular Deleted Successfully!"), HttpStatus.OK );
-            LOG.info("Circular Deleted Successfully!");
-            //}
-        } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Delete the Circular"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Delete the Circular");
-            e.printStackTrace();
-        }
-        LOG.info("Exiting Circular Of Controller with response ", resp);
-        return resp;
-    }
-
-    
-    /*@PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
-            circularsService.save(file);
-
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
-    }
-
-    @GetMapping("/files")
-    public ResponseEntity<List<Circulars>> getListFiles() {
-        List<Circulars> circulars = circularsService.loadAll().map(path -> {
-            //String filename = path.getFileName().toString();
-            String filePath = MvcUriComponentsBuilder
-                    .fromMethodName(CircularsController.class, "getFile", path.getFileName().toString()).build().toString();
-
-            return new Circulars();
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(circulars);
-    }
-
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = circularsService.load(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }*/
 }
