@@ -12,7 +12,7 @@ public interface FPOCropSowingService
 {
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
-	public NewSowing addFarmerCropDetails(NewSowing newSowing);
+	public void addFarmerCropDetails(NewSowing newSowing);
 	public List<FPOCropSowingExistingDTO> getExistingSowingDetails(ReportRequestString reportRequestString);
 	public NewSowing updateCropSowingDetails(Integer sowing_id, NewSowing newSowing);
 }

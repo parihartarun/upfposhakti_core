@@ -44,9 +44,9 @@ public class FPOCropSowingController
 	 }
 	 
 	 @PostMapping(value="/addFarmerCropSowingDetails")
-	 public NewSowing addFarmerCropDetails(@RequestBody NewSowing newSowing)
+	 public void addFarmerCropDetails(@RequestBody NewSowing newSowing)
 	 {
-		 return fPOCropSowingService.addFarmerCropDetails(newSowing);
+		  fPOCropSowingService.addFarmerCropDetails(newSowing);
 	 }
 	 
 	 @PutMapping("/updateFarmerCropSowingDetails/{sowing_id}")

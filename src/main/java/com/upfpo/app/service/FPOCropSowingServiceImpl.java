@@ -17,6 +17,7 @@ import com.upfpo.app.repository.CropDetailsRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.util.GetFinYear;
+import com.upfpo.app.util.TotalProductionCalculation;
 
 @Service
 public class FPOCropSowingServiceImpl implements FPOCropSowingService
@@ -29,6 +30,9 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	
 	@Autowired
 	EntityManager entityManager;
+	
+	@Autowired
+	TotalProductionCalculation totalProductionCalculation;
 	
 	@Override 
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
@@ -56,7 +60,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	}
 	
 	@Override
-	public NewSowing addFarmerCropDetails(NewSowing newSowing) 
+	public void addFarmerCropDetails(NewSowing newSowing) 
 	{
 		String finYear = GetFinYear.getCurrentFinYear();
 		newSowing.setFinYear(finYear);
@@ -67,7 +71,14 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			cropDetails.get(i).setFinYear(finYear);
 			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
 		}
-		return newSowingMasterRepository.save(newSowing);
+		newSowingMasterRepository.save(newSowing);
+		for(int i = 0; i < cropDetails.size(); i++)
+		{
+			cropDetails.get(i).setFinYear(finYear);
+			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
+			totalProductionCalculation.updateTotalProductionForCropSowing(cropDetails.get(0).getCropRefName(), cropDetails.get(0).getVerietyRef(), cropDetails.get(0).getSeasonRefName(), 
+					finYear, newSowing.getMasterId(), cropDetails.get(0).getActualYield(), 0.0);
+		}
 	}
 	
 	@Override

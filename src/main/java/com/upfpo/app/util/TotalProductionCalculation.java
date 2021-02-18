@@ -54,6 +54,74 @@ public class TotalProductionCalculation
 		 return obj;
 	}
 	
+	public void updateTotalProductionForCropSowing(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId, Double actualYeild, Double marketableYeild)
+	{
+		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId, financialYear);
+		if(fpoActulaProduction == null)
+		{
+			fpoActulaProduction = 0.0;
+		}
+		
+		Double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId,financialYear);
+		
+		if(farmerActualProduction == null)
+		{
+			farmerActualProduction = 0.0;
+		}
+		
+		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction+actualYeild;
+		
+		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
+		
+		if(fpoMarketableQty == null)
+		{
+			fpoMarketableQty = 0.0;
+		}
+		
+		Double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
+		
+		if(farmerMarketableQty == null)
+		{
+			farmerMarketableQty = 0.0;
+		}
+		
+		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty+marketableYeild;
+		
+		int count = 0;
+		
+		try
+		{
+			if(fpoActulaProduction != null && farmerActualProduction != null && totalActualProduction != null && fpoMarketableQty != null && farmerMarketableQty != null && totalMarketableQty != null)
+			{
+				count = totalProductionRepository.getCountTotalProductionCount(cropId, cropVarietyId, masterId, seasonId, financialYear);
+				if(count != 0 && count > 0 )
+				{
+					totalProductionRepository.updateTotalProduction(totalActualProduction, totalMarketableQty, cropId, cropVarietyId, masterId, seasonId, financialYear);
+				}
+				else
+				{
+					TotalProduction totalProduction = new TotalProduction();
+					totalProduction.setCropMaster(cropDetailsMasterRepository.findById(cropId).get());
+					totalProduction.setCropVerityMaster(cropVarietyRepository.findById(cropVarietyId).get());
+					totalProduction.setSeasonId(seasonId);
+					totalProduction.setFinYear(financialYear);
+					totalProduction.setFpoRegister(masterId);
+					totalProduction.setTotal_actual_prod(totalActualProduction);
+					totalProduction.setTotalMarketable(totalMarketableQty);
+					totalProductionRepository.save(totalProduction);
+				}
+			}
+			else
+			{
+				throw new Exception("No record is available");
+			}
+		}
+		catch(Exception e)
+		{
+			System.err.print(e.getMessage());
+		}
+	}
+	
 	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
 		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId, financialYear);
