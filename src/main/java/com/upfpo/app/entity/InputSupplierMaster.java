@@ -67,6 +67,16 @@ public class InputSupplierMaster implements Serializable
 	@Column(name="is_deleted")
 	private boolean isDeleted;
 	
+	@Column(name="Fertilizer")
+	private String Fertilizer;
+	
+	@Column(name="cide")
+	private String cide;
+	
+	@Column(name="Equipment")
+	private String Equipment;
+	
+	
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_id")
 	private User userInputSeller;
@@ -188,7 +198,31 @@ public class InputSupplierMaster implements Serializable
 		return seed_id;
 	}
 
+	public String getFertilizer() {
+		return Fertilizer;
+	}
+
+	public void setFertilizer(String fertilizer) {
+		Fertilizer = fertilizer;
+	}
+
+	public String getCide() {
+		return cide;
+	}
+	
 	public void setSeed_id(Integer seed_id) {
 		this.seed_id = seed_id;
+	}
+
+	public void setCide(String cide) {
+		this.cide = cide;
+	}
+
+	public String getEquipment() {
+		return Equipment;
+	}
+
+	public void setEquipment(String equipment) {
+		Equipment = equipment;
 	}
 }
