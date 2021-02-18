@@ -172,19 +172,19 @@ public class FPOComplaintController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
             try {
-            FPOComplaints complaints = new FPOComplaints();
-            complaints.setDescription(description);
-            complaints.setIssueType(issueType);
-            complaints.setTitle(title);
-            complaints.setInputSupplierId(supplierId);
-            FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-            LOG.info("FPOComplaint  created Successfully!");
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                FPOComplaints complaints = new FPOComplaints();
+                complaints.setDescription(description);
+                complaints.setIssueType(issueType);
+                complaints.setTitle(title);
+                complaints.setInputSupplierId(supplierId);
+                FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+                LOG.info("FPOComplaint  created Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         } catch (Exception e) {
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-            LOG.info("Failed to Save the FPOComplaint");
-            e.printStackTrace();
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOComplaint");
+                e.printStackTrace();
         }}
         else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
