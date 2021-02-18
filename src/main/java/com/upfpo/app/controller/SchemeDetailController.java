@@ -72,20 +72,19 @@ public class SchemeDetailController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
+                                                              @RequestParam("hindi_desc") String hindiDesc,
                                                               @RequestParam("title") String schemeType,
-                                                           @RequestParam("parent_department") String parentDepartment,
-                                                              @RequestParam("language") Language language,
+                                                              @RequestParam("parent_department") String parentDepartment,
                                                               @RequestParam(value = "url", required = false) String url,
-                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                              @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment,url, language);
+            SchemeDetail schemeDetails = new SchemeDetail(description, schemeType, parentDepartment, url, hindiDesc);
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
             LOG.info("SchemeDetail  created Successfully!");
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
         } catch (Exception e) {
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
             LOG.info("Failed to Save the SchemeDetail");

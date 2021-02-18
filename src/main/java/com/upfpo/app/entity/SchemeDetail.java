@@ -20,6 +20,9 @@ public class SchemeDetail {
     @Column(name="description")
     private String description;
 
+    @Column(name="hindi_description")
+    private String hindiDescription;
+
     @Column(name="file_path")
     private String filePath;
 
@@ -64,11 +67,11 @@ public class SchemeDetail {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType,String parentDepartment, String url, Language language) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment, String url, String hindiDescription) {
         this.schemeType=schemeType;
         this.description=description;
         this.parentDepartment=parentDepartment;
-        this.language=language;
+        this.hindiDescription=hindiDescription;
         this.url=url;
     }
 
