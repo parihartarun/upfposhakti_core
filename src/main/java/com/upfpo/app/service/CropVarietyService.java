@@ -10,5 +10,5 @@ public interface CropVarietyService
 {
 	public List<CropVerietyMaster> getCropVarietiesOnCropId(int cropRefId);
 
-	public HashMap<Integer, List<CropVerietyMasterDto>> getCropVarietiesByMultiCropId(String text, String cropids);
+	public List<CropVerietyMaster> getCropVarietiesByMultiCropId(String cropids);
 }

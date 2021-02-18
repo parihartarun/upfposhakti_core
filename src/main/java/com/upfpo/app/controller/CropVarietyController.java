@@ -37,10 +37,10 @@ public class CropVarietyController
 	}
 	
 	@PostMapping(value="/getCropVarietyByMultipleCropId")
-	public ResponseEntity<HashMap<Integer, List<CropVerietyMasterDto>>> getCropVarietyByMultipleCropId(@RequestBody CropIdRequest cropIdRequest)
+	public ResponseEntity<List<CropVerietyMaster>> getCropVarietyByMultipleCropId(@RequestBody CropIdRequest cropIdRequest)
 	{
-		HashMap<Integer, List<CropVerietyMasterDto>> list = cropVarietyService.getCropVarietiesByMultiCropId(cropIdRequest.getSearchtext(),cropIdRequest.getCropids()) ;
-		return new ResponseEntity<HashMap<Integer, List<CropVerietyMasterDto>>>(list, new HttpHeaders(), HttpStatus.OK);
+		List<CropVerietyMaster> list = cropVarietyService.getCropVarietiesByMultiCropId(cropIdRequest.getCropids()) ;
+		return new ResponseEntity<List<CropVerietyMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
 }
