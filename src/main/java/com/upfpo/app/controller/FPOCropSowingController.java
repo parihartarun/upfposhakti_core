@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.NewSowing;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.FPOCropSowingService;
 
 @RestController
@@ -33,6 +35,12 @@ public class FPOCropSowingController
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
 	 {
 		 return fPOCropSowingService.getCropListForFarmersByFpo(masterId);
+	 }
+	 
+	 @PostMapping("/getFarmerCropSowingDetails")
+	 public List<FPOCropSowingExistingDTO> getFramerCropSowingDetails(@RequestBody ReportRequestString reportRequestString) 
+	 {
+		 return fPOCropSowingService.getExistingSowingDetails(reportRequestString);
 	 }
 	 
 	 @PostMapping(value="/addFarmerCropSowingDetails")

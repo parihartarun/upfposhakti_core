@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.CropDatails;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.repository.CropDetailsRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.util.GetFinYear;
 
 @Service
@@ -56,12 +58,51 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	@Override
 	public NewSowing addFarmerCropDetails(NewSowing newSowing) 
 	{
+		String finYear = GetFinYear.getCurrentFinYear();
+		newSowing.setFinYear(finYear);
+		List<CropDatails> cropDetails = null;
+		cropDetails = newSowing.getList();
+		for(int i = 0; i < cropDetails.size(); i++)
+		{
+			cropDetails.get(i).setFinYear(finYear);
+			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
+		}
 		return newSowingMasterRepository.save(newSowing);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
+	public List<FPOCropSowingExistingDTO> getExistingSowingDetails(ReportRequestString reportRequestString) 
+	{
+		String finYear = GetFinYear.getCurrentFinYear();
+		List<FPOCropSowingExistingDTO> obj = null;
+		String sql =  "select nsi.sowing_id, nsi.fin_year,\r\n"
+				+ "cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
+				+ "cm.id crop_master_id,cm.crop_name,\r\n"
+				+ "f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n"
+				+ "sm.season_id,sm.season_name,\r\n"
+				+ "cv.veriety_id, cv.crop_veriety\r\n"
+				+ "from new_sowing_info nsi join crop_details cd  on nsi.sowing_id = cd.sowing_id \r\n"
+				+ "join crop_master cm on cm.id = cd.crop_ref\r\n"
+				+ "join farmer f on f.farmer_id = nsi.farmer_id\r\n"
+				+ "join season_master sm on sm.season_id= cd.season_ref\r\n"
+				+ "join crop_veriety_master cv on cv.veriety_id = cd.veriety_ref\r\n";
+		
+		if(reportRequestString.getFarmerId() != null && ! reportRequestString.getFarmerId().equals(""))
+		{
+			sql = sql + "where nsi.farmer_id = :farmerId and nsi.master_id = :masterId and nsi.fin_year = :finYear";
+			obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("farmerId", reportRequestString.getFarmerId()).
+					setParameter("masterId", reportRequestString.getMasterId()).setParameter("finYear", finYear).getResultList();
+		}
+		else
+		{
+			sql = sql + "where nsi.master_id = :masterId and nsi.fin_year = :finYear";
+			obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("masterId", reportRequestString.getMasterId()).
+					setParameter("finYear", finYear).getResultList();
+		}
+		
+		return obj;
+	}
+	
 	@Override
 	public NewSowing updateCropSowingDetails(Integer sowing_id, NewSowing newSowingMaster) 
 	{

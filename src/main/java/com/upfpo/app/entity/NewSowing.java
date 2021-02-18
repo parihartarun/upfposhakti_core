@@ -1,20 +1,49 @@
 package com.upfpo.app.entity;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
+import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 
 @Entity
+@SqlResultSetMapping(name="FPOCropSowingExistingDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FPOCropSowingExistingDTO.class,
+            columns = {
+                @ColumnResult(name = "sowing_id", type = Integer.class),
+                @ColumnResult(name = "fin_year", type = String.class),
+                @ColumnResult(name = "crop_id", type = Integer.class),
+                @ColumnResult(name = "season_ref", type = Integer.class),
+                @ColumnResult(name = "veriety_ref", type = Integer.class),
+                @ColumnResult(name = "crop_ref", type = Integer.class),
+                @ColumnResult(name = "ex_yield", type = BigInteger.class),
+                @ColumnResult(name = "actual_yield", type = Double.class),
+                @ColumnResult(name = "sowing_area", type = Double.class),
+                @ColumnResult(name = "crop_master_id", type = Integer.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "farmer_id", type = Integer.class),
+                @ColumnResult(name = "farmer_name", type = String.class),
+                @ColumnResult(name = "father_husband_name", type = String.class),
+                @ColumnResult(name = "season_id", type = Integer.class),
+                @ColumnResult(name = "season_name", type = String.class),
+                @ColumnResult(name = "veriety_id", type = Integer.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+           })
+})
 @Table(name="new_sowing_info")
 public class NewSowing {
 	
