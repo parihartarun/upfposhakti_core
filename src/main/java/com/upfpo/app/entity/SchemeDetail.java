@@ -32,6 +32,9 @@ public class SchemeDetail {
     @Column(name="parent_department")
     private String parentDepartment;
 
+    @Column(name ="language")
+    private Language language;
+
     @Column(name="is_active")
     private Boolean isActive;
 
@@ -61,11 +64,21 @@ public class SchemeDetail {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType,String parentDepartment, String url) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment, String url, Language language) {
         this.schemeType=schemeType;
         this.description=description;
         this.parentDepartment=parentDepartment;
+        this.language=language;
         this.url=url;
+    }
+
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public String getUrl() {

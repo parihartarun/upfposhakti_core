@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.Language;
 import com.upfpo.app.entity.SchemeDetail;
 
 import com.upfpo.app.service.SchemeDetailService;
@@ -73,12 +74,13 @@ public class SchemeDetailController {
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
                                                               @RequestParam("title") String schemeType,
                                                            @RequestParam("parent_department") String parentDepartment,
+                                                              @RequestParam("language") Language language,
                                                               @RequestParam(value = "url", required = false) String url,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside SchemeDetailController saving SchemeDetail ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment,url);
+            SchemeDetail schemeDetails = new SchemeDetail(description,schemeType,parentDepartment,url, language);
             SchemeDetail id = schemeDetailService.createSchemeDetail(schemeDetails, file);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("SchemeDetail created successfully"), HttpStatus.OK );
             LOG.info("SchemeDetail  created Successfully!");

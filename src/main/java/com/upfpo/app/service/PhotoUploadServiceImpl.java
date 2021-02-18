@@ -64,7 +64,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String contentType= file.getContentType();
+
 
         photoUpload.setFileName(fileName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,7 +72,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         photoUpload.setCreateBy(currentPrincipalName);
         photoUpload.setCreateDate(Calendar.getInstance());
 
-        if (file != null && !isSupportedContentType(contentType)){
+        if (file != null ){
             try {
                 // Check if the file's name contains invalid characters
                 if (fileName.contains("..")) {
@@ -179,11 +179,11 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
         return photoUploadRepository.findByFpoId(id);
     }
 
-    private boolean isSupportedContentType(String contentType) {
+    /*private boolean isSupportedContentType(String contentType) {
         return contentType.equals("image/png")
                 || contentType.equals("image/jpg")
                 || contentType.equals("image/jpeg");
-    }
+    }*/
 
 
 }
