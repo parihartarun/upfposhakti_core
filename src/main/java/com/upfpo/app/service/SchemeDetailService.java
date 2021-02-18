@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.entity.Language;
 import com.upfpo.app.entity.SchemeDetail;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,8 @@ public interface SchemeDetailService {
     public Boolean deleteSchemeDetail(Integer id);
 
     List<SchemeDetail> getSchemeByType(String schemeType);
+
+    List<SchemeDetail> getSchemeByTypeAndLanguage(String schemeType, Language language);
 
     public SchemeDetail createSchemeDetail (SchemeDetail schemeDetail, MultipartFile file);
     public List<SchemeDetail> getAllSchemeDetail();
