@@ -26,6 +26,7 @@ classes = {
             columns = {
                 @ColumnResult(name = "sowing_id", type = Integer.class),
                 @ColumnResult(name = "fin_year", type = String.class),
+                @ColumnResult(name = "land_area", type = Double.class),
                 @ColumnResult(name = "crop_id", type = Integer.class),
                 @ColumnResult(name = "season_ref", type = Integer.class),
                 @ColumnResult(name = "veriety_ref", type = Integer.class),
