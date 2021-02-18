@@ -88,7 +88,6 @@ public class CropDatails implements Serializable {
 	@ManyToOne(cascade=CascadeType.ALL)
     private NewSowing newSowing;
 
-
 	@Column(name = "land_id")
 	private Integer baseland;
 
@@ -97,6 +96,9 @@ public class CropDatails implements Serializable {
 	
 	@Column(name="is_deleted")
     private boolean isDeleted;
+	
+	@Column(name = "marketable_quantity")
+	private Double marketableQuantity;
    
 	public Integer getCropId() {
 		return cropId;
@@ -247,6 +249,14 @@ public class CropDatails implements Serializable {
 
 	public void setNewSowing(NewSowing newSowing) {
 		this.newSowing = newSowing;
+	}
+	
+	public Double getMarketableQuantity() {
+		return marketableQuantity;
+	}
+
+	public void setMarketableQuantity(Double marketableQuantity) {
+		this.marketableQuantity = marketableQuantity;
 	}
 	
 }

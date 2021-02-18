@@ -23,6 +23,8 @@ public class FPOCropSowingExistingDTO
 	
 	private Double sowing_area;
 	
+	private Double marketable_quantity;
+	
 	private Integer crop_master_id;
 	
 	private String crop_name;
@@ -43,7 +45,7 @@ public class FPOCropSowingExistingDTO
 	
 
 	public FPOCropSowingExistingDTO(Integer sowing_id, String fin_year, Integer crop_id, Integer season_ref,
-			Integer veriety_ref, Integer crop_ref, BigInteger ex_yield, Double actual_yield, Double sowing_area,
+			Integer veriety_ref, Integer crop_ref, BigInteger ex_yield, Double actual_yield, Double sowing_area, Double marketable_quantity,
 			Integer crop_master_id, String crop_name, Integer farmer_id, String farmer_name, String father_husband_name,
 			Integer season_id, String season_name, Integer veriety_id, String crop_veriety) {
 		super();
@@ -56,6 +58,7 @@ public class FPOCropSowingExistingDTO
 		this.ex_yield = ex_yield;
 		this.actual_yield = actual_yield;
 		this.sowing_area = sowing_area;
+		this.marketable_quantity = marketable_quantity;
 		this.crop_master_id = crop_master_id;
 		this.crop_name = crop_name;
 		this.farmer_id = farmer_id;
@@ -139,6 +142,14 @@ public class FPOCropSowingExistingDTO
 		this.sowing_area = sowing_area;
 	}
 
+	public Double getMarketable_quantity() {
+		return marketable_quantity;
+	}
+
+	public void setMarketable_quantity(Double marketable_quantity) {
+		this.marketable_quantity = marketable_quantity;
+	}
+	
 	public Integer getCrop_master_id() {
 		return crop_master_id;
 	}
@@ -210,7 +221,5 @@ public class FPOCropSowingExistingDTO
 	public void setCrop_veriety(String crop_veriety) {
 		this.crop_veriety = crop_veriety;
 	}
-	
-	
-	
+
 }

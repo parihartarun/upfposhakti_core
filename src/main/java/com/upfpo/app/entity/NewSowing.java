@@ -33,6 +33,7 @@ classes = {
                 @ColumnResult(name = "ex_yield", type = BigInteger.class),
                 @ColumnResult(name = "actual_yield", type = Double.class),
                 @ColumnResult(name = "sowing_area", type = Double.class),
+                @ColumnResult(name = "marketable_quantity" , type = Double.class),
                 @ColumnResult(name = "crop_master_id", type = Integer.class),
                 @ColumnResult(name = "crop_name", type = String.class),
                 @ColumnResult(name = "farmer_id", type = Integer.class),
