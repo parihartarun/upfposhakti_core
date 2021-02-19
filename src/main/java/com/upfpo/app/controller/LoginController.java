@@ -68,8 +68,7 @@ public class LoginController {
 	@ResponseStatus( HttpStatus.OK)
 	@PostMapping("/password/reset")
 	public ResponseEntity<MessageResponse> resetPass( @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
-		userService.resetPassword(passwordResetRequest);
-		return new ResponseEntity<MessageResponse>(new MessageResponse("Password successFully updated!"),HttpStatus.OK);
+		return (ResponseEntity<MessageResponse>) userService.resetPassword(passwordResetRequest);
 	}
 	
 	@ApiOperation(value="Forget Password Otp Generation" ,code=201, produces = "application/json", notes="First Api of Forget Password where we submit username and mobile number for otp generation ", response = String.class)
