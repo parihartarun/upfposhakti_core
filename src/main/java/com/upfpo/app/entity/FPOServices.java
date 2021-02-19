@@ -66,9 +66,10 @@ public class FPOServices {
     public FPOServices() {
     }
 
-    public FPOServices(String description, String servicename) {
+    public FPOServices(String description, String servicename, Integer fpoId) {
         this.setServicename(servicename);
         this.setDescriptions(description);
+        this.fpoId = fpoId;
     }
 
     public FPOServices(Integer id, String description, String servicename) {
@@ -76,6 +77,8 @@ public class FPOServices {
         this.setServicename(servicename);
         this.setDescriptions(description);
     }
+
+
 
     public String getFileName() {
         return fileName;

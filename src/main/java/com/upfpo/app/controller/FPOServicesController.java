@@ -92,13 +92,14 @@ public class FPOServicesController {
     })
     public ResponseEntity<MessageResponse> insertFPOService(@RequestParam("description") String description,
                                                             @RequestParam("servicename") String servicename,
+                                                            @RequestParam("fpo_id") Integer fpoId,
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOServiceController saving FPOService ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
             try {
-                FPOServices fposervices = new FPOServices(description, servicename);
+                FPOServices fposervices = new FPOServices(description, servicename, fpoId);
                 FPOServices id = fpoServicesService.insertFPOServices(fposervices, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOService created successfully"), HttpStatus.OK );
                 LOG.info("FPOService  created Successfully!");

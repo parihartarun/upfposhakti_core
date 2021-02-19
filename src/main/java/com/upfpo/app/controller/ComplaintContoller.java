@@ -40,7 +40,7 @@ public class ComplaintContoller {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif", "application/pdf");
 
     @Autowired
     private ComplaintService complaintService;

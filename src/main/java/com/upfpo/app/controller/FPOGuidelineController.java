@@ -76,13 +76,12 @@ public class FPOGuidelineController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
-                                                              @RequestParam("hindi_desc") String hindiDesc,
+                                                              @RequestParam(value = "hindi_desc", required = false) String hindiDesc,
                                                               @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
                                                               @RequestParam(value = "url", required = false) String url,
                                                               @RequestParam(value = "file", required = false) MultipartFile file,
                                                               @RequestParam(value = "h_file", required = false) MultipartFile hindiFile) {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
-        //MediaType mediaType = MediaType.parseMediaType(file.getContentType());
 
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
