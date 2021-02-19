@@ -3,16 +3,16 @@ package com.upfpo.app.util;
 import javax.validation.constraints.NotNull;
 
 public class PasswordResetRequest {
-	//@NotNull
+	@NotNull
 	private Long userId;
 	
-	//@NotNull
+	@NotNull
 	private String password;
 	
-	//@NotNull
+	@NotNull
 	private String confirmPassword;	
 	
-	//@NotNull
+	@NotNull
 	private String oldPassword;
 	
 	
