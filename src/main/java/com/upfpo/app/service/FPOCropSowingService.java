@@ -5,6 +5,7 @@ import java.util.List;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.entity.CropDatails;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.requestStrings.ReportRequestString;
 
@@ -14,5 +15,6 @@ public interface FPOCropSowingService
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
 	public void addFarmerCropDetails(NewSowing newSowing);
 	public List<FPOCropSowingExistingDTO> getExistingSowingDetails(ReportRequestString reportRequestString);
-	public NewSowing updateCropSowingDetails(Integer sowing_id, NewSowing newSowing);
+	public CropDatails updateCropSowingDetails(Integer cropId, CropDatails cropDatails);
+	public Boolean deleteCropSowingDetails(Integer cropId);
 }

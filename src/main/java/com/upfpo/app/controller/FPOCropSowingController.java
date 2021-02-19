@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.entity.CropDatails;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.FPOCropSowingService;
+
+import lombok.Delegate;
 
 @RestController
 @RequestMapping(value = "/fpoCropSowing")
@@ -49,9 +53,15 @@ public class FPOCropSowingController
 		  fPOCropSowingService.addFarmerCropDetails(newSowing);
 	 }
 	 
-	 @PutMapping("/updateFarmerCropSowingDetails/{sowing_id}")
-	 public NewSowing updateFarmerCropDetails(@PathVariable("sowing_id") Integer sowing_id,@RequestBody NewSowing newSowing)
+	 @PutMapping("/updateFarmerCropSowingDetails/{cropId}")
+	 public CropDatails updateFarmerCropDetails(@PathVariable("sowing_id") Integer sowing_id,@RequestBody CropDatails cropDatails)
 	 {
-		 return fPOCropSowingService.updateCropSowingDetails(sowing_id, newSowing);
+		 return fPOCropSowingService.updateCropSowingDetails(sowing_id, cropDatails);
+	 }
+	 
+	 @DeleteMapping("/deleteCropSowingDetails/{cropId}")
+	 public Boolean deleteCropSowingDetails(@PathVariable("cropId") Integer cropId)
+	 {
+		 return fPOCropSowingService.deleteCropSowingDetails(cropId);
 	 }
 }

@@ -43,7 +43,7 @@ public class TotalProductionCalculation
 	public TotalProductionDTO getProductionDetailsofFarmer(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
 		sql = "select sum(c.actual_yield) as totalActualProdction,sum(c.marketable_quantity) as totalMarketableQty from crop_details c join new_sowing_info n on c.sowing_id = n.sowing_id\r\n"
-				+ "			where c.crop_ref =:cropId and c.veriety_ref= :cropVarietyId and c.season_ref =:seasonId and n.fin_year =:financialYear and n.master_id =:masterId";
+				+ "			where c.crop_ref =:cropId and c.veriety_ref= :cropVarietyId and c.season_ref =:seasonId and n.fin_year =:financialYear and n.master_id =:masterId and c.is_deleted = false";
 		
 		TotalProductionDTO obj =  (TotalProductionDTO) entityManager.createNativeQuery(sql,"TotalProductionDTO").setParameter("cropId", cropId).setParameter("cropVarietyId",cropVarietyId).setParameter("seasonId", seasonId)
 								.setParameter("financialYear", financialYear).setParameter("masterId", masterId).getSingleResult();
@@ -127,8 +127,11 @@ public class TotalProductionCalculation
 		}
 		System.out.println("cropId:"+cropId+"cropVarietyId:"+cropVarietyId+"seasonId:"+seasonId+"masterId:"+masterId+"financialYear:"+financialYear);
 		//Double farmerActualProduction	= cropDetailsRepository.getActualQty(cropId, cropVarietyId, seasonId, masterId,financialYear);
+		
 		TotalProductionDTO t	= getProductionDetailsofFarmer(cropId, cropVarietyId, seasonId, financialYear,masterId);
+		
 		Double farmerActualProduction = t.getTotalActualProdction();
+		
 		if(farmerActualProduction == null)
 		{
 			farmerActualProduction = 0.0;

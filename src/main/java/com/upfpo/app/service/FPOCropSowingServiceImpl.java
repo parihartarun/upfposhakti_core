@@ -8,10 +8,12 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.CropDatails;
+import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.repository.CropDetailsRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
@@ -70,6 +72,8 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 		{
 			cropDetails.get(i).setFinYear(finYear);
 			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
+			cropDetails.get(i).setMasterId(newSowing.getMasterId());
+			cropDetails.get(i).setDeleted(false);
 		}
 		newSowingMasterRepository.save(newSowing);
 		for(int i = 0; i < cropDetails.size(); i++)
@@ -134,41 +138,54 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	}
 	
 	@Override
-	public NewSowing updateCropSowingDetails(Integer sowing_id, NewSowing newSowingMaster) 
+	public CropDatails updateCropSowingDetails(Integer cropId, CropDatails cropDatailsMaster) 
 	{
+		CropDatails newCropDetails = null;
 		String finYear = GetFinYear.getCurrentFinYear();
-		NewSowing newSowingUpdated = null;
 		try
 		{
-			Optional<NewSowing> newSowing = newSowingMasterRepository.findById(sowing_id);
-			if(newSowing.isPresent())
+			Optional<CropDatails> cropDetails = cropDetailsRepository.findById(cropId);
+			if(cropDetails.isPresent())
 			{
-				newSowingUpdated = newSowingMasterRepository.findById(sowing_id).get();
-				newSowingUpdated.setBaseland(newSowingMaster.getBaseland());
-				newSowingUpdated.setGuardianName(newSowingMaster.getGuardianName());
-				newSowingUpdated.setFinYear(finYear);
-				newSowingUpdated.setFarmerId(newSowingMaster.getFarmerId());
-				newSowingUpdated.setMasterId(newSowingMaster.getMasterId());
 				
-				CropDatails cropDatails = cropDetailsRepository.findById(newSowingMaster.getList().get(0).getCropId()).get();
-				cropDatails.setActualYield(newSowingMaster.getList().get(0).getActualYield());
-				cropDatails.setExpectedYield(newSowingMaster.getList().get(0).getExpectedYield());
-				cropDatails.setCropRefName(newSowingMaster.getList().get(0).getCropRefName());
-				cropDatails.setVerietyRef(newSowingMaster.getList().get(0).getVerietyRef());
-				cropDatails.setSeasonRefName(newSowingMaster.getSeasonRefName());
-				cropDatails.setFinYear(finYear);
-				cropDatails.setDeleted(false);
-				cropDatails.setSowingArea(newSowingMaster.getList().get(0).getSowingArea());
+				newCropDetails = cropDetails.get();
+				newCropDetails.setActualYield(cropDatailsMaster.getActualYield());
+				newCropDetails.setExpectedYield(cropDatailsMaster.getExpectedYield());
+				newCropDetails.setCropRefName(cropDatailsMaster.getCropRefName());
+				newCropDetails.setVerietyRef(cropDatailsMaster.getVerietyRef());
+				newCropDetails.setSeasonRefName(cropDatailsMaster.getSeasonRefName());
+				newCropDetails.setDeleted(false);
+				newCropDetails.setSowingArea(cropDatailsMaster.getSowingArea());
+				newCropDetails.setMarketableQuantity(cropDatailsMaster.getMarketableQuantity());
 				
-				newSowingUpdated = newSowingMasterRepository.save(newSowingUpdated);
-				cropDatails = cropDetailsRepository.save(cropDatails);
+				newCropDetails = cropDetailsRepository.save(newCropDetails);
+				
+				totalProductionCalculation.updateTotalProductionChange(cropDatailsMaster.getCropRefName(), cropDatailsMaster.getVerietyRef(), cropDatailsMaster.getSeasonRefName(), 
+						finYear,cropDatailsMaster.getMasterId());
 			}
 		}
 		catch(Exception e)
 		{
 			System.err.print(e.getMessage());
 		}
-		
-		return newSowingUpdated;
+		return newCropDetails;
+	}
+	
+	@Override
+	public Boolean deleteCropSowingDetails(Integer cropId) 
+	{
+		CropDatails cropDetails = cropDetailsRepository.findById(cropId).get();
+		String financialYear = GetFinYear.getCurrentFinYear();
+		try {
+			cropDetails.setDeleted(true);
+			cropDetailsRepository.save(cropDetails);
+
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new NotFoundException();
+		}
+		totalProductionCalculation.updateTotalProductionChange(cropDetails.getCropRefName(), cropDetails.getVerietyRef(), cropDetails.getSeasonRefName(), financialYear, cropDetails.getMasterId());
+		return true;
 	}
 }
