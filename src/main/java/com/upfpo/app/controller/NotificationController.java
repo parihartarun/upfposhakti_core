@@ -145,6 +145,8 @@ public class NotificationController {
         return resp;
     }
 
+
+
     @PostMapping("/farmersend")
     @ApiOperation(value="Create Notification" ,code=201, produces = "application/json", notes="Api for all create Notification",response= Notification.class)
     @ApiResponses(value= {
@@ -207,6 +209,8 @@ public class NotificationController {
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
     }
+
+
 
     @GetMapping("/download/{fileName:.+}")
     @ApiOperation(value="PhotoUpload Download" ,code=201, produces = "application/json", notes="Api for Download PhotoUpload File", response= UploadFileResponse.class)

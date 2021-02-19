@@ -20,6 +20,9 @@ public class SchemeDetail {
     @Column(name="description")
     private String description;
 
+    @Column(name="hindi_description")
+    private String hindiDescription;
+
     @Column(name="file_path")
     private String filePath;
 
@@ -31,6 +34,9 @@ public class SchemeDetail {
 
     @Column(name="parent_department")
     private String parentDepartment;
+
+    @Column(name ="language")
+    private Language language;
 
     @Column(name="is_active")
     private Boolean isActive;
@@ -61,11 +67,21 @@ public class SchemeDetail {
         this.description=description;
     }
 
-    public SchemeDetail(String description, String schemeType,String parentDepartment, String url) {
+    public SchemeDetail(String description, String schemeType,String parentDepartment, String url, String hindiDescription) {
         this.schemeType=schemeType;
         this.description=description;
         this.parentDepartment=parentDepartment;
+        this.hindiDescription=hindiDescription;
         this.url=url;
+    }
+
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public String getUrl() {

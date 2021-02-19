@@ -3,6 +3,7 @@ package com.upfpo.app.repository;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOGuidelineType;
 import com.upfpo.app.entity.FPOGuidelines;
+import com.upfpo.app.entity.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,8 @@ public interface FPOGuidelinesRepository extends JpaRepository<FPOGuidelines, In
     List<FPOGuidelines> findByIsDeletedOrderByIdDesc(boolean b);
 
     List<FPOGuidelines> findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType preregistration);
+
+   ;
+
+
 }

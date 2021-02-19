@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.entity.Language;
 import com.upfpo.app.entity.SchemeDetail;
 
 import com.upfpo.app.properties.FileStorageProperties;
@@ -53,6 +54,13 @@ public class SchemeDetailServiceImpl implements SchemeDetailService {
     public List<SchemeDetail> getSchemeByType(String schemeType){
 
         List<SchemeDetail> schemeDetails= schemeDetailRepository.findBySchemeTypeOrderByIdDesc(schemeType);
+        return schemeDetails;
+    }
+
+    @Override
+    public List<SchemeDetail> getSchemeByTypeAndLanguage(String schemeType, Language language){
+
+        List<SchemeDetail> schemeDetails= schemeDetailRepository.findBySchemeTypeAndLanguageOrderByIdDesc(schemeType, language);
         return schemeDetails;
     }
 

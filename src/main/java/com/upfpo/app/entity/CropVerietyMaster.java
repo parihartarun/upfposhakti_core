@@ -15,6 +15,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.upfpo.app.dto.CropVerietyMasterDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 
 @Entity
@@ -35,6 +36,16 @@ classes = {
                 @ColumnResult(name = "actual_production", type = BigInteger.class),
                 //@ColumnResult(name = "sold_quantity", type = Double.class),
                 
+           })
+})
+
+@SqlResultSetMapping(name="CropVerietyMasterDto",
+classes = {
+    @ConstructorResult(
+            targetClass = CropVerietyMasterDto.class,
+            columns = {
+                @ColumnResult(name = "verietyId", type = Integer.class),
+                @ColumnResult(name = "verityName", type = String.class),
            })
 })
 @Table(name="crop_veriety_master")

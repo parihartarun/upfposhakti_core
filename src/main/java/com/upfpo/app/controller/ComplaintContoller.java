@@ -1,19 +1,14 @@
 package com.upfpo.app.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.dto.FarmerComplaintDTO;
-import com.upfpo.app.dto.FarmerLandDetailDto;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.ComplaintCatgories;
-import com.upfpo.app.entity.Complaints;
 
 import com.upfpo.app.entity.Status;
 import com.upfpo.app.service.ComplaintService;
-import com.upfpo.app.service.ComplaintServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,11 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -43,12 +35,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/complaint")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Api(produces = "application/json", value = "Complaint Details", tags="Complaint Controller",description="Complaint Details")
+@Api(produces = "application/json", value = "Complaint Details",  tags="Complaint Controller", description="Complaint Details")
 public class ComplaintContoller {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif", "application/pdf");
 
     @Autowired
     private ComplaintService complaintService;

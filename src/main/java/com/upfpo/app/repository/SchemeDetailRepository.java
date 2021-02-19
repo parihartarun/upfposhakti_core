@@ -1,5 +1,6 @@
 package com.upfpo.app.repository;
 
+import com.upfpo.app.entity.Language;
 import com.upfpo.app.entity.SchemeDetail;
 import com.upfpo.app.service.SchemeDetailService;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface SchemeDetailRepository extends JpaRepository<SchemeDetail, Inte
     List<SchemeDetail> findBySchemeType(String schemeType);
 
     List<SchemeDetail> findBySchemeTypeOrderByIdDesc(String schemeType);
+
+    List<SchemeDetail> findBySchemeTypeAndLanguageOrderByIdDesc(String schemeType, Language language);
 }

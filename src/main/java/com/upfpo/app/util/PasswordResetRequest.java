@@ -3,41 +3,48 @@ package com.upfpo.app.util;
 import javax.validation.constraints.NotNull;
 
 public class PasswordResetRequest {
-
-	public Long getUserId() {
-		return userId;
-	}
-	
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public PasswordResetRequest(Long userId, String password, String confirmPassword) {
-		super();
-		this.userId = userId;
-		Password = password;
-		this.confirmPassword = confirmPassword;
-	}
-	
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-	
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-	
 	@NotNull
 	private Long userId;
 	
 	@NotNull
-	private String Password;
+	private String password;
 	
 	@NotNull
 	private String confirmPassword;	
+	
+	@NotNull
+	private String oldPassword;
+	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
 }

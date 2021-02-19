@@ -3,6 +3,7 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.entity.FPOGuidelineType;
 import com.upfpo.app.entity.FPOGuidelines;
+import com.upfpo.app.entity.Language;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.util.annotation.Nullable;
@@ -18,7 +19,8 @@ public interface FPOGuidelineService {
     List<FPOGuidelines> getAllFPOGuidelines();
 
 
-    FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file);
+
+    FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file, MultipartFile hindiFile);
 
 
 

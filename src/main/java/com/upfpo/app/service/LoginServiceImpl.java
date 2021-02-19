@@ -83,8 +83,7 @@ public ExceptionResponse verifyOtp(@Valid OtpVerifyRequest otpVerifyRequest,Http
 public boolean checkUser(String userName, Long mobilenNumber) {
 	// TODO Auto-generated method stub
 boolean result = false;
-	
-	
+
 	try {
 		User user = null;
 		Optional<User> userOpt = userRepository.findByUserNameAndIsEnabledTrueAndIsDeletedFalse(userName);

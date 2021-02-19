@@ -84,19 +84,30 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
 
 
+
+
     @Override
-    public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
-        String contentType = file.getContentType();
-            if(fileName != null && !isSupportedContentType(contentType)) {
-                fileName = fileName.trim();
+    public FPOGuidelines uploadFPOGuidline(FPOGuidelines fpoGuideline, MultipartFile file, MultipartFile hindiFile) {
+        String fileName1 = fileStorageService.storeFile(file);
+        String fileName2 = fileStorageService.storeFile(hindiFile);
+            if(fileName1 != null ) {
+                fileName1 = fileName1.trim();
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                         .path("/fpoguidelines/download/")
-                        .path(fileName)
+                        .path(fileName1)
                         .toUriString();
-
                 fpoGuideline.setFilePath(fileDownloadUri);
-                fpoGuideline.setFileName(fileName);
+                fpoGuideline.setFileName(fileName1);
+
+            }
+            if(fileName2 != null ) {
+                fileName2 = fileName2.trim();
+                String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                        .path("/fpoguidelines/download/")
+                        .path(fileName2)
+                        .toUriString();
+                fpoGuideline.setFilePath(fileDownloadUri);
+                fpoGuideline.setFileName(fileName2);
 
             }
         fpoGuideline.setDeleted(false);

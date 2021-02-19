@@ -1,7 +1,6 @@
 package com.upfpo.app.entity;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +22,9 @@ public class FPOGuidelines implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "hindi_description")
+    private String hindiDescription;
+
     @Column(name = "registration_type")
     private Integer registrationType;
 
@@ -31,6 +33,9 @@ public class FPOGuidelines implements Serializable {
 
     @Column(name = "file_path")
     private String filePath;
+
+    @Column(name = "hin_file_path")
+    private String hinFilePath;
 
     @Column(name = "file_name")
     private String fileName;
@@ -71,10 +76,11 @@ public class FPOGuidelines implements Serializable {
 
 
 
-    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType, String url) {
+    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType, String url, String hindiDescription) {
         this.description=description;
         this.fpoGuidelineType=fpoGuidelineType;
         this.url=url;
+        this.hindiDescription=hindiDescription;
     }
 
     public FPOGuidelines() {
@@ -84,6 +90,22 @@ public class FPOGuidelines implements Serializable {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getHindiDescription() {
+        return hindiDescription;
+    }
+
+    public void setHindiDescription(String hindiDescription) {
+        this.hindiDescription = hindiDescription;
+    }
+
+    public String getHinFilePath() {
+        return hinFilePath;
+    }
+
+    public void setHinFilePath(String hinFilePath) {
+        this.hinFilePath = hinFilePath;
     }
 
     public String getDescription() {
