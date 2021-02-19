@@ -12,6 +12,6 @@ public interface MasterService {
 	   public DisplayDataDTO farmers();
 	   public ProductionDTO productions(String finYear);
 	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn);
-	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn,List<String> fileterdistricts,List<Integer> fileterqty,List<String> crops);
+	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn,List<String> fileterdistricts,List<Integer> fileterqty,List<String> crops,List<String> fpos);
 	 
 }

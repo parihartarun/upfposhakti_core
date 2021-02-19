@@ -977,7 +977,7 @@ public class DataDisplayRepository {
 
 
 	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn, List<String> fileterdistricts,
-			List<Integer> fileterqty,List<String> filtercrops) {
+			List<Integer> fileterqty,List<String> filtercrops,List<String> fpos) {
 		// TODO Auto-generated method stub
 // first we are searching from home page by two inputs one is value other is search in
 //		
@@ -1128,7 +1128,9 @@ public class DataDisplayRepository {
 		
 		  List<FPODetailsDTO> obj = entityManager.createNativeQuery(sql,"FPODetailsDTO").getResultList();
 			  finalpredicate=null;
-				 System.out.println("Here all records we are processing predictes..start");
+			
+			  
+			  System.out.println("Here all records we are processing predictes..start");
 			  if(fileterdistricts!=null)
 			  {
 				  fileterdistricts.forEach(data->{
@@ -1221,7 +1223,28 @@ public class DataDisplayRepository {
 					  
 				  });
 			  }
-			 
+			  
+			  if(fpos!=null)
+			  {
+			  fpos.forEach(data->{
+				  System.out.println("Fpo caught = "+data);
+				  Predicate<FPODetailsDTO> fpopredicate =  fpredicate->fpredicate.getNodal().contentEquals(data);
+					 
+					 if(finalpredicate == null)
+					 {
+						 finalpredicate = fpopredicate;
+					 }else
+					 {
+						 finalpredicate =  finalpredicate.or(fpopredicate);
+					 }
+				  
+			  });
+			  }
+			
+				fpos.forEach(data->{
+					System.out.println("String of filterfpos = "+data);		
+				});
+			  
 		return finalpredicate!=null?obj.stream().filter(finalpredicate).collect(Collectors.toList()):obj;
 		
 	}

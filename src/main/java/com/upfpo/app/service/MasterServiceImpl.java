@@ -35,15 +35,15 @@ public class MasterServiceImpl implements MasterService {
 
 	@Override
 	public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn, List<String> fileterdistricts,
-			List<Integer> fileterqty,List<String> filtercrops) {
+			List<Integer> fileterqty,List<String> filtercrops,List<String> fpos) {
 		// TODO Auto-generated method stub
 		
-		if(fileterdistricts==null&&fileterqty==null&&filtercrops==null)
+		if(fileterdistricts==null&&fileterqty==null&&filtercrops==null&&fpos==null)
 		{
 			return dataDisplayRepository.homeSearch(searchVal,searchIn);			
 		}else
 		{
-			return dataDisplayRepository.homeSearch(searchVal,searchIn,fileterdistricts,fileterqty,filtercrops);
+			return dataDisplayRepository.homeSearch(searchVal,searchIn,fileterdistricts,fileterqty,filtercrops,fpos);
 		}
 
 	}
