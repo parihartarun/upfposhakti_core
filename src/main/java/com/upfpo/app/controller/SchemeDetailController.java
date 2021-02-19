@@ -72,7 +72,7 @@ public class SchemeDetailController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createSchemeDetail(@RequestParam("description") String description,
-                                                              @RequestParam("hindi_desc") String hindiDesc,
+                                                              @RequestParam(value ="hindi_desc", required = false) String hindiDesc,
                                                               @RequestParam("title") String schemeType,
                                                               @RequestParam("parent_department") String parentDepartment,
                                                               @RequestParam(value = "url", required = false) String url,
