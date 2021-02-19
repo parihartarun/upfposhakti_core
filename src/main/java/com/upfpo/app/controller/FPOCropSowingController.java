@@ -57,9 +57,9 @@ public class FPOCropSowingController
 	 }
 	 
 	 @PutMapping("/updateFarmerCropSowingDetails/{cropId}")
-	 public CropDatails updateFarmerCropDetails(@PathVariable("sowing_id") Integer sowing_id,@RequestBody CropDatails cropDatails)
+	 public CropDatails updateFarmerCropDetails(@PathVariable("cropId") Integer cropId,@RequestBody CropDatails cropDatails)
 	 {
-		 return fPOCropSowingService.updateCropSowingDetails(sowing_id, cropDatails);
+		 return fPOCropSowingService.updateCropSowingDetails(cropId, cropDatails);
 	 }
 	 
 	 @DeleteMapping("/deleteCropSowingDetails/{cropId}")
