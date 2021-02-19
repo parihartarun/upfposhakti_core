@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.upfpo.app.auth.request.LoginRequest;
 import com.upfpo.app.auth.response.LoginResponse;
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.service.LoginService;
 import com.upfpo.app.service.UserService;
@@ -56,7 +57,7 @@ public class LoginController {
 	}
 	
 
-	@ApiOperation(value="user password reset " ,code=201, produces = "application/json", notes="Api for user password change after first login", response = String.class)
+	@ApiOperation(value="user password reset " ,code=201, produces = "application/json", notes="Api for user password change after first login", response = MessageResponse.class)
 	@ApiResponses(value= {
 			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -66,8 +67,8 @@ public class LoginController {
 	})
 	@ResponseStatus( HttpStatus.OK)
 	@PostMapping("/password/reset")
-	public ResponseEntity<?> resetPass( @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
-		return new ResponseEntity<>(userService.resetPassword(passwordResetRequest),HttpStatus.OK);
+	public ResponseEntity<MessageResponse> resetPass( @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
+		return new ResponseEntity<MessageResponse>(new MessageResponse("Password successFully updated!"),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="Forget Password Otp Generation" ,code=201, produces = "application/json", notes="First Api of Forget Password where we submit username and mobile number for otp generation ", response = String.class)
