@@ -132,11 +132,4 @@ public class FPOCropProductionController {
 		  return fpoCropProductionService.deleteMarketableSurplus(id);
 	    }
 	    
-	  @GetMapping("/getActualProduction")
-	   public TotalProductionDTO getValues()
-	    {
-	    	return totalProductionCalculation.getActualProduction(77, 1, 1, "2020-2021",6);
-	    	
-	    }
-	    
 }

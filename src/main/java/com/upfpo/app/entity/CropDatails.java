@@ -15,6 +15,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.TotalProductionDTO;
 
 @Entity
 @SqlResultSetMapping(name="CropListOfFarmersDTO",
@@ -36,6 +37,15 @@ classes = {
                 @ColumnResult(name = "sowing_area", type = Double.class),
                 @ColumnResult(name = "ex_yield", type = BigInteger.class),
                 @ColumnResult(name = "veriety_id", type = Integer.class),
+           })
+})
+@SqlResultSetMapping(name="TotalProductionDTOCrop",
+classes = {
+    @ConstructorResult(
+            targetClass = TotalProductionDTO.class,
+            columns = {
+                @ColumnResult(name = "totalActualProdction", type = Double.class),
+                @ColumnResult(name = "totalMarketableQty", type = Double.class)
            })
 })
 @Table(name = "crop_details")
@@ -62,7 +72,7 @@ public class CropDatails implements Serializable {
 	private double expectedYield;
 
 	@Column(name = "actual_yield")
-	private double actualYield;
+	private Double actualYield;
 
 	@Column(name = "sowing_area")
 	private Double sowingArea;
@@ -149,11 +159,11 @@ public class CropDatails implements Serializable {
 	}
 
 
-	public double getActualYield() {
+	public Double getActualYield() {
 		return actualYield;
 	}
 
-	public void setActualYield(double actualYield) {
+	public void setActualYield(Double actualYield) {
 		this.actualYield = actualYield;
 	}
 

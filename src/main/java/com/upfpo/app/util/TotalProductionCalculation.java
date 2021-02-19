@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.dto.TotalProductionDTO;
 import com.upfpo.app.entity.TotalProduction;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
+import com.upfpo.app.repository.CropDetailsRepository;
 import com.upfpo.app.repository.CropVarietyRepository;
 import com.upfpo.app.repository.FPOCropProductionReporisitory;
 import com.upfpo.app.repository.ProductionDetailsRepository;
@@ -34,27 +35,22 @@ public class TotalProductionCalculation
 	@Autowired
 	CropVarietyRepository cropVarietyRepository;
 	
+	@Autowired
+	CropDetailsRepository cropDetailsRepository;
+	
 	String sql = "";
 	
-	public TotalProductionDTO getActualProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	public TotalProductionDTO getProductionDetailsofFarmer(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
-		sql = " Select sum(f.actual_quantity+p.actual_production) as totalActualProdction,sum(f.marketable_quantity+p.marketable_surplus) as totalMarketableQty from marketable_surplus_new f join production_details p on f.master_id = p.master_id \r\n"
-				+ "and  f.crop_id=p.crop_id and f.veriety_id = p.veriety_id\r\n"
-				+ "and  f.season_id = p.season_id and f.financial_year = p.financial_year\r\n"
-				+ "and f.master_id = :masterId\r\n"
-				+ "and f.crop_id = :cropId\r\n"
-				+ "and f.veriety_id = :cropVarietyId,\r\n"
-				+ "and f.season_id = :seasonId\r\n";
-				//+ "and f.financial_year=:'financialYear'";
+		sql = "select sum(c.actual_yield) as totalActualProdction,sum(c.marketable_quantity) as totalMarketableQty from crop_details c join new_sowing_info n on c.sowing_id = n.sowing_id\r\n"
+				+ "			where c.crop_ref =:cropId and c.veriety_ref= :cropVarietyId and c.season_ref =:seasonId and n.fin_year =:financialYear and n.master_id =:masterId";
 		
-		TotalProductionDTO obj =  (TotalProductionDTO) entityManager.createNativeQuery(sql,"TotalProductionDTO").setParameter("masterId", masterId).setParameter("cropId",cropId).setParameter("cropVarietyId", cropVarietyId)
-						.setParameter("seasonId",seasonId ).
-						//setParameter("financialYear", financialYear). 
-						getSingleResult();
+		TotalProductionDTO obj =  (TotalProductionDTO) entityManager.createNativeQuery(sql,"TotalProductionDTO").setParameter("cropId", cropId).setParameter("cropVarietyId",cropVarietyId).setParameter("seasonId", seasonId)
+								.setParameter("financialYear", financialYear).setParameter("masterId", masterId).getSingleResult();
 		 return obj;
 	}
 	
-	public void updateTotalProductionForCropSowing(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId, Double actualYeild, Double marketableYeild)
+	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
 		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		if(fpoActulaProduction == null)
@@ -69,7 +65,7 @@ public class TotalProductionCalculation
 			farmerActualProduction = 0.0;
 		}
 		
-		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction+actualYeild;
+		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
 		
 		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		
@@ -85,7 +81,7 @@ public class TotalProductionCalculation
 			farmerMarketableQty = 0.0;
 		}
 		
-		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty+marketableYeild;
+		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
 		
 		int count = 0;
 		
@@ -122,22 +118,25 @@ public class TotalProductionCalculation
 		}
 	}
 	
-	public void updateTotalProduction(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
+	public void updateTotalProductionChange(int cropId, int cropVarietyId, int seasonId,String financialYear, int masterId)
 	{
 		Double fpoActulaProduction 		= fPOCropProductionReporisitory.getActulaProduction(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		if(fpoActulaProduction == null)
 		{
 			fpoActulaProduction = 0.0;
 		}
-		
-		Double farmerActualProduction	= productionDetailsRepository.getActualProductionbyFarmer(cropId, cropVarietyId, seasonId, masterId,financialYear);
-		
+		System.out.println("cropId:"+cropId+"cropVarietyId:"+cropVarietyId+"seasonId:"+seasonId+"masterId:"+masterId+"financialYear:"+financialYear);
+		//Double farmerActualProduction	= cropDetailsRepository.getActualQty(cropId, cropVarietyId, seasonId, masterId,financialYear);
+		TotalProductionDTO t	= getProductionDetailsofFarmer(cropId, cropVarietyId, seasonId, financialYear,masterId);
+		Double farmerActualProduction = t.getTotalActualProdction();
 		if(farmerActualProduction == null)
 		{
 			farmerActualProduction = 0.0;
 		}
 		
 		Double totalActualProduction 	= fpoActulaProduction+farmerActualProduction;
+		
+		System.out.println("fpoActulaProduction:"+fpoActulaProduction+"farmerActualProduction:"+farmerActualProduction+"totalActualProduction"+totalActualProduction);
 		
 		Double fpoMarketableQty 		= fPOCropProductionReporisitory.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		
@@ -146,7 +145,8 @@ public class TotalProductionCalculation
 			fpoMarketableQty = 0.0;
 		}
 		
-		Double farmerMarketableQty		= productionDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
+		//Double farmerMarketableQty		= cropDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
+		Double farmerMarketableQty		=  t.getTotalMarketableQty();
 		
 		if(farmerMarketableQty == null)
 		{
@@ -154,6 +154,8 @@ public class TotalProductionCalculation
 		}
 		
 		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
+		
+		System.out.println("fpoMarketableQty:"+fpoMarketableQty+"farmerMarketableQty:"+farmerMarketableQty+"totalMarketableQty"+totalMarketableQty);
 		
 		int count = 0;
 		

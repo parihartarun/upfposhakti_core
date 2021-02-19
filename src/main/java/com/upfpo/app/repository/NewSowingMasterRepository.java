@@ -12,4 +12,7 @@ public interface NewSowingMasterRepository extends JpaRepository<NewSowing, Inte
 {
 	@Query("SELECT new com.upfpo.app.dto.FarmerCropSowingDTO(f.parantsName, sum(l.land_area)) FROM LandDetails l join l.farmerProfile f where f.farmerId= :farmerId group by f.parantsName")
 	 public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
+	
+	@Query("select count(n) from NewSowing n where n.farmerId =:farmerId and n.masterId =:masterId and n.finYear =:finYear")
+	public Integer existingFarmer(Integer farmerId, Integer masterId, String finYear);
 }

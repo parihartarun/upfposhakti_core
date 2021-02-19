@@ -2,30 +2,30 @@ package com.upfpo.app.dto;
 
 public class TotalProductionDTO 
 {
-	private double totalActualProdction;
+	private Double totalActualProdction;
 	
-	private double totalMarketableQty;
+	private Double totalMarketableQty;
 	
 
-	public TotalProductionDTO(double totalActualProdction, double totalMarketableQty) {
+	public TotalProductionDTO(Double totalActualProdction, Double totalMarketableQty) {
 		super();
 		this.totalActualProdction = totalActualProdction;
 		this.totalMarketableQty = totalMarketableQty;
 	}
 
-	public double getTotalActualProdction() {
+	public Double getTotalActualProdction() {
 		return totalActualProdction;
 	}
 
-	public void setTotalActualProdction(double totalActualProdction) {
+	public void setTotalActualProdction(Double totalActualProdction) {
 		this.totalActualProdction = totalActualProdction;
 	}
 
-	public double getTotalMarketableQty() {
+	public Double getTotalMarketableQty() {
 		return totalMarketableQty;
 	}
 
-	public void setTotalMarketableQty(double totalMarketableQty) {
+	public void setTotalMarketableQty(Double totalMarketableQty) {
 		this.totalMarketableQty = totalMarketableQty;
 	}
 	
