@@ -68,6 +68,7 @@ public class LoginController {
 	@ResponseStatus( HttpStatus.OK)
 	@PostMapping("/password/reset")
 	public ResponseEntity<MessageResponse> resetPass( @Valid @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
+		userService.resetPassword(passwordResetRequest);
 		return new ResponseEntity<MessageResponse>(new MessageResponse("Password successFully updated!"),HttpStatus.OK);
 	}
 	
