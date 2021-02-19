@@ -121,20 +121,25 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<?> resetPassword(PasswordResetRequest request) {
 		 //TODO Auto-generated method stub
 		java.util.Optional<User> userOpt = userRepository.findById(request.getUserId());
-if(!request.getPassword().contentEquals(request.getConfirmPassword()))
-{
-return ResponseEntity.badRequest().body("Password does not match with confirm password field");
-}
+		if(!request.getPassword().contentEquals(request.getConfirmPassword()))
+		{
+		return ResponseEntity.badRequest().body("Password does not match with confirm password field.");
+		}
+		if(userOpt.isPresent()) {
+			User user = userOpt.get(); 
+			if(!this.passwordEncoder.matches(request.getOldPassword(),user.getPassword()))
+			{
+			return ResponseEntity.badRequest().body("Old password is not correct.");
+			}
+		}
+		if(userOpt.isPresent()) {
+			User user = userOpt.get(); 
+			user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+			   userRepository.save(user);			
+		}else {
+			throw new NotFoundException();
 		
-
-if(userOpt.isPresent()) {
-	User user = userOpt.get(); 
-	user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-	   userRepository.save(user);			
-}else {
-	throw new NotFoundException();
-
-}
+		}
 
 //		userOpt.ifPresentOrElse(user->{
 //   user.setPassword(this.passwordEncoder.encode(request.getPassword()));
