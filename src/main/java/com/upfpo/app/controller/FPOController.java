@@ -265,6 +265,12 @@ public class FPOController {
 
 
 	@GetMapping(value="/productiondetail/{masterId}")
+	@ApiOperation(value="Get FPO profile by username", code=200, produces = "application/json",notes="Api for get FPO by username",response=ProductionDetailsDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
 	public List<ProductionDetailsDTO> getProductionDetail(@PathVariable("masterId") Integer masterId)
 	{
 		String finYear= "2020-21";
@@ -272,6 +278,12 @@ public class FPOController {
 	}
 
     @GetMapping(value="/graphdetail/{masterId}")
+	@ApiOperation(value="Get FPO profile by username", code=200, produces = "application/json",notes="Api for get FPO by username",response=ProductionDetailsDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
     public List<ProductionDetailsDTO> getProductionDetailGraph(@PathVariable("masterId") Integer masterId)
     {
         String finYear= "2020-21";
