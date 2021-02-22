@@ -46,22 +46,6 @@ classes = {
                 @ColumnResult(name = "marketable_surplus", type = Double.class)
            })
 })
-@SqlResultSetMapping(name="ProductionDetailDTO",
-		classes = {
-				@ConstructorResult(
-						targetClass = ProductionDetailsDTO.class,
-						columns = {
-								@ColumnResult(name = "farmer_name", type = String.class),
-								@ColumnResult(name = "father_husband_name", type = String.class),
-								@ColumnResult(name = "mobile", type = BigInteger.class),
-								@ColumnResult(name = "gender", type = String.class),
-								@ColumnResult(name = "category", type = String.class),
-								@ColumnResult(name = "season_name", type = String.class),
-								@ColumnResult(name = "crop_name", type = String.class),
-								@ColumnResult(name = "crop_veriety", type = String.class),
-								@ColumnResult(name = "marketable_surplus", type = Double.class)
-						})
-		})
 @Table(name="production_details")
 public class ProductionDetails implements Serializable {
 

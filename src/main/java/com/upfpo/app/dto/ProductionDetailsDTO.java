@@ -3,6 +3,7 @@ package com.upfpo.app.dto;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 public class ProductionDetailsDTO implements Serializable {
 
@@ -10,9 +11,19 @@ public class ProductionDetailsDTO implements Serializable {
     String crop_name;
     String veriety;
     String season_name;
-    Double total_markatable;
-    Double total_sold;
+    BigInteger total_markatable;
+    BigInteger total_sold;
 
+    public ProductionDetailsDTO(String crop_name, String veriety, String season_name, BigInteger total_markatable, BigInteger total_sold) {
+        this.crop_name = crop_name;
+        this.veriety = veriety;
+        this.season_name = season_name;
+        this.total_markatable = total_markatable;
+        this.total_sold = total_sold;
+    }
+
+    public ProductionDetailsDTO() {
+    }
 
     public String getCrop_name() {
         return crop_name;
@@ -38,19 +49,19 @@ public class ProductionDetailsDTO implements Serializable {
         this.season_name = season_name;
     }
 
-    public Double getTotal_markatable() {
+    public BigInteger getTotal_markatable() {
         return total_markatable;
     }
 
-    public void setTotal_markatable(Double total_markatable) {
+    public void setTotal_markatable(BigInteger total_markatable) {
         this.total_markatable = total_markatable;
     }
 
-    public Double getTotal_sold() {
+    public BigInteger getTotal_sold() {
         return total_sold;
     }
 
-    public void setTotal_sold(Double total_sold) {
+    public void setTotal_sold(BigInteger total_sold) {
         this.total_sold = total_sold;
     }
 }

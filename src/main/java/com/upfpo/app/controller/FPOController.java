@@ -265,14 +265,14 @@ public class FPOController {
 
 
 	@GetMapping(value="/productiondetail/{masterId}")
-	public List<ProductionDetailsDTO> getProductionDetail(@PathVariable("masterId") int masterId)
+	public List<ProductionDetailsDTO> getProductionDetail(@PathVariable("masterId") Integer masterId)
 	{
 		String finYear= "2020-21";
 		return fpoService.getProductionDetailAnnual(finYear,masterId);
 	}
 
     @GetMapping(value="/graphdetail/{masterId}")
-    public List<ProductionDetailsDTO> getProductionDetailGraph(@PathVariable("masterId") int masterId)
+    public List<ProductionDetailsDTO> getProductionDetailGraph(@PathVariable("masterId") Integer masterId)
     {
         String finYear= "2020-21";
         return fpoService.getProductionDetailGraph(finYear,masterId);

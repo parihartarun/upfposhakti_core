@@ -16,11 +16,10 @@ import javax.persistence.*;
 								@ColumnResult(name = "crop_name", type = String.class),
 								@ColumnResult(name = "veriety", type = String.class),
 								@ColumnResult(name = "season_name", type = String.class),
-								@ColumnResult(name = "total_marketable", type = Long.class),
-								@ColumnResult(name = "total_sold", type = Long.class)
+								@ColumnResult(name = "total_marketable", type = BigInteger.class),
+								@ColumnResult(name = "total_sold", type = BigInteger.class)
 						})
 		})
-
 @Entity
 @Table(name="total_production")
 public class TotalProduction implements Serializable {

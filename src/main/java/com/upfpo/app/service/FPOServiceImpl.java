@@ -310,12 +310,13 @@ public class FPOServiceImpl implements FPOService {
 		List<ProductionDetailsDTO> list = null;
 		try {
 
-			String sql = "Select cm.crop_name, cvm.veriety, tp.total_marketable, tp.total_sold \r\n" +
+			String sql = "Select cm.crop_name, cvm.veriety,sm.season_name, tp.total_marketable, tp.total_sold \r\n" +
 					"from total_production tp \r\n" +
 					"inner join fpo f on f.fpo_id = tp.fpo_id \r\n" +
+					"inner join season_master sm on sm.season_id=tp.season_id \r\n" +
 					"inner join crop_master cm on cm.id=tp.crop_id \r\n" +
 					"inner join crop_veriety_master cvm on cvm.veriety_id=tp.crop_id \r\n" +
-					"where f.fpo_id = :masterId and tp.fin_year = :finyear and f.is_deleted = false \r\n";
+					"where tp.fpo_id = :masterId and  f.is_deleted = false \r\n";
 
 			/*String sql = "Select cast(sm.season_id as integer) as \"seasonName\",sm.season_name, \r\n" +
 					"cast(cm.id as integer)  as \"cropRefName\",cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 then  \r\n" +
@@ -326,7 +327,7 @@ public class FPOServiceImpl implements FPOService {
 					"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" +
 					"left  join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer)  \r\n" +
 					"where f.fpo_id = :masterId and cd.financial_year = :finyear and cd.is_deleted = false";*/
-			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailDTO").setParameter("fpoId", masterId).getResultList();
+			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailDTO").setParameter("masterId", masterId).getResultList();
 			return obj;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -339,14 +340,15 @@ public class FPOServiceImpl implements FPOService {
 	public List<ProductionDetailsDTO> getProductionDetailGraph(String finyear, Integer masterId) {
 		List<ProductionDetailsDTO> list = null;
 		try {
-			String sql = "Select cm.crop_name, cvm.veriety, tp.total_marketable, tp.total_sold \r\n" +
+			String sql = "Select cm.crop_name, cvm.veriety,sm.season_name, tp.total_marketable, tp.total_sold \r\n" +
 					"from total_production tp \r\n" +
 					"inner join fpo f on f.fpo_id = tp.fpo_id \r\n" +
+					"inner join season_master sm on sm.season_id=tp.season_id \r\n" +
 					"inner join crop_master cm on cm.id=tp.crop_id \r\n" +
 					"inner join crop_veriety_master cvm on cvm.veriety_id=tp.crop_id \r\n" +
-					"where f.fpo_id = :masterId and tp.fin_year = :finyear and f.is_deleted = false \r\n";
+					"where tp.fpo_id = :masterId and  f.is_deleted = false \r\n";
 
-			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailsDTO").setParameter("masterId", masterId).getResultList();
+			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailDTO").setParameter("masterId", masterId).getResultList();
 			return obj;
 
 			/*String sql = "Select tp.crop_id, tp.veriety_id, tp.total_marketable, tp.total_sold, \r\n" +
