@@ -1,5 +1,6 @@
 package com.upfpo.app.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +58,8 @@ public class UpAgriClientController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		return (ResponseEntity<MessageResponse>) ResponseEntity.ok(new MessageResponse(upagriArea));
+		
+		return new ResponseEntity<MessageResponse>(new MessageResponse(upagriArea), HttpStatus.OK);
 	}
 	
 	
