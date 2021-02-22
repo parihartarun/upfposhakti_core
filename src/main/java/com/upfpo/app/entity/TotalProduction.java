@@ -1,18 +1,25 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.ProductionDetailsDTO;
+
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+@SqlResultSetMapping(name="ProductionDetailDTO",
+		classes = {
+				@ConstructorResult(
+						targetClass = ProductionDetailsDTO.class,
+						columns = {
+								@ColumnResult(name = "crop_name", type = String.class),
+								@ColumnResult(name = "veriety", type = String.class),
+								@ColumnResult(name = "season_name", type = String.class),
+								@ColumnResult(name = "total_marketable", type = Long.class),
+								@ColumnResult(name = "total_sold", type = Long.class)
+						})
+		})
 
 @Entity
 @Table(name="total_production")

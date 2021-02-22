@@ -95,6 +95,7 @@ public class NotificationController {
         return notificationService.viewAllNotificationOfDepartment(id);
     }
 
+
     @GetMapping("/viewfponotification/{id}")
     @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
     @ApiResponses(value= {
@@ -106,8 +107,6 @@ public class NotificationController {
 
         return notificationService.viewAllNotificationofFPO(id);
     }
-
-
 
 
     @PostMapping("/fposend")
