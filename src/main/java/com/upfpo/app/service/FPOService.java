@@ -3,13 +3,9 @@ package com.upfpo.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.upfpo.app.dto.*;
 import org.springframework.stereotype.Service;
 
-import com.upfpo.app.dto.CropListOfFarmersDTO;
-import com.upfpo.app.dto.FPOListDTO;
-import com.upfpo.app.dto.FarmerCropSowingDTO;
-import com.upfpo.app.dto.FarmerLandDetailDto;
-import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
@@ -40,4 +36,8 @@ public interface FPOService {
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId);
 	public NewSowing addFarmerCropDetails(NewSowing newSowing);
 	public Optional<FPORegister> findById(Integer fpoId);
+
+	List<ProductionDetailsDTO> getProductionDetailAnnual(String finyear, Integer masterId);
+
+    List<ProductionDetailsDTO> getProductionDetailGraph(String finyear, Integer masterId);
 }
