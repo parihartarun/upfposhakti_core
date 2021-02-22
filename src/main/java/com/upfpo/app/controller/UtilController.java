@@ -64,16 +64,14 @@ public class UtilController {
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn,@RequestParam(value = "filterdist",required = false) List<String> districts,@RequestParam(value = "filterqty",required = false) List<Integer> qty,@RequestParam(value = "filtercrop",required = false) List<String> crops)
+	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn,@RequestParam(value = "filterdist",required = false) List<String> districts,@RequestParam(value = "filterqty",required = false) List<Integer> qty,@RequestParam(value = "filtercrop",required = false) List<String> crops,@RequestParam(value = "fpo",required = false) List<String> fpos)
 	{
 		
-//		crops.forEach(data->{
-//			System.out.println("String of filterCrops = "+data);		
-//		});
 	
 	
-		return masterServices.homeSearch(searchVal,searchIn,districts,qty,crops);
-			
+	
+		return masterServices.homeSearch(searchVal,searchIn,districts,qty,crops,fpos);
+		//return null;	
 	}
 	
 	

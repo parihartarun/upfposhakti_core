@@ -1,10 +1,8 @@
 package com.upfpo.app.entity;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,9 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-import com.upfpo.app.dto.FarmerLandDTO;
+import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
 
 @Entity
@@ -33,6 +30,15 @@ classes = {
                 @ColumnResult(name = "farmerName", type = String.class),
            })
 })
+/*@SqlResultSetMapping(name="CropSowingExistingDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FPOCropSowingExistingDTO.class,
+            columns = {
+                @ColumnResult(name = "father_husband_name", type = String.class),
+                @ColumnResult(name = "land_area", type = Double.class),
+           })
+})*/
 
 @Table(name="land_details")
 public class LandDetails {

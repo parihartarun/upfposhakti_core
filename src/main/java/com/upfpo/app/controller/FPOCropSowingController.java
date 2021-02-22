@@ -3,6 +3,8 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
+import com.upfpo.app.entity.CropDatails;
 import com.upfpo.app.entity.NewSowing;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.FPOCropSowingService;
+
+import lombok.Delegate;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
 @RequestMapping(value = "/fpoCropSowing")
@@ -35,15 +44,27 @@ public class FPOCropSowingController
 		 return fPOCropSowingService.getCropListForFarmersByFpo(masterId);
 	 }
 	 
-	 @PostMapping(value="/addFarmerCropSowingDetails")
-	 public NewSowing addFarmerCropDetails(@RequestBody NewSowing newSowing)
+	 @PostMapping("/getFarmerCropSowingDetails")
+	 public List<FPOCropSowingExistingDTO> getFramerCropSowingDetails(@RequestBody ReportRequestString reportRequestString) 
 	 {
-		 return fPOCropSowingService.addFarmerCropDetails(newSowing);
+		 return fPOCropSowingService.getExistingSowingDetails(reportRequestString);
 	 }
 	 
-	 @PutMapping("/updateFarmerCropSowingDetails/{sowing_id}")
-	 public NewSowing updateFarmerCropDetails(@PathVariable("sowing_id") Integer sowing_id,@RequestBody NewSowing newSowing)
+	 @PostMapping(value="/addFarmerCropSowingDetails")
+	 public void addFarmerCropDetails(@RequestBody NewSowing newSowing)
 	 {
-		 return fPOCropSowingService.updateCropSowingDetails(sowing_id, newSowing);
+		  fPOCropSowingService.addFarmerCropDetails(newSowing);
+	 }
+	 
+	 @PutMapping("/updateFarmerCropSowingDetails/{cropId}")
+	 public CropDatails updateFarmerCropDetails(@PathVariable("cropId") Integer cropId,@RequestBody CropDatails cropDatails)
+	 {
+		 return fPOCropSowingService.updateCropSowingDetails(cropId, cropDatails);
+	 }
+	 
+	 @DeleteMapping("/deleteCropSowingDetails/{cropId}")
+	 public Boolean deleteCropSowingDetails(@PathVariable("cropId") Integer cropId)
+	 {
+		 return fPOCropSowingService.deleteCropSowingDetails(cropId);
 	 }
 }

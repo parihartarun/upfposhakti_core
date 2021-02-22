@@ -5,6 +5,8 @@ public class ReportRequestString
 	private Integer fpoId;
 	private String finYear;
 	private Integer seasonId;
+	private Integer farmerId;
+	private Integer masterId;
 	
 	public Integer getFpoId() {
 		return fpoId;
@@ -23,6 +25,18 @@ public class ReportRequestString
 	}
 	public void setSeasonId(Integer seasonId) {
 		this.seasonId = seasonId;
+	}
+	public Integer getFarmerId() {
+		return farmerId;
+	}
+	public void setFarmerId(Integer farmerId) {
+		this.farmerId = farmerId;
+	}
+	public Integer getMasterId() {
+		return masterId;
+	}
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
 	}
 	
 	

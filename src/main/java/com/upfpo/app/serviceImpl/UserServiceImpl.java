@@ -2,6 +2,7 @@ package com.upfpo.app.serviceImpl;
 
 import com.google.common.base.Optional;
 import com.upfpo.app.auth.response.LoginResponse;
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.UserDetailsDto;
@@ -118,23 +119,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<?> resetPassword(PasswordResetRequest request) {
+	public ResponseEntity<MessageResponse> resetPassword(PasswordResetRequest request) {
 		 //TODO Auto-generated method stub
 		java.util.Optional<User> userOpt = userRepository.findById(request.getUserId());
-if(!request.getPassword().contentEquals(request.getConfirmPassword()))
-{
-return ResponseEntity.badRequest().body("Password does not match with confirm password field");
-}
+		if(!request.getPassword().contentEquals(request.getConfirmPassword()))
+		{
+		throw new CustomException("Password does not match with confirm password field.",HttpStatus.BAD_REQUEST);
+		//return ResponseEntity.badRequest().body("Password does not match with confirm password field.");
+		}
+		if(userOpt.isPresent()) {
+			User user = userOpt.get(); 
+			if(!this.passwordEncoder.matches(request.getOldPassword(),user.getPassword()))
+			{
+				throw new CustomException("Old password is not correct",HttpStatus.BAD_REQUEST);
+			//return ResponseEntity.badRequest().body("Old password is not correct.");
+			}
+		}
+		if(userOpt.isPresent()) {
+			User user = userOpt.get(); 
+			user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+			   userRepository.save(user);			
+		}else {
+			throw new NotFoundException();
 		
-
-if(userOpt.isPresent()) {
-	User user = userOpt.get(); 
-	user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-	   userRepository.save(user);			
-}else {
-	throw new NotFoundException();
-
-}
+		}
 
 //		userOpt.ifPresentOrElse(user->{
 //   user.setPassword(this.passwordEncoder.encode(request.getPassword()));
@@ -144,7 +152,7 @@ if(userOpt.isPresent()) {
 //    });
 
 //    });*/
-		return new ResponseEntity<String>("Password Updated Successfully", HttpStatus.OK);
+		return new ResponseEntity<MessageResponse>(new MessageResponse("Password Updated Successfully"), HttpStatus.OK);
 	}
 
 	@Override

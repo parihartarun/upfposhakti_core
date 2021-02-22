@@ -7,6 +7,10 @@ public class ForgetPasswordRequest {
 
 	@NotNull
 	private String username;
+	
+	@NotNull
+	private Long mobileNo;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -27,6 +31,4 @@ public class ForgetPasswordRequest {
 	public void setMobileNo(Long mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	@NotNull
-	private Long mobileNo;
 }
