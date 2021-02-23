@@ -245,12 +245,6 @@ public class FPOController {
 	}
 	
 	
-	 @GetMapping(value="/cropSowing/getFarmerDetailsForCropSowing/{farmerId}") 
-	 public  FarmerCropSowingDTO getFarmerDetailsForCropSowing(@PathVariable("farmerId") Integer farmerId) 
-	 { 
-		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
-     }
-	 
 	 @GetMapping(value="/cropSowing/farmersCropList/{masterId}")
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
 	 {
