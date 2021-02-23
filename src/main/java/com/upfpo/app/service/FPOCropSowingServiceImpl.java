@@ -13,9 +13,9 @@ import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.CropDatails;
-import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.repository.CropDetailsRepository;
+import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.util.GetFinYear;
@@ -36,9 +36,17 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	@Autowired
 	TotalProductionCalculation totalProductionCalculation;
 	
+	@Autowired
+	FarmerMasterRepository farmerMasterRepository;
+	
 	@Override 
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
 	  {
+		/*String sql =  "SELECT f.farmer_name as farmerName, f.farmer_parants as parantsName, sum(l.land_area) FROM \r\n"
+				+ "land_details l join farmer f on l.farmer_id = f.farmer_id  where f.farmer_id= :farmerId group by f.farmer_name,parantsName;";
+		
+		FarmerCropSowingDTO obj = (FarmerCropSowingDTO)entityManager.createNativeQuery(sql,"FarmerCropSowingDTO").setParameter("farmerId", farmerId).getSingleResult();  
+		return obj;*/
 		  return newSowingMasterRepository.getFarmerDetailsForCropSowing(farmerId);
 	  }
 
@@ -67,15 +75,26 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 		String finYear = GetFinYear.getCurrentFinYear();
 		newSowing.setFinYear(finYear);
 		List<CropDatails> cropDetails = null;
+		Integer farmerMasterId = null;
+		if(newSowing.getFarmerId().equals(newSowing.getMasterId())) 
+		  { 
+			  farmerMasterId = farmerMasterRepository.getFpoIdofFarmer(newSowing.getFarmerId());
+		  }
+		  else
+		  {
+			  farmerMasterId = newSowing.getMasterId();
+		  }
 		cropDetails = newSowing.getList();
+		newSowing.setMasterId(farmerMasterId);
 		for(int i = 0; i < cropDetails.size(); i++)
 		{
 			cropDetails.get(i).setFinYear(finYear);
 			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
-			cropDetails.get(i).setMasterId(newSowing.getMasterId());
+			cropDetails.get(i).setMasterId(farmerMasterId);
 			cropDetails.get(i).setDeleted(false);
 		}
 		newSowingMasterRepository.save(newSowing);
+		
 		for(int i = 0; i < cropDetails.size(); i++)
 		{
 			System.out.println(i);
@@ -83,7 +102,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
 			System.out.println("Crop Id::"+cropDetails.get(i).getCropRefName()+"Veriety Id::"+cropDetails.get(i).getVerietyRef());
 			totalProductionCalculation.updateTotalProductionChange(cropDetails.get(i).getCropRefName(), cropDetails.get(i).getVerietyRef(), cropDetails.get(i).getSeasonRefName(), 
-					finYear, newSowing.getMasterId());
+					finYear, farmerMasterId);
 		}
 	}
 	
@@ -120,14 +139,14 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			
 			if(reportRequestString.getFarmerId() != null && ! reportRequestString.getFarmerId().equals(""))
 			{
-				sql = sql + "where nsi.farmer_id = :farmerId and nsi.master_id = :masterId and nsi.fin_year = :finYear group by  nsi.sowing_id,cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
+				sql = sql + "where nsi.farmer_id = :farmerId and nsi.fin_year = :finYear and cd.is_deleted = false group by  nsi.sowing_id,cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
 						+ "				crop_master_id, cm.crop_name,f.farmer_id,f.farmer_name, father_husband_name, sm.season_id, sm.season_name, cv.veriety_id, cv.crop_veriety";
 				obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("farmerId", reportRequestString.getFarmerId()).
-						setParameter("masterId", reportRequestString.getMasterId()).setParameter("finYear", finYear).getResultList();
+						setParameter("finYear", finYear).getResultList();
 			}
 			else
 			{
-				sql = sql + "where nsi.master_id = :masterId and nsi.fin_year = :finYear group by  nsi.sowing_id,cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
+				sql = sql + "where nsi.master_id = :masterId and nsi.fin_year = :finYear and cd.is_deleted = false group by  nsi.sowing_id,cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
 						+ "				crop_master_id, cm.crop_name,f.farmer_id,f.farmer_name, father_husband_name, sm.season_id, sm.season_name, cv.veriety_id, cv.crop_veriety";
 				obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("masterId", reportRequestString.getMasterId()).
 						setParameter("finYear", finYear).getResultList();
@@ -161,7 +180,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 				newCropDetails = cropDetailsRepository.save(newCropDetails);
 				
 				totalProductionCalculation.updateTotalProductionChange(cropDatailsMaster.getCropRefName(), cropDatailsMaster.getVerietyRef(), cropDatailsMaster.getSeasonRefName(), 
-						finYear,cropDatailsMaster.getMasterId());
+						finYear,newCropDetails.getMasterId());
 			}
 		}
 		catch(Exception e)

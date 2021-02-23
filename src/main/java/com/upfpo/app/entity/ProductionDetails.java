@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.upfpo.app.dto.FarmerWiseProductionDTO;
 import com.upfpo.app.dto.ProductionDTO;
+import com.upfpo.app.dto.ProductionDetailsDTO;
 
 @Entity
 @SqlResultSetMapping(name="ProductionDTO",

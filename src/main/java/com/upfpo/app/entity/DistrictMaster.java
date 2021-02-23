@@ -2,6 +2,7 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -13,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.MasterDataDto;
+import com.upfpo.app.dto.UpAgriDataDto;
 
 @Entity
 @SqlResultSetMapping(name="MasterDataDto",
@@ -25,6 +28,7 @@ classes = {
                 @ColumnResult(name = "district_name", type = String.class),
            })
 })
+
 @Table(name="districts")
 public class DistrictMaster implements Serializable{
 	

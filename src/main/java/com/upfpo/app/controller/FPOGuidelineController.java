@@ -75,9 +75,9 @@ public class FPOGuidelineController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam("description") String description,
+    public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam(value ="description", required = false) String description,
                                                               @RequestParam(value = "hindi_desc", required = false) String hindiDesc,
-                                                              @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                              @RequestParam(value ="guideline_type", required = false) FPOGuidelineType fpoGuidelineType,
                                                               @RequestParam(value = "url", required = false) String url,
                                                               @RequestParam(value = "file", required = false) MultipartFile file,
                                                               @RequestParam(value = "h_file", required = false) MultipartFile hindiFile) {

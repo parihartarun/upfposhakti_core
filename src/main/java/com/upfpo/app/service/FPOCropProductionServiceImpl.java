@@ -11,15 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.FpoCropProductionDetailsDTO;
-import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.LandDetails;
 import com.upfpo.app.entity.MarketableSurplus;
-import com.upfpo.app.entity.TotalProduction;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.FPOCropProductionReporisitory;
 import com.upfpo.app.repository.ProductionDetailsRepository;
 import com.upfpo.app.repository.TotalProductionRepository;
-import com.upfpo.app.util.GetCurrentDate;
 import com.upfpo.app.util.GetFinYear;
 import com.upfpo.app.util.TotalProductionCalculation;
 
@@ -71,7 +67,8 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 		marketableSurplus.setFinancialYear(financialYear);
 		marketableSurplus.setDeleted(false);
 		fpoCropProductionRepo.save(marketableSurplus);
-		totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
+		//totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
+		totalProductionCalculation.updateTotalProductionChange(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
 	}
 
 	@Override
@@ -98,7 +95,8 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 			{
 				newMarketableSurplus = fpoCropProductionRepo.save(marketableSurplusMaster);
 			}
-			totalProductionCalculation.updateTotalProduction(marketableSurplusMaster.getCrop_id(), marketableSurplusMaster.getVerietyId(), marketableSurplusMaster.getSeason(), financialYear, marketableSurplusMaster.getMasterId());
+			//totalProductionCalculation.updateTotalProduction(marketableSurplusMaster.getCrop_id(), marketableSurplusMaster.getVerietyId(), marketableSurplusMaster.getSeason(), financialYear, marketableSurplusMaster.getMasterId());
+			totalProductionCalculation.updateTotalProductionChange(marketableSurplusMaster.getCrop_id(), marketableSurplusMaster.getVerietyId(), marketableSurplusMaster.getSeason(), financialYear, marketableSurplusMaster.getMasterId());
 		}
 		catch(Exception e)
 		{
@@ -121,7 +119,8 @@ public class FPOCropProductionServiceImpl implements FPOCropProductionService {
 			e.printStackTrace();
 			throw new NotFoundException();
 		}
-		totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
+		//totalProductionCalculation.updateTotalProduction(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
+		totalProductionCalculation.updateTotalProductionChange(marketableSurplus.getCrop_id(), marketableSurplus.getVerietyId(), marketableSurplus.getSeason(), financialYear, marketableSurplus.getMasterId());
 		return true;
     }
 	

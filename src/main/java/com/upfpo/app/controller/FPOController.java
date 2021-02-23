@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.upfpo.app.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.dto.CropListOfFarmersDTO;
-import com.upfpo.app.dto.FPOListDTO;
-import com.upfpo.app.dto.FarmerCropSowingDTO;
-import com.upfpo.app.dto.FarmerLandDetailDto;
-import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
@@ -249,12 +245,6 @@ public class FPOController {
 	}
 	
 	
-	 @GetMapping(value="/cropSowing/getFarmerDetailsForCropSowing/{farmerId}") 
-	 public  FarmerCropSowingDTO getFarmerDetailsForCropSowing(@PathVariable("farmerId") Integer farmerId) 
-	 { 
-		  return fpoService.getFarmerDetailsForCropSowing(farmerId); 
-     }
-	 
 	 @GetMapping(value="/cropSowing/farmersCropList/{masterId}")
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)
 	 {
@@ -266,5 +256,33 @@ public class FPOController {
 	 {
 		 return fpoService.addFarmerCropDetails(newSowing);
 	 }
+
+
+	@GetMapping(value="/productiondetail/{masterId}")
+	@ApiOperation(value="Get FPO profile by username", code=200, produces = "application/json",notes="Api for get FPO by username",response=ProductionDetailsDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public List<ProductionDetailsDTO> getProductionDetail(@PathVariable("masterId") Integer masterId)
+	{
+		String finYear= "2020-21";
+		return fpoService.getProductionDetailAnnual(finYear,masterId);
+	}
+
+    @GetMapping(value="/graphdetail/{masterId}")
+	@ApiOperation(value="Get FPO profile by username", code=200, produces = "application/json",notes="Api for get FPO by username",response=ProductionDetailsDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+    public List<ProductionDetailsDTO> getProductionDetailGraph(@PathVariable("masterId") Integer masterId)
+    {
+        String finYear= "2020-21";
+        return fpoService.getProductionDetailGraph(finYear,masterId);
+    }
+
 
 }

@@ -41,7 +41,7 @@ public class PhotoUploadController {
     @Autowired
     private PhotoUploadService photoUploadService;
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif");
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadController.class);
 

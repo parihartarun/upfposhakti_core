@@ -6,15 +6,11 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import com.upfpo.app.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.dto.CropListOfFarmersDTO;
-import com.upfpo.app.dto.FPOListDTO;
-import com.upfpo.app.dto.FarmerCropSowingDTO;
-import com.upfpo.app.dto.FarmerLandDetailDto;
-import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
@@ -37,25 +33,25 @@ public class FPOServiceImpl implements FPOService {
 	@Autowired
 	private UserRepository userRepository;
 
-	
+
 	@Autowired
-	private  EntityManager entityManager;
-	
+	private EntityManager entityManager;
+
 	@Resource
 	private BoardMembersRepo boardMembersRepo;
-	
+
 	@Resource
 	private LandDetailsRepo landDetailsRepo;
-	
+
 	@Resource
 	private FarmerMasterRepository farmerMasterRepository;
-	
+
 	@Autowired
 	private DistrictMasterRepository districtMasterRepository;
-	
+
 	@Autowired
 	private NewSowingMasterRepository newSowingMasterRepository;
-	
+
 	@Override
 	public FPORegister insertFpo(FPORegister e) {
 
@@ -65,11 +61,10 @@ public class FPOServiceImpl implements FPOService {
 
 	@Override
 	public FPORegister updateFpo(Integer id, FPORegister e) {
-		
-		
-		if(fpoRepository.existsById(id))
-		{
-			FPORegister newFpo = fpoRepository.findById(id).get();	
+
+
+		if (fpoRepository.existsById(id)) {
+			FPORegister newFpo = fpoRepository.findById(id).get();
 			newFpo.setDeleted(false);
 			newFpo.setAgency(e.getAgency());
 			newFpo.setBlockRef(e.getBlockRef());
@@ -84,13 +79,13 @@ public class FPOServiceImpl implements FPOService {
 			newFpo.setFpolandLine(e.getFpolandLine());
 			newFpo.setFpoName(e.getFpoName());
 			newFpo.setUserName(e.getUserName());
-		    newFpo.getUserFpo().setUserName(e.getUserName());
-		   // newFpo.setUserFpo(userRepository.save(newFpo.getUserFpo())); 
-			
+			newFpo.getUserFpo().setUserName(e.getUserName());
+			// newFpo.setUserFpo(userRepository.save(newFpo.getUserFpo()));
+
 			newFpo.setDeleted(false);
 			return fpoRepository.save(newFpo);
-		}else {
-	throw new NotFoundException();
+		} else {
+			throw new NotFoundException();
 		}
 	}
 
@@ -104,15 +99,14 @@ public class FPOServiceImpl implements FPOService {
 	@Override
 	public Boolean deleteFpo(Integer id) {
 
-		 fpoRepository.deleteById(id);
+		fpoRepository.deleteById(id);
 		try {
-		FPORegister fpoRegister = fpoRepository.getOne(id);
-		fpoRegister.setDeleted(true);
-		fpoRepository.save(fpoRegister);
+			FPORegister fpoRegister = fpoRepository.getOne(id);
+			fpoRegister.setDeleted(true);
+			fpoRepository.save(fpoRegister);
 
-		return true;
-		}catch(Exception e)
-		{
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new NotFoundException();
 		}
@@ -130,41 +124,37 @@ public class FPOServiceImpl implements FPOService {
 
 		return fpoRepository.findById(id).get();
 	}
-	
+
 	@Override
-	public MasterDataDto getDistrictByFpoId(int fpoId) 
-	{
-		String  sql = "select d.district_id as district_id, d.district_name as district_name from districts d join fpo f on d.district_id = f.dist_ref_id where f.fpo_id = :fpoId";
-		  
-		MasterDataDto obj =  (MasterDataDto) entityManager.createNativeQuery(sql,"MasterDataDto").setParameter("fpoId", fpoId).getSingleResult();
+	public MasterDataDto getDistrictByFpoId(int fpoId) {
+		String sql = "select d.district_id as district_id, d.district_name as district_name from districts d join fpo f on d.district_id = f.dist_ref_id where f.fpo_id = :fpoId";
+
+		MasterDataDto obj = (MasterDataDto) entityManager.createNativeQuery(sql, "MasterDataDto").setParameter("fpoId", fpoId).getSingleResult();
 		return obj;
-	}
-	
-	@Override
-	public BoardMember addBoardMember(BoardMember bm) 
-	{
-		bm.setDeleted(false);
-		return boardMembersRepo.save(bm); 
 	}
 
 	@Override
-	public List<BoardMember> getBoardMembers(Integer masterId){
+	public BoardMember addBoardMember(BoardMember bm) {
+		bm.setDeleted(false);
+		return boardMembersRepo.save(bm);
+	}
+
+	@Override
+	public List<BoardMember> getBoardMembers(Integer masterId) {
 		//return boardMembersRepo.findAll();
-		return boardMembersRepo.findAllByOrderByIdDesc(false,masterId);
+		return boardMembersRepo.findAllByOrderByIdDesc(false, masterId);
 	}
 
 	@Override
 	public BoardMember getBoardMembersById(Long id) {
-		
-		return  boardMembersRepo.findById(id).get();
+
+		return boardMembersRepo.findById(id).get();
 	}
-	
+
 	@Override
-	public BoardMember updateBoardMember(BoardMember boardMemberMaster, long id) 
-	{
+	public BoardMember updateBoardMember(BoardMember boardMemberMaster, long id) {
 		Optional<BoardMember> boardMember = boardMembersRepo.findById(id);
-		if(boardMember.isPresent())
-		{
+		if (boardMember.isPresent()) {
 			BoardMember newBoardMember = boardMember.get();
 			newBoardMember.setName(boardMemberMaster.getName());
 			newBoardMember.setDesignation(boardMemberMaster.getDesignation());
@@ -180,13 +170,11 @@ public class FPOServiceImpl implements FPOService {
 			newBoardMember.setVillageId(boardMemberMaster.getVillageId());
 			newBoardMember.setCreateDate(boardMemberMaster.getCreateDate());
 			newBoardMember.setUpdateDate(boardMemberMaster.getUpdateDate());
-			
+
 			newBoardMember = boardMembersRepo.save(newBoardMember);
-			
+
 			return newBoardMember;
-		}
-		else
-		{
+		} else {
 			boardMemberMaster = boardMembersRepo.save(boardMemberMaster);
 			return boardMemberMaster;
 		}
@@ -194,7 +182,7 @@ public class FPOServiceImpl implements FPOService {
 
 	@Override
 	public BoardMember deleteBoardMembersById(Long id) {
-		
+
 		BoardMember bm = boardMembersRepo.findById(id).get();
 		bm.setDeleted(true);
 		bm.setDeleteDate(GetCurrentDate.getDate());
@@ -219,13 +207,11 @@ public class FPOServiceImpl implements FPOService {
 	public LandDetails addLand(LandDetails ld) {
 		return landDetailsRepo.save(ld);
 	}
-	
+
 	@Override
-	public LandDetails updateLand(LandDetails landDetailsMaster, int landId) 
-	{
+	public LandDetails updateLand(LandDetails landDetailsMaster, int landId) {
 		Optional<LandDetails> landDetails = landDetailsRepo.findById(landId);
-		if(landDetails.isPresent())
-		{
+		if (landDetails.isPresent()) {
 			LandDetails newLandDetails = landDetailsRepo.findById(landId).get();
 			newLandDetails.setGuardianName(landDetailsMaster.getGuardianName());
 			newLandDetails.setIsorganc(landDetailsMaster.getIsorganc());
@@ -235,12 +221,10 @@ public class FPOServiceImpl implements FPOService {
 			newLandDetails.setMasterId(landDetailsMaster.getMasterId());
 			newLandDetails.setUpdateDate(landDetailsMaster.getUpdateDate());
 			newLandDetails.setUpdatedBy(landDetailsMaster.getUpdatedBy());
-			
+
 			newLandDetails = landDetailsRepo.save(newLandDetails);
 			return newLandDetails;
-		}
-		else
-		{
+		} else {
 			landDetailsMaster = landDetailsRepo.save(landDetailsMaster);
 			return landDetailsMaster;
 		}
@@ -264,66 +248,115 @@ public class FPOServiceImpl implements FPOService {
 
 	@Override
 	public FPORegister selectFpoByUserName(String username) {
-		System.out.println("username = "+ username);
+		System.out.println("username = " + username);
 		try {
-			FPORegister fpoRegister =  fpoRepository.findByUserName(username);
+			FPORegister fpoRegister = fpoRepository.findByUserName(username);
 			return fpoRegister;
-		}catch(Exception e)
-			{
-				throw new NotFoundException();
-			}
-		
-		
-		
+		} catch (Exception e) {
+			throw new NotFoundException();
+		}
+
+
 	}
-	
+
 	//get land detail of farmer
-	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId)
-	{
-		String  sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
+	public List<FarmerLandDetailDto> getLandDetailWithFarmerByFpoId(Integer masterId) {
+		String sql = "select l.land_id as landId, l.land_area as landArea,l.master_id as masterId,l.is_organic as isorganc,l.nature_of_ownership as ownership,f.farmer_id as farmerId, f.farmer_name as farmerName, f.farmer_parants as parantsName from land_details l join farmer f\r\n"
 				+ "on l.farmer_id = f.farmer_id where l.master_id = :masterId and l.is_deleted = false order by l.land_id desc";
-		  
-		List<FarmerLandDetailDto> obj =  (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql,"FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
-		  return obj;
-		    
+
+		List<FarmerLandDetailDto> obj = (List<FarmerLandDetailDto>) entityManager.createNativeQuery(sql, "FarmerLandDetailDto").setParameter("masterId", masterId).getResultList();
+		return obj;
+
 	}
 
-	
-	@Override 
-	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
-	  {
-		  return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
-	  }
+	@Override
+	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
+		String sql = "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" +
+				"cd.financial_year,sm.season_id,sm.season_name,nsi.sowing_id, \r\n" +
+				"cm.id crop_id,cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 \r\n" +
+				"then cv.crop_veriety else 'Other'end crop_veriety\r\n" +
+				",cd.sowing_area,cd.ex_yield,cv.veriety_id from crop_details cd\r\n" +
+				"inner join farmer f on f.farmer_id = cd.farmer_id \r\n" +
+				"inner join season_master sm on sm.season_id=cd.season_ref \r\n" +
+				"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" +
+				"left join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer) \r\n" +
+				"left join new_sowing_info nsi on nsi.sowing_id = cd.sowing_id\r\n" +
+				"where f.fpo_ref_id = :masterId and cd.is_deleted=false";
+
+		List<CropListOfFarmersDTO> obj = (List<CropListOfFarmersDTO>) entityManager.createNativeQuery(sql, "CropListOfFarmersDTO").setParameter("masterId", masterId).getResultList();
+		return obj;
+	}
 
 	@Override
-	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) 
-	{
-		String sql =  "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" + 
-        		"cd.financial_year,sm.season_id,sm.season_name,nsi.sowing_id, \r\n" + 
-        		"cm.id crop_id,cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 \r\n" + 
-        		"then cv.crop_veriety else 'Other'end crop_veriety\r\n" + 
-        		",cd.sowing_area,cd.ex_yield,cv.veriety_id from crop_details cd\r\n" + 
-        		"inner join farmer f on f.farmer_id = cd.farmer_id \r\n" + 
-        		"inner join season_master sm on sm.season_id=cd.season_ref \r\n" + 
-        		"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" + 
-        		"left join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer) \r\n" + 
-        		"left join new_sowing_info nsi on nsi.sowing_id = cd.sowing_id\r\n" + 
-        		"where f.fpo_ref_id = :masterId and cd.is_deleted=false";
-		
-		List<CropListOfFarmersDTO> obj =  (List<CropListOfFarmersDTO>) entityManager.createNativeQuery(sql,"CropListOfFarmersDTO").setParameter("masterId", masterId).getResultList();
-		  return obj;
-	}
-	
-	@Override
-	public NewSowing addFarmerCropDetails(NewSowing newSowing) 
-	{
+	public NewSowing addFarmerCropDetails(NewSowing newSowing) {
 		return newSowingMasterRepository.save(newSowing);
 	}
 
 	@Override
 	public Optional<FPORegister> findById(Integer fpoId) {
 		return fpoRepository.findById(fpoId);
-		
+
 	}
 
+
+	@Override
+	public List<ProductionDetailsDTO> getProductionDetailAnnual(String finyear, Integer masterId) {
+		List<ProductionDetailsDTO> list = null;
+		try {
+
+			String sql = "Select cm.crop_name, cvm.veriety,sm.season_name, tp.total_marketable, tp.total_sold \r\n" +
+					"from total_production tp \r\n" +
+					"inner join fpo f on f.fpo_id = tp.fpo_id \r\n" +
+					"inner join season_master sm on sm.season_id=tp.season_id \r\n" +
+					"inner join crop_master cm on cm.id=tp.crop_id \r\n" +
+					"inner join crop_veriety_master cvm on cvm.veriety_id=tp.crop_id \r\n" +
+					"where tp.fpo_id = :masterId and  f.is_deleted = false \r\n";
+
+			/*String sql = "Select cast(sm.season_id as integer) as \"seasonName\",sm.season_name, \r\n" +
+					"cast(cm.id as integer)  as \"cropRefName\",cm.crop_name,case when cast(cd.veriety_ref as integer)!=0 then  \r\n" +
+					"cv.crop_veriety else 'Other'end crop_veriety\r\n" +
+					",cd.sowing_area,cd.ex_yield,cv.veriety_id as \"verietyRef\",cd.land_id from crop_details cd\r\n" +
+					"inner join fpo f on f.fpo_id = cd.fpo_id  \r\n" +
+					"inner join season_master sm on sm.season_id=cd.season_ref   \r\n" +
+					"inner join crop_master cm on cm.id=cast( crop_ref as integer) \r\n" +
+					"left  join crop_veriety_master cv on cv.veriety_id = cast (cd.veriety_ref as integer)  \r\n" +
+					"where f.fpo_id = :masterId and cd.financial_year = :finyear and cd.is_deleted = false";*/
+			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailDTO").setParameter("masterId", masterId).getResultList();
+			return obj;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	@Override
+	public List<ProductionDetailsDTO> getProductionDetailGraph(String finyear, Integer masterId) {
+		List<ProductionDetailsDTO> list = null;
+		try {
+			String sql = "Select cm.crop_name, cvm.veriety,sm.season_name, tp.total_marketable, tp.total_sold \r\n" +
+					"from total_production tp \r\n" +
+					"inner join fpo f on f.fpo_id = tp.fpo_id \r\n" +
+					"inner join season_master sm on sm.season_id=tp.season_id \r\n" +
+					"inner join crop_master cm on cm.id=tp.crop_id \r\n" +
+					"inner join crop_veriety_master cvm on cvm.veriety_id=tp.crop_id \r\n" +
+					"where tp.fpo_id = :masterId and  f.is_deleted = false \r\n";
+
+			List<ProductionDetailsDTO> obj = (List<ProductionDetailsDTO>) entityManager.createNativeQuery(sql, "ProductionDetailDTO").setParameter("masterId", masterId).getResultList();
+			return obj;
+
+			/*String sql = "Select tp.crop_id, tp.veriety_id, tp.total_marketable, tp.total_sold, \r\n" +
+					"from total_production tp\r\n" +
+					"inner join fpo f on f.fpo_id = tp.fpo_id \r\n" +
+					"inner join crop_master cm on cm.id=tp.crop_id \r\n" +
+					"inner join crop_veriety_master cm on cm.id=tp.crop_id \r\n" +
+					"inner join crop_veriety_master cm on cm.id=tp.crop_id \r\n" +
+					"where f.fpo_id = :masterId and tp.is_deleted=false";*/
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

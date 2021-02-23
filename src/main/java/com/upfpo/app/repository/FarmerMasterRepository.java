@@ -35,4 +35,7 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 public int checkUserFarmerExists(String userName);
 	 
 	 public List<FarmerMaster> findByFpoRefIdAndIsDeletedOrderByFarmerIdDesc(Integer masterId, boolean val);
+	 
+	 @Query("select f.fpoRefId from FarmerMaster f where f.farmerId = :farmerId")
+	 public Integer getFpoIdofFarmer(Integer farmerId);
 }

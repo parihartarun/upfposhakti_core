@@ -1,13 +1,33 @@
 package com.upfpo.app.entity;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.UpAgriDataDto;
+
 @Entity
+
+@SqlResultSetMapping(name="UpAgriDataDto",
+classes = {
+    @ConstructorResult(
+            targetClass = UpAgriDataDto.class,
+            columns = {
+            	@ColumnResult(name = "district_id", type = Integer.class),
+            	@ColumnResult(name = "district_name", type = String.class),
+            	@ColumnResult(name = "block_id", type = Integer.class),
+            	@ColumnResult(name = "block_name", type = String.class),
+            	@ColumnResult(name = "village_id", type = Integer.class),
+            	@ColumnResult(name = "village_name", type = String.class),
+           })
+})
+
 @Table(name="block")
 public class BlockMaster implements Serializable {
 	

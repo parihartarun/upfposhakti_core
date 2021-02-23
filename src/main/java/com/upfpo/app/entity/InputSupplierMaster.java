@@ -61,20 +61,23 @@ public class InputSupplierMaster implements Serializable
 	@Column(name="gst_number")
 	private String gstNumber;
 	
-	@Column(name="seed_id")
-	private Integer seed_id;
-	
 	@Column(name="is_deleted")
 	private boolean isDeleted;
 	
-	@Column(name="Fertilizer")
-	private String Fertilizer;
+//	@Column(name="seed_id")
+//	private Integer seed_id;
+
+//	@Column(name="Fertilizer")
+//	private String Fertilizer;
+//	
+//	@Column(name="cide")
+//	private String cide;
+//	
+//	@Column(name="Equipment")
+//	private String Equipment;
 	
-	@Column(name="cide")
-	private String cide;
-	
-	@Column(name="Equipment")
-	private String Equipment;
+	@Column(name="category_deal")
+	private String categoryDeal;
 	
 	
 	@OneToOne(cascade = {CascadeType.ALL})
@@ -194,35 +197,43 @@ public class InputSupplierMaster implements Serializable
 		this.gstNumber = gstNumber;
 	}
 
-	public Integer getSeed_id() {
-		return seed_id;
+	public String getCategoryDeal() {
+		return categoryDeal;
 	}
 
-	public String getFertilizer() {
-		return Fertilizer;
+	public void setCategoryDeal(String categoryDeal) {
+		this.categoryDeal = categoryDeal;
 	}
 
-	public void setFertilizer(String fertilizer) {
-		Fertilizer = fertilizer;
-	}
-
-	public String getCide() {
-		return cide;
-	}
-	
-	public void setSeed_id(Integer seed_id) {
-		this.seed_id = seed_id;
-	}
-
-	public void setCide(String cide) {
-		this.cide = cide;
-	}
-
-	public String getEquipment() {
-		return Equipment;
-	}
-
-	public void setEquipment(String equipment) {
-		Equipment = equipment;
-	}
+//	public Integer getSeed_id() {
+//		return seed_id;
+//	}
+//
+//	public String getFertilizer() {
+//		return Fertilizer;
+//	}
+//
+//	public void setFertilizer(String fertilizer) {
+//		Fertilizer = fertilizer;
+//	}
+//
+//	public String getCide() {
+//		return cide;
+//	}
+//	
+//	public void setSeed_id(Integer seed_id) {
+//		this.seed_id = seed_id;
+//	}
+//
+//	public void setCide(String cide) {
+//		this.cide = cide;
+//	}
+//
+//	public String getEquipment() {
+//		return Equipment;
+//	}
+//
+//	public void setEquipment(String equipment) {
+//		Equipment = equipment;
+//	}
 }
