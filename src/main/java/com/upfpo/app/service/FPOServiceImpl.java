@@ -269,12 +269,6 @@ public class FPOServiceImpl implements FPOService {
 
 	}
 
-
-	@Override
-	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) {
-		return fpoRepository.getFarmerDetailsForCropSowing(farmerId);
-	}
-
 	@Override
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) {
 		String sql = "Select cd.crop_id id,f.farmer_id,f.farmer_name,f.farmer_parants father_husband_name,\r\n" +

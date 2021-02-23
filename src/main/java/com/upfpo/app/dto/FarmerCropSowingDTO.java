@@ -2,36 +2,25 @@ package com.upfpo.app.dto;
 
 public class FarmerCropSowingDTO 
 {
-	private Integer farmerId;
-	
 	private String farmerName;
 	
 	private String parantsName;
 	
 	private double land_area;
 	
-	public FarmerCropSowingDTO( String parantsName, double land_area) 
-	 { 
-		  //this.farmerName   =   farmerName;
-		  //this.farmerId		=   farmerId;
-		  this.parantsName 	= 	parantsName;
-		  this.land_area 	= 	land_area;
-	 }
-
+	public FarmerCropSowingDTO(String farmerName, String parantsName, double land_area) {
+		super();
+		this.farmerName = farmerName;
+		this.parantsName = parantsName;
+		this.land_area = land_area;
+	}
+	
 	public String getFarmerName() {
 		return farmerName;
 	}
 
 	public void setFarmerName(String farmerName) {
 		this.farmerName = farmerName;
-	}
-
-	public Integer getFarmerId() {
-		return farmerId;
-	}
-
-	public void setFarmerId(Integer farmerId) {
-		this.farmerId = farmerId;
 	}
 
 	public String getParantsName() {
@@ -49,6 +38,5 @@ public class FarmerCropSowingDTO
 	public void setLand_area(double land_area) {
 		this.land_area = land_area;
 	}
-	
-	
+
 }

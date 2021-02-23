@@ -39,6 +39,11 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	@Override 
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
 	  {
+		/*String sql =  "SELECT f.farmer_name as farmerName, f.farmer_parants as parantsName, sum(l.land_area) FROM \r\n"
+				+ "land_details l join farmer f on l.farmer_id = f.farmer_id  where f.farmer_id= :farmerId group by f.farmer_name,parantsName;";
+		
+		FarmerCropSowingDTO obj = (FarmerCropSowingDTO)entityManager.createNativeQuery(sql,"FarmerCropSowingDTO").setParameter("farmerId", farmerId).getSingleResult();  
+		return obj;*/
 		  return newSowingMasterRepository.getFarmerDetailsForCropSowing(farmerId);
 	  }
 
