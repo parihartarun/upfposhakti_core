@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value="inputsupplier/seed/")
-@Api(produces = "application/json", tags="Farmer Producer Organization", value = "Add, Update, Delete, and retrive the FPO")
+@Api(produces = "application/json", tags="InputSupplierSeed Controller", value = "Add, Update, Delete, and retrive the InputSupplierSeed Detail")
 public class InputSupplierSeedController {
     
     @Autowired
