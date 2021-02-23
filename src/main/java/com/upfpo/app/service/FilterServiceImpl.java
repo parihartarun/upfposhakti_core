@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.upfpo.app.dto.DistrictFilterDto;
+import com.upfpo.app.dto.CropFilterDto;
+import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.repository.FilterRepository;
 
 @Service
@@ -15,9 +16,21 @@ public class FilterServiceImpl implements FilterService {
 	private FilterRepository filterRepository;
 	
 	@Override
-	public List<DistrictFilterDto> getDistrictFilterListBySearchKeys(String value, String in) {
+	public List<FilterDto> getDistrictFilterListBySearchKeys(String value, String in) {
 		
 		return filterRepository.getDistrictsByFilterKeys(value, in);
 	}
 
+	@Override
+	public List<FilterDto> getFpoFilterListBySearchKeys(String value, String in) {
+		
+		return filterRepository.getFposByFilterKeys(value, in);
+	}
+
+	@Override
+	public List<CropFilterDto> getCropFilterListBySearchKeys(String value, String in) {
+		// TODO Auto-generated method stub
+		return filterRepository.getCropsByFilterKeys(value, in);
+	}
+	
 }

@@ -17,23 +17,41 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.CropMasterDto;
+import com.upfpo.app.dto.CropVerietyFilterDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
-import com.upfpo.app.dto.DistrictFilterDto;
+import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 
 
 
 @SqlResultSetMapping(name = "BookValueMapping", 
 classes = @ConstructorResult(
-        targetClass = DistrictFilterDto.class, 
-        columns = { @ColumnResult(name = "districtName"),
-                    @ColumnResult(name = "districtId")}
+        targetClass = FilterDto.class, 
+        columns = { @ColumnResult(name = "name"),
+                    @ColumnResult(name = "id")}
         )
 )
 
+@SqlResultSetMapping(name = "CropValueMapping", 
+classes = {@ConstructorResult(
+        targetClass = CropFilterDto.class, 
+        columns = { @ColumnResult(name = "name"),
+                    @ColumnResult(name = "id")
+        }
+        ),
+       @ConstructorResult(
+        targetClass = CropVerietyFilterDto.class, 
+        columns = { @ColumnResult(name = "verietyName"),
+                    @ColumnResult(name = "verietyId")
+        }
+        )
+}
+)
+
 @SqlResultSetMapping(name = "SearchDistrictMapper", classes = @ConstructorResult(
-	    targetClass = DistrictFilterDto.class,
+	    targetClass = FilterDto.class,
 	    columns = {
 	            @ColumnResult(name = "districtName", type = String.class),
 	            @ColumnResult(name = "districtId", type = Integer.class)
