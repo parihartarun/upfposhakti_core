@@ -180,7 +180,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 				newCropDetails = cropDetailsRepository.save(newCropDetails);
 				
 				totalProductionCalculation.updateTotalProductionChange(cropDatailsMaster.getCropRefName(), cropDatailsMaster.getVerietyRef(), cropDatailsMaster.getSeasonRefName(), 
-						finYear,cropDatailsMaster.getMasterId());
+						finYear,newCropDetails.getMasterId());
 			}
 		}
 		catch(Exception e)
