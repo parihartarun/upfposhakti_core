@@ -2,8 +2,10 @@ package com.upfpo.app.controller;
 
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UpAgriDataDto;
+import com.upfpo.app.entity.CropVerietyMaster;
 import com.upfpo.app.upagri.UpAgriClient;
 import com.upfpo.app.upagri.UpAgriService;
 
@@ -38,7 +41,7 @@ public class UpAgriClientController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	})
-	public UpAgriDataDto getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
+	public ResponseEntity<UpAgriDataDto> getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
 	{
 		UpAgriDataDto upAgri = null;
 		try {
@@ -47,8 +50,9 @@ public class UpAgriClientController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		return upAgri;
+		//return upAgri;
 				//(ResponseEntity<UpAgriDataDto>) ResponseEntity.ok(upAgriService.upagri(reg_no));
+		return new ResponseEntity<UpAgriDataDto>(upAgri, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/getUpAgriArea/{reg_no}")
