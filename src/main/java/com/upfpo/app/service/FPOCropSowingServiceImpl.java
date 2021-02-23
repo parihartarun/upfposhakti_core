@@ -85,6 +85,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			  farmerMasterId = newSowing.getMasterId();
 		  }
 		cropDetails = newSowing.getList();
+		newSowing.setMasterId(farmerMasterId);
 		for(int i = 0; i < cropDetails.size(); i++)
 		{
 			cropDetails.get(i).setFinYear(finYear);
