@@ -142,7 +142,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 				sql = sql + "where nsi.farmer_id = :farmerId and nsi.fin_year = :finYear and cd.is_deleted = false group by  nsi.sowing_id,cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, \r\n"
 						+ "				crop_master_id, cm.crop_name,f.farmer_id,f.farmer_name, father_husband_name, sm.season_id, sm.season_name, cv.veriety_id, cv.crop_veriety";
 				obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("farmerId", reportRequestString.getFarmerId()).
-						setParameter("masterId", reportRequestString.getMasterId()).setParameter("finYear", finYear).getResultList();
+						setParameter("finYear", finYear).getResultList();
 			}
 			else
 			{
