@@ -13,9 +13,9 @@ import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOCropSowingExistingDTO;
 import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.CropDatails;
-import com.upfpo.app.entity.MarketableSurplus;
 import com.upfpo.app.entity.NewSowing;
 import com.upfpo.app.repository.CropDetailsRepository;
+import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.NewSowingMasterRepository;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.util.GetFinYear;
@@ -35,6 +35,9 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 	
 	@Autowired
 	TotalProductionCalculation totalProductionCalculation;
+	
+	@Autowired
+	FarmerMasterRepository farmerMasterRepository;
 	
 	@Override 
 	public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId) 
@@ -72,6 +75,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 		String finYear = GetFinYear.getCurrentFinYear();
 		newSowing.setFinYear(finYear);
 		List<CropDatails> cropDetails = null;
+		Integer farmerMasterId = null;
 		cropDetails = newSowing.getList();
 		for(int i = 0; i < cropDetails.size(); i++)
 		{
@@ -81,6 +85,15 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			cropDetails.get(i).setDeleted(false);
 		}
 		newSowingMasterRepository.save(newSowing);
+		
+		  if(newSowing.getFarmerId().equals(newSowing.getMasterId())) 
+		  { 
+			  farmerMasterId = farmerMasterRepository.getFpoIdofFarmer(newSowing.getFarmerId());
+		  }
+		  else
+		  {
+			  farmerMasterId = newSowing.getMasterId();
+		  }
 		for(int i = 0; i < cropDetails.size(); i++)
 		{
 			System.out.println(i);
@@ -88,7 +101,7 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 			cropDetails.get(i).setSeasonRefName(newSowing.getSeasonRefName());
 			System.out.println("Crop Id::"+cropDetails.get(i).getCropRefName()+"Veriety Id::"+cropDetails.get(i).getVerietyRef());
 			totalProductionCalculation.updateTotalProductionChange(cropDetails.get(i).getCropRefName(), cropDetails.get(i).getVerietyRef(), cropDetails.get(i).getSeasonRefName(), 
-					finYear, newSowing.getMasterId());
+					finYear, farmerMasterId);
 		}
 	}
 	
