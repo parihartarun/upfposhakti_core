@@ -28,9 +28,20 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.Errors;
 
 import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.DistrictFilterDto;
 
 
 @Entity
+
+@SqlResultSetMapping(name="DistrictFilterDto",
+classes = {
+    @ConstructorResult(
+            targetClass = DistrictFilterDto.class,
+            columns = {
+                @ColumnResult(name = "districtId", type = Integer.class),
+                @ColumnResult(name = "districtName", type = String.class)
+           })
+})
 
 @SqlResultSetMapping(name="DisplayDataDTO",
 classes = {

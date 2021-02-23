@@ -1016,6 +1016,7 @@ public class DataDisplayRepository {
 		
 		
 		}
+		
 		else if (searchIn.equalsIgnoreCase("fpo_name")) 
 		{
 
@@ -1048,7 +1049,7 @@ public class DataDisplayRepository {
 			sql = "Select id, unitassla,state, district, cropid, nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"
 					+ "districts.district_name district,fpo.fpo_name nodal,fpo.fpo_landline mobile,fpo.fpo_email email,\r\n"
-					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40) ) from 1 for 10)as varchar) associationdate, cm.id cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
+					+ "fpo_lot_no ,cast (substring(CAST ( date_of_regi AS character varying (40)) from 1 for 10)as varchar) associationdate, cm.id cropid,cast(string_agg(distinct cm.crop_name, ', ')as varchar) crops,\r\n"
 					+ "CONCAT(cast(string_agg(distinct ads.service_name, ', ')as varchar),' ',cast(string_agg(distinct fmb.equpment_name, ', ')as varchar)) services, cv.crop_veriety as cropVeriety, cast(coalesce(pd.marketable_quantity,0) as varchar)\r\n"
 					+ "as marketableSurplus,apro.actual_production as actualProduction\r\n"
 					+ "from fpo inner join states on states.state_id = fpo.state_ref\r\n"
@@ -1067,7 +1068,7 @@ public class DataDisplayRepository {
 					+ "where\r\n"
 					+ "UPPER(district) like '%"+searchVal.toUpperCase()+"%'";
 					
-		}
+		} 
 			else if (searchIn.equalsIgnoreCase("crop")) 
 			{
 
@@ -1095,7 +1096,7 @@ public class DataDisplayRepository {
 						+ "where\r\n"
 						+ "UPPER(crops) like '%"+searchVal.toUpperCase()+"%'";
 			}
-			
+		
 			else if (searchIn.equalsIgnoreCase("services")) 
 			{
 
