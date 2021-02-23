@@ -38,7 +38,7 @@ public class UpAgriClientController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	})
-	public ResponseEntity<UpAgriDataDto> getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
+	public UpAgriDataDto getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
 	{
 		UpAgriDataDto upAgri = null;
 		try {
@@ -47,7 +47,8 @@ public class UpAgriClientController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		return (ResponseEntity<UpAgriDataDto>) ResponseEntity.ok(upAgriService.upagri(reg_no));
+		return upAgri;
+				//(ResponseEntity<UpAgriDataDto>) ResponseEntity.ok(upAgriService.upagri(reg_no));
 	}
 	
 	@GetMapping(value="/getUpAgriArea/{reg_no}")
