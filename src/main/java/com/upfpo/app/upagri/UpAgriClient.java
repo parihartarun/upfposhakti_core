@@ -15,7 +15,7 @@ import com.upfpo.app.dto.UpAgriDataDto;
 public class UpAgriClient {
 	
 	@Autowired
-	UpAgriService upAgriService;
+	EntityManager entityManager;
 	
     public String upagri(String reg_no) throws MalformedURLException, RemoteException
     {
@@ -39,7 +39,7 @@ public class UpAgriClient {
         String _bank_name = StringUtils.substringBetween(list_resp, "<Bank_x0020_Name>", "</Bank_x0020_Name>");
         String _ifsc = StringUtils.substringBetween(list_resp, "<IFSC_x0020_Code>", "</IFSC_x0020_Code>");
         String _accno = StringUtils.substringBetween(list_resp, "<Bank_x0020_Account_x0020_NO>", "</Bank_x0020_Account_x0020_NO>");
-        UpAgriDataDto obj = upAgriService.getUpAgriData(_anydist,_blck,_vill);
+        //UpAgriDataDto obj = upAgriService.getUpAgriData(_anydist,_blck,_vill);
         
         System.err.println("  _anyname == "+_anyname +"  _fath == "+_fath +
         		"  _anydist == "+_anydist+"  _blck== "+_blck+"  _vill== "+_vill+"  _cat == "+_cat+
@@ -53,6 +53,39 @@ public class UpAgriClient {
         			
         return list_any16.toString();
     }
+    
+    public UpAgriDataDto getUpAgriData(String _anydist,String _blck,String _vill) {
+		UpAgriDataDto obj = null;
+		   try
+			{
+			  String sql = null;
+			  String anydist = _anydist.toUpperCase();
+			  String blck = _blck.toUpperCase();
+			  String vill = _vill.toUpperCase();
+//			  if(_vill == "" || _vill == null) {
+//				  sql = "select d.district_id,d.district_name,b.block_id,b.block_name from districts d join block b on d.district_id = b.district_id\r\n"
+//					  		+ "and d.district_name= :"+_anydist+" and b.block_name= :"+_blck;
+//					   
+//			  }
+//			  else {
+				  sql = "select d.district_id,d.district_name,b.block_id,b.block_name, v.village_id,v.village_name \r\n"
+				  		+ "from districts d join block b on d.district_id = b.district_id\r\n"
+				  		+ "join villages v on v.district_id = b.district_id where v.village_name =:vill and\r\n"
+				  		+ "d.district_name=:anydist and b.block_name=:blck";
+			  //}
+		
+			  obj = (UpAgriDataDto) entityManager.createNativeQuery(sql, "UpAgriDataDto")
+					 .setParameter("anydist", anydist)
+					 .setParameter("blck", blck)
+					 .setParameter("vill", vill)
+					.getSingleResult();
+			  System.out.println(obj.getBlock_name());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		   return obj;
+	}
     
     public static String upagri_area(String reg_no) throws MalformedURLException, RemoteException
     {

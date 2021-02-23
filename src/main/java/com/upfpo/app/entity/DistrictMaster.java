@@ -29,20 +29,6 @@ classes = {
            })
 })
 
-@SqlResultSetMapping(name="UpAgriDataDto",
-classes = {
-    @ConstructorResult(
-            targetClass = UpAgriDataDto.class,
-            columns = {
-            	@ColumnResult(name = "district_id", type = Integer.class),
-            	@ColumnResult(name = "district_name", type = String.class),
-            	@ColumnResult(name = "block_id", type = Integer.class),
-            	@ColumnResult(name = "block_name", type = String.class),
-            	@ColumnResult(name = "village_id", type = Integer.class),
-            	@ColumnResult(name = "village_name", type = String.class),
-           })
-})
-
 @Table(name="districts")
 public class DistrictMaster implements Serializable{
 	

@@ -1,5 +1,7 @@
 package com.upfpo.app.dto;
 
+import javax.persistence.Entity;
+
 public class UpAgriDataDto {
 	private Integer district_id;
 	private String district_name;
@@ -8,6 +10,7 @@ public class UpAgriDataDto {
 	private Integer village_id;
 	private String village_name;
 	
+
 	public UpAgriDataDto(Integer district_id, String district_name, Integer block_id, String block_name,
 			Integer village_id, String village_name) {
 		super();
