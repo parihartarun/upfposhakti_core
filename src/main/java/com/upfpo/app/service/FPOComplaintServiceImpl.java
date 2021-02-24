@@ -132,6 +132,35 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         complaints.setDeleted(false);
         return chcIsBsComplaintRepository.save(complaints);
     }
+    
+    public ChcIsBsComplaints createComplaintByBuyerSeller(ChcIsBsComplaints complaints, MultipartFile file){
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        complaints.setStatus(Status.OPEN);
+        complaints.setCreateBy(currentPrincipalName);
+        complaints.setCreateDateTime(Calendar.getInstance());
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            //Path path = Paths.get( fileBasePath+fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/fpocomplaint/download/")
+                    .path(fileName)
+                    .toUriString();
+            complaints.setFilePath(fileDownloadUri);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+        complaints.setDeleted(false);
+        return chcIsBsComplaintRepository.save(complaints);
+    }
+
 
     @Override
     public ChcIsBsComplaints createComplaintByCHCFMB(ChcIsBsComplaints complaints, MultipartFile file){
@@ -216,9 +245,23 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FPOComplaints> getComplaintByChcFmbId(Integer masterId){
+    public List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer masterId){
 
-        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
+        return complaint;
+    }
+    
+    @Override
+    public List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer masterId){
+
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByBuyerSellerIdOrderByIdDesc(masterId);
+        return complaint;
+    }
+    
+    @Override
+    public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role){
+
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findAllComplaintIsChcBsByRole(role);
         return complaint;
     }
 

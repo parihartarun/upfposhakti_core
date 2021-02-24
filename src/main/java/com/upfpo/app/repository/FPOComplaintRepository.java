@@ -17,7 +17,5 @@ public interface FPOComplaintRepository extends JpaRepository<FPOComplaints, Int
 
     List<FPOComplaints> findByFpoId(Integer fpoId);
 
-    List<FPOComplaints> findByChcFmbIdOrderByIdDesc(Integer chcId);
-
     List<FPOComplaints> findByIsDeletedOrderByIdDesc(Boolean b);
 }

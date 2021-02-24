@@ -100,19 +100,19 @@ public class FPOComplaintController {
 
 
     @GetMapping("/chcfmb/{id}")
-    @ApiOperation(value="CHC/FMB Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By CHC/FMB ID",response= FPOComplaints.class)
+    @ApiOperation(value="CHC/FMB Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FPOComplaints> getComplaintByChcFmbId (@PathVariable Integer id){
+    public List<ChcIsBsComplaints> getComplaintByChcFmbId (@PathVariable Integer id){
         return fpoComplaintService.getComplaintByChcFmbId(id);
     }
 
 
     @GetMapping("/inputsupplier/{id}")
-    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Supplier ID",response= ChcIsBsComplaints.class)
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -121,10 +121,35 @@ public class FPOComplaintController {
     public List<ChcIsBsComplaints> getComplaintBySupplierId(@PathVariable Integer id){
         return fpoComplaintService.getComplaintBySupplierId(id);
     }
+    
+    
+    @GetMapping("/buyerseller/{id}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ChcIsBsComplaints> getComplaintByBuyerSellerId(@PathVariable Integer id){
+        return fpoComplaintService.getComplaintByBuyerSellerId(id);
+    }
+    
+    
+    //this api for all compalaint of input supplier , Chc Fmb, Buyer seller using role
+    @GetMapping("/getAllComplaintIsChcBs/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintIsChcBsByRole(role);
+    }
 
 
     @PostMapping
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all FPO Create Complaint",response= FPOComplaints.class)
+    @ApiOperation(value="Create Fpo Complaint" ,code=201, produces = "application/json", notes="Api for all FPO Create Complaint",response= FPOComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -159,7 +184,7 @@ public class FPOComplaintController {
 
 
     @PostMapping("/inputsupplier")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= ChcIsBsComplaints.class)
+    @ApiOperation(value="Create Input supplier Complaint" ,code=201, produces = "application/json", notes="Api for all create Input supplier Complaint",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -168,7 +193,7 @@ public class FPOComplaintController {
     public ResponseEntity<MessageResponse> createComplaintInputSupplier(@RequestParam("description") String description, @RequestParam("title") String title,
                                                            @RequestParam("issue_type") String issueType, @RequestParam("masterId") Integer masterId,@RequestParam("role") String role,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside FPOComplaintController saving Complaint ");
+        LOG.info("Inside Input Supplier omplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
@@ -180,12 +205,12 @@ public class FPOComplaintController {
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-                LOG.info("FPOComplaint  created Successfully!");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint created successfully"), HttpStatus.OK );
+                LOG.info("Input Supplier Complaint  created Successfully!");
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         } catch (Exception e) {
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-                LOG.info("Failed to Save the FPOComplaint");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Input Supplier Complaint");
                 e.printStackTrace();
         }}
         else{
@@ -197,7 +222,7 @@ public class FPOComplaintController {
     }
     
     @PostMapping("/chcfmb")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= ChcIsBsComplaints.class)
+    @ApiOperation(value="Create Chc Fmb Complaint" ,code=201, produces = "application/json", notes="Api for create Chc Fmb Complaint",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -206,7 +231,7 @@ public class FPOComplaintController {
     public ResponseEntity<MessageResponse> createComplaintCHCFMB(@RequestParam("description") String description, @RequestParam("title") String title,
                                                                  @RequestParam("issue_type") String issueType, @RequestParam("masterId") Integer masterId,
                                                                  @RequestParam("role") String role, @RequestParam(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside FPOComplaintController saving Complaint ");
+        LOG.info("Inside chcfmbComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
@@ -218,15 +243,53 @@ public class FPOComplaintController {
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByCHCFMB(complaints, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-                LOG.info("FPOComplaint  created Successfully!");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint created successfully"), HttpStatus.OK );
+                LOG.info("chcfmbComplaint  created Successfully!");
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             } catch (Exception e) {
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-                LOG.info("Failed to Save the FPOComplaint");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the chcfmbComplaint");
                 e.printStackTrace();
             }
         }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+    
+    @PostMapping("/buyerseller")
+    @ApiOperation(value="Create Buyer Seller Complaint" ,code=201, produces = "application/json", notes="Api for all create buyer seller complaint",response= ChcIsBsComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintSuyerSeller(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("masterId") Integer masterId,@RequestParam("role") String role,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside Buyer Seller omplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+            	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
+                complaints.setDescription(description);
+                complaints.setIssueType(issueType);
+                complaints.setTitle(title);
+                complaints.setMasterId(masterId);
+                complaints.setRole(role);
+                ChcIsBsComplaints id = fpoComplaintService.createComplaintByBuyerSeller(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint created successfully"), HttpStatus.OK );
+                LOG.info("Buyer Seller Complaint  created Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the Buyer Seller Complaint");
+                e.printStackTrace();
+        }}
         else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
             throw new IllegalArgumentException("Incorrect file type, Photo required.");

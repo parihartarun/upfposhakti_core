@@ -20,6 +20,8 @@ public interface FPOComplaintService {
     ChcIsBsComplaints createComplaintByInpuSupplier(ChcIsBsComplaints complaints, MultipartFile file);
 
     ChcIsBsComplaints createComplaintByCHCFMB(ChcIsBsComplaints complaints, MultipartFile file);
+    
+    ChcIsBsComplaints createComplaintByBuyerSeller(ChcIsBsComplaints complaints, MultipartFile file);
 
     //List<FarmerComplaintDetailDTO> getFarmerComplaintsToFpoByFpoId(Integer fpoId);
 
@@ -29,13 +31,17 @@ public interface FPOComplaintService {
 
     List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId);
 
-    List<FPOComplaints> getComplaintByChcFmbId(Integer chcId);
+    List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer chcId);
 
     List<FarmerComplaintDTO> getAllFPOComplaint();
 
     FPOComplaints updateFPOComplaintStatus(Integer id, FPOComplaints complaints);
 
     Resource loadFileAsResource(String fileName);
+
+	List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer id);
+
+	List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role);
 
     //List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer id);
 }
