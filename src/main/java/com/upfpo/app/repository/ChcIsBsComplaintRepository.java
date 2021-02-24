@@ -10,10 +10,13 @@ import com.upfpo.app.entity.FPOComplaints;
 
 public interface ChcIsBsComplaintRepository extends JpaRepository<ChcIsBsComplaints, Integer>{
 
+	@Query("Select cc from ChcIsBsComplaints cc where cc.masterId = :masterId")
 	List<ChcIsBsComplaints> findByInputSupplierIdOrderByIdDesc(Integer masterId);
 
+	@Query("Select cc from ChcIsBsComplaints cc where cc.masterId = :masterId")
 	List<ChcIsBsComplaints> findByChcFmbIdOrderByIdDesc(Integer masterId);
 
+	@Query("Select cc from ChcIsBsComplaints cc where cc.masterId = :masterId")
 	List<ChcIsBsComplaints> findByBuyerSellerIdOrderByIdDesc(Integer masterId);
 
 	@Query("Select cc from ChcIsBsComplaints cc where cc.role = :role")

@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
-import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,13 +16,10 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.CropMasterDto;
-import com.upfpo.app.dto.CropVerietyFilterDto;
-import com.upfpo.app.dto.DepartmentProdReportDto;
+import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.SearchResponseDto;
-import com.upfpo.app.dto.FPODetailsDTO;
 
 
 

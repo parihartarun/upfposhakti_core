@@ -38,6 +38,9 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 @Query("update com.upfpo.app.entity.TotalProduction t set t.totalSold= :totalSold, t.currentMarketable= :currentMarketable "
 	 		+ "where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister= :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
 	 public void updateMarketable(double totalSold, double currentMarketable, int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
+	 
+	 @Query("select count(distinct t.cropMaster.cropId) from TotalProduction t where t.fpoRegister = :fpoId")
+	 public Integer getCountCrops(Integer fpoId);
 }
 
 
