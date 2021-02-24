@@ -87,8 +87,7 @@ public class UtilController {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
-	})
-	
+	})	
 	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		
