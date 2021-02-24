@@ -45,11 +45,11 @@ public class ChcIsBsComplaints {
 //    @Column(name="fpo_id")
 //    private Integer fpoId;
 
-    @Column(name="chc_fmb_id")
-    private Integer chcFmbId;
+//    @Column(name="chc_fmb_id")
+//    private Integer chcFmbId;
 //
-    @Column(name="input_supplier_id")
-    private Integer inputSupplierId;
+//    @Column(name="input_supplier_id")
+//    private Integer inputSupplierId;
 
     @Column(name="issue_type")
     private String issueType;
@@ -145,21 +145,21 @@ public ChcIsBsComplaints() {
 		// TODO Auto-generated constructor stub
 	}
 
-	    public Integer getChcFmbId() {
-        return chcFmbId;
-    }
-
-    public void setChcFmbId(Integer chcFmbId) {
-        this.chcFmbId = chcFmbId;
-    }
-
-    public Integer getInputSupplierId() {
-        return inputSupplierId;
-    }
-
-    public void setInputSupplierId(Integer inputSupplierId) {
-        this.inputSupplierId = inputSupplierId;
-    }
+//	    public Integer getChcFmbId() {
+//        return chcFmbId;
+//    }
+//
+//    public void setChcFmbId(Integer chcFmbId) {
+//        this.chcFmbId = chcFmbId;
+//    }
+//
+//    public Integer getInputSupplierId() {
+//        return inputSupplierId;
+//    }
+//
+//    public void setInputSupplierId(Integer inputSupplierId) {
+//        this.inputSupplierId = inputSupplierId;
+//    }
 
     public Calendar getUpdateDate() {
         return updateDate;
@@ -361,4 +361,20 @@ public ChcIsBsComplaints() {
     public void setComplaintsComments(List<ComplaintsComments> complaintsComments) {
         this.complaintsComments = complaintsComments;
     }
+
+	public Integer getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

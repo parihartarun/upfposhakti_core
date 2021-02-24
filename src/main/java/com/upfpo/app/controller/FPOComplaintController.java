@@ -166,7 +166,7 @@ public class FPOComplaintController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createComplaintInputSupplier(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                           @RequestParam("issue_type") String issueType, @RequestParam("supplier_id") Integer supplierId,
+                                                           @RequestParam("issue_type") String issueType, @RequestParam("masterId") Integer masterId,@RequestParam("role") String role,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
@@ -177,7 +177,8 @@ public class FPOComplaintController {
                 complaints.setDescription(description);
                 complaints.setIssueType(issueType);
                 complaints.setTitle(title);
-                complaints.setInputSupplierId(supplierId);
+                complaints.setMasterId(masterId);
+                complaints.setRole(role);
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
                 LOG.info("FPOComplaint  created Successfully!");
@@ -187,6 +188,45 @@ public class FPOComplaintController {
                 LOG.info("Failed to Save the FPOComplaint");
                 e.printStackTrace();
         }}
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
+    
+    @PostMapping("/chcfmb")
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= ChcIsBsComplaints.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> createComplaintCHCFMB(@RequestParam("description") String description, @RequestParam("title") String title,
+                                                                 @RequestParam("issue_type") String issueType, @RequestParam("masterId") Integer masterId,
+                                                                 @RequestParam("role") String role, @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside FPOComplaintController saving Complaint ");
+        ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+            	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
+                complaints.setDescription(description);
+                complaints.setIssueType(issueType);
+                complaints.setTitle(title);
+                complaints.setMasterId(masterId);
+                complaints.setRole(role);
+                ChcIsBsComplaints id = fpoComplaintService.createComplaintByCHCFMB(complaints, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
+                LOG.info("FPOComplaint  created Successfully!");
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Save the FPOComplaint");
+                e.printStackTrace();
+            }
+        }
         else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
             throw new IllegalArgumentException("Incorrect file type, Photo required.");

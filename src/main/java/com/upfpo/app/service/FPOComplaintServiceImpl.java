@@ -202,9 +202,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer supplierId){
+    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
 
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByInputSupplierIdOrderByIdDesc(supplierId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByInputSupplierIdOrderByIdDesc(masterId);
         return complaint;
     }
 
@@ -216,9 +216,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FPOComplaints> getComplaintByChcFmbId(Integer chcId){
+    public List<FPOComplaints> getComplaintByChcFmbId(Integer masterId){
 
-        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbIdOrderByIdDesc(chcId);
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
         return complaint;
     }
 
