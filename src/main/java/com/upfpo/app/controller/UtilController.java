@@ -16,6 +16,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
+import com.upfpo.app.dto.SearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.service.MasterService;
@@ -81,14 +82,14 @@ public class UtilController {
 	
 	
 	@PostMapping("/search")
-	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchResponseDto.class,responseContainer="List")
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	
-	public List<SearchResponseDto> homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		
 		return masterServices.newHomeSearch(searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getQuantity(),searchRequestDto.getCropverietyIds(),searchRequestDto.getFpoIds());
