@@ -6,6 +6,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.ChcIsBsComplaints;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 import com.upfpo.app.entity.Status;
@@ -111,13 +112,13 @@ public class FPOComplaintController {
 
 
     @GetMapping("/inputsupplier/{id}")
-    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Supplier ID",response= FPOComplaints.class)
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Supplier ID",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FPOComplaints> getComplaintBySupplierId(@PathVariable Integer id){
+    public List<ChcIsBsComplaints> getComplaintBySupplierId(@PathVariable Integer id){
         return fpoComplaintService.getComplaintBySupplierId(id);
     }
 
@@ -158,7 +159,7 @@ public class FPOComplaintController {
 
 
     @PostMapping("/inputsupplier")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
+    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= ChcIsBsComplaints.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
@@ -172,12 +173,12 @@ public class FPOComplaintController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
             try {
-                FPOComplaints complaints = new FPOComplaints();
+            	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
                 complaints.setDescription(description);
                 complaints.setIssueType(issueType);
                 complaints.setTitle(title);
                 complaints.setInputSupplierId(supplierId);
-                FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
+                ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
                 LOG.info("FPOComplaint  created Successfully!");
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -193,46 +194,6 @@ public class FPOComplaintController {
         LOG.info("Exiting Complaint Of Controller with response ", resp);
         return resp;
     }
-
-
-    @PostMapping("/chcfmb")
-    @ApiOperation(value="Create Complaint" ,code=201, produces = "application/json", notes="Api for all create Complaint",response= FPOComplaints.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<MessageResponse> createComplaintCHCFMB(@RequestParam("description") String description, @RequestParam("title") String title,
-                                                                 @RequestParam("issue_type") String issueType, @RequestParam("chc_fmb_id") Integer chcid,
-                                                                 @RequestParam(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside FPOComplaintController saving Complaint ");
-        ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
-            try {
-                FPOComplaints complaints = new FPOComplaints();
-                complaints.setDescription(description);
-                complaints.setIssueType(issueType);
-                complaints.setTitle(title);
-                complaints.setChcFmbId(chcid);
-                FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
-                LOG.info("FPOComplaint  created Successfully!");
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            } catch (Exception e) {
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-                LOG.info("Failed to Save the FPOComplaint");
-                e.printStackTrace();
-            }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
-        LOG.info("Exiting Complaint Of Controller with response ", resp);
-        return resp;
-    }
-
 
 
     @PutMapping("/complaintstatus/{id}")
