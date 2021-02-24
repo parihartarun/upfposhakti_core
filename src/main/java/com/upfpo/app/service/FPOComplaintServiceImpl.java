@@ -2,10 +2,12 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
+import com.upfpo.app.entity.ChcIsBsComplaints;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
+import com.upfpo.app.repository.ChcIsBsComplaintRepository;
 import com.upfpo.app.repository.ComplaintRepository;
 import com.upfpo.app.repository.FPOComplaintRepository;
 import com.upfpo.app.user.exception.FileStorageException;
@@ -35,6 +37,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     @Autowired
     FPOComplaintRepository fpoComplaintRepository;
+    
+    @Autowired
+    ChcIsBsComplaintRepository chcIsBsComplaintRepository;
 
     @Autowired
     ComplaintRepository complaintRepository;
@@ -100,7 +105,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
 
     @Override
-    public FPOComplaints createComplaintByInpuSupplier(FPOComplaints complaints, MultipartFile file){
+    public ChcIsBsComplaints createComplaintByInpuSupplier(ChcIsBsComplaints complaints, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -125,11 +130,11 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
         complaints.setDeleted(false);
-        return fpoComplaintRepository.save(complaints);
+        return chcIsBsComplaintRepository.save(complaints);
     }
 
     @Override
-    public FPOComplaints createComplaintByCHCFMB(FPOComplaints complaints, MultipartFile file){
+    public ChcIsBsComplaints createComplaintByCHCFMB(ChcIsBsComplaints complaints, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -154,7 +159,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
         complaints.setDeleted(false);
-        return fpoComplaintRepository.save(complaints);
+        return chcIsBsComplaintRepository.save(complaints);
     }
 
 
@@ -197,9 +202,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FPOComplaints> getComplaintBySupplierId(Integer supplierId){
+    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
 
-        List<FPOComplaints> complaint = fpoComplaintRepository.findByInputSupplierIdOrderByIdDesc(supplierId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByInputSupplierIdOrderByIdDesc(masterId);
         return complaint;
     }
 
@@ -211,9 +216,9 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<FPOComplaints> getComplaintByChcFmbId(Integer chcId){
+    public List<FPOComplaints> getComplaintByChcFmbId(Integer masterId){
 
-        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbIdOrderByIdDesc(chcId);
+        List<FPOComplaints> complaint = fpoComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
         return complaint;
     }
 
