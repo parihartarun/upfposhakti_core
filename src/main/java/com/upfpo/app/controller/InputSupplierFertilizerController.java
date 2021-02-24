@@ -3,9 +3,8 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
-import com.upfpo.app.entity.FertilizerName;
-import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
+import com.upfpo.app.service.InputSupplierFertilizerService;
 import com.upfpo.app.service.InputSupplierFertilizerServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +33,6 @@ import java.util.List;
 @Api(produces = "application/json", tags="InputSupplierFertilizer Controller", value = "Add, Update, Delete, and retrive the InputSupplierFertilizer Detail")
 public class InputSupplierFertilizerController {
 
-
     @Autowired
     private InputSupplierFertilizerServiceImpl fertilizerService;
 
@@ -52,28 +50,6 @@ public class InputSupplierFertilizerController {
     })
     public List<InputSupplierFertilizer> getAllInputSupplierFertilizers (){
         return fertilizerService.getAllInputSupplierFertilizer();
-    }
-
-    @GetMapping("/fertilizertype/getall")
-    @ApiOperation(value="FertilizerType List" ,code=201, produces = "application/json", notes="Api for all FertilizerType Info",response= FertilizerType.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<FertilizerType> getFertilizerType (){
-        return fertilizerService.getAllFertilizerType();
-    }
-
-    @GetMapping("/fertilizername/getall")
-    @ApiOperation(value="Fertilizer Name List" ,code=201, produces = "application/json", notes="Api for all FertilizerName Info",response= FertilizerName.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public List<FertilizerName> getAllFertilizerName (){
-        return fertilizerService.getAllFertilizerName();
     }
 
     /*@GetMapping("/{id}")
@@ -97,18 +73,18 @@ public class InputSupplierFertilizerController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> createInputSupplierFertilizer(@RequestParam(value = "type_id", required = false) Integer fertilizerTypeId,
-                                                                         @RequestParam(value = "name_id", required = false) Integer fertilizerNameId,
-                                                                         @RequestParam(value = "fertilizer_grade", required = false) String fertilizerGrade,
-                                                                         @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestParam("input_supplier_id") Integer inputSupplierId,
-                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
+    public ResponseEntity<MessageResponse> createInputSupplierFertilizer(@RequestParam(value = "type_id", required = false) Integer typeId,
+                                                                   @RequestParam(value = "name_id", required = false) Integer nameId,
+                                                                   @RequestParam(value = "fertilizer_grade", required = false) String grade,
+                                                                   @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                   @RequestParam("input_supplier_id") Integer inputSupplierId,
+                                                                   @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(fertilizerTypeId, fertilizerNameId, inputSupplierId, fertilizerGrade, manufacturerName);
+                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,inputSupplierId,nameId, grade,manufacturerName);
                 InputSupplierFertilizer id = fertilizerService.createInputSupplierFertilizer(inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer  created Successfully!");
@@ -163,16 +139,27 @@ public class InputSupplierFertilizerController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateInputSupplierFertilizer(@PathVariable Integer id,
-                                                                         @RequestParam(value = "type_id", required = false) Integer fertilizerTypeId, @RequestParam(value = "name_id", required = false) Integer fertilizerNameId,
-                                                                         @RequestParam(value = "fertilizer_grade", required = false) String fertilizerGrade, @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestParam("input_supplier_id") Integer inputSupplierId,
-                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                                         @RequestPart(value = "type_id", required = false) Integer typeId,
+                                                                         @RequestPart(value = "name_id", required = false) Integer nameId,
+                                                                         @RequestPart(value = "fertilizer_grade", required = false) String grade,
+                                                                         @RequestPart(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                         @RequestPart("input_supplier_id") Integer inputSupplierId,
+                                                                         @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizer updating InputSupplierFertilizer detail ");
-        InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(fertilizerTypeId, fertilizerNameId, inputSupplierId, fertilizerGrade, manufacturerName);
+        /*InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer();
+        inputSupplierFertilizer.setCropId(cropId);
+        inputSupplierFertilizer.setVariety(varietyId);
+        inputSupplierFertilizer.setInputSupplierId(inputSupplierId);
+        inputSupplierFertilizer.setCertificationNumber(certificationNo);
+        inputSupplierFertilizer.setQuantity(quantity);
+        inputSupplierFertilizer.setCompanyBrand(company);
+        inputSupplierFertilizer.setCertificationValidFrom(validFrom);
+        inputSupplierFertilizer.setCertificationValidTo(validTo);*/
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
             try {
+                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,inputSupplierId,nameId, grade,manufacturerName);
                 fertilizerService.updateInputSupplierFertilizer(id, inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer Details Updated Successfully!"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer Updated Successfully!");

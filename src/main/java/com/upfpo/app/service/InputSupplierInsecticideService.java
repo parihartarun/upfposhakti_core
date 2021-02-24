@@ -1,0 +1,19 @@
+package com.upfpo.app.service;
+
+import com.upfpo.app.entity.InputSupplierInsecticide;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+public interface InputSupplierInsecticideService {
+    List<InputSupplierInsecticide> getAllInputSupplierInsecticide();
+
+    InputSupplierInsecticide createInputSupplierInsecticide(InputSupplierInsecticide inputSupplierInsecticide, MultipartFile file);
+
+    Boolean deleteInputSupplierInsecticide(Integer id);
+
+    Resource loadFileAsResource(String fileName);
+
+    InputSupplierInsecticide updateInputSupplierInsecticide(Integer id, InputSupplierInsecticide inputSupplierInsecticide1, MultipartFile file);
+}

@@ -73,9 +73,12 @@ public class InputSupplierSeedController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> createInputSupplierSeed(@RequestParam(value = "crop_id", required = false) Integer cropId, @RequestParam(value = "variety_id", required = false) Integer varietyId,
-                                                                   @RequestParam(value = "company", required = false) String company, @RequestParam(value = "certification_no", required = false) String certificationNo,
-                                                                   @RequestParam(value = "quantity", required = false) Double quantity, @RequestParam(value = "valid_from", required = false) Calendar validFrom,
+    public ResponseEntity<MessageResponse> createInputSupplierSeed(@RequestParam(value = "crop_id", required = false) Integer cropId,
+                                                                   @RequestParam(value = "variety_id", required = false) Integer varietyId,
+                                                                   @RequestParam(value = "company", required = false) String company,
+                                                                   @RequestParam(value = "certification_no", required = false) String certificationNo,
+                                                                   @RequestParam(value = "quantity", required = false) Double quantity,
+                                                                   @RequestParam(value = "valid_from", required = false) Calendar validFrom,
                                                                    @RequestParam(value = "valid_to", required = false) Calendar validTo,
                                                                    @RequestParam("input_supplier_id") Integer inputSupplierId,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -139,11 +142,11 @@ public class InputSupplierSeedController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateInputSupplierSeed(@PathVariable Integer id, @RequestParam(value = "crop_id", required = false) Integer cropId, @RequestParam(value = "variety_id", required = false) Integer varietyId,
-                                                                   @RequestParam(value = "company", required = false) String company, @RequestParam(value = "certification_no", required = false) String certificationNo,
-                                                                   @RequestParam(value = "quantity", required = false) Double quantity, @RequestParam(value = "valid_from", required = false) Calendar validFrom,
-                                                                   @RequestParam(value = "valid_to", required = false) Calendar validTo,
-                                                                   @RequestParam("input_supplier_id") Integer inputSupplierId,
-                                                                   @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                                   @RequestPart(value = "company", required = false) String company, @RequestParam(value = "certification_no", required = false) String certificationNo,
+                                                                   @RequestPart(value = "quantity", required = false) Double quantity, @RequestParam(value = "valid_from", required = false) Calendar validFrom,
+                                                                   @RequestPart(value = "valid_to", required = false) Calendar validTo,
+                                                                   @RequestPart("input_supplier_id") Integer inputSupplierId,
+                                                                   @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierSeed updating InputSupplierSeed detail ");
         InputSupplierSeed inputSupplierSeed = new InputSupplierSeed();
         inputSupplierSeed.setCropId(cropId);

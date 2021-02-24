@@ -13,7 +13,8 @@ public interface InputSupplierFertilizerService {
 
     List<FertilizerType> getAllFertilizerType();
 
-    List<FertilizerName> getAllFertilizerName();
+
+    List<FertilizerName> getAllFertilizerName(Integer typeId);
 
     InputSupplierFertilizer createInputSupplierFertilizer(InputSupplierFertilizer inputSupplierFertilizer, MultipartFile file);
 

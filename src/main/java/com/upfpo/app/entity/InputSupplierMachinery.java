@@ -1,13 +1,11 @@
 package com.upfpo.app.entity;
 
-import sun.util.resources.ext.CalendarData_ar;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "input_supplier_fertilizer")
-public class InputSupplierFertilizer {
+@Table(name = "input_supplier_machinery")
+public class InputSupplierMachinery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,14 +15,14 @@ public class InputSupplierFertilizer {
     @Column(name = "input_supplier_id")
     private Integer inputSupplierId;
 
-    @Column(name = "fertilizer_type_id")
-    private Integer fertilizerType;
+    @Column(name = "machinery_type_id")
+    private Integer machineryTypeId;
 
-    @Column(name = "fertilizer_name_id")
-    private Integer fertilizerNameId;
+    @Column(name = "machinery_name_id")
+    private Integer machinerynameId;
 
-    @Column(name = "fertilizer_grade")
-    private String fertilizerGrade;
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name="manufacturer_name")
     private String manufacturerName;
@@ -57,23 +55,18 @@ public class InputSupplierFertilizer {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-
-    public InputSupplierFertilizer() {
+    public InputSupplierMachinery() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerGrade, String manufacturerName) {
 
-        this.fertilizerType=fertilizerTypeId;
-        this.fertilizerNameId=fertilizerNameId;
+    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, Integer quantity,
+                                  Integer inputSupplierId, String manufacturerName) {
+        this.machineryTypeId=mchineryTypeId;
+        this.machinerynameId=machineryNameId;
+        this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
-        this.fertilizerGrade=fertilizerGrade;
         this.manufacturerName=manufacturerName;
     }
-
-    public InputSupplierFertilizer(Integer inputSupplierId) {
-        this.inputSupplierId=inputSupplierId;
-    }
-
 
     public Integer getId() {
         return id;
@@ -91,28 +84,14 @@ public class InputSupplierFertilizer {
         this.inputSupplierId = inputSupplierId;
     }
 
-    public Integer getFertilizerType() {
-        return fertilizerType;
+
+
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setFertilizerType(Integer fertilizerType) {
-        this.fertilizerType = fertilizerType;
-    }
-
-    public Integer getFertilizerNameId() {
-        return fertilizerNameId;
-    }
-
-    public void setFertilizerNameId(Integer fertilizerNameId) {
-        this.fertilizerNameId = fertilizerNameId;
-    }
-
-    public String getFertilizerGrade() {
-        return fertilizerGrade;
-    }
-
-    public void setFertilizerGrade(String fertilizerGrade) {
-        this.fertilizerGrade = fertilizerGrade;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getManufacturerName() {
@@ -195,4 +174,3 @@ public class InputSupplierFertilizer {
         this.createDateTime = createDateTime;
     }
 }
-

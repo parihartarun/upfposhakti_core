@@ -5,6 +5,7 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
+import com.upfpo.app.entity.InputSupplierFertilizer;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FertilizerNameRepository;
 import com.upfpo.app.repository.FertilizerTypeRepository;
@@ -12,6 +13,8 @@ import com.upfpo.app.repository.InputSupplierFertilizerRepository;
 import com.upfpo.app.repository.InputSupplierFertilizerRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -35,6 +38,8 @@ import java.util.List;
 public class InputSupplierFertilizerServiceImpl implements InputSupplierFertilizerService {
 
 
+    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerServiceImpl.class);
+
     @Autowired
     private InputSupplierFertilizerRepository fertilizerRepository;
 
@@ -44,9 +49,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     @Autowired
     private FertilizerTypeRepository fertilizerTypeRepository;
 
-
     private final Path fileStorageLocation;
-
 
     @Autowired
     public InputSupplierFertilizerServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -58,6 +61,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
     }
+  
 
 
     @Override
@@ -71,9 +75,11 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     }
 
     @Override
-    public List<FertilizerName> getAllFertilizerName(){
-        return fertilizerNameRepository.findAll();
+    public List<FertilizerName> getAllFertilizerName(Integer typeId){
+        return fertilizerNameRepository.findByFertilizerTypeId(typeId);
     }
+  
+
     @Override
     public InputSupplierFertilizer createInputSupplierFertilizer(InputSupplierFertilizer inputSupplierFertilizer, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -89,7 +95,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/complaint/download/")
+                    .path("/inputsupplier/fertilizer/download/")
                     .path(fileName)
                     .toUriString();
             inputSupplierFertilizer.setFilePath(fileDownloadUri);
@@ -115,10 +121,6 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
         }
     }
 
-   /* @Override
-    public List<Crop> getInputSupplierFertilizerCatgories() {
-        return complaintCatgoriesRepository.findAll();
-    }*/
 
 
 
@@ -139,7 +141,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     }
 
     @Override
-    public InputSupplierFertilizer updateInputSupplierFertilizer(Integer id, InputSupplierFertilizer inputSupplierFertilizer1, MultipartFile file) {
+    public InputSupplierFertilizer updateInputSupplierFertilizer(Integer id, InputSupplierFertilizer inputSupplierFertilizer1,  MultipartFile file) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -158,7 +160,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
                 //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/complaint/download/")
+                        .path("/inputsupplier/fertilizer/download/")
                         .path(fileName)
                         .toUriString();
                 fertilizerRepository.findById(id)
@@ -167,20 +169,14 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
                             inputSupplierFertilizer.setFileName(fileName);
                             return fertilizerRepository.saveAndFlush(inputSupplierFertilizer);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
 
         return fertilizerRepository.findById(id)
                 .map(inputSupplierFertilizer -> {
-                    inputSupplierFertilizer.setUpdateBy(inputSupplierFertilizer1.getInputSupplierId());
-                    inputSupplierFertilizer.setFertilizerType(inputSupplierFertilizer1.getFertilizerType());
-                    inputSupplierFertilizer.setFertilizerNameId(inputSupplierFertilizer1.getFertilizerNameId());
-                    inputSupplierFertilizer.setFertilizerGrade(inputSupplierFertilizer1.getFertilizerGrade());
-                    inputSupplierFertilizer.setManufacturerName(inputSupplierFertilizer1.getManufacturerName());
+                    inputSupplierFertilizer.setUpdateBy(inputSupplierFertilizer.getInputSupplierId());
                     inputSupplierFertilizer.setUpdateDate(Calendar.getInstance());
-                    inputSupplierFertilizer.setId(inputSupplierFertilizer1.getId());
                     inputSupplierFertilizer.setDeleted(false);
                     return fertilizerRepository.save(inputSupplierFertilizer);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

@@ -11,6 +11,8 @@ import com.upfpo.app.entity.EqupmentMaster;
 @Repository
 public interface EquipmentMasterRepository extends JpaRepository<EqupmentMaster, Integer> {
 
-	List<EqupmentMaster> findByIsDeleted(boolean b);
 
+    List<EqupmentMaster> findByIsDeletedAndEqipType(boolean b, Integer typeId);
+
+    List<EqupmentMaster> findByIsDeleted(boolean b);
 }

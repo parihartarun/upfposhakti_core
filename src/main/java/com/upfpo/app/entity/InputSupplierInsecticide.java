@@ -1,13 +1,11 @@
 package com.upfpo.app.entity;
 
-import sun.util.resources.ext.CalendarData_ar;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "input_supplier_fertilizer")
-public class InputSupplierFertilizer {
+@Table(name = "input_supplier_insecticide")
+public class InputSupplierInsecticide {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,37 +15,40 @@ public class InputSupplierFertilizer {
     @Column(name = "input_supplier_id")
     private Integer inputSupplierId;
 
-    @Column(name = "fertilizer_type_id")
-    private Integer fertilizerType;
+    @Column(name = "insecticide_type_id")
+    private Integer insecticideTypeId;
 
-    @Column(name = "fertilizer_name_id")
-    private Integer fertilizerNameId;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    @Column(name = "fertilizer_grade")
-    private String fertilizerGrade;
-
-    @Column(name="manufacturer_name")
+    @Column(name = "manufacturer_name")
     private String manufacturerName;
 
-    @Column(name="file_path")
+    @Column(name="cib_rc_no")
+    private String cibRcNumber;
+
+    @Column(name="cib_rc_issuedate")
+    private Calendar cibRcIssueDate;
+
+    @Column(name = "file_path")
     private String filePath;
 
-    @Column(name="file_name")
+    @Column(name = "file_name")
     private String fileName;
 
-    @Column(name="update_date")
+    @Column(name = "update_date")
     private Calendar updateDate;
 
-    @Column(name="update_by")
+    @Column(name = "update_by")
     private Integer updateBy;
 
-    @Column(name="is_deleted")
+    @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @Column(name="delete_date")
+    @Column(name = "delete_date")
     private Calendar deleteDate;
 
-    @Column(name="delete_by")
+    @Column(name = "delete_by")
     private Integer deleteBy;
 
     @Column(name = "create_by")
@@ -58,22 +59,38 @@ public class InputSupplierFertilizer {
     private Calendar createDateTime;
 
 
-    public InputSupplierFertilizer() {
+    public InputSupplierInsecticide() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerGrade, String manufacturerName) {
+    public InputSupplierInsecticide(Integer id, Integer inputSupplierId, Integer insecticideTypeId, Integer quantity, String manufacturerName, String cibRcNumber, Calendar cibRcIssueDate, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
+        this.id = id;
+        this.inputSupplierId = inputSupplierId;
+        this.insecticideTypeId = insecticideTypeId;
+        this.quantity = quantity;
+        this.manufacturerName = manufacturerName;
+        this.cibRcNumber = cibRcNumber;
+        this.cibRcIssueDate = cibRcIssueDate;
+        this.filePath = filePath;
+        this.fileName = fileName;
+        this.updateDate = updateDate;
+        this.updateBy = updateBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
+        this.deleteBy = deleteBy;
+        this.createBy = createBy;
+        this.createDateTime = createDateTime;
+    }
 
-        this.fertilizerType=fertilizerTypeId;
-        this.fertilizerNameId=fertilizerNameId;
+    public InputSupplierInsecticide(Integer insecticideTypeId, Integer quantity, Integer inputSupplierId, String cibRcNumber,
+                                    Calendar cibRcIssuedate) {
+
+        this.insecticideTypeId=insecticideTypeId;
+        this.cibRcNumber=cibRcNumber;
+        this.cibRcIssueDate=cibRcIssuedate;
+        this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
-        this.fertilizerGrade=fertilizerGrade;
         this.manufacturerName=manufacturerName;
     }
-
-    public InputSupplierFertilizer(Integer inputSupplierId) {
-        this.inputSupplierId=inputSupplierId;
-    }
-
 
     public Integer getId() {
         return id;
@@ -91,28 +108,20 @@ public class InputSupplierFertilizer {
         this.inputSupplierId = inputSupplierId;
     }
 
-    public Integer getFertilizerType() {
-        return fertilizerType;
+    public Integer getInsecticideTypeId() {
+        return insecticideTypeId;
     }
 
-    public void setFertilizerType(Integer fertilizerType) {
-        this.fertilizerType = fertilizerType;
+    public void setInsecticideTypeId(Integer insecticideTypeId) {
+        this.insecticideTypeId = insecticideTypeId;
     }
 
-    public Integer getFertilizerNameId() {
-        return fertilizerNameId;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setFertilizerNameId(Integer fertilizerNameId) {
-        this.fertilizerNameId = fertilizerNameId;
-    }
-
-    public String getFertilizerGrade() {
-        return fertilizerGrade;
-    }
-
-    public void setFertilizerGrade(String fertilizerGrade) {
-        this.fertilizerGrade = fertilizerGrade;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getManufacturerName() {
@@ -121,6 +130,22 @@ public class InputSupplierFertilizer {
 
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
+    }
+
+    public String getCibRcNumber() {
+        return cibRcNumber;
+    }
+
+    public void setCibRcNumber(String cibRcNumber) {
+        this.cibRcNumber = cibRcNumber;
+    }
+
+    public Calendar getCibRcIssueDate() {
+        return cibRcIssueDate;
+    }
+
+    public void setCibRcIssueDate(Calendar cibRcIssueDate) {
+        this.cibRcIssueDate = cibRcIssueDate;
     }
 
     public String getFilePath() {
@@ -195,4 +220,3 @@ public class InputSupplierFertilizer {
         this.createDateTime = createDateTime;
     }
 }
-
