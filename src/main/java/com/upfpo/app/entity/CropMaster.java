@@ -22,6 +22,7 @@ import com.upfpo.app.dto.CropMasterDto;
 import com.upfpo.app.dto.CropVerietyFilterDto;
 import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.FilterDto;
+import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 
 
@@ -29,25 +30,44 @@ import com.upfpo.app.dto.FPODetailsDTO;
 @SqlResultSetMapping(name = "BookValueMapping", 
 classes = @ConstructorResult(
         targetClass = FilterDto.class, 
-        columns = { @ColumnResult(name = "name"),
-                    @ColumnResult(name = "id")}
+        columns = {
+        		@ColumnResult(name = "name"),
+        		@ColumnResult(name = "id")
+                    }
         )
 )
 
 @SqlResultSetMapping(name = "CropValueMapping", 
 classes = {@ConstructorResult(
-        targetClass = CropFilterDto.class, 
-        columns = { @ColumnResult(name = "name"),
-                    @ColumnResult(name = "id")
+        targetClass = CropMaster.class, 
+        columns = { @ColumnResult(name = "cropName",type=String.class),
+                    @ColumnResult(name = "cropId",type=Integer.class)
         }
         ),
        @ConstructorResult(
-        targetClass = CropVerietyFilterDto.class, 
-        columns = { @ColumnResult(name = "verietyName"),
-                    @ColumnResult(name = "verietyId")
+        targetClass = CropVerietyMaster.class, 
+        columns = { @ColumnResult(name = "verietyName",type=String.class),
+                    @ColumnResult(name = "verietyId",type=Integer.class)
         }
         )
 }
+)
+
+@SqlResultSetMapping(name = "SearchResponseDTO", 
+classes = @ConstructorResult(
+        targetClass = SearchResponseDto.class, 
+        columns = { @ColumnResult(name = "fpoid",type=Long.class),
+                    @ColumnResult(name = "fpo",type=String.class),
+                    @ColumnResult(name = "district",type=String.class),
+                    @ColumnResult(name = "crop",type=String.class),
+                    @ColumnResult(name = "variety",type=String.class),
+                    @ColumnResult(name = "totalMarketable",type=Double.class),
+                    @ColumnResult(name = "currentMarketable",type=Double.class),
+        }
+        )
+    
+        
+
 )
 
 @SqlResultSetMapping(name = "SearchDistrictMapper", classes = @ConstructorResult(
@@ -105,6 +125,12 @@ public class CropMaster implements Serializable {
 	@Column(name="crop_name")
 	private String  cropName;
 	
+	public CropMaster(String cropName,Integer cropId) {
+		super();
+		this.cropId = cropId;
+		this.cropName = cropName;
+	}
+
 	@Column(name="season_ref_id")
 	private Integer seasonRefId;
 	

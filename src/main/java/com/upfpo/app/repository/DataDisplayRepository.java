@@ -24,6 +24,9 @@ import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.ReportDTO;
+import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchResponseDto;
+import com.upfpo.app.util.GetFinYear;
 
 
 
@@ -1250,5 +1253,90 @@ public class DataDisplayRepository {
 		
 	}
 	
+	public SearchPagePagableDto newHomeSearch(String searchVal, String searchIn, List<Integer> fileterdistricts,
+			List<Integer> fileterqty, List<Integer> filtercrops,List<Integer> fpos)
+	{
+		
+		sql ="";
+		if(searchIn.equalsIgnoreCase("any"))
+		{		
+			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+					+ "dist.district_name as district,\r\n"
+					+ "cp.crop_name as crop,  \r\n"
+					+ "tp.total_marketable as totalMarketable,\r\n"
+					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+					+ "where \r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
+					+ "or UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'";
+		}
+		
+		else if (searchIn.equalsIgnoreCase("fpo_name")) 
+		{
+			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+					+ "dist.district_name as district,\r\n"
+					+ "cp.crop_name as crop,  \r\n"
+					+ "tp.total_marketable as totalMarketable,\r\n"
+					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+					+ "where \r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'";
+		}
+		else if (searchIn.equalsIgnoreCase("district")) 
+		{
+			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+					+ "dist.district_name as district,\r\n"
+					+ "cp.crop_name as crop,  \r\n"
+					+ "tp.total_marketable as totalMarketable,\r\n"
+					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+					+ "where \r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'";
+		} 
+		
+		else if (searchIn.equalsIgnoreCase("crop")) 
+			{	
+			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+					+ "dist.district_name as district,\r\n"
+					+ "cp.crop_name as crop,  \r\n"
+					+ "tp.total_marketable as totalMarketable,\r\n"
+					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+					+ "where \r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
+					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'";
+			}else {
+				
+			}
+		
+
+	
+		
+	//String finalsql = 	"Select * from ("+sql+")";
+		//javax.persistence.Query query = entityManager.createNativeQuery("SELECT COUNT(*) FROM DOG WHERE ID =:id");
+		//query.setParameter("id", 1);
+		//int count = ((Number) query.getSingleResult()).intValue();
+		
+		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();
+		
+		  //obj.subList(0, 0);
+		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
+		  searchPagePagableDto.setPage(obj);
+		  return searchPagePagableDto;
+	}
 	
 }

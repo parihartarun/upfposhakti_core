@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.entity.CropMaster;
+import com.upfpo.app.util.GetFinYear;
 
 @Repository
 public class FilterRepository {
@@ -30,61 +31,65 @@ public class FilterRepository {
 if(in.equalsIgnoreCase(FilterRepository.ANY))
 {
 	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
+			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "order by districts.district_name asc";
+			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+	        + "order by districts.district_name asc";	
 
 }else if(in.equalsIgnoreCase(FilterRepository.DISTRICT))
 {
 	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "order by districts.district_name asc";
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+	        + "order by districts.district_name asc";
+	
 }else if(in.equalsIgnoreCase(FilterRepository.CROP))
 {
 	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-		    + "order by districts.district_name asc";
+	        + "order by districts.district_name asc";
 
 }else if(in.equalsIgnoreCase(FilterRepository.FPO_NAME))
 {
 	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "order by districts.district_name asc";
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"'and UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+	        + "order by districts.district_name asc";
 	
 
 }else {
 	
 	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
+			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "order by districts.district_name asc";
+			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+	        + "order by districts.district_name asc";
 }
 	
 	
@@ -97,61 +102,67 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 if(in.equalsIgnoreCase(FilterRepository.ANY))
 {
 	sql = "select distinct fpo.fpo_name as name, fpo.fpo_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
+			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "order by fpo.fpo_name asc";
+	
 
 }else if(in.equalsIgnoreCase(FilterRepository.DISTRICT))
 {
 	sql = "select distinct fpo.fpo_name as name, fpo.fpo_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "order by fpo.fpo_name asc";
+	
 }else if(in.equalsIgnoreCase(FilterRepository.CROP))
 {
 	sql = "select distinct fpo.fpo_name as name, fpo.fpo_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-		    + "order by fpo.fpo_name asc";
+			+ "order by fpo.fpo_name asc";
 
 }else if(in.equalsIgnoreCase(FilterRepository.FPO_NAME))
 {
 	sql = "select distinct fpo.fpo_name as name, fpo.fpo_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"'and UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "order by fpo.fpo_name asc";
 	
 
 }else {
 	
 	sql = "select distinct fpo.fpo_name as name, fpo.fpo_id as id from fpo \r\n"
-			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
-			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
-			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
-			+ "left join crop_veriety_master cv on cv.crop_master_ref_id = cm.id\r\n"
-			+ "where UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-			+ "or UPPER(districts.district_name) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
+			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
+			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
+			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+			+ "where \r\n"
+			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
+			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
+			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "order by fpo.fpo_name asc";
+			
 }
 	
 	
@@ -163,7 +174,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 		String sql ="";
 if(in.equalsIgnoreCase(FilterRepository.ANY))
 {
-	sql = "select distinct cm.crop_name, cm.id, cv.veriety_id , cv.crop_veriety from fpo \r\n"
+	sql = "select cm.crop_name as cropName, cm.id as cropId, cv.veriety_id as verietyId , cv.crop_veriety as verietyName from fpo \r\n"
 			+ "inner join districts on district_id = fpo.dist_ref_id \r\n"
 			+ "left join marketable_surplus pd on pd.master_id=fpo.fpo_id\r\n"
 			+ "left join crop_master cm on cm.id=cast(pd.crop_ref_name as integer)\r\n"
@@ -222,7 +233,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 }
 	
 	
-	return entityManager.createNativeQuery(sql,CropMaster.class).getResultList(); 
+	return entityManager.createNativeQuery(sql,"CropValueMapping").getResultList(); 
 	}
 	
 }

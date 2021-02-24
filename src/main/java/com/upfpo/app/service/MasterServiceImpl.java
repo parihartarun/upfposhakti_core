@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
+import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.repository.DataDisplayRepository;
 
 @Service
@@ -45,6 +47,16 @@ public class MasterServiceImpl implements MasterService {
 		{
 			return dataDisplayRepository.homeSearch(searchVal,searchIn,fileterdistricts,fileterqty,filtercrops,fpos);
 		}
+
+	}
+	
+	@Override
+	public SearchPagePagableDto newHomeSearch(String searchVal, String searchIn, List<Integer> fileterdistricts,
+			List<Integer> fileterqty,List<Integer> filtercrops,List<Integer> fpos) {
+		// TODO Auto-generated method stub
+		
+				return dataDisplayRepository.newHomeSearch(searchVal,searchIn, fileterdistricts,fileterqty,filtercrops,fpos);			
+	
 
 	}
 
