@@ -15,6 +15,7 @@ public class InsecticideType {
     @Column(name = "insecticide_type")
     private String insecticideType;
 
+   
 
     public Integer getId() {
         return id;
