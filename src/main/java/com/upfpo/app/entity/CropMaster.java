@@ -16,6 +16,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.upfpo.app.dto.CropAndVerietyList;
 import com.upfpo.app.dto.CropMasterDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
@@ -34,19 +35,16 @@ classes = @ConstructorResult(
 )
 
 @SqlResultSetMapping(name = "CropValueMapping", 
-classes = {@ConstructorResult(
-        targetClass = CropMaster.class, 
+classes = @ConstructorResult(
+        targetClass = CropAndVerietyList.class, 
         columns = { @ColumnResult(name = "cropName",type=String.class),
-                    @ColumnResult(name = "cropId",type=Integer.class)
-        }
-        ),
-       @ConstructorResult(
-        targetClass = CropVerietyMaster.class, 
-        columns = { @ColumnResult(name = "verietyName",type=String.class),
+                    @ColumnResult(name = "cropId",type=Integer.class),
+                    @ColumnResult(name = "verietyName",type=String.class),
                     @ColumnResult(name = "verietyId",type=Integer.class)
         }
         )
-}
+       
+
 )
 
 @SqlResultSetMapping(name = "SearchResponseDTO", 

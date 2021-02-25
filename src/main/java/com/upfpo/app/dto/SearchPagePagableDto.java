@@ -4,38 +4,28 @@ import java.util.List;
 
 public class SearchPagePagableDto {
 
-	private Integer pageNumber;
-	private Integer size;
-	private Integer totalSize;
+
+	private Integer totalElements;
 	private List<SearchResponseDto> page;
 	
 	public SearchPagePagableDto() {
 		super();
+	
+		
 	}
-	public SearchPagePagableDto(Integer pageNumber, Integer size, Integer totalSize, List<SearchResponseDto> page) {
+	public SearchPagePagableDto(Integer totalElements, List<SearchResponseDto> page) {
 		super();
-		this.pageNumber = pageNumber;
-		this.size = size;
-		this.totalSize = totalSize;
+	
+		this.totalElements = totalElements;
 		this.page = page;
 	}
-	public Integer getPageNumber() {
-		return pageNumber;
+
+	
+	public Integer getTotalElements() {
+		return totalElements;
 	}
-	public void setPageNumber(Integer pageNumber) {
-		this.pageNumber = pageNumber;
-	}
-	public Integer getSize() {
-		return size;
-	}
-	public void setSize(Integer size) {
-		this.size = size;
-	}
-	public Integer getTotalSize() {
-		return totalSize;
-	}
-	public void setTotalSize(Integer totalSize) {
-		this.totalSize = totalSize;
+	public void setTotalElements(Integer totalElements) {
+		this.totalElements = totalElements;
 	}
 	public List<SearchResponseDto> getPage() {
 		return page;

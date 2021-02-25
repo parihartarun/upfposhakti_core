@@ -7,7 +7,7 @@ public class CropFilterDto {
 
 	private String name;
 	private Integer id;
-	private List<CropVerietyFilterDto> cropVeriety;
+	private List<CropVerietyFilterDto> cropVeriety = new ArrayList<CropVerietyFilterDto>();
 	public String getName() {
 		return name;
 	}
