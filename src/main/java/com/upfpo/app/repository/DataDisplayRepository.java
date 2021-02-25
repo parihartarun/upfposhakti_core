@@ -1291,6 +1291,7 @@ public class DataDisplayRepository {
 		}
 		else if (searchIn.equalsIgnoreCase("district")) 
 		{
+			
 			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
 					+ "cp.crop_name as crop,  \r\n"
