@@ -39,6 +39,9 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 @Query("select f.fpoRefId from FarmerMaster f where f.farmerId = :farmerId")
 	 public Integer getFpoIdofFarmer(Integer farmerId);
 	 
-	 @Query("select count(f) from FarmerMaster f where f.fpoRefId = :fpoId and isDeleted = false")
+	 @Query("select count(f) from FarmerMaster f where f.fpoRefId = :fpoId and f.isDeleted = false")
 	 public Integer getFpoFarmer(Integer fpoId);
+	 
+	 @Query("select count(f) from FarmerMaster f where f.isDeleted = false")
+	 public Integer getAllFarmers();
 }

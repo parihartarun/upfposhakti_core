@@ -6,17 +6,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FpoFarmerDashboardDTO;
+import com.upfpo.app.entity.BankMaster;
 import com.upfpo.app.service.FpoDashboardService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/fpoDashboard")
+@Api(produces = "application/json", value = "Retrive Fpo Dashboard", tags="Fpo Dashboard",description="Fpo dashboard data")	
 public class FpoDashboardController 
 {
 	@Autowired
 	FpoDashboardService fpoDashboardService;
 	
 	@GetMapping("/farmerDetails/{fpoId}")
+	@ApiOperation(value="Get Fpo Dashboard Data",code=200,produces = "application/json",notes="Api for view Fpo Dashboard Data",response=FpoFarmerDashboardDTO.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
 	public FpoFarmerDashboardDTO getFpoFarmerDashboard(@PathVariable("fpoId") Integer fpoId)
 	{
 		return fpoDashboardService.totalFpoFarmer(fpoId);

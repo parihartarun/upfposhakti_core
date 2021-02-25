@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.upfpo.app.dto.BuyerSellerComplaintsDto;
+import com.upfpo.app.dto.ChcFmbComplaintsDto;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
+import com.upfpo.app.dto.InputSupplierComplaintsDto;
 import com.upfpo.app.entity.ChcIsBsComplaints;
-import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
 
 public interface FPOComplaintService {
@@ -28,10 +30,12 @@ public interface FPOComplaintService {
     List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer fpoId);
 
     List<ChcIsBsComplaints> getComplaintBySupplierId(Integer supplierId);
+    
+    List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer chcId);
+    
+    List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer id);
 
     List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId);
-
-    List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer chcId);
 
     List<FarmerComplaintDTO> getAllFPOComplaint();
 
@@ -39,9 +43,15 @@ public interface FPOComplaintService {
 
     Resource loadFileAsResource(String fileName);
 
-	List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer id);
+	//List<ChcIsBsComplaintsDto> getAllComplaintIsChcBsByRole(String role);
 
-	List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role);
+	ChcIsBsComplaints updateChcIsFmbComplaintStatus(Integer id, ChcIsBsComplaints complaints);
+
+	List<InputSupplierComplaintsDto> getAllComplaintInputSupplierByRole(String role);
+
+	List<ChcFmbComplaintsDto> getAllComplaintChcFmbByRole(String role);
+
+	List<BuyerSellerComplaintsDto> getAllComplaintBuyerSellerByRole(String role);
 
     //List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer id);
 }

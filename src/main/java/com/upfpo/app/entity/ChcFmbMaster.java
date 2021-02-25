@@ -1,23 +1,65 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.upfpo.app.custom.annotations.Mobile;
+import com.upfpo.app.dto.BuyerSellerComplaintsDto;
+import com.upfpo.app.dto.ChcFmbComplaintsDto;
 
 @Entity
+@SqlResultSetMapping(name="ChcFmbComplaintsDto",
+classes = {
+        @ConstructorResult(
+                targetClass = ChcFmbComplaintsDto.class,
+                columns = {
+                		@ColumnResult(name = "id", type = Integer.class),
+                		@ColumnResult(name = "masterId", type = Integer.class),
+                		@ColumnResult(name = "role", type = String.class),
+                		@ColumnResult(name = "title", type = String.class),
+                		@ColumnResult(name = "message", type = String.class),
+                		@ColumnResult(name = "status", type = String.class),
+                		@ColumnResult(name = "issueType", type = String.class),
+                		@ColumnResult(name = "otherType", type = String.class),
+                		@ColumnResult(name = "description", type = String.class),
+                		@ColumnResult(name = "otherAssigned", type = String.class),
+                		@ColumnResult(name = "assignTo", type = String.class),
+                		@ColumnResult(name = "assignBy", type = String.class),
+                		@ColumnResult(name = "assign_date", type = String.class),
+                		@ColumnResult(name = "resolve_date", type = String.class),
+                		@ColumnResult(name = "deptComment", type = String.class),
+                		@ColumnResult(name = "remarks", type = String.class),
+                		@ColumnResult(name = "filePath", type = String.class),
+                		@ColumnResult(name = "fileName", type = String.class),
+                		@ColumnResult(name = "uploadDate", type = String.class),
+                		@ColumnResult(name = "uploadedBy", type = String.class),
+                		@ColumnResult(name = "updateDate", type = String.class),
+                		@ColumnResult(name = "updateBy", type = String.class),
+                		@ColumnResult(name = "isDeleted", type = Boolean.class),
+                		@ColumnResult(name = "deleteDate",type = String.class),
+                		@ColumnResult(name = "createBy",type = String.class),
+                		//@ColumnResult(name = "createDateTime",type = String.class),
+                		@ColumnResult(name = "chcFmbName",type = String.class),
+                		@ColumnResult(name = "email",type = String.class),
+                		@ColumnResult(name = "mobileNumber",type = BigInteger.class),
+                })
+})
 @Table(name="chc_fmb")
 public class ChcFmbMaster implements Serializable
 {

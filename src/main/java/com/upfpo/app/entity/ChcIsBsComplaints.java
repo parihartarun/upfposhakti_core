@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+
 @Table(name = "ChcIsBs_Complaints")
 public class ChcIsBsComplaints {
 

@@ -51,11 +51,11 @@ public class MasterServiceImpl implements MasterService {
 	}
 	
 	@Override
-	public SearchPagePagableDto newHomeSearch(String searchVal, String searchIn, List<Integer> fileterdistricts,
-			List<Integer> fileterqty,List<Integer> filtercrops,List<Integer> fpos) {
+	public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn, List<Integer> fileterdistricts,
+			List<Integer> fileterqty,List<Integer> filtercropsverieties,List<Integer> filtercrops,List<Integer> fpos) {
 		// TODO Auto-generated method stub
 		
-				return dataDisplayRepository.newHomeSearch(searchVal,searchIn, fileterdistricts,fileterqty,filtercrops,fpos);			
+				return dataDisplayRepository.newHomeSearch(limit,page,searchVal,searchIn, fileterdistricts,fileterqty,filtercropsverieties,filtercrops,fpos);			
 	
 
 	}

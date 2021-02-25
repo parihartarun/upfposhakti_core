@@ -34,7 +34,7 @@ public class FilterRepository {
 		String sql ="";
 if(in.equalsIgnoreCase(FilterRepository.ANY))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -44,22 +44,22 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";	
+	        + "order by dist.district_name asc";	
 
 }else if(in.equalsIgnoreCase(FilterRepository.DISTRICT))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 	
 }else if(in.equalsIgnoreCase(FilterRepository.CROP))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -67,23 +67,23 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 
 }else if(in.equalsIgnoreCase(FilterRepository.FPO_NAME))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"'and UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 	
 
 }else {
 	
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -93,7 +93,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 }
 	
 	
@@ -260,7 +260,7 @@ for(CropAndVerietyList cropAndVerietyListItm: cropAndVerietyList)
 	 boolean exists = false;
 	 for(CropFilterDto cropFilterDtoItm:cropFilterDtoList)
 	 {
-      if(cropFilterDtoItm.getId()==cropAndVerietyListItm.getCropId())		 
+      if(cropFilterDtoItm.getId() == cropAndVerietyListItm.getCropId())		 
       {
     	  exists = true;
       }	 
