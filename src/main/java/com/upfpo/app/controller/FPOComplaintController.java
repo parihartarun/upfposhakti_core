@@ -34,6 +34,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -231,6 +232,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Input Supplier Complaint  created Successfully!");
@@ -269,6 +271,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByCHCFMB(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint created successfully"), HttpStatus.OK );
                 LOG.info("chcfmbComplaint  created Successfully!");
@@ -308,6 +311,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByBuyerSeller(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Buyer Seller Complaint  created Successfully!");
@@ -342,6 +346,7 @@ public class FPOComplaintController {
         FPOComplaints complaints = new FPOComplaints();
         complaints.setId(id);
         complaints.setAssignTo(assignTo);
+        complaints.setAssign_date(Calendar.getInstance());
         complaints.setDeptComment(deptComment);
         complaints.setStatus(status);
         //complaints.setUpdateDate(new Date());
@@ -349,6 +354,8 @@ public class FPOComplaintController {
         ChcIsBsComplaints cibComplaint = new ChcIsBsComplaints();
         cibComplaint.setId(id);
         cibComplaint.setAssignTo(assignTo);
+        //cibComplaint.setAssignBy(Calendar.getInstance());
+        cibComplaint.setAssign_date(Calendar.getInstance());
         cibComplaint.setDeptComment(deptComment);
         cibComplaint.setStatus(status);
         cibComplaint.setRole(role);
