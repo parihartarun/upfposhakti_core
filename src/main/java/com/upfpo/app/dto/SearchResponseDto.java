@@ -4,9 +4,34 @@ public class SearchResponseDto {
 
 	private Long fpoid;
 	private String fpo;
+	private Integer districtid;
 	private String district;
 	private Integer cropid;
 	private String crop;
+	private Integer varietyid;
+	private String variety;
+	private Double currentMarketable;
+	
+	public SearchResponseDto(Long fpoid, String fpo, Integer districtid, String district, Integer cropid, String crop,
+			Integer varietyid, String variety, Double currentMarketable) {
+		super();
+		this.fpoid = fpoid;
+		this.fpo = fpo;
+		this.districtid = districtid;
+		this.district = district;
+		this.cropid = cropid;
+		this.crop = crop;
+		this.varietyid = varietyid;
+		this.variety = variety;
+		this.currentMarketable = currentMarketable;
+	}
+	public Integer getDistrictid() {
+		return districtid;
+	}
+	public void setDistrictid(Integer districtid) {
+		this.districtid = districtid;
+	}
+	
 	public Integer getCropid() {
 		return cropid;
 	}
@@ -19,9 +44,7 @@ public class SearchResponseDto {
 	public void setVarietyid(Integer varietyid) {
 		this.varietyid = varietyid;
 	}
-	private Integer varietyid;
-	private String variety;
-	private Double currentMarketable;
+	
 	
 public Long getFpoid() {
 		return fpoid;

@@ -1128,11 +1128,10 @@ public class DataDisplayRepository {
 			   }
 	
 		
-	//String finalsql = 	"Select * from ("+sql+")";
+         	//String finalsql = 	"Select * from ("+sql+")";
 		
 		  List<FPODetailsDTO> obj = entityManager.createNativeQuery(sql,"FPODetailsDTO").getResultList();
 			  finalpredicate=null;
-			
 			  
 			  System.out.println("Here all records we are processing predictes..start");
 			  if(fileterdistricts!=null)
@@ -1261,7 +1260,7 @@ public class DataDisplayRepository {
 		if(searchIn.equalsIgnoreCase("any"))
 		{		
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
-					+ "dist.district_name as district,\r\n"
+					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
 					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
@@ -1273,14 +1272,14 @@ public class DataDisplayRepository {
 					+ "or UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
 					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
 					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
-					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+					+"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+"order by fpo asc";				
 		}
 		
 		else if (searchIn.equalsIgnoreCase("fpo_name")) 
 		{
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
-					+ "dist.district_name as district,\r\n"
+					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
 					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
@@ -1289,7 +1288,7 @@ public class DataDisplayRepository {
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
-					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+					+"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					;
 		}
@@ -1297,7 +1296,7 @@ public class DataDisplayRepository {
 		{
 			
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
-					+ "dist.district_name as district,\r\n"
+					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
 					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
@@ -1306,7 +1305,7 @@ public class DataDisplayRepository {
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
-				    +"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+				    +"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					
 		} 
@@ -1314,7 +1313,7 @@ public class DataDisplayRepository {
 		else if (searchIn.equalsIgnoreCase("crop")) 
 			{	
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
-					+ "dist.district_name as district,\r\n"
+					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
 					+ "cp.id as cropid,cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
@@ -1324,7 +1323,7 @@ public class DataDisplayRepository {
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
 					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
-					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+					+ "group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					
 					
@@ -1332,18 +1331,74 @@ public class DataDisplayRepository {
 				
 			}
 		
-
-	
+//filtering the dataset at Java side to avoid lengthy query processing.
+Predicate<SearchResponseDto> 	finalpredicate=null;		
+	if(fileterdistricts!=null) {
+		for(Integer districtId:fileterdistricts)
+		{
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid()==districtId;
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		      }
+		}
 		
-	//String finalsql = 	"Select * from ("+sql+")";
-		//javax.persistence.Query query = entityManager.createNativeQuery("SELECT COUNT(*) FROM DOG WHERE ID =:id");
-		//query.setParameter("id", 1);
-		//int count = ((Number) query.getSingleResult()).intValue();
+	}
+    if(fileterqty!=null) {
+    	for(Integer fileterqtyitem:fileterqty)
+		{
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable() > fileterqtyitem;
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		      }
+		}
+	}
+    if(filtercrops!=null) {
+    	for(Integer filtercropsItm:filtercrops)
+		{
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid() == filtercropsItm;
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		      }
+			
+		}
+    	
+      }
+   if(fpos!=null) 
+     {
+	   for(Integer fpoId:fpos)
+		{
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid() == fpoId.longValue();
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		      }
+			
+		}
+     }
+ 
+		
+	     //String finalsql = 	"Select * from ("+sql+")";
+		 //javax.persistence.Query query = entityManager.createNativeQuery("SELECT COUNT(*) FROM DOG WHERE ID =:id");
+		 //query.setParameter("id", 1);
+		 //int count = ((Number) query.getSingleResult()).intValue();
 		
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();
 		
 		  //obj.subList(0, 0);
+		  obj = finalpredicate==null?obj:obj.stream().filter(finalpredicate).collect(Collectors.toList());
 		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
+		  searchPagePagableDto.setTotalElements(obj.size());
 		  searchPagePagableDto.setPage(obj);
 		  return searchPagePagableDto;
 	}
