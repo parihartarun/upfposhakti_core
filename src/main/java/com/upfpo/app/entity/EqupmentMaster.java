@@ -20,6 +20,9 @@ public class EqupmentMaster implements Serializable{
 	
 	@Column(name="equpment_name")
 	private String equpmentname;
+
+	@Column(name="eqip_type")
+	private Integer eqipType;
 	
 	@Column(name="is_active")
 	private Boolean isactive;
@@ -29,7 +32,15 @@ public class EqupmentMaster implements Serializable{
 
 	@Column(name="is_deleted")
 	private boolean isDeleted;
-	
+
+	public Integer getEqipType() {
+		return eqipType;
+	}
+
+	public void setEqipType(Integer eqipType) {
+		this.eqipType = eqipType;
+	}
+
 	public java.sql.Date getDeleteDate() {
 		return deleteDate;
 	}

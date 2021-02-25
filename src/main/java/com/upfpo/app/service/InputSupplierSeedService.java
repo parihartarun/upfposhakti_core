@@ -4,7 +4,11 @@ import com.upfpo.app.entity.InputSupplierSeed;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface InputSupplierSeedService {
+    List<InputSupplierSeed> getAllInputSupplierSeed();
+
     InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file);
 
     Boolean deleteInputSupplierSeed(Integer id);

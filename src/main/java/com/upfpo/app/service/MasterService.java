@@ -16,4 +16,5 @@ public interface MasterService {
 	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn);
 	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn,List<String> fileterdistricts,List<Integer> fileterqty,List<String> crops,List<String> fpos);
 	   public SearchPagePagableDto newHomeSearch(String searchVal, String searchIn,List<Integer> fileterdistricts,List<Integer> fileterqty,List<Integer> crops,List<Integer> fpos);
+
 }
