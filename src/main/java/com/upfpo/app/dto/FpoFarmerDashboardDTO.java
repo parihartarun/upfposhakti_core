@@ -1,5 +1,7 @@
 package com.upfpo.app.dto;
 
+import java.util.List;
+
 public class FpoFarmerDashboardDTO 
 {
 	private Integer totalFpoFarmer;
@@ -13,6 +15,8 @@ public class FpoFarmerDashboardDTO
 	private Double landArea;
 	
 	private Integer crops;
+	
+	private List<FpoCropProductionDashboardDTO> fpoCropProductionDashboard;
 	
 	public FpoFarmerDashboardDTO() {
 	}
@@ -65,4 +69,13 @@ public class FpoFarmerDashboardDTO
 		this.crops = crops;
 	}
 
+	public List<FpoCropProductionDashboardDTO> getFpoCropProductionDashboard() {
+		return fpoCropProductionDashboard;
+	}
+
+	public void setFpoCropProductionDashboard(List<FpoCropProductionDashboardDTO> fpoCropProductionDashboard) {
+		this.fpoCropProductionDashboard = fpoCropProductionDashboard;
+	}
+	
+	
 }

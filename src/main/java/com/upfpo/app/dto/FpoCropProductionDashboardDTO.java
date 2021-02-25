@@ -1,0 +1,54 @@
+package com.upfpo.app.dto;
+
+public class FpoCropProductionDashboardDTO 
+{
+	private Integer cropId;
+	
+	private String cropName;
+	
+	private Double totAcProd;
+	
+	private Double totMarkProd;
+	
+	
+	public FpoCropProductionDashboardDTO(Integer cropId, String cropName, Double totAcProd, Double totMarkProd) {
+		super();
+		this.cropId = cropId;
+		this.cropName = cropName;
+		this.totAcProd = totAcProd;
+		this.totMarkProd = totMarkProd;
+	}
+
+	public Integer getCropId() {
+		return cropId;
+	}
+
+	public void setCropId(Integer cropId) {
+		this.cropId = cropId;
+	}
+
+	public String getCropName() {
+		return cropName;
+	}
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
+	}
+
+	public Double getTotAcProd() {
+		return totAcProd;
+	}
+
+	public void setTotAcProd(Double totAcProd) {
+		this.totAcProd = totAcProd;
+	}
+
+	public Double getTotMarkProd() {
+		return totMarkProd;
+	}
+
+	public void setTotMarkProd(Double totMarkProd) {
+		this.totMarkProd = totMarkProd;
+	}
+
+}
