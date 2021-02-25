@@ -1253,16 +1253,16 @@ public class DataDisplayRepository {
 		
 	}
 	
-	public SearchPagePagableDto newHomeSearch(String searchVal, String searchIn, List<Integer> fileterdistricts,
+	public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn, List<Integer> fileterdistricts,
 			List<Integer> fileterqty, List<Integer> filtercrops,List<Integer> fpos)
 	{
 		
 		sql ="";
 		if(searchIn.equalsIgnoreCase("any"))
 		{		
-			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
-					+ "cp.crop_name as crop,  \r\n"
+					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
@@ -1273,28 +1273,32 @@ public class DataDisplayRepository {
 					+ "or UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
 					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
 					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
-					;
+					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+					+"order by fpo asc";				
 		}
 		
 		else if (searchIn.equalsIgnoreCase("fpo_name")) 
 		{
-			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
-					+ "cp.crop_name as crop,  \r\n"
+					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'";
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
+					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
+					+ "order by fpo asc";
+					;
 		}
 		else if (searchIn.equalsIgnoreCase("district")) 
 		{
 			
-			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
-					+ "cp.crop_name as crop,  \r\n"
+					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
@@ -1302,16 +1306,16 @@ public class DataDisplayRepository {
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
-				    +"group by cv.crop_veriety,fpoid,fpo,district,crop\r\n"
+				    +"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
-					;
+					
 		} 
 		
 		else if (searchIn.equalsIgnoreCase("crop")) 
 			{	
-			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
+			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
-					+ "cp.crop_name as crop,  \r\n"
+					+ "cp.id as cropid,cp.crop_name as crop,  \r\n"
 					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
@@ -1320,7 +1324,7 @@ public class DataDisplayRepository {
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
 					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
-					+"group by cv.crop_veriety,fpoid,fpo,district,crop\r\n"
+					+"group by cv.crop_veriety,fpoid,fpo,district,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					
 					

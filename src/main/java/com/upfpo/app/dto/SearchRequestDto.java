@@ -32,7 +32,9 @@ public class SearchRequestDto {
 	private List<Integer> cropverietyIds;
 	private List<Integer> quantity;
 	private List<Integer> districtIds;
+	@NotNull(message="limit key must not be empty.")
 	private Integer limit;
+	@NotNull(message="page key must not be empty.")
 	private Integer page;
 	public String getIn() {
 		return in;
@@ -82,7 +84,4 @@ public class SearchRequestDto {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-	
-	
-	
 }

@@ -53,9 +53,10 @@ classes = @ConstructorResult(
         columns = { @ColumnResult(name = "fpoid",type=Long.class),
                     @ColumnResult(name = "fpo",type=String.class),
                     @ColumnResult(name = "district",type=String.class),
-                    @ColumnResult(name = "crop",type=String.class),
+                    @ColumnResult(name = "cropid",type=Integer.class),
+                    @ColumnResult(name = "crop",type=String.class),       
+                    @ColumnResult(name = "varietyid",type=Integer.class),
                     @ColumnResult(name = "variety",type=String.class),
-                    @ColumnResult(name = "totalMarketable",type=Double.class),
                     @ColumnResult(name = "currentMarketable",type=Double.class),
         }
         )

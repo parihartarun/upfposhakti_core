@@ -44,7 +44,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";	
+	        + "order by dist.district_name asc";	
 
 }else if(in.equalsIgnoreCase(FilterRepository.DISTRICT))
 {
@@ -55,7 +55,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 	
 }else if(in.equalsIgnoreCase(FilterRepository.CROP))
 {
@@ -67,7 +67,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%' \r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 
 }else if(in.equalsIgnoreCase(FilterRepository.FPO_NAME))
 {
@@ -78,7 +78,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 			+ "where \r\n"
 			+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"'and UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 	
 
 }else {
@@ -93,7 +93,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 			+ "or UPPER(dist.district_name) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
 			+ "or UPPER(fpo.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
-	        + "order by districts.district_name asc";
+	        + "order by dist.district_name asc";
 }
 	
 	
