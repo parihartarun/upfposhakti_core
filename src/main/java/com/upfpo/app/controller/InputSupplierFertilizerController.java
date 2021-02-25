@@ -3,6 +3,8 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.FertilizerName;
+import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
 import com.upfpo.app.service.InputSupplierFertilizerService;
 import com.upfpo.app.service.InputSupplierFertilizerServiceImpl;
@@ -50,6 +52,28 @@ public class InputSupplierFertilizerController {
     })
     public List<InputSupplierFertilizer> getAllInputSupplierFertilizers (){
         return fertilizerService.getAllInputSupplierFertilizer();
+    }
+
+    @GetMapping("fertilizertype/getall")
+    @ApiOperation(value="Fertilizers Type List" ,code=201, produces = "application/json", notes="Api for all Fertilizers Type Info",response= FertilizerType.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FertilizerType> getAllfertilizerType (){
+        return fertilizerService.getAllFertilizerType();
+    }
+
+    @GetMapping("fertilizername/{id}")
+    @ApiOperation(value="Fertilizer Name List" ,code=201, produces = "application/json", notes="Api for all Fertilizer Name Info",response= FertilizerName.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FertilizerName> getAllfertilizerName (@PathVariable Integer id){
+        return fertilizerService.getAllFertilizerName(id);
     }
 
     /*@GetMapping("/{id}")

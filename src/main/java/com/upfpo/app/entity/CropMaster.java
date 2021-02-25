@@ -127,6 +127,9 @@ public class CropMaster implements Serializable {
 		this.cropName = cropName;
 	}
 
+	public CropMaster() {
+	}
+
 	@Column(name="season_ref_id")
 	private Integer seasonRefId;
 	
