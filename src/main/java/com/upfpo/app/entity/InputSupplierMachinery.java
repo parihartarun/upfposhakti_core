@@ -1,7 +1,26 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Calendar;
+
+
+@SqlResultSetMapping(name="InputSupplierMachineryDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierMachineryDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type", type = String.class),
+                                @ColumnResult(name = "equpment_name", type = String.class),
+                                @ColumnResult(name = "quantity", type = Integer.class),
+                                @ColumnResult(name = "manufacturer_name", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 
 @Entity
 @Table(name = "input_supplier_machinery")

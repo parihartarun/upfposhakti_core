@@ -81,7 +81,7 @@ public class InputSupplierInsecticide {
         this.createDateTime = createDateTime;
     }
 
-    public InputSupplierInsecticide(Integer insecticideTypeId, Integer quantity, Integer inputSupplierId, String cibRcNumber,
+    public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
                                     Calendar cibRcIssuedate) {
 
         this.insecticideTypeId=insecticideTypeId;
@@ -91,6 +91,8 @@ public class InputSupplierInsecticide {
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
     }
+
+
 
     public Integer getId() {
         return id;
