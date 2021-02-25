@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
@@ -44,15 +45,15 @@ public class InputSupplierInsecticideController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierInsecticides List" ,code=201, produces = "application/json", notes="Api for all InputSupplierInsecticides Info",response= InputSupplierInsecticide.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierInsecticide> getAllInputSupplierInsecticides (){
-        return insecticideService.getAllInputSupplierInsecticide();
+    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticides (@PathVariable Integer id){
+        return insecticideService.getAllInputSupplierInsecticide(id);
     }
 
     @GetMapping("/insecticidetype/getall")

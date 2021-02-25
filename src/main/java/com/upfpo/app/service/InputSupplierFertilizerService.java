@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
@@ -9,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface InputSupplierFertilizerService {
-    List<InputSupplierFertilizer> getAllInputSupplierFertilizer();
+
+
+    List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizer(Integer masterId);
 
     List<FertilizerType> getAllFertilizerType();
 

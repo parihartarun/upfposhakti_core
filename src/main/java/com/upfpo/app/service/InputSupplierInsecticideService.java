@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.entity.InputSupplierInsecticide;
 import com.upfpo.app.entity.InsecticideType;
 import org.springframework.core.io.Resource;
@@ -8,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface InputSupplierInsecticideService {
-    List<InputSupplierInsecticide> getAllInputSupplierInsecticide();
+
+
+    List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticide(Integer masterId);
 
     List<InsecticideType> getInsecticideType();
 

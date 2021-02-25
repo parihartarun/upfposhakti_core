@@ -1,8 +1,26 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
+
+@SqlResultSetMapping(name="InputSupplierInsecticideDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierInsecticideDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "insecticide_type", type = String.class),
+                                @ColumnResult(name = "quantity", type = Integer.class),
+                                @ColumnResult(name = "manufacturer_name", type = String.class),
+                                @ColumnResult(name = "cib_rc_no", type = String.class),
+                                @ColumnResult(name = "cib_rc_issuedate", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "input_supplier_insecticide")
 public class InputSupplierInsecticide {
