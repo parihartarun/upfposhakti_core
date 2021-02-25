@@ -58,7 +58,7 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
         return insecticideRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
-    @Overridein
+    @Override
     public List<InsecticideType> getInsecticideType(){
         return insecticideTypeRepository.findAll();
     }
