@@ -307,19 +307,33 @@ public class FPOComplaintController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateFPOComplaintStatuByDepartment(@PathVariable Integer id,
-                                                                 @RequestPart(value = "assign_to") String assignTo,
-                                                                 @RequestPart(value = "comment") String deptComment,
-                                                                 @RequestParam(value = "status") Status status) {
+                                                                 @RequestParam(value = "assign_to") String assignTo,
+                                                                 @RequestParam(value = "comment") String deptComment,
+                                                                 @RequestParam(value = "status") Status status,
+                                                                 @RequestParam(value = "role") String role) {
         LOG.info("Inside Complaint updating Complaint detail ");
         FPOComplaints complaints = new FPOComplaints();
         complaints.setId(id);
         complaints.setAssignTo(assignTo);
         complaints.setDeptComment(deptComment);
         complaints.setStatus(status);
+        //complaints.setUpdateDate(new Date());
+        
+        ChcIsBsComplaints cibComplaint = new ChcIsBsComplaints();
+        cibComplaint.setId(id);
+        cibComplaint.setAssignTo(assignTo);
+        cibComplaint.setDeptComment(deptComment);
+        cibComplaint.setStatus(status);
+        cibComplaint.setRole(role);
         ResponseEntity<MessageResponse> resp = null;
 
         try {
-            fpoComplaintService.updateFPOComplaintStatus(id, complaints);
+        	if(role != null && role.equals("ROLE_FPC")) {
+        		fpoComplaintService.updateFPOComplaintStatus(id, complaints);
+        	}
+        	else {
+        		fpoComplaintService.updateChcIsFmbComplaintStatus(id, cibComplaint);
+        	}
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
             LOG.info("Complaint Updated Successfully!");
             //}

@@ -28,10 +28,12 @@ public interface FPOComplaintService {
     List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer fpoId);
 
     List<ChcIsBsComplaints> getComplaintBySupplierId(Integer supplierId);
+    
+    List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer chcId);
+    
+    List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer id);
 
     List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId);
-
-    List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer chcId);
 
     List<FarmerComplaintDTO> getAllFPOComplaint();
 
@@ -39,9 +41,9 @@ public interface FPOComplaintService {
 
     Resource loadFileAsResource(String fileName);
 
-	List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer id);
-
 	List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role);
+
+	ChcIsBsComplaints updateChcIsFmbComplaintStatus(Integer id, ChcIsBsComplaints complaints);
 
     //List<FarmerComplaintDetailDTO> getFarmerComplaintByFPOId(Integer id);
 }

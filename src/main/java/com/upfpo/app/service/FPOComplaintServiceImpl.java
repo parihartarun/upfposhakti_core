@@ -231,38 +231,47 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
-
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByInputSupplierIdOrderByIdDesc(masterId);
-        return complaint;
-    }
-
-    @Override
     public List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId){
         //List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
+        return complaint;
+    }
+    
+    @Override
+    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
+
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
 
     @Override
     public List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer masterId){
 
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
     
     @Override
     public List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer masterId){
 
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByBuyerSellerIdOrderByIdDesc(masterId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
     
     @Override
     public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role){
-
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findAllComplaintIsChcBsByRole(role);
-        return complaint;
+    	List<ChcIsBsComplaints> cibComplaint = null;
+    	if(role != null && role.equals("ROLE_INPUTSUPPLIER")) {
+    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintInputSupplierByRole(role);
+    	}
+    	if(role != null && role.equals("ROLE_BUYERSELLER")) {
+    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsBuyerSellerByRole(role);
+    	}
+    	if(role != null && role.equals("ROLE_CHCFMB")) {
+    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsChcFmbRole(role);
+    	}
+		return cibComplaint;
+       
     }
 
 
@@ -301,6 +310,24 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
                     fpoComplaints.setDeleted(false);
                     fpoComplaints.setStatus(complaints.getStatus());
                     return fpoComplaintRepository.save(fpoComplaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+	
+	@Override
+    public ChcIsBsComplaints updateChcIsFmbComplaintStatus(Integer id, ChcIsBsComplaints complaints) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return chcIsBsComplaintRepository.findById(id)
+                .map(chcIsBsComplaints -> {
+                	chcIsBsComplaints.setId(complaints.getId());
+                	chcIsBsComplaints.setAssignTo(complaints.getAssignTo());
+                    chcIsBsComplaints.setAssignBy(currentPrincipalName);
+                    chcIsBsComplaints.setAssign_date(Calendar.getInstance());
+                    chcIsBsComplaints.setDeptComment(complaints.getDeptComment());
+                    chcIsBsComplaints.setDeleted(false);
+                    chcIsBsComplaints.setStatus(complaints.getStatus());
+                    return chcIsBsComplaintRepository.save(chcIsBsComplaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
