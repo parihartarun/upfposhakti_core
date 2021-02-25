@@ -3,8 +3,11 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.BuyerSellerComplaintsDto;
+import com.upfpo.app.dto.ChcFmbComplaintsDto;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
+import com.upfpo.app.dto.InputSupplierComplaintsDto;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.ChcIsBsComplaints;
 import com.upfpo.app.entity.Complaints;
@@ -135,16 +138,40 @@ public class FPOComplaintController {
     }
     
     
-    //this api for all compalaint of input supplier , Chc Fmb, Buyer seller using role
-    @GetMapping("/getAllComplaintIsChcBs/{role}")
-    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
+    //this api for all compalaint of input supplier
+    @GetMapping("/getAllComplaintInputSupplier/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= InputSupplierComplaintsDto.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(@PathVariable String role){
-        return fpoComplaintService.getAllComplaintIsChcBsByRole(role);
+    public List<InputSupplierComplaintsDto> getAllComplaintInputSupplierByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintInputSupplierByRole(role);
+    }
+    
+  //this api for all compalaint of Buyer seller using role
+    @GetMapping("/getAllComplaintBuyerSeller/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= BuyerSellerComplaintsDto.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<BuyerSellerComplaintsDto> getAllComplaintBuyerSellerByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintBuyerSellerByRole(role);
+    }
+    
+  //this api for all compalaint of Chc fmb using role
+    @GetMapping("/getAllComplaintChcFmb/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcFmbComplaintsDto.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ChcFmbComplaintsDto> getAllComplaintChcFmbByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintChcFmbByRole(role);
     }
 
 
