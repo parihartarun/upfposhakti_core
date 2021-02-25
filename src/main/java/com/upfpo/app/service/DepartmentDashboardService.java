@@ -3,8 +3,9 @@ package com.upfpo.app.service;
 import java.util.List;
 
 import com.upfpo.app.dto.DataDisplayDto;
+import com.upfpo.app.dto.DepartmentDashboardDTO;
 
 public interface DepartmentDashboardService 
 {
-	public List<DataDisplayDto> getProdZayad(String finYear);
+	public DepartmentDashboardDTO getDepartmentDashboardData();
 }
