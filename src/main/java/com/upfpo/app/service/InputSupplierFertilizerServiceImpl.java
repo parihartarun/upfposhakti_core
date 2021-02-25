@@ -2,6 +2,8 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
@@ -25,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -52,6 +55,9 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     private final Path fileStorageLocation;
 
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
     public InputSupplierFertilizerServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
@@ -65,8 +71,9 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
 
 
     @Override
-    public List<InputSupplierFertilizer> getAllInputSupplierFertilizer(){
-        return fertilizerRepository.findByIsDeletedOrderByIdDesc(false);
+    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizer(Integer masterId){
+        List<InputSupplierFertilizerDTO> fertilizer = getFertilizerDetail(masterId);
+        return fertilizer;
     }
 
     @Override
@@ -180,6 +187,26 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
                     inputSupplierFertilizer.setDeleted(false);
                     return fertilizerRepository.save(inputSupplierFertilizer);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+
+    public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId) {
+        List<InputSupplierFertilizerDTO> list = null;
+        try {
+            String sql = "Select  isf.id, ftm.fertilizer_type, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
+                                "from input_supplier_fertilizer isf \r\n" +
+                                "left join fertilizer_type_master ftm on ftm.id=isf.fertilizer_type_id \r\n" +
+                                "left join fertilizer_name_master fnm on fnm.id=isf.fertilizer_name_id \r\n" +
+                                "inner join input_supplier isup on isf.input_supplier_id=isup.input_supplier_id \r\n" +
+                                "where isf.input_supplier_id=:masterId and  isf.is_deleted = false";
+
+            List<InputSupplierFertilizerDTO> obj = (List<InputSupplierFertilizerDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).getResultList();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }
