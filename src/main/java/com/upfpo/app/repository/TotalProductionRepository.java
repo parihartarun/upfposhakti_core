@@ -28,6 +28,9 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 
 	 @Query("select t.totalMarketable from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
 	 public Double getTotalMarketableQty(int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
+	 
+	 @Query("select t.currentMarketable from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
+	 public Double getCurrentMarketableQty(int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
 	
 	 @Modifying
 	 @Transactional

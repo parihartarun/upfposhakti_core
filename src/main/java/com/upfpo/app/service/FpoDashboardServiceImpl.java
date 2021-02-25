@@ -59,7 +59,6 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 				+ "				where c.fpo_id = :fpoId group by c.crop_id, d.crop_name order by totAcProd desc, totMarkProd desc";
 		List<FpoCropProductionDashboardDTO> obj =  (List<FpoCropProductionDashboardDTO>) entityManager.createNativeQuery(sql,"FpoCropProductionDashboardDTO").setParameter("fpoId", fpoId).getResultList();
 		return obj;
-		
-		
 	}
+	
 }
