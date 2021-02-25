@@ -1,9 +1,7 @@
 package com.upfpo.app.repository;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.upfpo.app.entity.CropMaster;
-import com.upfpo.app.entity.CropVerietyMaster;
-import com.upfpo.app.entity.FarmerMaster;
+import com.upfpo.app.dto.FpoCropProductionDashboardDTO;
 import com.upfpo.app.entity.TotalProduction;
 
 @Repository
@@ -41,6 +37,11 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 
 	 @Query("select count(distinct t.cropMaster.cropId) from TotalProduction t where t.fpoRegister = :fpoId")
 	 public Integer getCountCrops(Integer fpoId);
+	 
+	 /*@Query("select distinct new com.upfpo.app.dto.FpoCropProductionDashboardDTO(t.cropMaster.cropId, t.cropMaster.cropName, sum(t.total_actual_prod) as totAcProd, sum(t.totalMarketable) as totMarkProd) from TotalProduction t where t.fpoRegister = :fpoId group by t.cropMaster.cropId order by totAcProd desc"
+	 		+ " totMarkProd desc")
+	 public List<FpoCropProductionDashboardDTO> getCropProduction(Integer fpoId);*/
+	 
 }
 
 

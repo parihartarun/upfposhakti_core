@@ -1,12 +1,23 @@
 package com.upfpo.app.entity;
 
-import com.upfpo.app.dto.ProductionDetailsDTO;
-
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+
+import com.upfpo.app.dto.FpoCropProductionDashboardDTO;
+import com.upfpo.app.dto.ProductionDetailsDTO;
 
 @SqlResultSetMapping(name="ProductionDetailDTO",
 		classes = {
@@ -20,6 +31,17 @@ import javax.persistence.*;
 								@ColumnResult(name = "total_sold", type = BigInteger.class)
 						})
 		})
+@SqlResultSetMapping(name="FpoCropProductionDashboardDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = FpoCropProductionDashboardDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "totAcProd", type = Double.class),
+						@ColumnResult(name = "totMarkProd", type = Double.class)
+				})
+})
 @Entity
 @Table(name="total_production")
 public class TotalProduction implements Serializable {
