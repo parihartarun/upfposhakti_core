@@ -40,6 +40,9 @@ public class InputSupplierMachinery {
     @Column(name = "machinery_name_id")
     private Integer machinerynameId;
 
+    @Column(name = "technical_specs")
+    private String technicalSpecs;
+
     @Column(name = "quantity")
     private Integer quantity;
 
@@ -74,14 +77,14 @@ public class InputSupplierMachinery {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    public InputSupplierMachinery() {
-    }
 
 
-    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, Integer quantity,
+
+    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String specification, Integer quantity,
                                   Integer inputSupplierId, String manufacturerName) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
+        this.technicalSpecs=specification;
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
@@ -103,7 +106,29 @@ public class InputSupplierMachinery {
         this.inputSupplierId = inputSupplierId;
     }
 
+    public Integer getMachineryTypeId() {
+        return machineryTypeId;
+    }
 
+    public void setMachineryTypeId(Integer machineryTypeId) {
+        this.machineryTypeId = machineryTypeId;
+    }
+
+    public Integer getMachinerynameId() {
+        return machinerynameId;
+    }
+
+    public void setMachinerynameId(Integer machinerynameId) {
+        this.machinerynameId = machinerynameId;
+    }
+
+    public String getTechnicalSpecs() {
+        return technicalSpecs;
+    }
+
+    public void setTechnicalSpecs(String technicalSpecs) {
+        this.technicalSpecs = technicalSpecs;
+    }
 
     public Integer getQuantity() {
         return quantity;

@@ -187,9 +187,9 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
                     "from input_supplier_insecticide isi \r\n" +
                     "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +
                     "inner join input_supplier isup on isi.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where isi.input_supplier_id=18 and  isi.is_deleted = false";
+                    "where isi.input_supplier_id= :masterId and  isi.is_deleted = false";
 
-            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).getResultList();
             return obj;
 
         } catch (Exception e) {

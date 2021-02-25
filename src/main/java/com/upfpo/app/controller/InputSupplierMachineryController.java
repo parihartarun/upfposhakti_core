@@ -98,6 +98,7 @@ public class InputSupplierMachineryController {
     })
     public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
                                                                          @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestParam(value = "specification", required = false) String  specification,
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                          @RequestParam("input_supplier_id") Integer inputSupplierId,
@@ -107,7 +108,7 @@ public class InputSupplierMachineryController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, quantity, inputSupplierId, manufacturerName);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
