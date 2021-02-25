@@ -16,7 +16,9 @@ public class FpoFarmerDashboardDTO
 	
 	private Integer crops;
 	
-	private List<FpoCropProductionDashboardDTO> fpoCropProductionDashboard;
+	private List<FpoMarkeProdDashboardDTO> fpoMarketableQty;
+	
+	private List<FpoActualProdDashboardDTO> fpoActualQty;
 	
 	public FpoFarmerDashboardDTO() {
 	}
@@ -69,12 +71,20 @@ public class FpoFarmerDashboardDTO
 		this.crops = crops;
 	}
 
-	public List<FpoCropProductionDashboardDTO> getFpoCropProductionDashboard() {
-		return fpoCropProductionDashboard;
+	public List<FpoMarkeProdDashboardDTO> getFpoMarketableQty() {
+		return fpoMarketableQty;
 	}
 
-	public void setFpoCropProductionDashboard(List<FpoCropProductionDashboardDTO> fpoCropProductionDashboard) {
-		this.fpoCropProductionDashboard = fpoCropProductionDashboard;
+	public void setFpoMarketableQty(List<FpoMarkeProdDashboardDTO> fpoMarketableQty) {
+		this.fpoMarketableQty = fpoMarketableQty;
+	}
+
+	public List<FpoActualProdDashboardDTO> getFpoActualQty() {
+		return fpoActualQty;
+	}
+
+	public void setFpoActualQty(List<FpoActualProdDashboardDTO> fpoActualQty) {
+		this.fpoActualQty = fpoActualQty;
 	}
 	
 	

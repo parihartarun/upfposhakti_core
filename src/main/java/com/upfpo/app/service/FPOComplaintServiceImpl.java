@@ -262,13 +262,16 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role){
     	List<ChcIsBsComplaints> cibComplaint = null;
     	if(role != null && role.equals("ROLE_INPUTSUPPLIER")) {
-    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintInputSupplierByRole(role);
+    		//cibComplaint = chcIsBsComplaintRepository.getAllComplaintInputSupplierByRole(role);
+    		cibComplaint = null;
     	}
     	if(role != null && role.equals("ROLE_BUYERSELLER")) {
-    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsBuyerSellerByRole(role);
+    		//cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsBuyerSellerByRole(role);
+    		cibComplaint = null;
     	}
     	if(role != null && role.equals("ROLE_CHCFMB")) {
-    		cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsChcFmbRole(role);
+    		//cibComplaint = chcIsBsComplaintRepository.getAllComplaintIsChcFmbRole(role);
+    		
     	}
 		return cibComplaint;
        

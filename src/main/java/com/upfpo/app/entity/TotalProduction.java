@@ -16,7 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
-import com.upfpo.app.dto.FpoCropProductionDashboardDTO;
+import com.upfpo.app.dto.FpoActualProdDashboardDTO;
+import com.upfpo.app.dto.FpoMarkeProdDashboardDTO;
 import com.upfpo.app.dto.ProductionDetailsDTO;
 
 @SqlResultSetMapping(name="ProductionDetailDTO",
@@ -31,15 +32,26 @@ import com.upfpo.app.dto.ProductionDetailsDTO;
 								@ColumnResult(name = "total_sold", type = BigInteger.class)
 						})
 		})
-@SqlResultSetMapping(name="FpoCropProductionDashboardDTO",
+@SqlResultSetMapping(name="FpoMarkeProdDashboardDTO",
 classes = {
 		@ConstructorResult(
-				targetClass = FpoCropProductionDashboardDTO.class,
+				targetClass = FpoMarkeProdDashboardDTO.class,
 				columns = {
 						@ColumnResult(name = "cropId", type = Integer.class),
 						@ColumnResult(name = "cropName", type = String.class),
-						@ColumnResult(name = "totAcProd", type = Double.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
 						@ColumnResult(name = "totMarkProd", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="FpoActualProdDashboardDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = FpoActualProdDashboardDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totAcProd", type = Double.class)
 				})
 })
 @Entity
