@@ -1253,7 +1253,7 @@ public class DataDisplayRepository {
 	}
 	
 	public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn, List<Integer> fileterdistricts,
-			List<Integer> fileterqty, List<Integer> filtercrops,List<Integer> fpos)
+			List<Integer> fileterqty, List<Integer> filtercropsver,List<Integer> filtercrops,List<Integer> fpos)
 	{
 		
 		sql ="";
@@ -1358,10 +1358,25 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		      }
 		}
 	}
+    
+    if(filtercropsver!=null) {
+    	for(Integer filtercropsveritm:filtercropsver)
+		{
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid() == filtercropsveritm;
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		      }		
+		}
+    	
+      }
+    
     if(filtercrops!=null) {
     	for(Integer filtercropsItm:filtercrops)
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid() == filtercropsItm;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid() == filtercropsItm;
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1393,8 +1408,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		 //query.setParameter("id", 1);
 		 //int count = ((Number) query.getSingleResult()).intValue();
 		
-		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();
-		
+		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();		
 		  //obj.subList(0, 0);
 		  obj = finalpredicate==null?obj:obj.stream().filter(finalpredicate).collect(Collectors.toList());
 		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
