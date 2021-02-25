@@ -3,7 +3,10 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,9 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
+import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchRequestDto;
+import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.service.MasterService;
 import com.upfpo.app.util.GetCurrentDate;
 
@@ -73,6 +79,22 @@ public class UtilController {
 		return masterServices.homeSearch(searchVal,searchIn,districts,qty,crops,fpos);
 		//return null;	
 	}
+	
+	
+	@PostMapping("/search")
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})	
+	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	{
+		
+		return masterServices.newHomeSearch(searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getQuantity(),searchRequestDto.getCropverietyIds(),searchRequestDto.getFpoIds());
+		//return null;	
+	}
+	
 	
 	
 	//two parameters -> val in = type

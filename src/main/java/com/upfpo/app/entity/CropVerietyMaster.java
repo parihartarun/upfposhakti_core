@@ -66,6 +66,12 @@ public class CropVerietyMaster implements Serializable{
 	private CropMaster crop;
 	
 	
+	public CropVerietyMaster(String verietyName,Integer verietyId) {
+		super();
+		this.verietyId = verietyId;
+		this.verietyName = verietyName;
+	}
+
 	public Integer getVerietyId() {
 		return verietyId;
 	}

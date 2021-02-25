@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
-import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,37 +16,52 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.upfpo.app.dto.CropFilterDto;
+import com.upfpo.app.dto.CropAndVerietyList;
 import com.upfpo.app.dto.CropMasterDto;
-import com.upfpo.app.dto.CropVerietyFilterDto;
-import com.upfpo.app.dto.DepartmentProdReportDto;
-import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.FPODetailsDTO;
+import com.upfpo.app.dto.FilterDto;
+import com.upfpo.app.dto.SearchResponseDto;
 
 
 
 @SqlResultSetMapping(name = "BookValueMapping", 
 classes = @ConstructorResult(
         targetClass = FilterDto.class, 
-        columns = { @ColumnResult(name = "name"),
-                    @ColumnResult(name = "id")}
+        columns = {
+        		@ColumnResult(name = "name"),
+        		@ColumnResult(name = "id")
+                    }
         )
 )
 
 @SqlResultSetMapping(name = "CropValueMapping", 
-classes = {@ConstructorResult(
-        targetClass = CropFilterDto.class, 
-        columns = { @ColumnResult(name = "name"),
-                    @ColumnResult(name = "id")
-        }
-        ),
-       @ConstructorResult(
-        targetClass = CropVerietyFilterDto.class, 
-        columns = { @ColumnResult(name = "verietyName"),
-                    @ColumnResult(name = "verietyId")
+classes = @ConstructorResult(
+        targetClass = CropAndVerietyList.class, 
+        columns = { @ColumnResult(name = "cropName",type=String.class),
+                    @ColumnResult(name = "cropId",type=Integer.class),
+                    @ColumnResult(name = "verietyName",type=String.class),
+                    @ColumnResult(name = "verietyId",type=Integer.class)
         }
         )
-}
+       
+
+)
+
+@SqlResultSetMapping(name = "SearchResponseDTO", 
+classes = @ConstructorResult(
+        targetClass = SearchResponseDto.class, 
+        columns = { @ColumnResult(name = "fpoid",type=Long.class),
+                    @ColumnResult(name = "fpo",type=String.class),
+                    @ColumnResult(name = "district",type=String.class),
+                    @ColumnResult(name = "crop",type=String.class),
+                    @ColumnResult(name = "variety",type=String.class),
+                    @ColumnResult(name = "totalMarketable",type=Double.class),
+                    @ColumnResult(name = "currentMarketable",type=Double.class),
+        }
+        )
+    
+        
+
 )
 
 @SqlResultSetMapping(name = "SearchDistrictMapper", classes = @ConstructorResult(
@@ -105,6 +119,12 @@ public class CropMaster implements Serializable {
 	@Column(name="crop_name")
 	private String  cropName;
 	
+	public CropMaster(String cropName,Integer cropId) {
+		super();
+		this.cropId = cropId;
+		this.cropName = cropName;
+	}
+
 	@Column(name="season_ref_id")
 	private Integer seasonRefId;
 	
