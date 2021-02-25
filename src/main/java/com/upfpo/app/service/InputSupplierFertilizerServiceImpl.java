@@ -2,12 +2,19 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.entity.InputSupplierSeed;
-import com.upfpo.app.entity.Status;
+import com.upfpo.app.entity.FertilizerName;
+import com.upfpo.app.entity.FertilizerType;
+import com.upfpo.app.entity.InputSupplierFertilizer;
+import com.upfpo.app.entity.InputSupplierFertilizer;
 import com.upfpo.app.properties.FileStorageProperties;
-import com.upfpo.app.repository.InputSupplierSeedRepository;
+import com.upfpo.app.repository.FertilizerNameRepository;
+import com.upfpo.app.repository.FertilizerTypeRepository;
+import com.upfpo.app.repository.InputSupplierFertilizerRepository;
+import com.upfpo.app.repository.InputSupplierFertilizerRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,17 +35,24 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
+public class InputSupplierFertilizerServiceImpl implements InputSupplierFertilizerService {
+
+
+    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerServiceImpl.class);
 
     @Autowired
-    private InputSupplierSeedRepository seedRepository;
+    private InputSupplierFertilizerRepository fertilizerRepository;
 
+    @Autowired
+    private FertilizerNameRepository fertilizerNameRepository;
+
+    @Autowired
+    private FertilizerTypeRepository fertilizerTypeRepository;
 
     private final Path fileStorageLocation;
 
-
     @Autowired
-    public InputSupplierSeedServiceImpl(FileStorageProperties fileStorageProperties) {
+    public InputSupplierFertilizerServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
@@ -47,18 +61,30 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.",ex);
         }
     }
+  
 
 
     @Override
-    public List<InputSupplierSeed> getAllInputSupplierSeed(){
-        return seedRepository.findByIsDeleted(false);
+    public List<InputSupplierFertilizer> getAllInputSupplierFertilizer(){
+        return fertilizerRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
     @Override
-    public InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file){
+    public List<FertilizerType> getAllFertilizerType(){
+        return fertilizerTypeRepository.findAll();
+    }
+
+    @Override
+    public List<FertilizerName> getAllFertilizerName(Integer typeId){
+        return fertilizerNameRepository.findByFertilizerTypeId(typeId);
+    }
+  
+
+    @Override
+    public InputSupplierFertilizer createInputSupplierFertilizer(InputSupplierFertilizer inputSupplierFertilizer, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        inputSupplierSeed.setCreateBy(inputSupplierSeed.getInputSupplierId());
-        inputSupplierSeed.setCreateDateTime(Calendar.getInstance());
+        inputSupplierFertilizer.setCreateBy(inputSupplierFertilizer.getInputSupplierId());
+        inputSupplierFertilizer.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -69,25 +95,25 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/inputsupplier/seed/download/")
+                    .path("/inputsupplier/fertilizer/download/")
                     .path(fileName)
                     .toUriString();
-            inputSupplierSeed.setFilePath(fileDownloadUri);
-            inputSupplierSeed.setFileName(fileName);
+            inputSupplierFertilizer.setFilePath(fileDownloadUri);
+            inputSupplierFertilizer.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-        inputSupplierSeed.setDeleted(false);
-        return seedRepository.save(inputSupplierSeed);
+        inputSupplierFertilizer.setDeleted(false);
+        return fertilizerRepository.save(inputSupplierFertilizer);
     }
 
     @Override
-    public Boolean deleteInputSupplierSeed(Integer id) {
+    public Boolean deleteInputSupplierFertilizer(Integer id) {
         try {
-            InputSupplierSeed inputSupplierSeed = seedRepository.findById(id).get();
-            inputSupplierSeed.setDeleted(true);
-            inputSupplierSeed.setDeleteDate(Calendar.getInstance());
-            seedRepository.save(inputSupplierSeed);
+            InputSupplierFertilizer inputSupplierFertilizer = fertilizerRepository.findById(id).get();
+            inputSupplierFertilizer.setDeleted(true);
+            inputSupplierFertilizer.setDeleteDate(Calendar.getInstance());
+            fertilizerRepository.save(inputSupplierFertilizer);
             return true;
         }catch(Exception e)
         {
@@ -115,7 +141,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
     }
 
     @Override
-    public InputSupplierSeed updateInputSupplierSeed(Integer id, InputSupplierSeed inputSupplierSeed1,  MultipartFile file) {
+    public InputSupplierFertilizer updateInputSupplierFertilizer(Integer id, InputSupplierFertilizer inputSupplierFertilizer1,  MultipartFile file) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -134,27 +160,25 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                 //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/inputsupplier/seed/download/")
+                        .path("/inputsupplier/fertilizer/download/")
                         .path(fileName)
                         .toUriString();
-                seedRepository.findById(id)
-                        .map(inputSupplierSeed -> {
-                            inputSupplierSeed.setFilePath(fileDownloadUri);
-                            inputSupplierSeed.setFileName(fileName);
-                            return seedRepository.saveAndFlush(inputSupplierSeed);
+                fertilizerRepository.findById(id)
+                        .map(inputSupplierFertilizer -> {
+                            inputSupplierFertilizer.setFilePath(fileDownloadUri);
+                            inputSupplierFertilizer.setFileName(fileName);
+                            return fertilizerRepository.saveAndFlush(inputSupplierFertilizer);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
 
-        return seedRepository.findById(id)
-                .map(inputSupplierSeed -> {
-                    inputSupplierSeed.setUpdateBy(inputSupplierSeed.getInputSupplierId());
-                    inputSupplierSeed.setUpdateDate(Calendar.getInstance());
-                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
-                    inputSupplierSeed.setDeleted(false);
-                    return seedRepository.save(inputSupplierSeed);
+        return fertilizerRepository.findById(id)
+                .map(inputSupplierFertilizer -> {
+                    inputSupplierFertilizer.setUpdateBy(inputSupplierFertilizer.getInputSupplierId());
+                    inputSupplierFertilizer.setUpdateDate(Calendar.getInstance());
+                    inputSupplierFertilizer.setDeleted(false);
+                    return fertilizerRepository.save(inputSupplierFertilizer);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 

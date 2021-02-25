@@ -126,7 +126,6 @@ public class TotalProductionCalculation
 			fpoActulaProduction = 0.0;
 		}
 		System.out.println("cropId:"+cropId+"cropVarietyId:"+cropVarietyId+"seasonId:"+seasonId+"masterId:"+masterId+"financialYear:"+financialYear);
-		//Double farmerActualProduction	= cropDetailsRepository.getActualQty(cropId, cropVarietyId, seasonId, masterId,financialYear);
 		
 		TotalProductionDTO t	= getProductionDetailsofFarmer(cropId, cropVarietyId, seasonId, financialYear,masterId);
 		
@@ -148,12 +147,17 @@ public class TotalProductionCalculation
 			fpoMarketableQty = 0.0;
 		}
 		
-		//Double farmerMarketableQty		= cropDetailsRepository.getMarketableQty(cropId, cropVarietyId, seasonId, masterId, financialYear);
 		Double farmerMarketableQty		=  t.getTotalMarketableQty();
 		
 		if(farmerMarketableQty == null)
 		{
 			farmerMarketableQty = 0.0;
+		}
+		
+		Double currentMarketableQty = totalProductionRepository.getCurrentMarketableQty(cropId, cropVarietyId, masterId, seasonId, financialYear);
+		if(currentMarketableQty == null)
+		{
+			currentMarketableQty = 0.0;
 		}
 		
 		Double totalMarketableQty       = fpoMarketableQty+farmerMarketableQty;
