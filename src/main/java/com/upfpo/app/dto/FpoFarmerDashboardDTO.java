@@ -16,12 +16,9 @@ public class FpoFarmerDashboardDTO
 	
 	private Integer crops;
 	
-	private List<FpoMarkeProdDashboardDTO> fpoMarketableQty;
+	private FpoActualProdDashboardDTO fpoActualProduction;
 	
-	private List<FpoActualProdDashboardDTO> fpoActualQty;
-	
-	public FpoFarmerDashboardDTO() {
-	}
+	private FpoMarkeProdDashboardDTO  fpoMarketableProduction;
 
 	public Integer getTotalFpoFarmer() {
 		return totalFpoFarmer;
@@ -54,7 +51,7 @@ public class FpoFarmerDashboardDTO
 	public void setTotalOtherFarmer(Double totalOtherFarmer) {
 		this.totalOtherFarmer = totalOtherFarmer;
 	}
-	
+
 	public Double getLandArea() {
 		return landArea;
 	}
@@ -62,7 +59,7 @@ public class FpoFarmerDashboardDTO
 	public void setLandArea(Double landArea) {
 		this.landArea = landArea;
 	}
-	
+
 	public Integer getCrops() {
 		return crops;
 	}
@@ -71,21 +68,22 @@ public class FpoFarmerDashboardDTO
 		this.crops = crops;
 	}
 
-	public List<FpoMarkeProdDashboardDTO> getFpoMarketableQty() {
-		return fpoMarketableQty;
+	public FpoActualProdDashboardDTO getFpoActualProduction() {
+		return fpoActualProduction;
 	}
 
-	public void setFpoMarketableQty(List<FpoMarkeProdDashboardDTO> fpoMarketableQty) {
-		this.fpoMarketableQty = fpoMarketableQty;
+	public void setFpoActualProduction(FpoActualProdDashboardDTO fpoActualProduction) {
+		this.fpoActualProduction = fpoActualProduction;
 	}
 
-	public List<FpoActualProdDashboardDTO> getFpoActualQty() {
-		return fpoActualQty;
+	public FpoMarkeProdDashboardDTO getFpoMarketableProduction() {
+		return fpoMarketableProduction;
 	}
 
-	public void setFpoActualQty(List<FpoActualProdDashboardDTO> fpoActualQty) {
-		this.fpoActualQty = fpoActualQty;
+	public void setFpoMarketableProduction(FpoMarkeProdDashboardDTO fpoMarketableProduction) {
+		this.fpoMarketableProduction = fpoMarketableProduction;
 	}
+	
 	
 	
 }

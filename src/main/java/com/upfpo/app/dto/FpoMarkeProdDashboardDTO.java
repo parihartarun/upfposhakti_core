@@ -1,53 +1,37 @@
 package com.upfpo.app.dto;
 
+import java.util.List;
+
 public class FpoMarkeProdDashboardDTO 
 {
-	private Integer cropId;
+	private List<FpoTotMarRabiDTO> fpoTotMarRabi;
 	
-	private String cropName;
+	private List<FpoTotMarZayadDTO> fpoTotMarZayad;
 	
-	private Integer seasonId;
-	
-	private Double totMarkProd;
-	
-	public FpoMarkeProdDashboardDTO(Integer cropId, String cropName, Integer seasonId, Double totMarkProd) {
-		super();
-		this.cropId = cropId;
-		this.cropName = cropName;
-		this.seasonId = seasonId;
-		this.totMarkProd = totMarkProd;
+	private List<FpoTotMarKharifDTO> fpoTotMarKharif;
+
+	public List<FpoTotMarRabiDTO> getFpoTotMarRabi() {
+		return fpoTotMarRabi;
 	}
 
-	public Integer getCropId() {
-		return cropId;
+	public void setFpoTotMarRabi(List<FpoTotMarRabiDTO> fpoTotMarRabi) {
+		this.fpoTotMarRabi = fpoTotMarRabi;
 	}
 
-	public void setCropId(Integer cropId) {
-		this.cropId = cropId;
+	public List<FpoTotMarZayadDTO> getFpoTotMarZayad() {
+		return fpoTotMarZayad;
 	}
 
-	public String getCropName() {
-		return cropName;
+	public void setFpoTotMarZayad(List<FpoTotMarZayadDTO> fpoTotMarZayad) {
+		this.fpoTotMarZayad = fpoTotMarZayad;
 	}
 
-	public void setCropName(String cropName) {
-		this.cropName = cropName;
+	public List<FpoTotMarKharifDTO> getFpoTotMarKharif() {
+		return fpoTotMarKharif;
 	}
 
-	public Integer getSeasonId() {
-		return seasonId;
-	}
-
-	public void setSeasonId(Integer seasonId) {
-		this.seasonId = seasonId;
-	}
-
-	public Double getTotMarkProd() {
-		return totMarkProd;
-	}
-
-	public void setTotMarkProd(Double totMarkProd) {
-		this.totMarkProd = totMarkProd;
+	public void setFpoTotMarKharif(List<FpoTotMarKharifDTO> fpoTotMarKharif) {
+		this.fpoTotMarKharif = fpoTotMarKharif;
 	}
 	
 	

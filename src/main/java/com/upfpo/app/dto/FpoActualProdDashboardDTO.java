@@ -1,54 +1,37 @@
 package com.upfpo.app.dto;
 
+import java.util.List;
+
 public class FpoActualProdDashboardDTO 
 {
-	private Integer cropId;
+	private List<FpoActProdRabiDTO> fpoActProdRabi;
 	
-	private String cropName;
+	private List<FpoActProdZayadDTO> fpoActProdZayad;
 	
-	private Integer seasonId;
+	private List<FpoActProdKharifDTO> fpoActProdKharif;
 	
-	private Double totAcProd;
-	
-	public FpoActualProdDashboardDTO(Integer cropId, String cropName, Integer seasonId, Double totAcProd) {
-		super();
-		this.cropId = cropId;
-		this.cropName = cropName;
-		this.seasonId = seasonId;
-		this.totAcProd = totAcProd;
+	public List<FpoActProdRabiDTO> getFpoActProdRabi() {
+		return fpoActProdRabi;
 	}
 
-	public Integer getCropId() {
-		return cropId;
+	public void setFpoActProdRabi(List<FpoActProdRabiDTO> fpoActProdRabi) {
+		this.fpoActProdRabi = fpoActProdRabi;
 	}
 
-	public void setCropId(Integer cropId) {
-		this.cropId = cropId;
+	public List<FpoActProdZayadDTO> getFpoActProdZayad() {
+		return fpoActProdZayad;
 	}
 
-	public String getCropName() {
-		return cropName;
+	public void setFpoActProdZayad(List<FpoActProdZayadDTO> fpoActProdZayad) {
+		this.fpoActProdZayad = fpoActProdZayad;
 	}
 
-	public void setCropName(String cropName) {
-		this.cropName = cropName;
+	public List<FpoActProdKharifDTO> getFpoActProdKharif() {
+		return fpoActProdKharif;
 	}
 
-	public Integer getSeasonId() {
-		return seasonId;
+	public void setFpoActProdKharif(List<FpoActProdKharifDTO> fpoActProdKharif) {
+		this.fpoActProdKharif = fpoActProdKharif;
 	}
-
-	public void setSeasonId(Integer seasonId) {
-		this.seasonId = seasonId;
-	}
-
-	public Double getTotAcProd() {
-		return totAcProd;
-	}
-
-	public void setTotAcProd(Double totAcProd) {
-		this.totAcProd = totAcProd;
-	}
-	
 	
 }

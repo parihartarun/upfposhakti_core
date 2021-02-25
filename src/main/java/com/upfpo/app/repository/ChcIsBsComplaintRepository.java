@@ -14,7 +14,7 @@ public interface ChcIsBsComplaintRepository extends JpaRepository<ChcIsBsComplai
 
 	//List<ChcIsBsComplaints> findByChcFmbIdOrderByIdDesc(Integer masterId);
 
-	//List<ChcIsBsComplaints> findByBuyerSellerIdOrderByIdDesc(Intetoger masterId);
+	//List<ChcIsBsComplaints> findByBuyerSellerIdOrderByIdDesc(Integer masterId);
 
 	/*@Query("Select cc, is.inputSupplierName from ChcIsBsComplaints cc join InputSupplierMaster is on cc.masterId = is.inputSupplierId where cc.role = :role")
 	List<ChcIsBsComplaints> getAllComplaintInputSupplierByRole(String role);
