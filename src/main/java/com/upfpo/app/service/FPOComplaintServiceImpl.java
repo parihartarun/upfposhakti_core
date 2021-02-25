@@ -1,7 +1,11 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.BuyerSellerComplaintsDto;
+import com.upfpo.app.dto.ChcFmbComplaintsDto;
+import com.upfpo.app.dto.DepartmentProdReportDto;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
+import com.upfpo.app.dto.InputSupplierComplaintsDto;
 import com.upfpo.app.entity.ChcIsBsComplaints;
 import com.upfpo.app.entity.Complaints;
 import com.upfpo.app.entity.FPOComplaints;
@@ -231,42 +235,161 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
     }
 
     @Override
-    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
-
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByInputSupplierIdOrderByIdDesc(masterId);
-        return complaint;
-    }
-
-    @Override
     public List<FarmerComplaintDTO> getComplaintByFpoId(Integer fpoId){
         //List<FPOComplaints> complaint = fpoComplaintRepository.findByFpoId(fpoId);
         List<FarmerComplaintDTO> complaint = getComplaintByFPOId(fpoId);
+        return complaint;
+    }
+    
+    @Override
+    public List<ChcIsBsComplaints> getComplaintBySupplierId(Integer masterId){
+
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
 
     @Override
     public List<ChcIsBsComplaints> getComplaintByChcFmbId(Integer masterId){
 
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByChcFmbIdOrderByIdDesc(masterId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
     
     @Override
     public List<ChcIsBsComplaints> getComplaintByBuyerSellerId(Integer masterId){
 
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByBuyerSellerIdOrderByIdDesc(masterId);
+        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findByMasterIdOrderByIdDesc(masterId);
         return complaint;
     }
     
     @Override
-    public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(String role){
-
-        List<ChcIsBsComplaints> complaint = chcIsBsComplaintRepository.findAllComplaintIsChcBsByRole(role);
-        return complaint;
+    public List<InputSupplierComplaintsDto> getAllComplaintInputSupplierByRole(String role){
+    	return getAllComplaintInputSupplierByRoleQuery(role);
     }
+    
+    private List<InputSupplierComplaintsDto> getAllComplaintInputSupplierByRoleQuery(String role) {
+    	List<InputSupplierComplaintsDto> isComplaint = null;
+    	String sql = null;
+		String basequery = "Select cc.id as id, cc.master_id as masterId, cc.role, cc.title, cc.message, cc.status, "
+				+ "cc.issue_type as issueType, cc.other_type as otherType, cc.description, cc.assigned_other as otherAssigned, "
+				+ "cc.assign_to as assignTo, cc.assign_By as assignBy, cc.assign_date, cc.resolve_date, cc.comment as deptComment,"
+				+ "cc.remarks, cc.file_path as filePath, cc.file_name as fileName, cc.upload_date as uploadDate,"
+				+ "cc.uplaoded_by as uploadedBy, cc.update_date as updateDate, cc.update_by as updateBy, cc.is_deleted as isDeleted, "
+				+ "cc.delete_date as deleteDate, cc.create_by as createBy,";
+		String joinquery = null;
+		String wherecondition = "where cc.role = :role";
+		
+    	if(role != null && role.equals("ROLE_INPUTSUPPLIER")) {
+    		joinquery = "ii.input_supplier_name as inputSupplierName, ii.email, ii.mobile_number as mobileNumber from chcisbs_complaints cc "
+    				+ "join input_supplier ii on cc.master_id = ii.input_supplier_id";
+    	}
+    	
+    	sql = basequery + " " +joinquery+ " " + wherecondition;
+    	isComplaint = (List<InputSupplierComplaintsDto>) entityManager
+				.createNativeQuery(sql, "InputSupplierComplaintsDto")
+				.setParameter("role", role).getResultList();
+    	return isComplaint;
+	}
 
+	@Override
+    public List<BuyerSellerComplaintsDto> getAllComplaintBuyerSellerByRole(String role){
+    	List<BuyerSellerComplaintsDto> cibComplaint = null;
+    	cibComplaint = getAllComplaintBuyerSellerByRoleQuery(role);
+		return cibComplaint;
+       
+    }
+    
+    private List<BuyerSellerComplaintsDto> getAllComplaintBuyerSellerByRoleQuery(String role) {
+    	List<BuyerSellerComplaintsDto> bsComplaint = null;
+    	String sql = null;
+		String basequery = "Select cc.id as id, cc.master_id as masterId, cc.role, cc.title, cc.message, cc.status, "
+				+ "cc.issue_type as issueType, cc.other_type as otherType, cc.description, cc.assigned_other as otherAssigned, "
+				+ "cc.assign_to as assignTo, cc.assign_By as assignBy, cc.assign_date, cc.resolve_date, cc.comment as deptComment,"
+				+ "cc.remarks, cc.file_path as filePath, cc.file_name as fileName, cc.upload_date as uploadDate,"
+				+ "cc.uplaoded_by as uploadedBy, cc.update_date as updateDate, cc.update_by as updateBy, cc.is_deleted as isDeleted, "
+				+ "cc.delete_date as deleteDate, cc.create_by as createBy, ";
+		String joinquery = null;
+		String wherecondition = "where cc.role = :role";
+		
+    	if(role != null && role.equals("ROLE_BUYERSELLER")) {
+    		joinquery = "bs.buyerseller_name as buyerSellerName, bs.email, bs.mobile_number as mobileNumber from chcisbs_complaints cc "
+    				+ "join buyer_seller bs on cc.master_id = bs.buyerseller_id";
+    	}
+    	
+    	sql = basequery + " " +joinquery+ " " + wherecondition;
+    	bsComplaint = (List<BuyerSellerComplaintsDto>) entityManager
+				.createNativeQuery(sql, "BuyerSellerComplaintsDto")
+				.setParameter("role", role).getResultList();
+    	return bsComplaint;
+	}
 
-    @Override
+	@Override
+    public List<ChcFmbComplaintsDto> getAllComplaintChcFmbByRole(String role){
+    	List<ChcFmbComplaintsDto> cfComplaint = null;
+    	cfComplaint = getAllComplaintChcFmbByRoleQuery(role);
+		return cfComplaint;
+       
+    }
+    
+    private List<ChcFmbComplaintsDto> getAllComplaintChcFmbByRoleQuery(String role) {
+    	List<ChcFmbComplaintsDto> cfComplaint = null;
+    	String sql = null;
+		String basequery = "Select cc.id as id, cc.master_id as masterId, cc.role, cc.title, cc.message, cc.status, "
+				+ "cc.issue_type as issueType, cc.other_type as otherType, cc.description, cc.assigned_other as otherAssigned, "
+				+ "cc.assign_to as assignTo, cc.assign_By as assignBy, cc.assign_date, cc.resolve_date, cc.comment as deptComment,"
+				+ "cc.remarks, cc.file_path as filePath, cc.file_name as fileName, cc.upload_date as uploadDate,"
+				+ "cc.uplaoded_by as uploadedBy, cc.update_date as updateDate, cc.update_by as updateBy, cc.is_deleted as isDeleted, "
+				+ "cc.delete_date as deleteDate, cc.create_by as createBy, ";
+		String joinquery = null;
+		String wherecondition = "where cc.role = :role";
+		
+    	if(role != null && role.equals("ROLE_CHCFMB")) {
+    		joinquery = "cf.chc_fmb_name as chcFmbName, cf.email, cf.mobile_number as mobileNumber from chcisbs_complaints cc "
+    				+ "join chc_fmb cf on cc.master_id = cf.chc_fmb_id";
+    	}
+    	
+    	sql = basequery + " " +joinquery+ " " + wherecondition;
+    	cfComplaint = (List<ChcFmbComplaintsDto>) entityManager
+				.createNativeQuery(sql, "ChcFmbComplaintsDto")
+				.setParameter("role", role).getResultList();
+    	return cfComplaint;
+	}
+
+//	private List<ChcIsBsComplaintsDto> getAllComplaintChcIsBsByRole(String role) {
+//    	List<ChcIsBsComplaintsDto> cibComplaint = null;
+//    	String sql = null;
+//		String basequery = "Select cc.id as id, cc.master_id as masterId, cc.role, cc.title, cc.message, cc.status, "
+//				+ "cc.issue_type as issueType, cc.other_type as otherType, cc.description, cc.assigned_other as otherAssigned, "
+//				+ "cc.assign_to as assignTo, cc.assign_By as assignBy, cc.assign_date, cc.resolve_date, cc.comment as deptComment,"
+//				+ "cc.remarks, cc.file_path as filePath, cc.file_name as fileName, cc.upload_date as uploadDate,"
+//				+ "cc.uplaoded_by as uploadedBy, cc.update_date as updateDate, cc.update_by as updateBy, cc.is_deleted as isDeleted, "
+//				+ "cc.delete_date as deleteDate, cc.create_by as createBy, cc.createDateTime as createDateTime";
+//		String joinquery = null;
+//		String wherecondition = "where cc.role = :role";
+//		
+//    	if(role != null && role.equals("ROLE_INPUTSUPPLIER")) {
+//    		joinquery = "is.input_supplier_name from chcisbs_complaints cc "
+//    				+ "join input_supplier is on cc.master_id = is.input_supplier_id";
+//    	}
+//    	
+//    	if(role != null && role.equals("ROLE_BUYERSELLER")) {
+//    		joinquery = "bs.buyerseller_name from chcisbs_complaints cc "
+//    				+ "join buyer_seller bs on cc.master_id = bs.buyerseller_id";
+//    	}
+//    	
+//    	if(role != null && role.equals("ROLE_CHCFMB")) {
+//    		joinquery = "cf.chc_fmb_name from chcisbs_complaints cc "
+//    				+ "join chc_fmb cf on cc.master_id = cf.chc_fmb_id";
+//    	}
+//    	
+//    	sql = basequery + " " +joinquery+ " " + wherecondition;
+//    	cibComplaint = (List<ChcIsBsComplaintsDto>) entityManager
+//				.createNativeQuery(sql, "ChcIsBsComplaintsDto")
+//				.setParameter("role", role);
+//    	return cibComplaint;
+//	}
+
+	@Override
     public List<FarmerComplaintDTO> getAllFPOComplaint() {
         //return fpoComplaintRepository.findAll();
     	List<FarmerComplaintDTO> complaint = getAllFpoComplaint();
@@ -301,6 +424,24 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
                     fpoComplaints.setDeleted(false);
                     fpoComplaints.setStatus(complaints.getStatus());
                     return fpoComplaintRepository.save(fpoComplaints);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+	
+	@Override
+    public ChcIsBsComplaints updateChcIsFmbComplaintStatus(Integer id, ChcIsBsComplaints complaints) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        return chcIsBsComplaintRepository.findById(id)
+                .map(chcIsBsComplaints -> {
+                	chcIsBsComplaints.setId(complaints.getId());
+                	chcIsBsComplaints.setAssignTo(complaints.getAssignTo());
+                    chcIsBsComplaints.setAssignBy(currentPrincipalName);
+                    chcIsBsComplaints.setAssign_date(Calendar.getInstance());
+                    chcIsBsComplaints.setDeptComment(complaints.getDeptComment());
+                    chcIsBsComplaints.setDeleted(false);
+                    chcIsBsComplaints.setStatus(complaints.getStatus());
+                    return chcIsBsComplaintRepository.save(chcIsBsComplaints);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 

@@ -29,11 +29,39 @@ public class SearchRequestDto {
 	@NotNull(message="Value key must not be empty.")
 	private String val;
 	private List<Integer> fpoIds;
+	private List<Integer> cropIds;
 	private List<Integer> cropverietyIds;
 	private List<Integer> quantity;
 	private List<Integer> districtIds;
+	@NotNull(message="limit key must not be empty.")
 	private Integer limit;
+	@NotNull(message="page key must not be empty.")
 	private Integer page;
+	
+	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
+			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
+			List<Integer> cropverietyIds, List<Integer> quantity, List<Integer> districtIds,
+			@NotNull(message = "limit key must not be empty.") Integer limit,
+			@NotNull(message = "page key must not be empty.") Integer page) {
+		super();
+		this.in = in;
+		this.val = val;
+		this.fpoIds = fpoIds;
+		this.cropIds = cropIds;
+		this.cropverietyIds = cropverietyIds;
+		this.quantity = quantity;
+		this.districtIds = districtIds;
+		this.limit = limit;
+		this.page = page;
+	}
+
+	
+	public List<Integer> getCropIds() {
+		return cropIds;
+	}
+	public void setCropIds(List<Integer> cropIds) {
+		this.cropIds = cropIds;
+	}
 	public String getIn() {
 		return in;
 	}
@@ -82,7 +110,4 @@ public class SearchRequestDto {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-	
-	
-	
 }

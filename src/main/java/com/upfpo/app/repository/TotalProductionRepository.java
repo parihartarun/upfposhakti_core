@@ -19,9 +19,9 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	
 	 @Modifying
 	 @Transactional
-	 @Query("update com.upfpo.app.entity.TotalProduction t set t.total_actual_prod= :actualProduction, t.totalMarketable= :totalMarketable "
+	 @Query("update com.upfpo.app.entity.TotalProduction t set t.total_actual_prod= :actualProduction, t.totalMarketable= :totalMarketable, t.currentMarketable= :currentMarketableQty "
 	 		+ "where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :varietyId and t.fpoRegister= :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
-	 public void updateTotalProduction(Double actualProduction, Double totalMarketable, int cropId, int varietyId, int masterId, int seasonId, String financialYear);
+	 public void updateTotalProduction(Double actualProduction, Double totalMarketable, Double currentMarketableQty, int cropId, int varietyId, int masterId, int seasonId, String financialYear);
 	 
 	 @Query("select count(*) from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
 	 public int getCountTotalProductionCount(int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
@@ -31,7 +31,10 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 
 	 @Query("select t.currentMarketable from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
 	 public Double getCurrentMarketableQty(int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
-	
+	 
+	 @Query("select t.totalSold from TotalProduction t where t.cropMaster.cropId= :cropId and t.cropVerityMaster.verietyId= :cropVarietyId and t.fpoRegister = :masterId and t.seasonId = :seasonId and t.finYear = :financialYear")
+	 public Double getSoldQty(int cropId, int cropVarietyId, int masterId, int seasonId, String financialYear);
+
 	 @Modifying
 	 @Transactional
 	 @Query("update com.upfpo.app.entity.TotalProduction t set t.totalSold= :totalSold, t.currentMarketable= :currentMarketable "

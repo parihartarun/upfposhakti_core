@@ -1,6 +1,8 @@
 package com.upfpo.app.entity;
 
+
 import com.upfpo.app.dto.InputSupplierFertilizerDTO;
+
 
 
 import javax.persistence.*;

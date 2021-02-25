@@ -91,7 +91,7 @@ public class UtilController {
 	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		
-		return masterServices.newHomeSearch(searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getQuantity(),searchRequestDto.getCropverietyIds(),searchRequestDto.getFpoIds());
+		return masterServices.newHomeSearch(searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getQuantity(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds());
 		//return null;	
 	}
 	
