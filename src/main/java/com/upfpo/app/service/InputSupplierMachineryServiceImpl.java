@@ -1,11 +1,14 @@
 package com.upfpo.app.service;
 
-
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.entity.InputSupplierSeed;
-import com.upfpo.app.entity.Status;
+import com.upfpo.app.entity.EquipmentType;
+import com.upfpo.app.entity.EqupmentMaster;
+import com.upfpo.app.entity.InputSupplierMachinery;
 import com.upfpo.app.properties.FileStorageProperties;
-import com.upfpo.app.repository.InputSupplierSeedRepository;
+import com.upfpo.app.repository.EquipmentMasterRepository;
+import com.upfpo.app.repository.EquipmentTypeRepository;
+import com.upfpo.app.repository.InputSupplierMachineryRepository;
+import com.upfpo.app.repository.InputSupplierMachineryRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +31,22 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
+public class InputSupplierMachineryServiceImpl implements InputSupplierMachineryService{
 
     @Autowired
-    private InputSupplierSeedRepository seedRepository;
+    private InputSupplierMachineryRepository machineryRepository;
 
+    @Autowired
+    private EquipmentTypeRepository equipmentTypeRepository;
+
+    @Autowired
+    private EquipmentMasterRepository equipmentMasterRepository;
 
     private final Path fileStorageLocation;
 
 
     @Autowired
-    public InputSupplierSeedServiceImpl(FileStorageProperties fileStorageProperties) {
+    public InputSupplierMachineryServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
@@ -50,15 +58,26 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
 
     @Override
-    public List<InputSupplierSeed> getAllInputSupplierSeed(){
-        return seedRepository.findByIsDeleted(false);
+    public List<InputSupplierMachinery> getAllInputSupplierMachinery() {
+        return machineryRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
     @Override
-    public InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file){
+    public List<EquipmentType> getAllEquipmentType(){
+        return equipmentTypeRepository.findAll();
+    }
+
+
+    @Override
+    public List<EqupmentMaster> getAllEquipmentByType(Integer typeId){
+        return equipmentMasterRepository.findByIsDeletedAndEqipType(false, typeId);
+    }
+
+    @Override
+    public InputSupplierMachinery createInputSupplierMachinery(InputSupplierMachinery inputSupplierMachinery, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        inputSupplierSeed.setCreateBy(inputSupplierSeed.getInputSupplierId());
-        inputSupplierSeed.setCreateDateTime(Calendar.getInstance());
+        inputSupplierMachinery.setCreateBy(inputSupplierMachinery.getInputSupplierId());
+        inputSupplierMachinery.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -69,25 +88,25 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/inputsupplier/seed/download/")
+                    .path("/inputsupplier/machinery/download/")
                     .path(fileName)
                     .toUriString();
-            inputSupplierSeed.setFilePath(fileDownloadUri);
-            inputSupplierSeed.setFileName(fileName);
+            inputSupplierMachinery.setFilePath(fileDownloadUri);
+            inputSupplierMachinery.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-        inputSupplierSeed.setDeleted(false);
-        return seedRepository.save(inputSupplierSeed);
+        inputSupplierMachinery.setDeleted(false);
+        return machineryRepository.save(inputSupplierMachinery);
     }
 
     @Override
-    public Boolean deleteInputSupplierSeed(Integer id) {
+    public Boolean deleteInputSupplierMachinery(Integer id) {
         try {
-            InputSupplierSeed inputSupplierSeed = seedRepository.findById(id).get();
-            inputSupplierSeed.setDeleted(true);
-            inputSupplierSeed.setDeleteDate(Calendar.getInstance());
-            seedRepository.save(inputSupplierSeed);
+            InputSupplierMachinery inputSupplierMachinery = machineryRepository.findById(id).get();
+            inputSupplierMachinery.setDeleted(true);
+            inputSupplierMachinery.setDeleteDate(Calendar.getInstance());
+            machineryRepository.save(inputSupplierMachinery);
             return true;
         }catch(Exception e)
         {
@@ -115,7 +134,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
     }
 
     @Override
-    public InputSupplierSeed updateInputSupplierSeed(Integer id, InputSupplierSeed inputSupplierSeed1,  MultipartFile file) {
+    public InputSupplierMachinery updateInputSupplierMachinery(Integer id, InputSupplierMachinery inputSupplierMachinery1, MultipartFile file) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -134,27 +153,27 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                 //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/inputsupplier/seed/download/")
+                        .path("/inputsupplier/machinery/download/")
                         .path(fileName)
                         .toUriString();
-                seedRepository.findById(id)
-                        .map(inputSupplierSeed -> {
-                            inputSupplierSeed.setFilePath(fileDownloadUri);
-                            inputSupplierSeed.setFileName(fileName);
-                            return seedRepository.saveAndFlush(inputSupplierSeed);
+                machineryRepository.findById(id)
+                        .map(inputSupplierMachinery -> {
+                            inputSupplierMachinery.setFilePath(fileDownloadUri);
+                            inputSupplierMachinery.setFileName(fileName);
+                            return machineryRepository.saveAndFlush(inputSupplierMachinery);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
 
-        return seedRepository.findById(id)
-                .map(inputSupplierSeed -> {
-                    inputSupplierSeed.setUpdateBy(inputSupplierSeed.getInputSupplierId());
-                    inputSupplierSeed.setUpdateDate(Calendar.getInstance());
-                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
-                    inputSupplierSeed.setDeleted(false);
-                    return seedRepository.save(inputSupplierSeed);
+        return machineryRepository.findById(id)
+                .map(inputSupplierMachinery -> {
+                    inputSupplierMachinery.setUpdateBy(inputSupplierMachinery.getInputSupplierId());
+                    inputSupplierMachinery.setUpdateDate(Calendar.getInstance());
+                    inputSupplierMachinery.setId(inputSupplierMachinery1.getId());
+                    inputSupplierMachinery.setDeleted(false);
+                    return machineryRepository.save(inputSupplierMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 

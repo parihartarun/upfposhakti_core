@@ -2,10 +2,12 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.entity.InputSupplierSeed;
-import com.upfpo.app.entity.Status;
+import com.upfpo.app.entity.InputSupplierInsecticide;
+import com.upfpo.app.entity.InsecticideType;
 import com.upfpo.app.properties.FileStorageProperties;
-import com.upfpo.app.repository.InputSupplierSeedRepository;
+import com.upfpo.app.repository.InputSupplierInsecticideRepository;
+import com.upfpo.app.repository.InputSupplierInsecticideRepository;
+import com.upfpo.app.repository.InsecticideTypeRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +30,20 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
+public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
 
     @Autowired
-    private InputSupplierSeedRepository seedRepository;
+    private InputSupplierInsecticideRepository insecticideRepository;
+
+    @Autowired
+    private InsecticideTypeRepository insecticideTypeRepository;
 
 
     private final Path fileStorageLocation;
 
 
     @Autowired
-    public InputSupplierSeedServiceImpl(FileStorageProperties fileStorageProperties) {
+    public InputSupplierInsecticideServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
@@ -48,17 +53,21 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
         }
     }
 
-
     @Override
-    public List<InputSupplierSeed> getAllInputSupplierSeed(){
-        return seedRepository.findByIsDeleted(false);
+    public List<InputSupplierInsecticide> getAllInputSupplierInsecticide(){
+        return insecticideRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
     @Override
-    public InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file){
+    public List<InsecticideType> getInsecticideType(){
+        return insecticideTypeRepository.findAll();
+    }
+
+    @Override
+    public InputSupplierInsecticide createInputSupplierInsecticide(InputSupplierInsecticide inputSupplierInsecticide, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        inputSupplierSeed.setCreateBy(inputSupplierSeed.getInputSupplierId());
-        inputSupplierSeed.setCreateDateTime(Calendar.getInstance());
+        inputSupplierInsecticide.setCreateBy(inputSupplierInsecticide.getInputSupplierId());
+        inputSupplierInsecticide.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -69,25 +78,25 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/inputsupplier/seed/download/")
+                    .path("/inputsupplier/insecticide/download/")
                     .path(fileName)
                     .toUriString();
-            inputSupplierSeed.setFilePath(fileDownloadUri);
-            inputSupplierSeed.setFileName(fileName);
+            inputSupplierInsecticide.setFilePath(fileDownloadUri);
+            inputSupplierInsecticide.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-        inputSupplierSeed.setDeleted(false);
-        return seedRepository.save(inputSupplierSeed);
+        inputSupplierInsecticide.setDeleted(false);
+        return insecticideRepository.save(inputSupplierInsecticide);
     }
 
     @Override
-    public Boolean deleteInputSupplierSeed(Integer id) {
+    public Boolean deleteInputSupplierInsecticide(Integer id) {
         try {
-            InputSupplierSeed inputSupplierSeed = seedRepository.findById(id).get();
-            inputSupplierSeed.setDeleted(true);
-            inputSupplierSeed.setDeleteDate(Calendar.getInstance());
-            seedRepository.save(inputSupplierSeed);
+            InputSupplierInsecticide inputSupplierInsecticide = insecticideRepository.findById(id).get();
+            inputSupplierInsecticide.setDeleted(true);
+            inputSupplierInsecticide.setDeleteDate(Calendar.getInstance());
+            insecticideRepository.save(inputSupplierInsecticide);
             return true;
         }catch(Exception e)
         {
@@ -95,6 +104,10 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
         }
     }
 
+   /* @Override
+    public List<Crop> getInputSupplierInsecticideCatgories() {
+        return complaintCatgoriesRepository.findAll();
+    }*/
 
 
 
@@ -115,7 +128,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
     }
 
     @Override
-    public InputSupplierSeed updateInputSupplierSeed(Integer id, InputSupplierSeed inputSupplierSeed1,  MultipartFile file) {
+    public InputSupplierInsecticide updateInputSupplierInsecticide(Integer id, InputSupplierInsecticide inputSupplierInsecticide1, MultipartFile file) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -134,27 +147,27 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                 //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/inputsupplier/seed/download/")
+                        .path("/inputsupplier/insecticide/download/i")
                         .path(fileName)
                         .toUriString();
-                seedRepository.findById(id)
-                        .map(inputSupplierSeed -> {
-                            inputSupplierSeed.setFilePath(fileDownloadUri);
-                            inputSupplierSeed.setFileName(fileName);
-                            return seedRepository.saveAndFlush(inputSupplierSeed);
+                insecticideRepository.findById(id)
+                        .map(inputSupplierInsecticide -> {
+                            inputSupplierInsecticide.setFilePath(fileDownloadUri);
+                            inputSupplierInsecticide.setFileName(fileName);
+                            return insecticideRepository.saveAndFlush(inputSupplierInsecticide);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
 
-        return seedRepository.findById(id)
-                .map(inputSupplierSeed -> {
-                    inputSupplierSeed.setUpdateBy(inputSupplierSeed.getInputSupplierId());
-                    inputSupplierSeed.setUpdateDate(Calendar.getInstance());
-                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
-                    inputSupplierSeed.setDeleted(false);
-                    return seedRepository.save(inputSupplierSeed);
+        return insecticideRepository.findById(id)
+                .map(inputSupplierInsecticide -> {
+                    inputSupplierInsecticide.setUpdateBy(inputSupplierInsecticide.getInputSupplierId());
+                    inputSupplierInsecticide.setUpdateDate(Calendar.getInstance());
+                    inputSupplierInsecticide.setId(inputSupplierInsecticide1.getId());
+                    inputSupplierInsecticide.setDeleted(false);
+                    return insecticideRepository.save(inputSupplierInsecticide);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
