@@ -260,7 +260,7 @@ for(CropAndVerietyList cropAndVerietyListItm: cropAndVerietyList)
 	 boolean exists = false;
 	 for(CropFilterDto cropFilterDtoItm:cropFilterDtoList)
 	 {
-      if(cropFilterDtoItm.getId()==cropAndVerietyListItm.getCropId())		 
+      if(cropFilterDtoItm.getId() == cropAndVerietyListItm.getCropId())		 
       {
     	  exists = true;
       }	 

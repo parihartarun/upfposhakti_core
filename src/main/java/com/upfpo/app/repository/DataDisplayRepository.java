@@ -1263,8 +1263,7 @@ public class DataDisplayRepository {
 			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
 					+ "cp.crop_name as crop,  \r\n"
-					+ "tp.total_marketable as totalMarketable,\r\n"
-					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -1273,7 +1272,8 @@ public class DataDisplayRepository {
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
 					+ "or UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
 					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
-					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'";
+					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
+					;
 		}
 		
 		else if (searchIn.equalsIgnoreCase("fpo_name")) 
@@ -1281,8 +1281,7 @@ public class DataDisplayRepository {
 			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
 					+ "cp.crop_name as crop,  \r\n"
-					+ "tp.total_marketable as totalMarketable,\r\n"
-					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -1295,8 +1294,7 @@ public class DataDisplayRepository {
 			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
 					+ "cp.crop_name as crop,  \r\n"
-					+ "tp.total_marketable as totalMarketable,\r\n"
-					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -1310,15 +1308,18 @@ public class DataDisplayRepository {
 			sql = "select distinct fpo.fpo_id as fpoid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,\r\n"
 					+ "cp.crop_name as crop,  \r\n"
-					+ "tp.total_marketable as totalMarketable,\r\n"
-					+ "tp.current_marketable as currentMarketable from fpo \r\n"
+					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
-					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'";
+					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+"group by cv.crop_veriety,fpoid,fpo,district,crop\r\n"
+					+ "order by fpo asc";
+					
+					
 			}else {
 				
 			}
