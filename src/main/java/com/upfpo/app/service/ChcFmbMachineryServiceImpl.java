@@ -1,15 +1,13 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.dto.ProductionDetailsDTO;
 import com.upfpo.app.entity.EquipmentType;
 import com.upfpo.app.entity.EqupmentMaster;
-import com.upfpo.app.entity.InputSupplierMachinery;
+import com.upfpo.app.entity.ChcFmbMachinery;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.EquipmentMasterRepository;
 import com.upfpo.app.repository.EquipmentTypeRepository;
-import com.upfpo.app.repository.InputSupplierMachineryRepository;
-import com.upfpo.app.repository.InputSupplierMachineryRepository;
+import com.upfpo.app.repository.ChcFmbMachineryRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -33,10 +30,10 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-public class InputSupplierMachineryServiceImpl implements InputSupplierMachineryService{
+public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
 
     @Autowired
-    private InputSupplierMachineryRepository machineryRepository;
+    private ChcFmbMachineryRepository machineryRepository;
 
     @Autowired
     private EquipmentTypeRepository equipmentTypeRepository;
@@ -44,14 +41,11 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     @Autowired
     private EquipmentMasterRepository equipmentMasterRepository;
 
-    @Autowired
-    private EntityManager entityManager;
-
     private final Path fileStorageLocation;
 
 
     @Autowired
-    public InputSupplierMachineryServiceImpl(FileStorageProperties fileStorageProperties) {
+    public ChcFmbMachineryServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
         try {
@@ -63,7 +57,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
 
 
     @Override
-    public List<InputSupplierMachinery> getAllInputSupplierMachinery() {
+    public List<ChcFmbMachinery> getAllChcFmbMachinery() {
         return machineryRepository.findByIsDeletedOrderByIdDesc(false);
     }
 
@@ -79,10 +73,10 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     }
 
     @Override
-    public InputSupplierMachinery createInputSupplierMachinery(InputSupplierMachinery inputSupplierMachinery, MultipartFile file){
+    public ChcFmbMachinery createChcFmbMachinery(ChcFmbMachinery chcFmbMachinery, MultipartFile file){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        inputSupplierMachinery.setCreateBy(inputSupplierMachinery.getInputSupplierId());
-        inputSupplierMachinery.setCreateDateTime(Calendar.getInstance());
+        chcFmbMachinery.setCreateBy(chcFmbMachinery.getChcFmbId());
+        chcFmbMachinery.setCreateDateTime(Calendar.getInstance());
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
@@ -96,31 +90,28 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                     .path("/inputsupplier/machinery/download/")
                     .path(fileName)
                     .toUriString();
-            inputSupplierMachinery.setFilePath(fileDownloadUri);
-            inputSupplierMachinery.setFileName(fileName);
+            chcFmbMachinery.setFilePath(fileDownloadUri);
+            chcFmbMachinery.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
-        inputSupplierMachinery.setDeleted(false);
-        return machineryRepository.save(inputSupplierMachinery);
+        chcFmbMachinery.setDeleted(false);
+        return machineryRepository.save(chcFmbMachinery);
     }
 
     @Override
-    public Boolean deleteInputSupplierMachinery(Integer id) {
+    public Boolean deleteChcFmbMachinery(Integer id) {
         try {
-            InputSupplierMachinery inputSupplierMachinery = machineryRepository.findById(id).get();
-            inputSupplierMachinery.setDeleted(true);
-            inputSupplierMachinery.setDeleteDate(Calendar.getInstance());
-            machineryRepository.save(inputSupplierMachinery);
+            ChcFmbMachinery chcFmbMachinery = machineryRepository.findById(id).get();
+            chcFmbMachinery.setDeleted(true);
+            chcFmbMachinery.setDeleteDate(Calendar.getInstance());
+            machineryRepository.save(chcFmbMachinery);
             return true;
         }catch(Exception e)
         {
             throw new NotFoundException();
         }
     }
-
-
-
 
     @Override
     public Resource loadFileAsResource(String fileName) {
@@ -139,7 +130,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     }
 
     @Override
-    public InputSupplierMachinery updateInputSupplierMachinery(Integer id, InputSupplierMachinery inputSupplierMachinery1, MultipartFile file) {
+    public ChcFmbMachinery updateChcFmbMachinery(Integer id, ChcFmbMachinery chcFmbMachinery1, MultipartFile file) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -162,10 +153,10 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                         .path(fileName)
                         .toUriString();
                 machineryRepository.findById(id)
-                        .map(inputSupplierMachinery -> {
-                            inputSupplierMachinery.setFilePath(fileDownloadUri);
-                            inputSupplierMachinery.setFileName(fileName);
-                            return machineryRepository.saveAndFlush(inputSupplierMachinery);
+                        .map(chcFmbMachinery -> {
+                            chcFmbMachinery.setFilePath(fileDownloadUri);
+                            chcFmbMachinery.setFileName(fileName);
+                            return machineryRepository.saveAndFlush(chcFmbMachinery);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
 
             } catch (IOException ex) {
@@ -173,16 +164,13 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
             }}
 
         return machineryRepository.findById(id)
-                .map(inputSupplierMachinery -> {
-                    inputSupplierMachinery.setUpdateBy(inputSupplierMachinery.getInputSupplierId());
-                    inputSupplierMachinery.setUpdateDate(Calendar.getInstance());
-                    inputSupplierMachinery.setId(inputSupplierMachinery1.getId());
-                    inputSupplierMachinery.setDeleted(false);
-                    return machineryRepository.save(inputSupplierMachinery);
+                .map(chcFmbMachinery -> {
+                    chcFmbMachinery.setUpdateBy(chcFmbMachinery.getInputSupplierId());
+                    chcFmbMachinery.setUpdateDate(Calendar.getInstance());
+                    chcFmbMachinery.setId(chcFmbMachinery1.getId());
+                    chcFmbMachinery.setDeleted(false);
+                    return machineryRepository.save(chcFmbMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
-
-
-
 
 }
