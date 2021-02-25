@@ -1,8 +1,7 @@
 package com.upfpo.app.entity;
 
 import com.upfpo.app.dto.InputSupplierFertilizerDTO;
-import com.upfpo.app.dto.InputSupplierMachineryDTO;
-import sun.util.resources.ext.CalendarData_ar;
+
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -14,8 +13,8 @@ import java.util.Calendar;
                         targetClass = InputSupplierFertilizerDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
-                                @ColumnResult(name = "fertilizer_type_id", type = String.class),
-                                @ColumnResult(name = "fertilizer_name_id", type = String.class),
+                                @ColumnResult(name = "fertilizer_type", type = String.class),
+                                @ColumnResult(name = "fertilizer_name", type = String.class),
                                 @ColumnResult(name = "fertilizer_grade", type = String.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
                                 @ColumnResult(name = "file_path", type = String.class)
