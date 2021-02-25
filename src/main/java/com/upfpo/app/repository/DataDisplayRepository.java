@@ -1410,10 +1410,12 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();		
 		  //obj.subList(0, 0);
+		  Integer offset  =(page-1)*limit;
+		  Integer last =offset+limit; 
 		  obj = finalpredicate==null?obj:obj.stream().filter(finalpredicate).collect(Collectors.toList());
 		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
 		  searchPagePagableDto.setTotalElements(obj.size());
-		  searchPagePagableDto.setPage(obj);
+		  searchPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 		  return searchPagePagableDto;
 	}
 	
