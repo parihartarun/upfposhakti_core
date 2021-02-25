@@ -3,9 +3,11 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.entity.InputSupplierInsecticide;
+import com.upfpo.app.entity.InsecticideType;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.InputSupplierInsecticideRepository;
 import com.upfpo.app.repository.InputSupplierInsecticideRepository;
+import com.upfpo.app.repository.InsecticideTypeRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     @Autowired
     private InputSupplierInsecticideRepository insecticideRepository;
 
+    @Autowired
+    private InsecticideTypeRepository insecticideTypeRepository;
+
 
     private final Path fileStorageLocation;
 
@@ -51,6 +56,11 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     @Override
     public List<InputSupplierInsecticide> getAllInputSupplierInsecticide(){
         return insecticideRepository.findByIsDeletedOrderByIdDesc(false);
+    }
+
+    @Overridein
+    public List<InsecticideType> getInsecticideType(){
+        return insecticideTypeRepository.findAll();
     }
 
     @Override

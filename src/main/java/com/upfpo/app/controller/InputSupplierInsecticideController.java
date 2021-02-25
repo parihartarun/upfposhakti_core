@@ -6,6 +6,7 @@ import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierInsecticide;
+import com.upfpo.app.entity.InsecticideType;
 import com.upfpo.app.service.InputSupplierInsecticideServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,18 +55,18 @@ public class InputSupplierInsecticideController {
         return insecticideService.getAllInputSupplierInsecticide();
     }
 
-    /*@GetMapping("/fertilizertype/getall")
-    @ApiOperation(value="FertilizerType List" ,code=201, produces = "application/json", notes="Api for all FertilizerType Info",response= FertilizerType.class)
+    @GetMapping("/insecticidetype/getall")
+    @ApiOperation(value="InsecticideType List" ,code=201, produces = "application/json", notes="Api for all InsecticideType Info",response= InsecticideType.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<FertilizerType> getFertilizerType (){
-        return insecticideService.getAllFertilizerType();
+    public List<InsecticideType> getInsecticideType (){
+        return insecticideService.getInsecticideType();
     }
 
-    @GetMapping("/fertilizername/getall")
+    /*@GetMapping("/fertilizername/getall")
     @ApiOperation(value="Fertilizer Name List" ,code=201, produces = "application/json", notes="Api for all FertilizerName Info",response= FertilizerName.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
