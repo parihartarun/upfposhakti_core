@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.InputSupplierSeed;
 import com.upfpo.app.service.InputSupplierSeedServiceImpl;
@@ -10,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +43,15 @@ public class InputSupplierSeedController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierSeeds List" ,code=201, produces = "application/json", notes="Api for all InputSupplierSeeds Info",response= InputSupplierSeed.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierSeed> getAllInputSupplierSeeds (){
-        return seedService.getAllInputSupplierSeed();
+    public List<InputSupplierSeedDTO> getAllInputSupplierSeeds (@PathVariable Integer id){
+        return seedService.getAllInputSupplierSeed(id);
     }
 
     /*@GetMapping("/{id}")

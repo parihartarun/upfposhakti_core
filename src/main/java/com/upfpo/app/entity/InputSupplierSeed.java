@@ -2,9 +2,29 @@ package com.upfpo.app.entity;
 
 //import sun.util.resources.ext.CalendarData_ar;
 
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+import com.upfpo.app.dto.InputSupplierSeedDTO;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
+
+@SqlResultSetMapping(name="InputSupplierSeedDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierSeedDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "crop_name", type = String.class),
+                                @ColumnResult(name = "crop_veriety", type = String.class),
+                                @ColumnResult(name = "company_brand", type = String.class),
+                                @ColumnResult(name = "quantity", type = Double.class),
+                                @ColumnResult(name = "certification_number", type = String.class),
+                                @ColumnResult(name = "certification_valid_from", type = String.class),
+                                @ColumnResult(name = "certification_valid_to", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "input_supplier_seed")
 public class InputSupplierSeed {

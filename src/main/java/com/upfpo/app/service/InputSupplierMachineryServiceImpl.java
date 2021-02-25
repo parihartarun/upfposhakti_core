@@ -1,6 +1,7 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.dto.ProductionDetailsDTO;
 import com.upfpo.app.entity.EquipmentType;
 import com.upfpo.app.entity.EqupmentMaster;
@@ -63,8 +64,9 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
 
 
     @Override
-    public List<InputSupplierMachinery> getAllInputSupplierMachinery() {
-        return machineryRepository.findByIsDeletedOrderByIdDesc(false);
+    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinery(Integer masterId) {
+        List<InputSupplierMachineryDTO> ism= getMachineryDetail(masterId);
+        return ism;
     }
 
     @Override
@@ -183,6 +185,25 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     }
 
 
+
+    public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId) {
+        List<InputSupplierMachineryDTO> list = null;
+        try {
+            String sql = "Select  ism.id, etm.type, em.equpment_name, ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
+            "from input_supplier_machinery ism \r\n" +
+            "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
+            "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
+            "inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
+            "where ism.input_supplier_id=:masterId and  ism.is_deleted = false";
+
+            List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).getResultList();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 
 }

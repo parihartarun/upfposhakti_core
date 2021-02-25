@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.service.InputSupplierMachineryServiceImpl;
@@ -41,15 +42,15 @@ public class InputSupplierMachineryController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierMachinerys List" ,code=201, produces = "application/json", notes="Api for all InputSupplierMachinerys Info",response= InputSupplierMachinery.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierMachinery> getAllInputSupplierMachinerys (){
-        return machineryService.getAllInputSupplierMachinery();
+    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinerys (@PathVariable Integer id){
+        return machineryService.getAllInputSupplierMachinery(id);
     }
 
     @GetMapping("/equipmenttype/getall")
