@@ -34,7 +34,7 @@ public class FilterRepository {
 		String sql ="";
 if(in.equalsIgnoreCase(FilterRepository.ANY))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -48,7 +48,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 
 }else if(in.equalsIgnoreCase(FilterRepository.DISTRICT))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -59,7 +59,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 	
 }else if(in.equalsIgnoreCase(FilterRepository.CROP))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -71,7 +71,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 
 }else if(in.equalsIgnoreCase(FilterRepository.FPO_NAME))
 {
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
@@ -83,7 +83,7 @@ if(in.equalsIgnoreCase(FilterRepository.ANY))
 
 }else {
 	
-	sql = "select distinct districts.district_name as name, districts.district_id as id from fpo \r\n"
+	sql = "select distinct dist.district_name as name, dist.district_id as id from fpo \r\n"
 			+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 			+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
 			+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
