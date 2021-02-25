@@ -1300,7 +1300,10 @@ public class DataDisplayRepository {
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'";
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
+				    +"group by cv.crop_veriety,fpoid,fpo,district,crop\r\n"
+					+ "order by fpo asc";
+					;
 		} 
 		
 		else if (searchIn.equalsIgnoreCase("crop")) 
