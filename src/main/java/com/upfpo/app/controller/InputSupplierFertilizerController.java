@@ -164,27 +164,21 @@ public class InputSupplierFertilizerController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateInputSupplierFertilizer(@PathVariable Integer id,
-                                                                         @RequestPart(value = "type_id", required = false) Integer typeId,
-                                                                         @RequestPart(value = "name_id", required = false) Integer nameId,
-                                                                         @RequestPart(value = "fertilizer_grade", required = false) String grade,
-                                                                         @RequestPart(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestPart("input_supplier_id") Integer inputSupplierId,
-                                                                         @RequestPart(value = "file", required = false) MultipartFile file) {
+                                                                         @RequestParam(value = "type_id", required = false) Integer typeId,
+                                                                         @RequestParam(value = "name_id", required = false) Integer nameId,
+                                                                         @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
+                                                                         @RequestParam(value = "fertilizer_grade", required = false) String grade,
+                                                                         @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizer updating InputSupplierFertilizer detail ");
-        /*InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer();
-        inputSupplierFertilizer.setCropId(cropId);
-        inputSupplierFertilizer.setVariety(varietyId);
+        InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer();
+        inputSupplierFertilizer.setFertilizerType(typeId);
+        inputSupplierFertilizer.setFertilizerNameId(nameId);
         inputSupplierFertilizer.setInputSupplierId(inputSupplierId);
-        inputSupplierFertilizer.setCertificationNumber(certificationNo);
-        inputSupplierFertilizer.setQuantity(quantity);
-        inputSupplierFertilizer.setCompanyBrand(company);
-        inputSupplierFertilizer.setCertificationValidFrom(validFrom);
-        inputSupplierFertilizer.setCertificationValidTo(validTo);*/
+        inputSupplierFertilizer.setFertilizerGrade(grade);
+        inputSupplierFertilizer.setManufacturerName(manufacturerName);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
             try {
-                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,inputSupplierId,nameId, grade,manufacturerName);
                 fertilizerService.updateInputSupplierFertilizer(id, inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer Details Updated Successfully!"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer Updated Successfully!");
@@ -193,7 +187,7 @@ public class InputSupplierFertilizerController {
                 LOG.info("Failed to Update the InputSupplierFertilizer Details");
                 e.printStackTrace();
             }
-        }
+
         LOG.info("Exiting InputSupplierFertilizer Of Controller with response ", resp);
         return resp;
     }

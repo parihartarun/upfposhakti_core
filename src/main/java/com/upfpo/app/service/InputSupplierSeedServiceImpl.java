@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
 
     private final Path fileStorageLocation;
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
     @Autowired
     private EntityManager entityManager;
@@ -129,11 +132,14 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
         String fileDownloadUri;
         String fileName;
         Path targetLocation;
+
         if(file!=null){
             fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileContentType = file.getContentType();
             try {
                 // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
+
+                if (fileName.contains("..") && (contentTypes.contains(fileContentType))) {
                     throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
                 }
                 // Copy file to the target location (Replacing existing file with the same name)
@@ -157,10 +163,18 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
         return seedRepository.findById(id)
                 .map(inputSupplierSeed -> {
-                    inputSupplierSeed.setUpdateBy(inputSupplierSeed.getInputSupplierId());
+                    inputSupplierSeed.setUpdateBy(inputSupplierSeed1.getInputSupplierId());
                     inputSupplierSeed.setUpdateDate(Calendar.getInstance());
-                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
                     inputSupplierSeed.setDeleted(false);
+                    inputSupplierSeed.setCropId(inputSupplierSeed1.getCropId());
+                    inputSupplierSeed.setVariety(inputSupplierSeed1.getVariety());
+                    inputSupplierSeed.setInputSupplierId(inputSupplierSeed1.getInputSupplierId());
+                    inputSupplierSeed.setCertificationNumber(inputSupplierSeed1.getCertificationNumber());
+                    inputSupplierSeed.setQuantity(inputSupplierSeed1.getQuantity());
+                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
+                    inputSupplierSeed.setCompanyBrand(inputSupplierSeed1.getCompanyBrand());
+                    inputSupplierSeed.setCertificationValidFrom(inputSupplierSeed1.getCertificationValidFrom());
+                    inputSupplierSeed.setCertificationValidTo(inputSupplierSeed1.getCertificationValidTo());
                     return seedRepository.save(inputSupplierSeed);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }

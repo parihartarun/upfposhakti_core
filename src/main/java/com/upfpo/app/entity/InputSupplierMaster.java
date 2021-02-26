@@ -2,19 +2,9 @@ package com.upfpo.app.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -126,6 +116,22 @@ public class InputSupplierMaster implements Serializable
 	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_id")
 	private User userInputSeller;
+
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="input_supplier_id",referencedColumnName="input_supplier_id")
+	private List<InputSupplierSeed> inputSupplierSeeds;
+
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="input_supplier_id",referencedColumnName="input_supplier_id")
+	private List <InputSupplierMachinery> inputSupplierMachineries;
+
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="input_supplier_id",referencedColumnName="input_supplier_id")
+	private List <InputSupplierFertilizer> inputSupplierFertilizers;
+
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name="input_supplier_id",referencedColumnName="input_supplier_id")
+	private List <InputSupplierInsecticide> inputSupplierInsecticides;
 
 
 	public User getUserInputSeller() {
@@ -279,4 +285,37 @@ public class InputSupplierMaster implements Serializable
 //	public void setEquipment(String equipment) {
 //		Equipment = equipment;
 //	}
+
+
+	public List<InputSupplierSeed> getInputSupplierSeeds() {
+		return inputSupplierSeeds;
+	}
+
+	public void setInputSupplierSeeds(List<InputSupplierSeed> inputSupplierSeeds) {
+		this.inputSupplierSeeds = inputSupplierSeeds;
+	}
+
+	public List<InputSupplierMachinery> getInputSupplierMachineries() {
+		return inputSupplierMachineries;
+	}
+
+	public void setInputSupplierMachineries(List<InputSupplierMachinery> inputSupplierMachineries) {
+		this.inputSupplierMachineries = inputSupplierMachineries;
+	}
+
+	public List<InputSupplierFertilizer> getInputSupplierFertilizers() {
+		return inputSupplierFertilizers;
+	}
+
+	public void setInputSupplierFertilizers(List<InputSupplierFertilizer> inputSupplierFertilizers) {
+		this.inputSupplierFertilizers = inputSupplierFertilizers;
+	}
+
+	public List<InputSupplierInsecticide> getInputSupplierInsecticides() {
+		return inputSupplierInsecticides;
+	}
+
+	public void setInputSupplierInsecticides(List<InputSupplierInsecticide> inputSupplierInsecticides) {
+		this.inputSupplierInsecticides = inputSupplierInsecticides;
+	}
 }

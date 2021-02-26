@@ -1,10 +1,12 @@
 package com.upfpo.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.dto.InputSupplierMachineryDTO;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 
 @SqlResultSetMapping(name="InputSupplierInsecticideDTO",
@@ -46,7 +48,8 @@ public class InputSupplierInsecticide {
     private String cibRcNumber;
 
     @Column(name="cib_rc_issuedate")
-    private Calendar cibRcIssueDate;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy" )
+    private Date cibRcIssueDate;
 
     @Column(name = "file_path")
     private String filePath;
@@ -80,7 +83,8 @@ public class InputSupplierInsecticide {
     public InputSupplierInsecticide() {
     }
 
-    public InputSupplierInsecticide(Integer id, Integer inputSupplierId, Integer insecticideTypeId, Integer quantity, String manufacturerName, String cibRcNumber, Calendar cibRcIssueDate, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
+    public InputSupplierInsecticide(Integer id, Integer inputSupplierId, Integer insecticideTypeId, Integer quantity, String manufacturerName,
+            String cibRcNumber, Date cibRcIssueDate, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
         this.id = id;
         this.inputSupplierId = inputSupplierId;
         this.insecticideTypeId = insecticideTypeId;
@@ -100,7 +104,7 @@ public class InputSupplierInsecticide {
     }
 
     public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
-                                    Calendar cibRcIssuedate) {
+                                    Date cibRcIssuedate) {
 
         this.insecticideTypeId=insecticideTypeId;
         this.cibRcNumber=cibRcNumber;
@@ -160,11 +164,11 @@ public class InputSupplierInsecticide {
         this.cibRcNumber = cibRcNumber;
     }
 
-    public Calendar getCibRcIssueDate() {
+    public Date getCibRcIssueDate() {
         return cibRcIssueDate;
     }
 
-    public void setCibRcIssueDate(Calendar cibRcIssueDate) {
+    public void setCibRcIssueDate(Date cibRcIssueDate) {
         this.cibRcIssueDate = cibRcIssueDate;
     }
 
