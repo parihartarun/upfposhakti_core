@@ -184,7 +184,6 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                 .map(inputSupplierMachinery -> {
                     inputSupplierMachinery.setUpdateBy(inputSupplierMachinery1.getInputSupplierId());
                     inputSupplierMachinery.setUpdateDate(Calendar.getInstance());
-                    inputSupplierMachinery.setId(inputSupplierMachinery1.getId());
                     inputSupplierMachinery.setMachinerynameId(inputSupplierMachinery1.getMachinerynameId());
                     inputSupplierMachinery.setMachineryTypeId(inputSupplierMachinery1.getMachineryTypeId());
                     inputSupplierMachinery.setInputSupplierId(inputSupplierMachinery1.getInputSupplierId());
