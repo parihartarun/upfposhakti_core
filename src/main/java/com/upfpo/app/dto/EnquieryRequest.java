@@ -2,13 +2,21 @@ package com.upfpo.app.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 public class EnquieryRequest {
 
+	@NotNull(message = "Fpo id must not be null")
 	private Integer fpoId;
+	@NotNull(message = "Crop Id Must Not Be null")
 	private Integer cropId;
+	@NotNull(message = "Fpo Delivery Address Must Not Be Null")
 	private String  fpoDeliveryAddress;
-    private Integer userId;
+    @NotNull(message = "User Id Must Not be Null")
+	private Integer userId;
+    @NotNull(message = "Fullfillment date must not be null")
     private String fulfillmentDate; 
+    @NotNull(message = "Quantity must not be null")
     private Double quantity;
     private String cropVeriety;
     

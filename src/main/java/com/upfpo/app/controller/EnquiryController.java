@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +76,7 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createEnquiry(@RequestBody EnquieryRequest enquiry) {
+    public ResponseEntity<String> createEnquiry(@Validated @RequestBody EnquieryRequest enquiry) {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
