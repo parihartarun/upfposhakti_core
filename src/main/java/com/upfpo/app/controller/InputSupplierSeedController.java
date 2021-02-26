@@ -165,7 +165,6 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierSeed updating InputSupplierSeed detail ");
         InputSupplierSeed inputSupplierSeed = new InputSupplierSeed();
-        inputSupplierSeed.setId(id);
         inputSupplierSeed.setCropId(cropId);
         inputSupplierSeed.setVariety(varietyId);
         inputSupplierSeed.setInputSupplierId(inputSupplierId);

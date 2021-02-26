@@ -139,7 +139,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             try {
                 // Check if the file's name contains invalid characters
 
-                if (fileName.contains("..") && (contentTypes.contains(fileContentType))) {
+                if (fileName.contains("..") && contentTypes.contains(fileContentType)) {
                     throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
                 }
                 // Copy file to the target location (Replacing existing file with the same name)
@@ -171,7 +171,6 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                     inputSupplierSeed.setInputSupplierId(inputSupplierSeed1.getInputSupplierId());
                     inputSupplierSeed.setCertificationNumber(inputSupplierSeed1.getCertificationNumber());
                     inputSupplierSeed.setQuantity(inputSupplierSeed1.getQuantity());
-                    inputSupplierSeed.setId(inputSupplierSeed1.getId());
                     inputSupplierSeed.setCompanyBrand(inputSupplierSeed1.getCompanyBrand());
                     inputSupplierSeed.setCertificationValidFrom(inputSupplierSeed1.getCertificationValidFrom());
                     inputSupplierSeed.setCertificationValidTo(inputSupplierSeed1.getCertificationValidTo());

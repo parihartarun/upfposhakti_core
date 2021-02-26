@@ -213,7 +213,6 @@ public class InputSupplierMachineryController {
                                                                         ) {
         LOG.info("Inside InputSupplierMachinery updating InputSupplierMachinery detail ");
         InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();
-        supplierMachinery.setId(id);
         supplierMachinery.setMachinerynameId(machineryNameId);
         supplierMachinery.setMachineryTypeId(mchineryTypeId);
         supplierMachinery.setInputSupplierId(inputSupplierId);
