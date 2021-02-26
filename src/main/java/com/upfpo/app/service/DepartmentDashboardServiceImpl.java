@@ -12,6 +12,7 @@ import com.upfpo.app.dto.DeptActProdKharifDTO;
 import com.upfpo.app.dto.DeptActProdRabiDTO;
 import com.upfpo.app.dto.DeptActProdZayadfDTO;
 import com.upfpo.app.dto.DeptActualProductionDTO;
+import com.upfpo.app.dto.DeptFpoAgencyDTO;
 import com.upfpo.app.dto.DeptMarketableProductionDTO;
 import com.upfpo.app.dto.DeptTotMarKharifDTO;
 import com.upfpo.app.dto.DeptTotMarRabiDTO;
@@ -47,6 +48,8 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 	
 	Double totalOtherFarmer = 0.0;
 	
+	Double percentile	= 0.0;
+	
 	String sql = "";
 	
 	@Override
@@ -70,6 +73,16 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		depMar.setDeptTotMarRabi(getDeptMarketableCropProductionRabi());
 		depMar.setDeptTotMarZayad(getDeptMarketableCropProductionZayad());
 		
+		List<DeptFpoAgencyDTO> agency = fPORegisterRepository.getAgency();
+		Integer totalFpo = fPORegisterRepository.getAllFpoCount();
+		
+		for(int i =	0; i < agency.size(); i++)
+		{
+			Double value = (Double)agency.get(i).getCount().doubleValue();
+			percentile = (totalFpo) * (value/ 100);
+			agency.get(i).setAgencyWiseFpo(percentile);
+		}
+		
 		departmentDashboardDTO.setLandArea(landArea);
 		departmentDashboardDTO.setTotalFpo(totalFpo);
 		departmentDashboardDTO.setTotalfarmers(totalfarmers);
@@ -78,6 +91,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		departmentDashboardDTO.setTotalOtherFarmer(totalOtherFarmer);
 		departmentDashboardDTO.setDeptActualProduction(depAct);
 		departmentDashboardDTO.setDeptMarketableProduction(depMar);
+		departmentDashboardDTO.setDeptFpoAgency(agency);
 		return departmentDashboardDTO;
 	}
 	
