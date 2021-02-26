@@ -1,5 +1,7 @@
 package com.upfpo.app.dto;
 
+import java.util.List;
+
 public class DepartmentDashboardDTO 
 {
 	private Integer totalFpo;
@@ -18,7 +20,8 @@ public class DepartmentDashboardDTO
 	
 	private DeptMarketableProductionDTO deptMarketableProduction;
 	
-
+	private List<DeptFpoAgencyDTO> deptFpoAgency;
+	
 	public Double getLandArea() {
 		return landArea;
 	}
@@ -81,6 +84,14 @@ public class DepartmentDashboardDTO
 
 	public void setDeptMarketableProduction(DeptMarketableProductionDTO deptMarketableProduction) {
 		this.deptMarketableProduction = deptMarketableProduction;
+	}
+
+	public List<DeptFpoAgencyDTO> getDeptFpoAgency() {
+		return deptFpoAgency;
+	}
+
+	public void setDeptFpoAgency(List<DeptFpoAgencyDTO> deptFpoAgency) {
+		this.deptFpoAgency = deptFpoAgency;
 	}
 	
 }

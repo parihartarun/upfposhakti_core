@@ -50,7 +50,9 @@ public class FarmerAllUserToFpoDto {
 	private String updatedBy;
 	private Integer userId;
 	private String userName;
+	private boolean userEnabled;
 	private String districtName;
+	
 	public FarmerAllUserToFpoDto(Integer farmerId, Integer stateref, Integer pincode, Integer blockRef,
 			Integer slaRefId, Integer distRefId, Integer bankRefId, Integer fpoRefId, Integer villRefId,
 			Integer figRefId, Integer educationId, String farmerName, String farmerAdhaar, String farmerAddress,
@@ -58,7 +60,7 @@ public class FarmerAllUserToFpoDto {
 			String parantsName, String createDate, String createdBy, boolean enabled, String gender,
 			Integer distanceFromFpc, String farmerUserName, String category, String updateDate, String agency,
 			String upBSMId, Integer villagePanchayatId, boolean isDeleted, String deleteDate, String updatedBy,
-			Integer userId, String userName, String districtName) {
+			Integer userId, String userName, boolean userEnabled,String districtName) {
 		super();
 		this.farmerId = farmerId;
 		this.stateref = stateref;
@@ -98,6 +100,7 @@ public class FarmerAllUserToFpoDto {
 		this.userId = userId;
 		this.userName = userName;
 		this.districtName = districtName;
+		this.userEnabled = userEnabled;
 	}
 	public Integer getFarmerId() {
 		return farmerId;
@@ -326,5 +329,11 @@ public class FarmerAllUserToFpoDto {
 	}
 	public void setDistrictName(String districtName) {
 		this.districtName = districtName;
+	}
+	public boolean isUserEnabled() {
+		return userEnabled;
+	}
+	public void setUserEnabled(boolean userEnabled) {
+		this.userEnabled = userEnabled;
 	} 
 }
