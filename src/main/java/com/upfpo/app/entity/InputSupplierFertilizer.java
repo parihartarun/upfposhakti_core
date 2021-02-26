@@ -1,10 +1,27 @@
 package com.upfpo.app.entity;
 
-import sun.util.resources.ext.CalendarData_ar;
+
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
+
+
 
 import javax.persistence.*;
 import java.util.Calendar;
 
+
+@SqlResultSetMapping(name="InputSupplierFertilizerDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierFertilizerDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "fertilizer_type", type = String.class),
+                                @ColumnResult(name = "fertilizer_name", type = String.class),
+                                @ColumnResult(name = "fertilizer_grade", type = String.class),
+                                @ColumnResult(name = "manufacturer_name", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "input_supplier_fertilizer")
 public class InputSupplierFertilizer {
@@ -73,7 +90,6 @@ public class InputSupplierFertilizer {
     public InputSupplierFertilizer(Integer inputSupplierId) {
         this.inputSupplierId=inputSupplierId;
     }
-
 
     public Integer getId() {
         return id;

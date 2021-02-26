@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
@@ -44,15 +45,15 @@ public class InputSupplierInsecticideController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierInsecticides List" ,code=201, produces = "application/json", notes="Api for all InputSupplierInsecticides Info",response= InputSupplierInsecticide.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierInsecticide> getAllInputSupplierInsecticides (){
-        return insecticideService.getAllInputSupplierInsecticide();
+    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticides (@PathVariable Integer id){
+        return insecticideService.getAllInputSupplierInsecticide(id);
     }
 
     @GetMapping("/insecticidetype/getall")
@@ -99,6 +100,7 @@ public class InputSupplierInsecticideController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createInputSupplierInsecticide(@RequestParam(value = "insecticide_type_id", required = false) Integer insecticideTypeId,
+                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                         @RequestParam(value = "cib_rc_issuedate", required = false) Calendar cibRcIssuedate,
@@ -109,7 +111,7 @@ public class InputSupplierInsecticideController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
+                InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
                 InputSupplierInsecticide id = insecticideService.createInputSupplierInsecticide(inputSupplierInsecticide, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierInsecticide created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierInsecticide  created Successfully!");
@@ -165,13 +167,14 @@ public class InputSupplierInsecticideController {
     })
     public ResponseEntity<MessageResponse> updateInputSupplierInsecticide(@PathVariable Integer id,
                                                                           @RequestPart(value = "insecticide_type_id", required = false) Integer insecticideTypeId,
+                                                                          @RequestParam (value = "manufacturer_name", required = false) String manufacturerName,
                                                                           @RequestPart(value = "quantity", required = false) Integer quantity,
                                                                           @RequestPart(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                           @RequestPart(value = "cib_rc_issuedate", required = false) Calendar cibRcIssuedate,
                                                                           @RequestPart("input_supplier_id") Integer inputSupplierId,
                                                                           @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");
-        InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
+        InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId, manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){

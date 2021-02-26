@@ -2,6 +2,8 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.entity.InputSupplierSeed;
 import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
@@ -18,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -36,6 +39,9 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
     private final Path fileStorageLocation;
 
+    @Autowired
+    private EntityManager entityManager;
+
 
     @Autowired
     public InputSupplierSeedServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -50,8 +56,9 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
 
     @Override
-    public List<InputSupplierSeed> getAllInputSupplierSeed(){
-        return seedRepository.findByIsDeleted(false);
+    public List<InputSupplierSeedDTO> getAllInputSupplierSeed(Integer masterId){
+        List<InputSupplierSeedDTO> seed = getSeedDetail(masterId);
+        return seed;
     }
 
     @Override
@@ -158,4 +165,24 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
+
+    public List<InputSupplierSeedDTO> getSeedDetail(Integer masterId) {
+        List<InputSupplierSeedDTO> list = null;
+        try {
+            String sql = "Select  iss.id, cm.crop_name, cvm.crop_veriety, iss.company_brand, iss.quantity, iss.certification_number \r\n" +
+                            ", iss.certification_valid_from, iss.certification_valid_to, iss.file_path \r\n" +
+                            "from input_supplier_seed iss \r\n" +
+                            "left join  crop_master cm on cm.id=iss.crop_id \r\n" +
+                            "left join crop_veriety_master cvm on cvm.veriety_id=iss.variety_id \r\n" +
+                            "inner join input_supplier isup on iss.input_supplier_id=isup.input_supplier_id \r\n" +
+                            "where iss.input_supplier_id=:masterId and  iss.is_deleted = false";
+
+            List<InputSupplierSeedDTO> obj = (List<InputSupplierSeedDTO>) entityManager.createNativeQuery(sql, "InputSupplierSeedDTO").setParameter("masterId", masterId).getResultList();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

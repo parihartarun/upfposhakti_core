@@ -23,5 +23,7 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	
 	@Query("Select new com.upfpo.app.dto.FPOListDTO(f.fpoId, f.fpoName) from FPORegister f where f.isDeleted = false order by f.fpoName asc")
 	List<FPOListDTO> getAllFpoDetails();
-	 
+	
+	@Query("select count(f) from FPORegister f where f.isDeleted = false")
+	public Integer getAllFpoCount();
 }

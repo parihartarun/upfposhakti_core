@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.entity.InputSupplierSeed;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface InputSupplierSeedService {
-    List<InputSupplierSeed> getAllInputSupplierSeed();
+
+
+    List<InputSupplierSeedDTO> getAllInputSupplierSeed(Integer masterId);
 
     InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file);
 

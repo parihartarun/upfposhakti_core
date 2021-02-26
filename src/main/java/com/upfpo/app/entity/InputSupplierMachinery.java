@@ -1,8 +1,26 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Calendar;
 
+
+@SqlResultSetMapping(name="InputSupplierMachineryDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierMachineryDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type", type = String.class),
+                                @ColumnResult(name = "equpment_name", type = String.class),
+                                @ColumnResult(name = "quantity", type = Integer.class),
+                                @ColumnResult(name = "manufacturer_name", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "input_supplier_machinery")
 public class InputSupplierMachinery {
@@ -20,6 +38,9 @@ public class InputSupplierMachinery {
 
     @Column(name = "machinery_name_id")
     private Integer machinerynameId;
+
+    @Column(name = "technical_specs")
+    private String technicalSpecs;
 
     @Column(name = "quantity")
     private Integer quantity;
@@ -55,14 +76,11 @@ public class InputSupplierMachinery {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    public InputSupplierMachinery() {
-    }
-
-
-    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, Integer quantity,
+    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String specification, Integer quantity,
                                   Integer inputSupplierId, String manufacturerName) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
+        this.technicalSpecs=specification;
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
@@ -84,7 +102,29 @@ public class InputSupplierMachinery {
         this.inputSupplierId = inputSupplierId;
     }
 
+    public Integer getMachineryTypeId() {
+        return machineryTypeId;
+    }
 
+    public void setMachineryTypeId(Integer machineryTypeId) {
+        this.machineryTypeId = machineryTypeId;
+    }
+
+    public Integer getMachinerynameId() {
+        return machinerynameId;
+    }
+
+    public void setMachinerynameId(Integer machinerynameId) {
+        this.machinerynameId = machinerynameId;
+    }
+
+    public String getTechnicalSpecs() {
+        return technicalSpecs;
+    }
+
+    public void setTechnicalSpecs(String technicalSpecs) {
+        this.technicalSpecs = technicalSpecs;
+    }
 
     public Integer getQuantity() {
         return quantity;

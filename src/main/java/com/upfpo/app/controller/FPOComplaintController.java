@@ -3,8 +3,11 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.BuyerSellerComplaintsDto;
+import com.upfpo.app.dto.ChcFmbComplaintsDto;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
+import com.upfpo.app.dto.InputSupplierComplaintsDto;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.ChcIsBsComplaints;
 import com.upfpo.app.entity.Complaints;
@@ -31,6 +34,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -135,16 +139,40 @@ public class FPOComplaintController {
     }
     
     
-    //this api for all compalaint of input supplier , Chc Fmb, Buyer seller using role
-    @GetMapping("/getAllComplaintIsChcBs/{role}")
-    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcIsBsComplaints.class)
+    //this api for all compalaint of input supplier
+    @GetMapping("/getAllComplaintInputSupplier/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= InputSupplierComplaintsDto.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<ChcIsBsComplaints> getAllComplaintIsChcBsByRole(@PathVariable String role){
-        return fpoComplaintService.getAllComplaintIsChcBsByRole(role);
+    public List<InputSupplierComplaintsDto> getAllComplaintInputSupplierByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintInputSupplierByRole(role);
+    }
+    
+  //this api for all compalaint of Buyer seller using role
+    @GetMapping("/getAllComplaintBuyerSeller/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= BuyerSellerComplaintsDto.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<BuyerSellerComplaintsDto> getAllComplaintBuyerSellerByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintBuyerSellerByRole(role);
+    }
+    
+  //this api for all compalaint of Chc fmb using role
+    @GetMapping("/getAllComplaintChcFmb/{role}")
+    @ApiOperation(value="Supplier Complaints List" ,code=201, produces = "application/json", notes="Api for all Complaints Info By Master ID",response= ChcFmbComplaintsDto.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<ChcFmbComplaintsDto> getAllComplaintChcFmbByRole(@PathVariable String role){
+        return fpoComplaintService.getAllComplaintChcFmbByRole(role);
     }
 
 
@@ -204,6 +232,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Input Supplier Complaint  created Successfully!");
@@ -242,6 +271,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByCHCFMB(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint created successfully"), HttpStatus.OK );
                 LOG.info("chcfmbComplaint  created Successfully!");
@@ -281,6 +311,7 @@ public class FPOComplaintController {
                 complaints.setTitle(title);
                 complaints.setMasterId(masterId);
                 complaints.setRole(role);
+                complaints.setUpdateDate(Calendar.getInstance());
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByBuyerSeller(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Buyer Seller Complaint  created Successfully!");
@@ -315,6 +346,7 @@ public class FPOComplaintController {
         FPOComplaints complaints = new FPOComplaints();
         complaints.setId(id);
         complaints.setAssignTo(assignTo);
+        complaints.setAssign_date(Calendar.getInstance());
         complaints.setDeptComment(deptComment);
         complaints.setStatus(status);
         //complaints.setUpdateDate(new Date());
@@ -322,6 +354,8 @@ public class FPOComplaintController {
         ChcIsBsComplaints cibComplaint = new ChcIsBsComplaints();
         cibComplaint.setId(id);
         cibComplaint.setAssignTo(assignTo);
+        //cibComplaint.setAssignBy(Calendar.getInstance());
+        cibComplaint.setAssign_date(Calendar.getInstance());
         cibComplaint.setDeptComment(deptComment);
         cibComplaint.setStatus(status);
         cibComplaint.setRole(role);

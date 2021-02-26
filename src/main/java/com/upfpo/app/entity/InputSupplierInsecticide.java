@@ -1,8 +1,26 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
+
+@SqlResultSetMapping(name="InputSupplierInsecticideDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = InputSupplierInsecticideDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "insecticide_type", type = String.class),
+                                @ColumnResult(name = "quantity", type = Integer.class),
+                                @ColumnResult(name = "manufacturer_name", type = String.class),
+                                @ColumnResult(name = "cib_rc_no", type = String.class),
+                                @ColumnResult(name = "cib_rc_issuedate", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "input_supplier_insecticide")
 public class InputSupplierInsecticide {
@@ -81,7 +99,7 @@ public class InputSupplierInsecticide {
         this.createDateTime = createDateTime;
     }
 
-    public InputSupplierInsecticide(Integer insecticideTypeId, Integer quantity, Integer inputSupplierId, String cibRcNumber,
+    public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
                                     Calendar cibRcIssuedate) {
 
         this.insecticideTypeId=insecticideTypeId;
@@ -91,6 +109,8 @@ public class InputSupplierInsecticide {
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
     }
+
+
 
     public Integer getId() {
         return id;

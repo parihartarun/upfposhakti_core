@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.service.InputSupplierMachineryServiceImpl;
@@ -41,15 +42,15 @@ public class InputSupplierMachineryController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierMachinerys List" ,code=201, produces = "application/json", notes="Api for all InputSupplierMachinerys Info",response= InputSupplierMachinery.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierMachinery> getAllInputSupplierMachinerys (){
-        return machineryService.getAllInputSupplierMachinery();
+    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinerys (@PathVariable Integer id){
+        return machineryService.getAllInputSupplierMachinery(id);
     }
 
     @GetMapping("/equipmenttype/getall")
@@ -97,6 +98,7 @@ public class InputSupplierMachineryController {
     })
     public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
                                                                          @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestParam(value = "specification", required = false) String  specification,
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                          @RequestParam("input_supplier_id") Integer inputSupplierId,
@@ -106,7 +108,7 @@ public class InputSupplierMachineryController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, quantity, inputSupplierId, manufacturerName);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
@@ -163,12 +165,13 @@ public class InputSupplierMachineryController {
     public ResponseEntity<MessageResponse> updateInputSupplierMachinery(@PathVariable Integer id,
                                                                         @RequestPart(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
                                                                         @RequestPart(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestPart(value = "specification", required = false) String specification,
                                                                         @RequestPart(value = "quantity", required = false) Integer quantity,
                                                                         @RequestPart(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestPart("input_supplier_id") Integer inputSupplierId,
                                                                         @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachinery updating InputSupplierMachinery detail ");
-        InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, quantity, inputSupplierId, manufacturerName);
+        InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){

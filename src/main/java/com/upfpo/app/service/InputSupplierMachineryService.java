@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.entity.EquipmentType;
 import com.upfpo.app.entity.EqupmentMaster;
 import com.upfpo.app.entity.InputSupplierMachinery;
@@ -9,9 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface InputSupplierMachineryService {
+
+
+    List<InputSupplierMachineryDTO> getAllInputSupplierMachinery(Integer masterId);
+
     List<EquipmentType> getAllEquipmentType();
 
-    List<InputSupplierMachinery> getAllInputSupplierMachinery();
+
 
     List<EqupmentMaster> getAllEquipmentByType(Integer typeId);
 

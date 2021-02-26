@@ -2,6 +2,8 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.entity.InputSupplierInsecticide;
 import com.upfpo.app.entity.InsecticideType;
 import com.upfpo.app.properties.FileStorageProperties;
@@ -20,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -41,6 +44,9 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
 
     private final Path fileStorageLocation;
 
+    @Autowired
+    private EntityManager entityManager;
+
 
     @Autowired
     public InputSupplierInsecticideServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -54,8 +60,9 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     }
 
     @Override
-    public List<InputSupplierInsecticide> getAllInputSupplierInsecticide(){
-        return insecticideRepository.findByIsDeletedOrderByIdDesc(false);
+    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticide(Integer masterId){
+        List<InputSupplierInsecticideDTO> isi = getInsecticideDetail(masterId);
+        return isi;
     }
 
     @Override
@@ -171,4 +178,23 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
 
+
+    public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId) {
+        List<InputSupplierInsecticideDTO> list = null;
+        try {
+            String sql = "Select  isi.id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
+                    ", isi.file_path \r\n" +
+                    "from input_supplier_insecticide isi \r\n" +
+                    "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +
+                    "inner join input_supplier isup on isi.input_supplier_id=isup.input_supplier_id \r\n" +
+                    "where isi.input_supplier_id= :masterId and  isi.is_deleted = false";
+
+            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).getResultList();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

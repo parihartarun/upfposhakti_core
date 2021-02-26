@@ -39,6 +39,21 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	 @Query("select f.fpoRefId from FarmerMaster f where f.farmerId = :farmerId")
 	 public Integer getFpoIdofFarmer(Integer farmerId);
 	 
-	 @Query("select count(f) from FarmerMaster f where f.fpoRefId = :fpoId and isDeleted = false")
+	 @Query("select count(f) from FarmerMaster f where f.fpoRefId = :fpoId and f.isDeleted = false")
 	 public Integer getFpoFarmer(Integer fpoId);
+	 
+	 @Query("select count(f) from FarmerMaster f where f.isDeleted = false")
+	 public Integer getAllFarmers();
+
+	 //@Modifying
+	 //@Transactional
+	 //@Query("update User u set u.isEnabled=false, u.deActivatedBy= :masterId, u.reason= :reason where u.userId = :uid")
+	 public void deActivateUserByDept(Long uid, String reason, Integer masterId);
+
+	 
+	//Activate user by department user
+	 //@Modifying
+	 //@Transactional
+	 //@Query("update User u set u.isEnabled=true, u.activatedBy= :masterId where u.userId = :uid")
+	 public void activateUserByDept(Long uid, Integer masterId);
 }

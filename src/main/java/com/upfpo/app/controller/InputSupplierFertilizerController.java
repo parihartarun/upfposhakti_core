@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
@@ -43,15 +44,15 @@ public class InputSupplierFertilizerController {
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="InputSupplierFertilizers List" ,code=201, produces = "application/json", notes="Api for all InputSupplierFertilizers Info",response= InputSupplierFertilizer.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierFertilizer> getAllInputSupplierFertilizers (){
-        return fertilizerService.getAllInputSupplierFertilizer();
+    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizers (@PathVariable Integer id){
+        return fertilizerService.getAllInputSupplierFertilizer(id);
     }
 
     @GetMapping("fertilizertype/getall")
@@ -99,16 +100,16 @@ public class InputSupplierFertilizerController {
     })
     public ResponseEntity<MessageResponse> createInputSupplierFertilizer(@RequestParam(value = "type_id", required = false) Integer typeId,
                                                                    @RequestParam(value = "name_id", required = false) Integer nameId,
+                                                                   @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
                                                                    @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                    @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                   @RequestParam("input_supplier_id") Integer inputSupplierId,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,inputSupplierId,nameId, grade,manufacturerName);
+                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,grade,manufacturerName);
                 InputSupplierFertilizer id = fertilizerService.createInputSupplierFertilizer(inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer  created Successfully!");
