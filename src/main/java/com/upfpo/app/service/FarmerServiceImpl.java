@@ -1,15 +1,24 @@
 package com.upfpo.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.custom.annotations.Mobile;
 import com.upfpo.app.dto.DepartmentAllUserDto;
+import com.upfpo.app.dto.FarmerAllUserToFpoDto;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.repository.FarmerMasterRepository;
 
@@ -90,15 +99,26 @@ public class FarmerServiceImpl implements FarmerService
 	}
 
 	@Override
-	public List<DepartmentAllUserDto> getAllFarmerUserToFpo() {
-		List <DepartmentAllUserDto> list = null;
+	public List<FarmerAllUserToFpoDto> getAllFarmerUserToFpo(Integer fpoId) {
+		List <FarmerAllUserToFpoDto> list = null;
 		   try
 			{
-			  String sql = "select users.user_id,users.user_name,fpo_name,district_name,date_of_regi,fpo_landline,fpo_email,users.enabled from fpo \r\n" + 
-			   		"join districts on fpo.dist_ref_id = districts.district_id  \r\n" + 
-			   		"join users on fpo.users_id = users.user_id";
+			  String sql = "select f.farmer_id as farmerId, f.state_ref as stateref, f.pincode, f.blockId as blockRef, f.sla_ref_id as slaRefId,"
+			  		+ "f. district_ref_id as distRefId, f.bank_ref_id as bankRefId, f.fpo_ref_id as fpoRefId, f.village_ref_id as villRefId,"
+			  		+ "f.fig_ref_id as figRefId, f.education_ref_id as educationId, f.farmer_name as farmerName, f.aadhaar as farmerAdhaar, f.address as "
+			  		+ "farmerAddress, f.date_associated as registerDate, f.farmer_mob as farmerMob, f.farmerlotno as farmerLotNo, f.ifsccode as "
+			  		+ "ifscCode, f.accountno as accountNo , f.kccno, f.farmer_parants as parantsName , f.create_date as createDate, f.created_by "
+			  		+ "as createdBy, f.enabled , f.farm_gen as gender , f.distance_from_fpc as distanceFromFpc, f.username as farmerUserName, f.farm_category "
+			  		+ "as category, f.update_date as updateDate, f.agency_associated as agency , f.upbsm_id as upBSMId , f.vill_panchayat_ref_id "
+			  		+ "as villagePanchayatId , f.is_deleted as isDeleted, f.delete_date as deleteDate, f.updated_by as updatedBy,"
+			  		+ "u.user_id as userId,u.user_name as userName,d.district_name as districtName from farmer f\r\n"
+			  		+ "left join districts d on f.district_ref_id = d.district_id \r\n"
+			  		+ "join users u on f.user_id = u.user_id\r\n"
+			  		+ "where f.fpo_ref_id =:fpoId";
 			   
-			  list = (List<DepartmentAllUserDto>) entityManager.createNativeQuery(sql, "DepartmentAllUserDto").getResultList();
+			  list = (List<FarmerAllUserToFpoDto>) entityManager.createNativeQuery(sql, "FarmerAllUserToFpoDto")
+					  .setParameter("fpoId", fpoId)
+					  .getResultList();
 			  System.out.println(list.size());
 			}
 			catch (Exception e) {
@@ -109,11 +129,11 @@ public class FarmerServiceImpl implements FarmerService
 
 	@Override
 	public void deActivateFarmerUser(Long uid, String reason, Integer masterId) {
-		farmerMasterRepository.deActivateUserByDept(uid,reason, masterId);
+		//farmerMasterRepository.deActivateUserByFpo(uid,reason, masterId);
 	}
 
 	@Override
 	public void activateFarmerUser(Long uid, Integer masterId) {
-		farmerMasterRepository.activateUserByDept(uid, masterId);
+		//farmerMasterRepository.activateUserByFpo(uid, masterId);
 	}
 }

@@ -19,6 +19,7 @@ import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.DepartmentAllUserDto;
+import com.upfpo.app.dto.FarmerAllUserToFpoDto;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.ReasonsMaster;
 import com.upfpo.app.service.FarmerService;
@@ -83,16 +84,16 @@ public class FarmerController
 		return true;
 	}
 	
-	@GetMapping(value="/getAllUserToFpo")
-	@ApiOperation(value="Get All user for department",code=200,produces = "application/json",notes="Api for view all users",response=DepartmentAllUserDto.class,responseContainer="List")
+	@GetMapping(value="/getAllUserToFpo/{fpoId}")
+	@ApiOperation(value="Get All user for department",code=200,produces = "application/json",notes="Api for view all users",response=FarmerAllUserToFpoDto.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	public List<DepartmentAllUserDto> getUsers()
+	public List<FarmerAllUserToFpoDto> getUsers(@PathVariable("fpoId") Integer fpoId)
 	{
-		return farmerService.getAllFarmerUserToFpo();
+		return farmerService.getAllFarmerUserToFpo(fpoId);
 	}
 	
 	@PutMapping(value="/deactivateFarmerUser")
