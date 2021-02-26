@@ -1288,7 +1288,7 @@ public class DataDisplayRepository {
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
 					+"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
-					;
+					
 		}
 		else if (searchIn.equalsIgnoreCase("district")) 
 		{
@@ -1334,7 +1334,8 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 	if(fileterdistricts!=null) {
 		for(Integer districtId:fileterdistricts)
 		{
-			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid()==districtId;
+			
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1347,7 +1348,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
     if(fileterqty!=null) {
     	for(Integer fileterqtyitem:fileterqty)
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable() > fileterqtyitem;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().intValue() > fileterqtyitem.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1360,7 +1361,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
     if(filtercropsver!=null) {
     	for(Integer filtercropsveritm:filtercropsver)
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid() == filtercropsveritm;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid().intValue() == filtercropsveritm.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1374,7 +1375,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
     if(filtercrops!=null) {
     	for(Integer filtercropsItm:filtercrops)
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid() == filtercropsItm;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid().intValue() == filtercropsItm.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1389,7 +1390,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
      {
 	   for(Integer fpoId:fpos)
 		{
-			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid() == fpoId.longValue();
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid().longValue() == fpoId.longValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
