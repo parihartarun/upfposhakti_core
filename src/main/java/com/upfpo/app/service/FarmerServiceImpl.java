@@ -129,11 +129,11 @@ public class FarmerServiceImpl implements FarmerService
 
 	@Override
 	public void deActivateFarmerUser(Long uid, String reason, Integer masterId) {
-		//farmerMasterRepository.deActivateUserByFpo(uid,reason, masterId);
+		farmerMasterRepository.deActivateUserByFpo(uid,reason, masterId);
 	}
 
 	@Override
 	public void activateFarmerUser(Long uid, Integer masterId) {
-		//farmerMasterRepository.activateUserByFpo(uid, masterId);
+		farmerMasterRepository.activateUserByFpo(uid, masterId);
 	}
 }
