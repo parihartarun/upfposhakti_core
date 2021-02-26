@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.repository.FarmerMasterRepository;
 
@@ -15,6 +18,9 @@ public class FarmerServiceImpl implements FarmerService
 {
 	@Autowired
 	FarmerMasterRepository farmerMasterRepository;
+	
+	@Autowired
+	private  EntityManager entityManager;
 	
 	@Override
 	public List<FarmerMaster> getFarmer(Integer masterId) 
@@ -81,5 +87,33 @@ public class FarmerServiceImpl implements FarmerService
 	public void deleteFarmer(int farmerId) 
 	{
 		farmerMasterRepository.deleteFarmer(farmerId);
+	}
+
+	@Override
+	public List<DepartmentAllUserDto> getAllFarmerUserToFpo() {
+		List <DepartmentAllUserDto> list = null;
+		   try
+			{
+			  String sql = "select users.user_id,users.user_name,fpo_name,district_name,date_of_regi,fpo_landline,fpo_email,users.enabled from fpo \r\n" + 
+			   		"join districts on fpo.dist_ref_id = districts.district_id  \r\n" + 
+			   		"join users on fpo.users_id = users.user_id";
+			   
+			  list = (List<DepartmentAllUserDto>) entityManager.createNativeQuery(sql, "DepartmentAllUserDto").getResultList();
+			  System.out.println(list.size());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		   return list;
+	}
+
+	@Override
+	public void deActivateFarmerUser(Long uid, String reason, Integer masterId) {
+		farmerMasterRepository.deActivateUserByDept(uid,reason, masterId);
+	}
+
+	@Override
+	public void activateFarmerUser(Long uid, Integer masterId) {
+		farmerMasterRepository.activateUserByDept(uid, masterId);
 	}
 }
