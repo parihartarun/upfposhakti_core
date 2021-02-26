@@ -165,12 +165,13 @@ public class InputSupplierMachineryController {
     public ResponseEntity<MessageResponse> updateInputSupplierMachinery(@PathVariable Integer id,
                                                                         @RequestPart(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
                                                                         @RequestPart(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestPart(value = "specification", required = false) String specification,
                                                                         @RequestPart(value = "quantity", required = false) Integer quantity,
                                                                         @RequestPart(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestPart("input_supplier_id") Integer inputSupplierId,
                                                                         @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachinery updating InputSupplierMachinery detail ");
-        InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, quantity, inputSupplierId, manufacturerName);
+        InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){

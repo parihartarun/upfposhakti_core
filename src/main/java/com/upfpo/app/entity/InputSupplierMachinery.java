@@ -21,7 +21,6 @@ import java.util.Calendar;
                                 @ColumnResult(name = "file_path", type = String.class)
                         })
         })
-
 @Entity
 @Table(name = "input_supplier_machinery")
 public class InputSupplierMachinery {
@@ -76,9 +75,6 @@ public class InputSupplierMachinery {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
     private Calendar createDateTime;
-
-
-
 
     public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String specification, Integer quantity,
                                   Integer inputSupplierId, String manufacturerName) {
