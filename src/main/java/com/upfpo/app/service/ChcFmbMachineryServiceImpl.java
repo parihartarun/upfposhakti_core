@@ -1,6 +1,8 @@
 package com.upfpo.app.service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.ChcFmbMachineryDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.entity.EquipmentType;
 import com.upfpo.app.entity.EqupmentMaster;
 import com.upfpo.app.entity.ChcFmbMachinery;
@@ -20,17 +22,21 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 @Service
 public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
     @Autowired
     private ChcFmbMachineryRepository machineryRepository;
@@ -42,6 +48,9 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     private EquipmentMasterRepository equipmentMasterRepository;
 
     private final Path fileStorageLocation;
+
+    @Autowired
+    private EntityManager entityManager;
 
 
     @Autowired
@@ -57,8 +66,10 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
 
 
     @Override
-    public List<ChcFmbMachinery> getAllChcFmbMachinery() {
-        return machineryRepository.findByIsDeletedOrderByIdDesc(false);
+    public List<ChcFmbMachineryDTO> getAllChcFmbMachinery(Integer masterId) {
+
+        List<ChcFmbMachineryDTO> cfm = getMachineryDetail(masterId);
+        return cfm;
     }
 
     @Override
@@ -138,15 +149,14 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
         String fileName;
         Path targetLocation;
         if(file!=null){
+            String fileContentType = file.getContentType();
             fileName = StringUtils.cleanPath(file.getOriginalFilename());
             try {
                 // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
-                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                if (fileName.contains("..") && contentTypes.contains(fileContentType)) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence or Invalid file type " + fileName);
                 }
-                // Copy file to the target location (Replacing existing file with the same name)
                 targetLocation = this.fileStorageLocation.resolve(fileName);
-                //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                         .path("/inputsupplier/machinery/download/")
@@ -158,19 +168,45 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
                             chcFmbMachinery.setFileName(fileName);
                             return machineryRepository.saveAndFlush(chcFmbMachinery);
                         }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
-
             } catch (IOException ex) {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
 
         return machineryRepository.findById(id)
                 .map(chcFmbMachinery -> {
-                    chcFmbMachinery.setUpdateBy(chcFmbMachinery.getInputSupplierId());
+                    chcFmbMachinery.setUpdateBy(chcFmbMachinery.getChcFmbId());
                     chcFmbMachinery.setUpdateDate(Calendar.getInstance());
                     chcFmbMachinery.setId(chcFmbMachinery1.getId());
+                    chcFmbMachinery.setEquipmentTypeId(chcFmbMachinery1.getEquipmentTypeId());
+                    chcFmbMachinery.setEquipmentNameId(chcFmbMachinery1.getEquipmentNameId());
+                    chcFmbMachinery.setChcFmbId(chcFmbMachinery1.getChcFmbId());
+                    chcFmbMachinery.setEquipmentCapacity(chcFmbMachinery1.getEquipmentCapacity());
+                    chcFmbMachinery.setEquipmentYear(chcFmbMachinery1.getEquipmentYear());
+                    chcFmbMachinery.setQuantityAvailable(chcFmbMachinery1.getQuantityAvailable());
+                    chcFmbMachinery.setCompany(chcFmbMachinery1.getCompany());
+                    chcFmbMachinery.setGovtSchemeAssistant(chcFmbMachinery1.getGovtSchemeAssistant());
                     chcFmbMachinery.setDeleted(false);
                     return machineryRepository.save(chcFmbMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+    }
+
+    public List<ChcFmbMachineryDTO> getMachineryDetail(Integer masterId) {
+        List<ChcFmbMachineryDTO> list = null;
+        try {
+            String sql = "Select  cfm.id, etm.type, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+                    "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
+                    "            from chc_fmb_machinery cfm\n" +
+                    "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
+                    "            left join equip_master em on em.id=cfm.equipment_name_id\n" +
+                    "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false";
+
+            List<ChcFmbMachineryDTO> obj = (List<ChcFmbMachineryDTO>) entityManager.createNativeQuery(sql, "ChcFmbMachineryDTO").setParameter("masterId", masterId).getResultList();
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

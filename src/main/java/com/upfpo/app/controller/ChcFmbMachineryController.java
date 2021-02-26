@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.ChcFmbMachineryDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.service.ChcFmbMachineryService;
@@ -43,15 +44,15 @@ public class ChcFmbMachineryController {
 
 
 
-    @GetMapping("/getall")
+    @GetMapping("/getall/{id}")
     @ApiOperation(value="ChcFmbMachinerys List" ,code=201, produces = "application/json", notes="Api for all ChcFmbMachinerys Info",response= ChcFmbMachinery.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<ChcFmbMachinery> getAllChcFmbMachinerys (){
-        return machineryService.getAllChcFmbMachinery();
+    public List<ChcFmbMachineryDTO> getAllChcFmbMachinerys (@PathVariable Integer id){
+        return machineryService.getAllChcFmbMachinery(id);
     }
 
     @GetMapping("/equipmenttype/getall")
@@ -166,20 +167,27 @@ public class ChcFmbMachineryController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateChcFmbMachinery(@PathVariable Integer id,
-                                                                 @RequestPart(value = "type_id", required = false) Integer typeId,
-                                                                 @RequestPart(value = "name_id", required = false) Integer nameId,
-                                                                 @RequestPart(value = "chc_fmb_id", required = false) Integer chcFmbId,
-                                                                 @RequestPart(value = "capacity", required = false) Integer capacity,
-                                                                 @RequestPart(value = "purchase_year", required = false) Calendar year,
-                                                                 @RequestPart(value = "quantity", required = false) Integer quantity,
-                                                                 @RequestPart(value = "company", required = false) String company,
-                                                                 @RequestPart(value = "govt_scheme", required = false) String govtScheme,
-                                                                 @RequestPart(value = "file", required = false) MultipartFile file) {
+                                                                 @RequestParam(value = "type_id", required = false) Integer typeId,
+                                                                 @RequestParam(value = "name_id", required = false) Integer nameId,
+                                                                 @RequestParam(value = "chc_fmb_id", required = false) Integer chcFmbId,
+                                                                 @RequestParam(value = "capacity", required = false) Integer capacity,
+                                                                 @RequestParam(value = "purchase_year", required = false) Calendar year,
+                                                                 @RequestParam(value = "quantity", required = false) Integer quantity,
+                                                                 @RequestParam(value = "company", required = false) String company,
+                                                                 @RequestParam(value = "govt_scheme", required = false) String govtScheme,
+                                                                 @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ChcFmbMachinery updating ChcFmbMachinery detail ");
-        ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery(typeId, nameId, chcFmbId, capacity, year, quantity, company, govtScheme);
+        ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery();
+        chcFmbMachinery.setEquipmentTypeId(typeId);
+        chcFmbMachinery.setEquipmentNameId(nameId);
+        chcFmbMachinery.setChcFmbId(chcFmbId);
+        chcFmbMachinery.setEquipmentCapacity(capacity);
+        chcFmbMachinery.setEquipmentYear(year);
+        chcFmbMachinery.setQuantityAvailable(quantity);
+        chcFmbMachinery.setCompany(company);
+        chcFmbMachinery.setGovtSchemeAssistant(govtScheme);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+
             try {
                 machineryService.updateChcFmbMachinery(id, chcFmbMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("ChcFmbMachinery Details Updated Successfully!"), HttpStatus.OK );
@@ -189,7 +197,7 @@ public class ChcFmbMachineryController {
                 LOG.info("Failed to Update the ChcFmbMachinery Details");
                 e.printStackTrace();
             }
-        }
+
         LOG.info("Exiting ChcFmbMachinery Of Controller with response ", resp);
         return resp;
     }

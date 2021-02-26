@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import com.upfpo.app.dto.ChcFmbMachineryDTO;
 import com.upfpo.app.entity.ChcFmbMachinery;
 import com.upfpo.app.entity.EquipmentType;
 import com.upfpo.app.entity.EqupmentMaster;
@@ -9,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ChcFmbMachineryService  {
-    List<ChcFmbMachinery> getAllChcFmbMachinery();
+
+
+    List<ChcFmbMachineryDTO> getAllChcFmbMachinery(Integer masterId);
 
     List<EquipmentType> getAllEquipmentType();
 

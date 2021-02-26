@@ -1,9 +1,29 @@
 package com.upfpo.app.entity;
 
 
+import com.upfpo.app.dto.ChcFmbMachineryDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+import io.swagger.models.auth.In;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
+@SqlResultSetMapping(name="ChcFmbMachineryDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = ChcFmbMachineryDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type", type = String.class),
+                                @ColumnResult(name = "equpment_name", type = String.class),
+                                @ColumnResult(name = "equipment_capacity", type = Integer.class),
+                                @ColumnResult(name = "equip_purchase_year", type = String.class),
+                                @ColumnResult(name = "quantity_avail", type = Integer.class),
+                                @ColumnResult(name = "rent_per_day", type = Double.class),
+                                @ColumnResult(name = "govt_scheme_assistant", type = String.class),
+                                @ColumnResult(name = "file_path", type = String.class)
+                        })
+        })
 @Entity
 @Table(name = "chc_fmb_machinery")
 public class ChcFmbMachinery {
@@ -15,9 +35,6 @@ public class ChcFmbMachinery {
 
     @Column(name = "chc_fmb_id")
     private Integer chcFmbId;
-
-    @Column(name = "input_supplier_id")
-    private Integer inputSupplierId;
 
     @Column(name = "equipment_type_id")
     private Integer equipmentTypeId;
@@ -137,13 +154,7 @@ public class ChcFmbMachinery {
         this.equipmentCapacity = equipmentCapacity;
     }
 
-    public Integer getInputSupplierId() {
-        return inputSupplierId;
-    }
 
-    public void setInputSupplierId(Integer inputSupplierId) {
-        this.inputSupplierId = inputSupplierId;
-    }
 
     public Double getRentPerDay() {
         return rentPerDay;
