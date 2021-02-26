@@ -145,9 +145,7 @@ public class DataDisplayRepository {
 		
 	}
 	
-	
-	
-	
+
 	
 	@Transactional
 	public Integer totalOtherFarmerCount(Integer fpoId)
