@@ -16,6 +16,10 @@ import com.upfpo.app.dto.FpoMarkeProdDashboardDTO;
 import com.upfpo.app.dto.FpoTotMarKharifDTO;
 import com.upfpo.app.dto.FpoTotMarRabiDTO;
 import com.upfpo.app.dto.FpoTotMarZayadDTO;
+import com.upfpo.app.dto.FpoTotSoldKharifDTO;
+import com.upfpo.app.dto.FpoTotSoldProductionDTO;
+import com.upfpo.app.dto.FpoTotSoldRabiDTO;
+import com.upfpo.app.dto.FpoTotSoldZayadDTO;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
 import com.upfpo.app.repository.TotalProductionRepository;
@@ -58,6 +62,11 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		mrkProd.setFpoTotMarRabi(getFpoMarketableCropProductionRabi(fpoId));
 		mrkProd.setFpoTotMarZayad(getFpoMarketableCropProductionZayad(fpoId));
 		
+		FpoTotSoldProductionDTO totSold = new FpoTotSoldProductionDTO();
+		totSold.setFpoTotSoldKharif(getFpoSoldCropProductionKharif(fpoId));
+		totSold.setFpoTotSoldRabi(getFpoSoldCropProductionRabi(fpoId));
+		totSold.setFpoTotSoldZayad(getFpoSoldCropProductionZayad(fpoId));
+		
 		FpoFarmerDashboardDTO fpoFarmerDashboardDTO = new FpoFarmerDashboardDTO();
 		fpoFarmerDashboardDTO.setTotalFpoFarmer(totalFpoFarmer);
 		fpoFarmerDashboardDTO.setTotalMarginalFarmer(totalMarginalFarmer);
@@ -67,6 +76,7 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		fpoFarmerDashboardDTO.setCrops(crops);
 		fpoFarmerDashboardDTO.setFpoActualProduction(actProd);
 		fpoFarmerDashboardDTO.setFpoMarketableProduction(mrkProd);
+		fpoFarmerDashboardDTO.setFpoTotSoldProduction(totSold);
 		return fpoFarmerDashboardDTO;
 	}
 	
@@ -118,4 +128,27 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		return obj;
 	}
 	
+	public List<FpoTotSoldRabiDTO> getFpoSoldCropProductionRabi(Integer fpoId)
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.fpo_id = :fpoId and c.season_id = 1 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<FpoTotSoldRabiDTO> obj =  (List<FpoTotSoldRabiDTO>) entityManager.createNativeQuery(sql,"FpoTotSoldRabiDTO").setParameter("fpoId", fpoId).getResultList();
+		return obj;
+	}
+	
+	public List<FpoTotSoldZayadDTO> getFpoSoldCropProductionZayad(Integer fpoId)
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.fpo_id = :fpoId and c.season_id = 3 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<FpoTotSoldZayadDTO> obj =  (List<FpoTotSoldZayadDTO>) entityManager.createNativeQuery(sql,"FpoTotSoldZayadDTO").setParameter("fpoId", fpoId).getResultList();
+		return obj;
+	}
+	
+	public List<FpoTotSoldKharifDTO> getFpoSoldCropProductionKharif(Integer fpoId)
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.fpo_id = :fpoId and c.season_id = 2 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<FpoTotSoldKharifDTO> obj =  (List<FpoTotSoldKharifDTO>) entityManager.createNativeQuery(sql,"FpoTotSoldKharifDTO").setParameter("fpoId", fpoId).getResultList();
+		return obj;
+	}
 }
