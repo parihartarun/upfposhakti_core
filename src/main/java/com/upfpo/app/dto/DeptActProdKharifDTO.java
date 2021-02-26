@@ -1,6 +1,6 @@
 package com.upfpo.app.dto;
 
-public class FpoActProdKharifDTO 
+public class DeptActProdKharifDTO 
 {
 	private Integer cropId;
 	
@@ -10,7 +10,7 @@ public class FpoActProdKharifDTO
 	
 	private Double totAcProd;
 	
-	public FpoActProdKharifDTO(Integer cropId, String cropName, Integer seasonId, Double totAcProd) {
+	public DeptActProdKharifDTO(Integer cropId, String cropName, Integer seasonId, Double totAcProd) {
 		super();
 		this.cropId = cropId;
 		this.cropName = cropName;
@@ -49,4 +49,5 @@ public class FpoActProdKharifDTO
 	public void setTotAcProd(Double totAcProd) {
 		this.totAcProd = totAcProd;
 	}
+
 }

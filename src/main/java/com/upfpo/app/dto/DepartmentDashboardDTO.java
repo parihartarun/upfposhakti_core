@@ -13,6 +13,11 @@ public class DepartmentDashboardDTO
 	private Double totalSmallFarmer;
 	
 	private Double totalOtherFarmer;
+	
+	private DeptActualProductionDTO deptActualProduction;
+	
+	private DeptMarketableProductionDTO deptMarketableProduction;
+	
 
 	public Double getLandArea() {
 		return landArea;
@@ -60,6 +65,22 @@ public class DepartmentDashboardDTO
 
 	public void setTotalOtherFarmer(Double totalOtherFarmer) {
 		this.totalOtherFarmer = totalOtherFarmer;
+	}
+	
+	public DeptActualProductionDTO getDeptActualProduction() {
+		return deptActualProduction;
+	}
+
+	public void setDeptActualProduction(DeptActualProductionDTO deptActualProduction) {
+		this.deptActualProduction = deptActualProduction;
+	}
+
+	public DeptMarketableProductionDTO getDeptMarketableProduction() {
+		return deptMarketableProduction;
+	}
+
+	public void setDeptMarketableProduction(DeptMarketableProductionDTO deptMarketableProduction) {
+		this.deptMarketableProduction = deptMarketableProduction;
 	}
 	
 }

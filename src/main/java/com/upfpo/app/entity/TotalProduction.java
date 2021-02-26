@@ -17,6 +17,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.DeptActProdKharifDTO;
+import com.upfpo.app.dto.DeptActProdRabiDTO;
+import com.upfpo.app.dto.DeptActProdZayadfDTO;
+import com.upfpo.app.dto.DeptTotMarKharifDTO;
+import com.upfpo.app.dto.DeptTotMarRabiDTO;
+import com.upfpo.app.dto.DeptTotMarZayadDTO;
 import com.upfpo.app.dto.FpoActProdKharifDTO;
 import com.upfpo.app.dto.FpoActProdRabiDTO;
 import com.upfpo.app.dto.FpoActProdZayadDTO;
@@ -98,6 +104,74 @@ classes = {
 classes = {
 		@ConstructorResult(
 				targetClass = FpoActProdKharifDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totAcProd", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptTotMarRabiDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotMarRabiDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totMarkProd", type = Double.class)
+				})
+})
+
+@SqlResultSetMapping(name="DeptTotMarZayadDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotMarZayadDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totMarkProd", type = Double.class)
+				})
+})
+
+@SqlResultSetMapping(name="DeptTotMarKharifDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotMarKharifDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totMarkProd", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptActProdKharifDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptActProdKharifDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totAcProd", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptActProdRabiDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptActProdRabiDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totAcProd", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptActProdZayadfDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptActProdZayadfDTO.class,
 				columns = {
 						@ColumnResult(name = "cropId", type = Integer.class),
 						@ColumnResult(name = "cropName", type = String.class),
