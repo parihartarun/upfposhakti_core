@@ -97,14 +97,14 @@ public class FarmerController
 	}
 	
 	@PutMapping(value="/deactivateFarmerUser")
-	@ApiOperation(value="Deactivate user by department",code=201,produces = "application/json",notes="Api for deactivate users",response=MessageResponse.class)
+	@ApiOperation(value="Deactivate farmer user by FPO",code=201,produces = "application/json",notes="Api for deactivate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	@ResponseStatus( HttpStatus.OK)
-	public ResponseEntity<MessageResponse> deActivateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+	public ResponseEntity<MessageResponse> deActivateFarmerUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
 		String msg = null;
 		try {
 			if ( userDeactivateRequest.getUserrole()!= null
@@ -124,21 +124,21 @@ public class FarmerController
 	}
 	
 	@PutMapping(value="/activateUser")
-	@ApiOperation(value="Activate user by department",code=201,produces = "application/json",notes="Api for Activate users",response=MessageResponse.class)
+	@ApiOperation(value="Activate farmer user by FPO",code=201,produces = "application/json",notes="Api for Activate users",response=MessageResponse.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
 	@ResponseStatus( HttpStatus.OK)
-	public ResponseEntity<MessageResponse> activateUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
+	public ResponseEntity<MessageResponse> activateFarmerUser(@RequestBody UserDeactivateRequest userDeactivateRequest) throws Exception {
 		String msg = null;
 		try {
 			if ( userDeactivateRequest.getUserrole()!= null
 					&& userDeactivateRequest.getUserrole().equals("ROLE_FPC")) {
 				Long uid = new Long(userDeactivateRequest.getUserid());
-				Integer masterId = userDeactivateRequest.getMasterId();
-				farmerService.activateFarmerUser(uid, masterId);
+				//Integer masterId = userDeactivateRequest.getMasterId();
+				farmerService.activateFarmerUser(uid, userDeactivateRequest.getMasterId());
 				msg = userDeactivateRequest.getUsername()+ " user activate successfully";
 			} 
 			else {
