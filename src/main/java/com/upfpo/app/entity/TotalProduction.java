@@ -23,6 +23,9 @@ import com.upfpo.app.dto.DeptActProdZayadfDTO;
 import com.upfpo.app.dto.DeptTotMarKharifDTO;
 import com.upfpo.app.dto.DeptTotMarRabiDTO;
 import com.upfpo.app.dto.DeptTotMarZayadDTO;
+import com.upfpo.app.dto.DeptTotSoldKharifDTO;
+import com.upfpo.app.dto.DeptTotSoldRabiDTO;
+import com.upfpo.app.dto.DeptTotSoldZayadDTO;
 import com.upfpo.app.dto.FpoActProdKharifDTO;
 import com.upfpo.app.dto.FpoActProdRabiDTO;
 import com.upfpo.app.dto.FpoActProdZayadDTO;
@@ -179,6 +182,41 @@ classes = {
 						@ColumnResult(name = "totAcProd", type = Double.class)
 				})
 })
+
+@SqlResultSetMapping(name="DeptTotSoldZayadDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotSoldZayadDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totSold", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptTotSoldKharifDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotSoldKharifDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totSold", type = Double.class)
+				})
+})
+@SqlResultSetMapping(name="DeptTotSoldRabiDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = DeptTotSoldRabiDTO.class,
+				columns = {
+						@ColumnResult(name = "cropId", type = Integer.class),
+						@ColumnResult(name = "cropName", type = String.class),
+						@ColumnResult(name = "seasonId", type = Integer.class),
+						@ColumnResult(name = "totSold", type = Double.class)
+				})
+})
+
 @Entity
 @Table(name="total_production")
 public class TotalProduction implements Serializable {

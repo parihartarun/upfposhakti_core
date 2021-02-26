@@ -12,14 +12,20 @@ import com.upfpo.app.dto.DeptActProdKharifDTO;
 import com.upfpo.app.dto.DeptActProdRabiDTO;
 import com.upfpo.app.dto.DeptActProdZayadfDTO;
 import com.upfpo.app.dto.DeptActualProductionDTO;
+import com.upfpo.app.dto.DeptDashboardReportDTO;
 import com.upfpo.app.dto.DeptFpoAgencyDTO;
 import com.upfpo.app.dto.DeptMarketableProductionDTO;
+import com.upfpo.app.dto.DeptSoldProductionDTO;
 import com.upfpo.app.dto.DeptTotMarKharifDTO;
 import com.upfpo.app.dto.DeptTotMarRabiDTO;
 import com.upfpo.app.dto.DeptTotMarZayadDTO;
+import com.upfpo.app.dto.DeptTotSoldKharifDTO;
+import com.upfpo.app.dto.DeptTotSoldRabiDTO;
+import com.upfpo.app.dto.DeptTotSoldZayadDTO;
 import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
+import com.upfpo.app.requestStrings.ReportRequestString;
 
 @Service
 public class DepartmentDashboardServiceImpl implements DepartmentDashboardService
@@ -73,6 +79,11 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		depMar.setDeptTotMarRabi(getDeptMarketableCropProductionRabi());
 		depMar.setDeptTotMarZayad(getDeptMarketableCropProductionZayad());
 		
+		DeptSoldProductionDTO deptSold = new DeptSoldProductionDTO();
+		deptSold.setDeptTotSoldKharif(getDeptSaleCropProductionKharif());
+		deptSold.setDeptTotSoldRabi(getDeptSaleCropProductionRabi());
+		deptSold.setDeptTotSoldZayad(getDeptSalebleCropProductionZayad());
+		
 		List<DeptFpoAgencyDTO> agency = fPORegisterRepository.getAgency();
 		Integer totalFpo = fPORegisterRepository.getAllFpoCount();
 		
@@ -91,6 +102,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		departmentDashboardDTO.setTotalOtherFarmer(totalOtherFarmer);
 		departmentDashboardDTO.setDeptActualProduction(depAct);
 		departmentDashboardDTO.setDeptMarketableProduction(depMar);
+		departmentDashboardDTO.setDeptSoldProduction(deptSold);
 		departmentDashboardDTO.setDeptFpoAgency(agency);
 		return departmentDashboardDTO;
 	}
@@ -140,6 +152,70 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_marketable) as totMarkProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
 				+ "				where c.season_id = 2 group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
 		List<DeptTotMarKharifDTO> obj =  (List<DeptTotMarKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotMarKharifDTO").getResultList();
+		return obj;
+	}
+	
+	public List<DeptTotSoldRabiDTO> getDeptSaleCropProductionRabi()
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.season_id = 1 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldRabiDTO> obj =  (List<DeptTotSoldRabiDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldRabiDTO").getResultList();
+		return obj;
+	}
+	
+	public List<DeptTotSoldZayadDTO> getDeptSalebleCropProductionZayad()
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.season_id = 3 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldZayadDTO> obj =  (List<DeptTotSoldZayadDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldZayadDTO").getResultList();
+		return obj;
+	}
+	
+	public List<DeptTotSoldKharifDTO> getDeptSaleCropProductionKharif()
+	{
+		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
+				+ "				where c.season_id = 2 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldKharifDTO> obj =  (List<DeptTotSoldKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldKharifDTO").getResultList();
+		return obj;
+	}
+	
+	@Override
+	public List<DeptDashboardReportDTO> getDepartmentDashboardReport(ReportRequestString reportRequestString) 
+	{
+		List<DeptDashboardReportDTO> obj = null;
+		sql = "select distinct f.fpo_name,d.district_name, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName, \r\n"
+				+ "sum(tp.total_actual_prod) as actualFpoProduction, sum(tp.total_marketable) as marketable from fpo f  \r\n"
+				+ "join districts d on d.district_id =  f.dist_ref_id\r\n"
+				+ "join total_production tp on tp.fpo_id = f.fpo_id\r\n"
+				+ "join crop_master cm on cm.id = tp.crop_id\r\n"
+				+ "join crop_veriety_master cv on cv.veriety_id = tp.veriety_id";
+		
+		String groupBy = " group by d.district_name, cm.id, cm.crop_name, cv.veriety_id, cv.crop_veriety, f.fpo_name";
+		
+		if(reportRequestString.getDistId() > 0 || reportRequestString.getDistId() != null &&  reportRequestString.getCropId() > 0 || reportRequestString.getCropId() != null)
+		{
+			sql = sql + " where d.district_id = :distId  and cm.id = :cropId " + groupBy;
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
+					setParameter("cropId",reportRequestString.getCropId()).getResultList();
+		}
+		else if(reportRequestString.getDistId() > 0 || reportRequestString.getDistId() != null  &&  reportRequestString.getCropId() == 0 || reportRequestString.getCropId() == null)
+		{
+			sql = sql + " where d.district_id = :distId " + groupBy;
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
+					getResultList();
+		}
+		else if(reportRequestString.getDistId() == 0 || reportRequestString.getDistId() == null &&  reportRequestString.getCropId() > 0 || reportRequestString.getCropId() != null )
+		{
+			sql = sql + " where cm.id = :cropId " + groupBy;
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("cropId",reportRequestString.getCropId()).
+					getResultList();
+		}
+		else
+		{
+			sql = sql + groupBy;
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").getResultList();
+		}
+		System.out.println("Query::"+sql.toString());
 		return obj;
 	}
 }
