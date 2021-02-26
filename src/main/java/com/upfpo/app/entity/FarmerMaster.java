@@ -98,6 +98,7 @@ classes = {
                 		@ColumnResult(name = "updatedBy", type = String.class),
                 		@ColumnResult(name = "userId", type = Integer.class),
                 		@ColumnResult(name = "userName", type = String.class),
+                		@ColumnResult(name = "userEnabled", type = Boolean.class),
                 		@ColumnResult(name = "districtName", type = String.class),
                 })
 })

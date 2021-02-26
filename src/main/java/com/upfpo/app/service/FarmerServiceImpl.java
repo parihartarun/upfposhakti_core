@@ -111,7 +111,7 @@ public class FarmerServiceImpl implements FarmerService
 			  		+ "as createdBy, f.enabled , f.farm_gen as gender , f.distance_from_fpc as distanceFromFpc, f.username as farmerUserName, f.farm_category "
 			  		+ "as category, f.update_date as updateDate, f.agency_associated as agency , f.upbsm_id as upBSMId , f.vill_panchayat_ref_id "
 			  		+ "as villagePanchayatId , f.is_deleted as isDeleted, f.delete_date as deleteDate, f.updated_by as updatedBy,"
-			  		+ "u.user_id as userId,u.user_name as userName,d.district_name as districtName from farmer f\r\n"
+			  		+ "u.user_id as userId,u.user_name as userName,u.enabled as userEnabled,d.district_name as districtName from farmer f\r\n"
 			  		+ "left join districts d on f.district_ref_id = d.district_id \r\n"
 			  		+ "join users u on f.user_id = u.user_id\r\n"
 			  		+ "where f.fpo_ref_id =:fpoId";
