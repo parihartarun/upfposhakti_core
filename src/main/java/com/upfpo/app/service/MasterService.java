@@ -6,6 +6,7 @@ import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 
 public interface MasterService {
@@ -15,6 +16,6 @@ public interface MasterService {
 	   public ProductionDTO productions(String finYear);
 	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn);
 	   public List<FPODetailsDTO> homeSearch(String searchVal, String searchIn,List<String> fileterdistricts,List<Integer> fileterqty,List<String> crops,List<String> fpos);
-	   public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn,List<Integer> fileterdistricts,List<Integer> fileterqty,List<Integer> cropsVerieties,List<Integer> crops, List<Integer> fpos);
+	   public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto);
 
 }
