@@ -1349,18 +1349,17 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		}
 		
 	}
-//    if(fileterqty!=null) {
-//    	for(Integer fileterqtyitem:fileterqty)
-//		{
-//    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().intValue() > fileterqtyitem.intValue();
-//		      if(finalpredicate==null)
-//		      {
-//		    	  finalpredicate = samplepredicate;
-//		      }else {
-//		    	  finalpredicate =finalpredicate.or(samplepredicate);
-//		      }
-//		}
-//	}
+    if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) {
+    	
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymin().intValue() && samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymax().intValue();
+		      if(finalpredicate==null)
+		      {
+		    	  finalpredicate = samplepredicate;
+		      }else {
+		    	  finalpredicate =finalpredicate.and(samplepredicate);
+		      }
+		
+	}
     
     if(searchRequestDto.getCropverietyIds()!=null) {
     	for(Integer filtercropsveritm:searchRequestDto.getCropverietyIds())
@@ -1386,7 +1385,6 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		      }else {
 		    	  finalpredicate =finalpredicate.or(samplepredicate);
 		      }
-			
 		}
     	
       }
