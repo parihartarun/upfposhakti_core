@@ -34,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -51,6 +52,8 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
 
     @Autowired
     private FertilizerTypeRepository fertilizerTypeRepository;
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
     private final Path fileStorageLocation;
 
@@ -156,11 +159,12 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
         String fileName;
         Path targetLocation;
         if(file!=null){
+            String fileContentType = file.getContentType();
             fileName = StringUtils.cleanPath(file.getOriginalFilename());
             try {
                 // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
-                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                if (fileName.contains("..") &&  contentTypes.contains(fileContentType)) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence & Invalid file type " + fileName);
                 }
                 // Copy file to the target location (Replacing existing file with the same name)
                 targetLocation = this.fileStorageLocation.resolve(fileName);
@@ -185,6 +189,11 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
                     inputSupplierFertilizer.setUpdateBy(inputSupplierFertilizer.getInputSupplierId());
                     inputSupplierFertilizer.setUpdateDate(Calendar.getInstance());
                     inputSupplierFertilizer.setDeleted(false);
+                    inputSupplierFertilizer.setFertilizerType(inputSupplierFertilizer1.getFertilizerType());
+                    inputSupplierFertilizer.setFertilizerNameId(inputSupplierFertilizer1.getFertilizerNameId());
+                    inputSupplierFertilizer.setInputSupplierId(inputSupplierFertilizer1.getInputSupplierId());
+                    inputSupplierFertilizer.setFertilizerGrade(inputSupplierFertilizer1.getFertilizerGrade());
+                    inputSupplierFertilizer.setManufacturerName(inputSupplierFertilizer1.getManufacturerName());
                     return fertilizerRepository.save(inputSupplierFertilizer);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }

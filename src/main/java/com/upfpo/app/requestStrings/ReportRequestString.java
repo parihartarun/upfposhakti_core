@@ -7,6 +7,8 @@ public class ReportRequestString
 	private Integer seasonId;
 	private Integer farmerId;
 	private Integer masterId;
+	private Integer distId;
+	private Integer cropId;
 	
 	public Integer getFpoId() {
 		return fpoId;
@@ -38,6 +40,16 @@ public class ReportRequestString
 	public void setMasterId(Integer masterId) {
 		this.masterId = masterId;
 	}
-	
-	
+	public Integer getDistId() {
+		return distId;
+	}
+	public void setDistId(Integer distId) {
+		this.distId = distId;
+	}
+	public Integer getCropId() {
+		return cropId;
+	}
+	public void setCropId(Integer cropId) {
+		this.cropId = cropId;
+	}
 }

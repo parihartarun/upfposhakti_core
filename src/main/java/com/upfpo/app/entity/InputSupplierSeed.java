@@ -2,11 +2,14 @@ package com.upfpo.app.entity;
 
 //import sun.util.resources.ext.CalendarData_ar;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.dto.InputSupplierSeedDTO;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 @SqlResultSetMapping(name="InputSupplierSeedDTO",
@@ -53,10 +56,10 @@ public class InputSupplierSeed {
     private String certificationNumber;
 
     @Column(name="certification_valid_from")
-    private Calendar certificationValidFrom;
+    private String certificationValidFrom;
 
     @Column(name="certification_valid_to")
-    private Calendar certificationValidTo;
+    private String certificationValidTo;
 
     @Column(name="file_path")
     private String filePath;
@@ -86,9 +89,7 @@ public class InputSupplierSeed {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    public InputSupplierSeed(Integer id, Integer inputSupplierId, Integer cropId, Integer variety, String companyBrand, Double quantity,
-                             String certificationNumber, Calendar certificationValidFrom, Calendar certificationValidTo, String filePath, String fileName, Calendar updateDate, Integer updateBy,
-                             Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
+    public InputSupplierSeed(Integer id, Integer inputSupplierId, Integer cropId, Integer variety, String companyBrand, Double quantity, String certificationNumber, String certificationValidFrom, String certificationValidTo, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
         this.id = id;
         this.inputSupplierId = inputSupplierId;
         this.cropId = cropId;
@@ -113,7 +114,7 @@ public class InputSupplierSeed {
     }
 
     public InputSupplierSeed(Integer cropId, Integer inputSupplierId, Integer varietyId,
-                             String company, String certificationNo, Calendar validFrom, Calendar validTo, Double quantity) {
+                             String company, String certificationNo, String validFrom, String validTo, Double quantity) {
 
         this.cropId=cropId;
         this.inputSupplierId=inputSupplierId;
@@ -197,19 +198,19 @@ public class InputSupplierSeed {
         this.certificationNumber = certificationNumber;
     }
 
-    public Calendar getCertificationValidFrom() {
+    public String getCertificationValidFrom() {
         return certificationValidFrom;
     }
 
-    public void setCertificationValidFrom(Calendar certificationValidFrom) {
+    public void setCertificationValidFrom(String certificationValidFrom) {
         this.certificationValidFrom = certificationValidFrom;
     }
 
-    public Calendar getCertificationValidTo() {
+    public String getCertificationValidTo() {
         return certificationValidTo;
     }
 
-    public void setCertificationValidTo(Calendar certificationValidTo) {
+    public void setCertificationValidTo(String certificationValidTo) {
         this.certificationValidTo = certificationValidTo;
     }
 

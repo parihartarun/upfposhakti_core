@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class InputSupplierMachinery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
@@ -84,6 +84,9 @@ public class InputSupplierMachinery {
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
+    }
+
+    public InputSupplierMachinery() {
     }
 
     public Integer getId() {

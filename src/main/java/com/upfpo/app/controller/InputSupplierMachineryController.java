@@ -101,7 +101,7 @@ public class InputSupplierMachineryController {
                                                                         @RequestParam(value = "specification", required = false) String  specification,
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestParam("input_supplier_id") Integer inputSupplierId,
+                                                                         @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery ");
         ResponseEntity<MessageResponse> resp = null;
@@ -152,6 +152,46 @@ public class InputSupplierMachineryController {
         return resp;
     }
 
+    @PutMapping("/update/{id}")
+    @ApiOperation(value="Update Complaint Details" ,code=201, produces = "application/json", notes="Api To Update Complaint Details",response= InputSupplierMachinery.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> updateComplaint(@PathVariable Integer id,
+                                                           @RequestParam(value = "mchinery_type_id") Integer mchineryTypeId,
+                                                           @RequestParam(value = "machinery_name_id") Integer machineryNameId,
+                                                           @RequestParam(value = "specification") String specification,
+                                                           @RequestParam(value = "quantity") Integer quantity,
+                                                           @RequestParam(value = "manufacturer_name") String manufacturerName,
+                                                           @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
+                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.info("Inside Complaint updating Complaint detail ");
+        InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();
+        supplierMachinery.setId(id);
+        supplierMachinery.setMachinerynameId(machineryNameId);
+        supplierMachinery.setMachineryTypeId(mchineryTypeId);
+        supplierMachinery.setInputSupplierId(inputSupplierId);
+        supplierMachinery.setTechnicalSpecs(specification);
+        supplierMachinery.setQuantity(quantity);
+        supplierMachinery.setManufacturerName(manufacturerName);
+        ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = file.getContentType();
+        if (contentTypes.contains(fileContentType)){
+            try {
+                machineryService.updateInputSupplierMachinery(id, supplierMachinery, file);
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Complaint Details Updated Successfully!"), HttpStatus.OK );
+                LOG.info("Complaint Updated Successfully!");
+            } catch (Exception e) {
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Update the Complaint Details"), HttpStatus.INTERNAL_SERVER_ERROR);
+                LOG.info("Failed to Update the Complaint Details");
+                e.printStackTrace();
+            }
+        }
+        LOG.info("Exiting Complaint Of Controller with response ", resp);
+        return resp;
+    }
 
 
 
@@ -163,20 +203,25 @@ public class InputSupplierMachineryController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateInputSupplierMachinery(@PathVariable Integer id,
-                                                                        @RequestPart(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
-                                                                        @RequestPart(value = "machinery_name_id", required = false) Integer machineryNameId,
-                                                                        @RequestPart(value = "specification", required = false) String specification,
-                                                                        @RequestPart(value = "quantity", required = false) Integer quantity,
-                                                                        @RequestPart(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                        @RequestPart("input_supplier_id") Integer inputSupplierId,
-                                                                        @RequestPart(value = "file", required = false) MultipartFile file) {
+                                                                        @RequestParam(value = "file", required = false) MultipartFile file,
+                                                                        @RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
+                                                                        @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestParam(value = "specification", required = false) String specification,
+                                                                        @RequestParam(value = "quantity", required = false) Integer quantity,
+                                                                        @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                        @RequestParam(value = "input_supplier_id") Integer inputSupplierId
+                                                                        ) {
         LOG.info("Inside InputSupplierMachinery updating InputSupplierMachinery detail ");
-        InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
+        InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();
+        supplierMachinery.setMachinerynameId(machineryNameId);
+        supplierMachinery.setMachineryTypeId(mchineryTypeId);
+        supplierMachinery.setInputSupplierId(inputSupplierId);
+        supplierMachinery.setTechnicalSpecs(specification);
+        supplierMachinery.setQuantity(quantity);
+        supplierMachinery.setManufacturerName(manufacturerName);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
             try {
-                machineryService.updateInputSupplierMachinery(id, inputSupplierMachinery, file);
+                machineryService.updateInputSupplierMachinery(id, supplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery Details Updated Successfully!"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery Updated Successfully!");
             } catch (Exception e) {
@@ -184,7 +229,6 @@ public class InputSupplierMachineryController {
                 LOG.info("Failed to Update the InputSupplierMachinery Details");
                 e.printStackTrace();
             }
-        }
         LOG.info("Exiting InputSupplierMachinery Of Controller with response ", resp);
         return resp;
     }

@@ -29,11 +29,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 @Service
 public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
 
     @Autowired
     private InputSupplierInsecticideRepository insecticideRepository;
@@ -136,7 +139,6 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
 
     @Override
     public InputSupplierInsecticide updateInputSupplierInsecticide(Integer id, InputSupplierInsecticide inputSupplierInsecticide1, MultipartFile file) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String fileDownloadUri;
@@ -144,17 +146,16 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
         Path targetLocation;
         if(file!=null){
             fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileContentType = file.getContentType();
             try {
-                // Check if the file's name contains invalid characters
-                if (fileName.contains("..")) {
-                    throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                if (fileName.contains("..") && contentTypes.contains(fileContentType)) {
+                    throw new FileStorageException("Sorry! Filename contains invalid path sequence or Invalid file type " + fileName);
                 }
-                // Copy file to the target location (Replacing existing file with the same name)
                 targetLocation = this.fileStorageLocation.resolve(fileName);
                 //Path path = Paths.get( fileBasePath+fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/inputsupplier/insecticide/download/i")
+                        .path("/inputsupplier/insecticide/download/")
                         .path(fileName)
                         .toUriString();
                 insecticideRepository.findById(id)
@@ -172,7 +173,12 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
                 .map(inputSupplierInsecticide -> {
                     inputSupplierInsecticide.setUpdateBy(inputSupplierInsecticide.getInputSupplierId());
                     inputSupplierInsecticide.setUpdateDate(Calendar.getInstance());
-                    inputSupplierInsecticide.setId(inputSupplierInsecticide1.getId());
+                    inputSupplierInsecticide.setInsecticideTypeId(inputSupplierInsecticide1.getInsecticideTypeId());
+                    inputSupplierInsecticide.setManufacturerName(inputSupplierInsecticide1.getManufacturerName());
+                    inputSupplierInsecticide.setQuantity(inputSupplierInsecticide1.getQuantity());
+                    inputSupplierInsecticide.setCibRcNumber(inputSupplierInsecticide1.getCibRcNumber());
+                    inputSupplierInsecticide.setCibRcIssueDate(inputSupplierInsecticide1.getCibRcIssueDate());
+                    inputSupplierInsecticide.setInputSupplierId(inputSupplierInsecticide1.getInputSupplierId());
                     inputSupplierInsecticide.setDeleted(false);
                     return insecticideRepository.save(inputSupplierInsecticide);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

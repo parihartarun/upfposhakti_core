@@ -20,6 +20,8 @@ public class DepartmentDashboardDTO
 	
 	private DeptMarketableProductionDTO deptMarketableProduction;
 	
+	private DeptSoldProductionDTO deptSoldProduction;
+	
 	private List<DeptFpoAgencyDTO> deptFpoAgency;
 	
 	public Double getLandArea() {
@@ -92,6 +94,14 @@ public class DepartmentDashboardDTO
 
 	public void setDeptFpoAgency(List<DeptFpoAgencyDTO> deptFpoAgency) {
 		this.deptFpoAgency = deptFpoAgency;
+	}
+
+	public DeptSoldProductionDTO getDeptSoldProduction() {
+		return deptSoldProduction;
+	}
+
+	public void setDeptSoldProduction(DeptSoldProductionDTO deptSoldProduction) {
+		this.deptSoldProduction = deptSoldProduction;
 	}
 	
 }

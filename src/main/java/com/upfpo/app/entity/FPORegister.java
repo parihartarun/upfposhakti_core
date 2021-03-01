@@ -18,16 +18,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.upfpo.app.dto.FarmerComplaintDTO;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.validation.Errors;
 
+import com.upfpo.app.dto.DeptDashboardReportDTO;
 import com.upfpo.app.dto.DisplayDataDTO;
+import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FilterDto;
 
 
@@ -81,6 +80,21 @@ classes = {
 								@ColumnResult(name = "fpoemail", type = String.class)
 						})
 		})
+@SqlResultSetMapping(name="DeptDashboardReportDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = DeptDashboardReportDTO.class,
+            columns = {
+                @ColumnResult(name = "fpo_name", type = String.class),
+                @ColumnResult(name = "district_name", type = String.class),
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "cropName", type = String.class),
+                @ColumnResult(name = "verietyId", type = Integer.class),
+                @ColumnResult(name = "verietyName", type = String.class),
+                @ColumnResult(name = "actualFpoProduction", type = Double.class),
+                @ColumnResult(name = "marketable", type = Double.class)
+           })
+})
 @Table(name ="fpo")
 public class FPORegister implements Serializable {
 

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -103,7 +104,7 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
-                                                                        @RequestParam(value = "cib_rc_issuedate", required = false) Calendar cibRcIssuedate,
+                                                                        @RequestParam(value = "cib_rc_issuedate", required = false) Date cibRcIssuedate,
                                                                         @RequestParam("input_supplier_id") Integer inputSupplierId,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
@@ -166,18 +167,22 @@ public class InputSupplierInsecticideController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateInputSupplierInsecticide(@PathVariable Integer id,
-                                                                          @RequestPart(value = "insecticide_type_id", required = false) Integer insecticideTypeId,
-                                                                          @RequestParam (value = "manufacturer_name", required = false) String manufacturerName,
-                                                                          @RequestPart(value = "quantity", required = false) Integer quantity,
-                                                                          @RequestPart(value = "cib_rc_number", required = false) String cibRcNumber,
-                                                                          @RequestPart(value = "cib_rc_issuedate", required = false) Calendar cibRcIssuedate,
-                                                                          @RequestPart("input_supplier_id") Integer inputSupplierId,
-                                                                          @RequestPart(value = "file", required = false) MultipartFile file) {
+                                                                          @RequestParam(value = "insecticide_type_id", required = false) Integer insecticideTypeId,
+                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
+                                                                          @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
+                                                                          @RequestParam(value = "cib_rc_issuedate", required = false) Date cibRcIssuedate,
+                                                                          @RequestParam("input_supplier_id") Integer inputSupplierId,
+                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");
-        InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId, manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
+        InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide();
+        inputSupplierInsecticide.setInsecticideTypeId(insecticideTypeId);
+        inputSupplierInsecticide.setManufacturerName(manufacturerName);
+        inputSupplierInsecticide.setQuantity(quantity);
+        inputSupplierInsecticide.setCibRcNumber(cibRcNumber);
+        inputSupplierInsecticide.setCibRcIssueDate(cibRcIssuedate);
+        inputSupplierInsecticide.setInputSupplierId(inputSupplierId);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
             try {
                 insecticideService.updateInputSupplierInsecticide(id, inputSupplierInsecticide, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierInsecticide Details Updated Successfully!"), HttpStatus.OK );
@@ -187,7 +192,6 @@ public class InputSupplierInsecticideController {
                 LOG.info("Failed to Update the InputSupplierInsecticide Details");
                 e.printStackTrace();
             }
-        }
         LOG.info("Exiting InputSupplierInsecticide Of Controller with response ", resp);
         return resp;
     }

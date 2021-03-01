@@ -151,9 +151,9 @@ public class ComplaintContoller {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateComplaint(@PathVariable Integer id,
-                                                           @RequestPart(value = "title") String title,
-                                                          @RequestPart(value = "description") String description,
-                                                           @RequestPart(value = "issue_type") String issueType,
+                                                           @RequestPart(value = "title", required = false) String title,
+                                                          @RequestPart(value = "description", required = false) String description,
+                                                           @RequestPart(value = "issue_type", required = false) String issueType,
                                                           @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Complaint updating Complaint detail ");
         Complaints complaints = new Complaints();
