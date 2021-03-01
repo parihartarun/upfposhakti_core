@@ -151,4 +151,10 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		List<FpoTotSoldKharifDTO> obj =  (List<FpoTotSoldKharifDTO>) entityManager.createNativeQuery(sql,"FpoTotSoldKharifDTO").setParameter("fpoId", fpoId).getResultList();
 		return obj;
 	}
+	
+	@Override
+	public List<String> getFinYearFromTotProd() 
+	{
+		return totalProductionRepository.getFinYearFromTotProd();
+	}
 }

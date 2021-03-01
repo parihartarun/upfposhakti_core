@@ -48,6 +48,10 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 		+ " totMarkProd desc")
 	 public List<FpoCropProductionDashboardDTO> getCropProduction(Integer fpoId);*/
 	 
+	 @Query("Select distinct t.finYear from TotalProduction t")
+	 public List<String> getFinYearFromTotProd();
+	 
+	 
 }
 
 

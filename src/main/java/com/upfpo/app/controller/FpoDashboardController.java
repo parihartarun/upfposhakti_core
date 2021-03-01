@@ -1,5 +1,7 @@
 package com.upfpo.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.FpoFarmerDashboardDTO;
-import com.upfpo.app.entity.BankMaster;
 import com.upfpo.app.service.FpoDashboardService;
 
 import io.swagger.annotations.Api;
@@ -34,5 +35,11 @@ public class FpoDashboardController
 	public FpoFarmerDashboardDTO getFpoFarmerDashboard(@PathVariable("fpoId") Integer fpoId)
 	{
 		return fpoDashboardService.totalFpoFarmer(fpoId);
+	}
+	
+	@GetMapping("/getFinancialYears")
+	public List<String> getFinYear()
+	{
+		return fpoDashboardService.getFinYearFromTotProd();
 	}
 }
