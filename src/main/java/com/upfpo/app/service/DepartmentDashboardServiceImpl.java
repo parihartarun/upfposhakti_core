@@ -26,6 +26,7 @@ import com.upfpo.app.repository.FPORegisterRepository;
 import com.upfpo.app.repository.FarmerMasterRepository;
 import com.upfpo.app.repository.LandDetailsRepo;
 import com.upfpo.app.requestStrings.ReportRequestString;
+import com.upfpo.app.util.GetFinYear;
 
 @Service
 public class DepartmentDashboardServiceImpl implements DepartmentDashboardService
@@ -59,7 +60,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 	String sql = "";
 	
 	@Override
-	public DepartmentDashboardDTO getDepartmentDashboardData() 
+	public DepartmentDashboardDTO getDepartmentDashboardData(ReportRequestString reportRequestString) 
 	{
 		DepartmentDashboardDTO departmentDashboardDTO = new DepartmentDashboardDTO();
 		landArea 				= landDetailsRepo.getTotalLand();
@@ -69,20 +70,25 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		totalSmallFarmer		= (totalfarmers * 0.13);
 		totalOtherFarmer		= (totalfarmers * 0.07);
 		
+		if(reportRequestString.getFinYear()==null || reportRequestString.getFinYear()=="")
+		{
+			reportRequestString.setFinYear(GetFinYear.getCurrentFinYear());
+		}
+		
 		DeptActualProductionDTO depAct = new DeptActualProductionDTO();
-		depAct.setDeptActProdKharif(getDeptActualCropProductionKharif());
-		depAct.setDeptActProdRabi(getDeptActualCropProductionRabi());
-		depAct.setDeptActProdZayad(getDeptActualCropProductionZayad());
+		depAct.setDeptActProdKharif(getDeptActualCropProductionKharif(reportRequestString.getFinYear()));
+		depAct.setDeptActProdRabi(getDeptActualCropProductionRabi(reportRequestString.getFinYear()));
+		depAct.setDeptActProdZayad(getDeptActualCropProductionZayad(reportRequestString.getFinYear()));
 		
 		DeptMarketableProductionDTO depMar = new DeptMarketableProductionDTO();
-		depMar.setDeptTotMarKharif(getDeMarketableCropProductionKharif());
-		depMar.setDeptTotMarRabi(getDeptMarketableCropProductionRabi());
-		depMar.setDeptTotMarZayad(getDeptMarketableCropProductionZayad());
+		depMar.setDeptTotMarKharif(getDeMarketableCropProductionKharif(reportRequestString.getFinYear()));
+		depMar.setDeptTotMarRabi(getDeptMarketableCropProductionRabi(reportRequestString.getFinYear()));
+		depMar.setDeptTotMarZayad(getDeptMarketableCropProductionZayad(reportRequestString.getFinYear()));
 		
 		DeptSoldProductionDTO deptSold = new DeptSoldProductionDTO();
-		deptSold.setDeptTotSoldKharif(getDeptSaleCropProductionKharif());
-		deptSold.setDeptTotSoldRabi(getDeptSaleCropProductionRabi());
-		deptSold.setDeptTotSoldZayad(getDeptSalebleCropProductionZayad());
+		deptSold.setDeptTotSoldKharif(getDeptSaleCropProductionKharif(reportRequestString.getFinYear()));
+		deptSold.setDeptTotSoldRabi(getDeptSaleCropProductionRabi(reportRequestString.getFinYear()));
+		deptSold.setDeptTotSoldZayad(getDeptSalebleCropProductionZayad(reportRequestString.getFinYear()));
 		
 		List<DeptFpoAgencyDTO> agency = fPORegisterRepository.getAgency();
 		Integer totalFpo = fPORegisterRepository.getAllFpoCount();
@@ -107,75 +113,75 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		return departmentDashboardDTO;
 	}
 	
-	public List<DeptActProdRabiDTO> getDeptActualCropProductionRabi()
+	public List<DeptActProdRabiDTO> getDeptActualCropProductionRabi(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_actual_prod) as totAcProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 1 group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
-		List<DeptActProdRabiDTO> obj =  (List<DeptActProdRabiDTO>) entityManager.createNativeQuery(sql,"DeptActProdRabiDTO").getResultList();
+				+ "				where c.season_id = 1 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
+		List<DeptActProdRabiDTO> obj =  (List<DeptActProdRabiDTO>) entityManager.createNativeQuery(sql,"DeptActProdRabiDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptActProdZayadfDTO> getDeptActualCropProductionZayad()
+	public List<DeptActProdZayadfDTO> getDeptActualCropProductionZayad(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_actual_prod) as totAcProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 3 group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
-		List<DeptActProdZayadfDTO> obj =  (List<DeptActProdZayadfDTO>) entityManager.createNativeQuery(sql,"DeptActProdZayadfDTO").getResultList();
+				+ "				where c.season_id = 3 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
+		List<DeptActProdZayadfDTO> obj =  (List<DeptActProdZayadfDTO>) entityManager.createNativeQuery(sql,"DeptActProdZayadfDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptActProdKharifDTO> getDeptActualCropProductionKharif()
+	public List<DeptActProdKharifDTO> getDeptActualCropProductionKharif(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_actual_prod) as totAcProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 2 group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
-		List<DeptActProdKharifDTO> obj =  (List<DeptActProdKharifDTO>) entityManager.createNativeQuery(sql,"DeptActProdKharifDTO").getResultList();
+				+ "				where c.season_id = 2 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId order by totAcProd desc ";
+		List<DeptActProdKharifDTO> obj =  (List<DeptActProdKharifDTO>) entityManager.createNativeQuery(sql,"DeptActProdKharifDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotMarRabiDTO> getDeptMarketableCropProductionRabi()
+	public List<DeptTotMarRabiDTO> getDeptMarketableCropProductionRabi(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_marketable) as totMarkProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 1 group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
-		List<DeptTotMarRabiDTO> obj =  (List<DeptTotMarRabiDTO>) entityManager.createNativeQuery(sql,"DeptTotMarRabiDTO").getResultList();
+				+ "				where c.season_id = 1 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
+		List<DeptTotMarRabiDTO> obj =  (List<DeptTotMarRabiDTO>) entityManager.createNativeQuery(sql,"DeptTotMarRabiDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotMarZayadDTO> getDeptMarketableCropProductionZayad()
+	public List<DeptTotMarZayadDTO> getDeptMarketableCropProductionZayad(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_marketable) as totMarkProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 3 group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
-		List<DeptTotMarZayadDTO> obj =  (List<DeptTotMarZayadDTO>) entityManager.createNativeQuery(sql,"DeptTotMarZayadDTO").getResultList();
+				+ "				where c.season_id = 3 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
+		List<DeptTotMarZayadDTO> obj =  (List<DeptTotMarZayadDTO>) entityManager.createNativeQuery(sql,"DeptTotMarZayadDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotMarKharifDTO> getDeMarketableCropProductionKharif()
+	public List<DeptTotMarKharifDTO> getDeMarketableCropProductionKharif(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_marketable) as totMarkProd from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 2 group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
-		List<DeptTotMarKharifDTO> obj =  (List<DeptTotMarKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotMarKharifDTO").getResultList();
+				+ "				where c.season_id = 2 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totMarkProd desc";
+		List<DeptTotMarKharifDTO> obj =  (List<DeptTotMarKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotMarKharifDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotSoldRabiDTO> getDeptSaleCropProductionRabi()
+	public List<DeptTotSoldRabiDTO> getDeptSaleCropProductionRabi(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 1 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
-		List<DeptTotSoldRabiDTO> obj =  (List<DeptTotSoldRabiDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldRabiDTO").getResultList();
+				+ "				where c.season_id = 1 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldRabiDTO> obj =  (List<DeptTotSoldRabiDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldRabiDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotSoldZayadDTO> getDeptSalebleCropProductionZayad()
+	public List<DeptTotSoldZayadDTO> getDeptSalebleCropProductionZayad(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 3 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
-		List<DeptTotSoldZayadDTO> obj =  (List<DeptTotSoldZayadDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldZayadDTO").getResultList();
+				+ "				where c.season_id = 3 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldZayadDTO> obj =  (List<DeptTotSoldZayadDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldZayadDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	
-	public List<DeptTotSoldKharifDTO> getDeptSaleCropProductionKharif()
+	public List<DeptTotSoldKharifDTO> getDeptSaleCropProductionKharif(String finYear)
 	{
 		sql = "select distinct c.crop_id as cropId, d.crop_name as cropName, c.season_id as seasonId, sum(c.total_sold) as totSold from total_production c join crop_master d on d.id = c.crop_id\r\n"
-				+ "				where c.season_id = 2 group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
-		List<DeptTotSoldKharifDTO> obj =  (List<DeptTotSoldKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldKharifDTO").getResultList();
+				+ "				where c.season_id = 2 and c.fin_year = :finYear group by c.crop_id, d.crop_name, seasonId  order by totSold desc";
+		List<DeptTotSoldKharifDTO> obj =  (List<DeptTotSoldKharifDTO>) entityManager.createNativeQuery(sql,"DeptTotSoldKharifDTO").setParameter("finYear", finYear).getResultList();
 		return obj;
 	}
 	

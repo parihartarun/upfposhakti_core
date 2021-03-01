@@ -24,10 +24,10 @@ public class DepartmentDashboardController
 	@Autowired
 	DepartmentDashboardService departmentDashboardService; 
 	
-	@GetMapping("/getDeptDashBoardData")
-	public DepartmentDashboardDTO getDepartmentDashBoardData()
+	@PostMapping("/getDeptDashBoardData")
+	public DepartmentDashboardDTO getDepartmentDashBoardData(@RequestBody ReportRequestString reportRequestString)
 	{
-		return departmentDashboardService.getDepartmentDashboardData();
+		return departmentDashboardService.getDepartmentDashboardData(reportRequestString);
 	}
 	
 	@PostMapping("/getDeptDashboardReport")

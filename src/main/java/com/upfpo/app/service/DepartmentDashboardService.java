@@ -8,7 +8,7 @@ import com.upfpo.app.requestStrings.ReportRequestString;
 
 public interface DepartmentDashboardService 
 {
-	public DepartmentDashboardDTO getDepartmentDashboardData();
+	public DepartmentDashboardDTO getDepartmentDashboardData(ReportRequestString reportRequestString);
 	
 	public List<DeptDashboardReportDTO> getDepartmentDashboardReport(ReportRequestString reportRequestString); 
 }
