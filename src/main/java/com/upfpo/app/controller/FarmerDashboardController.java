@@ -25,7 +25,7 @@ public class FarmerDashboardController
 	FarmerDashboardService farmerDashboardService; 
 	
 	@GetMapping("/getFarmerDetails/{farmerId}")
-	@ApiOperation(value="Get Fpo Dashboard Data",code=200,produces = "application/json",notes="Api for view Fpo Dashboard Data",response=FpoFarmerDashboardDTO.class,responseContainer="List")
+	@ApiOperation(value="Get Farmer Dashboard Data",code=200,produces = "application/json",notes="Api for view Fpo Dashboard Data",response=FpoFarmerDashboardDTO.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
