@@ -1,15 +1,23 @@
 
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.UpAgriBankDataDto;
+import com.upfpo.app.dto.UpAgriDataDto;
+
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+
+@SqlResultSetMapping(name="UpAgriBankDataDto",
+		classes = {
+				@ConstructorResult(
+						targetClass = UpAgriBankDataDto.class,
+						columns = {
+								@ColumnResult(name = "bank_id", type = Integer.class),
+								@ColumnResult(name = "bank_name", type = String.class)
+						})
+		})
 @Entity
 @Table(name="banks")
 public class BankMaster implements Serializable {

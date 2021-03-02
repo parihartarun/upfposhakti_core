@@ -24,9 +24,10 @@ classes = {
             	@ColumnResult(name = "block_id", type = Integer.class),
             	@ColumnResult(name = "block_name", type = String.class),
             	@ColumnResult(name = "village_id", type = Integer.class),
-            	@ColumnResult(name = "village_name", type = String.class),
+            	@ColumnResult(name = "village_name", type = String.class)
            })
 })
+
 
 @Table(name="block")
 public class BlockMaster implements Serializable {
