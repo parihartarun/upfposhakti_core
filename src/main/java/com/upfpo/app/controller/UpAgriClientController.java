@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/upagri")
 public class UpAgriClientController {
-	
+
 
 	@Autowired
 	private UpAgriClientService agriClientService;
