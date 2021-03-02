@@ -37,12 +37,24 @@ public class Enquiry implements Serializable {
 
 	@Column(name="deliveryaddress")
 	private String deliveryAddress;
-	
-
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date_time")
 	private Date createDateTime;
+
+	private String reason;
+
+	private String cropVeriety;
+
+	private String enquieryNumber;
+
+	private String fulfillmentDate;
+
+	private String status;
+
+	private Double quantity;
+
+	private Double soldQuantity;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -55,6 +67,7 @@ public class Enquiry implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
+
 	private String reason;
 	@ManyToOne
 	@JoinColumn(name = "cropVeriety")
@@ -66,7 +79,7 @@ public class Enquiry implements Serializable {
 	private String status;
 	private Double quantity;
 	private Double soldQuantity;
-	
+
 	public Double getSoldQuantity() {
 		return soldQuantity;
 	}

@@ -71,7 +71,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         if(!sd.isPresent()) {
             return null;
         }
-        
         Enquiry upenquiry = sd.get(); 
         CropVerietyMaster veriety  = cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId().intValue()).get(); 
         Double currentMarketable =  totalProductionRepository.getCurrentMarketableQty(enquiry.getCropMaster().getCropId(),veriety.getVerietyId(),enquiry.getFpo().getFpoId(), 1, GetFinYear.getCurrentFinYear());
@@ -103,7 +102,6 @@ public class EnquiryServiceImpl implements EnquiryService{
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		return enquiryRepository.findByFpo(fpo);
 	}
-
 
 	
 	

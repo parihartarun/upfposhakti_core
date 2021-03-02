@@ -11,6 +11,6 @@ public interface BankMasterRepository extends JpaRepository<BankMaster, Integer>
 {
 
 
-    @Query("Select bankId, bankName from BankMaster v where v.bankName= :bank_name")
-    Object findByBankName(String bank_name);
+    @Query("Select bankId from BankMaster v where v.bankName= :bank_name")
+    Integer findByBankName(String bank_name);
 }
