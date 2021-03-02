@@ -52,11 +52,13 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "crop_id")
 	private CropMaster cropMaster;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
 	private String reason;
-	private String cropVeriety;
+	@ManyToOne
+	@JoinColumn(name = "cropVeriety")
+	private CropVerietyMaster cropVeriety;
 
 	private String enquieryNumber;
 	private String fulfillmentDate;
@@ -98,11 +100,11 @@ public class Enquiry implements Serializable {
 		this.enquieryNumber = enquieryNumber;
 	}
 
-		public String getCropVeriety() {
+		public CropVerietyMaster getCropVeriety() {
 		return cropVeriety;
 	}
 
-	public void setCropVeriety(String cropVeriety) {
+	public void setCropVeriety(CropVerietyMaster cropVeriety) {
 		this.cropVeriety = cropVeriety;
 	}
 
