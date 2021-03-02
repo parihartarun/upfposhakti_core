@@ -9,6 +9,7 @@ public class UpAgriDataDto {
 	private String block_name;
 	private Integer village_id;
 	private String village_name;
+
 	
 
 	public UpAgriDataDto(Integer district_id, String district_name, Integer block_id, String block_name,
@@ -21,6 +22,9 @@ public class UpAgriDataDto {
 		this.village_id = village_id;
 		this.village_name = village_name;
 	}
+
+
+
 	public Integer getDistrict_id() {
 		return district_id;
 	}
@@ -57,4 +61,6 @@ public class UpAgriDataDto {
 	public void setVillage_name(String village_name) {
 		this.village_name = village_name;
 	}
+
+
 }

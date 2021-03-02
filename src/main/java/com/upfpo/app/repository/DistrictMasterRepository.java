@@ -13,4 +13,7 @@ public interface DistrictMasterRepository extends JpaRepository<DistrictMaster, 
 {
 	@Query("Select d from DistrictMaster d where d.state_id= :state_id order by d.district_name asc")
 	List<DistrictMaster> getDistrictsByStateId(int state_id);
+
+	@Query("Select district_id, district_name from DistrictMaster v where v.district_name= :anydist")
+    Object findByDistrict_name(String anydist);
 }
