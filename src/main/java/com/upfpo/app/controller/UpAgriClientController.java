@@ -47,7 +47,6 @@ public class UpAgriClientController {
 	private BankMasterRepository bankRepository;
 
 
-
 	@GetMapping(value="/getUpAgri/{reg_no}")
 	@ApiOperation(value="Get get up agri by registration no.", code=200, produces = "application/json",notes="Api for get up agri by registration no.",response=UpAgriDataDto.class)
 	@ApiResponses(value= {
@@ -57,9 +56,8 @@ public class UpAgriClientController {
 	})
 	public List<Object> getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
 	{
-
-
 		String list_resp=UpAgriClient.upagri(reg_no);
+
 
 		String _anyname = StringUtils.substringBetween(list_resp, "<Farmer_x0027_s_x0020_name>", "</Farmer_x0027_s_x0020_name>");
 		String _fath =  StringUtils.substringBetween(list_resp, "<Father_x0020_name>", "</Father_x0020_name>");
@@ -74,6 +72,7 @@ public class UpAgriClientController {
 		String gender = StringUtils.substringBetween(list_resp, "<gender>", "</gender>");
 		//UpAgriDataDto obj = upAgriService.getUpAgriData(_anydist,_blck,_vill);
 
+
 		List<Object> ls = new ArrayList<>();
 		ls.add(_anyname);
 		ls.add(_fath);
@@ -83,7 +82,6 @@ public class UpAgriClientController {
 				ls.add(new MessageResponse("Invalid village please select village")); }
 		else{
 			ls.add(villageRepository.findByVillageName(_vill));		}
-		ls.add(villageRepository.findByVillageName(_vill));
 		ls.add(_cat);
 		ls.add(_mob);
 		ls.add(bankRepository.findByBankName(_bank_name));
@@ -91,19 +89,12 @@ public class UpAgriClientController {
 		ls.add(_accno);
 		ls.add(gender);
 
+
 		System.err.println("  _anyname == "+_anyname +"  _fath == "+_fath +
 				"  _anydist == "+_anydist+"  _blck== "+_blck+"  _vill== "+_vill+"  _cat == "+_cat+
 				"  _mob == "+_mob+"  _bank_nameb =="+_bank_name+" _ifsc == "+_ifsc+"  _accno =="+_accno);
 
-
-//        			_anyname 	== SHIV KUMAR  _fath == LAXMIAN  _anydist == Lucknow  _blck==
-//        			Bakshi ka Talab  _vill==   _cat
-//        			== 4  _mob == 7523941451  _bank_nameb ==UCO
-//        			BANK _ifsc == UCBA0001524  _accno ==15240100008860
-
 		return ls;
 	}
 	
-
-
 }
