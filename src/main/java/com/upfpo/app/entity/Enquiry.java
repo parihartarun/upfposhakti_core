@@ -68,17 +68,6 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
 
-	private String reason;
-	@ManyToOne
-	@JoinColumn(name = "cropVeriety")
-	private CropVerietyMaster cropVeriety;
-
-	private String enquieryNumber;
-	private String fulfillmentDate;
-
-	private String status;
-	private Double quantity;
-	private Double soldQuantity;
 
 	public Double getSoldQuantity() {
 		return soldQuantity;
@@ -113,11 +102,11 @@ public class Enquiry implements Serializable {
 		this.enquieryNumber = enquieryNumber;
 	}
 
-		public CropVerietyMaster getCropVeriety() {
+	public String getCropVeriety() {
 		return cropVeriety;
 	}
 
-	public void setCropVeriety(CropVerietyMaster cropVeriety) {
+	public void setCropVeriety(String cropVeriety) {
 		this.cropVeriety = cropVeriety;
 	}
 
@@ -170,7 +159,6 @@ public class Enquiry implements Serializable {
 	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
-	
 
 	public String getStatus() {
 		return status;
