@@ -62,7 +62,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         if(!sd.isPresent()) {
             return null;
         }
-        
         Enquiry upenquiry = sd.get(); 
         upenquiry.setSoldQuantity(enquiry.getQuantity());
         upenquiry.setStatus(enquiry.getStatus());
@@ -90,7 +89,6 @@ public class EnquiryServiceImpl implements EnquiryService{
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		return enquiryRepository.findByFpo(fpo);
 	}
-
 
 	
 	

@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.upfpo.app.dto.UpAgriFarmerDetailDTO;
 import com.upfpo.app.entity.VillageMaster;
 import com.upfpo.app.repository.BankMasterRepository;
 import com.upfpo.app.repository.BlockMasterRepository;
@@ -47,9 +48,9 @@ public class UpAgriClientController {
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
 	})
-	public List<Object> getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
+	public UpAgriFarmerDetailDTO getUpAgriByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
 	{
-		List<Object> ls= agriClientService.getUpAgriByRegistrationNo(reg_no);
+		UpAgriFarmerDetailDTO ls= agriClientService.getUpAgriByRegistrationNo(reg_no);
 		return ls;
 	}
 

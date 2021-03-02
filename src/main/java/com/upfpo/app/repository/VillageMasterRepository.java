@@ -20,6 +20,6 @@ public interface VillageMasterRepository extends JpaRepository<VillageMaster, In
 	
 	List<VillageMaster> findAllByOrderByVillageNameAsc();
 
-	@Query("Select villageId, villageName from VillageMaster v where v.villageName= :vill")
-	List<UpAgriBankDataDto> findByVillageName(String vill);
+	@Query("Select villageId from VillageMaster v where v.villageName= :vill")
+	Integer findByVillageName(String vill);
 }
