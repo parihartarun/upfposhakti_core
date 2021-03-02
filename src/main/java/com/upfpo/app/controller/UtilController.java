@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import com.upfpo.app.dto.SearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.service.MasterService;
+import com.upfpo.app.service.SearchServiceImpl;
 import com.upfpo.app.util.GetCurrentDate;
 
 import io.swagger.annotations.Api;
@@ -90,12 +92,28 @@ public class UtilController {
 	})	
 	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
+		return masterServices.newHomeSearch(searchRequestDto);
 		
-		return masterServices.newHomeSearch(searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getQuantity(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds());
+		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
 		//return null;	
 	}
 	
-	
+	@PutMapping("/search")
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})	
+	public  String testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	{
+		
+		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
+		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
+		
+		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
+		//return null;	
+	}
 	
 	//two parameters -> val in = type
 	//fpo district crop any  --> types

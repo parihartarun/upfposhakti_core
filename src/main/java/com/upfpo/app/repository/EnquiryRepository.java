@@ -14,6 +14,5 @@ import org.springframework.stereotype.Repository;
 public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 
 	List<Enquiry> findByMasterId(int masterId);
-	List<Enquiry> findByFpo(FPORegister fpo);
-	
+	List<Enquiry> findByFpo(FPORegister fpo);	
 }

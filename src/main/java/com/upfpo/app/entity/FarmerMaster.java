@@ -24,6 +24,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.upfpo.app.custom.annotations.Mobile;
+import com.upfpo.app.dto.FarmerAllUserToFpoDto;
 import com.upfpo.app.dto.FarmerComplaintDetailDTO;
 
 @Entity
@@ -52,6 +53,53 @@ classes = {
                         @ColumnResult(name = "assigneddate", type = String.class),
                         @ColumnResult(name = "farmername", type = String.class),
                         @ColumnResult(name = "farmermobile", type = BigInteger.class)
+                })
+})
+
+@SqlResultSetMapping(name="FarmerAllUserToFpoDto",
+classes = {
+        @ConstructorResult(
+                targetClass = FarmerAllUserToFpoDto.class,
+                columns = {
+                		@ColumnResult(name = "farmerId", type = Integer.class),
+                		@ColumnResult(name = "stateref", type = Integer.class),
+                		@ColumnResult(name = "pincode", type = Integer.class),
+                		@ColumnResult(name = "blockRef", type = Integer.class),
+                		@ColumnResult(name = "slaRefId", type = Integer.class),
+                		@ColumnResult(name = "distRefId", type = Integer.class),
+                		@ColumnResult(name = "bankRefId", type = Integer.class),
+                		@ColumnResult(name = "fpoRefId", type = Integer.class),
+                		@ColumnResult(name = "villRefId", type = Integer.class),
+                		@ColumnResult(name = "figRefId", type = Integer.class),
+                		@ColumnResult(name = "educationId", type = Integer.class),
+                		@ColumnResult(name = "farmerName", type = String.class),
+                		@ColumnResult(name = "farmerAdhaar", type = String.class),
+                		@ColumnResult(name = "farmerAddress", type = String.class),
+                		@ColumnResult(name = "registerDate", type = String.class),
+                		@ColumnResult(name = "farmerMob", type = Long.class),
+                		@ColumnResult(name = "farmerLotNo", type = String.class),
+                		@ColumnResult(name = "ifscCode", type = String.class),
+                		@ColumnResult(name = "accountNo", type = Long.class),
+                		@ColumnResult(name = "kccno", type = Long.class),
+                		@ColumnResult(name = "parantsName", type = String.class),
+                		@ColumnResult(name = "createDate", type = String.class),
+                		@ColumnResult(name = "createdBy", type = String.class),
+                		@ColumnResult(name = "enabled", type = Boolean.class),
+                		@ColumnResult(name = "gender", type = String.class),
+                		@ColumnResult(name = "distanceFromFpc", type = Integer.class),
+                		@ColumnResult(name = "farmerUserName", type = String.class),
+                		@ColumnResult(name = "category", type = String.class),
+                		@ColumnResult(name = "updateDate", type = String.class),
+                		@ColumnResult(name = "agency", type = String.class),
+                		@ColumnResult(name = "upBSMId", type = String.class),
+                		@ColumnResult(name = "villagePanchayatId", type = Integer.class),
+                		@ColumnResult(name = "isDeleted", type = Boolean.class),
+                		@ColumnResult(name = "deleteDate", type = String.class),
+                		@ColumnResult(name = "updatedBy", type = String.class),
+                		@ColumnResult(name = "userId", type = Integer.class),
+                		@ColumnResult(name = "userName", type = String.class),
+                		@ColumnResult(name = "userEnabled", type = Boolean.class),
+                		@ColumnResult(name = "districtName", type = String.class),
                 })
 })
 @Table(name = "farmer", uniqueConstraints = { @UniqueConstraint(columnNames = "farmer_mob"),

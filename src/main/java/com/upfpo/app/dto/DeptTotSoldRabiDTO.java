@@ -1,21 +1,21 @@
 package com.upfpo.app.dto;
 
-public class FpoActProdKharifDTO 
+public class DeptTotSoldRabiDTO 
 {
 	private Integer cropId;
 	
 	private String cropName;
 	
-	private Integer seasonId;	
+	private Integer seasonId;
 	
-	private Double totAcProd;
+	private Double totSold;
 	
-	public FpoActProdKharifDTO(Integer cropId, String cropName, Integer seasonId, Double totAcProd) {
+	public DeptTotSoldRabiDTO(Integer cropId, String cropName, Integer seasonId, Double totSold) {
 		super();
 		this.cropId = cropId;
 		this.cropName = cropName;
 		this.seasonId = seasonId;
-		this.totAcProd = totAcProd;
+		this.totSold = totSold;
 	}
 
 	public Integer getCropId() {
@@ -42,11 +42,12 @@ public class FpoActProdKharifDTO
 		this.seasonId = seasonId;
 	}
 
-	public Double getTotAcProd() {
-		return totAcProd;
+	public Double getTotSold() {
+		return totSold;
 	}
 
-	public void setTotAcProd(Double totAcProd) {
-		this.totAcProd = totAcProd;
+	public void setTotSold(Double totSold) {
+		this.totSold = totSold;
 	}
+	
 }

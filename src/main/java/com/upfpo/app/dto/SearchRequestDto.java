@@ -7,22 +7,9 @@ import javax.validation.constraints.NotNull;
 public class SearchRequestDto {
 
 	public SearchRequestDto() {
-		super();
+	
 	}
-	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
-			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds,
-			List<Integer> cropverietyIds, List<Integer> quantity, List<Integer> districtIds, Integer limit,
-			Integer page) {
-		super();
-		this.in = in;
-		this.val = val;
-		this.fpoIds = fpoIds;
-		this.cropverietyIds = cropverietyIds;
-		this.quantity = quantity;
-		this.districtIds = districtIds;
-		this.limit = limit;
-		this.page = page;
-	}
+
 	
 	@NotNull(message="In key must not be empty.")
 	private String in;
@@ -31,29 +18,15 @@ public class SearchRequestDto {
 	private List<Integer> fpoIds;
 	private List<Integer> cropIds;
 	private List<Integer> cropverietyIds;
-	private List<Integer> quantity;
+	private Integer qtymin;
+	private Integer qtymax;
 	private List<Integer> districtIds;
 	@NotNull(message="limit key must not be empty.")
 	private Integer limit;
 	@NotNull(message="page key must not be empty.")
 	private Integer page;
 	
-	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
-			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
-			List<Integer> cropverietyIds, List<Integer> quantity, List<Integer> districtIds,
-			@NotNull(message = "limit key must not be empty.") Integer limit,
-			@NotNull(message = "page key must not be empty.") Integer page) {
-		super();
-		this.in = in;
-		this.val = val;
-		this.fpoIds = fpoIds;
-		this.cropIds = cropIds;
-		this.cropverietyIds = cropverietyIds;
-		this.quantity = quantity;
-		this.districtIds = districtIds;
-		this.limit = limit;
-		this.page = page;
-	}
+
 
 	
 	public List<Integer> getCropIds() {
@@ -86,17 +59,42 @@ public class SearchRequestDto {
 	public void setCropverietyIds(List<Integer> cropverietyIds) {
 		this.cropverietyIds = cropverietyIds;
 	}
-	public List<Integer> getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(List<Integer> quantity) {
-		this.quantity = quantity;
-	}
+
 	public List<Integer> getDistrictIds() {
 		return districtIds;
 	}
 	public void setDistrictIds(List<Integer> districtIds) {
 		this.districtIds = districtIds;
+	}
+	
+	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
+			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
+			List<Integer> cropverietyIds, Integer qtymin, Integer qtymax, List<Integer> districtIds,
+			@NotNull(message = "limit key must not be empty.") Integer limit,
+			@NotNull(message = "page key must not be empty.") Integer page) {
+		super();
+		this.in = in;
+		this.val = val;
+		this.fpoIds = fpoIds;
+		this.cropIds = cropIds;
+		this.cropverietyIds = cropverietyIds;
+		this.qtymin = qtymin;
+		this.qtymax = qtymax;
+		this.districtIds = districtIds;
+		this.limit = limit;
+		this.page = page;
+	}
+	public Integer getQtymin() {
+		return qtymin;
+	}
+	public void setQtymin(Integer qtymin) {
+		this.qtymin = qtymin;
+	}
+	public Integer getQtymax() {
+		return qtymax;
+	}
+	public void setQtymax(Integer qtymax) {
+		this.qtymax = qtymax;
 	}
 	public Integer getLimit() {
 		return limit;

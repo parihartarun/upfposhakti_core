@@ -1,5 +1,7 @@
 package com.upfpo.app.dto;
 
+import java.util.List;
+
 public class DepartmentDashboardDTO 
 {
 	private Integer totalFpo;
@@ -13,7 +15,15 @@ public class DepartmentDashboardDTO
 	private Double totalSmallFarmer;
 	
 	private Double totalOtherFarmer;
-
+	
+	private DeptActualProductionDTO deptActualProduction;
+	
+	private DeptMarketableProductionDTO deptMarketableProduction;
+	
+	private DeptSoldProductionDTO deptSoldProduction;
+	
+	private List<DeptFpoAgencyDTO> deptFpoAgency;
+	
 	public Double getLandArea() {
 		return landArea;
 	}
@@ -60,6 +70,38 @@ public class DepartmentDashboardDTO
 
 	public void setTotalOtherFarmer(Double totalOtherFarmer) {
 		this.totalOtherFarmer = totalOtherFarmer;
+	}
+	
+	public DeptActualProductionDTO getDeptActualProduction() {
+		return deptActualProduction;
+	}
+
+	public void setDeptActualProduction(DeptActualProductionDTO deptActualProduction) {
+		this.deptActualProduction = deptActualProduction;
+	}
+
+	public DeptMarketableProductionDTO getDeptMarketableProduction() {
+		return deptMarketableProduction;
+	}
+
+	public void setDeptMarketableProduction(DeptMarketableProductionDTO deptMarketableProduction) {
+		this.deptMarketableProduction = deptMarketableProduction;
+	}
+
+	public List<DeptFpoAgencyDTO> getDeptFpoAgency() {
+		return deptFpoAgency;
+	}
+
+	public void setDeptFpoAgency(List<DeptFpoAgencyDTO> deptFpoAgency) {
+		this.deptFpoAgency = deptFpoAgency;
+	}
+
+	public DeptSoldProductionDTO getDeptSoldProduction() {
+		return deptSoldProduction;
+	}
+
+	public void setDeptSoldProduction(DeptSoldProductionDTO deptSoldProduction) {
+		this.deptSoldProduction = deptSoldProduction;
 	}
 	
 }

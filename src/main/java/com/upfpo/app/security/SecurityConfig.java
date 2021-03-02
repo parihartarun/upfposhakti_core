@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/api/fpo/license/getFpoLicenseDetailsByFpoId/**",
 				"/api/farm/machinery/banks/getFarmMachineryBankByFpo/**",
 				"/photo/**","/fposervices/getall/**",
+				"api/fpos/graphdetail/**",
 				"http://upagriculture.com:81/DbtService.asmx"
 				).permitAll()
 		.anyRequest().authenticated()

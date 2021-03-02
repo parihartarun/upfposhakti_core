@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +76,7 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<String> createEnquiry(@RequestBody EnquieryRequest enquiry) {
+    public ResponseEntity<String> createEnquiry(@Validated @RequestBody EnquieryRequest enquiry) {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
@@ -168,9 +169,7 @@ public class EnquiryController {
 //		return resp;
 //	}
     
-    
-     
-    
+ 
     @GetMapping("/findByUser")
     @ApiOperation(value="Enquiry By User" ,code=201, produces = "application/json", notes="Api for find Enquiry By UserInfo",response= Enquiry.class)
     @ApiResponses(value= {
@@ -193,20 +192,21 @@ public class EnquiryController {
     // /delete/{id}       deleteMapping           delete Enqiry Mapping 
     // /findByUser        getmapping              find Enquiery by user 
     // /findByFpo         getmapping              find Enquiery by Fpo
-   
+    
     @GetMapping("/findByFpo")
-    @ApiOperation(value="Enquiry By Fpo" ,code=201, produces = "application/json", notes="Api for find Enquiry By Fpo",response= Enquiry.class)
+    @ApiOperation(value="Enquiry By Fpo" ,code=201, produces = "application/json", notes="Api for find Enquiry By Fpo",response = Enquiry.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Enquiry> getEnquiryByFpo(@RequestParam("fpoId") Integer fpoId) throws UserPrincipalNotFoundException{
+  public List<Enquiry> getEnquiryByFpo(@RequestParam("fpoId") Integer fpoId) throws UserPrincipalNotFoundException{
     	Optional<FPORegister> fpo = fpoService.findById(fpoId);
     	if(!fpo.isPresent()) {
-    		throw new UsernameNotFoundException("Fpo does not exist for "+fpoId +"id");
+    		throw new UsernameNotFoundException("Fpo does not exist for "+fpoId+"id");
     	}
-        LOG.info("Inside EnquiryController gettting Enquiry by fpoId");
+        LOG.info("Inside Enquiry Controller getting Enquiry by fpoId");
         return enquiryService.getEnquiryInfoByFpo(fpo.get());
-}
+   }
+    
 }

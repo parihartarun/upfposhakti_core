@@ -10,6 +10,7 @@ import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.repository.DataDisplayRepository;
 
@@ -51,13 +52,15 @@ public class MasterServiceImpl implements MasterService {
 	}
 	
 	@Override
-	public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn, List<Integer> fileterdistricts,
-			List<Integer> fileterqty,List<Integer> filtercropsverieties,List<Integer> filtercrops,List<Integer> fpos) {
+	public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto) {
 		// TODO Auto-generated method stub
 		
-				return dataDisplayRepository.newHomeSearch(limit,page,searchVal,searchIn, fileterdistricts,fileterqty,filtercropsverieties,filtercrops,fpos);			
+				return dataDisplayRepository.newHomeSearch(searchRequestDto);			
 	
 
 	}
+	
+	
+	
 
 }

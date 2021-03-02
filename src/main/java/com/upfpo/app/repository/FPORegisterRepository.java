@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.upfpo.app.dto.DeptFpoAgencyDTO;
 import com.upfpo.app.dto.FPOListDTO;
-import com.upfpo.app.dto.FarmerCropSowingDTO;
 import com.upfpo.app.entity.FPORegister;
 
 
@@ -26,4 +26,7 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	
 	@Query("select count(f) from FPORegister f where f.isDeleted = false")
 	public Integer getAllFpoCount();
+	
+	@Query("select distinct new com.upfpo.app.dto.DeptFpoAgencyDTO(count(f), agency) from FPORegister f where f.isDeleted = false group by agency")
+	public List<DeptFpoAgencyDTO> getAgency();
 }

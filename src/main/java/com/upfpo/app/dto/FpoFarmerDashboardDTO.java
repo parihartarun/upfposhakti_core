@@ -19,6 +19,8 @@ public class FpoFarmerDashboardDTO
 	private FpoActualProdDashboardDTO fpoActualProduction;
 	
 	private FpoMarkeProdDashboardDTO  fpoMarketableProduction;
+	
+	private FpoTotSoldProductionDTO fpoTotSoldProduction;
 
 	public Integer getTotalFpoFarmer() {
 		return totalFpoFarmer;
@@ -83,7 +85,13 @@ public class FpoFarmerDashboardDTO
 	public void setFpoMarketableProduction(FpoMarkeProdDashboardDTO fpoMarketableProduction) {
 		this.fpoMarketableProduction = fpoMarketableProduction;
 	}
-	
-	
+
+	public FpoTotSoldProductionDTO getFpoTotSoldProduction() {
+		return fpoTotSoldProduction;
+	}
+
+	public void setFpoTotSoldProduction(FpoTotSoldProductionDTO fpoTotSoldProduction) {
+		this.fpoTotSoldProduction = fpoTotSoldProduction;
+	}
 	
 }

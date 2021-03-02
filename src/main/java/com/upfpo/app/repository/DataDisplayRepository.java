@@ -25,6 +25,7 @@ import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.ReportDTO;
 import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.util.GetFinYear;
 
@@ -1250,12 +1251,15 @@ public class DataDisplayRepository {
 		
 	}
 	
-	public SearchPagePagableDto newHomeSearch(Integer limit,Integer page,String searchVal, String searchIn, List<Integer> fileterdistricts,
-			List<Integer> fileterqty, List<Integer> filtercropsver,List<Integer> filtercrops,List<Integer> fpos)
+	public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto)
 	{
 		
+		
+		
+		
+		
 		sql ="";
-		if(searchIn.equalsIgnoreCase("any"))
+		if(searchRequestDto.getIn().equalsIgnoreCase("any"))
 		{		
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
@@ -1266,15 +1270,15 @@ public class DataDisplayRepository {
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
-					+ "or UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
-					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
-					+ "or UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%' \r\n"
+					+ "or UPPER(dist.district_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+					+ "or UPPER(cv.crop_veriety) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+					+ "or UPPER(fpo.fpo_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'"
 					+"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+"order by fpo asc";				
 		}
 		
-		else if (searchIn.equalsIgnoreCase("fpo_name")) 
+		else if (searchRequestDto.getIn().equalsIgnoreCase("fpo_name")) 
 		{
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
@@ -1285,12 +1289,12 @@ public class DataDisplayRepository {
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchVal.toUpperCase()+"%'"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(fpo.fpo_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'"
 					+"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
-					;
+					
 		}
-		else if (searchIn.equalsIgnoreCase("district")) 
+		else if (searchRequestDto.getIn().equalsIgnoreCase("district")) 
 		{
 			
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid,cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
@@ -1302,13 +1306,13 @@ public class DataDisplayRepository {
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(dist.district_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
 				    +"group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					
 		} 
 		
-		else if (searchIn.equalsIgnoreCase("crop")) 
+		else if (searchRequestDto.getIn().equalsIgnoreCase("crop")) 
 			{	
 			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
 					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
@@ -1319,8 +1323,8 @@ public class DataDisplayRepository {
 					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
 					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
-					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchVal.toUpperCase()+"%' \r\n"
-					+ "or UPPER(cv.crop_veriety) like '%"+searchVal.toUpperCase()+"%'\r\n"
+					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%' \r\n"
+					+ "or UPPER(cv.crop_veriety) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
 					+ "group by cv.crop_veriety,fpoid,fpo,district,districtid,crop,varietyid,cropid\r\n"
 					+ "order by fpo asc";
 					
@@ -1331,10 +1335,11 @@ public class DataDisplayRepository {
 		
 //filtering the dataset at Java side to avoid lengthy query processing.
 Predicate<SearchResponseDto> 	finalpredicate=null;		
-	if(fileterdistricts!=null) {
-		for(Integer districtId:fileterdistricts)
+	if(searchRequestDto.getDistrictIds()!=null) {
+		for(Integer districtId:searchRequestDto.getDistrictIds())
 		{
-			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid()==districtId;
+			
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1344,23 +1349,24 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		}
 		
 	}
-    if(fileterqty!=null) {
-    	for(Integer fileterqtyitem:fileterqty)
-		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable() > fileterqtyitem;
+    if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) {
+    	
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymin().intValue() && samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymax().intValue();
 		      if(finalpredicate==null)
-		      {
+		      {  	  
 		    	  finalpredicate = samplepredicate;
+		      
 		      }else {
-		    	  finalpredicate =finalpredicate.or(samplepredicate);
+		    	  
+		    	  finalpredicate =finalpredicate.and(samplepredicate);
 		      }
-		}
+		
 	}
     
-    if(filtercropsver!=null) {
-    	for(Integer filtercropsveritm:filtercropsver)
+    if(searchRequestDto.getCropverietyIds()!=null) {
+    	for(Integer filtercropsveritm:searchRequestDto.getCropverietyIds())
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid() == filtercropsveritm;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid().intValue() == filtercropsveritm.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1371,25 +1377,24 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
     	
       }
     
-    if(filtercrops!=null) {
-    	for(Integer filtercropsItm:filtercrops)
+    if(searchRequestDto.getCropIds()!=null) {
+    	for(Integer filtercropsItm:searchRequestDto.getCropIds())
 		{
-    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid() == filtercropsItm;
+    		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid().intValue() == filtercropsItm.intValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
 		      }else {
 		    	  finalpredicate =finalpredicate.or(samplepredicate);
 		      }
-			
 		}
     	
       }
-   if(fpos!=null) 
+   if(searchRequestDto.getFpoIds()!=null) 
      {
-	   for(Integer fpoId:fpos)
+	   for(Integer fpoId:searchRequestDto.getFpoIds())
 		{
-			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid() == fpoId.longValue();
+			Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid().longValue() == fpoId.longValue();
 		      if(finalpredicate==null)
 		      {
 		    	  finalpredicate = samplepredicate;
@@ -1408,8 +1413,8 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();		
 		  //obj.subList(0, 0);
-		  Integer offset  =(page-1)*limit;
-		  Integer last =offset+limit; 
+		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  obj = finalpredicate==null?obj:obj.stream().filter(finalpredicate).collect(Collectors.toList());
 		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
 		  searchPagePagableDto.setTotalElements(obj.size());
