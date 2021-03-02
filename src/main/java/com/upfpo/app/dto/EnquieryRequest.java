@@ -18,12 +18,12 @@ public class EnquieryRequest {
     private String fulfillmentDate; 
     @NotNull(message = "Quantity must not be null")
     private Double quantity;
-    private String cropVeriety;
+    private Integer cropVeriety;
     
-	public String getCropVeriety() {
+	public Integer getCropVeriety() {
 		return cropVeriety;
 	}
-	public void setCropVeriety(String cropVeriety) {
+	public void setCropVeriety(Integer cropVeriety) {
 		this.cropVeriety = cropVeriety;
 	}
 	public Integer getFpoId() {

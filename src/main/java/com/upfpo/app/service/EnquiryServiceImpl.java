@@ -12,19 +12,27 @@ import com.upfpo.app.configuration.exception.FpoNotFoundException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.UserNotFoundException;
 import com.upfpo.app.dto.EnquieryRequest;
+import com.upfpo.app.entity.CropVerietyMaster;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
+import com.upfpo.app.repository.CropVarietyRepository;
 import com.upfpo.app.repository.EnquiryRepository;
 import com.upfpo.app.repository.FpoMasterRepository;
+import com.upfpo.app.repository.TotalProductionRepository;
 import com.upfpo.app.repository.UserRepository;
+import com.upfpo.app.util.GetFinYear;
 
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
 
     @Autowired
     private EnquiryRepository enquiryRepository;
+    @Autowired
+    private CropVarietyRepository cropVarietyRepository;
+    @Autowired
+    private TotalProductionRepository totalProductionRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -45,7 +53,8 @@ public class EnquiryServiceImpl implements EnquiryService{
     	enquiry.setCreateDateTime(new Date());  // filled
     	enquiry.setDeliveryAddress(enquiryRequest.getFpoDeliveryAddress());
     	enquiry.setFulfillmentDate(enquiryRequest.getFulfillmentDate());       // from ui
-    	enquiry.setCropVeriety(enquiryRequest.getCropVeriety());
+    	
+    	enquiry.setCropVeriety(cropVarietyRepository.findById(enquiryRequest.getCropVeriety()).get());
     	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
     	enquiry.setReason(null);                // no idea hence empty
     	enquiry.setStatus("Active");            // active
@@ -64,6 +73,10 @@ public class EnquiryServiceImpl implements EnquiryService{
         }
         
         Enquiry upenquiry = sd.get(); 
+        CropVerietyMaster veriety  = cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId().intValue()).get(); 
+        Double currentMarketable =  totalProductionRepository.getCurrentMarketableQty(enquiry.getCropMaster().getCropId(),veriety.getVerietyId(),enquiry.getFpo().getFpoId(), 1, GetFinYear.getCurrentFinYear());
+        Double remainingMarketable = currentMarketable.doubleValue() - enquiry.getQuantity().intValue();   
+        
         upenquiry.setSoldQuantity(enquiry.getQuantity());
         upenquiry.setStatus(enquiry.getStatus());
         upenquiry.setReason(enquiry.getReason());        

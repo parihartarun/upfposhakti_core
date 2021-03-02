@@ -1,6 +1,7 @@
 package com.upfpo.app.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,5 @@ public interface CropVarietyRepository extends JpaRepository<CropVerietyMaster, 
 {
 //	public List<CropVerietyMaster> findByCropRefId(int cropRefId);
 	public List<CropVerietyMaster> findByCrop(CropMaster crop );
+	public Optional<CropVerietyMaster> findByVerietyName(String name);
 }
