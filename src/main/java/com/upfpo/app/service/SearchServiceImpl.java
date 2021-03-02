@@ -18,7 +18,7 @@ public class SearchServiceImpl implements SearchService {
 				&& (searchRequestDto.getQtymax() == null && searchRequestDto.getQtymin() == null)) {
 			return FiltersSelectedByUser.NONESELECTED;
 		} else if ( // If all filters selected;
-		searchRequestDto.getCropIds() != null && !searchRequestDto.getCropIds().isEmpty()
+		           searchRequestDto.getCropIds() != null && !searchRequestDto.getCropIds().isEmpty()
 				&& searchRequestDto.getCropverietyIds() != null && !searchRequestDto.getCropverietyIds().isEmpty()
 				&& searchRequestDto.getDistrictIds() != null && !searchRequestDto.getDistrictIds().isEmpty()
 				&& searchRequestDto.getFpoIds() != null && !searchRequestDto.getFpoIds().isEmpty()
