@@ -125,6 +125,11 @@ public class InputSupplierSeed {
         this.quantity=quantity;
     }
 
+    public InputSupplierSeed(Integer id, Integer inputSupplierId) {
+        this.id = id;
+        this.inputSupplierId = inputSupplierId;
+    }
+
     public Integer getId() {
         return id;
     }
