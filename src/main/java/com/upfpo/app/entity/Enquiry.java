@@ -31,9 +31,8 @@ public class Enquiry implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-//	@OneToOne
-//	@JoinColumn(name = "created_by")
-	@Column(name="created_by")
+
+	@Column(name="masterid")
 	private Integer masterId;
 
 	@Column(name="deliveryaddress")
@@ -65,6 +64,7 @@ public class Enquiry implements Serializable {
 	private String status;
 	private Double quantity;
 	private Double soldQuantity;
+	
 	public Double getSoldQuantity() {
 		return soldQuantity;
 	}
