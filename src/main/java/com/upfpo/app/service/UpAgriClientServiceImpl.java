@@ -67,7 +67,7 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         else{
             dto.setVillageId(villageRepository.findByVillageName(_vill));
             dto.setVillageName(_vill);		}
-        dto.setCategory(_cat);
+        dto.setCategory(category(_cat));
         dto.setMobile(_mob);
         dto.setBankId(bankRepository.findByBankName(_bank_name));
         dto.setBankName(_bank_name);
@@ -96,5 +96,20 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
                 "  _mob == "+_mob+"  _bank_nameb =="+_bank_name+" _ifsc == "+_ifsc+"  _accno =="+_accno);
 
         return dto;
+    }
+
+    public String category (String cat){
+
+        if(cat.equals("1")){
+            return "Genral";
+        }else  if(cat.equals("2")){
+            return "SC";
+        }else  if(cat.equals("3")){
+            return "NT";
+        }else  if(cat.equals("4")){
+            return "OBC";
+        }else{
+            return "Other";
+        }
     }
 }
