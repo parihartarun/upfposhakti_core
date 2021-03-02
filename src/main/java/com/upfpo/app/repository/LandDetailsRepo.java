@@ -12,4 +12,7 @@ public interface LandDetailsRepo extends JpaRepository<LandDetails, Integer>
 	
 	@Query("select sum(l.land_area) from LandDetails l join l.farmerProfile f where l.farmerProfile.farmerId = f.farmerId and f.isDeleted = false and l.isDeleted = false")
 	public Double getTotalLand();
+	
+	@Query("select sum(l.land_area) from LandDetails l join l.farmerProfile f where l.farmerProfile.farmerId = f.farmerId and f.isDeleted = false and l.isDeleted = false and l.farmerProfile.farmerId = :farmerId")
+	public Double getFarmerTotalLand(Integer farmerId);
 }

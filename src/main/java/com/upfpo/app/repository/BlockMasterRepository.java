@@ -16,6 +16,9 @@ public interface BlockMasterRepository extends JpaRepository<BlockMaster, Intege
 	List<BlockMaster> getPanchayatByBlockId(int distId);
 	
 	List<BlockMaster> findAllByOrderByBlockNameAsc();
+
+	@Query("Select id, blockName from BlockMaster v where v.blockName= :blck")
+    Object findByBlockName(String blck);
 	/*@Query(value = "Select * from BlockMaster where distId= :distId",nativeQuery = true)
 	List<BlockMaster> getPanchayatByBlockId(int distId);*/
 }

@@ -185,7 +185,7 @@ public class NotificationController {
 
 
     @PutMapping("/{id}")
-    @ApiOperation(value="Update Notification Details" ,code=201, produces = "application/json", notes="Api To Update Notification Details",response= Notification.class)
+    @ApiOperation(value="Update Notification Read Status" ,code=201, produces = "application/json", notes="Api To Update Notification Details",response= Notification.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

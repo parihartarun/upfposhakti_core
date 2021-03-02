@@ -2,6 +2,7 @@ package com.upfpo.app.repository;
 
 import java.util.List;
 
+import com.upfpo.app.dto.UpAgriBankDataDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,7 @@ public interface VillageMasterRepository extends JpaRepository<VillageMaster, In
 	List<VillageMaster> getVillagesByBlockId(int blockId);
 	
 	List<VillageMaster> findAllByOrderByVillageNameAsc();
+
+	@Query("Select villageId, villageName from VillageMaster v where v.villageName= :vill")
+	List<UpAgriBankDataDto> findByVillageName(String vill);
 }

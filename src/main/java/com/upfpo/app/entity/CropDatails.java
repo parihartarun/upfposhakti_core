@@ -10,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FarmerCropProductionDTO;
 import com.upfpo.app.dto.TotalProductionDTO;
 
 @Entity
@@ -46,6 +48,18 @@ classes = {
             columns = {
                 @ColumnResult(name = "totalActualProdction", type = Double.class),
                 @ColumnResult(name = "totalMarketableQty", type = Double.class)
+           })
+})
+@SqlResultSetMapping(name="FarmerCropProductionDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FarmerCropProductionDTO.class,
+            columns = {
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "cropName", type = String.class),
+                @ColumnResult(name = "production", type = Double.class),
+                @ColumnResult(name = "seasonId", type = Integer.class),
+                @ColumnResult(name = "seasonName", type = String.class),
            })
 })
 @Table(name = "crop_details")
@@ -96,6 +110,7 @@ public class CropDatails implements Serializable {
 	private Integer farmerId;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "sowing_id")
     private NewSowing newSowing;
 
 	@Column(name = "land_id")
