@@ -46,6 +46,9 @@ public class InputSupplierFertilizer {
     @Column(name="manufacturer_name")
     private String manufacturerName;
 
+    @Column(name="quantity")
+    private Double quantity;
+
     @Column(name="file_path")
     private String filePath;
 
@@ -78,17 +81,26 @@ public class InputSupplierFertilizer {
     public InputSupplierFertilizer() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerGrade, String manufacturerName) {
+    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerGrade, String manufacturerName, Double quantity) {
 
         this.fertilizerType=fertilizerTypeId;
         this.fertilizerNameId=fertilizerNameId;
         this.inputSupplierId=inputSupplierId;
         this.fertilizerGrade=fertilizerGrade;
         this.manufacturerName=manufacturerName;
+        this.quantity=quantity;
     }
 
     public InputSupplierFertilizer(Integer inputSupplierId) {
         this.inputSupplierId=inputSupplierId;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public Integer getId() {

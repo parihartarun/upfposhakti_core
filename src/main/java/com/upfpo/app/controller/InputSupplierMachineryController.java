@@ -101,6 +101,7 @@ public class InputSupplierMachineryController {
                                                                         @RequestParam(value = "specification", required = false) String  specification,
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                        @RequestParam(value = "rent_per_day") Double rentPerDay,
                                                                          @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery ");
@@ -108,7 +109,7 @@ public class InputSupplierMachineryController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName, rentPerDay);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
@@ -166,6 +167,7 @@ public class InputSupplierMachineryController {
                                                            @RequestParam(value = "quantity") Integer quantity,
                                                            @RequestParam(value = "manufacturer_name") String manufacturerName,
                                                            @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
+                                                           @RequestParam(value = "rent_per_day") Double rentPerDay,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Complaint updating Complaint detail ");
         InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();
@@ -176,6 +178,7 @@ public class InputSupplierMachineryController {
         supplierMachinery.setTechnicalSpecs(specification);
         supplierMachinery.setQuantity(quantity);
         supplierMachinery.setManufacturerName(manufacturerName);
+        supplierMachinery.setRentPerDay(rentPerDay);
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){

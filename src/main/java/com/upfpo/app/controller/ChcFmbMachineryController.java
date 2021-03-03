@@ -102,17 +102,18 @@ public class ChcFmbMachineryController {
                                                                         @RequestParam(value = "name_id", required = false) Integer nameId,
                                                                         @RequestParam(value = "chc_fmb_id", required = false) Integer chcFmbId,
                                                                         @RequestParam(value = "capacity", required = false) Integer capacity,
-                                                                        @RequestParam(value = "purchase_year", required = false) Calendar year,
+                                                                        @RequestParam(value = "purchase_year", required = false) String year,
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "company", required = false) String company,
                                                                         @RequestParam(value = "govt_scheme", required = false) String govtScheme,
+                                                                        @RequestParam(value = "rent", required = false) Double rent,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ChcFmbMachineryController saving ChcFmbMachinery ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery(typeId, nameId, chcFmbId, capacity, year, quantity, company, govtScheme);
+                ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery(typeId, nameId, chcFmbId, capacity, year, quantity, company, govtScheme, rent);
                 ChcFmbMachinery id = machineryService.createChcFmbMachinery(chcFmbMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("ChcFmbMachinery created successfully"), HttpStatus.OK );
                 LOG.info("ChcFmbMachinery  created Successfully!");
@@ -171,10 +172,11 @@ public class ChcFmbMachineryController {
                                                                  @RequestParam(value = "name_id", required = false) Integer nameId,
                                                                  @RequestParam(value = "chc_fmb_id", required = false) Integer chcFmbId,
                                                                  @RequestParam(value = "capacity", required = false) Integer capacity,
-                                                                 @RequestParam(value = "purchase_year", required = false) Calendar year,
+                                                                 @RequestParam(value = "purchase_year", required = false) String year,
                                                                  @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                  @RequestParam(value = "company", required = false) String company,
                                                                  @RequestParam(value = "govt_scheme", required = false) String govtScheme,
+                                                                 @RequestParam(value = "rent", required = false) Double rent,
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ChcFmbMachinery updating ChcFmbMachinery detail ");
         ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery();
@@ -186,6 +188,7 @@ public class ChcFmbMachineryController {
         chcFmbMachinery.setQuantityAvailable(quantity);
         chcFmbMachinery.setCompany(company);
         chcFmbMachinery.setGovtSchemeAssistant(govtScheme);
+        chcFmbMachinery.setRentPerDay(rent);
         ResponseEntity<MessageResponse> resp = null;
 
             try {
