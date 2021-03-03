@@ -14,7 +14,9 @@ import java.util.Calendar;
                         targetClass = ChcFmbMachineryDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type_id", type = Integer.class),
                                 @ColumnResult(name = "type", type = String.class),
+                                @ColumnResult(name = "name_id", type = Integer.class),
                                 @ColumnResult(name = "equpment_name", type = String.class),
                                 @ColumnResult(name = "equipment_capacity", type = Integer.class),
                                 @ColumnResult(name = "equip_purchase_year", type = String.class),

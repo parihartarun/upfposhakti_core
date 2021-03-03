@@ -20,7 +20,7 @@ public class WarehouseDTO {
     }
 
     public WarehouseDTO(Integer id, String warehouse_type, String warehouse_services, Double capacity, String is_seed_processing, Integer district_id, String district_name, Integer block_id, String block_name, String address, String longitude, String latitude) {
-        id = id;
+        this.id = id;
         this.warehouse_type = warehouse_type;
         this.warehouse_services = warehouse_services;
         this.capacity = capacity;
@@ -33,6 +33,7 @@ public class WarehouseDTO {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
 
     public Integer getId() {
         return id;

@@ -75,12 +75,15 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
 
     @Override
     public InputSupplierInsecticide createInputSupplierInsecticide(InputSupplierInsecticide inputSupplierInsecticide, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = null;
         inputSupplierInsecticide.setCreateBy(inputSupplierInsecticide.getInputSupplierId());
         inputSupplierInsecticide.setCreateDateTime(Calendar.getInstance());
+        if (file!=null) {
         try {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileContentType = file.getContentType();
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if(fileName.contains("..") && contentTypes.contains(fileContentType)) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
@@ -95,7 +98,7 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
             inputSupplierInsecticide.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
         inputSupplierInsecticide.setDeleted(false);
         return insecticideRepository.save(inputSupplierInsecticide);
     }
