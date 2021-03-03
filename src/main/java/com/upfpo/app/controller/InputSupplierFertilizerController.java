@@ -103,13 +103,13 @@ public class InputSupplierFertilizerController {
                                                                    @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
                                                                    @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                    @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                   @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                                         @RequestParam(value = "manufacturer_name", required = false) Double quantity,
+                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
+        {
             try {
-                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,grade,manufacturerName);
+                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,grade,manufacturerName, quantity);
                 InputSupplierFertilizer id = fertilizerService.createInputSupplierFertilizer(inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer  created Successfully!");
@@ -118,10 +118,6 @@ public class InputSupplierFertilizerController {
                 LOG.info("Failed to Save the InputSupplierFertilizer");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
         }
         LOG.info("Exiting InputSupplierFertilizer Of Controller with response ", resp);
         return resp;
@@ -169,6 +165,7 @@ public class InputSupplierFertilizerController {
                                                                          @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
                                                                          @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                         @RequestParam(value = "quantity", required = false) Double quantity,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizer updating InputSupplierFertilizer detail ");
         InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer();
@@ -177,6 +174,7 @@ public class InputSupplierFertilizerController {
         inputSupplierFertilizer.setInputSupplierId(inputSupplierId);
         inputSupplierFertilizer.setFertilizerGrade(grade);
         inputSupplierFertilizer.setManufacturerName(manufacturerName);
+        inputSupplierFertilizer.setQuantity(quantity);
         ResponseEntity<MessageResponse> resp = null;
             try {
                 fertilizerService.updateInputSupplierFertilizer(id, inputSupplierFertilizer, file);

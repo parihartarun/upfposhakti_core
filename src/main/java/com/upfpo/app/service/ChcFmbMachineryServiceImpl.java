@@ -185,6 +185,7 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
                     chcFmbMachinery.setQuantityAvailable(chcFmbMachinery1.getQuantityAvailable());
                     chcFmbMachinery.setCompany(chcFmbMachinery1.getCompany());
                     chcFmbMachinery.setGovtSchemeAssistant(chcFmbMachinery1.getGovtSchemeAssistant());
+                    chcFmbMachinery.setRentPerDay(chcFmbMachinery1.getRentPerDay());
                     chcFmbMachinery.setDeleted(false);
                     return machineryRepository.save(chcFmbMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

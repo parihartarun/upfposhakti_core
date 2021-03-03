@@ -46,7 +46,7 @@ public class ChcFmbMachinery {
     private Integer equipmentCapacity;
 
     @Column(name = "equip_purchase_year")
-    private Calendar equipmentYear;
+    private String equipmentYear;
 
     @Column(name = "quantity_avail")
     private Integer quantityAvailable;
@@ -91,7 +91,7 @@ public class ChcFmbMachinery {
     public ChcFmbMachinery() {
     }
 
-    public ChcFmbMachinery(Integer typeId, Integer nameId, Integer chcFmbId, Integer capacity, Calendar year, Integer quantity, String company, String govtScheme) {
+    public ChcFmbMachinery(Integer typeId, Integer nameId, Integer chcFmbId, Integer capacity, String year, Integer quantity, String company, String govtScheme, Double rentPerDay) {
     this.equipmentTypeId=typeId;
     this.equipmentNameId=nameId;
     this.chcFmbId=chcFmbId;
@@ -100,6 +100,7 @@ public class ChcFmbMachinery {
     this.quantityAvailable=quantity;
     this.company=company;
     this.govtSchemeAssistant=govtScheme;
+    this.rentPerDay=rentPerDay;
     }
 
     public Integer getId() {
@@ -160,11 +161,11 @@ public class ChcFmbMachinery {
         return rentPerDay;
     }
 
-    public Calendar getEquipmentYear() {
+    public String getEquipmentYear() {
         return equipmentYear;
     }
 
-    public void setEquipmentYear(Calendar equipmentYear) {
+    public void setEquipmentYear(String equipmentYear) {
         this.equipmentYear = equipmentYear;
     }
 

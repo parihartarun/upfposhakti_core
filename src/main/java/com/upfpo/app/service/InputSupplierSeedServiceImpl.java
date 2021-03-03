@@ -69,10 +69,13 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         inputSupplierSeed.setCreateBy(inputSupplierSeed.getInputSupplierId());
         inputSupplierSeed.setCreateDateTime(Calendar.getInstance());
+        if(file!=null){
         try {
+            String fileContentType = file.getContentType();
+            if (contentTypes.contains(fileContentType))
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            if(fileName.contains("..") && contentTypes.contains(fileContentType)) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
@@ -86,7 +89,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
             inputSupplierSeed.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
         inputSupplierSeed.setDeleted(false);
         return seedRepository.save(inputSupplierSeed);
     }

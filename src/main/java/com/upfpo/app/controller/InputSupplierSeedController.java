@@ -96,8 +96,6 @@ public class InputSupplierSeedController {
         ResponseEntity<MessageResponse> resp = null;
         //validFrom = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
         //validTo = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
             try {
                 InputSupplierSeed inputSupplierSeed = new InputSupplierSeed(cropId,inputSupplierId,varietyId,company, certificationNo,validFrom,validTo, quantity);
                 InputSupplierSeed id = seedService.createInputSupplierSeed(inputSupplierSeed, file);
@@ -108,11 +106,7 @@ public class InputSupplierSeedController {
                 LOG.info("Failed to Save the InputSupplierSeed");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
+
         LOG.info("Exiting InputSupplierSeed Of Controller with response ", resp);
         return resp;
     }
