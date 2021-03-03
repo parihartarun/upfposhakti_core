@@ -92,11 +92,12 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
 
     @Override
     public InputSupplierFertilizer createInputSupplierFertilizer(InputSupplierFertilizer inputSupplierFertilizer, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = null;
         inputSupplierFertilizer.setCreateBy(inputSupplierFertilizer.getInputSupplierId());
         inputSupplierFertilizer.setCreateDateTime(Calendar.getInstance());
         if(file!=null){
         try {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
             String fileContentType = file.getContentType();
                 // Check if the file's name contains invalid characters
             if(fileName.contains("..") && contentTypes.contains(fileContentType)) {

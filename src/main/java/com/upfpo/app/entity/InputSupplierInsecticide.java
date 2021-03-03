@@ -48,8 +48,7 @@ public class InputSupplierInsecticide {
     private String cibRcNumber;
 
     @Column(name="cib_rc_issuedate")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy" )
-    private Date cibRcIssueDate;
+    private String cibRcIssueDate;
 
     @Column(name = "file_path")
     private String filePath;
@@ -84,7 +83,7 @@ public class InputSupplierInsecticide {
     }
 
     public InputSupplierInsecticide(Integer id, Integer inputSupplierId, Integer insecticideTypeId, Integer quantity, String manufacturerName,
-            String cibRcNumber, Date cibRcIssueDate, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
+            String cibRcNumber, String cibRcIssueDate, String filePath, String fileName, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
         this.id = id;
         this.inputSupplierId = inputSupplierId;
         this.insecticideTypeId = insecticideTypeId;
@@ -104,7 +103,7 @@ public class InputSupplierInsecticide {
     }
 
     public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
-                                    Date cibRcIssuedate) {
+                                    String cibRcIssuedate) {
 
         this.insecticideTypeId=insecticideTypeId;
         this.cibRcNumber=cibRcNumber;
@@ -164,11 +163,11 @@ public class InputSupplierInsecticide {
         this.cibRcNumber = cibRcNumber;
     }
 
-    public Date getCibRcIssueDate() {
+    public String getCibRcIssueDate() {
         return cibRcIssueDate;
     }
 
-    public void setCibRcIssueDate(Date cibRcIssueDate) {
+    public void setCibRcIssueDate(String cibRcIssueDate) {
         this.cibRcIssueDate = cibRcIssueDate;
     }
 

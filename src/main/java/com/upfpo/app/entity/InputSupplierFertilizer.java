@@ -40,6 +40,9 @@ public class InputSupplierFertilizer {
     @Column(name = "fertilizer_name_id")
     private Integer fertilizerNameId;
 
+    @Column(name = "fertilizer_name")
+    private String fertilizerName;
+
     @Column(name = "fertilizer_grade")
     private String fertilizerGrade;
 
@@ -81,11 +84,12 @@ public class InputSupplierFertilizer {
     public InputSupplierFertilizer() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerGrade, String manufacturerName, Double quantity) {
+    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerName, String fertilizerGrade, String manufacturerName, Double quantity) {
 
         this.fertilizerType=fertilizerTypeId;
         this.fertilizerNameId=fertilizerNameId;
         this.inputSupplierId=inputSupplierId;
+        this.fertilizerName=fertilizerName;
         this.fertilizerGrade=fertilizerGrade;
         this.manufacturerName=manufacturerName;
         this.quantity=quantity;
@@ -101,6 +105,14 @@ public class InputSupplierFertilizer {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public String getFertilizerName() {
+        return fertilizerName;
+    }
+
+    public void setFertilizerName(String fertilizerName) {
+        this.fertilizerName = fertilizerName;
     }
 
     public Integer getId() {

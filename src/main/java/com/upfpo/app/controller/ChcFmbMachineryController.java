@@ -30,7 +30,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="chcfmb/machinery/")
+@RequestMapping(value="/chcfmb/machinery")
 @Api(produces = "application/json", tags="ChcFmbMachinery Controller", value = "Add, Update, Delete, and retrive the ChcFmbMachinery Detail")
 public class ChcFmbMachineryController {
 
@@ -110,8 +110,6 @@ public class ChcFmbMachineryController {
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ChcFmbMachineryController saving ChcFmbMachinery ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
             try {
                 ChcFmbMachinery chcFmbMachinery = new ChcFmbMachinery(typeId, nameId, chcFmbId, capacity, year, quantity, company, govtScheme, rent);
                 ChcFmbMachinery id = machineryService.createChcFmbMachinery(chcFmbMachinery, file);
@@ -122,11 +120,6 @@ public class ChcFmbMachineryController {
                 LOG.info("Failed to Save the ChcFmbMachinery");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
         LOG.info("Exiting ChcFmbMachinery Of Controller with response ", resp);
         return resp;
     }

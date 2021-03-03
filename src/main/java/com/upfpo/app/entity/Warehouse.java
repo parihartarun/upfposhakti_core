@@ -18,7 +18,7 @@ import java.util.Calendar;
                                 @ColumnResult(name = "capacity", type = Double.class),
                                 @ColumnResult(name = "is_seed_processing", type = String.class),
                                 @ColumnResult(name = "district_id", type = Integer.class),
-                                @ColumnResult(name = "district_name", type = Double.class),
+                                @ColumnResult(name = "district_name", type = String.class),
                                 @ColumnResult(name = "block_id", type = Integer.class),
                                 @ColumnResult(name = "block_name", type = String.class),
                                 @ColumnResult(name = "address", type = String.class),

@@ -32,7 +32,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="inputsupplier/fertilizer/")
+@RequestMapping(value="/inputsupplier/fertilizer")
 @Api(produces = "application/json", tags="InputSupplierFertilizer Controller", value = "Add, Update, Delete, and retrive the InputSupplierFertilizer Detail")
 public class InputSupplierFertilizerController {
 
@@ -101,15 +101,16 @@ public class InputSupplierFertilizerController {
     public ResponseEntity<MessageResponse> createInputSupplierFertilizer(@RequestParam(value = "type_id", required = false) Integer typeId,
                                                                    @RequestParam(value = "name_id", required = false) Integer nameId,
                                                                    @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
+                                                                         @RequestParam(value = "fertilizer_name", required = false) String fertilizerName,
                                                                    @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                    @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestParam(value = "manufacturer_name", required = false) Double quantity,
+                                                                         @RequestParam(value = "quantity", required = false) Double quantity,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
         {
             try {
-                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,grade,manufacturerName, quantity);
+                InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,fertilizerName,grade,manufacturerName, quantity);
                 InputSupplierFertilizer id = fertilizerService.createInputSupplierFertilizer(inputSupplierFertilizer, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer  created Successfully!");
@@ -162,7 +163,8 @@ public class InputSupplierFertilizerController {
     public ResponseEntity<MessageResponse> updateInputSupplierFertilizer(@PathVariable Integer id,
                                                                          @RequestParam(value = "type_id", required = false) Integer typeId,
                                                                          @RequestParam(value = "name_id", required = false) Integer nameId,
-                                                                         @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
+                                                                         @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                         @RequestParam(value = "fertilizer_name", required = false) String fertilizerName,
                                                                          @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                          @RequestParam(value = "quantity", required = false) Double quantity,
@@ -174,6 +176,7 @@ public class InputSupplierFertilizerController {
         inputSupplierFertilizer.setInputSupplierId(inputSupplierId);
         inputSupplierFertilizer.setFertilizerGrade(grade);
         inputSupplierFertilizer.setManufacturerName(manufacturerName);
+        inputSupplierFertilizer.setFertilizerName(fertilizerName);
         inputSupplierFertilizer.setQuantity(quantity);
         ResponseEntity<MessageResponse> resp = null;
             try {

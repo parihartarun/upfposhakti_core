@@ -3,8 +3,6 @@ package com.upfpo.app.controller;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.WarehouseDTO;
-import com.upfpo.app.dto.UploadFileResponse;
-import com.upfpo.app.entity.InputSupplierMachinery;
 import com.upfpo.app.entity.Warehouse;
 import com.upfpo.app.service.WarehouseServiceImpl;
 import com.upfpo.app.service.WarehouseService;
@@ -16,9 +14,6 @@ import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.applet.Applet;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="/warehouse/")
+@RequestMapping(value="/warehouse")
 @Api(produces = "application/json", tags="Warehouse Controller", value = "Add, Update, Delete, and retrive the Warehouse Detail")
 public class WarehouseController {
 

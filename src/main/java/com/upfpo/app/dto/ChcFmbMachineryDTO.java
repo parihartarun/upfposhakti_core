@@ -3,7 +3,9 @@ package com.upfpo.app.dto;
 public class ChcFmbMachineryDTO {
 
     Integer id;
+    Integer type_id;
     String type;
+    Integer name_id;
     String equpment_name;
     Integer equipment_capacity;
     String equip_purchase_year;
@@ -16,9 +18,11 @@ public class ChcFmbMachineryDTO {
     public ChcFmbMachineryDTO() {
     }
 
-    public ChcFmbMachineryDTO(Integer id, String type, String equpment_name, Integer equipment_capacity, String equip_purchase_year, Integer quantity_avail, Double rent_per_day, String govt_scheme_assistant, String file_path) {
+    public ChcFmbMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name, Integer equipment_capacity, String equip_purchase_year, Integer quantity_avail, Double rent_per_day, String govt_scheme_assistant, String file_path) {
         this.id = id;
+        this.type_id = type_id;
         this.type = type;
+        this.name_id = name_id;
         this.equpment_name = equpment_name;
         this.equipment_capacity = equipment_capacity;
         this.equip_purchase_year = equip_purchase_year;

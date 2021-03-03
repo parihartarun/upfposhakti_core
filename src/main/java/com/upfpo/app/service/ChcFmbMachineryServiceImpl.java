@@ -85,13 +85,16 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
 
     @Override
     public ChcFmbMachinery createChcFmbMachinery(ChcFmbMachinery chcFmbMachinery, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName=null;
         chcFmbMachinery.setCreateBy(chcFmbMachinery.getChcFmbId());
         chcFmbMachinery.setCreateDateTime(Calendar.getInstance());
+        if (file!=null){
         try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            String fileContentType = file.getContentType();
+           fileName= StringUtils.cleanPath(file.getOriginalFilename());
+                // Check if the file's name contains invalid characters
+            if(fileName.contains("..") && contentTypes.contains(fileContentType)) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type" + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
@@ -105,7 +108,7 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
             chcFmbMachinery.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
         chcFmbMachinery.setDeleted(false);
         return machineryRepository.save(chcFmbMachinery);
     }
@@ -194,7 +197,7 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     public List<ChcFmbMachineryDTO> getMachineryDetail(Integer masterId) {
         List<ChcFmbMachineryDTO> list = null;
         try {
-            String sql = "Select  cfm.id, etm.type, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+            String sql = "Select  cfm.id, etm.id, etm.type, em.id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
                     "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
                     "            from chc_fmb_machinery cfm\n" +
                     "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +

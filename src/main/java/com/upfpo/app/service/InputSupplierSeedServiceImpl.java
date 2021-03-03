@@ -66,13 +66,13 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
     @Override
     public InputSupplierSeed createInputSupplierSeed(InputSupplierSeed inputSupplierSeed, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = null;
         inputSupplierSeed.setCreateBy(inputSupplierSeed.getInputSupplierId());
         inputSupplierSeed.setCreateDateTime(Calendar.getInstance());
         if(file!=null){
         try {
+            fileName = StringUtils.cleanPath(file.getOriginalFilename());
             String fileContentType = file.getContentType();
-            if (contentTypes.contains(fileContentType))
             // Check if the file's name contains invalid characters
             if(fileName.contains("..") && contentTypes.contains(fileContentType)) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type " + fileName);
