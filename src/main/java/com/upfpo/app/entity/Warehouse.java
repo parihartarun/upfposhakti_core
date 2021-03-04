@@ -16,7 +16,7 @@ import java.util.List;
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
                                 @ColumnResult(name = "warehouse_type", type = String.class),
-                                @ColumnResult(name = "warehouse_services", type = String.class),
+                                @ColumnResult(name = "warehouse_facility_name", type = String.class),
                                 @ColumnResult(name = "capacity", type = Double.class),
                                 @ColumnResult(name = "is_seed_processing", type = String.class),
                                 @ColumnResult(name = "district_id", type = Integer.class),

@@ -5,7 +5,7 @@ public class WarehouseDTO {
 
     Integer id;
     String warehouse_type;
-    String warehouse_services;
+    String warehouse_facility_name;
     Double capacity;
     String is_seed_processing;
     Integer district_id;
@@ -19,10 +19,10 @@ public class WarehouseDTO {
     public WarehouseDTO() {
     }
 
-    public WarehouseDTO(Integer id, String warehouse_type, String warehouse_services, Double capacity, String is_seed_processing, Integer district_id, String district_name, Integer block_id, String block_name, String address, String longitude, String latitude) {
+    public WarehouseDTO(Integer id, String warehouse_type, String warehouse_facility_name, Double capacity, String is_seed_processing, Integer district_id, String district_name, Integer block_id, String block_name, String address, String longitude, String latitude) {
         this.id = id;
         this.warehouse_type = warehouse_type;
-        this.warehouse_services = warehouse_services;
+        this.warehouse_facility_name = warehouse_facility_name;
         this.capacity = capacity;
         this.is_seed_processing = is_seed_processing;
         this.district_id = district_id;
@@ -51,12 +51,12 @@ public class WarehouseDTO {
         this.warehouse_type = warehouse_type;
     }
 
-    public String getWarehouse_services() {
-        return warehouse_services;
+    public String getWarehouse_facility_name() {
+        return warehouse_facility_name;
     }
 
-    public void setWarehouse_services(String warehouse_services) {
-        this.warehouse_services = warehouse_services;
+    public void setWarehouse_facility_name(String warehouse_facility_name) {
+        this.warehouse_facility_name = warehouse_facility_name;
     }
 
     public Double getCapacity() {

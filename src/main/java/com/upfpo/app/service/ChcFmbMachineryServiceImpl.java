@@ -197,7 +197,7 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     public List<ChcFmbMachineryDTO> getMachineryDetail(Integer masterId) {
         List<ChcFmbMachineryDTO> list = null;
         try {
-            String sql = "Select  cfm.id, etm.id as type_id, etm.type, em.id as name_id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+            String sql = "Select  cfm.id, cfm.equipment_type_id, etm.type, cfm.equipment_name_id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
                     "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
                     "            from chc_fmb_machinery cfm\n" +
                     "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
@@ -214,3 +214,14 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     }
 
 }
+
+
+
+
+
+    /*String sql = "Select  cfm.id, etm.id as type_id, etm.type, em.id as name_id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+            "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
+            "            from chc_fmb_machinery cfm\n" +
+            "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
+            "            left join equip_master em on em.id=cfm.equipment_name_id\n" +
+            "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false";*/
