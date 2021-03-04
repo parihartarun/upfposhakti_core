@@ -32,6 +32,23 @@ public class ChcFmbMachineryDTO {
         this.file_path = file_path;
     }
 
+
+    public Integer getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(Integer type_id) {
+        this.type_id = type_id;
+    }
+
+    public Integer getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(Integer name_id) {
+        this.name_id = name_id;
+    }
+
     public Integer getId() {
         return id;
     }

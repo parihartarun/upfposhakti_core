@@ -4,6 +4,8 @@ import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.WarehouseDTO;
 import com.upfpo.app.entity.Warehouse;
+
+import com.upfpo.app.entity.WarehouseFacilities;
 import com.upfpo.app.service.WarehouseServiceImpl;
 import com.upfpo.app.service.WarehouseService;
 import io.swagger.annotations.Api;
@@ -51,7 +53,16 @@ public class WarehouseController {
         return warehouseService.getAllWarehouse();
     }
 
-
+    @GetMapping("/facilities/getall")
+    @ApiOperation(value="Warehouses Facilities List" ,code=201, produces = "application/json", notes="Api for all Warehouses Facilities Info",response= WarehouseFacilities.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<WarehouseFacilities> getAllFacilities (){
+        return warehouseService.getAllFacilities();
+    }
 
 
 
@@ -64,7 +75,7 @@ public class WarehouseController {
     })
     public ResponseEntity<MessageResponse> createWarehouse(@RequestParam(value = "type", required = false) String typeName,
                                                            @RequestParam(value = "dept_id", required = false) Integer deptId,
-                                                                   @RequestParam(value = "service_name", required = false) String  serviceName,
+                                                           @RequestParam(value = "facilities", required = false) List<WarehouseFacilities> facilities,
                                                                    @RequestParam(value = "capacity", required = false) Double capacity,
                                                                    @RequestParam(value = "seed_processing", required = false) String isSeedProcessing,
                                                                    @RequestParam(value = "district_id", required = false) Integer districtId,
@@ -75,7 +86,7 @@ public class WarehouseController {
         LOG.info("Inside WarehouseController saving Warehouse ");
         ResponseEntity<MessageResponse> resp = null;
         try {
-            Warehouse warehouse = new Warehouse(typeName, deptId, serviceName, capacity, isSeedProcessing, districtId, blockId, address, longitude, latitude);
+            Warehouse warehouse = new Warehouse(typeName, deptId, facilities, capacity, isSeedProcessing, districtId, blockId, address, longitude, latitude);
             warehouseService.createWarehouse(warehouse);
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Warehouse created successfully"), HttpStatus.OK );
             LOG.info("Warehouse  created Successfully!");
@@ -127,7 +138,7 @@ public class WarehouseController {
     public ResponseEntity<MessageResponse> updateWarehouse(@PathVariable Integer id,
                                                            @RequestParam(value = "type", required = false) String typeName,
                                                            @RequestParam(value = "dept_id", required = false) Integer deptId,
-                                                           @RequestParam(value = "service_name", required = false) String  serviceName,
+                                                           @RequestParam(value = "facilities", required = false) List<WarehouseFacilities> facilities,
                                                            @RequestParam(value = "capacity", required = false) Double capacity,
                                                            @RequestParam(value = "seed_processing", required = false) String isSeedProcessing,
                                                            @RequestParam(value = "district_id", required = false) Integer districtId,
@@ -136,7 +147,7 @@ public class WarehouseController {
                                                            @RequestParam(value = "longitude", required = false) String longitude,
                                                            @RequestParam(value = "latitude", required = false) String latitude) {
         LOG.info("Inside Warehouse updating Warehouse detail ");
-        Warehouse warehouse = new Warehouse(typeName, deptId, serviceName, capacity, isSeedProcessing, districtId, blockId, address, longitude, latitude);
+        Warehouse warehouse = new Warehouse(typeName, deptId, facilities, capacity, isSeedProcessing, districtId, blockId, address, longitude, latitude);
 
         ResponseEntity<MessageResponse> resp = null;
         try {

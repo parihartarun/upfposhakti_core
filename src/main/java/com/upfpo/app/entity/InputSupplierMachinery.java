@@ -39,6 +39,9 @@ public class InputSupplierMachinery {
     @Column(name = "machinery_name_id")
     private Integer machinerynameId;
 
+    @Column(name = "other_equipment_name")
+    private String otherEquipmentName;
+
     @Column(name = "technical_specs")
     private String technicalSpecs;
 
@@ -79,10 +82,11 @@ public class InputSupplierMachinery {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String specification, Integer quantity,
+    public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String otherEquipmentName, String specification, Integer quantity,
                                   Integer inputSupplierId, String manufacturerName, Double rentPerDay) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
+        this.otherEquipmentName= otherEquipmentName;
         this.technicalSpecs=specification;
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
@@ -115,6 +119,14 @@ public class InputSupplierMachinery {
 
     public void setInputSupplierId(Integer inputSupplierId) {
         this.inputSupplierId = inputSupplierId;
+    }
+
+    public String getOtherEquipmentName() {
+        return otherEquipmentName;
+    }
+
+    public void setOtherEquipmentName(String otherEquipmentName) {
+        this.otherEquipmentName = otherEquipmentName;
     }
 
     public Integer getMachineryTypeId() {
