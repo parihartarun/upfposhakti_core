@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,13 +17,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upfpo.app.dto.BuyerSellerDashboardDTO;
 
 @Entity
+
+@SqlResultSetMapping(name="BuyerSellerDashboardDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = BuyerSellerDashboardDTO.class,
+            columns = {
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "cropName", type = String.class),
+                @ColumnResult(name = "status", type = String.class)
+           })
+})
 @Table(name = "enquiry")
 public class Enquiry implements Serializable {
 
@@ -32,17 +47,29 @@ public class Enquiry implements Serializable {
 	@Column(name = "id")
 	private Long enid;
 
+	
+
 	@Column(name="masterid")
 	private Integer masterId;
 
 	@Column(name="deliveryaddress")
 	private String deliveryAddress;
-	
-
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date_time")
 	private Date createDateTime;
+
+	private String reason;
+
+	private String enquieryNumber;
+
+	private String fulfillmentDate;
+
+	private String status;
+
+	private Double quantity;
+
+	private Double soldQuantity;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -55,18 +82,14 @@ public class Enquiry implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
-	private String reason;
+
+
 	@ManyToOne
 	@JoinColumn(name = "cropVeriety")
 	private CropVerietyMaster cropVeriety;
 
-	private String enquieryNumber;
-	private String fulfillmentDate;
 
-	private String status;
-	private Double quantity;
-	private Double soldQuantity;
-	
+
 	public Double getSoldQuantity() {
 		return soldQuantity;
 	}
@@ -157,7 +180,7 @@ public class Enquiry implements Serializable {
 	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
-	
+
 
 	public String getStatus() {
 		return status;

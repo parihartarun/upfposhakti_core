@@ -15,7 +15,9 @@ import java.util.Date;
                         targetClass = InputSupplierSeedDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "crop_id", type = Integer.class),
                                 @ColumnResult(name = "crop_name", type = String.class),
+                                @ColumnResult(name = "veriety_id", type = Integer.class),
                                 @ColumnResult(name = "crop_veriety", type = String.class),
                                 @ColumnResult(name = "company_brand", type = String.class),
                                 @ColumnResult(name = "quantity", type = Double.class),
@@ -121,6 +123,11 @@ public class InputSupplierSeed {
         this.certificationValidFrom=validFrom;
         this.certificationValidTo=validTo;
         this.quantity=quantity;
+    }
+
+    public InputSupplierSeed(Integer id, Integer inputSupplierId) {
+        this.id = id;
+        this.inputSupplierId = inputSupplierId;
     }
 
     public Integer getId() {

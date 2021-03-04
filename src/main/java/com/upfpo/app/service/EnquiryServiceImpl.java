@@ -79,8 +79,7 @@ public class EnquiryServiceImpl implements EnquiryService{
         Enquiry sd = enquiryRepository.findByEnid(id);
         if(sd==null) {
             return null;
-        }
-         
+        }         
          CropMaster cropMaster= cropMasterRepository.findById(enquiry.getCropMaster().getCropId()).orElseThrow(NotFoundException::new); 
     	 CropVerietyMaster cropVarietyMaster=this.cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId()).orElseThrow(NotFoundException::new);	   
          List<TotalProduction> totalProductionlist =  totalProductionRepository.findByFpoRegisterAndCropMasterAndCropVerityMaster(enquiry.getFpo().getFpoId(),enquiry.getCropMaster().getCropId(),enquiry.getCropVeriety().getVerietyId());       
@@ -97,6 +96,7 @@ public class EnquiryServiceImpl implements EnquiryService{
          });
          
         Enquiry upenquiry = sd; 
+
         CropVerietyMaster veriety  = cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId().intValue()).get(); 
        
         
@@ -134,7 +134,6 @@ public class EnquiryServiceImpl implements EnquiryService{
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		return enquiryRepository.findByFpo(fpo);
 	}
-
 
 	
 	
