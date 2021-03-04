@@ -67,7 +67,18 @@ public class EnquiryController {
         return enquiryService.getAllEnquiryInfo();
     }
 
- 
+    @GetMapping("/{id}")
+    @ApiOperation(value="Enquiry by id" ,code=201, produces = "application/json", notes="Api for Enquiry Info",response= Enquiry.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public Enquiry getAllEnquiryDetails (@PathVariable("id") Long id){
+
+        //LOG.info("Inside EnquiryController gettting list of Enquiry ");
+        return enquiryService.getEnquieryById(id);
+    }
     
     @PostMapping("/insert")
     @ApiOperation(value="Enquiry Request" ,code=201, produces = "application/json", notes="Api for all Enquiry Request",response = Enquiry.class)

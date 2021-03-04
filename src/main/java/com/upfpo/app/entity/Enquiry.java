@@ -30,7 +30,7 @@ public class Enquiry implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private Long enid;
 
 	@Column(name="masterid")
 	private Integer masterId;
@@ -79,7 +79,7 @@ public class Enquiry implements Serializable {
 			String reason, Integer masterId, Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster,
 			FPORegister fpo) {
 		super();
-		this.id = id;
+		this.enid = id;
 		this.quantity = quantity;
 		this.enquieryNumber = enquieryNumber;
 		this.fulfillmentDate = fulfillmentDate;
@@ -119,7 +119,7 @@ public class Enquiry implements Serializable {
 	public Enquiry(Long id, Double quantity, String fulfillmentDate, String status, String reason, User user,
 			Date createDateTime, List<EnquiryComments> comments, CropMaster cropMaster, FPORegister fpo) {
 		super();
-		this.id = id;
+		this.enid = id;
 		this.quantity = quantity;
 		this.fulfillmentDate = fulfillmentDate;
 		this.status = status;
@@ -135,11 +135,11 @@ public class Enquiry implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return enid;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.enid = id;
 	}
 
 	public Double getQuantity() {
