@@ -5,7 +5,9 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.WarehouseDTO;
 import com.upfpo.app.entity.Warehouse;
 import com.upfpo.app.entity.WarehouseFacilities;
+import com.upfpo.app.entity.WarehouseFacilityMaster;
 import com.upfpo.app.repository.WarehouseFacilitiesRepository;
+import com.upfpo.app.repository.WarehouseFacilityMasterRepository;
 import com.upfpo.app.repository.WarehouseRepository;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseFacilitiesRepository facilitiesRepository;
 
     @Autowired
+    private WarehouseFacilityMasterRepository facilityMasterRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
 
@@ -37,9 +42,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseFacilities> getAllFacilities() {
+    public List<WarehouseFacilityMaster> getAllFacilities() {
 
-        return facilitiesRepository.findAll();
+        return facilityMasterRepository.findAll();
     }
 
     @Override
