@@ -46,19 +46,28 @@ public class Enquiry implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-//	@OneToOne
-//	@JoinColumn(name = "created_by")
+	
 	@Column(name="masterid")
 	private Integer masterId;
 
 	@Column(name="deliveryaddress")
 	private String deliveryAddress;
-	
-
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date_time")
 	private Date createDateTime;
+
+	private String reason;
+
+	private String enquieryNumber;
+
+	private String fulfillmentDate;
+
+	private String status;
+
+	private Double quantity;
+
+	private Double soldQuantity;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -68,18 +77,17 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "crop_id")
 	private CropMaster cropMaster;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "fpo_id")
 	private FPORegister fpo;
-	private String reason;
-	private String cropVeriety;
 
-	private String enquieryNumber;
-	private String fulfillmentDate;
 
-	private String status;
-	private Double quantity;
-	private Double soldQuantity;
+	@ManyToOne
+	@JoinColumn(name = "cropVeriety")
+	private CropVerietyMaster cropVeriety;
+
+
+
 	public Double getSoldQuantity() {
 		return soldQuantity;
 	}
@@ -113,11 +121,11 @@ public class Enquiry implements Serializable {
 		this.enquieryNumber = enquieryNumber;
 	}
 
-		public String getCropVeriety() {
+		public CropVerietyMaster getCropVeriety() {
 		return cropVeriety;
 	}
 
-	public void setCropVeriety(String cropVeriety) {
+	public void setCropVeriety(CropVerietyMaster cropVeriety) {
 		this.cropVeriety = cropVeriety;
 	}
 
@@ -170,7 +178,7 @@ public class Enquiry implements Serializable {
 	public void setFulfillmentDate(String fulfillmentDate) {
 		this.fulfillmentDate = fulfillmentDate;
 	}
-	
+
 
 	public String getStatus() {
 		return status;

@@ -33,7 +33,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="inputsupplier/insecticide/")
+@RequestMapping(value="/inputsupplier/insecticide")
 @Api(produces = "application/json", tags="InputSupplierInsecticide Controller", value = "Add, Update, Delete, and retrive the InputSupplierInsecticide Detail")
 public class InputSupplierInsecticideController {
 
@@ -104,13 +104,11 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
-                                                                        @RequestParam(value = "cib_rc_issuedate", required = false) Date cibRcIssuedate,
+                                                                        @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
                                                                         @RequestParam("input_supplier_id") Integer inputSupplierId,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
             try {
                 InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
                 InputSupplierInsecticide id = insecticideService.createInputSupplierInsecticide(inputSupplierInsecticide, file);
@@ -121,11 +119,6 @@ public class InputSupplierInsecticideController {
                 LOG.info("Failed to Save the InputSupplierInsecticide");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
         LOG.info("Exiting InputSupplierInsecticide Of Controller with response ", resp);
         return resp;
     }
@@ -171,7 +164,7 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                           @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                           @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
-                                                                          @RequestParam(value = "cib_rc_issuedate", required = false) Date cibRcIssuedate,
+                                                                          @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
                                                                           @RequestParam("input_supplier_id") Integer inputSupplierId,
                                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");

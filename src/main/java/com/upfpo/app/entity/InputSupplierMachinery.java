@@ -48,6 +48,9 @@ public class InputSupplierMachinery {
     @Column(name="manufacturer_name")
     private String manufacturerName;
 
+    @Column(name="rent_per_day")
+    private Double rentPerDay;
+
     @Column(name="file_path")
     private String filePath;
 
@@ -77,16 +80,25 @@ public class InputSupplierMachinery {
     private Calendar createDateTime;
 
     public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String specification, Integer quantity,
-                                  Integer inputSupplierId, String manufacturerName) {
+                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
         this.technicalSpecs=specification;
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
+        this.rentPerDay = rentPerDay;
     }
 
     public InputSupplierMachinery() {
+    }
+
+    public Double getRentPerDay() {
+        return rentPerDay;
+    }
+
+    public void setRentPerDay(Double rentPerDay) {
+        this.rentPerDay = rentPerDay;
     }
 
     public Integer getId() {

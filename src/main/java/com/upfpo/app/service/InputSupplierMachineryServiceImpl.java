@@ -190,6 +190,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                     inputSupplierMachinery.setTechnicalSpecs(inputSupplierMachinery1.getTechnicalSpecs());
                     inputSupplierMachinery.setQuantity(inputSupplierMachinery1.getQuantity());
                     inputSupplierMachinery.setManufacturerName(inputSupplierMachinery1.getManufacturerName());
+                    inputSupplierMachinery.setRentPerDay(inputSupplierMachinery1.getRentPerDay());
                     inputSupplierMachinery.setDeleted(false);
                     return machineryRepository.save(inputSupplierMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));

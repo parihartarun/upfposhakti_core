@@ -67,8 +67,6 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByFarmerIdAndIsReadOrderByIdDesc(farmerId, read);
     }
 
-
-
     @Override
     public List<Notification> viewAllNotificationOfDepartment(String deptId){
         return notificationRepository.findByDeptIdOrderByIdDesc(deptId);
@@ -78,7 +76,6 @@ public class NotificationServiceImpl implements NotificationService{
     public List<Notification> viewAllNotificationofFPO(String fpoId){
         return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
     }
-
 
     @Override
     public Notification sendNotification(Notification notification, MultipartFile file){

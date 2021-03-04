@@ -13,6 +13,7 @@ import com.upfpo.app.entity.FPORegister;
 public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 
 	List<Enquiry> findByMasterId(int masterId);
+
 	List<Enquiry> findByFpo(FPORegister fpo);
 	
 	@Query("select count(e.fpo.fpoId) from Enquiry e where e.masterId = :buyerId")

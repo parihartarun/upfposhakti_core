@@ -98,22 +98,22 @@ public class UtilController {
 		//return null;	
 	}
 	
-//	@PutMapping("/search")
-//	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
-//	@ApiResponses(value= {
-//	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
-//	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
-//	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
-//	})	
-//	public  String testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
-//	{
-//		
-//		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
-//		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
-//		
-//		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
-//		//return null;	
-//	}
+	@PutMapping("/search")
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})	
+	public  String testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	{
+		
+		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
+		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
+		
+		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
+		//return null;	
+	}
 	
 	//two parameters -> val in = type
 	//fpo district crop any  --> types

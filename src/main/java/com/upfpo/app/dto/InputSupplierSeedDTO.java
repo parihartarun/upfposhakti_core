@@ -4,7 +4,9 @@ public class InputSupplierSeedDTO {
 
 
     Integer id;
+    Integer crop_id;
     String crop_name;
+    Integer veriety_id;
     String crop_veriety;
     String company_brand;
     Double quantity;
@@ -17,9 +19,12 @@ public class InputSupplierSeedDTO {
     public InputSupplierSeedDTO() {
     }
 
-    public InputSupplierSeedDTO(Integer id, String crop_name, String crop_veriety, String company_brand, Double quantity, String certification_number, String certification_valid_from, String certification_valid_to, String file_path) {
+    public InputSupplierSeedDTO(Integer id, Integer crop_Id, String crop_name, Integer veriety_id, String crop_veriety, String company_brand, Double quantity,
+                                String certification_number, String certification_valid_from, String certification_valid_to, String file_path) {
         this.id = id;
+        this.crop_id = crop_Id;
         this.crop_name = crop_name;
+        this.veriety_id = veriety_id;
         this.crop_veriety = crop_veriety;
         this.company_brand = company_brand;
         this.quantity = quantity;
@@ -99,5 +104,21 @@ public class InputSupplierSeedDTO {
 
     public void setFile_path(String file_path) {
         this.file_path = file_path;
+    }
+
+    public Integer getCrop_Id() {
+        return crop_id;
+    }
+
+    public void setCrop_Id(Integer crop_Id) {
+        this.crop_id = crop_Id;
+    }
+
+    public Integer getVeriety_id() {
+        return veriety_id;
+    }
+
+    public void setVeriety_id(Integer veriety_id) {
+        this.veriety_id = veriety_id;
     }
 }

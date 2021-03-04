@@ -1353,9 +1353,11 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
     	
     		Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymin().intValue() && samplepredecate.getCurrentMarketable().intValue() < searchRequestDto.getQtymax().intValue();
 		      if(finalpredicate==null)
-		      {
+		      {  	  
 		    	  finalpredicate = samplepredicate;
+		      
 		      }else {
+		    	  
 		    	  finalpredicate =finalpredicate.and(samplepredicate);
 		      }
 		
