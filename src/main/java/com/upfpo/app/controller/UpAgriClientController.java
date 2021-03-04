@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
+import com.upfpo.app.dto.UpAgriAreaDTO;
 import com.upfpo.app.dto.UpAgriFarmerDetailDTO;
 import com.upfpo.app.service.UpAgriClientService;
 import org.slf4j.Logger;
@@ -44,6 +45,20 @@ public class UpAgriClientController {
 	{
 		UpAgriFarmerDetailDTO ls= agriClientService.getUpAgriByRegistrationNo(reg_no);
 		return ls;
+	}
+
+
+	@GetMapping(value="/getUpAgriArea/{reg_no}")
+	@ApiOperation(value="Get up Agri Area by registration no.", code=200, produces = "application/json",notes="Api for get up Agri Area by registration no.",response=UpAgriAreaDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+	public UpAgriAreaDTO getUpAgriAreaByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
+	{
+		return agriClientService.getUpAgriAreaByRegistrationNo(reg_no);
+
 	}
 
 }

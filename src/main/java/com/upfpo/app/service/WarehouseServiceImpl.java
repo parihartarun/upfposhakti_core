@@ -4,6 +4,8 @@ package com.upfpo.app.service;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.WarehouseDTO;
 import com.upfpo.app.entity.Warehouse;
+import com.upfpo.app.entity.WarehouseFacilities;
+import com.upfpo.app.repository.WarehouseFacilitiesRepository;
 import com.upfpo.app.repository.WarehouseRepository;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private WarehouseRepository seedRepository;
 
+    @Autowired
+    private WarehouseFacilitiesRepository facilitiesRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -30,6 +34,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseDTO> getAllWarehouse() {
         List<WarehouseDTO> seed = getSeedDetail();
         return seed;
+    }
+
+    @Override
+    public List<WarehouseFacilities> getAllFacilities() {
+
+        return facilitiesRepository.findAll();
     }
 
     @Override
@@ -65,7 +75,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     warehouse.setUpdateDate(Calendar.getInstance());
                     warehouse.setDeleted(false);
                     warehouse.setWarehouseType(warehouse1.getWarehouseType());
-                    warehouse.setWarehouseServices(warehouse1.getWarehouseServices());
+                    warehouse.setFacilities(warehouse1.getFacilities());
                     warehouse.setDeptId(warehouse1.getDeptId());
                     warehouse.setCapacity(warehouse1.getCapacity());
                     warehouse.setIsSeedProcessingUnit(warehouse1.getIsSeedProcessingUnit());
