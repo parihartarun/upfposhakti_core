@@ -14,7 +14,7 @@ public class WarehouseFacilities {
     private Integer id;
 
     @Column(name = "warehouse_facility_id")
-    private String warehouseFacilityId;
+    private Integer warehouseFacilityId;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "warehouse_id")
@@ -24,7 +24,7 @@ public class WarehouseFacilities {
     public WarehouseFacilities() {
     }
 
-    public WarehouseFacilities(Integer id, String warehouseFacilityId, Warehouse warehouse) {
+    public WarehouseFacilities(Integer id, Integer warehouseFacilityId, Warehouse warehouse) {
         this.id = id;
         this.warehouseFacilityId = warehouseFacilityId;
         this.warehouse = warehouse;
@@ -38,11 +38,11 @@ public class WarehouseFacilities {
         this.id = id;
     }
 
-    public String getWarehouseFacilityId() {
+    public Integer getWarehouseFacilityId() {
         return warehouseFacilityId;
     }
 
-    public void setWarehouseFacilityId(String warehouseFacilityId) {
+    public void setWarehouseFacilityId(Integer warehouseFacilityId) {
         this.warehouseFacilityId = warehouseFacilityId;
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
                                 @ColumnResult(name = "warehouse_type", type = String.class),
-                                @ColumnResult(name = "warehouse_services", type = String.class),
+                                @ColumnResult(name = "warehouse_facilities", type = String.class),
                                 @ColumnResult(name = "capacity", type = Double.class),
                                 @ColumnResult(name = "is_seed_processing", type = String.class),
                                 @ColumnResult(name = "district_id", type = Integer.class),
@@ -42,6 +42,9 @@ public class Warehouse {
 
     @Column(name = "warehouse_type")
     private String warehouseType;
+
+    @Column(name = "warehouse_facilities")
+    private String facilities;
 
     @Column(name = "capacity")
     private Double capacity;
@@ -86,39 +89,15 @@ public class Warehouse {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="id")
-    private List<WarehouseFacilities> facilities;
+
 
     public Warehouse() {
     }
 
 
-    public Warehouse(Integer id, Integer deptId, String warehouseType, Double capacity, String isSeedProcessingUnit,
-                     Integer districtId, Integer blockId, String address, String longitude, String latitude, Calendar updateDate,
-                     Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy,
-                     Calendar createDateTime, List<WarehouseFacilities> facilities) {
-        this.id = id;
-        this.deptId = deptId;
-        this.warehouseType = warehouseType;
-        this.capacity = capacity;
-        this.isSeedProcessingUnit = isSeedProcessingUnit;
-        this.districtId = districtId;
-        this.blockId = blockId;
-        this.address = address;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.updateDate = updateDate;
-        this.updateBy = updateBy;
-        this.isDeleted = isDeleted;
-        this.deleteDate = deleteDate;
-        this.deleteBy = deleteBy;
-        this.createBy = createBy;
-        this.createDateTime = createDateTime;
-        this.facilities = facilities;
-    }
 
-    public Warehouse(String typeName, Integer deptId,List<WarehouseFacilities> facilities, Double capacity, String isSeedProcessing, Integer districtId,
+
+    public Warehouse(String typeName, Integer deptId,String facilities, Double capacity, String isSeedProcessing, Integer districtId,
                      Integer blockId, String address, String longitude, String latitude) {
         this.warehouseType=typeName;
         this.deptId = deptId;
@@ -132,11 +111,11 @@ public class Warehouse {
         this.latitude = latitude;
     }
 
-    public List<WarehouseFacilities> getFacilities() {
+    public String getFacilities() {
         return facilities;
     }
 
-    public void setFacilities(List<WarehouseFacilities> facilities) {
+    public void setFacilities(String facilities) {
         this.facilities = facilities;
     }
 
