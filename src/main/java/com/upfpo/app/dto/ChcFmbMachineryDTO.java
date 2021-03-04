@@ -7,6 +7,7 @@ public class ChcFmbMachineryDTO {
     String type;
     Integer equipment_name_id;
     String equpment_name;
+    String company;
     Integer equipment_capacity;
     String equip_purchase_year;
     Integer quantity_avail;
@@ -18,18 +19,28 @@ public class ChcFmbMachineryDTO {
     public ChcFmbMachineryDTO() {
     }
 
-    public ChcFmbMachineryDTO(Integer id, Integer equipment_type_id, String type, Integer equipment_name_id, String equpment_name, Integer equipment_capacity, String equip_purchase_year, Integer quantity_avail, Double rent_per_day, String govt_scheme_assistant, String file_path) {
+
+    public ChcFmbMachineryDTO(Integer id, Integer equipment_type_id, String type, Integer equipment_name_id, String equpment_name, String company, Integer equipment_capacity, String equip_purchase_year, Integer quantity_avail, Double rent_per_day, String govt_scheme_assistant, String file_path) {
         this.id = id;
         this.equipment_type_id = equipment_type_id;
         this.type = type;
         this.equipment_name_id = equipment_name_id;
         this.equpment_name = equpment_name;
+        this.company = company;
         this.equipment_capacity = equipment_capacity;
         this.equip_purchase_year = equip_purchase_year;
         this.quantity_avail = quantity_avail;
         this.rent_per_day = rent_per_day;
         this.govt_scheme_assistant = govt_scheme_assistant;
         this.file_path = file_path;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public Integer getEquipment_type_id() {

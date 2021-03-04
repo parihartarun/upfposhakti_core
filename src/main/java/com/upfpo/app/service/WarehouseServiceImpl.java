@@ -97,14 +97,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseDTO> getSeedDetail() {
         List<WarehouseDTO> list = null;
         try {
-            String sql = "Select  wm.id, wm.warehouse_type, wfm.warehouse_facility_name, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \n" +
-                    "\t\t\t\t\twm.address, wm.longitude, wm.latitude\n" +
+            String sql = "Select  wm.id, wm.warehouse_type, wm.warehouse_facilities, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \n" +
+                    "\t\t\t\t\t wm.address, wm.longitude, wm.latitude\n" +
                     "                    from warehouse_master wm\n" +
-                    "\t\t\t\t\tleft join warehouse_facilities wf on wf.warehouse_id=wm.id\n" +
-                    "\t\t\t\t\tleft join warehouse_facility_master wfm on wfm.id=wf.warehouse_facility_id\n" +
                     "                    left join  districts d on d.district_id=wm.district_id \n" +
                     "                    left join block b on b.block_id=wm.block_id \n" +
-                    "                    where wm.is_deleted = false;";
+                    "                    where wm.is_deleted = false";
 
             List<WarehouseDTO> obj = (List<WarehouseDTO>) entityManager.createNativeQuery(sql, "WarehouseDTO").getResultList();
             return obj;
@@ -117,3 +115,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 }
 
 
+/*
+
+"Select  wm.id, wm.warehouse_type, wfm.warehouse_facility_name, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \n" +
+        "\t\t\t\t\twm.address, wm.longitude, wm.latitude\n" +
+        "                    from warehouse_master wm\n" +
+        "\t\t\t\t\tleft join warehouse_facilities wf on wf.warehouse_id=wm.id\n" +
+        "\t\t\t\t\tleft join warehouse_facility_master wfm on wfm.id=wf.warehouse_facility_id\n" +
+        "                    left join  districts d on d.district_id=wm.district_id \n" +
+        "                    left join block b on b.block_id=wm.block_id \n" +
+        "                    where wm.is_deleted = false;";*/

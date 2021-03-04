@@ -18,6 +18,7 @@ import java.util.Calendar;
                                 @ColumnResult(name = "type", type = String.class),
                                 @ColumnResult(name = "equipment_name_id", type = Integer.class),
                                 @ColumnResult(name = "equpment_name", type = String.class),
+                                @ColumnResult(name = "company", type = String.class),
                                 @ColumnResult(name = "equipment_capacity", type = Integer.class),
                                 @ColumnResult(name = "equip_purchase_year", type = String.class),
                                 @ColumnResult(name = "quantity_avail", type = Integer.class),
