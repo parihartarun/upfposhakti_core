@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,13 +17,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upfpo.app.dto.BuyerSellerDashboardDTO;
 
 @Entity
+
+@SqlResultSetMapping(name="BuyerSellerDashboardDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = BuyerSellerDashboardDTO.class,
+            columns = {
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "cropName", type = String.class),
+                @ColumnResult(name = "status", type = String.class)
+           })
+})
 @Table(name = "enquiry")
 public class Enquiry implements Serializable {
 
@@ -33,7 +48,7 @@ public class Enquiry implements Serializable {
 	private Long id;
 //	@OneToOne
 //	@JoinColumn(name = "created_by")
-	@Column(name="created_by")
+	@Column(name="masterid")
 	private Integer masterId;
 
 	@Column(name="deliveryaddress")
