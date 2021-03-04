@@ -71,7 +71,7 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         if(_vill.contains("&#")) {
             dto.setVillageName("Invalid vilage name please select village"); }
         else{
-            dto.setVillageId(villageRepository.findByVillageName(_vill, Integer.valueOf(_blck)));
+            dto.setVillageId(villageRepository.findByVillageName(_vill, dto.getBlockId()) );
             dto.setVillageName(_vill);		}
         dto.setCategory(category(_cat));
         dto.setMobile(_mob);
