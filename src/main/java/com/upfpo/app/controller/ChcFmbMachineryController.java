@@ -45,7 +45,7 @@ public class ChcFmbMachineryController {
 
 
     @GetMapping("/getall/{id}")
-    @ApiOperation(value="ChcFmbMachinerys List" ,code=201, produces = "application/json", notes="Api for all ChcFmbMachinerys Info",response= ChcFmbMachinery.class)
+    @ApiOperation(value="ChcFmbMachinerys List" ,code=201, produces = "application/json", notes="Api for all ChcFmbMachinerys Info",response= ChcFmbMachineryDTO.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),

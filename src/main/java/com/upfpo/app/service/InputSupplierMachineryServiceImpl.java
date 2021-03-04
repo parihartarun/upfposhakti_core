@@ -187,6 +187,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                     inputSupplierMachinery.setMachinerynameId(inputSupplierMachinery1.getMachinerynameId());
                     inputSupplierMachinery.setMachineryTypeId(inputSupplierMachinery1.getMachineryTypeId());
                     inputSupplierMachinery.setInputSupplierId(inputSupplierMachinery1.getInputSupplierId());
+                    inputSupplierMachinery.setOtherEquipmentName(inputSupplierMachinery1.getOtherEquipmentName());
                     inputSupplierMachinery.setTechnicalSpecs(inputSupplierMachinery1.getTechnicalSpecs());
                     inputSupplierMachinery.setQuantity(inputSupplierMachinery1.getQuantity());
                     inputSupplierMachinery.setManufacturerName(inputSupplierMachinery1.getManufacturerName());

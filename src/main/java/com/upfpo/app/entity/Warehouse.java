@@ -1,10 +1,12 @@
 package com.upfpo.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.dto.WarehouseDTO;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 
 @SqlResultSetMapping(name="WarehouseDTO",
@@ -40,9 +42,6 @@ public class Warehouse {
 
     @Column(name = "warehouse_type")
     private String warehouseType;
-
-    @Column(name = "warehouse_services")
-    private String warehouseServices;
 
     @Column(name = "capacity")
     private Double capacity;
@@ -87,15 +86,21 @@ public class Warehouse {
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="id")
+    private List<WarehouseFacilities> facilities;
+
     public Warehouse() {
     }
 
 
-    public Warehouse(Integer id, Integer deptId, String warehouseType, String warehouseServices, Double capacity, String isSeedProcessingUnit, Integer districtId, Integer blockId, String address, String longitude, String latitude, Calendar updateDate, Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy, Calendar createDateTime) {
+    public Warehouse(Integer id, Integer deptId, String warehouseType, Double capacity, String isSeedProcessingUnit,
+                     Integer districtId, Integer blockId, String address, String longitude, String latitude, Calendar updateDate,
+                     Integer updateBy, Boolean isDeleted, Calendar deleteDate, Integer deleteBy, Integer createBy,
+                     Calendar createDateTime, List<WarehouseFacilities> facilities) {
         this.id = id;
         this.deptId = deptId;
         this.warehouseType = warehouseType;
-        this.warehouseServices = warehouseServices;
         this.capacity = capacity;
         this.isSeedProcessingUnit = isSeedProcessingUnit;
         this.districtId = districtId;
@@ -110,13 +115,14 @@ public class Warehouse {
         this.deleteBy = deleteBy;
         this.createBy = createBy;
         this.createDateTime = createDateTime;
+        this.facilities = facilities;
     }
 
-    public Warehouse(String typeName, Integer deptId, String serviceName, Double capacity, String isSeedProcessing, Integer districtId,
+    public Warehouse(String typeName, Integer deptId,List<WarehouseFacilities> facilities, Double capacity, String isSeedProcessing, Integer districtId,
                      Integer blockId, String address, String longitude, String latitude) {
         this.warehouseType=typeName;
         this.deptId = deptId;
-        this.warehouseServices = serviceName;
+        this.facilities=facilities;
         this.capacity = capacity;
         this.isSeedProcessingUnit = isSeedProcessing;
         this.districtId = districtId;
@@ -126,6 +132,13 @@ public class Warehouse {
         this.latitude = latitude;
     }
 
+    public List<WarehouseFacilities> getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(List<WarehouseFacilities> facilities) {
+        this.facilities = facilities;
+    }
 
     public Double getCapacity() {
         return capacity;
@@ -159,13 +172,6 @@ public class Warehouse {
         this.warehouseType = warehouseType;
     }
 
-    public String getWarehouseServices() {
-        return warehouseServices;
-    }
-
-    public void setWarehouseServices(String warehouseServices) {
-        this.warehouseServices = warehouseServices;
-    }
 
     public String getIsSeedProcessingUnit() {
         return isSeedProcessingUnit;

@@ -98,6 +98,7 @@ public class InputSupplierMachineryController {
     })
     public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
                                                                          @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestParam(value = "other_machinery_name", required = false) String otherMachineryName,
                                                                         @RequestParam(value = "specification", required = false) String  specification,
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
@@ -109,7 +110,7 @@ public class InputSupplierMachineryController {
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)) {
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, specification, quantity, inputSupplierId, manufacturerName, rentPerDay);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
@@ -161,19 +162,21 @@ public class InputSupplierMachineryController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateComplaint(@PathVariable Integer id,
-                                                           @RequestParam(value = "mchinery_type_id") Integer mchineryTypeId,
-                                                           @RequestParam(value = "machinery_name_id") Integer machineryNameId,
-                                                           @RequestParam(value = "specification") String specification,
-                                                           @RequestParam(value = "quantity") Integer quantity,
-                                                           @RequestParam(value = "manufacturer_name") String manufacturerName,
-                                                           @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
-                                                           @RequestParam(value = "rent_per_day") Double rentPerDay,
+                                                           @RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
+                                                           @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                           @RequestParam(value = "other_machinery_name", required = false) String otherMachineryName,
+                                                           @RequestParam(value = "specification", required = false) String specification,
+                                                           @RequestParam(value = "quantity", required = false) Integer quantity,
+                                                           @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                           @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                           @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Complaint updating Complaint detail ");
         InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();
         supplierMachinery.setId(id);
         supplierMachinery.setMachinerynameId(machineryNameId);
         supplierMachinery.setMachineryTypeId(mchineryTypeId);
+        supplierMachinery.setOtherEquipmentName(otherMachineryName);
         supplierMachinery.setInputSupplierId(inputSupplierId);
         supplierMachinery.setTechnicalSpecs(specification);
         supplierMachinery.setQuantity(quantity);

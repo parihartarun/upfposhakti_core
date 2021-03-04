@@ -1,8 +1,7 @@
 package com.upfpo.app.service;
 
 
-import com.upfpo.app.auth.response.MessageResponse;
-import com.upfpo.app.controller.UpAgriClientController;
+import com.upfpo.app.dto.UpAgriAreaDTO;
 import com.upfpo.app.dto.UpAgriFarmerDetailDTO;
 import com.upfpo.app.repository.BankMasterRepository;
 import com.upfpo.app.repository.BlockMasterRepository;
@@ -14,12 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UpAgriClientServiceImpl implements UpAgriClientService {
@@ -102,6 +98,16 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
                 "  _mob == "+_mob+"  _bank_nameb =="+_bank_name+" _ifsc == "+_ifsc+"  _accno =="+_accno);
 
         return dto;
+    }
+
+    @Override
+    public UpAgriAreaDTO getUpAgriAreaByRegistrationNo(String reg_no) throws MalformedURLException, RemoteException {
+
+        UpAgriAreaDTO resp= null;
+        resp.setLand_area(UpAgriClient.upagri_area(reg_no));
+        System.err.println("  landArea == "+resp );
+
+        return resp;
     }
 
     public String category (String cat){

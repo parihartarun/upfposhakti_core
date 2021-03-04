@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/fpoguidelines/getall",
 				"/fpoguidelines/{type}",
 				"/marketablesurplus/**",
-				"/upagri/**",
+				"/upagri/getUpAgri/*",
 				"/api/collectioncenters/getAllByFpo/**",
 				"/api/fpo/license/getFpoLicenseDetailsByFpoId/**",
 				"/api/farm/machinery/banks/getFarmMachineryBankByFpo/**",
