@@ -2,6 +2,7 @@ package com.upfpo.app.service;
 
 
 import com.upfpo.app.auth.response.MessageResponse;
+import com.upfpo.app.controller.UpAgriClientController;
 import com.upfpo.app.dto.UpAgriFarmerDetailDTO;
 import com.upfpo.app.repository.BankMasterRepository;
 import com.upfpo.app.repository.BlockMasterRepository;
@@ -9,6 +10,8 @@ import com.upfpo.app.repository.DistrictMasterRepository;
 import com.upfpo.app.repository.VillageMasterRepository;
 import com.upfpo.app.upagri.UpAgriClient;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,9 @@ import java.util.List;
 
 @Service
 public class UpAgriClientServiceImpl implements UpAgriClientService {
+
+
+    private static final Logger LOG = LoggerFactory.getLogger(UpAgriClientServiceImpl.class);
 
     @Autowired
     private DistrictMasterRepository districtRepository;
@@ -65,7 +71,7 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         if(_vill.contains("&#")) {
             dto.setVillageName("Invalid vilage name please select village"); }
         else{
-            dto.setVillageId(villageRepository.findByVillageName(_vill));
+            dto.setVillageId(villageRepository.findByVillageName(_vill, Integer.valueOf(_blck)));
             dto.setVillageName(_vill);		}
         dto.setCategory(category(_cat));
         dto.setMobile(_mob);
