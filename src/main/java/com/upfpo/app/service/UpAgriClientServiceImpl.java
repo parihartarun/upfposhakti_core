@@ -77,21 +77,7 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         dto.setAccountNo(_accno);
         dto.setGender(gender);
 
-        /*List<Object> ls = new ArrayList<>();
-        ls.add(_anyname);
-        ls.add(_fath);
-        ls.add(districtRepository.findByDistrict_name(_anydist.toUpperCase()));
-        ls.add(blockepository.findByBlockName(_blck.toUpperCase()));
-        if(_vill.contains("&#")) {
-            ls.add(new MessageResponse("Invalid village please select village")); }
-        else{
-            ls.add(villageRepository.findByVillageName(_vill));		}
-        ls.add(_cat);
-        ls.add(_mob);
-        ls.add(bankRepository.findByBankName(_bank_name));
-        ls.add(_ifsc);
-        ls.add(_accno);
-        ls.add(gender);*/
+      
 
         System.err.println("  _anyname == "+_anyname +"  _fath == "+_fath +
                 "  _anydist == "+_anydist+"  _blck== "+_blck+"  _vill== "+_vill+"  _cat == "+_cat+
@@ -117,11 +103,9 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         }else  if(cat.equals("2")){
             return "SC";
         }else  if(cat.equals("3")){
-            return "NT";
-        }else  if(cat.equals("4")){
-            return "OBC";
+            return "ST";
         }else{
-            return "Other";
+            return "OBC";
         }
     }
 }
