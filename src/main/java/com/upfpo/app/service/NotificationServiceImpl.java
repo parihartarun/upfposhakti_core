@@ -51,8 +51,8 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public List<Notification> getAllNotificationByFPO(String farmerId, Boolean read) {
-        return null;
+    public List<Notification> getAllNotificationByFPO(String farmerId) {
+        return notificationRepository.findByFarmerIdOrderByIdDesc(farmerId);
     }
 
     @Override
