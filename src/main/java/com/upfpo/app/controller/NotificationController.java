@@ -177,7 +177,7 @@ public class NotificationController {
         if (contentTypes.contains(fileContentType)){
             try {
                 Notification notification = new Notification(role, message, farmerId);
-                notification.setFpoId(fpoId);
+                notification.setFarmerFpoId(fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Sent To Farmer Successfully"), HttpStatus.OK );
                 LOG.info("Notification  created Successfully!");
