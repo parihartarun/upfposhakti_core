@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface NotificationService {
 
+    List<Notification> getAllNotificationByFPO(String farmerId);
+
     public List<Notification> getAllNotification();
     /*public Notification createNotification (Notification notification);
     public Notification updateNotification(Integer id, Notification notification);
@@ -19,11 +21,11 @@ public interface NotificationService {
 
     List<Notification> getAllNotificationByDepartment(String fpoId, Boolean read);
 
-    List<Notification> getAllNotificationByFPO(String farmerId, Boolean read);
+    List<Notification> getAllNotificationByFPOByID(String farmerId, Boolean read);
 
     List<Notification> getAllNotificationByDepartmentById(String fpoId);
 
-    List<Notification> getAllNotificationByFPOByID(String farmerId, Boolean read);
+
 
     List<Notification> viewAllNotificationOfDepartment(String deptId);
 

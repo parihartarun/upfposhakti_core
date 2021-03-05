@@ -92,7 +92,19 @@ public class NotificationController {
     })
     public List<Notification> getAllNotificationByFarmerId (@PathVariable String id, @PathVariable Boolean read){
 
-        return notificationService.getAllNotificationByFPO(id, read);
+        return notificationService.getAllNotificationByFPOByID(id, read);
+    }
+
+    @GetMapping("/farmernotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all read/unread Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getBothNotificationByFarmerId (@PathVariable String id){
+
+        return notificationService.getAllNotificationByFPO(id);
     }
 
 
