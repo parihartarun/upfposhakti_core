@@ -58,7 +58,7 @@ public class NotificationController {
     }
 
 
-    @GetMapping("/fponotification/{id}/{read}")
+        @GetMapping("/fponotification/{id}/{read}")
     @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -116,10 +116,10 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> sendNotificationToFPO(@RequestParam("message") String message,
-                                                                 @RequestParam("dept_id") String departmentId,
-                                                                 @RequestParam("role") String role,
-                                                           @RequestParam("fpo_id") String fpoId,
+    public ResponseEntity<MessageResponse> sendNotificationToFPO(@RequestParam(value = "message", required = false) String message,
+                                                                 @RequestParam(value = "dept_id", required = false) String departmentId,
+                                                                 @RequestParam(value = "role", required = false) String role,
+                                                           @RequestParam(value = "fpo_id", required = false) String fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
@@ -153,10 +153,10 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam("message") String message,
-                                                                 @RequestParam("role") String role,
-                                                                 @RequestParam("farmer_id") String farmerId,
-                                                                 @RequestParam("fpo_id")String fpoId,
+    public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam(value = "message", required = false) String message,
+                                                                 @RequestParam(value = "role", required = false) String role,
+                                                                 @RequestParam(value = "farmer_id", required = false) String farmerId,
+                                                                 @RequestParam(value = "fpo_id", required = false)String fpoId,
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
