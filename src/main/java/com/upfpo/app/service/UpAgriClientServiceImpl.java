@@ -77,7 +77,7 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
         dto.setAccountNo(_accno);
         dto.setGender(gender);
 
-      
+
 
         System.err.println("  _anyname == "+_anyname +"  _fath == "+_fath +
                 "  _anydist == "+_anydist+"  _blck== "+_blck+"  _vill== "+_vill+"  _cat == "+_cat+

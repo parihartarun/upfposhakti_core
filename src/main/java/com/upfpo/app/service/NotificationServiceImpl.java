@@ -50,7 +50,11 @@ public class NotificationServiceImpl implements NotificationService{
         }
     }
 
-    
+    @Override
+    public List<Notification> getAllNotificationByFPO(String farmerId, Boolean read) {
+        return null;
+    }
+
     @Override
     public List<Notification> getAllNotification(){
         return notificationRepository.findByIsDeleted(false);
@@ -62,8 +66,14 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationRepository.findByFpoIdAndIsReadOrderByIdDesc(fpoId, read);
     }
 
+
     @Override
-    public List<Notification> getAllNotificationByFPO(String farmerId, Boolean read){
+    public List<Notification> getAllNotificationByDepartmentById(String fpoId){
+        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
+    }
+
+    @Override
+    public List<Notification> getAllNotificationByFPOByID(String farmerId, Boolean read){
         return notificationRepository.findByFarmerIdAndIsReadOrderByIdDesc(farmerId, read);
     }
 

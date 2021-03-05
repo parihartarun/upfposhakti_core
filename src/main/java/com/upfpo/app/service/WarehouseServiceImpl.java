@@ -102,7 +102,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                     "                    from warehouse_master wm\n" +
                     "                    left join  districts d on d.district_id=wm.district_id \n" +
                     "                    left join block b on b.block_id=wm.block_id \n" +
-                    "                    where wm.is_deleted = false";
+                    "                    where wm.is_deleted = false order by id desc";
 
             List<WarehouseDTO> obj = (List<WarehouseDTO>) entityManager.createNativeQuery(sql, "WarehouseDTO").getResultList();
             return obj;
