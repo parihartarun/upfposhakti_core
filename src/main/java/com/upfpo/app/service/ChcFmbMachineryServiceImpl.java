@@ -87,33 +87,37 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     @Override
     public ChcFmbMachinery createChcFmbMachinery(ChcFmbMachinery chcFmbMachinery, MultipartFile file){
         String fileName=null;
-        String fileContentType = file.getContentType();
+
         chcFmbMachinery.setCreateBy(chcFmbMachinery.getChcFmbId());
         chcFmbMachinery.setCreateDateTime(Calendar.getInstance());
-        if (file!=null && contentTypes.contains(fileContentType)){
-        try {
-
-           fileName= StringUtils.cleanPath(file.getOriginalFilename());
-                // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type" + fileName);
+        if (file!=null){
+            String fileContentType = file.getContentType();
+            if(contentTypes.contains(fileContentType)){
+                try {
+                   fileName= StringUtils.cleanPath(file.getOriginalFilename());
+                        // Check if the file's name contains invalid characters
+                    if(fileName.contains("..")) {
+                        throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type" + fileName);
+                    }
+                    // Copy file to the target location (Replacing existing file with the same name)
+                    Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                    //Path path = Paths.get( fileBasePath+fileName);
+                    Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/inputsupplier/machinery/download/")
+                            .path(fileName)
+                            .toUriString();
+                    chcFmbMachinery.setFilePath(fileDownloadUri);
+                    chcFmbMachinery.setFileName(fileName);
+                } catch (IOException ex) {
+                    throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+                }
             }
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            //Path path = Paths.get( fileBasePath+fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/inputsupplier/machinery/download/")
-                    .path(fileName)
-                    .toUriString();
-            chcFmbMachinery.setFilePath(fileDownloadUri);
-            chcFmbMachinery.setFileName(fileName);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }}
-        else {
-            throw new InvalidFileTypeExcepton("Invalid File Type please choose another file");
+            else {
+                throw new InvalidFileTypeExcepton("Invalid File Type please choose another file");
+            }
         }
+
         chcFmbMachinery.setDeleted(false);
         return machineryRepository.save(chcFmbMachinery);
     }
