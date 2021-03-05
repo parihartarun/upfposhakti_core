@@ -58,7 +58,7 @@ public class NotificationController {
     }
 
 
-        @GetMapping("/fponotification/{id}/{read}")
+    @GetMapping("/fponotification/{id}/{read}")
     @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification Info To FPO")
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
@@ -69,6 +69,19 @@ public class NotificationController {
 
         return notificationService.getAllNotificationByDepartment(id, read);
     }
+
+    @GetMapping("/fponotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification To FPO read unread both")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getAllNotificationByFPOID (@PathVariable String id){
+
+        return notificationService.getAllNotificationByDepartmentById(id);
+    }
+
 
     @GetMapping("/farmernotification/{id}/{read}")
     @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
@@ -128,11 +141,11 @@ public class NotificationController {
             try {
                 Notification notification = new Notification(role, message, departmentId,  fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To FPO successfully"), HttpStatus.OK );
-                LOG.info("Notification  created Successfully!");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Sent To FPO Successfully"), HttpStatus.OK );
+                LOG.info("Notification  Created Successfully!");
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-                LOG.info("Failed to Save the Notification");
+                LOG.info("Failed To Save The Notification");
                 e.printStackTrace();
             }
         }
@@ -166,7 +179,7 @@ public class NotificationController {
                 Notification notification = new Notification(role, message, farmerId);
                 notification.setFpoId(fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Sent To Farmer Successfully"), HttpStatus.OK );
                 LOG.info("Notification  created Successfully!");
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);

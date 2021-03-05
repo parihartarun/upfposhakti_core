@@ -21,6 +21,10 @@ public interface NotificationService {
 
     List<Notification> getAllNotificationByFPO(String farmerId, Boolean read);
 
+    List<Notification> getAllNotificationByDepartmentById(String fpoId);
+
+    List<Notification> getAllNotificationByFPOByID(String farmerId, Boolean read);
+
     List<Notification> viewAllNotificationOfDepartment(String deptId);
 
     List<Notification> viewAllNotificationofFPO(String fpoId);
