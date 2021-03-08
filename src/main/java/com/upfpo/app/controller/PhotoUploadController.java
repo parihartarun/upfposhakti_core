@@ -29,6 +29,7 @@ import reactor.util.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -94,6 +95,7 @@ public class PhotoUploadController {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Failed to Save the Photo"), HttpStatus.INTERNAL_SERVER_ERROR);
                 LOG.info("Failed to Save the Photo");
                 e.printStackTrace();
+                LOG.error(e.getMessage()+"    " + new Date());
             }
         } else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF required."), HttpStatus.INTERNAL_SERVER_ERROR);
