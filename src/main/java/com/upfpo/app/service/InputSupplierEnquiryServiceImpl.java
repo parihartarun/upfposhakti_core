@@ -2,15 +2,18 @@ package com.upfpo.app.service;
 
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
+import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
 import com.upfpo.app.entity.EnquiryInputSupplierSeed;
 import com.upfpo.app.repository.EnquiryInputSupplierFertilizerRepo;
+import com.upfpo.app.repository.EnquiryInputSupplierInsecticideRepo;
 import com.upfpo.app.repository.EnquiryInputSupplierMachineryRepo;
 import com.upfpo.app.repository.EnquiryInputSupplierSeedRepository;
 
@@ -25,6 +28,16 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 	
 	@Autowired
 	EnquiryInputSupplierMachineryRepo enquiryInputSupplierMachineryRepo;
+	
+	@Autowired
+	EnquiryInputSupplierInsecticideRepo enquiryInputSupplierInsecticideRepo;
+	
+	
+	@Override
+	public List<EnquiryInputSupplierSeed> getSeedIndentMasterId(Integer masterId) 
+	{
+		return enquiryInputSupplierSeedRepository.findByMasterId(masterId);
+	}
 	
 	@Override
 	public EnquiryInputSupplierSeed createSeedIndent(EnquiryInputSupplierSeed enquiryInputSupplierSeed) 
@@ -58,6 +71,12 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 			enquiryInputSupplierSeed = enquiryInputSupplierSeedRepository.save(enquiryInputSupplierSeed);
 			return enquiryInputSupplierSeed;
 		}
+	}
+	
+	@Override
+	public List<EnquiryInputSupplierFertilizer> getFertilizerIndentByMasterId(Integer masterId) 
+	{
+		return enquiryInputSupplierFertilizerRepo.findByMasterId(masterId);
 	}
 	
 	@Override
@@ -96,6 +115,12 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 	}
 	
 	@Override
+	public List<EnquiryInputSupplierMachinery> getMachineryIndentByMasterId(Integer masterId) 
+	{
+		return enquiryInputSupplierMachineryRepo.findByMasterId(masterId);
+	}
+	
+	@Override
 	public EnquiryInputSupplierMachinery createMachineryIndent(EnquiryInputSupplierMachinery enquiryInputSupplierMachinery) 
 	{
 		enquiryInputSupplierMachinery.setCreateDateTime(Calendar.getInstance());
@@ -127,6 +152,47 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 		{
 			enquiryInputSupplierMachinery = enquiryInputSupplierMachineryRepo.save(enquiryInputSupplierMachinery);
 			return enquiryInputSupplierMachinery;
+		}
+	}
+	
+	@Override
+	public List<EnquiryInputSupplierInsecticide> getInsecticideIndentByMasterId(Integer masterId) 
+	{
+		return enquiryInputSupplierInsecticideRepo.findByMasterId(masterId);
+	}
+	
+	@Override
+	public EnquiryInputSupplierInsecticide createInsecticide(EnquiryInputSupplierInsecticide enquiryInputSupplierInsecticide) 
+	{
+		enquiryInputSupplierInsecticide.setCreateDateTime(Calendar.getInstance());
+		return enquiryInputSupplierInsecticideRepo.save(enquiryInputSupplierInsecticide);
+	}
+	
+	@Override
+	public EnquiryInputSupplierInsecticide updateInsecticideIndent(EnquiryInputSupplierInsecticide enquiryInputSupplierInsecticide, BigInteger enqId) 
+	{
+		Optional<EnquiryInputSupplierInsecticide> insecticideDetails = enquiryInputSupplierInsecticideRepo.findById(enqId);
+		if(insecticideDetails.isPresent())
+		{
+			EnquiryInputSupplierInsecticide newInsecticideDetails = insecticideDetails.get();
+			if(enquiryInputSupplierInsecticide.getStatus()=="Rejected")
+			{
+				newInsecticideDetails.setFulfilledQty(0.0);
+			}
+			else
+			{
+				newInsecticideDetails.setFulfilledQty(enquiryInputSupplierInsecticide.getFulfilledQty());
+			}
+			newInsecticideDetails.setStatus(enquiryInputSupplierInsecticide.getStatus());
+			newInsecticideDetails.setFulfillmentDate(Calendar.getInstance());
+			
+			newInsecticideDetails = enquiryInputSupplierInsecticideRepo.save(newInsecticideDetails);
+			return newInsecticideDetails;
+		}
+		else
+		{
+			enquiryInputSupplierInsecticide = enquiryInputSupplierInsecticideRepo.save(enquiryInputSupplierInsecticide);
+			return enquiryInputSupplierInsecticide;
 		}
 	}
 	

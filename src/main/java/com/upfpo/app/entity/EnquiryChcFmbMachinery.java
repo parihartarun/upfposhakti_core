@@ -12,9 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "enquiry_input_supplier_fertilizer")
-public class EnquiryInputSupplierFertilizer 
+@Table(name = "enquiry_chc_fmb_machinery")
+public class EnquiryChcFmbMachinery 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,24 +29,24 @@ public class EnquiryInputSupplierFertilizer
 	private Integer masterId;
 	
 	@ManyToOne
-	@JoinColumn(name = "fertilizer_type")
-	private FertilizerType fertilizerType;
+	@JoinColumn(name = "machinery_type_id")
+	private  EquipmentType machineryTypId;
 	
 	@ManyToOne
-	@JoinColumn(name = "fertilizer_name")
-	private FertilizerName fertilizeName;
+	@JoinColumn(name = "machinery_name_id")
+	private EqupmentMaster machineryNameId;
 	
-	@Column(name = "fertilizer_grade")
-	private String fertilizerGrade;
+	@Column(name = "machinery_name")
+	private String machineryName;
+	
+	@Column(name = "no_of_days")
+	private Integer noOfDays;
 	
 	@Column(name = "indent_qty")
 	private Double indentQty;
 	
 	@Column(name = "fulfilled_qty")
 	private Double fulfilledQty;
-	
-	@Column(name = "company_name")
-	private String companyName;
 	
 	@Column(name = "status")
 	private String status;
@@ -54,7 +55,7 @@ public class EnquiryInputSupplierFertilizer
 	private String reason;
 	
 	@Column(name = "create_date_time")
-	private Calendar createDateTime;
+	private Calendar  createDateTime;
 	
 	@Column(name = "fulfillment_date")
 	private Calendar fulfillmentDate;
@@ -86,28 +87,36 @@ public class EnquiryInputSupplierFertilizer
 		this.masterId = masterId;
 	}
 
-	public FertilizerType getFertilizerType() {
-		return fertilizerType;
+	public EquipmentType getMachineryTypId() {
+		return machineryTypId;
 	}
 
-	public void setFertilizerType(FertilizerType fertilizerType) {
-		this.fertilizerType = fertilizerType;
+	public void setMachineryTypId(EquipmentType machineryTypId) {
+		this.machineryTypId = machineryTypId;
 	}
 
-	public FertilizerName getFertilizeName() {
-		return fertilizeName;
+	public EqupmentMaster getMachineryNameId() {
+		return machineryNameId;
 	}
 
-	public void setFertilizeName(FertilizerName fertilizeName) {
-		this.fertilizeName = fertilizeName;
+	public void setMachineryNameId(EqupmentMaster machineryNameId) {
+		this.machineryNameId = machineryNameId;
 	}
 
-	public String getFertilizerGrade() {
-		return fertilizerGrade;
+	public String getMachineryName() {
+		return machineryName;
 	}
 
-	public void setFertilizerGrade(String fertilizerGrade) {
-		this.fertilizerGrade = fertilizerGrade;
+	public void setMachineryName(String machineryName) {
+		this.machineryName = machineryName;
+	}
+
+	public Integer getNoOfDays() {
+		return noOfDays;
+	}
+
+	public void setNoOfDays(Integer noOfDays) {
+		this.noOfDays = noOfDays;
 	}
 
 	public Double getIndentQty() {
@@ -124,14 +133,6 @@ public class EnquiryInputSupplierFertilizer
 
 	public void setFulfilledQty(Double fulfilledQty) {
 		this.fulfilledQty = fulfilledQty;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 
 	public String getStatus() {
@@ -173,5 +174,4 @@ public class EnquiryInputSupplierFertilizer
 	public void setDeliveryaddress(String deliveryaddress) {
 		this.deliveryaddress = deliveryaddress;
 	}
-	
 }

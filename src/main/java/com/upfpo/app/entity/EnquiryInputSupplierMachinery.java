@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,11 +27,13 @@ public class EnquiryInputSupplierMachinery
 	@Column(name = "master_id")
 	private Integer masterId;
 	
-	@Column(name = "machinery_type_id")
-	private  Integer machineryTypId;
+	@ManyToOne
+	@JoinColumn(name = "machinery_type_id")
+	private  EquipmentType machineryTypId;
 	
-	@Column(name = "machinery_name_id")
-	private Integer machineryNameId;
+	@ManyToOne
+	@JoinColumn(name = "machinery_name_id")
+	private EqupmentMaster machineryNameId;
 	
 	@Column(name = "machinery_name")
 	private String machineryName;
@@ -82,19 +86,19 @@ public class EnquiryInputSupplierMachinery
 		this.masterId = masterId;
 	}
 
-	public Integer getMachineryTypId() {
+	public EquipmentType getMachineryTypId() {
 		return machineryTypId;
 	}
 
-	public void setMachineryTypId(Integer machineryTypId) {
+	public void setMachineryTypId(EquipmentType machineryTypId) {
 		this.machineryTypId = machineryTypId;
 	}
 
-	public Integer getMachineryNameId() {
+	public EqupmentMaster getMachineryNameId() {
 		return machineryNameId;
 	}
 
-	public void setMachineryNameId(Integer machineryNameId) {
+	public void setMachineryNameId(EqupmentMaster machineryNameId) {
 		this.machineryNameId = machineryNameId;
 	}
 
@@ -153,7 +157,7 @@ public class EnquiryInputSupplierMachinery
 	public void setCreateDateTime(Calendar createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-
+	
 	public Calendar getFulfillmentDate() {
 		return fulfillmentDate;
 	}

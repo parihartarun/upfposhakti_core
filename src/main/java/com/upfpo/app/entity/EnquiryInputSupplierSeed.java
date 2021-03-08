@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,12 +25,14 @@ public class EnquiryInputSupplierSeed
 	
 	@Column(name = "master_id")
 	private Integer masterId;
+		
+	@ManyToOne
+	@JoinColumn(name = "crop_id")
+	private CropMaster cropId;
 	
-	@Column(name = "crop_id")
-	private Integer cropId;
-	
-	@Column(name = "veriety_id")
-	private Integer verietyId;
+	@ManyToOne
+	@JoinColumn(name = "veriety_id")
+	private CropVerietyMaster verietyId;
 	
 	@Column(name = "indent_qty")
 	private Double indentQty;
@@ -63,7 +67,7 @@ public class EnquiryInputSupplierSeed
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
-
+	
 	public Integer getMasterId() {
 		return masterId;
 	}
@@ -72,19 +76,19 @@ public class EnquiryInputSupplierSeed
 		this.masterId = masterId;
 	}
 
-	public Integer getCropId() {
+	public CropMaster getCropId() {
 		return cropId;
 	}
 
-	public void setCropId(Integer cropId) {
+	public void setCropId(CropMaster cropId) {
 		this.cropId = cropId;
 	}
 
-	public Integer getVerietyId() {
+	public CropVerietyMaster getVerietyId() {
 		return verietyId;
 	}
 
-	public void setVerietyId(Integer verietyId) {
+	public void setVerietyId(CropVerietyMaster verietyId) {
 		this.verietyId = verietyId;
 	}
 
