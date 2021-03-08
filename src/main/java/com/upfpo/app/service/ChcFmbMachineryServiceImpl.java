@@ -11,6 +11,7 @@ import com.upfpo.app.repository.EquipmentMasterRepository;
 import com.upfpo.app.repository.EquipmentTypeRepository;
 import com.upfpo.app.repository.ChcFmbMachineryRepository;
 import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.InvalidFileTypeExcepton;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -86,29 +87,37 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     @Override
     public ChcFmbMachinery createChcFmbMachinery(ChcFmbMachinery chcFmbMachinery, MultipartFile file){
         String fileName=null;
+
         chcFmbMachinery.setCreateBy(chcFmbMachinery.getChcFmbId());
         chcFmbMachinery.setCreateDateTime(Calendar.getInstance());
         if (file!=null){
-        try {
             String fileContentType = file.getContentType();
-           fileName= StringUtils.cleanPath(file.getOriginalFilename());
-                // Check if the file's name contains invalid characters
-            if(fileName.contains("..") && contentTypes.contains(fileContentType)) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type" + fileName);
+            if(contentTypes.contains(fileContentType)){
+                try {
+                   fileName= StringUtils.cleanPath(file.getOriginalFilename());
+                        // Check if the file's name contains invalid characters
+                    if(fileName.contains("..")) {
+                        throw new FileStorageException("Sorry! Filename contains invalid path sequence or invalid file type" + fileName);
+                    }
+                    // Copy file to the target location (Replacing existing file with the same name)
+                    Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                    //Path path = Paths.get( fileBasePath+fileName);
+                    Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/inputsupplier/machinery/download/")
+                            .path(fileName)
+                            .toUriString();
+                    chcFmbMachinery.setFilePath(fileDownloadUri);
+                    chcFmbMachinery.setFileName(fileName);
+                } catch (IOException ex) {
+                    throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+                }
             }
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            //Path path = Paths.get( fileBasePath+fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/inputsupplier/machinery/download/")
-                    .path(fileName)
-                    .toUriString();
-            chcFmbMachinery.setFilePath(fileDownloadUri);
-            chcFmbMachinery.setFileName(fileName);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }}
+            else {
+                throw new InvalidFileTypeExcepton("Invalid File Type please choose another file");
+            }
+        }
+
         chcFmbMachinery.setDeleted(false);
         return machineryRepository.save(chcFmbMachinery);
     }
@@ -179,7 +188,6 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
                 .map(chcFmbMachinery -> {
                     chcFmbMachinery.setUpdateBy(chcFmbMachinery.getChcFmbId());
                     chcFmbMachinery.setUpdateDate(Calendar.getInstance());
-                    chcFmbMachinery.setId(chcFmbMachinery1.getId());
                     chcFmbMachinery.setEquipmentTypeId(chcFmbMachinery1.getEquipmentTypeId());
                     chcFmbMachinery.setEquipmentNameId(chcFmbMachinery1.getEquipmentNameId());
                     chcFmbMachinery.setChcFmbId(chcFmbMachinery1.getChcFmbId());
@@ -197,12 +205,12 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     public List<ChcFmbMachineryDTO> getMachineryDetail(Integer masterId) {
         List<ChcFmbMachineryDTO> list = null;
         try {
-            String sql = "Select  cfm.id, etm.id as type_id, etm.type, em.id as name_id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+            String sql = "Select  cfm.id, cfm.equipment_type_id, etm.type, cfm.equipment_name_id, em.equpment_name, cfm.company, cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
                     "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
                     "            from chc_fmb_machinery cfm\n" +
                     "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
                     "            left join equip_master em on em.id=cfm.equipment_name_id\n" +
-                    "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false";
+                    "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false order by id desc";
 
             List<ChcFmbMachineryDTO> obj = (List<ChcFmbMachineryDTO>) entityManager.createNativeQuery(sql, "ChcFmbMachineryDTO").setParameter("masterId", masterId).getResultList();
             return obj;
@@ -214,3 +222,14 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
     }
 
 }
+
+
+
+
+
+    /*String sql = "Select  cfm.id, etm.id as type_id, etm.type, em.id as name_id, em.equpment_name,  cfm.equipment_capacity, cfm.equip_purchase_year,\n" +
+            "\t\t\tcfm.quantity_avail, cfm.rent_per_day, cfm.company, cfm.govt_scheme_assistant, cfm.file_path\n" +
+            "            from chc_fmb_machinery cfm\n" +
+            "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
+            "            left join equip_master em on em.id=cfm.equipment_name_id\n" +
+            "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false";*/

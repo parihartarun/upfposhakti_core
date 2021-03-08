@@ -70,6 +70,19 @@ public class NotificationController {
         return notificationService.getAllNotificationByDepartment(id, read);
     }
 
+    @GetMapping("/fponotification/{id}")
+    @ApiOperation(value="Notification List For FPO" ,code=201, produces = "application/json", notes="Api for all Notification To FPO read unread both")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getAllNotificationByFPOID (@PathVariable String id){
+
+        return notificationService.getAllNotificationByDepartmentById(id);
+    }
+
+
     @GetMapping("/farmernotification/{id}/{read}")
     @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all Notification Info To Farmer")
     @ApiResponses(value= {
@@ -79,7 +92,19 @@ public class NotificationController {
     })
     public List<Notification> getAllNotificationByFarmerId (@PathVariable String id, @PathVariable Boolean read){
 
-        return notificationService.getAllNotificationByFPO(id, read);
+        return notificationService.getAllNotificationByFPOByID(id, read);
+    }
+
+    @GetMapping("/farmernotification/{id}")
+    @ApiOperation(value="Notification List To Farmer" ,code=201, produces = "application/json", notes="Api for all read/unread Notification Info To Farmer")
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<Notification> getBothNotificationByFarmerId (@PathVariable String id){
+
+        return notificationService.getAllNotificationByFPO(id);
     }
 
 
@@ -116,10 +141,10 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> sendNotificationToFPO(@RequestParam("message") String message,
-                                                                 @RequestParam("dept_id") String departmentId,
-                                                                 @RequestParam("role") String role,
-                                                           @RequestParam("fpo_id") String fpoId,
+    public ResponseEntity<MessageResponse> sendNotificationToFPO(@RequestParam(value = "message", required = false) String message,
+                                                                 @RequestParam(value = "dept_id", required = false) String departmentId,
+                                                                 @RequestParam(value = "role", required = false) String role,
+                                                           @RequestParam(value = "fpo_id", required = false) String fpoId,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
@@ -128,11 +153,11 @@ public class NotificationController {
             try {
                 Notification notification = new Notification(role, message, departmentId,  fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To FPO successfully"), HttpStatus.OK );
-                LOG.info("Notification  created Successfully!");
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Sent To FPO Successfully"), HttpStatus.OK );
+                LOG.info("Notification  Created Successfully!");
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
-                LOG.info("Failed to Save the Notification");
+                LOG.info("Failed To Save The Notification");
                 e.printStackTrace();
             }
         }
@@ -153,10 +178,10 @@ public class NotificationController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam("message") String message,
-                                                                 @RequestParam("role") String role,
-                                                                 @RequestParam("farmer_id") String farmerId,
-                                                                 @RequestParam("fpo_id")String fpoId,
+    public ResponseEntity<MessageResponse> sendNotificationToFarmer(@RequestParam(value = "message", required = false) String message,
+                                                                 @RequestParam(value = "role", required = false) String role,
+                                                                 @RequestParam(value = "farmer_id", required = false) String farmerId,
+                                                                 @RequestParam(value = "fpo_id", required = false)String fpoId,
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
@@ -164,9 +189,9 @@ public class NotificationController {
         if (contentTypes.contains(fileContentType)){
             try {
                 Notification notification = new Notification(role, message, farmerId);
-                notification.setFpoId(fpoId);
+                notification.setFarmerFpoId(fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
-                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification sent To Farmer successfully"), HttpStatus.OK );
+                resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification Sent To Farmer Successfully"), HttpStatus.OK );
                 LOG.info("Notification  created Successfully!");
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Notification creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);

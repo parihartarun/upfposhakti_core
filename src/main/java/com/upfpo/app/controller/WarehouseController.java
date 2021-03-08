@@ -6,6 +6,7 @@ import com.upfpo.app.dto.WarehouseDTO;
 import com.upfpo.app.entity.Warehouse;
 
 import com.upfpo.app.entity.WarehouseFacilities;
+import com.upfpo.app.entity.WarehouseFacilityMaster;
 import com.upfpo.app.service.WarehouseServiceImpl;
 import com.upfpo.app.service.WarehouseService;
 import io.swagger.annotations.Api;
@@ -54,13 +55,13 @@ public class WarehouseController {
     }
 
     @GetMapping("/facilities/getall")
-    @ApiOperation(value="Warehouses Facilities List" ,code=201, produces = "application/json", notes="Api for all Warehouses Facilities Info",response= WarehouseFacilities.class)
+    @ApiOperation(value="Warehouses Facilities List" ,code=201, produces = "application/json", notes="Api for all Warehouses Facilities Info",response= WarehouseFacilityMaster.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<WarehouseFacilities> getAllFacilities (){
+    public List<WarehouseFacilityMaster> getAllFacilities (){
         return warehouseService.getAllFacilities();
     }
 
@@ -75,7 +76,7 @@ public class WarehouseController {
     })
     public ResponseEntity<MessageResponse> createWarehouse(@RequestParam(value = "type", required = false) String typeName,
                                                            @RequestParam(value = "dept_id", required = false) Integer deptId,
-                                                           @RequestParam(value = "facilities", required = false) List<WarehouseFacilities> facilities,
+                                                           @RequestParam(value = "facilities", required = false) String facilities,
                                                                    @RequestParam(value = "capacity", required = false) Double capacity,
                                                                    @RequestParam(value = "seed_processing", required = false) String isSeedProcessing,
                                                                    @RequestParam(value = "district_id", required = false) Integer districtId,
@@ -138,7 +139,7 @@ public class WarehouseController {
     public ResponseEntity<MessageResponse> updateWarehouse(@PathVariable Integer id,
                                                            @RequestParam(value = "type", required = false) String typeName,
                                                            @RequestParam(value = "dept_id", required = false) Integer deptId,
-                                                           @RequestParam(value = "facilities", required = false) List<WarehouseFacilities> facilities,
+                                                           @RequestParam(value = "facilities", required = false) String facilities,
                                                            @RequestParam(value = "capacity", required = false) Double capacity,
                                                            @RequestParam(value = "seed_processing", required = false) String isSeedProcessing,
                                                            @RequestParam(value = "district_id", required = false) Integer districtId,

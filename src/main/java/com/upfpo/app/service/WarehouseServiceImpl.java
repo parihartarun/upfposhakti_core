@@ -5,7 +5,9 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.WarehouseDTO;
 import com.upfpo.app.entity.Warehouse;
 import com.upfpo.app.entity.WarehouseFacilities;
+import com.upfpo.app.entity.WarehouseFacilityMaster;
 import com.upfpo.app.repository.WarehouseFacilitiesRepository;
+import com.upfpo.app.repository.WarehouseFacilityMasterRepository;
 import com.upfpo.app.repository.WarehouseRepository;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseFacilitiesRepository facilitiesRepository;
 
     @Autowired
+    private WarehouseFacilityMasterRepository facilityMasterRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
 
@@ -37,9 +42,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseFacilities> getAllFacilities() {
+    public List<WarehouseFacilityMaster> getAllFacilities() {
 
-        return facilitiesRepository.findAll();
+        return facilityMasterRepository.findAll();
     }
 
     @Override
@@ -92,12 +97,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseDTO> getSeedDetail() {
         List<WarehouseDTO> list = null;
         try {
-            String sql = "Select  wm.id, wm.warehouse_type, wm.warehouse_services, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \r\n" +
-					"wm.address, wm.longitude, wm.latitude \r\n" +
-                    "from warehouse_master wm \r\n" +
-                    "left join  districts d on d.district_id=wm.district_id \r\n" +
-                    "left join block b on b.block_id=wm.block_id \r\n" +
-                    "where wm.is_deleted = false";
+            String sql = "Select  wm.id, wm.warehouse_type, wm.warehouse_facilities, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \n" +
+                    "\t\t\t\t\t wm.address, wm.longitude, wm.latitude\n" +
+                    "                    from warehouse_master wm\n" +
+                    "                    left join  districts d on d.district_id=wm.district_id \n" +
+                    "                    left join block b on b.block_id=wm.block_id \n" +
+                    "                    where wm.is_deleted = false order by id desc";
 
             List<WarehouseDTO> obj = (List<WarehouseDTO>) entityManager.createNativeQuery(sql, "WarehouseDTO").getResultList();
             return obj;
@@ -110,3 +115,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 }
 
 
+/*
+
+"Select  wm.id, wm.warehouse_type, wfm.warehouse_facility_name, wm.capacity, wm.is_seed_processing, d.district_id, d.district_name,b.block_id, b.block_name, \n" +
+        "\t\t\t\t\twm.address, wm.longitude, wm.latitude\n" +
+        "                    from warehouse_master wm\n" +
+        "\t\t\t\t\tleft join warehouse_facilities wf on wf.warehouse_id=wm.id\n" +
+        "\t\t\t\t\tleft join warehouse_facility_master wfm on wfm.id=wf.warehouse_facility_id\n" +
+        "                    left join  districts d on d.district_id=wm.district_id \n" +
+        "                    left join block b on b.block_id=wm.block_id \n" +
+        "                    where wm.is_deleted = false;";*/
