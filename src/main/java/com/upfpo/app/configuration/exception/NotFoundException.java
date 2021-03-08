@@ -8,4 +8,12 @@ public class NotFoundException extends RuntimeException{
 		return msg;
 	}
 
+	public NotFoundException()
+	{
+		
+	}
+	public NotFoundException(String str)
+	{
+		this.msg = str;
+	}
 }
