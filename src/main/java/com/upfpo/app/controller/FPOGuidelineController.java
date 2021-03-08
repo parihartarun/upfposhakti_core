@@ -142,13 +142,12 @@ public class FPOGuidelineController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateFPOGuidelines(@PathVariable Integer id,
-                                                               @RequestPart("description") String description,
-                                                               @RequestParam("guideline_type") FPOGuidelineType fpoGuidelineType,
+                                                               @RequestPart(value = "description" , required = false) String description,
+                                                               @RequestParam(value = "guideline_type", required = false) FPOGuidelineType fpoGuidelineType,
                                                                @RequestParam(value = "url", required = false) String url,
                                                                @RequestPart(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOGuidelines updating FPOGuidelines detail ");
         FPOGuidelines fpoGuidelines = new FPOGuidelines();
-        fpoGuidelines.setId(id);
         fpoGuidelines.setDescription(description);
         fpoGuidelines.setFpoGuidelineType(fpoGuidelineType);
         fpoGuidelines.setUrl(url);
