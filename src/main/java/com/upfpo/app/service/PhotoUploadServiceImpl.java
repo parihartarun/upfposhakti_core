@@ -30,6 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +65,12 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
     public PhotoUpload uploadPhoto (PhotoUpload  photoUpload, MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-
         photoUpload.setFileName(fileName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         photoUpload.setCreateBy(currentPrincipalName);
         photoUpload.setCreateDate(Calendar.getInstance());
-
+        try{
         if (file != null ){
             try {
                 // Check if the file's name contains invalid characters
@@ -94,6 +93,11 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }}
         photoUpload.setDeleted(false);
+        return photoUploadRepository.save(photoUpload);
+    } catch (Exception e){
+            e.printStackTrace();
+            LOG.error(e.getMessage()+"    " + new Date());
+        }
         return photoUploadRepository.save(photoUpload);
     }
 

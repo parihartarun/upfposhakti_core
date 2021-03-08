@@ -75,6 +75,7 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		totSold.setFpoTotSoldZayad(getFpoSoldCropProductionZayad(reportRequestString.getFpoId(), reportRequestString.getFinYear()));
 		
 		FpoFarmerDashboardDTO fpoFarmerDashboardDTO = new FpoFarmerDashboardDTO();
+
 		fpoFarmerDashboardDTO.setTotalFpoFarmer(totalFpoFarmer);
 		fpoFarmerDashboardDTO.setTotalMarginalFarmer(totalMarginalFarmer);
 		fpoFarmerDashboardDTO.setTotalSmallFarmer(totalSmallFarmer);
@@ -84,6 +85,8 @@ public class FpoDashboardServiceImpl implements FpoDashboardService
 		fpoFarmerDashboardDTO.setFpoActualProduction(actProd);
 		fpoFarmerDashboardDTO.setFpoMarketableProduction(mrkProd);
 		fpoFarmerDashboardDTO.setFpoTotSoldProduction(totSold);
+
+
 		return fpoFarmerDashboardDTO;
 	}
 	
