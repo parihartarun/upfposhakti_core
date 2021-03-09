@@ -1254,10 +1254,7 @@ public class DataDisplayRepository {
 	public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto)
 	{
 		
-		
-		
-		
-		
+			
 		sql ="";
 		if(searchRequestDto.getIn().equalsIgnoreCase("any"))
 		{		

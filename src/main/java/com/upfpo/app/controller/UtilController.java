@@ -108,11 +108,12 @@ public class UtilController {
 	public  String testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		
-		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
-		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
+     //		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
+    //		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
 		
 		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
-		//return null;	
+		
+		return null;	
 	}
 	
 	//two parameters -> val in = type
