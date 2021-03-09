@@ -107,6 +107,9 @@ public class FPORegister implements Serializable {
 	
 	@Column (name="state_ref")
 	private Integer stateref;
+
+	@Column (name="upbsm_id")
+	private String upbsmId;
 	
 	@Column(name = "dist_ref_id")
 	private Integer distRefId;
@@ -198,9 +201,9 @@ public class FPORegister implements Serializable {
 	@Fetch(value=FetchMode.SELECT)
 	private List <PhotoUpload> photoUpload;
 	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
-	private List <ProductionDetails> productionDetails;
+	//@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	//@JoinColumn(name="master_id",referencedColumnName="fpo_id")
+	//private List <ProductionDetails> productionDetails;
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
 	@JoinColumn(name="master_id",referencedColumnName="fpo_id")
@@ -254,6 +257,25 @@ public class FPORegister implements Serializable {
 	}
 
 
+	public String getUpbsmId() {
+		return upbsmId;
+	}
+
+	public void setUpbsmId(String upbsmId) {
+		this.upbsmId = upbsmId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Boolean getDeleted() {
+		return isDeleted;
+	}
 
 	public Integer getFpoId() {
 		return fpoId;
@@ -483,9 +505,9 @@ public class FPORegister implements Serializable {
 		this.fpoAdditionalServices = fpoAdditionalServices;
 	}
 
-	public List<ProductionDetails> getProductionDetails() {
-		return productionDetails;
-	}
+	//public List<ProductionDetails> getProductionDetails() {
+	//	return productionDetails;
+	//}
 
 	public List<BoardMember> getBoardMember() {
 		return boardMember;
@@ -507,9 +529,9 @@ public class FPORegister implements Serializable {
 		return fpoAdditionalServices;
 	}
 
-	public void setProductionDetails(List<ProductionDetails> productionDetails) {
-		this.productionDetails = productionDetails;
-	}
+	//public void setProductionDetails(List<ProductionDetails> productionDetails) {
+	//	this.productionDetails = productionDetails;
+	//}
 
 	public List<FarmMachineryBank> getFarmMachineryBank() {
 		return farmMachineryBank;

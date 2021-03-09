@@ -50,6 +50,7 @@ public class UpAgriClient {
         }
         
         String land_area = StringUtils.substringBetween(list_any16.toString(), "<Column1>", "</Column1>");
+        System.out.println("             The land area is        "+land_area);
         
         return land_area;
     }
