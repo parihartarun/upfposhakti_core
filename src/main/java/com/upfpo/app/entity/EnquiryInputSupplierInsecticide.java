@@ -12,13 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ManyToAny;
+
 @Entity
-@Table(name = "enquiry_input_supplier_fertilizer")
-public class EnquiryInputSupplierFertilizer 
+@Table(name = "enquiry_input_supplier_insecticide")
+public class EnquiryInputSupplierInsecticide 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "enqid")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private BigInteger enqid;
 	
 	@Column(name = "created_by")
@@ -28,24 +30,17 @@ public class EnquiryInputSupplierFertilizer
 	private Integer masterId;
 	
 	@ManyToOne
-	@JoinColumn(name = "fertilizer_type")
-	private FertilizerType fertilizerType;
+	@JoinColumn(name = "insecticide_type_id")
+	private InsecticideType insecticideTypeId;
 	
-	@ManyToOne
-	@JoinColumn(name = "fertilizer_name")
-	private FertilizerName fertilizeName;
-	
-	@Column(name = "fertilizer_grade")
-	private String fertilizerGrade;
+	@Column(name = "manufacturer_name")
+	private String manufacturerName;
 	
 	@Column(name = "indent_qty")
 	private Double indentQty;
 	
 	@Column(name = "fulfilled_qty")
 	private Double fulfilledQty;
-	
-	@Column(name = "company_name")
-	private String companyName;
 	
 	@Column(name = "status")
 	private String status;
@@ -86,28 +81,20 @@ public class EnquiryInputSupplierFertilizer
 		this.masterId = masterId;
 	}
 
-	public FertilizerType getFertilizerType() {
-		return fertilizerType;
+	public InsecticideType getInsecticideTypeId() {
+		return insecticideTypeId;
 	}
 
-	public void setFertilizerType(FertilizerType fertilizerType) {
-		this.fertilizerType = fertilizerType;
+	public void setInsecticideTypeId(InsecticideType insecticideTypeId) {
+		this.insecticideTypeId = insecticideTypeId;
 	}
 
-	public FertilizerName getFertilizeName() {
-		return fertilizeName;
+	public String getManufacturerName() {
+		return manufacturerName;
 	}
 
-	public void setFertilizeName(FertilizerName fertilizeName) {
-		this.fertilizeName = fertilizeName;
-	}
-
-	public String getFertilizerGrade() {
-		return fertilizerGrade;
-	}
-
-	public void setFertilizerGrade(String fertilizerGrade) {
-		this.fertilizerGrade = fertilizerGrade;
+	public void setManufacturerName(String manufacturerName) {
+		this.manufacturerName = manufacturerName;
 	}
 
 	public Double getIndentQty() {
@@ -124,14 +111,6 @@ public class EnquiryInputSupplierFertilizer
 
 	public void setFulfilledQty(Double fulfilledQty) {
 		this.fulfilledQty = fulfilledQty;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 
 	public String getStatus() {

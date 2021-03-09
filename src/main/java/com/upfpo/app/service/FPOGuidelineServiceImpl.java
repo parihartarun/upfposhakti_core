@@ -158,7 +158,6 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findById(id)
                 .map(fpoGuidelines -> {
                     fpoGuidelines.setDescription(fpoGuidelines1.getDescription());
-                    fpoGuidelines.setId(fpoGuidelines1.getId());
                     fpoGuidelines.setUpdateBy(currentPrincipalName);
                     fpoGuidelines.setUpdateDate(Calendar.getInstance());
                     fpoGuidelines.setDeleted(false);
