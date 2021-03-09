@@ -22,6 +22,9 @@ public class FarmerRegister implements Serializable{
 	@Column(name="farmer_id")
 	@ApiModelProperty(notes = "Serializable Farmer Id",name="farmerId",required=true)
 	private Integer farmerId;
+
+	@Column(name="upbsm_id")
+	private String upbsmId;
 	
 	@Column (name="state_ref")
 	private Integer stateref;
@@ -119,6 +122,14 @@ public class FarmerRegister implements Serializable{
 	
 	public FarmerRegister() {
 		
+	}
+
+	public String getUpbsmId() {
+		return upbsmId;
+	}
+
+	public void setUpbsmId(String upbsmId) {
+		this.upbsmId = upbsmId;
 	}
 
 	public Integer getDistRefId() {
