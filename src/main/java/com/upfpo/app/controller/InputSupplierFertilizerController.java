@@ -41,7 +41,9 @@ public class InputSupplierFertilizerController {
 
     private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerController.class);
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+
 
 
     @GetMapping("/getall/{id}")
