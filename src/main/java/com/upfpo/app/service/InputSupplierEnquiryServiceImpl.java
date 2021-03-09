@@ -5,9 +5,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.EnquiryChcFmbDTO;
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
@@ -31,6 +34,9 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 	
 	@Autowired
 	EnquiryInputSupplierInsecticideRepo enquiryInputSupplierInsecticideRepo;
+	
+	@Autowired
+	EntityManager entityManager;
 	
 	
 	@Override
@@ -118,6 +124,18 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 	public List<EnquiryInputSupplierMachinery> getMachineryIndentByMasterId(Integer masterId) 
 	{
 		return enquiryInputSupplierMachineryRepo.findByMasterId(masterId);
+	}
+	
+	@Override
+	public List<EnquiryChcFmbDTO> getIndentData(Integer masterId) 
+	{
+		String sql = "select e.enqid as enqId, e.created_by as createdBy, et.id as machineTypeId, et.type as equipType, em.id as machineId, em.equpment_name as equpmentName, e.status, e.indent_qty, e.deliveryaddress\r\n"
+				+ "from enquiry_input_supplier_machinery e\r\n"
+				+ "join equipment_type_master et on et.id = e.machinery_type_id\r\n"
+				+ "join equip_master em on  em.id = e.machinery_name_id \r\n"
+				+ "where e.master_id = :masterId";
+	List<EnquiryChcFmbDTO> obj =  (List<EnquiryChcFmbDTO>) entityManager.createNativeQuery(sql,"EnquiryChcFmbDTO").setParameter("masterId", masterId).getResultList();
+	return obj;
 	}
 	
 	@Override

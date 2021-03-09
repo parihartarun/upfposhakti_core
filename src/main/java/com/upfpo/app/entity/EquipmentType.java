@@ -1,5 +1,8 @@
 package com.upfpo.app.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,23 +12,27 @@ public class EquipmentType {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    //private Integer id;
+    private Integer machineTypeId;
 
     @Column(name = "type")
     private String equipType;
 
     @Column(name="is_active")
     private Boolean isactive;
+    
+    @OneToMany(mappedBy = "machineryTypId", cascade = CascadeType.ALL)
+	private List<EnquiryChcFmbMachinery> machineTypeDetailsProfile;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getMachineTypeId() {
+		return machineTypeId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setMachineTypeId(Integer machineTypeId) {
+		this.machineTypeId = machineTypeId;
+	}
 
-    public String getEquipType() {
+	public String getEquipType() {
         return equipType;
     }
 
@@ -40,4 +47,14 @@ public class EquipmentType {
     public void setIsactive(Boolean isactive) {
         this.isactive = isactive;
     }
+
+	public List<EnquiryChcFmbMachinery> getMachineTypeDetailsProfile() {
+		return machineTypeDetailsProfile;
+	}
+
+	public void setMachineTypeDetailsProfile(List<EnquiryChcFmbMachinery> machineTypeDetailsProfile) {
+		this.machineTypeDetailsProfile = machineTypeDetailsProfile;
+	}
+    
+    
 }

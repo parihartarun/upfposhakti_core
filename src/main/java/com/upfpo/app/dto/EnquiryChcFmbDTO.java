@@ -4,32 +4,42 @@ import java.math.BigInteger;
 
 public class EnquiryChcFmbDTO 
 {
-	private BigInteger equId;
+	private BigInteger enqId;
 	
 	private Integer createdBy;
 	
 	private Integer machineTypeId;
 	
-	private String machineTypeName;
+	private String equipType;
 	
 	private Integer machineId;
 	
-	private String machineName;
+	private String equpmentName;
 	
 	private String status;
 	
-	private Double indentQty;
+	private String deliveryaddress;
 	
-	private Integer noOfDays;
-	
-	private String deliveryAddress;
 
-	public BigInteger getEquId() {
-		return equId;
+	public EnquiryChcFmbDTO(BigInteger enqId, Integer createdBy, Integer machineTypeId, String equipType,
+			Integer machineId, String equpmentName, String status, String deliveryaddress) {
+		super();
+		this.enqId = enqId;
+		this.createdBy = createdBy;
+		this.machineTypeId = machineTypeId;
+		this.equipType = equipType;
+		this.machineId = machineId;
+		this.equpmentName = equpmentName;
+		this.status = status;
+		this.deliveryaddress = deliveryaddress;
 	}
 
-	public void setEquId(BigInteger equId) {
-		this.equId = equId;
+	public BigInteger getEnqId() {
+		return enqId;
+	}
+
+	public void setEnqId(BigInteger enqId) {
+		this.enqId = enqId;
 	}
 
 	public Integer getCreatedBy() {
@@ -48,12 +58,12 @@ public class EnquiryChcFmbDTO
 		this.machineTypeId = machineTypeId;
 	}
 
-	public String getMachineTypeName() {
-		return machineTypeName;
+	public String getEquipType() {
+		return equipType;
 	}
 
-	public void setMachineTypeName(String machineTypeName) {
-		this.machineTypeName = machineTypeName;
+	public void setEquipType(String equipType) {
+		this.equipType = equipType;
 	}
 
 	public Integer getMachineId() {
@@ -64,12 +74,12 @@ public class EnquiryChcFmbDTO
 		this.machineId = machineId;
 	}
 
-	public String getMachineName() {
-		return machineName;
+	public String getEqupmentName() {
+		return equpmentName;
 	}
 
-	public void setMachineName(String machineName) {
-		this.machineName = machineName;
+	public void setEqupmentName(String equpmentName) {
+		this.equpmentName = equpmentName;
 	}
 
 	public String getStatus() {
@@ -80,27 +90,12 @@ public class EnquiryChcFmbDTO
 		this.status = status;
 	}
 
-	public Double getIndentQty() {
-		return indentQty;
+	public String getDeliveryaddress() {
+		return deliveryaddress;
 	}
 
-	public void setIndentQty(Double indentQty) {
-		this.indentQty = indentQty;
+	public void setDeliveryaddress(String deliveryaddress) {
+		this.deliveryaddress = deliveryaddress;
 	}
-
-	public Integer getNoOfDays() {
-		return noOfDays;
-	}
-
-	public void setNoOfDays(Integer noOfDays) {
-		this.noOfDays = noOfDays;
-	}
-
-	public String getDeliveryAddress() {
-		return deliveryAddress;
-	}
-
-	public void setDeliveryAddress(String deliveryAddress) {
-		this.deliveryAddress = deliveryAddress;
-	}
+	
 }

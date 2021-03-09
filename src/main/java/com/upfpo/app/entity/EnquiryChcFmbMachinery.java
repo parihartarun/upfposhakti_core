@@ -4,16 +4,37 @@ import java.math.BigInteger;
 import java.util.Calendar;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+
+import com.upfpo.app.dto.EnquiryChcFmbDTO;
 
 
 @Entity
+@SqlResultSetMapping(name="EnquiryChcFmbDTO",
+classes = {
+		@ConstructorResult(
+				targetClass = EnquiryChcFmbDTO.class,
+				columns = {
+						@ColumnResult(name = "enqId", type = BigInteger.class),
+						@ColumnResult(name = "createdBy", type = Integer.class),
+						@ColumnResult(name = "machineTypeId", type = Integer.class),
+						@ColumnResult(name = "equipType", type = String.class),
+						@ColumnResult(name = "machineId", type = Integer.class),
+						@ColumnResult(name = "equpmentName", type = String.class),
+						@ColumnResult(name = "status", type = String.class),
+						@ColumnResult(name = "deliveryaddress", type = String.class)
+				})
+})
 @Table(name = "enquiry_chc_fmb_machinery")
 public class EnquiryChcFmbMachinery 
 {
@@ -28,11 +49,11 @@ public class EnquiryChcFmbMachinery
 	@Column(name = "master_id")
 	private Integer masterId;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "machinery_type_id")
-	private  EquipmentType machineryTypId;
+	private EquipmentType machineryTypId;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "machinery_name_id")
 	private EqupmentMaster machineryNameId;
 	

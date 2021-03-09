@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.response.MessageResponse;
+import com.upfpo.app.dto.EnquiryChcFmbDTO;
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
@@ -102,10 +103,16 @@ public class InputSupplierEnquiryController
 		}
 	}
 	
-	@GetMapping("/machinery/get/{masterId}")
+	@GetMapping("/machinery/get1/{masterId}")
 	public List<EnquiryInputSupplierMachinery> getMachineryIndents(@PathVariable("masterId") Integer masterId)
 	{
 		return inputSupplierEnquiryService.getMachineryIndentByMasterId(masterId);
+	}
+	
+	@GetMapping("/machinery/get/{masterId}")
+	public List<EnquiryChcFmbDTO> getMachinaryIndentData(@PathVariable("masterId") Integer masterId)
+	{
+		return inputSupplierEnquiryService.getIndentData(masterId);
 	}
 	
 	@PostMapping("/machinery/create")
