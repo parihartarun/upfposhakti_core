@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.CollectionCenterDTO;
 import com.upfpo.app.entity.CollectionCenter;
 
 @Service
@@ -15,5 +16,6 @@ public interface CollectionCenterService {
 	public List<CollectionCenter> selectCollectionCenter();
 	public CollectionCenter selectCollectionCenterById(int id);
 	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id);
+	public List<CollectionCenterDTO> selectCollectionCenterData(Integer id);
 
 }
