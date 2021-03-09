@@ -44,6 +44,8 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
 
     private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerServiceImpl.class);
 
+
+
     @Autowired
     private InputSupplierFertilizerRepository fertilizerRepository;
 
@@ -53,7 +55,9 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     @Autowired
     private FertilizerTypeRepository fertilizerTypeRepository;
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+
 
     private final Path fileStorageLocation;
 
