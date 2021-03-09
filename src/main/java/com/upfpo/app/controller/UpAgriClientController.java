@@ -57,7 +57,9 @@ public class UpAgriClientController {
 	})
 	public UpAgriAreaDTO getUpAgriAreaByRegistrationNo(@PathVariable("reg_no") String reg_no) throws MalformedURLException, RemoteException
 	{
-		return agriClientService.getUpAgriAreaByRegistrationNo(reg_no);
+
+
+			return agriClientService.getUpAgriAreaByRegistrationNo(reg_no);
 
 	}
 

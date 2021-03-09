@@ -87,11 +87,23 @@ public class UpAgriClientServiceImpl implements UpAgriClientService {
     }
 
     @Override
-    public UpAgriAreaDTO getUpAgriAreaByRegistrationNo(String reg_no) throws MalformedURLException, RemoteException {
+    public UpAgriAreaDTO getUpAgriAreaByRegistrationNo(String reg_no) {
 
-        UpAgriAreaDTO resp= null;
-        resp.setLand_area(UpAgriClient.upagri_area(reg_no));
-        System.err.println("  landArea == "+resp );
+        UpAgriAreaDTO resp = new UpAgriAreaDTO();
+        try {
+            System.err.println(" landArea ==    " +resp );
+
+            String value = UpAgriClient.upagri_area(reg_no);
+            System.out.println("  Land Area UpPardarshi is " +value);
+
+            resp.setLand_area(value);
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         return resp;
     }
