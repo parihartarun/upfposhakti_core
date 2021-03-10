@@ -16,8 +16,11 @@ public class PasswordReset implements Serializable {
 	private String captcha;
 	
 	private String otp;
-	
-	
+
+
+	public PasswordReset() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
