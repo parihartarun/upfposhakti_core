@@ -53,12 +53,8 @@ public class CollectionCenter implements Serializable {
 	@Column(name="state_ref_id")
 	private Integer stateId;
 	
-	//@Column(name="dist_ref_id")
-	//private Integer distId;
-	
-	@ManyToOne
-	@JoinColumn(name = "dist_ref_id")
-	private DistrictMaster distId;
+	@Column(name="dist_ref_id")
+	private Integer distId;
 	
 	@Column(name="block_ref_id")
 	private Integer blockId;
@@ -67,7 +63,7 @@ public class CollectionCenter implements Serializable {
 		super();
 	}
 
-	public CollectionCenter(Integer id, Integer stateId, DistrictMaster distId, Integer blockId,
+	public CollectionCenter(Integer id, Integer stateId, Integer distId, Integer blockId,
 			@Min(value = 1, message = "Storage capacity should be greater than 0") BigInteger storageCapacity,
 			Integer distanceFromFPC, Integer fpoRefId, String updatedBy, String address, String lattitude,
 			String longitude, Integer masterId, Date createDate, Date updateDate, Date deleteDate, String fascilities,
@@ -110,11 +106,11 @@ public class CollectionCenter implements Serializable {
 		this.stateId = stateId;
 	}
 
-	public DistrictMaster getDistId() {
+	public Integer getDistId() {
 		return distId;
 	}
 
-	public void setDistId(DistrictMaster distId) {
+	public void setDistId(Integer distId) {
 		this.distId = distId;
 	}
 
