@@ -2,6 +2,7 @@ package com.upfpo.app.repository;
 
 import javax.transaction.Transactional;
 
+import com.upfpo.app.entity.FPORegister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,8 @@ public interface BuyerSellerRepository extends JpaRepository<BuyerSellerMaster, 
 	
 	@Query("select count(b) from BuyerSellerMaster b where upper(b.userBuyerSeller.userName) = :userName")
 	public int checkUserBuyerSellerExists(String userName);
+
+
+
+    BuyerSellerMaster findByUserBuyerSeller(Long userId);
 }

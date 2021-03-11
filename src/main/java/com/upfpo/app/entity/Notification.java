@@ -85,22 +85,9 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Integer id, String title, String message, Integer receiverId, String senderId, Boolean isRead, NotificationType type) {
-        this.id = id;
-        this.title = title;
-        this.message = message;
-        this.receiverId = receiverId;
-        this.farmerFpoId = senderId;
-        this.isRead = isRead;
-        this.type = type;
-    }
 
 
-    public Notification(Integer receiverId, String  senderId, String title) {
-        this.receiverId = receiverId;
-        this.farmerFpoId = senderId;
-        this.title = title;
-    }
+
 
     public Notification(String role, String message, String departmentId, String fpoId) {
         this.role=role;

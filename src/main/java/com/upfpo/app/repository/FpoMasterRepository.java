@@ -21,4 +21,8 @@ public interface FpoMasterRepository extends JpaRepository<FPORegister, Integer>
 	
 	@Query("select count(f) from FPORegister f where upper(f.userFpo.userName) = :userName")
 	public int checkUserFpoExists(String userName);
+
+
+
+	FPORegister findByUserFpo(Long userId);
 }
