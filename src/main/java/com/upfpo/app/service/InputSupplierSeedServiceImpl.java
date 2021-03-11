@@ -40,7 +40,8 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
     private final Path fileStorageLocation;
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
     @Autowired
     private EntityManager entityManager;

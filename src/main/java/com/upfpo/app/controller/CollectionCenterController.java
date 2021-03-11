@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.CollectionCenterDTO;
 import com.upfpo.app.entity.CollectionCenter;
 
 
@@ -115,7 +116,7 @@ public class CollectionCenterController {
 	}
 	
 	
-	@GetMapping("/getAllByFpo/{id}")
+	@GetMapping("/getAllByFpo1/{id}")
 	@ApiOperation(value="Get All Collection Centers Associated With Particular Fpo",code=200,produces = "application/json",notes="Api for view all Collection Centers by Fpo id",response=CollectionCenter.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
@@ -126,4 +127,18 @@ public class CollectionCenterController {
 	{
 		return collectionCenterService.selectCollectionCenterByFpoId(id);
 	}
+	
+	@GetMapping("/getAllByFpo/{id}")
+	@ApiOperation(value="Get All Collection Centers Associated With Particular Fpo",code=200,produces = "application/json",notes="Api for view all Collection Centers by Fpo id",response=CollectionCenter.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	public List<CollectionCenterDTO> getCollectionCentersData(@PathVariable("id") Integer id)
+	{
+		return collectionCenterService.selectCollectionCenterData(id);
+	}
+	
+	
 }

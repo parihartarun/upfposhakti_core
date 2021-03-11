@@ -36,7 +36,9 @@ import java.util.List;
 @Service
 public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+
 
     @Autowired
     private InputSupplierInsecticideRepository insecticideRepository;

@@ -6,11 +6,16 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import com.upfpo.app.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.CropListOfFarmersDTO;
+import com.upfpo.app.dto.FPOListDTO;
+import com.upfpo.app.dto.FarmerLandDetailDto;
+import com.upfpo.app.dto.FpoProfileDTO;
+import com.upfpo.app.dto.MasterDataDto;
+import com.upfpo.app.dto.ProductionDetailsDTO;
 import com.upfpo.app.entity.BoardMember;
 import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.LandDetails;
@@ -112,6 +117,21 @@ public class FPOServiceImpl implements FPOService {
 		}
 	}
 
+	@Override
+	public FpoProfileDTO getProfileData(Integer masterId) 
+	{
+		String sql = "select f.fpo_id,f.fpo_name, f.agency_associated,  d.district_id, d.district_name, f.pincode, b.block_id,\r\n"
+				+ "b.block_name, f.fpo_address, f.fpo_landline, f.fpo_email, f.fpo_lot_no, ba.bank_id, ba.bank_name, f.fpo_account_no, f.fpo_ifsc,\r\n"
+				+ "f.total_fmb as fmbNo\r\n"
+				+ "from fpo f join districts d on d.district_id = f.dist_ref_id\r\n"
+				+ "join block b on b.block_id = f.blockId\r\n"
+				+ "join banks ba on ba.bank_id = f.fpo_bank_name\r\n"
+				+ "where f.fpo_id = 582";
+
+		FpoProfileDTO obj= (FpoProfileDTO) entityManager.createNativeQuery(sql, "FpoProfileDTO").setParameter("masterId", masterId).getSingleResult();
+		return obj;
+	}
+	
 	@Override
 	public List<FPOListDTO> selectFpos() {
 

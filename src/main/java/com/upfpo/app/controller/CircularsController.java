@@ -42,7 +42,8 @@ public class CircularsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CircularsController.class);
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif","application/pdf");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
     @Autowired
     CircularsServiceImpl circularsService;

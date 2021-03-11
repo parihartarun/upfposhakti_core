@@ -5,14 +5,41 @@ import java.math.BigInteger;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import com.upfpo.app.dto.CollectionCenterDTO;
+
 @Entity
+@SqlResultSetMapping(name="CollectionCenterDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = CollectionCenterDTO.class,
+            columns = {
+                @ColumnResult(name = "collectionId", type = Integer.class),
+                @ColumnResult(name = "address", type = String.class),
+                @ColumnResult(name = "blockId", type = Integer.class),
+                @ColumnResult(name = "blockName", type = String.class),
+                @ColumnResult(name = "district_id", type = Integer.class),
+                @ColumnResult(name = "district_name", type = String.class),
+                @ColumnResult(name = "fascilities", type = String.class),
+                @ColumnResult(name = "masterId", type = Integer.class),
+                @ColumnResult(name = "isseedprocessingunit", type = String.class),
+                @ColumnResult(name = "state_ref_id", type = Integer.class),
+                @ColumnResult(name = "storageCapacity", type = BigInteger.class),
+                @ColumnResult(name = "storageType", type = String.class),
+                @ColumnResult(name = "updatedBy", type = String.class),
+           })
+}) 
 @Table(name="collection_center")
 
 public class CollectionCenter implements Serializable {	

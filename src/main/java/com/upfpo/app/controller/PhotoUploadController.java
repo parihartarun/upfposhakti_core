@@ -42,7 +42,9 @@ public class PhotoUploadController {
     @Autowired
     private PhotoUploadService photoUploadService;
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif");
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+                                                                     "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
     private static final Logger LOG = LoggerFactory.getLogger(PhotoUploadController.class);
 
@@ -83,6 +85,7 @@ public class PhotoUploadController {
         LOG.info("Inside PhotosController saving Photos ");
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
+        LOG.info("Photo uploaded Successfully!");
         if (contentTypes.contains(fileContentType)) {
             try {
                 PhotoUpload photo = new PhotoUpload(description, fpoId);

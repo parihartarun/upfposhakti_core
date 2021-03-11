@@ -3,6 +3,7 @@ package com.upfpo.app.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.upfpo.app.dto.EnquiryChcFmbDTO;
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
@@ -23,6 +24,8 @@ public interface InputSupplierEnquiryService
 	public EnquiryInputSupplierFertilizer updateFertilizerIndentStatus(EnquiryInputSupplierFertilizer enquiryInputSupplierFertilizer, BigInteger enqId);
 	
 	public List<EnquiryInputSupplierMachinery> getMachineryIndentByMasterId(Integer masterId);
+	
+	public List<EnquiryChcFmbDTO> getIndentData(Integer masterId);
 	
 	public EnquiryInputSupplierMachinery createMachineryIndent(EnquiryInputSupplierMachinery enquiryInputSupplierMachinery);
 	

@@ -4,6 +4,13 @@ public class UpAgriAreaDTO {
 
     String land_area;
 
+    public UpAgriAreaDTO(String land_area) {
+        this.land_area = land_area;
+    }
+
+    public UpAgriAreaDTO() {
+    }
+
     public String getLand_area() {
         return land_area;
     }
@@ -11,4 +18,6 @@ public class UpAgriAreaDTO {
     public void setLand_area(String land_area) {
         this.land_area = land_area;
     }
+
+
 }

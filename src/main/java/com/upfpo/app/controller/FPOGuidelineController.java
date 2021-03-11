@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -35,7 +36,9 @@ public class FPOGuidelineController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineController.class);
 
-    private static final String contentType = new String("application/pdf");
+
+    private static final List<String> contentTypes = Arrays.asList("multipart/form-data", "application/pdf");
+
 
     @Autowired
     private FPOGuidelineServiceImpl fpoGuidelineService;
@@ -85,7 +88,7 @@ public class FPOGuidelineController {
 
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
-        if (contentType.equals(fileContentType)) {
+        if (contentTypes.equals(fileContentType)) {
             try {
                 FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType, url, hindiDesc);
                 FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file, hindiFile );

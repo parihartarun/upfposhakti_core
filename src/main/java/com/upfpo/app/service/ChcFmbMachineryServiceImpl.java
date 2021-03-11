@@ -37,7 +37,8 @@ import java.util.List;
 @Service
 public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg","image/jpg", "image/gif");
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
     @Autowired
     private ChcFmbMachineryRepository machineryRepository;

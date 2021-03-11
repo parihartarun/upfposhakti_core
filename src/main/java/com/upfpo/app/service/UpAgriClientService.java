@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UpAgriClientService {
 
+
     UpAgriFarmerDetailDTO getUpAgriByRegistrationNo(String reg_no) throws MalformedURLException, RemoteException;
 
     UpAgriAreaDTO getUpAgriAreaByRegistrationNo(String reg_no) throws MalformedURLException, RemoteException;
