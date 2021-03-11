@@ -21,6 +21,44 @@ import com.upfpo.app.dto.CropMasterDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.SearchResponseDto;
+import com.upfpo.app.dto.search.FmbSearchDtoAll;
+import com.upfpo.app.dto.search.InputSupplierSearchDtoAll;
+
+
+
+
+@SqlResultSetMapping(name = "fmbValueResultMapping", 
+classes = @ConstructorResult( 
+        targetClass = FmbSearchDtoAll.class, 
+        columns = {        		
+        		@ColumnResult(name = "vendorid"),
+        		@ColumnResult(name = "vendorname"),
+        		@ColumnResult(name = "imagepath"),
+        		@ColumnResult(name = "company"),
+        		@ColumnResult(name = "machinetypeid"),
+        		@ColumnResult(name = "machinetype"),
+        		@ColumnResult(name = "quantity"),
+        		@ColumnResult(name = "districtid"),
+        		@ColumnResult(name = "district"),
+        		@ColumnResult(name = "rent"),
+        		@ColumnResult(name = "machinenameid"),
+        		@ColumnResult(name = "machinename"),
+        		@ColumnResult(name = "recordtype")
+                    }
+        )
+)
+
+
+@SqlResultSetMapping(name = "inputSupplierResultMapping", 
+classes = @ConstructorResult(
+        targetClass = InputSupplierSearchDtoAll.class, 
+        columns = {
+        		@ColumnResult(name = "name"),
+        		@ColumnResult(name = "id")
+                    }
+        )
+)
+
 
 
 

@@ -24,7 +24,7 @@ import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.ReportDTO;
-import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.CropSearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.util.GetFinYear;
@@ -1251,21 +1251,27 @@ public class DataDisplayRepository {
 		
 	}
 	
-	public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto)
+	public CropSearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto)
 	{
 		
 			
 		sql ="";
 		if(searchRequestDto.getIn().equalsIgnoreCase("any"))
 		{		
-			sql = "select distinct fpo.fpo_id as fpoid, cv.veriety_id as varietyid, cv.crop_veriety as variety, fpo.fpo_name as fpo, \r\n"
-					+ "dist.district_name as district,dist.district_id as districtid,\r\n"
-					+ "cp.id as cropid, cp.crop_name as crop,  \r\n"
-					+ "sum(tp.current_marketable) as currentMarketable from fpo \r\n"
+			sql = "select distinct fpo.fpo_id as fpoid, "
+					+ "cv.veriety_id as varietyid, "
+					+ "cv.crop_veriety as variety, "
+					+ "fpo.fpo_name as fpo, \r\n"
+					+ "dist.district_name as district,"
+					+ "dist.district_id as districtid,\r\n"
+					+ "cp.id as cropid, "
+					+ "cp.crop_name as crop,  \r\n"
+					+ "sum(tp.current_marketable) as currentMarketable "
+					+ "from fpo \r\n"
 					+ "inner join districts dist on dist.district_id = fpo.dist_ref_id \r\n"
 					+ "inner join total_production tp on fpo.fpo_id = tp.fpo_id   \r\n"
-					+ "left join crop_master cp on cp.id = tp.crop_id\r\n"
-					+ "left join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
+					+ "left  join crop_master cp on cp.id = tp.crop_id\r\n"
+					+ "left  join crop_veriety_master cv on cv.veriety_id = tp.veriety_id \r\n"
 					+ "where \r\n"
 					+ "tp.fin_year = '"+GetFinYear.getCurrentFinYear()+"' and UPPER(cp.crop_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%' \r\n"
 					+ "or UPPER(dist.district_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
@@ -1331,7 +1337,7 @@ public class DataDisplayRepository {
 			}
 		
 //filtering the dataset at Java side to avoid lengthy query processing.
-Predicate<SearchResponseDto> 	finalpredicate=null;		
+  Predicate<SearchResponseDto> 	finalpredicate=null;		
 	if(searchRequestDto.getDistrictIds()!=null) {
 		for(Integer districtId:searchRequestDto.getDistrictIds())
 		{
@@ -1413,7 +1419,7 @@ Predicate<SearchResponseDto> 	finalpredicate=null;
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  obj = finalpredicate==null?obj:obj.stream().filter(finalpredicate).collect(Collectors.toList());
-		  SearchPagePagableDto searchPagePagableDto = new SearchPagePagableDto();
+		  CropSearchPagePagableDto searchPagePagableDto = new CropSearchPagePagableDto();
 		  searchPagePagableDto.setTotalElements(obj.size());
 		  searchPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 		  return searchPagePagableDto;
