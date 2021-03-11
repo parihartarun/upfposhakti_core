@@ -1,11 +1,22 @@
 package com.upfpo.app.entity;
 
-import com.upfpo.app.dto.DisplayDataDTO;
-import com.upfpo.app.dto.InputSupplierMachineryDTO;
-
-import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Calendar;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.upfpo.app.dto.InputSupplierDashboardMachineryDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 
 
 @SqlResultSetMapping(name="InputSupplierMachineryDTO",
@@ -21,6 +32,16 @@ import java.util.Calendar;
                                 @ColumnResult(name = "file_path", type = String.class)
                         })
         })
+@SqlResultSetMapping(name="InputSupplierDashboardMachineryDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashboardMachineryDTO.class,
+                columns = {
+                        @ColumnResult(name = "machineryNameId", type = Integer.class),
+                        @ColumnResult(name = "machinerytName", type = String.class),
+                        @ColumnResult(name = "machineryQty", type = BigInteger.class)
+                })
+})
 @Entity
 @Table(name = "input_supplier_machinery")
 public class InputSupplierMachinery {

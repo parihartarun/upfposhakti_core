@@ -1,12 +1,22 @@
 package com.upfpo.app.entity;
 
 
-import com.upfpo.app.dto.InputSupplierFertilizerDTO;
-
-
-
-import javax.persistence.*;
 import java.util.Calendar;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.upfpo.app.dto.InputSupplierDashboardFertilizerDTO;
+import com.upfpo.app.dto.InputSupplierFertilizerDTO;
 
 
 @SqlResultSetMapping(name="InputSupplierFertilizerDTO",
@@ -22,6 +32,17 @@ import java.util.Calendar;
                                 @ColumnResult(name = "file_path", type = String.class)
                         })
         })
+@SqlResultSetMapping(name="InputSupplierDashboardFertilizerDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashboardFertilizerDTO.class,
+                columns = {
+                        @ColumnResult(name = "fertilizerNameId", type = Integer.class),
+                        @ColumnResult(name = "fertilizerName", type = String.class),
+                        @ColumnResult(name = "fertilizerGrade", type = String.class),
+                        @ColumnResult(name = "fertilizerQty", type = Double.class)
+                })
+})
 @Entity
 @Table(name = "input_supplier_fertilizer")
 public class InputSupplierFertilizer {
