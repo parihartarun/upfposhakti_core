@@ -20,9 +20,6 @@ public class EquipmentType {
 
     @Column(name="is_active")
     private Boolean isactive;
-    
-    @OneToMany(mappedBy = "machineryTypId", cascade = CascadeType.ALL)
-	private List<EnquiryChcFmbMachinery> machineTypeDetailsProfile;
 
 	public Integer getMachineTypeId() {
 		return machineTypeId;
@@ -48,13 +45,4 @@ public class EquipmentType {
         this.isactive = isactive;
     }
 
-	public List<EnquiryChcFmbMachinery> getMachineTypeDetailsProfile() {
-		return machineTypeDetailsProfile;
-	}
-
-	public void setMachineTypeDetailsProfile(List<EnquiryChcFmbMachinery> machineTypeDetailsProfile) {
-		this.machineTypeDetailsProfile = machineTypeDetailsProfile;
-	}
-    
-    
 }

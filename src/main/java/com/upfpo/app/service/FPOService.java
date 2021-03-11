@@ -18,6 +18,7 @@ public interface FPOService {
 	public FPORegister updateFpo(Integer id,FPORegister e);
 	public FPORegister insertOrUpdateFpo(FPORegister e);
 	public Boolean deleteFpo(Integer id);
+	public FpoProfileDTO getProfileData(Integer id);
 	public List<FPOListDTO> selectFpos();
 	public FPORegister selectFpoById(Integer id);
 	public MasterDataDto getDistrictByFpoId(int fpoId);

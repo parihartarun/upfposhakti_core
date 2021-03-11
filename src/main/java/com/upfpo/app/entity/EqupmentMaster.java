@@ -37,9 +37,6 @@ public class EqupmentMaster implements Serializable{
 	@Column(name="is_deleted")
 	private boolean isDeleted;
 	
-	@OneToMany(mappedBy = "machineryNameId", cascade = CascadeType.ALL)
-	private List<EnquiryChcFmbMachinery> machineDetailsProfile;
-	
 	public Integer getEqipType() {
 		return eqipType;
 	}
@@ -88,13 +85,4 @@ public class EqupmentMaster implements Serializable{
 		this.isactive = isactive;
 	}
 
-	public List<EnquiryChcFmbMachinery> getMachineDetailsProfile() {
-		return machineDetailsProfile;
-	}
-
-	public void setMachineDetailsProfile(List<EnquiryChcFmbMachinery> machineDetailsProfile) {
-		this.machineDetailsProfile = machineDetailsProfile;
-	}
-
-	
 }

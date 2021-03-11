@@ -114,6 +114,11 @@ public class FPOController {
 		return fpoService.deleteFpo(id);
 	}
 	
+	/*@GetMapping(value = "/getFpoProfileData/{fpoId}")
+	public FpoProfileDTO getProfileData(Integer fpoid)
+	{
+		
+	}*/
 
 	@PutMapping(value="/{id}")
 	@ApiOperation(value="Update FPO profile", code=200, produces = "application/json", notes="Api for update FPO",response=FPORegister.class)
