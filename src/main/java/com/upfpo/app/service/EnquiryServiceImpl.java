@@ -12,9 +12,11 @@ import com.upfpo.app.configuration.exception.FpoNotFoundException;
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.configuration.exception.UserNotFoundException;
 import com.upfpo.app.dto.EnquieryRequest;
+import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.entity.CropVerietyMaster;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
+import com.upfpo.app.entity.TotalProduction;
 import com.upfpo.app.entity.User;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.CropVarietyRepository;
@@ -29,6 +31,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 
     @Autowired
     private EnquiryRepository enquiryRepository;
+    
     @Autowired
     private CropVarietyRepository cropVarietyRepository;
     @Autowired
@@ -65,20 +68,70 @@ public class EnquiryServiceImpl implements EnquiryService{
       	return enquiryRepository.save(enquiry);
     }
 
+    
+    
+    public Enquiry getEnquieryById(Long id)
+    {
+    	return enquiryRepository.findByEnid(id);
+    }
     public Enquiry updateEnquiryDetail(Long id, Enquiry enquiry) {
     	
-        Optional<Enquiry> sd = enquiryRepository.findById(id);
-        if(!sd.isPresent()) {
+        Enquiry sd = enquiryRepository.findByEnid(id);
+        if(sd==null) {
             return null;
-        }
-        Enquiry upenquiry = sd.get(); 
+        }         
+               
+         
+         if(enquiry.getStatus().contentEquals("fulfilled") || enquiry.getStatus().contentEquals("partially fulfilled")) {
+        	 CropMaster cropMaster= cropMasterRepository.findById(enquiry.getCropMaster().getCropId()).orElseThrow(NotFoundException::new); 
+        	 CropVerietyMaster cropVarietyMaster=this.cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId()).orElseThrow(NotFoundException::new);	   
+             List<TotalProduction> totalProductionlist =  totalProductionRepository.findByFpoRegisterAndCropMasterAndCropVerityMaster(enquiry.getFpo().getFpoId(),enquiry.getCropMaster().getCropId(),enquiry.getCropVeriety().getVerietyId());
+        	 
+        	 if(totalProductionlist==null ||totalProductionlist.isEmpty())
+         {
+        	 throw new NotFoundException("Could not find production data !!!");
+         }else {
+        	 
+        	 Double remainingQuantity  = enquiry.getSoldQuantity();
+        	 int index = 0;
+        	 while(remainingQuantity.doubleValue()>0 && index<totalProductionlist.size())
+        	 {
+        		 TotalProduction data = totalProductionlist.get(index);
+        		 if(remainingQuantity.doubleValue()>data.getCurrentMarketable().doubleValue())
+        		 {
+        		 data.setCurrentMarketable(0.0);
+        		this.totalProductionRepository.save(data);
+        		 remainingQuantity = remainingQuantity.doubleValue() - data.getCurrentMarketable().doubleValue();
+        		 }
+        		 else if(remainingQuantity.doubleValue()==data.getCurrentMarketable().doubleValue())
+        		 {
+        			 remainingQuantity = 0.0;
+        		 data.setCurrentMarketable(0.0);
+        		 this.totalProductionRepository.save(data);
+        		 }else
+        		 {
+        		 data.setCurrentMarketable(data.getCurrentMarketable().doubleValue()-remainingQuantity.doubleValue());
+        		 this.totalProductionRepository.save(data);
+        		 remainingQuantity = 0.0;
+        		 }
+        		 index++;
+        		 
+        	 }
+        	 
+        	 
+         }
+         }
+         
+	     
+        Enquiry upenquiry = sd; 
+
         CropVerietyMaster veriety  = cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId().intValue()).get(); 
-        Double currentMarketable =  totalProductionRepository.getCurrentMarketableQty(enquiry.getCropMaster().getCropId(),veriety.getVerietyId(),enquiry.getFpo().getFpoId(), 1, GetFinYear.getCurrentFinYear());
-        Double remainingMarketable = currentMarketable.doubleValue() - enquiry.getQuantity().intValue();   
+       
         
-        upenquiry.setSoldQuantity(enquiry.getQuantity());
-        upenquiry.setStatus(enquiry.getStatus());
-        upenquiry.setReason(enquiry.getReason());        
+      	 //System.out.println("Marketable Surplus  = "+data.getCurrentMarketable());
+        
+    
+        
         return enquiryRepository.save(upenquiry);
     }
 

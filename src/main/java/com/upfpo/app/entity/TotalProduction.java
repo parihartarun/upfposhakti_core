@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
@@ -290,11 +291,11 @@ public class TotalProduction implements Serializable {
 	@Column(name="fin_year")
 	private String finYear;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "crop_id", referencedColumnName = "id")
 	private CropMaster cropMaster;
-	
-	@OneToOne(cascade = CascadeType.MERGE)
+		
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "veriety_id", referencedColumnName = "veriety_id")
 	private CropVerietyMaster cropVerityMaster;
 

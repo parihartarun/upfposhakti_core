@@ -1,12 +1,22 @@
 package com.upfpo.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.upfpo.app.dto.InputSupplierInsecticideDTO;
-import com.upfpo.app.dto.InputSupplierMachineryDTO;
-
-import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Calendar;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.upfpo.app.dto.InputSupplierDashboardDTO;
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 
 
 @SqlResultSetMapping(name="InputSupplierInsecticideDTO",
@@ -23,6 +33,16 @@ import java.util.Date;
                                 @ColumnResult(name = "file_path", type = String.class)
                         })
         })
+@SqlResultSetMapping(name="InputSupplierDashboardDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashboardDTO.class,
+                columns = {
+                        @ColumnResult(name = "insecticideTypeId", type = Integer.class),
+                        @ColumnResult(name = "insecticideType", type = String.class),
+                        @ColumnResult(name = "quantity", type = BigInteger.class)
+                })
+})
 @Entity
 @Table(name = "input_supplier_insecticide")
 public class InputSupplierInsecticide {

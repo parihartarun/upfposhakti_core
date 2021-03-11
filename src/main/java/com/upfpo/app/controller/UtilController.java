@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,11 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
-import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.CropSearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.service.MasterService;
+import com.upfpo.app.service.NewSearchService;
 import com.upfpo.app.service.SearchServiceImpl;
 import com.upfpo.app.util.GetCurrentDate;
 
@@ -37,6 +39,8 @@ public class UtilController {
 	
 	@Autowired
 	private MasterService  masterServices;
+	@Autowired
+	private NewSearchService  newSearchService;
 	
 	@GetMapping("/farmer")
 	@ApiOperation(value="Get farmer's Data on homepage",code=200,produces = "application/json",notes="API to view farmer's data on homepage",response=DisplayDataDTO.class)
@@ -84,13 +88,13 @@ public class UtilController {
 	
 	
 	@PostMapping("/search")
-	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=CropSearchPagePagableDto.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})	
-	public SearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	public CropSearchPagePagableDto homeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		return masterServices.newHomeSearch(searchRequestDto);
 		
@@ -99,20 +103,24 @@ public class UtilController {
 	}
 	
 	@PutMapping("/search")
-	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=SearchPagePagableDto.class)
+	@ApiOperation(value="new Search api",code=200,produces = "application/json",notes="new API for search Results",response=CropSearchPagePagableDto.class)
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 	@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})	
-	public  String testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
+	public  ResponseEntity<?> testhomeSearch(@Validated @RequestBody SearchRequestDto searchRequestDto)
 	{
 		
-		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
-		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
+		return newSearchService.newHomeSearch(searchRequestDto);
+		
+		
+     //		 SearchServiceImpl searchServiceImpl = new SearchServiceImpl();
+    //		return searchServiceImpl.getFilterStrategyOption(searchRequestDto).toString();
 		
 		//searchRequestDto.getLimit(),searchRequestDto.getPage(),searchRequestDto.getQtymin(),searchRequestDto.getQtymax(),searchRequestDto.getVal(),searchRequestDto.getIn(),searchRequestDto.getDistrictIds(),searchRequestDto.getCropverietyIds(),searchRequestDto.getCropIds(), searchRequestDto.getFpoIds()
-		//return null;	
+		
+		
 	}
 	
 	//two parameters -> val in = type

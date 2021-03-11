@@ -7,9 +7,13 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.dto.FpoCropProductionDashboardDTO;
+import com.upfpo.app.entity.CropMaster;
+import com.upfpo.app.entity.CropVerietyMaster;
+import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.TotalProduction;
 
 @Repository
@@ -48,10 +52,10 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 		+ " totMarkProd desc")
 	 public List<FpoCropProductionDashboardDTO> getCropProduction(Integer fpoId);*/
 	 
-	 @Query("Select distinct t.finYear from TotalProduction t")
+	 @Query("Select distinct t.finYear from TotalProduction t order by t.finYear desc")
 	 public List<String> getFinYearFromTotProd();
-	 
-	 
+	 @Query("select tp from TotalProduction tp where tp.fpoRegister = :fpoRegister and tp.cropMaster.cropId = :cropMasterId and tp.cropVerityMaster.verietyId = :cropverietyId")
+	 List<TotalProduction> findByFpoRegisterAndCropMasterAndCropVerityMaster(@Param("fpoRegister")Integer fpoRegister, @Param("cropMasterId") Integer  cropMaster,@Param("cropverietyId")Integer cropVerietyMaster);
 }
 
 

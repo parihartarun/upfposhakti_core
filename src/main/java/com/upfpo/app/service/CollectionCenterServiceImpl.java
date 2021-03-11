@@ -2,10 +2,14 @@ package com.upfpo.app.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.CollectionCenterDTO;
+import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.entity.CollectionCenter;
 import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.repository.CollectionCenterRepository;
@@ -20,6 +24,9 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 	
 	@Autowired
 	private DistrictMasterRepository districtRepository;
+	
+	@Autowired
+	EntityManager entityManager;
 	
 	@Override
 	public CollectionCenter insertCollectionCenter(CollectionCenter e) {
@@ -105,7 +112,19 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 		// TODO Auto-generated method stub
 		return collectionCenterRepository.findByFpoRefIdAndIsDeletedOrderByIdDesc(id, false);
 	}
-
-
+	
+	@Override
+	public List<CollectionCenterDTO> selectCollectionCenterData(Integer masterId) 
+	{
+		String sql =  "select c.id as collectionId, c.center_address as address, b.block_id as blockId, b.block_name as blockName, d.district_id, d.district_name, c.fascilities,\r\n"
+					+ "		c.master_id as masterId, c.is_seed_pro_unit as isseedprocessingunit, c.state_ref_id, c.storage_capacity as storageCapacity, c.storage_type as storageType,\r\n"
+					+ "		c.updated_by as updatedBy from collection_center c join districts d on d.district_id = c.dist_ref_id \r\n"
+					+ "		join block b on b.block_id = c.block_ref_id\r\n"
+					+ "		where c.master_id = :masterId and c.is_deleted = false order by c.id desc";
+			
+		List<CollectionCenterDTO> obj =  (List<CollectionCenterDTO>) entityManager.createNativeQuery(sql,"CollectionCenterDTO").setParameter("masterId", masterId).getResultList();
+			  return obj;
+		
+	}
 
 }

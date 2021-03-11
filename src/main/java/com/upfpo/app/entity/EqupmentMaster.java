@@ -1,12 +1,16 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,7 +36,7 @@ public class EqupmentMaster implements Serializable{
 
 	@Column(name="is_deleted")
 	private boolean isDeleted;
-
+	
 	public Integer getEqipType() {
 		return eqipType;
 	}
@@ -80,7 +84,5 @@ public class EqupmentMaster implements Serializable{
 	public void setIsactive(Boolean isactive) {
 		this.isactive = isactive;
 	}
-	
-	
 
 }

@@ -1,12 +1,22 @@
 package com.upfpo.app.entity;
 
 
-import com.upfpo.app.dto.InputSupplierSeedDTO;
-
-import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.upfpo.app.dto.InputSupplierDashBoardSeedDTO;
+import com.upfpo.app.dto.InputSupplierSeedDTO;
 
 
 @SqlResultSetMapping(name="InputSupplierSeedDTO",
@@ -27,6 +37,19 @@ import java.util.Date;
                                 @ColumnResult(name = "file_path", type = String.class)
                         })
         })
+
+@SqlResultSetMapping(name="InputSupplierDashBoardSeedDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashBoardSeedDTO.class,
+                columns = {
+                        @ColumnResult(name = "cropId", type = Integer.class),
+                        @ColumnResult(name = "cropName", type = String.class),
+                        @ColumnResult(name = "varietyId", type = Integer.class),
+                        @ColumnResult(name = "varietyName", type = String.class),
+                        @ColumnResult(name = "seedQuantity", type = Double.class)
+                })
+})
 @Entity
 @Table(name = "input_supplier_seed")
 public class InputSupplierSeed {

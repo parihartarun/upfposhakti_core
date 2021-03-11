@@ -4,22 +4,24 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.ProductionDTO;
-import com.upfpo.app.dto.SearchPagePagableDto;
+import com.upfpo.app.dto.CropSearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.repository.DataDisplayRepository;
+import com.upfpo.app.repository.NewSearchRepository;
 
 @Service
 public class MasterServiceImpl implements MasterService {
 	
 	@Resource
 	private DataDisplayRepository dataDisplayRepository;
-
+	
 	public DisplayDataDTO farmers() {
 		
 		return dataDisplayRepository.farmersData();
@@ -52,13 +54,15 @@ public class MasterServiceImpl implements MasterService {
 	}
 	
 	@Override
-	public SearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto) {
+	public CropSearchPagePagableDto newHomeSearch(SearchRequestDto searchRequestDto) {
 		// TODO Auto-generated method stub
 		
 				return dataDisplayRepository.newHomeSearch(searchRequestDto);			
 	
 
 	}
+
+	
 	
 	
 	
