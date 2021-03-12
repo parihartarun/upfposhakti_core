@@ -78,6 +78,9 @@ public class EnquiryInputSupplierFertilizer
 	@Column(name = "create_date_time")
 	private Calendar createDateTime;
 	
+	@Column(name = "requested_date_time")
+	private Calendar requestedDateTime;
+	
 	@Column(name = "fulfillment_date")
 	private Calendar fulfillmentDate;
 	
@@ -195,5 +198,12 @@ public class EnquiryInputSupplierFertilizer
 	public void setDeliveryaddress(String deliveryaddress) {
 		this.deliveryaddress = deliveryaddress;
 	}
-	
+
+	public Calendar getRequestedDateTime() {
+		return requestedDateTime;
+	}
+
+	public void setRequestedDateTime(Calendar requestedDateTime) {
+		this.requestedDateTime = requestedDateTime;
+	}
 }

@@ -94,12 +94,15 @@ public class EnquiryChcFmbMachinery
 	@Column(name = "create_date_time")
 	private Calendar  createDateTime;
 	
+	@Column(name = "requested_date_time")
+	private Calendar requestedDateTime;
+	
 	@Column(name = "fulfillment_date")
 	private Calendar fulfillmentDate;
 	
 	@Column(name = "deliveryaddress")
 	private String deliveryaddress;
-
+	
 	public BigInteger getEnqid() {
 		return enqid;
 	}
@@ -211,4 +214,13 @@ public class EnquiryChcFmbMachinery
 	public void setDeliveryaddress(String deliveryaddress) {
 		this.deliveryaddress = deliveryaddress;
 	}
+
+	public Calendar getRequestedDateTime() {
+		return requestedDateTime;
+	}
+
+	public void setRequestedDateTime(Calendar requestedDateTime) {
+		this.requestedDateTime = requestedDateTime;
+	}
+	
 }

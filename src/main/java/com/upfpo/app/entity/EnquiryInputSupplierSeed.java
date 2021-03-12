@@ -1,6 +1,7 @@
 package com.upfpo.app.entity;
 
 import java.math.BigInteger;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -64,6 +65,12 @@ public class EnquiryInputSupplierSeed
 	
 	@Column(name = "reason")
 	private String reason;
+	
+	@Column(name = "create_date_time")
+	private Calendar createDateTime;
+	
+	@Column(name = "requested_date_time")
+	private Calendar requestedDateTime;
 	
 	@Column(name = "fulfillment_date")
 	private  String  fulfillmentDate;
@@ -158,5 +165,20 @@ public class EnquiryInputSupplierSeed
 	public void setDeliveryaddress(String deliveryaddress) {
 		this.deliveryaddress = deliveryaddress;
 	}
-	
+
+	public Calendar getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Calendar createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public Calendar getRequestedDateTime() {
+		return requestedDateTime;
+	}
+
+	public void setRequestedDateTime(Calendar requestedDateTime) {
+		this.requestedDateTime = requestedDateTime;
+	}
 }
