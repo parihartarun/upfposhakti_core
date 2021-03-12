@@ -4,14 +4,35 @@ import java.math.BigInteger;
 import java.util.Calendar;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.InputSupplierDashBoardIndentMachineryDTO;
+
+
+@SqlResultSetMapping(name="InputSupplierDashBoardIndentMachineryDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashBoardIndentMachineryDTO.class,
+                columns = {
+                		@ColumnResult(name = "createdBy", type = String.class),
+                		@ColumnResult(name = "contact_details", type = BigInteger.class),
+                		@ColumnResult(name = "role", type = String.class),
+                		@ColumnResult(name = "status", type = String.class),
+                		@ColumnResult(name = "equpment_name", type = String.class),
+                		@ColumnResult(name = "no_of_days", type = Integer.class),
+                		@ColumnResult(name = "indentQty", type = Double.class),
+                		@ColumnResult(name = "create_date_time", type = Calendar.class)
+                })
+})
 @Entity
 @Table(name = "enquiry_input_supplier_machinery")
 public class EnquiryInputSupplierMachinery 

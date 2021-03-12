@@ -17,6 +17,7 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.upfpo.app.dto.EnquiryChcFmbDTO;
+import com.upfpo.app.dto.InputSupplierDashBoardIndentMachineryDTO;
 
 
 @Entity
@@ -34,6 +35,21 @@ classes = {
 						@ColumnResult(name = "status", type = String.class),
 						@ColumnResult(name = "deliveryaddress", type = String.class)
 				})
+})
+@SqlResultSetMapping(name="CHCFMBDashBoardIndentMachineryDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierDashBoardIndentMachineryDTO.class,
+                columns = {
+                		@ColumnResult(name = "createdBy", type = String.class),
+                		@ColumnResult(name = "contact_details", type = BigInteger.class),
+                		@ColumnResult(name = "role", type = String.class),
+                		@ColumnResult(name = "status", type = String.class),
+                		@ColumnResult(name = "equpment_name", type = String.class),
+                		@ColumnResult(name = "no_of_days", type = Integer.class),
+                		@ColumnResult(name = "indentQty", type = Double.class),
+                		@ColumnResult(name = "create_date_time", type = Calendar.class)
+                })
 })
 @Table(name = "enquiry_chc_fmb_machinery")
 public class EnquiryChcFmbMachinery 
