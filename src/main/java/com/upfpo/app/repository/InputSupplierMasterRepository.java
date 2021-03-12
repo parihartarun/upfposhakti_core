@@ -4,7 +4,7 @@ import javax.transaction.Transactional;
 
 import com.upfpo.app.dto.InputSupplierDTO;
 import com.upfpo.app.entity.FPORegister;
-import jdk.nashorn.internal.objects.AccessorPropertyDescriptor;
+//import jdk.nashorn.internal.objects.AccessorPropertyDescriptor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
