@@ -2,6 +2,8 @@ package com.upfpo.app.controller;
 
 import java.util.List;
 
+import com.upfpo.app.dto.ChcFmbDTO;
+import com.upfpo.app.dto.ChcFmbMachineryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,20 @@ public class ChcFmbController
 {
 	@Autowired
 	ChcFmbService chcFmbService;
+
+
+	@GetMapping(value="/ChcFmbDetail/{id}")
+	@ApiOperation(value="Get All CHC FMB details",code=200,produces = "application/json",notes="Api for view CHC FMB Contect Detail",response=ChcFmbDTO.class,responseContainer="List")
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
+	})
+	private ChcFmbDTO getchcFmbMasterDetail(@PathVariable int id)
+	{
+		ChcFmbDTO list = chcFmbService.getChcFmbDetail(id);
+		return chcFmbService.getChcFmbDetail(id);
+	}
 	
 	@GetMapping(value="/getChcFmb")
 	@ApiOperation(value="Get All CHC FMB details",code=200,produces = "application/json",notes="Api for view all CHC FMBs",response=ChcFmbMaster.class,responseContainer="List")
@@ -43,6 +59,17 @@ public class ChcFmbController
 	{
 		List<ChcFmbMaster> list = chcFmbService.getChcFmbMaster();
 		return new ResponseEntity<List<ChcFmbMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+
+	@GetMapping("/machinery/{id}")
+	@ApiOperation(value="ChcFmbMachinerys List" ,code=201, produces = "application/json", notes="Api for all ChcFmbMachinerys Info",response= ChcFmbMachineryDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+			@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+			@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	public List<ChcFmbMachineryDTO> getAllChcFmbMachinerys (@PathVariable Integer id){
+		return chcFmbService.getAllChcFmbMachinery(id);
 	}
 	
 	@PutMapping(value="/editChcFmb/{chcFmbId}")
