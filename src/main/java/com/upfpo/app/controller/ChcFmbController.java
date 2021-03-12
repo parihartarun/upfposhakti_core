@@ -35,7 +35,7 @@ public class ChcFmbController
 	ChcFmbService chcFmbService;
 
 
-	@GetMapping(value="/ChcFmbDetail/{id}")
+	@GetMapping(value="/profile/ChcFmbDetail/{id}")
 	@ApiOperation(value="Get All CHC FMB details",code=200,produces = "application/json",notes="Api for view CHC FMB Contect Detail",response=ChcFmbDTO.class,responseContainer="List")
 	@ApiResponses(value= {
 			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),

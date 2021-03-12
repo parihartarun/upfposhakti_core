@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,8 +45,8 @@ public class NewSearchRepository {
 	Session session = null;
 	Query query = null;
 	Transaction tx = null;
-	Predicate<FPODetailsDTO> finalpredicate=null;
-
+	
+	
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
 
@@ -62,6 +63,7 @@ public class NewSearchRepository {
 		
 	public ResponseEntity<?> newCropSearch(SearchRequestDto searchRequestDto)
 	{
+		Predicate<SearchResponseDto> cropFinalpredicate=null;
 		String sql ="select distinct \r\n"
 				+ "SUM(tp.current_marketable) as currentMarketable,\r\n"
 				+ "cv.crop_master_ref_id as cropid,\r\n"
@@ -83,11 +85,32 @@ public class NewSearchRepository {
 				+ "cm.crop_name;";
 		
 		
-		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
-		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
-		  
 		  
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();	
+		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+		
+		  
+			if(searchRequestDto.getDistrictIds()!=null) {
+				for(Integer districtId:searchRequestDto.getDistrictIds())
+				{
+					
+					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+				      if(cropFinalpredicate==null)
+				      {
+				    	  cropFinalpredicate = samplepredicate;
+				      }else {
+				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+				      }
+				}
+				
+			} 
+			obj = obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
+		  
+			
+			
+			
+		  
 		  CropSearchPagePagableDto cropSearchPagePagableDto = new CropSearchPagePagableDto();
 		  cropSearchPagePagableDto.setTotalElements(obj.size());
 		  //cropSearchPagePagableDto.setPage(obj);
@@ -194,8 +217,23 @@ public class NewSearchRepository {
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  
+		  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+			if(searchRequestDto.getDistrictIds()!=null) {
+				for(Integer districtId:searchRequestDto.getDistrictIds())
+				{
+					
+					Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+				      if(inputSupplierFinalPredecate==null)
+				      {
+				    	  inputSupplierFinalPredecate = samplepredicate;
+				      }else {
+				    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+				      }
+				}
+				
+			} 
+			obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
-		  
 		  inputSupplierPagePagableDto.setTotalElements(obj.size());
 		  //inputSupplierPagePagableDto.setPage(obj);
 		  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
@@ -260,14 +298,31 @@ public class NewSearchRepository {
 		String sql =searchMachineryInFmbTable(searchRequestDto)+" union all "+searchMachineryInInputSupplierTable(searchRequestDto);
 		
 		  List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();	
+		  
+			Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;		
+			if(searchRequestDto.getDistrictIds()!=null) {
+				for(Integer districtId:searchRequestDto.getDistrictIds())
+				{
+					
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				
+			} 
+			obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
+			
+			
+		  
 		  FmbSearchPagePagableDto fmbSearchPagePagableDto = new FmbSearchPagePagableDto();
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  fmbSearchPagePagableDto.setTotalElements(obj.size());
 		  fmbSearchPagePagableDto.setPage(obj);
-		  
-		
-		
 		  
 		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fmbSearchPagePagableDto);	
 	}
