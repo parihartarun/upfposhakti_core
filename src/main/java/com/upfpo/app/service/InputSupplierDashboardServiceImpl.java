@@ -177,7 +177,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 		
 		List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", masterId).getResultList();	
 		
-		indent.setFertilizerIndent(objFertilizer);
+		indent.setSeedIndent(obj);
 		indent.setFertilizerIndent(objFertilizer);
 		indent.setInsecticideIndent(objInsec);
 		indent.setMachineryIndent(objMach);
