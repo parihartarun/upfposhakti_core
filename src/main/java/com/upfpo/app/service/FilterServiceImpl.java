@@ -14,7 +14,7 @@ import com.upfpo.app.repository.NewFilterRepository;
 public class FilterServiceImpl implements FilterService {
 
 	@Autowired 
-	private NewFilterRepository filterRepository;
+	private FilterRepository filterRepository;
 	
 	@Override
 	public List<FilterDto> getDistrictFilterListBySearchKeys(String value, String in) {
@@ -33,36 +33,5 @@ public class FilterServiceImpl implements FilterService {
 		// TODO Auto-generated method stub
 		return filterRepository.getCropsByFilterKeys(value, in);
 	}
-	
-	@Override
-	public List<FilterDto> getInputSuppliersByFilterKeys(String value, String in) {
-		// TODO Auto-generated method stub
-		return filterRepository.getInputSuppliersByFilterKeys(value,in);
-	}
-	
-	@Override
-	public List<FilterDto> getFertilizerTypesByFilterKeys(String value, String in) {
-		// TODO Auto-generated method stub
-		return filterRepository.getFertilizerTypesByFilterKeys(value,in);
-	}
-	
-	
-	@Override
-	public List<String> getCategoriesByFilterKeys(String value, String in) {
-		// TODO Auto-generated method stub
-		return filterRepository.getCategoriesByFilterKeys(value,in);
-	}
-	
-	@Override
-	public List<String> getMachineryBrandsByFilterKeys(String val,String in) {
-		// TODO Auto-generated method stub
-		return filterRepository.getMachineryBrandsByFilterKeys(val, in);
-	}
-	
-	@Override
-	public List<FilterDto> getMachineryTypesByFilterKeys(String val,String in) {
-		// TODO Auto-generated method stub
-		return filterRepository.getMachineryTypesByFilterKeys(val, in);
-	}
-	
+			
 }

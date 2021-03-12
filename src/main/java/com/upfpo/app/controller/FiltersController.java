@@ -87,81 +87,13 @@ public class FiltersController {
 		return filterService.getCropFilterListBySearchKeys(value, in);	
 	}
 	
-	@GetMapping("/inputSuppliers")
-	@ApiOperation(value="Get Input Supplier list By Search Criteria",code=201, produces = "application/json", notes="Get Input Supplier List By Search Criteria",response=FilterDto.class,responseContainer="List")
-	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-	})
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<FilterDto> getFilterInputSuppliers(@RequestParam("in") String in,@RequestParam("val") String value)
-	{	
-		//System.out.println("In  = "+in);
-		//System.out.println("Val  = "+value);
-		return filterService.getInputSuppliersByFilterKeys(value, in);	
-	}
 	
-	@GetMapping("/fertilizertypes")
-	@ApiOperation(value="Get Fertilizer Type list By Search Criteria",code=201, produces = "application/json", notes="Get Fertilizer Type List By Search Criteria",response=FilterDto.class,responseContainer="List")
-	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-	})
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<FilterDto> getFertilizerTypes(@RequestParam("in") String in,@RequestParam("val") String value)
-	{	
-		//System.out.println("In  = "+in);
-		//System.out.println("Val  = "+value);
-		return filterService.getFertilizerTypesByFilterKeys(value, in);	
-	}
-	@GetMapping("/subcategories")
-	@ApiOperation(value="Get Sub Categories of input suppliers list By Search Criteria",code=201, produces = "application/json", notes="Get Sub Categories of input suppliers list by search Criteria",response=String.class,responseContainer="List")
-	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-	})
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<String> getCategoriesByFilterKeys(@RequestParam("in") String in,@RequestParam("val") String value)
-	{	
-		//System.out.println("In  = "+in);
-		//System.out.println("Val  = "+value);
-		return filterService.getCategoriesByFilterKeys(value, in);	
-	}
 	
-	@GetMapping("/brands")
-	@ApiOperation(value="Get Brand /  Company list By Search Criteria",code=201, produces = "application/json", notes="Get Brand /  Company List By Search Criteria",response=String.class,responseContainer="List")
-	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-	})
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<String> getMachineryBrandsByFilterKeys(@RequestParam("in") String in,@RequestParam("val") String value)
-	{	
-		//System.out.println("In  = "+in);
-		//System.out.println("Val  = "+value);
-		return filterService.getMachineryBrandsByFilterKeys(value, in);	
-	}	
-	//List<CropFilterDto> getCropsByFilterKeys
+
+
 
 	
-	@GetMapping("/machinerytypes")
-	@ApiOperation(value="Get machinery Type list By Search Criteria",code=201, produces = "application/json", notes="Get machinery Type List By Search Criteria",response=String.class,responseContainer="List")
-	@ApiResponses(value= {
-	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-	})
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<FilterDto> getMachineryTypesByFilterKeys(@RequestParam("in") String in,@RequestParam("val") String value)
-	{	
-		//System.out.println("In  = "+in);
-		//System.out.println("Val  = "+value);
-		return filterService.getMachineryTypesByFilterKeys(value, in);	
-	}
+	
 
 		
 }
