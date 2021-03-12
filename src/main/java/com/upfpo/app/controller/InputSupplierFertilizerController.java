@@ -103,11 +103,11 @@ public class InputSupplierFertilizerController {
     public ResponseEntity<MessageResponse> createInputSupplierFertilizer(@RequestParam(value = "type_id", required = false) Integer typeId,
                                                                    @RequestParam(value = "name_id", required = false) Integer nameId,
                                                                    @RequestParam(value = "input_supplier_id") Integer inputSupplierId,
-                                                                         @RequestParam(value = "fertilizer_name", required = false) String fertilizerName,
+                                                                   @RequestParam(value = "fertilizer_name", required = false) String fertilizerName,
                                                                    @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                    @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                                         @RequestParam(value = "quantity", required = false) Double quantity,
-                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                                   @RequestParam(value = "quantity", required = false) Double quantity,
+                                                                   @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
         {
@@ -151,8 +151,6 @@ public class InputSupplierFertilizerController {
         LOG.info("Exiting InputSupplierFertilizer Of Controller with response ", resp);
         return resp;
     }
-
-
 
 
     @PutMapping("/{id}")

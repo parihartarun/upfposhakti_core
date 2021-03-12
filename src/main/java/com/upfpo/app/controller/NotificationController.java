@@ -149,8 +149,10 @@ public class NotificationController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        LOG.info(" #######################              Message is                                    ######################      "+message);
+        LOG.info(" #######################              Message is                                    ######################      "+fpoId);
+        LOG.info(" #######################              Message is                                    ######################      "+departmentId);
+        LOG.info(" #######################              Message is                                    ######################      "+role);
             try {
                 Notification notification = new Notification(role, message, departmentId,  fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
@@ -161,11 +163,8 @@ public class NotificationController {
                 LOG.info("Failed To Save The Notification");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
+
+
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
     }

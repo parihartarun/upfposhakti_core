@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,10 @@ public class NotificationServiceImpl implements NotificationService{
     private NotificationRepository notificationRepository;
 
     private final Path fileStorageLocation;
+
+    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+
 
     @Autowired
     public NotificationServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -89,15 +94,19 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public Notification sendNotification(Notification notification, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String role = "ROLE_FARMER";
         notification.setCreateBy(currentPrincipalName);
         notification.setCreateDate(Calendar.getInstance());
+        if(file!=null){
+            String fileContentType = file.getContentType();
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
+
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if(fileName.contains("..") &&  contentTypes.contains(fileContentType)) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
@@ -112,10 +121,10 @@ public class NotificationServiceImpl implements NotificationService{
             notification.setFilName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
         notification.setDeleted(false);
         notification.setRead(false);
-        return notificationRepository.save(notification);
+        return notificationRepository.saveAndFlush(notification);
     }
 
 
