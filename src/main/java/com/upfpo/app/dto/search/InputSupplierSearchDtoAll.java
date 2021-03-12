@@ -4,40 +4,37 @@ public class InputSupplierSearchDtoAll {
 
 	
 	private Integer id;
-	private String  itemName;
-	private String  itemType;
+	private String  itemname;
+	private String  itemtype;
 	private Double  quantity;
-	private String  inputSupplier;
+	private Integer inputsupplierid;
+	private String  inputsupplier;
+	private Integer  districtid;
 	private String  district;
-	private String  imagePath;
+	private String  imagepath;
 	private String  manufacturer;
 	private String  crop;
-	private String  cropVeriety;
-	private String  recordType;
-	
-	
-	
-	public InputSupplierSearchDtoAll() {
-		super();
-	}
-	
+	private Integer cropid;
+	private String  cropveriety;
+	private Integer cropverietyid;
+	private String  recordtype;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getItemName() {
-		return itemName;
+	public String getItemname() {
+		return itemname;
 	}
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setItemname(String itemname) {
+		this.itemname = itemname;
 	}
-	public String getItemType() {
-		return itemType;
+	public String getItemtype() {
+		return itemtype;
 	}
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
+	public void setItemtype(String itemtype) {
+		this.itemtype = itemtype;
 	}
 	public Double getQuantity() {
 		return quantity;
@@ -45,11 +42,23 @@ public class InputSupplierSearchDtoAll {
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
-	public String getInputSupplier() {
-		return inputSupplier;
+	public Integer getInputsupplierid() {
+		return inputsupplierid;
 	}
-	public void setInputSupplier(String inputSupplier) {
-		this.inputSupplier = inputSupplier;
+	public void setInputsupplierid(Integer inputsupplierid) {
+		this.inputsupplierid = inputsupplierid;
+	}
+	public String getInputsupplier() {
+		return inputsupplier;
+	}
+	public void setInputsupplier(String inputsupplier) {
+		this.inputsupplier = inputsupplier;
+	}
+	public Integer getDistrictid() {
+		return districtid;
+	}
+	public void setDistrictid(Integer districtid) {
+		this.districtid = districtid;
 	}
 	public String getDistrict() {
 		return district;
@@ -57,11 +66,11 @@ public class InputSupplierSearchDtoAll {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getImagePath() {
-		return imagePath;
+	public String getImagepath() {
+		return imagepath;
 	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImagepath(String imagepath) {
+		this.imagepath = imagepath;
 	}
 	public String getManufacturer() {
 		return manufacturer;
@@ -75,18 +84,59 @@ public class InputSupplierSearchDtoAll {
 	public void setCrop(String crop) {
 		this.crop = crop;
 	}
-	public String getCropVeriety() {
-		return cropVeriety;
+	public Integer getCropid() {
+		return cropid;
 	}
-	public void setCropVeriety(String cropVeriety) {
-		this.cropVeriety = cropVeriety;
+	public void setCropid(Integer cropid) {
+		this.cropid = cropid;
 	}
-	public String getRecordType() {
-		return recordType;
+	public String getCropveriety() {
+		return cropveriety;
 	}
-	public void setRecordType(String recordType) {
-		this.recordType = recordType;
+	public void setCropveriety(String cropveriety) {
+		this.cropveriety = cropveriety;
 	}
+	public Integer getCropverietyid() {
+		return cropverietyid;
+	}
+	public void setCropverietyid(Integer cropverietyid) {
+		this.cropverietyid = cropverietyid;
+	}
+	public InputSupplierSearchDtoAll(Integer id, String itemname, String itemtype, Double quantity,
+			Integer inputsupplierid, String inputsupplier, Integer districtid, String district, String imagepath,
+			String manufacturer, String crop, Integer cropid, String cropveriety, Integer cropverietyid,
+			String recordtype) {
+		super();
+		this.id = id;
+		this.itemname = itemname;
+		this.itemtype = itemtype;
+		this.quantity = quantity;
+		this.inputsupplierid = inputsupplierid;
+		this.inputsupplier = inputsupplier;
+		this.districtid = districtid;
+		this.district = district;
+		this.imagepath = imagepath;
+		this.manufacturer = manufacturer;
+		this.crop = crop;
+		this.cropid = cropid;
+		this.cropveriety = cropveriety;
+		this.cropverietyid = cropverietyid;
+		this.recordtype = recordtype;
+	}
+	
+	public InputSupplierSearchDtoAll() {
+		super();
+	}
+	public String getRecordtype() {
+		return recordtype;
+	}
+	public void setRecordtype(String recordtype) {
+		this.recordtype = recordtype;
+	}
+	
+	
+	
+
 	
 
 	

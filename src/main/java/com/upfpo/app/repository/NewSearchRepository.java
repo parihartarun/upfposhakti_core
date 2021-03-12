@@ -82,23 +82,124 @@ public class NewSearchRepository {
 				+ "group by cv.crop_master_ref_id,tp.veriety_id,tp.fpo_id,f.fpo_name,dist.district_id,dist.district_name,cv.crop_veriety,\r\n"
 				+ "cm.crop_name;";
 		
+		
+		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+		  
+		  
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();	
 		  CropSearchPagePagableDto cropSearchPagePagableDto = new CropSearchPagePagableDto();
-		  cropSearchPagePagableDto.setPage(obj);
 		  cropSearchPagePagableDto.setTotalElements(obj.size());
- 	return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(cropSearchPagePagableDto);	
+		  //cropSearchPagePagableDto.setPage(obj);
+		  cropSearchPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(cropSearchPagePagableDto);	
 	}
-	// 
+	private String searchFertilizersInInputSupplierFertilizer(SearchRequestDto searchRequestDto)
+	{
+		String sql ="select inf.id id, \r\n"
+				+ "	fn.fertilizer_name itemname,\r\n"
+				+ "	fnt.fertilizer_type itemtype,\r\n"
+				+ "	inf.quantity quantity,\r\n"
+				+ "	inf.input_supplier_id inputsupplierid,\r\n"
+				+ "	inps.input_supplier_name inputsupplier,\r\n"
+				+ "	dist.district_id as districtid,\r\n"
+				+ "	dist.district_name district,\r\n"
+				+ "	inf.file_path imagepath,\r\n"
+				+ "	inf.manufacturer_name manufacturer,\r\n"
+				+ "	'null' as crop,\r\n"
+				+ "	cast(null as integer) as cropid,\r\n"
+				+ "	'null' as cropveriety,\r\n"
+				+ "	cast(null as integer) as cropverietyid,\r\n"
+				+ "	'fertilizer' as recordtype\r\n"
+				+ "	from input_supplier_fertilizer inf \r\n"
+				+ "	inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
+				+ "	inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
+				+ "	inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
+				+ " inner join districts dist on inps.dist_ref_id = dist.district_id"
+		        + " where UPPER(fn.fertilizer_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + " or UPPER(fnt.fertilizer_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + " or UPPER(inps.input_supplier_name)LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
+		return sql;
+		
+
+		
+	}
+	private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
+	{
+		String sql ="select inf.id id, \r\n"
+				+ "	'null' as itemname,\r\n"
+				+ "	fnt.insecticide_type itemtype,\r\n"
+				+ "	inf.quantity quantity,\r\n"
+				+ "	inf.input_supplier_id inputsupplierid, \r\n"
+				+ "	inps.input_supplier_name inputsupplier,\r\n"
+				+ "	dist.district_id as districtid,\r\n"
+				+ "	dist.district_name district,\r\n"
+				+ "	inf.file_path imagepath,\r\n"
+				+ "	inf.manufacturer_name manufacturer,\r\n"
+				+ "	'null' as crop,\r\n"
+				+ "	cast(null as integer) as cropid, \r\n"
+				+ "	'null' as cropveriety,\r\n"
+				+ "	cast(null as integer) as cropverietyid,	\r\n"
+				+ "	'insecticide' as recordtype\r\n"
+				+ "	from input_supplier_insecticide inf \r\n"
+				+ "	inner join insecticide_type_master fnt on fnt.id = inf.insecticide_type_id \r\n"
+				+ "	inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
+				+ "	inner join districts dist on inps.dist_ref_id = dist.district_id \r\n"
+				+ " where UPPER(fnt.insecticide_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+				+ " or UPPER(inf.manufacturer_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+				+ " or UPPER(inps.input_supplier_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+				;
+		
+		return sql;
+		
+	}
+	private String searchSeedsInInputSupplierSeeds(SearchRequestDto searchRequestDto)
+	{
+		String sql ="select inf.id id, \r\n"
+				+ "	'null' as itemname,\r\n"
+				+ "	'null' as itemtype,\r\n"
+				+ "	inf.quantity quantity,\r\n"
+				+ "	inf.input_supplier_id inputsupplierid,\r\n"
+				+ "	inps.input_supplier_name inputsupplier,\r\n"
+				+ "	dist.district_id as districtid,\r\n"
+				+ "	dist.district_name district,\r\n"
+				+ "	inf.file_path imagepath,\r\n"
+				+ "	'null' as manufacturer,\r\n"
+				+ "	cp.crop_name as crop,\r\n"
+				+ "	cv.crop_master_ref_id as cropid, \r\n"
+				+ "	cv.crop_veriety as cropveriety,\r\n"
+				+ "	inf.variety_id 	as cropverietyid,\r\n"
+				+ "	'seeds' as recordtype \r\n"
+				+ "	from input_supplier_seed inf \r\n"
+				+ "	inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id\r\n"
+				+ "	inner join crop_veriety_master cv on cv.veriety_id = inf.variety_id\r\n"
+				+ "	inner join crop_master cp on cp.id = cv.crop_master_ref_id\r\n"
+				+ "	inner join districts dist on inps.dist_ref_id = dist.district_id \r\n"
+		        + "  where UPPER(cp.crop_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + "  or UPPER(cv.crop_veriety) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + "  or UPPER(inps.input_supplier_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+		
+		
+		return sql;
+	}
 	public ResponseEntity<?> newInputSupplierSearch(SearchRequestDto searchRequestDto)
 	{
-		String sql ="";
+		String sql = searchFertilizersInInputSupplierFertilizer(searchRequestDto)
+				     +" union all " 
+	                 +searchInsecticidesInInputSupplierInsecticides(searchRequestDto) 
+		             +" union all "
+		             +searchSeedsInInputSupplierSeeds(searchRequestDto);
 		
 		  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
-		   
+		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+		  
 		  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
-		  inputSupplierPagePagableDto.setPage(obj);
+		  
 		  inputSupplierPagePagableDto.setTotalElements(obj.size());
- 	return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
+		  //inputSupplierPagePagableDto.setPage(obj);
+		  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
 	}
 	
 	private String searchMachineryInFmbTable(SearchRequestDto searchRequestDto)
@@ -160,8 +261,11 @@ public class NewSearchRepository {
 		
 		  List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();	
 		  FmbSearchPagePagableDto fmbSearchPagePagableDto = new FmbSearchPagePagableDto();
-		  fmbSearchPagePagableDto.setPage(obj);
+		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  fmbSearchPagePagableDto.setTotalElements(obj.size());
+		  fmbSearchPagePagableDto.setPage(obj);
+		  
 		
 		
 		  

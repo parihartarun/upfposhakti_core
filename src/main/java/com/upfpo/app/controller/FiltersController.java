@@ -117,7 +117,7 @@ public class FiltersController {
 		return filterService.getFertilizerTypesByFilterKeys(value, in);	
 	}
 	@GetMapping("/subcategories")
-	@ApiOperation(value="Get Fertilizer Type list By Search Criteria",code=201, produces = "application/json", notes="Get Fertilizer Type List By Search Criteria",response=String.class,responseContainer="List")
+	@ApiOperation(value="Get Sub Categories of input suppliers list By Search Criteria",code=201, produces = "application/json", notes="Get Sub Categories of input suppliers list by search Criteria",response=String.class,responseContainer="List")
 	@ApiResponses(value= {
 	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
 	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
