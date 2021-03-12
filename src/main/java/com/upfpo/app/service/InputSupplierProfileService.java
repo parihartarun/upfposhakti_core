@@ -5,7 +5,7 @@ import com.upfpo.app.dto.*;
 
 import java.util.List;
 
-public interface InputSupplierDashboardService {
+public interface InputSupplierProfileService {
 
     InputSupplierDTO getInputSupplierDetails(Integer masterId);
 

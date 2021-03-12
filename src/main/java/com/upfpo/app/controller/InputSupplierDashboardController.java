@@ -7,8 +7,7 @@ import com.upfpo.app.entity.InputSupplierFertilizer;
 import com.upfpo.app.entity.InputSupplierInsecticide;
 import com.upfpo.app.entity.InputSupplierMachinery;
 import com.upfpo.app.entity.InputSupplierSeed;
-import com.upfpo.app.repository.InputSupplierMasterRepository;
-import com.upfpo.app.service.InputSupplierDashboardService;
+import com.upfpo.app.service.InputSupplierProfileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +27,7 @@ public class InputSupplierDashboardController {
 
 
     @Autowired
-    private InputSupplierDashboardService dashboardService;
+    private InputSupplierProfileService dashboardService;
 
 
 

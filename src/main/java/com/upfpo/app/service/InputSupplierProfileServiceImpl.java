@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
-public class InputSupplierDashboardServiceImpl implements InputSupplierDashboardService {
+public class InputSupplierProfileServiceImpl implements InputSupplierProfileService {
 
     @Autowired
     private EntityManager entityManager;
