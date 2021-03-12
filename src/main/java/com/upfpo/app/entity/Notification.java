@@ -85,22 +85,6 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Integer id, String title, String message, Integer receiverId, String senderId, Boolean isRead, NotificationType type) {
-        this.id = id;
-        this.title = title;
-        this.message = message;
-        this.receiverId = receiverId;
-        this.farmerFpoId = senderId;
-        this.isRead = isRead;
-        this.type = type;
-    }
-
-
-    public Notification(Integer receiverId, String  senderId, String title) {
-        this.receiverId = receiverId;
-        this.farmerFpoId = senderId;
-        this.title = title;
-    }
 
     public Notification(String role, String message, String departmentId, String fpoId) {
         this.role=role;
@@ -115,6 +99,29 @@ public class Notification {
         this.farmerId=farmerId;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public String getRole() {
         return role;
@@ -124,20 +131,20 @@ public class Notification {
         this.role = role;
     }
 
-    public String getUpdateBy() {
-        return updateBy;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
-    public Calendar getUpdateDate() {
-        return updateDate;
+    public String getFilName() {
+        return filName;
     }
 
-    public void setUpdateDate(Calendar updateDate) {
-        this.updateDate = updateDate;
+    public void setFilName(String filName) {
+        this.filName = filName;
     }
 
     public String getFarmerName() {
@@ -146,6 +153,62 @@ public class Notification {
 
     public void setFarmerName(String farmerName) {
         this.farmerName = farmerName;
+    }
+
+    public Integer getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public String getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(String farmerId) {
+        this.farmerId = farmerId;
+    }
+
+    public String getFpoId() {
+        return fpoId;
+    }
+
+    public void setFpoId(String fpoId) {
+        this.fpoId = fpoId;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getFarmerFpoId() {
+        return farmerFpoId;
+    }
+
+    public void setFarmerFpoId(String farmerFpoId) {
+        this.farmerFpoId = farmerFpoId;
+    }
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 
     public Date getUploadDate() {
@@ -196,100 +259,19 @@ public class Notification {
         this.createDate = createDate;
     }
 
-    public Integer getId() {
-        return id;
+    public String getUpdateBy() {
+        return updateBy;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
-    public String getTitle() {
-        return title;
+    public Calendar getUpdateDate() {
+        return updateDate;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    public String getFarmerFpoId() {
-        return farmerFpoId;
-    }
-
-    public void setFarmerFpoId(String farmerFpoId) {
-        this.farmerFpoId = farmerFpoId;
-    }
-
-    public Boolean getRead() {
-        return isRead;
-    }
-
-    public void setRead(Boolean read) {
-        isRead = read;
-    }
-
-    public NotificationType getType() {
-        return type;
-    }
-
-
-    public String getFarmerId() {
-        return farmerId;
-    }
-
-    public void setFarmerId(String farmerId) {
-        this.farmerId = farmerId;
-    }
-
-    public String getFpoId() {
-        return fpoId;
-    }
-
-    public void setFpoId(String fpoId) {
-        this.fpoId = fpoId;
-    }
-
-    public String getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getFilName() {
-        return filName;
-    }
-
-    public void setFilName(String filName) {
-        this.filName = filName;
-    }
-
-    public void setType(NotificationType type) {
-        this.type = type;
+    public void setUpdateDate(Calendar updateDate) {
+        this.updateDate = updateDate;
     }
 }

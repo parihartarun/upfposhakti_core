@@ -16,6 +16,11 @@ public interface FilterService
 {
 	public List<FilterDto> getDistrictFilterListBySearchKeys(String value ,String in);
 	public List<FilterDto> getFpoFilterListBySearchKeys(String value ,String in);
-	List<CropFilterDto> getCropFilterListBySearchKeys(String value ,String in);
+	public List<CropFilterDto> getCropFilterListBySearchKeys(String value ,String in);
+	public List<FilterDto> getInputSuppliersByFilterKeys(String value, String in);
+	public List<FilterDto> getFertilizerTypesByFilterKeys(String val,String in);
+	List<String> getCategoriesByFilterKeys(String value, String in);
+	List<String> getMachineryBrandsByFilterKeys(String val,String in);
+	public List<FilterDto> getMachineryTypesByFilterKeys(String val,String in);
 	
 }

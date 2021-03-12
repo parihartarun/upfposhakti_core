@@ -54,7 +54,7 @@ public interface TotalProductionRepository extends JpaRepository<TotalProduction
 	 
 	 @Query("Select distinct t.finYear from TotalProduction t order by t.finYear desc")
 	 public List<String> getFinYearFromTotProd();
-	 @Query("FROM TotalProduction tp where tp.fpoRegister = :fpoRegister and tp.cropMaster.cropId = :cropMasterId and tp.cropVerityMaster.verietyId = :cropverietyId")
+	 @Query("select tp from TotalProduction tp where tp.fpoRegister = :fpoRegister and tp.cropMaster.cropId = :cropMasterId and tp.cropVerityMaster.verietyId = :cropverietyId")
 	 List<TotalProduction> findByFpoRegisterAndCropMasterAndCropVerityMaster(@Param("fpoRegister")Integer fpoRegister, @Param("cropMasterId") Integer  cropMaster,@Param("cropverietyId")Integer cropVerietyMaster);
 }
 

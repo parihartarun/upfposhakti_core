@@ -2,18 +2,18 @@ package com.upfpo.app.dto;
 
 import java.util.List;
 
-public class SearchPagePagableDto {
+public class CropSearchPagePagableDto {
 
 
 	private Integer totalElements;
 	private List<SearchResponseDto> page;
 	
-	public SearchPagePagableDto() {
+	public CropSearchPagePagableDto() {
 		super();
 	
 		
 	}
-	public SearchPagePagableDto(Integer totalElements, List<SearchResponseDto> page) {
+	public CropSearchPagePagableDto(Integer totalElements, List<SearchResponseDto> page) {
 		super();
 	
 		this.totalElements = totalElements;
