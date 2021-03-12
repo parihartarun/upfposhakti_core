@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/api/InputSupplier/dashboard")
-@Api(produces = "application/json", value = "Update,Delete, and retrive the Input Supplier", tags="Input Supplier Dashboard",description="Input Supplier Dashboard")
-public class InputSupplierDashboardController {
+@RequestMapping(value="/api/InputSupplier/profile")
+@Api(produces = "application/json", value = "Update,Delete, and retrive the Input Supplier", tags="Input Supplier Profile",description="Input Supplier Dashboard")
+public class InputSupplierProfileController {
 
 
     @Autowired
