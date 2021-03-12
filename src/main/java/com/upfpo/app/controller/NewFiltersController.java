@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value="/api/search/v2/filters")
-@Api(produces = "application/json", value = "One Controller to get All Dynamic Filters", tags="Search Filters",description="One Controller to get All Dynamic Filters")
+@Api(produces = "application/json", value = "New Controller to get All Dynamic Filters of new Search api", tags="Search Filters",description="One Controller to get All Dynamic Filters")
 public class NewFiltersController {
 
 	@Autowired
