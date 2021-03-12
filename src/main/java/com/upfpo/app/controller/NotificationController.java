@@ -149,10 +149,7 @@ public class NotificationController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-        LOG.info(" #######################              Message is                                    ######################      "+message);
-        LOG.info(" #######################              Message is                                    ######################      "+fpoId);
-        LOG.info(" #######################              Message is                                    ######################      "+departmentId);
-        LOG.info(" #######################              Message is                                    ######################      "+role);
+
             try {
                 Notification notification = new Notification(role, message, departmentId,  fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
