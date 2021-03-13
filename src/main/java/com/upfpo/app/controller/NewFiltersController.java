@@ -175,9 +175,22 @@ public class NewFiltersController {
 	{	
 		//System.out.println("In  = "+in);
 		//System.out.println("Val  = "+value);
-		return filterService.getMaxQuantityByFilterKeys(value, in);	
+		return filterService.getMaxQuantityByFilterKeys(value, in)==null?0:filterService.getMaxQuantityByFilterKeys(value, in);	
 	}
 	
-	
-	
+	@GetMapping("/maxrent")
+	@ApiOperation(value="Get Max Rent By Search Criteria",code=201, produces = "application/json", notes="Get Maximum Rent By Search Criteria",response=Double.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus(HttpStatus.CREATED)
+	public Double getMaxRentByFilterKeys(@RequestParam("in") String in,@RequestParam("val") String value)
+	{	
+		//System.out.println("In  = "+in);
+		//System.out.println("Val  = "+value);
+		return filterService.getMaxRentByFilterKeys(value, in)==null?0:filterService.getMaxRentByFilterKeys(value, in);	
+	}
+
 }

@@ -153,7 +153,13 @@ public class NewSearchRepository {
 			
 			}
 			obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
-				
+			
+			if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) 
+			{
+				Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().doubleValue()>searchRequestDto.getQtymin().doubleValue()&&samplepredecate.getCurrentMarketable().doubleValue()<=searchRequestDto.getQtymax().doubleValue();
+				cropFinalpredicate=samplepredicate; 
+				obj =obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
+			}
 			
 		  CropSearchPagePagableDto cropSearchPagePagableDto = new CropSearchPagePagableDto();
 		  cropSearchPagePagableDto.setTotalElements(obj.size());

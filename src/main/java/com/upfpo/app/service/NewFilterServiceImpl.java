@@ -71,5 +71,10 @@ public class NewFilterServiceImpl implements NewFilterService {
 		return filterRepository.getMaxQuantityByFilterKeys(val, in);
 	}
 	
+	@Override
+	public Double getMaxRentByFilterKeys(String val,String in) {
+		// TODO Auto-generated method stub
+		return filterRepository.getMaxRentByFilterKeys(val, in);
+	}
 	
 }
