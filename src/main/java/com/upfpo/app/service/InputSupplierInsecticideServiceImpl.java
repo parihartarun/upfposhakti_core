@@ -193,7 +193,7 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId) {
         List<InputSupplierInsecticideDTO> list = null;
         try {
-            String sql = "Select  isi.id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
+            String sql = "Select  isi.id, itm.id as type_id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
                     ", isi.file_path \r\n" +
                     "from input_supplier_insecticide isi \r\n" +
                     "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +

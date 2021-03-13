@@ -211,7 +211,7 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId) {
         List<InputSupplierFertilizerDTO> list = null;
         try {
-            String sql = "Select  isf.id, ftm.fertilizer_type, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
+            String sql = "Select  isf.id, ftm.id as type_id, ftm.fertilizer_type, fnm.id as name_id, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
                                 "from input_supplier_fertilizer isf \r\n" +
                                 "left join fertilizer_type_master ftm on ftm.id=isf.fertilizer_type_id \r\n" +
                                 "left join fertilizer_name_master fnm on fnm.id=isf.fertilizer_name_id \r\n" +

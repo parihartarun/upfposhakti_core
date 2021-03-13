@@ -25,6 +25,7 @@ import com.upfpo.app.dto.InputSupplierInsecticideDTO;
                         targetClass = InputSupplierInsecticideDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type_id", type = Integer.class),
                                 @ColumnResult(name = "insecticide_type", type = String.class),
                                 @ColumnResult(name = "quantity", type = Integer.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),

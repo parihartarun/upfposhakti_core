@@ -4,6 +4,7 @@ public class InputSupplierInsecticideDTO {
 
 
     Integer id;
+    Integer type_id;
     String insecticide_type;
     Integer quantity;
     String manufacturer_name;
@@ -14,14 +15,23 @@ public class InputSupplierInsecticideDTO {
     public InputSupplierInsecticideDTO() {
     }
 
-    public InputSupplierInsecticideDTO(Integer id, String insecticide_type, Integer quantity, String manufacturer_name, String cib_rc_no, String cib_rc_issuedate, String file_path) {
+    public InputSupplierInsecticideDTO(Integer id, Integer type_id, String insecticide_type, Integer quantity, String manufacturer_name, String cib_rc_no, String cib_rc_issuedate, String file_path) {
         this.id = id;
+        this.type_id = type_id;
         this.insecticide_type = insecticide_type;
         this.quantity = quantity;
         this.manufacturer_name = manufacturer_name;
         this.cib_rc_no = cib_rc_no;
         this.cib_rc_issuedate = cib_rc_issuedate;
         this.file_path = file_path;
+    }
+
+    public Integer getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(Integer type_id) {
+        this.type_id = type_id;
     }
 
     public Integer getId() {
