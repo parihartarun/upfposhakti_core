@@ -15,13 +15,8 @@ public class BuyerSellerDashboardDTO
 	
 	private BigInteger crops;
 	
-	private List<BuyerSellerIndentDTO> buyerSellerActive;
+	private List<BuyerSellerIndentDTO> buyerSellerCropIndent;
 	
-	private List<BuyerSellerIndentDTO> buyerSellerFulfilled;
-	
-	private List<BuyerSellerIndentDTO> buyerSellerRejected;
-	
-
 	public BuyerSellerDashboardDTO() {
 		
 	}
@@ -64,23 +59,12 @@ public class BuyerSellerDashboardDTO
 	public void setCrops(BigInteger crops) {
 		this.crops = crops;
 	}
-	public List<BuyerSellerIndentDTO> getBuyerSellerActive() {
-		return buyerSellerActive;
+	public List<BuyerSellerIndentDTO> getBuyerSellerCropIndent() {
+		return buyerSellerCropIndent;
 	}
-	public void setBuyerSellerActive(List<BuyerSellerIndentDTO> buyerSellerActive) {
-		this.buyerSellerActive = buyerSellerActive;
+	public void setBuyerSellerCropIndent(List<BuyerSellerIndentDTO> buyerSellerCropIndent) {
+		this.buyerSellerCropIndent = buyerSellerCropIndent;
 	}
-	public List<BuyerSellerIndentDTO> getBuyerSellerFulfilled() {
-		return buyerSellerFulfilled;
-	}
-	public void setBuyerSellerFulfilled(List<BuyerSellerIndentDTO> buyerSellerFulfilled) {
-		this.buyerSellerFulfilled = buyerSellerFulfilled;
-	}
-	public List<BuyerSellerIndentDTO> getBuyerSellerRejected() {
-		return buyerSellerRejected;
-	}
-	public void setBuyerSellerRejected(List<BuyerSellerIndentDTO> buyerSellerRejected) {
-		this.buyerSellerRejected = buyerSellerRejected;
-	}
-
+	
+	
 }

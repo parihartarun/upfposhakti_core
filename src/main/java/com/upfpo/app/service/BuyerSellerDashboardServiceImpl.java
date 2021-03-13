@@ -38,17 +38,15 @@ public class BuyerSellerDashboardServiceImpl implements BuyerSellerDashboardServ
 		buyerData.setActiveIndents(enquiryRepository.getIndents("Active", buyerId));
 		buyerData.setCancelIndents(enquiryRepository.getIndents("Cancelled", buyerId));
 		buyerData.setFulfilledIndents(enquiryRepository.getIndents("Fullfilled", buyerId));
-		buyerData.setBuyerSellerFulfilled(getCropIndentStatusFullfilled(buyerId));
-		buyerData.setBuyerSellerActive(getCropIndentStatusActive(buyerId));
-		buyerData.setBuyerSellerRejected(getCropIndentStatusRejected(buyerId));
+		buyerData.setBuyerSellerCropIndent(getCropIndentStatusFullfilled(buyerId));
 		return buyerData;
 		
 	}
 	
 	public List<BuyerSellerIndentDTO> getCropIndentStatusFullfilled(Integer buyerId)
 	{
-		sql = "select distinct e.crop_id as cropId, cm.crop_name as cropName, e.status from enquiry e  \r\n"
-				+ "join crop_master cm on e.crop_id = cm.id where e.masterid = :buyerId and e.status = 'Fullfilled'";
+		sql = "select distinct e.crop_id as cropId, cm.crop_name as cropName, count(e.crop_id) as indentQty from enquiry e join crop_master cm on e.crop_id = cm.id\r\n"
+				+ "where masterid = :buyerId group by cm.crop_name,  e.crop_id order by indentQty desc;";
 		
 		List<BuyerSellerIndentDTO> obj =  (List<BuyerSellerIndentDTO>) entityManager.createNativeQuery(sql,"BuyerSellerIndentDTO").setParameter("buyerId", buyerId).
 				getResultList();
@@ -56,25 +54,4 @@ public class BuyerSellerDashboardServiceImpl implements BuyerSellerDashboardServ
 		
 	}
 	
-	public List<BuyerSellerIndentDTO> getCropIndentStatusActive(Integer buyerId)
-	{
-		sql = "select distinct e.crop_id as cropId, cm.crop_name as cropName, e.status from enquiry e  \r\n"
-				+ "join crop_master cm on e.crop_id = cm.id where e.masterid = :buyerId and e.status = 'Active'";
-		
-		List<BuyerSellerIndentDTO> obj =  (List<BuyerSellerIndentDTO>) entityManager.createNativeQuery(sql,"BuyerSellerIndentDTO").setParameter("buyerId", buyerId).
-				getResultList();
-		return obj;
-		
-	}
-	
-	public List<BuyerSellerIndentDTO> getCropIndentStatusRejected(Integer buyerId)
-	{
-		sql = "select distinct e.crop_id as cropId, cm.crop_name as cropName, e.status from enquiry e  \r\n"
-				+ "join crop_master cm on e.crop_id = cm.id where e.masterid = :buyerId and e.status = 'Rejected'";
-		
-		List<BuyerSellerIndentDTO> obj =  (List<BuyerSellerIndentDTO>) entityManager.createNativeQuery(sql,"BuyerSellerIndentDTO").setParameter("buyerId", buyerId).
-				getResultList();
-		return obj;
-		
-	}
 }

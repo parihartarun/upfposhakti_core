@@ -1,18 +1,28 @@
 package com.upfpo.app.dto;
 
+import java.math.BigInteger;
+
 public class BuyerSellerIndentDTO 
 {
 	private Integer cropId;
 	
 	private String cropName;
 	
-	private String status;
+	private BigInteger indentQty;
 	
-	public BuyerSellerIndentDTO(Integer cropId, String cropName, String status) {
+	public BuyerSellerIndentDTO(Integer cropId, String cropName, BigInteger indentQty) {
 		super();
 		this.cropId = cropId;
 		this.cropName = cropName;
-		this.status = status;
+		this.indentQty = indentQty;
+	}
+
+	public BigInteger getIndentQty() {
+		return indentQty;
+	}
+
+	public void setIndentQty(BigInteger indentQty) {
+		this.indentQty = indentQty;
 	}
 
 	public Integer getCropId() {
@@ -31,12 +41,4 @@ public class BuyerSellerIndentDTO
 		this.cropName = cropName;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
 }
