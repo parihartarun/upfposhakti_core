@@ -156,7 +156,7 @@ public class NewSearchRepository {
 			
 			if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) 
 			{
-				Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().doubleValue()>searchRequestDto.getQtymin().doubleValue()&&samplepredecate.getCurrentMarketable().doubleValue()<=searchRequestDto.getQtymax().doubleValue();
+				Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCurrentMarketable().doubleValue()>searchRequestDto.getQtymin().doubleValue() && samplepredecate.getCurrentMarketable().doubleValue()<=searchRequestDto.getQtymax().doubleValue();
 				cropFinalpredicate=samplepredicate; 
 				obj =obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
 			}
@@ -352,8 +352,7 @@ public class NewSearchRepository {
 			Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;		
 			if(searchRequestDto.getDistrictIds()!=null) {
 				for(Integer districtId:searchRequestDto.getDistrictIds())
-				{
-					
+				{			
 					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
 				      if(fmbFinalpredicate==null)
 				      {
@@ -362,8 +361,47 @@ public class NewSearchRepository {
 				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
 				      }
 				}
-				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());				
-			} 
+				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());	
+			}
+			
+			fmbFinalpredicate=null;		
+			if(searchRequestDto.getBrands()!=null) {
+				for(String machinebrand:searchRequestDto.getBrands())
+				{			
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getCompany().contentEquals(machinebrand);
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());	
+			}
+			
+			fmbFinalpredicate=null;		
+			if(searchRequestDto.getMachineryTypes()!=null) {
+				for(Integer machinetypeId:searchRequestDto.getMachineryTypes())
+				{			
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getMachinetypeid().intValue()==machinetypeId.intValue();
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());	
+			}
+			
+			
+			if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) 
+			{
+				Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getRent().doubleValue()>searchRequestDto.getRentMin().doubleValue() && samplepredecate.getRent().doubleValue()<=searchRequestDto.getRentMax().doubleValue();
+				fmbFinalpredicate=samplepredicate; 
+				obj =obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
+			}
+			
 			//obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
 			
 			
