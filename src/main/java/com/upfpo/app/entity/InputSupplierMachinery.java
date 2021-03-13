@@ -25,7 +25,9 @@ import com.upfpo.app.dto.InputSupplierMachineryDTO;
                         targetClass = InputSupplierMachineryDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type_id", type = Integer.class),
                                 @ColumnResult(name = "type", type = String.class),
+                                @ColumnResult(name = "name_id", type = Integer.class),
                                 @ColumnResult(name = "equpment_name", type = String.class),
                                 @ColumnResult(name = "quantity", type = Integer.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
