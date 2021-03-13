@@ -1,6 +1,7 @@
 package com.upfpo.app.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -16,14 +17,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.upfpo.app.dto.BuyerSellerDashboardDTO;
 import com.upfpo.app.dto.BuyerSellerIndentDTO;
 
 @Entity
@@ -35,7 +34,7 @@ classes = {
             columns = {
                 @ColumnResult(name = "cropId", type = Integer.class),
                 @ColumnResult(name = "cropName", type = String.class),
-                @ColumnResult(name = "status", type = String.class)
+                @ColumnResult(name = "indentQty", type = BigInteger.class)
            })
 })
 @Table(name = "enquiry")
