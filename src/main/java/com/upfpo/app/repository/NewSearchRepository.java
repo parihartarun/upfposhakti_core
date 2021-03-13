@@ -106,11 +106,55 @@ public class NewSearchRepository {
 				obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());	
 			} 
 
-		  
+			cropFinalpredicate=null;
+			if(searchRequestDto.getFpoIds()!=null) {
+				for(Integer fpoId:searchRequestDto.getFpoIds())
+				{
+					
+					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid().intValue()==fpoId.intValue();
+				      if(cropFinalpredicate==null)
+				      {
+				    	  cropFinalpredicate = samplepredicate;
+				      }else {
+				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+				      }
+				}
+				obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());	
+			}
 			
+		
+				cropFinalpredicate=null;
 			
+//			if(searchRequestDto.getCropIds()!=null) {
+//				for(Integer cropId:searchRequestDto.getCropIds())
+//				{
+//					
+//					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid().intValue()==cropId.intValue();
+//				      if(cropFinalpredicate==null)
+//				      {
+//				    	  cropFinalpredicate = samplepredicate;
+//				      }else {
+//				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+//				      }
+//				}
+//			
+//			}
+			if(searchRequestDto.getCropverietyIds()!=null) {
+				for(Integer cropVerietyId:searchRequestDto.getCropverietyIds())
+				{
+					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid().intValue()==cropVerietyId.intValue();
+				      if(cropFinalpredicate==null)
+				      {
+				    	  cropFinalpredicate = samplepredicate;
+				      }else {
+				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+				      }
+				}
 			
-		  
+			}
+			obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
+				
+			
 		  CropSearchPagePagableDto cropSearchPagePagableDto = new CropSearchPagePagableDto();
 		  cropSearchPagePagableDto.setTotalElements(obj.size());
 		  //cropSearchPagePagableDto.setPage(obj);
