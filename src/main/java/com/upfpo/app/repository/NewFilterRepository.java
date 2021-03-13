@@ -495,4 +495,40 @@ return cropFilterDtoList;
 		}		
 		
 	
+		public Double getMaxQuantityByFilterKeys(String val,String in)
+		{
+			
+			
+			
+		String sql ="";
+           if(in.equalsIgnoreCase(NewFilterRepository.CROP))
+         	{
+        	  
+       	            
+       	sql = "select MAX(currentMarketable) from (\r\n"
+       			+ "				select distinct \r\n"
+       			+ "				SUM(tp.current_marketable) as currentMarketable\r\n"
+       			+ "				from total_production tp\r\n"
+       			+ "				inner join fpo f on tp.fpo_id = f.fpo_id\r\n"
+       			+ "				inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+       			+ "				inner join crop_veriety_master cv on cv.veriety_id = tp.veriety_id\r\n"
+       			+ "				inner join crop_master cm on cv.crop_master_ref_id = cm.id\r\n"
+       			+ "				where UPPER(cm.crop_name) like'%"+val.toUpperCase()+"%'\r\n"
+       			+ "				or UPPER(cv.crop_veriety) like'%"+val.toUpperCase()+"%'\r\n"
+       			+ "				group by cv.crop_master_ref_id,tp.veriety_id,tp.fpo_id,f.fpo_name,dist.district_id,dist.district_name,cv.crop_veriety,\r\n"
+       			+ "				cm.crop_name) as a";
+        	   
+
+	}else {
+		sql = "";
+		return null;
+	}
+		
+		
+		return (Double)entityManager.createNativeQuery(sql).getSingleResult(); 
+		}
+		
+		
+		
+		
 }

@@ -23,5 +23,5 @@ public interface NewFilterService
 	List<String> getCategoriesByFilterKeys(String value, String in);
 	List<String> getMachineryBrandsByFilterKeys(String val,String in);
 	public List<FilterDto> getMachineryTypesByFilterKeys(String val,String in);
-	
+	public Double getMaxQuantityByFilterKeys(String val,String in);	
 }

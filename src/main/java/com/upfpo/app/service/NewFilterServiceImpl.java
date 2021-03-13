@@ -65,5 +65,11 @@ public class NewFilterServiceImpl implements NewFilterService {
 		// TODO Auto-generated method stub
 		return filterRepository.getMachineryTypesByFilterKeys(val, in);
 	}
+	@Override
+	public Double getMaxQuantityByFilterKeys(String val,String in) {
+		// TODO Auto-generated method stub
+		return filterRepository.getMaxQuantityByFilterKeys(val, in);
+	}
+	
 	
 }

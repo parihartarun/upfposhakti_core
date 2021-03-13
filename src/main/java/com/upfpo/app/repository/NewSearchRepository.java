@@ -63,7 +63,7 @@ public class NewSearchRepository {
 		
 	public ResponseEntity<?> newCropSearch(SearchRequestDto searchRequestDto)
 	{
-		Predicate<SearchResponseDto> cropFinalpredicate=null;
+		
 		String sql ="select distinct \r\n"
 				+ "SUM(tp.current_marketable) as currentMarketable,\r\n"
 				+ "cv.crop_master_ref_id as cropid,\r\n"
@@ -84,12 +84,12 @@ public class NewSearchRepository {
 				+ "group by cv.crop_master_ref_id,tp.veriety_id,tp.fpo_id,f.fpo_name,dist.district_id,dist.district_name,cv.crop_veriety,\r\n"
 				+ "cm.crop_name;";
 		
-		
+		   System.out.println("Query here"+sql);
 		  
 		  List<SearchResponseDto> obj = (List<SearchResponseDto>) entityManager.createNativeQuery(sql,"SearchResponseDTO").getResultList();	
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
-		
+		  Predicate<SearchResponseDto> cropFinalpredicate=null;
 		  
 			if(searchRequestDto.getDistrictIds()!=null) {
 				for(Integer districtId:searchRequestDto.getDistrictIds())
@@ -103,14 +103,58 @@ public class NewSearchRepository {
 				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
 				      }
 				}
-				
+				obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());	
 			} 
-			obj = obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
-		  
+
+			cropFinalpredicate=null;
+			if(searchRequestDto.getFpoIds()!=null) {
+				for(Integer fpoId:searchRequestDto.getFpoIds())
+				{
+					
+					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getFpoid().intValue()==fpoId.intValue();
+				      if(cropFinalpredicate==null)
+				      {
+				    	  cropFinalpredicate = samplepredicate;
+				      }else {
+				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+				      }
+				}
+				obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());	
+			}
 			
+		
+				cropFinalpredicate=null;
 			
+//			if(searchRequestDto.getCropIds()!=null) {
+//				for(Integer cropId:searchRequestDto.getCropIds())
+//				{
+//					
+//					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getCropid().intValue()==cropId.intValue();
+//				      if(cropFinalpredicate==null)
+//				      {
+//				    	  cropFinalpredicate = samplepredicate;
+//				      }else {
+//				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+//				      }
+//				}
+//			
+//			}
+			if(searchRequestDto.getCropverietyIds()!=null) {
+				for(Integer cropVerietyId:searchRequestDto.getCropverietyIds())
+				{
+					Predicate<SearchResponseDto> samplepredicate =  samplepredecate->samplepredecate.getVarietyid().intValue()==cropVerietyId.intValue();
+				      if(cropFinalpredicate==null)
+				      {
+				    	  cropFinalpredicate = samplepredicate;
+				      }else {
+				    	  cropFinalpredicate =cropFinalpredicate.or(samplepredicate);
+				      }
+				}
 			
-		  
+			}
+			obj = cropFinalpredicate==null?obj:obj.stream().filter(cropFinalpredicate).collect(Collectors.toList());
+				
+			
 		  CropSearchPagePagableDto cropSearchPagePagableDto = new CropSearchPagePagableDto();
 		  cropSearchPagePagableDto.setTotalElements(obj.size());
 		  //cropSearchPagePagableDto.setPage(obj);
@@ -230,9 +274,9 @@ public class NewSearchRepository {
 				    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
 				      }
 				}
-				
+				obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 			} 
-			obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+			//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 		  inputSupplierPagePagableDto.setTotalElements(obj.size());
 		  //inputSupplierPagePagableDto.setPage(obj);
@@ -312,9 +356,9 @@ public class NewSearchRepository {
 				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
 				      }
 				}
-				
+				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());				
 			} 
-			obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
+			//obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
 			
 			
 		  

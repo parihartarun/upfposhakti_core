@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/signin","/home/farmer","/signin/password/otp/generate","/signin/password/otp/verify",
 				"/api/fpos/**",
 				"/api/search/filters/**",
+				"/api/search/v2/filters/**",
 				"/home/production","/home/search","/signin/home","/register/**","/api/v1/**",
 				"/v3/api-docs",
 				"/v2/api-docs",
