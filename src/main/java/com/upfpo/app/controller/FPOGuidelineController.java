@@ -37,7 +37,9 @@ public class FPOGuidelineController {
     private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineController.class);
 
 
-    private static final List<String> contentTypes = Arrays.asList("multipart/form-data", "application/pdf");
+    //private static final List<String> contentTypes = Arrays.asList("multipart/form-data", "application/pdf");
+    //private static final List<String> contentTypes = Arrays.asList( "application/pdf", "image/GIF", "image/jpeg", "multipart/form-data");
+
 
 
     @Autowired
@@ -87,8 +89,7 @@ public class FPOGuidelineController {
         LOG.info("Inside FPOGuidelinessController saving FPOGuideliness ");
 
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.equals(fileContentType)) {
+
             try {
                 FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType, url, hindiDesc);
                 FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file, hindiFile );
@@ -98,10 +99,10 @@ public class FPOGuidelineController {
                 LOG.info("Failed to Save the FPOGuidelines");
                 e.printStackTrace();
             }
-        }else{
+        /*}else{
             resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF required."), HttpStatus.INTERNAL_SERVER_ERROR);
             throw new IllegalArgumentException("Incorrect file type, PDF required.");
-        }
+        }*/
         LOG.info("Exiting FPOGuidelines Of Controller with response ", resp);
         return resp;
     }
