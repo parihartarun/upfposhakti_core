@@ -1,11 +1,6 @@
 package com.upfpo.app.repository;
 
-import com.upfpo.app.entity.Enquiry;
-import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.User;
-import java.util.List;
-import java.util.Optional;
-
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,5 +26,8 @@ public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 	
 	@Query("select count(e) from Enquiry e where e.status = :status and e.masterId = :masterId")
 	public Integer getIndents(String status, Integer masterId);
+	
+	@Query("select distinct count(e.cropMaster.cropId) from Enquiry e where e.masterId = :masterId")
+	public BigInteger getCropCount(Integer masterId);
 	
 }

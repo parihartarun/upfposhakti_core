@@ -1,5 +1,6 @@
 package com.upfpo.app.dto;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class BuyerSellerDashboardDTO 
@@ -12,31 +13,18 @@ public class BuyerSellerDashboardDTO
 	
 	private Integer cancelIndents;
 	
-	private Integer crops;
+	private BigInteger crops;
 	
-	private Integer cropId;
+	private List<BuyerSellerIndentDTO> buyerSellerActive;
 	
-	private String cropName;
+	private List<BuyerSellerIndentDTO> buyerSellerFulfilled;
 	
-	private String status;
-	
-	private List<BuyerSellerDashboardDTO> buyerSellerDashboard;
+	private List<BuyerSellerIndentDTO> buyerSellerRejected;
 	
 
 	public BuyerSellerDashboardDTO() {
 		
 	}
-
-	
-	public BuyerSellerDashboardDTO(Integer cropId, String cropName, String status) {
-		super();
-		this.cropId = cropId;
-		this.cropName = cropName;
-		this.status = status;
-	}
-
-
-
 	public Integer getFpos() {
 		return fpos;
 	}
@@ -69,46 +57,30 @@ public class BuyerSellerDashboardDTO
 		this.cancelIndents = cancelIndents;
 	}
 
-	public Integer getCrops() {
+	public BigInteger getCrops() {
 		return crops;
 	}
 
-	public void setCrops(Integer crops) {
+	public void setCrops(BigInteger crops) {
 		this.crops = crops;
 	}
-
-	public String getStatus() {
-		return status;
+	public List<BuyerSellerIndentDTO> getBuyerSellerActive() {
+		return buyerSellerActive;
+	}
+	public void setBuyerSellerActive(List<BuyerSellerIndentDTO> buyerSellerActive) {
+		this.buyerSellerActive = buyerSellerActive;
+	}
+	public List<BuyerSellerIndentDTO> getBuyerSellerFulfilled() {
+		return buyerSellerFulfilled;
+	}
+	public void setBuyerSellerFulfilled(List<BuyerSellerIndentDTO> buyerSellerFulfilled) {
+		this.buyerSellerFulfilled = buyerSellerFulfilled;
+	}
+	public List<BuyerSellerIndentDTO> getBuyerSellerRejected() {
+		return buyerSellerRejected;
+	}
+	public void setBuyerSellerRejected(List<BuyerSellerIndentDTO> buyerSellerRejected) {
+		this.buyerSellerRejected = buyerSellerRejected;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public List<BuyerSellerDashboardDTO> getBuyerSellerDashboard() {
-		return buyerSellerDashboard;
-	}
-
-	public void setBuyerSellerDashboard(List<BuyerSellerDashboardDTO> buyerSellerDashboard) {
-		this.buyerSellerDashboard = buyerSellerDashboard;
-	}
-
-	public Integer getCropId() {
-		return cropId;
-	}
-
-	public void setCropId(Integer cropId) {
-		this.cropId = cropId;
-	}
-
-	public String getCropName() {
-		return cropName;
-	}
-
-	public void setCropName(String cropName) {
-		this.cropName = cropName;
-	}
-	
-	
-	
 }
