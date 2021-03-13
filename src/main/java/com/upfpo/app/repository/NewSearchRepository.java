@@ -362,7 +362,7 @@ public class NewSearchRepository {
 				    	  fmbFinalpredicate =fmbFinalpredicate.or(samplepredicate);
 				      }
 				}
-				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());				
+				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());	
 			} 
 			//obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
 			
