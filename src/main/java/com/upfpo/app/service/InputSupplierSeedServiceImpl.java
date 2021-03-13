@@ -186,7 +186,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
     public List<InputSupplierSeedDTO> getSeedDetail(Integer masterId) {
         List<InputSupplierSeedDTO> list = null;
         try {
-            String sql = "Select  iss.id, cm.crop_id, cm.crop_name, cvm.veriety_id, cvm.crop_veriety, iss.company_brand, iss.quantity, iss.certification_number \r\n" +
+            String sql = "Select  iss.id, cm.id as crop_id, cm.crop_name, cvm.veriety_id, cvm.crop_veriety, iss.company_brand, iss.quantity, iss.certification_number \r\n" +
                             ", iss.certification_valid_from, iss.certification_valid_to, iss.file_path \r\n" +
                             "from input_supplier_seed iss \r\n" +
                             "left join  crop_master cm on cm.id=iss.crop_id \r\n" +

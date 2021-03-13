@@ -24,13 +24,14 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upfpo.app.dto.BuyerSellerDashboardDTO;
+import com.upfpo.app.dto.BuyerSellerIndentDTO;
 
 @Entity
 
-@SqlResultSetMapping(name="BuyerSellerDashboardDTO",
+@SqlResultSetMapping(name="BuyerSellerIndentDTO",
 classes = {
     @ConstructorResult(
-            targetClass = BuyerSellerDashboardDTO.class,
+            targetClass = BuyerSellerIndentDTO.class,
             columns = {
                 @ColumnResult(name = "cropId", type = Integer.class),
                 @ColumnResult(name = "cropName", type = String.class),
