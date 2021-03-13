@@ -163,5 +163,21 @@ public class NewFiltersController {
 		return filterService.getMachineryTypesByFilterKeys(value, in);	
 	}
 
-		
+	@GetMapping("/maxquantity")
+	@ApiOperation(value="Get maximum quantity By Search Criteria",code=201, produces = "application/json", notes="Get Maximum Quantity By Search Criteria",response=Double.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus(HttpStatus.CREATED)
+	public Double getMaxQuantity(@RequestParam("in") String in,@RequestParam("val") String value)
+	{	
+		//System.out.println("In  = "+in);
+		//System.out.println("Val  = "+value);
+		return filterService.getMaxQuantityByFilterKeys(value, in);	
+	}
+	
+	
+	
 }
