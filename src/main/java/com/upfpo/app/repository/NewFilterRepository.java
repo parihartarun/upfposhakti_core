@@ -529,6 +529,57 @@ return cropFilterDtoList;
 		}
 		
 		
+		private String selectMaxRentFromInputSupplierMachineryTable(String val)
+		{
+			String sql = "select \r\n"
+					+ "inpm.rent_per_day as rent\r\n"
+					+ "from input_supplier_machinery inpm \r\n"
+					+ "inner join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
+					+ "inner join districts dist on ip.dist_ref_id = dist.district_id \r\n"
+					+ "inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
+					+ "inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
+					+ "where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
+					+ "or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";
+			return sql;
+		}
+	
+		private String selectMaxRentFromChcFmbMachineryTable(String val)
+		{
+			String sql = "select \r\n"
+					+ "chc.rent_per_day as rent\r\n"
+					+ "from chc_fmb_machinery chc\r\n"
+					+ "inner join chc_fmb fmb on fmb.chc_fmb_id = chc.chc_fmb_id\r\n"
+					+ "inner join districts dist on fmb.dist_ref_id = dist.district_id \r\n"
+					+ "inner join equipment_type_master eqt on eqt.id = chc.equipment_type_id\r\n"
+					+ "inner join equip_master eqp on eqp.id = chc.equipment_name_id \r\n"
+					+ "where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
+					+ "or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";
+			return sql;
+		}
+		public Double getMaxRentByFilterKeys(String val,String in)
+		{
+		
+		String sql ="";
+           if(in.equalsIgnoreCase(NewFilterRepository.FMB))
+         	{     
+        	   
+        	   String unoinquery = this.selectMaxRentFromInputSupplierMachineryTable(val)
+          	            +" union all "
+          	            +selectMaxRentFromChcFmbMachineryTable(val);
+       	sql = "select max(rent) from ("+unoinquery+") as a";
+        	   
+
+	}else {
+		sql = "";
+		return null;
+	}
 		
 		
+		return (Double)entityManager.createNativeQuery(sql).getSingleResult(); 
+		}
+
+		
+
+
+	
 }

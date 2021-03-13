@@ -24,9 +24,10 @@ public class SearchRequestDto {
 	private List<Integer> fertilizerTypeIds;
 	private List<String> brands;
 	private List<Integer> machineryTypes;
-	private Integer qtymin;
-	private Integer qtymax;
-	private Integer rentPerHour;
+	private Double qtymin;
+	private Double qtymax;
+	private Integer rentMin;
+	private Integer rentMax;
 	@NotNull(message="limit key must not be empty.")
 	private Integer limit;
 	@NotNull(message="page key must not be empty.")
@@ -47,12 +48,7 @@ public class SearchRequestDto {
 	public void setMachineryTypes(List<Integer> machineryTypes) {
 		this.machineryTypes = machineryTypes;
 	}
-	public Integer getRentPerHour() {
-		return rentPerHour;
-	}
-	public void setRentPerHour(Integer rentPerHour) {
-		this.rentPerHour = rentPerHour;
-	}
+
 
 	public List<Integer> getCropIds() {
 		return cropIds;
@@ -92,35 +88,7 @@ public class SearchRequestDto {
 		this.districtIds = districtIds;
 	}
 	
-	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
-			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
-			List<Integer> cropverietyIds, Integer qtymin, Integer qtymax, List<Integer> districtIds,
-			@NotNull(message = "limit key must not be empty.") Integer limit,
-			@NotNull(message = "page key must not be empty.") Integer page) {
-		super();
-		this.in = in;
-		this.val = val;
-		this.fpoIds = fpoIds;
-		this.cropIds = cropIds;
-		this.cropverietyIds = cropverietyIds;
-		this.qtymin = qtymin;
-		this.qtymax = qtymax;
-		this.districtIds = districtIds;
-		this.limit = limit;
-		this.page = page;
-	}
-	public Integer getQtymin() {
-		return qtymin;
-	}
-	public void setQtymin(Integer qtymin) {
-		this.qtymin = qtymin;
-	}
-	public Integer getQtymax() {
-		return qtymax;
-	}
-	public void setQtymax(Integer qtymax) {
-		this.qtymax = qtymax;
-	}
+
 	public Integer getLimit() {
 		return limit;
 	}
@@ -152,11 +120,35 @@ public class SearchRequestDto {
 	public void setInputSuppliersCategories(List<String> inputSuppliersCategories) {
 		this.inputSuppliersCategories = inputSuppliersCategories;
 	}
+	public Double getQtymin() {
+		return qtymin;
+	}
+	public void setQtymin(Double qtymin) {
+		this.qtymin = qtymin;
+	}
+	public Double getQtymax() {
+		return qtymax;
+	}
+	public void setQtymax(Double qtymax) {
+		this.qtymax = qtymax;
+	}
+	public Integer getRentMin() {
+		return rentMin;
+	}
+	public void setRentMin(Integer rentMin) {
+		this.rentMin = rentMin;
+	}
+	public Integer getRentMax() {
+		return rentMax;
+	}
+	public void setRentMax(Integer rentMax) {
+		this.rentMax = rentMax;
+	}
 	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
 			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
 			List<Integer> cropverietyIds, List<Integer> districtIds, List<String> inputSuppliersCategories,
 			List<Integer> inputSupplierIds, List<Integer> fertilizerTypeIds, List<String> brands,
-			List<Integer> machineryTypes, Integer qtymin, Integer qtymax, Integer rentPerHour,
+			List<Integer> machineryTypes, Double qtymin, Double qtymax, Integer rentMin, Integer rentMax,
 			@NotNull(message = "limit key must not be empty.") Integer limit,
 			@NotNull(message = "page key must not be empty.") Integer page) {
 		super();
@@ -173,10 +165,12 @@ public class SearchRequestDto {
 		this.machineryTypes = machineryTypes;
 		this.qtymin = qtymin;
 		this.qtymax = qtymax;
-		this.rentPerHour = rentPerHour;
+		this.rentMin = rentMin;
+		this.rentMax = rentMax;
 		this.limit = limit;
 		this.page = page;
 	}
+
 	
 	
 
