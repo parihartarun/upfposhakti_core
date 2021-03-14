@@ -3,6 +3,8 @@ package com.upfpo.app.service;
 
 import com.upfpo.app.auth.response.UploadFileResponse;
 import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.FPOGuidelinesDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.entity.*;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FPOGuidelinesRepository;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -55,6 +58,9 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     private FileStorageProperties fileStorageProperties;
 
     private final Path fileStorageLocation;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public FPOGuidelineServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -223,4 +229,37 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
+
+
+    public List<FPOGuidelines>   getFPOGuidelineByTypeAndLanguage(FPOGuidelineType type, Language lang){
+
+        return fpoGuidelinesRepository.findByFpoGuidelineTypeAndLanguageOrderByIdDesc(type, lang);
+    }
+
+        /*String sql;
+
+        if(lang.equals("en")){
+           sql ="\n" +
+                   "Select  id, description, create_date, file_path from fpo_guidelines " +
+                   " where fpo_guideline_type=:#{#type.name()} AND description is not null";
+
+            List<FPOGuidelinesDTO> obj = (List<FPOGuidelinesDTO>) entityManager.createNativeQuery(sql, "FPOGuidelinesDTO").setParameter("type", type).getResultList();
+            return obj;
+        }
+        else{
+            sql ="\n" +
+                    "Select  id, hindi_description, create_date, file_path from fpo_guidelines " +
+                    " where fpo_guideline_type=:type AND hindi_description is not null";
+
+            List<FPOGuidelinesDTO> obj = (List<FPOGuidelinesDTO>) entityManager.createNativeQuery(sql, "FPOGuidelinesDTO").setParameter("type", type).getResultList();
+            return obj;
+        }
+
+    }
+
+
+    public List<FPOGuidelines> getFPOGuidelineByTypeAndLanguage(FPOGuidelineType guidelineType, Language lang) {
+
+        return fpoGuidelinesRepository.findByFpoGuidelineTypeAndLanguageOrderByIdDesc(guidelineType, lang);
+    }*/
 }
