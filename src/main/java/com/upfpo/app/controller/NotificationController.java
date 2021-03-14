@@ -149,7 +149,6 @@ public class NotificationController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-
             try {
                 Notification notification = new Notification(role, message, departmentId,  fpoId);
                 Notification id = notificationService.sendNotification(notification, file);
@@ -160,8 +159,6 @@ public class NotificationController {
                 LOG.info("Failed To Save The Notification");
                 e.printStackTrace();
             }
-
-
         LOG.info("Exiting Notification Of Controller with response ", resp);
         return resp;
     }
