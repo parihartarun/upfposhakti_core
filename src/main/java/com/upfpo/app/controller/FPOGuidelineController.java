@@ -2,6 +2,7 @@ package com.upfpo.app.controller;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.FPOGuidelinesDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FPOGuidelineType;
 import com.upfpo.app.entity.FPOGuidelines;
@@ -71,6 +72,21 @@ public class FPOGuidelineController {
         return fpoGuidelineService.getFPOGuidelineByType(guidelineType);
     }
 
+    @GetMapping(value="/{type}/{lang}")
+    @ApiOperation(value="Fetch  FPOGuidelines by Type" ,code=201, produces = "application/json", notes="API to Get all FPO FPOGuidelines",response= FPOGuidelines.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOGuidelines> getFPOGuidelineByTypeAndLanguage (@PathVariable("type") FPOGuidelineType guidelineType,
+                                                                    @PathVariable("lang") Language lang){
+
+        return fpoGuidelineService.getFPOGuidelineByTypeAndLanguage(guidelineType, lang);
+    }
+
+
+
 
     @PostMapping("/uploadFPOGuideline")
     @ApiOperation(value="Create FPO FPOGuidelines" ,code=201, produces = "application/json", notes="API to create new FPO FPOGuidelines",response= FPOGuidelines.class)
@@ -82,6 +98,7 @@ public class FPOGuidelineController {
     })
     public ResponseEntity<MessageResponse> uploadFPOGuideline(@RequestParam(value ="description", required = false) String description,
                                                               @RequestParam(value = "hindi_desc", required = false) String hindiDesc,
+                                                              @RequestParam(value = "lang", required = false) Language lang,
                                                               @RequestParam(value ="guideline_type", required = false) FPOGuidelineType fpoGuidelineType,
                                                               @RequestParam(value = "url", required = false) String url,
                                                               @RequestParam(value = "file", required = false) MultipartFile file,
@@ -91,7 +108,7 @@ public class FPOGuidelineController {
         ResponseEntity<MessageResponse> resp = null;
 
             try {
-                FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType, url, hindiDesc);
+                FPOGuidelines fpoGuidelines = new FPOGuidelines(description, fpoGuidelineType, url, hindiDesc, lang);
                 FPOGuidelines id = fpoGuidelineService.uploadFPOGuidline(fpoGuidelines, file, hindiFile );
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOGuidelines uploaded Successfully!"), HttpStatus.OK);
             } catch(Exception e){
