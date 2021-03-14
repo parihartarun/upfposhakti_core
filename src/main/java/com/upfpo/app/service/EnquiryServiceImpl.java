@@ -80,8 +80,6 @@ public class EnquiryServiceImpl implements EnquiryService{
         if(sd==null) {
             return null;
         }         
-               
-         
          if(enquiry.getStatus().contentEquals("fulfilled") || enquiry.getStatus().contentEquals("partially fulfilled")) {
         	 //System.out.println("");
         	 CropMaster cropMaster= cropMasterRepository.findById(sd.getCropMaster().getCropId()).orElseThrow(NotFoundException::new); 
