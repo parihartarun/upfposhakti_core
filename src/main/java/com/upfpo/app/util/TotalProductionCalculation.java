@@ -132,6 +132,7 @@ public class TotalProductionCalculation
 					totalProduction.setTotal_actual_prod(totalActualProduction);
 					totalProduction.setTotalMarketable(totalMarketableQty);
 					totalProduction.setCurrentMarketable(currentMarketableQty);
+					totalProduction.setTotalSold(totalSold);
 					totalProductionRepository.save(totalProduction);
 				}
 			}
