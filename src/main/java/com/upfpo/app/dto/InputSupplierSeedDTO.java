@@ -110,15 +110,15 @@ public class InputSupplierSeedDTO {
         return crop_id;
     }
 
-    public void setCrop_Id(Integer crop_Id) {
-        this.crop_id = crop_Id;
+    public void setCrop_Id(Integer crop_id) {
+        this.crop_id = crop_id;
     }
 
     public Integer getVeriety_id() {
         return veriety_id;
     }
 
-    public void setVeriety_id(Integer veriety_id) {
-        this.veriety_id = veriety_id;
+    public void setVeriety_id(Integer variety_id) {
+        this.veriety_id = variety_id;
     }
 }
