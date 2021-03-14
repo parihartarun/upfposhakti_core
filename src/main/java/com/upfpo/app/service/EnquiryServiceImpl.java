@@ -83,9 +83,10 @@ public class EnquiryServiceImpl implements EnquiryService{
                
          
          if(enquiry.getStatus().contentEquals("fulfilled") || enquiry.getStatus().contentEquals("partially fulfilled")) {
-        	 CropMaster cropMaster= cropMasterRepository.findById(enquiry.getCropMaster().getCropId()).orElseThrow(NotFoundException::new); 
-        	 CropVerietyMaster cropVarietyMaster=this.cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId()).orElseThrow(NotFoundException::new);	   
-             List<TotalProduction> totalProductionlist =  totalProductionRepository.findByFpoRegisterAndCropMasterAndCropVerityMaster(enquiry.getFpo().getFpoId(),enquiry.getCropMaster().getCropId(),enquiry.getCropVeriety().getVerietyId());
+        	 //System.out.println("");
+        	 CropMaster cropMaster= cropMasterRepository.findById(sd.getCropMaster().getCropId()).orElseThrow(NotFoundException::new); 
+        	 CropVerietyMaster cropVarietyMaster=this.cropVarietyRepository.findById(sd.getCropVeriety().getVerietyId()).orElseThrow(NotFoundException::new);	   
+             List<TotalProduction> totalProductionlist =  totalProductionRepository.findByFpoRegisterAndCropMasterAndCropVerityMaster(sd.getFpo().getFpoId(),sd.getCropMaster().getCropId(),sd.getCropVeriety().getVerietyId());
         	 
         	 if(totalProductionlist==null ||totalProductionlist.isEmpty())
          {
@@ -100,7 +101,7 @@ public class EnquiryServiceImpl implements EnquiryService{
         		 if(remainingQuantity.doubleValue()>data.getCurrentMarketable().doubleValue())
         		 {
         		 data.setCurrentMarketable(0.0);
-        		this.totalProductionRepository.save(data);
+        		 this.totalProductionRepository.save(data);
         		 remainingQuantity = remainingQuantity.doubleValue() - data.getCurrentMarketable().doubleValue();
         		 }
         		 else if(remainingQuantity.doubleValue()==data.getCurrentMarketable().doubleValue())
@@ -122,15 +123,8 @@ public class EnquiryServiceImpl implements EnquiryService{
          }
          }
          
-	     
+        sd.setStatus(enquiry.getStatus());
         Enquiry upenquiry = sd; 
-
-        CropVerietyMaster veriety  = cropVarietyRepository.findById(enquiry.getCropVeriety().getVerietyId().intValue()).get(); 
-       
-        
-      	 //System.out.println("Marketable Surplus  = "+data.getCurrentMarketable());
-        
-    
         
         return enquiryRepository.save(upenquiry);
     }
