@@ -29,6 +29,7 @@ import com.upfpo.app.dto.InputSupplierMachineryDTO;
                                 @ColumnResult(name = "type", type = String.class),
                                 @ColumnResult(name = "name_id", type = Integer.class),
                                 @ColumnResult(name = "equpment_name", type = String.class),
+                                @ColumnResult(name = "specification", type = String.class),
                                 @ColumnResult(name = "quantity", type = Integer.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
                                 @ColumnResult(name = "file_path", type = String.class)
