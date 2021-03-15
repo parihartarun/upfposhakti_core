@@ -1,5 +1,6 @@
 package com.upfpo.app.dto;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -14,11 +15,13 @@ public class EnquieryRequest {
 	private String  fpoDeliveryAddress;
     @NotNull(message = "User Id Must Not be Null")
 	private Integer userId;
-    @NotNull(message = "Fullfillment date must not be null")
+   // @NotNull(message = "Fullfillment date must not be null")
     private String fulfillmentDate; 
     @NotNull(message = "Quantity must not be null")
     private Double quantity;
     private Integer cropVeriety;
+    private BigInteger createdBy;
+    private Integer masterId;
     
 	public Integer getCropVeriety() {
 		return cropVeriety;
@@ -61,6 +64,18 @@ public class EnquieryRequest {
 	}
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
+	}
+	public BigInteger getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(BigInteger createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Integer getMasterId() {
+		return masterId;
+	}
+	public void setMasterId(Integer masterId) {
+		this.masterId = masterId;
 	}
 	
 }

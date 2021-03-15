@@ -70,6 +70,9 @@ public class Enquiry implements Serializable {
 	private Double quantity;
 
 	private Double soldQuantity;
+	
+	@Column(name = "created_by")
+	private BigInteger createdBy;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "enquiry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -238,4 +241,13 @@ public class Enquiry implements Serializable {
 		this.fpo = fpo;
 	}
 
+	public BigInteger getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(BigInteger createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	
 }

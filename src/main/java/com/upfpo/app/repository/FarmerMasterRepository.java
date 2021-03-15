@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.upfpo.app.dto.FarmerDetailsDTO;
 import com.upfpo.app.entity.FarmerMaster;
-import com.upfpo.app.entity.FpoLicenceDetails;
 
 @Repository
 public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Integer>
@@ -56,4 +56,7 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	@Transactional
 	@Query("update User u set u.isEnabled=true, u.activatedBy= :masterId where u.userId = :uid")
 	public void activateUserByFpo(Long uid, Integer masterId);
+	
+	@Query("select new com.upfpo.app.dto.FarmerDetailsDTO(f.farmerId, f.farmerName) from FarmerMaster f where f.fpoRefId = :masterId and f.isDeleted = false")
+	public List<FarmerDetailsDTO> getFarmersByFpo(Integer masterId);
 }

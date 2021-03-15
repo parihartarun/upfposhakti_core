@@ -103,6 +103,12 @@ public class EnquiryChcFmbMachinery
 	@Column(name = "deliveryaddress")
 	private String deliveryaddress;
 	
+	@Column(name = "user_id")
+	private Integer userId;
+	
+	@Column(name = "role_ref_id")
+	private String roleRefId;
+	
 	public BigInteger getEnqid() {
 		return enqid;
 	}
@@ -221,6 +227,22 @@ public class EnquiryChcFmbMachinery
 
 	public void setRequestedDateTime(Calendar requestedDateTime) {
 		this.requestedDateTime = requestedDateTime;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getRoleRefId() {
+		return roleRefId;
+	}
+
+	public void setRoleRefId(String roleRefId) {
+		this.roleRefId = roleRefId;
 	}
 	
 }

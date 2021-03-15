@@ -3,8 +3,11 @@ package com.upfpo.app.dto;
 public class InputSupplierMachineryDTO {
 
     Integer id;
+    Integer type_id;
     String type;
+    Integer name_id;
     String equpment_name;
+    String specification;
     Integer quantity;
     String manufacturer_name;
     String file_path;
@@ -12,10 +15,13 @@ public class InputSupplierMachineryDTO {
     public InputSupplierMachineryDTO() {
     }
 
-    public InputSupplierMachineryDTO(Integer id, String type, String equpment_name, Integer quantity, String manufacturer_name, String file_path) {
+    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name, String specification, Integer quantity, String manufacturer_name, String file_path) {
         this.id = id;
+        this.type_id = type_id;
         this.type = type;
+        this.name_id = name_id;
         this.equpment_name = equpment_name;
+        this.specification = specification;
         this.quantity = quantity;
         this.manufacturer_name = manufacturer_name;
         this.file_path = file_path;
@@ -45,6 +51,14 @@ public class InputSupplierMachineryDTO {
         this.equpment_name = equpment_name;
     }
 
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -67,5 +81,21 @@ public class InputSupplierMachineryDTO {
 
     public void setFile_path(String file_path) {
         this.file_path = file_path;
+    }
+
+    public Integer getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(Integer type_id) {
+        this.type_id = type_id;
+    }
+
+    public Integer getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(Integer name_id) {
+        this.name_id = name_id;
     }
 }

@@ -25,7 +25,9 @@ import com.upfpo.app.dto.InputSupplierFertilizerDTO;
                         targetClass = InputSupplierFertilizerDTO.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "type_id", type = Integer.class),
                                 @ColumnResult(name = "fertilizer_type", type = String.class),
+                                @ColumnResult(name = "name_id", type = Integer.class),
                                 @ColumnResult(name = "fertilizer_name", type = String.class),
                                 @ColumnResult(name = "fertilizer_grade", type = String.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
