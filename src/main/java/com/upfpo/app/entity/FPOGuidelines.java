@@ -1,11 +1,26 @@
 package com.upfpo.app.entity;
 
+import com.upfpo.app.dto.FPOGuidelinesDTO;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+
+
+@SqlResultSetMapping(name="FPOGuidelinesDTO",
+        classes = {
+                @ConstructorResult(
+                        targetClass = FPOGuidelinesDTO.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "description", type = Integer.class),
+                                @ColumnResult(name = "create_date", type = String.class),
+                                @ColumnResult(name = "file_path", type = Integer.class),
+                        })
+        })
 
 @Entity
 @Table(name = "fpo_guidelines")
@@ -43,6 +58,9 @@ public class FPOGuidelines implements Serializable {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "language")
+    private Language language;
+
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
@@ -76,11 +94,12 @@ public class FPOGuidelines implements Serializable {
 
 
 
-    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType, String url, String hindiDescription) {
+    public FPOGuidelines(String description, FPOGuidelineType fpoGuidelineType, String url, String hindiDescription, Language language) {
         this.description=description;
         this.fpoGuidelineType=fpoGuidelineType;
         this.url=url;
         this.hindiDescription=hindiDescription;
+        this.language=language;
     }
 
     public FPOGuidelines() {
@@ -133,7 +152,13 @@ public class FPOGuidelines implements Serializable {
     }
 
 
+    public Language getLanguage() {
+        return language;
+    }
 
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
 
     public void setUrl(String url) {
         this.url = url;
