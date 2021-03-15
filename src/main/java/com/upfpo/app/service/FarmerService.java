@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.FarmerAllUserToFpoDto;
+import com.upfpo.app.dto.FarmerDetailsDTO;
 import com.upfpo.app.entity.FarmerMaster;
 
 public interface FarmerService 
@@ -14,4 +15,5 @@ public interface FarmerService
 	public List<FarmerAllUserToFpoDto> getAllFarmerUserToFpo(Integer fpoId);
 	public void deActivateFarmerUser(Long uid, String reason, Integer masterId);
 	public void activateFarmerUser(Long uid, Integer masterId);
+	public List<FarmerDetailsDTO> getFarmerDetailsByFpo(Integer masterId);
 }

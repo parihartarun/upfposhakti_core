@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.upfpo.app.custom.annotations.Mobile;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.FarmerAllUserToFpoDto;
+import com.upfpo.app.dto.FarmerDetailsDTO;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.repository.FarmerMasterRepository;
 
@@ -135,5 +136,11 @@ public class FarmerServiceImpl implements FarmerService
 	@Override
 	public void activateFarmerUser(Long uid, Integer masterId) {
 		farmerMasterRepository.activateUserByFpo(uid, masterId);
+	}
+	
+	@Override
+	public List<FarmerDetailsDTO> getFarmerDetailsByFpo(Integer masterId) 
+	{
+		return farmerMasterRepository.getFarmersByFpo(masterId);
 	}
 }

@@ -20,6 +20,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.custom.CustomException;
 import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.FarmerAllUserToFpoDto;
+import com.upfpo.app.dto.FarmerDetailsDTO;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.entity.ReasonsMaster;
 import com.upfpo.app.service.FarmerService;
@@ -52,7 +53,7 @@ public class FarmerController
 		return new ResponseEntity<FarmerMaster>(farmerEntity, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
+	/*@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
@@ -63,6 +64,19 @@ public class FarmerController
 	{
 		List<FarmerMaster> list = farmerService.getFarmer(masterId);
 		return new ResponseEntity<List<FarmerMaster>>(list, new HttpHeaders(), HttpStatus.OK);
+	}*/
+	
+	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
+	})
+	@GetMapping(value="/getFarmerDetails/{masterId}")
+	private ResponseEntity<List<FarmerDetailsDTO>> getFarmerDetailsById(@PathVariable("masterId") Integer masterId)
+	{
+		List<FarmerDetailsDTO> list = farmerService.getFarmerDetailsByFpo(masterId);
+		return new ResponseEntity<List<FarmerDetailsDTO>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	/*
