@@ -13,7 +13,7 @@ public class EnquieryRequest {
 	private Integer cropId;
 	@NotNull(message = "Fpo Delivery Address Must Not Be Null")
 	private String  fpoDeliveryAddress;
-    @NotNull(message = "User Id Must Not be Null")
+   // @NotNull(message = "User Id Must Not be Null")
 	private Integer userId;
    // @NotNull(message = "Fullfillment date must not be null")
     private String fulfillmentDate; 
