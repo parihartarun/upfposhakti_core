@@ -16,6 +16,8 @@ public class NewSearchServiceImpl implements NewSearchService {
 	@Override
 	public ResponseEntity<?> newHomeSearch(SearchRequestDto searchRequestDto) {
 		// TODO Auto-generated method stub
+		
+		searchRequestDto.setVal(searchRequestDto.getVal().trim());
 		if(searchRequestDto.getIn().equalsIgnoreCase("crop"))
 		{
 			return searchInCrop(searchRequestDto);
