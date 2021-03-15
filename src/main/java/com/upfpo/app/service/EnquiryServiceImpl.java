@@ -1,5 +1,6 @@
 package com.upfpo.app.service;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 
     public Enquiry createEnquiry (EnquieryRequest enquiryRequest){
    
-    	
+    	BigInteger val = BigInteger.valueOf(1);
     	System.out.println("Date Has been received"+enquiryRequest.getFulfillmentDate());
     	
     	Enquiry enquiry =  new Enquiry(); 
@@ -63,8 +64,10 @@ public class EnquiryServiceImpl implements EnquiryService{
     	enquiry.setStatus("Active");            // active
     	enquiry.setEnquieryNumber("INDNT"+enquiryRequest.getUserId()+new Date().getTime());
     	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
-    	enquiry.setMasterId(enquiryRequest.getMasterId()); 
-    	enquiry.setCreatedBy(enquiryRequest.getCreatedBy());
+    	//enquiry.setMasterId(enquiryRequest.getMasterId());
+    	enquiry.setMasterId(1);
+    	//enquiry.setCreatedBy(enquiryRequest.getCreatedBy());
+    	enquiry.setCreatedBy(val);
       	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  	 	 	
       	return enquiryRepository.save(enquiry);
     }
