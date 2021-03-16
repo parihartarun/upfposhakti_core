@@ -42,8 +42,8 @@ public class CircularsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CircularsController.class);
 
-    private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+    //private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
+      //      "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
     @Autowired
     CircularsServiceImpl circularsService;
@@ -71,8 +71,7 @@ public class CircularsController {
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+
             try {
                 Circulars circulars = new Circulars(description);
                 Circulars id = circularsService.createCircular(circulars, file);
@@ -83,11 +82,7 @@ public class CircularsController {
                 LOG.info("Failed to Save the Circular");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
+
         LOG.info("Exiting Circular Of Controller with response ", resp);
         return resp;
     }
@@ -109,8 +104,7 @@ public class CircularsController {
         circular.setId(id);
         circular.setDescription(description);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+
             try {
                 circularsService.updateCirculars(id, circular, description,  file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Circular Details Updated Successfully!"), HttpStatus.OK );
@@ -120,11 +114,7 @@ public class CircularsController {
                 LOG.info("Failed to Update the Circular Details");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
+
         LOG.info("Exiting Circular Of Controller with response ", resp);
         return resp;
     }

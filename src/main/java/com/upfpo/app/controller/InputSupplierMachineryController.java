@@ -29,7 +29,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="inputsupplier/machinery/")
+@RequestMapping(value="inputsupplier/machinery")
 @Api(produces = "application/json", tags="InputSupplierMachinery Controller", value = "Add, Update, Delete, and retrive the InputSupplierMachinery Detail")
 public class InputSupplierMachineryController {
 
@@ -108,8 +108,7 @@ public class InputSupplierMachineryController {
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
+
             try {
                 InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
@@ -120,11 +119,7 @@ public class InputSupplierMachineryController {
                 LOG.info("Failed to Save the InputSupplierMachinery");
                 e.printStackTrace();
             }
-        }
-        else{
-            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
-            throw new IllegalArgumentException("Incorrect file type, Photo required.");
-        }
+
         LOG.info("Exiting InputSupplierMachinery Of Controller with response ", resp);
         return resp;
     }
