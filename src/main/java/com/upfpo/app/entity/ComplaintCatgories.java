@@ -21,6 +21,9 @@ public class ComplaintCatgories implements Serializable {
     @Column(name="complaint_type_hi")
     private String comp_type_hi;
 
+    public ComplaintCatgories() {
+    }
+
     public Integer getComp_type_id() {
         return comp_type_id;
     }
