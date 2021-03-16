@@ -67,6 +67,22 @@ public class Circulars implements Serializable{
 
 	}
 
+	public Circulars(Integer id, String filePath, Integer usersId, String description, Calendar uploadDate, String uploadedBy, Calendar updateDate, String updatedBy, Calendar createDate, String createBy, Calendar deleteDate, String deleteBy, boolean isDeleted, String fileName) {
+		this.id = id;
+		this.filePath = filePath;
+		this.usersId = usersId;
+		this.description = description;
+		this.uploadDate = uploadDate;
+		this.uploadedBy = uploadedBy;
+		this.updateDate = updateDate;
+		this.updatedBy = updatedBy;
+		this.createDate = createDate;
+		this.createBy = createBy;
+		this.deleteDate = deleteDate;
+		this.deleteBy = deleteBy;
+		this.isDeleted = isDeleted;
+		this.fileName = fileName;
+	}
 
 	public Integer getId() {
 		return id;
