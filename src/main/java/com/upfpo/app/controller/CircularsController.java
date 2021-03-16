@@ -71,7 +71,6 @@ public class CircularsController {
                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside CircularsController saving Circulars ");
         ResponseEntity<MessageResponse> resp = null;
-
             try {
                 Circulars circulars = new Circulars(description);
                 Circulars id = circularsService.createCircular(circulars, file);
