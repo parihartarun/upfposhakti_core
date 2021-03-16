@@ -91,12 +91,16 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
 
     @Override
     public InputSupplierMachinery createInputSupplierMachinery(InputSupplierMachinery inputSupplierMachinery, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
         inputSupplierMachinery.setCreateBy(inputSupplierMachinery.getInputSupplierId());
         inputSupplierMachinery.setCreateDateTime(Calendar.getInstance());
+
+        if (file!=null) {
+            String fileContentType = file.getContentType();
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if(fileName.contains("..") &&  contentTypes.contains(fileContentType)) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
@@ -111,7 +115,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
             inputSupplierMachinery.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        }}
         inputSupplierMachinery.setDeleted(false);
         return machineryRepository.save(inputSupplierMachinery);
     }
