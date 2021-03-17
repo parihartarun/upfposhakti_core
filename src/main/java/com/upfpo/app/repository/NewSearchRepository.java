@@ -203,7 +203,7 @@ public class NewSearchRepository {
 		String sql ="select inf.id id, \r\n"
 				+ "	'null' as itemname,\r\n"
 				+ "	fnt.insecticide_type itemtype,\r\n"
-				+ "	inf.quantity quantity,\r\n"
+				+ "	cast(inf.quantity as float) quantity,\r\n"
 				+ "	inf.input_supplier_id inputsupplierid, \r\n"
 				+ "	inps.input_supplier_name inputsupplier,\r\n"
 				+ "	dist.district_id as districtid,\r\n"
