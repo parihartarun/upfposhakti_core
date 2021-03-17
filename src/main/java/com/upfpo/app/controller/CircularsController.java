@@ -166,9 +166,8 @@ public class CircularsController {
             contentType = "image/png";
         }
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .header(HttpHeaders.CONTENT_TYPE, "inline; filename=\"" + resource.getFilename() + "\"")
-                .header(HttpHeaders.CONTENT_DISPOSITION)
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
     
