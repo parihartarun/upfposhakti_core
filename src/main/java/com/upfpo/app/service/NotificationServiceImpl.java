@@ -107,14 +107,14 @@ public class NotificationServiceImpl implements NotificationService{
 
             // Check if the file's name contains invalid characters
             if(fileName.contains("..") &&  contentTypes.contains(fileContentType)) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence or Invalid file type" + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             //Path path = Paths.get( fileBasePath+fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/notification/download/")
+                    .path("/notification/download")
                     .path(fileName)
                     .toUriString();
             notification.setFilePath(fileDownloadUri);
