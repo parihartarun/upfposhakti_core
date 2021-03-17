@@ -7,7 +7,7 @@ public class InputSupplierMachineryDTO {
     String type;
     Integer name_id;
     String equpment_name;
-    String specification;
+    String technical_specs;
     Integer quantity;
     String manufacturer_name;
     String file_path;
@@ -15,13 +15,13 @@ public class InputSupplierMachineryDTO {
     public InputSupplierMachineryDTO() {
     }
 
-    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name, String specification, Integer quantity, String manufacturer_name, String file_path) {
+    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name, String technical_specs, Integer quantity, String manufacturer_name, String file_path) {
         this.id = id;
         this.type_id = type_id;
         this.type = type;
         this.name_id = name_id;
         this.equpment_name = equpment_name;
-        this.specification = specification;
+        this.technical_specs = technical_specs;
         this.quantity = quantity;
         this.manufacturer_name = manufacturer_name;
         this.file_path = file_path;
@@ -51,12 +51,12 @@ public class InputSupplierMachineryDTO {
         this.equpment_name = equpment_name;
     }
 
-    public String getSpecification() {
-        return specification;
+    public String getTechnical_specs() {
+        return technical_specs;
     }
 
-    public void setSpecification(String specification) {
-        this.specification = specification;
+    public void setTechnical_specs(String technical_specs) {
+        this.technical_specs = technical_specs;
     }
 
     public Integer getQuantity() {
