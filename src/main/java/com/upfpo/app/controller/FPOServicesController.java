@@ -128,7 +128,6 @@ public class FPOServicesController {
                                                              @RequestPart(value = "file", required = false) MultipartFile file) {
 
         LOG.info("Inside FPOServices updating FPOServices detail ");
-
         FPOServices fpoServices = new FPOServices();
         fpoServices.setId(id);
         fpoServices.setServicename(servicename);
@@ -200,7 +199,7 @@ public class FPOServicesController {
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 }
