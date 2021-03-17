@@ -30,6 +30,6 @@ public interface InputSupplierMasterRepository extends JpaRepository<InputSuppli
 
 
 	//@Query("select i.inputSupplierId, i.inputSupplierName, i.mobile_number, i.email from InputSupplierMaster i where i.inputSupplierId=:masterId")
-	@Query("SELECT new com.upfpo.app.dto.InputSupplierDTO(inputSupplierId, inputSupplierName, mobile_number, email) FROM InputSupplierMaster where inputSupplierId=:masterId")
-	InputSupplierDTO getInputSupplierDetail(Integer masterId);
+	//@Query("SELECT new com.upfpo.app.dto.InputSupplierDTO(inputSupplierId, inputSupplierName, mobile_number, email) FROM InputSupplierMaster where inputSupplierId=:masterId")
+	//InputSupplierDTO getInputSupplierDetail(Integer masterId);
 }

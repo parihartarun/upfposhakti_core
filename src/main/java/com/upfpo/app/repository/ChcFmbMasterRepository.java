@@ -28,6 +28,6 @@ public interface ChcFmbMasterRepository extends JpaRepository<ChcFmbMaster, Inte
 
 	//@Query("select i.chcFmbId, i.chcFmbName, i.mobileNumber, i.email from ChcFmbMaster i where i.chcFmbId=:masterId")
 
-	@Query("SELECT new com.upfpo.app.dto.ChcFmbDTO(chcFmbId, chcFmbName, mobileNumber, email) FROM ChcFmbMaster where chcFmbId=:masterId")
-	ChcFmbDTO getChcFmbDetail(int masterId);
+	//@Query("SELECT new com.upfpo.app.dto.ChcFmbDTO(chcFmbId, chcFmbName, mobileNumber, email) FROM ChcFmbMaster where chcFmbId=:masterId")
+	//ChcFmbDTO getChcFmbDetail(int masterId);
 }
