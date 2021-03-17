@@ -111,14 +111,17 @@ public class NotificationServiceImpl implements NotificationService{
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            //Path path = Paths.get( fileBasePath+fileName);
+            //Path path = Paths.get(fileBasePath + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/notification/download")
+                    .path("/notification/download/")
                     .path(fileName)
                     .toUriString();
             notification.setFilePath(fileDownloadUri);
             notification.setFilName(fileName);
+            notification.setUploadDate(Calendar.getInstance().getTime());
+            notification.setUploadedBy(currentPrincipalName);
+            //photoUploadRepository.save(photoUploads);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }}

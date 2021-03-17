@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/photo/download/**",
 				"/schemes/download/**",
 				"/fposervices/download/**",
+				"/notification/download/**",
 				"/fpocomplaint/download/**",
 				"/fpoguidelines/download/**",
 				"/complaint/download/**",
