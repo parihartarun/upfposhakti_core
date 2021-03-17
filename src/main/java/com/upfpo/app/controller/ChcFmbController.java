@@ -3,6 +3,7 @@ package com.upfpo.app.controller;
 import java.util.List;
 
 import com.upfpo.app.dto.ChcFmbDTO;
+import com.upfpo.app.dto.ChcFmbDetailDTO;
 import com.upfpo.app.dto.ChcFmbMachineryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -36,16 +37,20 @@ public class ChcFmbController
 
 
 	@GetMapping(value="/profile/ChcFmbDetail/{id}")
-	@ApiOperation(value="Get All CHC FMB details",code=200,produces = "application/json",notes="Api for view CHC FMB Contect Detail",response=ChcFmbDTO.class,responseContainer="List")
+	@ApiOperation(value="Get All CHC FMB details",code=200,produces = "application/json",notes="Api for view CHC FMB Contect Detail",response=ChcFmbDetailDTO.class,responseContainer="List")
 	@ApiResponses(value= {
 			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Items Not Found"),
 			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
 			@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	private ChcFmbDTO getchcFmbMasterDetail(@PathVariable int id)
+	private ChcFmbDetailDTO getchcFmbMasterDetail(@PathVariable int id)
 	{
-		ChcFmbDTO list = chcFmbService.getChcFmbDetail(id);
-		return chcFmbService.getChcFmbDetail(id);
+
+		ChcFmbDTO chcFmb=chcFmbService.getChcFmbDetail(id);
+		List<ChcFmbMachineryDTO> machinery =  chcFmbService.getAllChcFmbMachinery(id);
+		ChcFmbDetailDTO dto= new ChcFmbDetailDTO(chcFmb, machinery);
+
+		return dto;
 	}
 	
 	@GetMapping(value="/getChcFmb")

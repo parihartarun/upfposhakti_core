@@ -56,7 +56,8 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
     public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId) {
         List<InputSupplierMachineryDTO> list = null;
         try {
-            String sql = "Select  ism.id, etm.type, em.equpment_name, ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
+            String sql = "Select  ism.id,etm.id as type_id, etm.type, em.id as name_id, em.equpment_name, ism.technical_specs,  " +
+                    "ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
                     "from input_supplier_machinery ism \r\n" +
                     "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
                     "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
@@ -75,7 +76,7 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
     public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId) {
         List<InputSupplierInsecticideDTO> list = null;
         try {
-            String sql = "Select  isi.id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
+            String sql = "Select  isi.id, itm.id as type_id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
                     ", isi.file_path \r\n" +
                     "from input_supplier_insecticide isi \r\n" +
                     "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +
@@ -114,7 +115,7 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
     public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId) {
         List<InputSupplierFertilizerDTO> list = null;
         try {
-            String sql = "Select  isf.id, ftm.fertilizer_type, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
+            String sql = "Select  isf.id, ftm.id as type_id, ftm.fertilizer_type, fnm.id as name_id, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
                     "from input_supplier_fertilizer isf \r\n" +
                     "left join fertilizer_type_master ftm on ftm.id=isf.fertilizer_type_id \r\n" +
                     "left join fertilizer_name_master fnm on fnm.id=isf.fertilizer_name_id \r\n" +
