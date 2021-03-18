@@ -143,4 +143,10 @@ public class FarmerServiceImpl implements FarmerService
 	{
 		return farmerMasterRepository.getFarmersByFpo(masterId);
 	}
+	
+	@Override
+	public Integer getFarmerCountByFpo(Integer fpoId) 
+	{
+		return farmerMasterRepository.getFpoFarmer(fpoId);
+	}
 }

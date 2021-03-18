@@ -6,10 +6,13 @@ public class FarmerDetailsDTO
 	
 	private String farmerName;
 	
-	public FarmerDetailsDTO(Integer farmerId, String farmerName) {
+	private String upBSMId;
+	
+	public FarmerDetailsDTO(Integer farmerId, String farmerName, String upBSMId) {
 		super();
 		this.farmerId = farmerId;
 		this.farmerName = farmerName;
+		this.upBSMId = upBSMId;
 	}
 
 	public Integer getFarmerId() {
@@ -27,6 +30,13 @@ public class FarmerDetailsDTO
 	public void setFarmerName(String farmerName) {
 		this.farmerName = farmerName;
 	}
-	
+
+	public String getUpBSMId() {
+		return upBSMId;
+	}
+
+	public void setUpBSMId(String upBSMId) {
+		this.upBSMId = upBSMId;
+	}
 	
 }

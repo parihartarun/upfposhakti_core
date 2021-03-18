@@ -66,7 +66,7 @@ public class FarmerController
 		return new ResponseEntity<List<FarmerMaster>>(list, new HttpHeaders(), HttpStatus.OK);
 	}*/
 	
-	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
+	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerDetailsDTO.class, responseContainer = "List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
@@ -77,6 +77,18 @@ public class FarmerController
 	{
 		List<FarmerDetailsDTO> list = farmerService.getFarmerDetailsByFpo(masterId);
 		return new ResponseEntity<List<FarmerDetailsDTO>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get Farmer Count by FPO", code=200, produces = "application/json",notes="Api for get Farmer count by fpo",response=FarmerDetailsDTO.class, responseContainer = "List")
+	@ApiResponses(value= {
+	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
+	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
+	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
+	})
+	@GetMapping(value="/getFarmerByFpo/{masterId}")
+	private Integer getFarmerCountByFpo(@PathVariable("masterId") Integer masterId)
+	{
+		return farmerService.getFarmerCountByFpo(masterId);
 	}
 	
 	/*

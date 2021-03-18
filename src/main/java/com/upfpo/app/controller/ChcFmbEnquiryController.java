@@ -33,6 +33,10 @@ public class ChcFmbEnquiryController
 	{
 		try
 		{
+			if(enquiryChcFmbMachinery.getCreatedBy() == enquiryChcFmbMachinery.getMasterId())
+			{
+				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
+			}
 			chcFmbEnquiryService.createMachineryIndent(enquiryChcFmbMachinery);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}

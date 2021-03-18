@@ -57,6 +57,6 @@ public interface FarmerMasterRepository extends JpaRepository<FarmerMaster, Inte
 	@Query("update User u set u.isEnabled=true, u.activatedBy= :masterId where u.userId = :uid")
 	public void activateUserByFpo(Long uid, Integer masterId);
 	
-	@Query("select new com.upfpo.app.dto.FarmerDetailsDTO(f.farmerId, f.farmerName) from FarmerMaster f where f.fpoRefId = :masterId and f.isDeleted = false")
+	@Query("select new com.upfpo.app.dto.FarmerDetailsDTO(f.farmerId, f.farmerName, f.upBSMId) from FarmerMaster f where f.fpoRefId = :masterId and f.isDeleted = false")
 	public List<FarmerDetailsDTO> getFarmersByFpo(Integer masterId);
 }

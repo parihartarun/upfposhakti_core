@@ -16,4 +16,5 @@ public interface FarmerService
 	public void deActivateFarmerUser(Long uid, String reason, Integer masterId);
 	public void activateFarmerUser(Long uid, Integer masterId);
 	public List<FarmerDetailsDTO> getFarmerDetailsByFpo(Integer masterId);
+	public Integer getFarmerCountByFpo(Integer fpoId);
 }
