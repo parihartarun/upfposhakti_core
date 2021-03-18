@@ -19,7 +19,7 @@ public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 	Enquiry findByEnid(long id);
 
 
-	List<Enquiry> findByFpo(FPORegister fpo);
+	List<Enquiry> findByFpoOrderByEnidDesc(FPORegister fpo);
 	
 	@Query("select count(e.fpo.fpoId) from Enquiry e where e.masterId = :buyerId")
 	public Integer getFpoCount(Integer buyerId);
