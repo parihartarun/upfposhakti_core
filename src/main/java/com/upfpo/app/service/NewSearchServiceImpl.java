@@ -10,6 +10,13 @@ import com.upfpo.app.dto.SearchRequestDto;
 @Service
 public class NewSearchServiceImpl implements NewSearchService {
 
+	
+	private static final String CROP = "crop";
+	private static final String FERTILIZER = "fertilizer";
+	private static final String INSECTICIDE = "insecticide";
+	private static final String SEED = "seed";
+	private static final String MACHINERY = "fmb";
+	private static final String INPUTSUPPLIER = "inputsupplier";
 	@Autowired
 	private NewSearchRepository newSearchRepository;
 	
@@ -18,13 +25,28 @@ public class NewSearchServiceImpl implements NewSearchService {
 		// TODO Auto-generated method stub
 		
 		searchRequestDto.setVal(searchRequestDto.getVal().trim());
-		if(searchRequestDto.getIn().equalsIgnoreCase("crop"))
+		if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.CROP))
 		{
 			return searchInCrop(searchRequestDto);
-		}else if(searchRequestDto.getIn().equalsIgnoreCase("inputsupplier"))
+		}else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.INPUTSUPPLIER))
 		{
-			return searchInInputSuppliers(searchRequestDto);
-		}else if(searchRequestDto.getIn().equalsIgnoreCase("fmb"))
+       	return searchInInputSuppliers(searchRequestDto);
+		}else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.FERTILIZER))
+		{
+			return searchInInputSuppliersFertilizers(searchRequestDto);
+		}else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.INSECTICIDE))
+		{
+			return searchInInputSuppliersInsecticides(searchRequestDto);
+		}else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.MACHINERY))
+		{
+			return searchInFmb(searchRequestDto);
+		}else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.SEED))
+		{
+			return searchInInputSuppliersSeeds(searchRequestDto);
+		}
+		
+		
+		else if(searchRequestDto.getIn().equalsIgnoreCase("fmb"))
 		{
 			
 			return searchInFmb(searchRequestDto);
@@ -48,17 +70,16 @@ public class NewSearchServiceImpl implements NewSearchService {
 	
 	private ResponseEntity<?> searchInInputSuppliersSeeds(SearchRequestDto searchRequestDto)
 	{
-	return null;	
+		return newSearchRepository.newSeedsSearch(searchRequestDto);	
 	}
+	
 	private ResponseEntity<?> searchInInputSuppliersFertilizers(SearchRequestDto searchRequestDto)
 	{
-	return null;	
+		return newSearchRepository.newFertilizersSearch(searchRequestDto);	
 	}
+	
 	private ResponseEntity<?> searchInInputSuppliersInsecticides(SearchRequestDto searchRequestDto)
 	{
-	return null;	
+		return newSearchRepository.newInsecticidesSearch(searchRequestDto);	
 	}
-	
-	
-	
 }

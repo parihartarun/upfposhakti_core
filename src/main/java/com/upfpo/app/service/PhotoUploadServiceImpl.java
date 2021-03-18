@@ -123,7 +123,7 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 //Path path = Paths.get(fileBasePath + fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("uploads/Photos/")
+                        .path("/photo/download/")
                         .path(fileName)
                         .toUriString();
                 photoUploadRepository.findById(id)

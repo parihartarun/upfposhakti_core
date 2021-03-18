@@ -163,11 +163,11 @@ public class CircularsController {
         }
         // Fallback to the default content type if type could not be determined
         if(contentType == null) {
-            contentType = "application/octet-stream";
+            contentType = "image/png";
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
     

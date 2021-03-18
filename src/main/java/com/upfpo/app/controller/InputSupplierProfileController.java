@@ -30,8 +30,6 @@ public class InputSupplierProfileController {
     private InputSupplierProfileService dashboardService;
 
 
-
-
     @GetMapping("/inputsupplier/{id}")
     @ApiOperation(value="Input Supplier Contect Detail" ,code=201, produces = "application/json", notes="Api for all InputSupplier Contect Info",response= InputSupplierDTO.class)
     @ApiResponses(value= {
@@ -39,8 +37,24 @@ public class InputSupplierProfileController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public InputSupplierDTO getInputSupplierDetail (@PathVariable Integer id){
-        return dashboardService.getInputSupplierDetails(id);
+    public InputSupplierDetailDTO getInputSupplierDetail (@PathVariable Integer id){
+        InputSupplierDetailDTO detailDTO=new InputSupplierDetailDTO();
+        InputSupplierDTO inputSupplier = dashboardService.getInputSupplierDetails(id);
+
+        List<InputSupplierFertilizerDTO> fertilizer=dashboardService.getAllInputSupplierFertilizer(id);
+        List<InputSupplierSeedDTO> seed=dashboardService.getAllInputSupplierSeed(id);
+        List<InputSupplierMachineryDTO> machinerys = dashboardService.getAllInputSupplierMachinery(id);
+        List<InputSupplierInsecticideDTO> insecticides=dashboardService.getAllInputSupplierInsecticide(id);
+
+        detailDTO.setInputSupplier(inputSupplier);
+        detailDTO.setFertilizer(fertilizer);
+        detailDTO.setSeed(seed);
+        detailDTO.setMachinerys(machinerys);
+        detailDTO.setInsecticides(insecticides);
+
+        return detailDTO;
+
+
     }
 
 

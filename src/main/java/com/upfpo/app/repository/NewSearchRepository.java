@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -202,7 +203,7 @@ public class NewSearchRepository {
 		String sql ="select inf.id id, \r\n"
 				+ "	'null' as itemname,\r\n"
 				+ "	fnt.insecticide_type itemtype,\r\n"
-				+ "	inf.quantity quantity,\r\n"
+				+ "	cast(inf.quantity as float) quantity,\r\n"
 				+ "	inf.input_supplier_id inputsupplierid, \r\n"
 				+ "	inps.input_supplier_name inputsupplier,\r\n"
 				+ "	dist.district_id as districtid,\r\n"
@@ -415,5 +416,98 @@ public class NewSearchRepository {
 		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fmbSearchPagePagableDto);	
 	}
 	
+	public ResponseEntity<?> newFertilizersSearch(SearchRequestDto searchRequestDto)
+	{
+		
+		String sql = searchFertilizersInInputSupplierFertilizer(searchRequestDto);
+	
+	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
+	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+	  
+	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getDistrictIds()!=null) {
+			for(Integer districtId:searchRequestDto.getDistrictIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 
+		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
+	  inputSupplierPagePagableDto.setTotalElements(obj.size());
+	  //inputSupplierPagePagableDto.setPage(obj);
+	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
+	}
+	
+	public ResponseEntity<?> newInsecticidesSearch(SearchRequestDto searchRequestDto)
+	{
+		String sql =  searchInsecticidesInInputSupplierInsecticides(searchRequestDto); 
+	             
+		//return new ResponseEntity(entityManager.createNativeQuery(sql).getResultList(), HttpStatus.OK);
+	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
+	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+	  
+	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getDistrictIds()!=null) {
+			for(Integer districtId:searchRequestDto.getDistrictIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 
+		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
+	  inputSupplierPagePagableDto.setTotalElements(obj.size());
+	  //inputSupplierPagePagableDto.setPage(obj);
+	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
+	}
+	public ResponseEntity<?> newSeedsSearch(SearchRequestDto searchRequestDto)
+	{
+		String sql = searchSeedsInInputSupplierSeeds(searchRequestDto);
+	
+	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
+	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+	  
+	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getDistrictIds()!=null) {
+			for(Integer districtId:searchRequestDto.getDistrictIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 
+		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
+	  inputSupplierPagePagableDto.setTotalElements(obj.size());
+	  //inputSupplierPagePagableDto.setPage(obj);
+	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
+	}
 	
 }

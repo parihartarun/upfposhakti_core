@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import com.upfpo.app.custom.annotations.Mobile;
 import com.upfpo.app.dto.BuyerSellerComplaintsDto;
 import com.upfpo.app.dto.ChcFmbComplaintsDto;
+import com.upfpo.app.dto.ChcFmbDTO;
+import com.upfpo.app.dto.InputSupplierDTO;
 
 @Entity
 @SqlResultSetMapping(name="ChcFmbComplaintsDto",
@@ -60,6 +62,27 @@ classes = {
                 		@ColumnResult(name = "mobileNumber",type = BigInteger.class),
                 })
 })
+@SqlResultSetMapping(name="ChcFmbDTO",
+		classes = {@ConstructorResult(
+				targetClass = ChcFmbDTO.class,
+				columns = {
+						@ColumnResult(name = "chc_fmb_id", type = Integer.class),
+						@ColumnResult(name = "chc_fmb_name", type = String.class),
+						@ColumnResult(name = "user_name", type = String.class),
+						@ColumnResult(name = "district_id", type = Integer.class),
+						@ColumnResult(name = "district_name", type = String.class),
+						@ColumnResult(name = "block_id", type = Integer.class),
+						@ColumnResult(name = "block_name", type = String.class),
+						@ColumnResult(name = "village_id", type = Integer.class),
+						@ColumnResult(name = "village_name", type = String.class),
+						@ColumnResult(name = "pincode", type = Long.class),
+						@ColumnResult(name = "email", type = String.class),
+						@ColumnResult(name = "mobile_number", type = Long.class),
+						@ColumnResult(name = "firm_registraion_number", type = String.class),
+						@ColumnResult(name = "shop_establishment_number", type = String.class),
+						@ColumnResult(name = "allotment_no", type = String.class)
+				})
+		})
 @Table(name="chc_fmb")
 public class ChcFmbMaster implements Serializable
 {

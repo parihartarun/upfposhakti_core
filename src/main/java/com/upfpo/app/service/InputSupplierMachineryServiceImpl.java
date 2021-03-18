@@ -207,12 +207,13 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId) {
         List<InputSupplierMachineryDTO> list = null;
         try {
-            String sql = "Select  ism.id, etm.id as type_id, etm.type, em.id as name_id, em.equpment_name,ism.technical_specs as specification, ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
-            "from input_supplier_machinery ism \r\n" +
-            "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
-            "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
-            "inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
-            "where ism.input_supplier_id=:masterId and  ism.is_deleted = false";
+            String sql ="Select  ism.id,etm.id as type_id, etm.type, em.id as name_id, em.equpment_name, ism.technical_specs,  " +
+                    "ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
+                    "from input_supplier_machinery ism \r\n" +
+                    "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
+                    "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
+                    "inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
+                    "where ism.input_supplier_id=:masterId and  ism.is_deleted = false";
 
             List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).getResultList();
             return obj;

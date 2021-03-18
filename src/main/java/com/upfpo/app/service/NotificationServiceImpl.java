@@ -107,11 +107,11 @@ public class NotificationServiceImpl implements NotificationService{
 
             // Check if the file's name contains invalid characters
             if(fileName.contains("..") &&  contentTypes.contains(fileContentType)) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence or Invalid file type" + fileName);
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            //Path path = Paths.get( fileBasePath+fileName);
+            //Path path = Paths.get(fileBasePath + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/notification/download/")
@@ -119,6 +119,9 @@ public class NotificationServiceImpl implements NotificationService{
                     .toUriString();
             notification.setFilePath(fileDownloadUri);
             notification.setFilName(fileName);
+            notification.setUploadDate(Calendar.getInstance().getTime());
+            notification.setUploadedBy(currentPrincipalName);
+            //photoUploadRepository.save(photoUploads);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }}

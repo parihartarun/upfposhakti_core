@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.upfpo.app.dto.ChcFmbDTO;
 import com.upfpo.app.dto.ChcFmbMachineryDTO;
+import com.upfpo.app.dto.InputSupplierDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ChcFmbServiceImpl implements ChcFmbService
 
 	@Override
 	public ChcFmbDTO getChcFmbDetail(int masterId){
-		ChcFmbDTO chcFmb= chcFmbRepository.getChcFmbDetail(masterId);
+		ChcFmbDTO chcFmb= getChcFmbProfileById(masterId);
 		return chcFmb;
 	}
 
@@ -92,6 +93,28 @@ public class ChcFmbServiceImpl implements ChcFmbService
 					"            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false order by id desc";
 
 			List<ChcFmbMachineryDTO> obj = (List<ChcFmbMachineryDTO>) entityManager.createNativeQuery(sql, "ChcFmbMachineryDTO").setParameter("masterId", masterId).getResultList();
+			return obj;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	public ChcFmbDTO getChcFmbProfileById(Integer masterId) {
+		ChcFmbDTO list = null;
+		try {
+			String sql = "select chc_fmb_id, chc_fmb_name, u.user_name, dst.district_id, dst.district_name, blk.block_id,\n" +
+					"blk.block_name, vill.village_id, vill.village_name, pincode, email, \n" +
+					"mobile_number, firm_registraion_number, shop_establishment_number, allotment_no from chc_fmb chc\n" +
+					"                    left join districts dst on dst.district_id=chc.chc_fmb_id \n" +
+					"                    left join block blk on blk.block_id=chc.chc_fmb_id\n" +
+					"\t\t\t\t\tleft join villages vill on vill.block_id=chc.chc_fmb_id\n" +
+					"\t\t\t\t\tleft join users u on u.user_id=chc.user_id\n" +
+					"\t\t\t\t\t where chc.chc_fmb_id=:masterId and  chc.is_deleted = false;";
+
+			ChcFmbDTO obj = (ChcFmbDTO) entityManager.createNativeQuery(sql, "ChcFmbDTO").setParameter("masterId", masterId).getSingleResult();
 			return obj;
 
 		} catch (Exception e) {
