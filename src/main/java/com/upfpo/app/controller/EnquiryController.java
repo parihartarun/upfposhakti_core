@@ -22,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
 import com.upfpo.app.entity.FPORegister;
-import com.upfpo.app.entity.User;
 import com.upfpo.app.service.EnquiryServiceImpl;
 import com.upfpo.app.service.FPOService;
 import com.upfpo.app.service.UserService;
@@ -91,7 +89,10 @@ public class EnquiryController {
         LOG.info("Inside EnquiryController saving Enquiry ", enquiry);
         ResponseEntity<String> resp = null;
         try {
-        	
+        	if(enquiry.getMasterId() == enquiry.getFpoId())
+			{
+				return new ResponseEntity<String>("Same user can't create an indent!", HttpStatus.OK );
+			}
             Enquiry id = enquiryService.createEnquiry(enquiry);
             resp = new ResponseEntity<String>(id.getEnquieryNumber(), HttpStatus.OK );
             LOG.info("Enquiry created Successfully!");

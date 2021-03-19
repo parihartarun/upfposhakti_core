@@ -61,7 +61,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     	enquiry.setQuantity(enquiryRequest.getQuantity());              // from ui
     	enquiry.setReason(null);                // no idea hence empty
     	enquiry.setStatus("Active");            // active
-    	enquiry.setEnquieryNumber("INDNT"+enquiryRequest.getUserId()+new Date().getTime());
+    	enquiry.setEnquieryNumber("INDNT"+enquiryRequest.getMasterId()+new Date().getTime());
     	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
     	enquiry.setMasterId(enquiryRequest.getMasterId());
     	enquiry.setCreatedBy(enquiryRequest.getCreatedBy());
@@ -146,7 +146,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 	}
 
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
-		return enquiryRepository.findByFpo(fpo);
+		return enquiryRepository.findByFpoOrderByEnidDesc(fpo);
 	}
 
 	

@@ -42,6 +42,10 @@ public class InputSupplierEnquiryController
 	{
 		try
 		{
+			if(enquiryInputSupplierSeed.getCreatedBy() == enquiryInputSupplierSeed.getMasterId())
+			{
+				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
+			}
 			inputSupplierEnquiryService.createSeedIndent(enquiryInputSupplierSeed);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}
@@ -77,7 +81,11 @@ public class InputSupplierEnquiryController
 	public ResponseEntity<MessageResponse> createFertilizerIndentSeed(@RequestBody EnquiryInputSupplierFertilizer enquiryInputSupplierFertilizer)
 	{
 		try
-		{
+		{	
+			if(enquiryInputSupplierFertilizer.getCreatedBy() == enquiryInputSupplierFertilizer.getMasterId())
+			{
+				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
+			}
 			inputSupplierEnquiryService.createFertilizerIndent(enquiryInputSupplierFertilizer);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}
@@ -120,6 +128,10 @@ public class InputSupplierEnquiryController
 	{
 		try
 		{
+			if(enquiryInputSupplierMachinery.getCreatedBy() == enquiryInputSupplierMachinery.getMasterId())
+			{
+				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
+			}
 			inputSupplierEnquiryService.createMachineryIndent(enquiryInputSupplierMachinery);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}
@@ -156,6 +168,10 @@ public class InputSupplierEnquiryController
 	{
 		try
 		{
+			if(enquiryInputSupplierInsecticide.getCreatedBy() == enquiryInputSupplierInsecticide.getMasterId())
+			{
+				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
+			}
 			inputSupplierEnquiryService.createInsecticide(enquiryInputSupplierInsecticide);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}
