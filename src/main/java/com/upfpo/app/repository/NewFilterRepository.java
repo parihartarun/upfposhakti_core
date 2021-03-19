@@ -17,9 +17,13 @@ import com.upfpo.app.util.GetFinYear;
 @Repository
 public class NewFilterRepository {
 	// fpo_name  
-	
-	private static final String CROP ="crop";
-	private static final String INPUTSUPPLIERS="inputsupplier";
+
+	private static final String CROP = "crop";
+	private static final String FERTILIZER = "fertilizer";
+	private static final String INSECTICIDE = "insecticide";
+	private static final String SEED = "seed";
+	private static final String MACHINERY = "fmb";
+	private static final String INPUTSUPPLIER = "inputsupplier";
 	private static final String FMB ="fmb";
 	
 	
@@ -40,7 +44,7 @@ if(in.equalsIgnoreCase(NewFilterRepository.CROP))
 			+ "order by dist.district_name asc";	
 				
 
-}else if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIERS))
+}else if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER))
 {
 	
 	String unoinquery =selectDistrictsFromInputFertilizerTable(val)
@@ -50,7 +54,28 @@ if(in.equalsIgnoreCase(NewFilterRepository.CROP))
             +this.selectDistrictsFromInputSeedTable(val);
 sql = "select distinct * from ("+unoinquery+") as a";
 	
-}else if(in.equalsIgnoreCase(NewFilterRepository.FMB))
+}else if(in.equalsIgnoreCase(NewFilterRepository.INSECTICIDE))
+{
+	
+	String unoinquery = this.selectDistrictsFromInputInsecticidesTable(val);
+sql = "select distinct * from ("+unoinquery+") as a";
+	
+}else if(in.equalsIgnoreCase(NewFilterRepository.SEED))
+{
+	
+	String unoinquery =this.selectDistrictsFromInputSeedTable(val);
+sql = "select distinct * from ("+unoinquery+") as a";
+	
+}else if(in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
+{
+	
+	String unoinquery =selectDistrictsFromInputFertilizerTable(val);
+sql = "select distinct * from ("+unoinquery+") as a";
+	
+}
+
+
+else if(in.equalsIgnoreCase(NewFilterRepository.FMB))
 {
 	String unoinquery = this.selectDistrictsFromInputsupplierMachineryTable(val)
             +" union all "
@@ -82,7 +107,7 @@ sql = "select distinct * from ("+unoinquery+") as a order by name asc";
 			+ "or UPPER(cv.crop_veriety) like'%"+val.toUpperCase()+"%'"
 	        + "order by cm.crop_name asc";
 
-}else if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIERS)) {
+}else if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER)|| in.equalsIgnoreCase(NewFilterRepository.SEED)) {
 	
 	sql = "select distinct cp.id as cropId, cp.crop_name as cropName,inf.variety_id as verietyId,cv.crop_veriety as verietyName \r\n"
 			+ "from input_supplier_seed inf \r\n"
@@ -380,7 +405,7 @@ return cropFilterDtoList;
 		public List<String> getCategoriesByFilterKeys(String val,String in)
 		{
 			String sql ="";
-	           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIERS))
+	           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER))
 	         	{
 	        	   String unoinquery = selectFertilizersFromInputFertilizerTable(val)
 	        	            +" union all "
@@ -400,7 +425,7 @@ return cropFilterDtoList;
  		public List<FilterDto> getInputSuppliersByFilterKeys(String val,String in)
 		{
 		String sql ="";
-           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIERS))
+           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER))
          	{
         	   String unoinquery = selectInputSuppliersFromInputFertilizerTable(val)
         	            +" union all "
@@ -409,7 +434,22 @@ return cropFilterDtoList;
         	            +this.selectInputSuppliersFromInputSeedTable(val);
         	sql = "select distinct * from ("+unoinquery+") as a";
 
-	}else {
+	}else if (in.equalsIgnoreCase(NewFilterRepository.SEED))
+ 	{
+ 	   String unoinquery = this.selectInputSuppliersFromInputSeedTable(val);
+ 	sql = "select distinct * from ("+unoinquery+") as a";
+
+}else if (in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
+	{
+	   String unoinquery = selectInputSuppliersFromInputFertilizerTable(val);
+	sql = "select distinct * from ("+unoinquery+") as a";
+
+}else if (in.equalsIgnoreCase(NewFilterRepository.INSECTICIDE))
+	{
+	   String unoinquery = this.selectInputSuppliersFromInputInsecticidesTable(val);
+	sql = "select distinct * from ("+unoinquery+") as a";
+
+}   else {
 		sql = "";
 		return null;
 	}
@@ -428,7 +468,7 @@ return cropFilterDtoList;
 				+ "	inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
 				+ "	inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
 				+ "	inner join districts dist on inps.dist_ref_id = dist.district_id";
-           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIERS))
+           if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER) || in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
          	{
         	   sql ="select distinct inf.fertilizer_type_id id, fnt.fertilizer_type as name\r\n"
        				+ "	from input_supplier_fertilizer inf \r\n"

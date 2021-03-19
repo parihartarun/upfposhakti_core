@@ -15,15 +15,21 @@ public class FmbSearchDtoAll {
 	private Integer machinenameid;
 	private String machinename;
 	private String recordtype;
+	private String role;
 	
 	
-	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public FmbSearchDtoAll() {
 		super();
 	}
 	public FmbSearchDtoAll(Integer vendorid, String vendorname, String imagepath, String company, Integer machinetypeid,
 			String machinetype, Integer quantity, Integer districtid, String district, Double rent,
-			Integer machinenameid, String machinename, String recordtype) {
+			Integer machinenameid, String machinename, String recordtype,String role) {
 		super();
 		this.vendorid = vendorid;
 		this.vendorname = vendorname;
@@ -38,6 +44,7 @@ public class FmbSearchDtoAll {
 		this.machinenameid = machinenameid;
 		this.machinename = machinename;
 		this.recordtype = recordtype;
+		this.role = role;
 	}
 	public Integer getVendorid() {
 		return vendorid;
