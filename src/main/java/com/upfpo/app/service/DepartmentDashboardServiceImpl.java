@@ -189,6 +189,16 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 	public List<DeptDashboardReportDTO> getDepartmentDashboardReport(ReportRequestString reportRequestString) 
 	{
 		List<DeptDashboardReportDTO> obj = null;
+		Integer distId = reportRequestString.getDistId();
+		if(distId == null)
+		{
+			distId = 0;
+		}
+		Integer cropId = reportRequestString.getCropId();
+		if(cropId == null)
+		{
+			cropId = 0;
+		}
 		sql = "select distinct f.fpo_name,d.district_name, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName, \r\n"
 				+ "sum(tp.total_actual_prod) as actualFpoProduction, sum(tp.total_marketable) as marketable from fpo f  \r\n"
 				+ "join districts d on d.district_id =  f.dist_ref_id\r\n"
@@ -198,19 +208,19 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		
 		String groupBy = " group by d.district_name, cm.id, cm.crop_name, cv.veriety_id, cv.crop_veriety, f.fpo_name";
 		
-		if(reportRequestString.getDistId() > 0 || reportRequestString.getDistId() != null &&  reportRequestString.getCropId() > 0 || reportRequestString.getCropId() != null)
+		if(distId > 0 && cropId > 0)
 		{
-			sql = sql + " where d.district_id = :distId  and cm.id = :cropId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
-					setParameter("cropId",reportRequestString.getCropId()).getResultList();
+				sql = sql + " where d.district_id = :distId  and cm.id = :cropId " + groupBy;
+				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
+						setParameter("cropId",reportRequestString.getCropId()).getResultList();
 		}
-		else if(reportRequestString.getDistId() > 0 || reportRequestString.getDistId() != null  &&  reportRequestString.getCropId() == 0 || reportRequestString.getCropId() == null)
+		else if(distId > 0 && cropId == 0)
 		{
-			sql = sql + " where d.district_id = :distId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
-					getResultList();
+				sql = sql + " where d.district_id = :distId " + groupBy;
+				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("distId",reportRequestString.getDistId()).
+						getResultList();
 		}
-		else if(reportRequestString.getDistId() == 0 || reportRequestString.getDistId() == null &&  reportRequestString.getCropId() > 0 || reportRequestString.getCropId() != null )
+		else if(distId == 0 && cropId > 0)
 		{
 			sql = sql + " where cm.id = :cropId " + groupBy;
 			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("cropId",reportRequestString.getCropId()).

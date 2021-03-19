@@ -151,20 +151,31 @@ public class DepartmentServiceImpl implements DepartmentService{
 			Integer seasonId) {
 		List<DepartmentSalesReportDto> list = null;
 		String sql = null;
+		if(distId == null)
+		{
+			distId = 0;
+		}
+		if(cropId == null)
+		{
+			cropId = 0;
+		}
+		if(seasonId == null)
+		{
+			seasonId = 0;
+		}
 
 		try {
-			String basequery = "Select d.district_name, f.fpo_name,cm.crop_name, case when cast(si.veriety_ref as integer)!=0 \r\n"
-					+ "then cvm.crop_veriety else 'Other' end crop_veriety,\r\n"
-					+ "sum(si.sold_quantity) sold_quantity from fpo_saleinfo si \r\n"
-					+ "inner join fpo f on f.fpo_id = si.master_id\r\n"
-					+ "inner join districts d on d.district_id=f.dist_ref_id\r\n"
-					+ "inner join crop_master cm on cm.id=si.crop_ref_name\r\n"
-					+ "left join crop_veriety_master cvm on cvm.veriety_id=cast(si.veriety_ref as integer)\r\n";
+			String basequery = "select distinct f.fpo_name,d.district_name, cm.id as cropId, cm.crop_name as crop_name, cv.veriety_id as verietyId, cv.crop_veriety as crop_veriety, \r\n"
+					+ "				sum(fp.sold_quantity) as sold_quantity from fpo f  \r\n"
+					+ "				join districts d on d.district_id =  f.dist_ref_id\r\n"
+					+ "				join fpo_sale_info fp on fp.master_id = f.fpo_id\r\n"
+					+ "				join crop_master cm on cm.id = fp.crop_ref_name\r\n"
+					+ "				join crop_veriety_master cv on cv.veriety_id = fp.veriety_ref\r\n";
 
-			String groupby = " group by d.district_name, f.fpo_name,cm.crop_name, si.veriety_ref ,cvm.crop_veriety";
+			String groupby = " group by d.district_name, cm.id, cm.crop_name, cv.veriety_id, cv.crop_veriety, f.fpo_name order by sold_quantity desc";
 			
 			if (seasonId == 0 && distId == 0 && cropId == 0) {
-				String wherecondition = "where si.financial_year=:finYear\r\n ";
+				String wherecondition = "where fp.financial_year=:finYear\r\n ";
 				sql = basequery + " " +wherecondition +" "+ groupby;
 				List<DepartmentSalesReportDto> obj = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -172,7 +183,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 						.getResultList();
 				
 			} else if (seasonId == 0 && distId > 0 && cropId > 0) {
-				String wherecondition = "where si.financial_year=:finYear and cm.id=:cropId and d.district_id=:distId\r\n";
+				String wherecondition = "where fp.financial_year=:finYear and cm.id=:cropId and d.district_id=:distId\r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -184,7 +195,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 			else if (seasonId == 0 && distId > 0 && cropId == 0) {
 
-				String wherecondition = "where si.financial_year=:finYear and d.district_id=:distId \r\n";
+				String wherecondition = "where fp.financial_year=:finYear and d.district_id=:distId \r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -196,7 +207,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			} else if (seasonId == 0 && distId == 0 && cropId > 0) {
 				// System.out.println("specific crop all district");
 
-				String wherecondition = "where si.financial_year=:finYear and cm.id=:cropId \r\n";
+				String wherecondition = "where fp.financial_year=:finYear and cm.id=:cropId \r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -210,7 +221,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			else if (seasonId > 0 && distId == 0 && cropId == 0) {
 				// System.out.println("specific crop all district");
 
-				String wherecondition = "where si.financial_year=:finYear and cast(si.season_ref as integer)=:seasonId \r\n";
+				String wherecondition = "where fp.financial_year=:finYear and fp.season_ref=:seasonId \r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -220,7 +231,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 				
 			} else if (seasonId > 0 && distId == 0 && cropId > 0) {
 				// System.out.println("specific crop all district");
-				String wherecondition = "where si.financial_year=:finYear and cm.id=:cropId  and cast(si.season_ref as integer)=:seasonId\r\n";
+				String wherecondition = "where fp.financial_year=:finYear and cm.id=:cropId  and fp.season_ref =:seasonId\r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -232,7 +243,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			} else if (seasonId > 0 && distId > 0 && cropId == 0) {
 				// System.out.println("specific crop all district");
 
-				String wherecondition = "where si.financial_year=:finYear and cast(si.season_ref as integer)=:seasonId and d.district_id=:distId \r\n";
+				String wherecondition = "where fp.financial_year=:finYear and fp.season_ref =:seasonId and d.district_id=:distId \r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
@@ -244,7 +255,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			} else if (seasonId > 0 && distId > 0 && cropId > 0) {
 				// System.out.println("specific crop all district");
 
-				String wherecondition = "where si.financial_year=:finYear and cast(si.season_ref as integer)=:seasonId and d.district_id=:distId and cm.id=:cropId \r\n";
+				String wherecondition = "where fp.financial_year=:finYear and fp.season_ref=:seasonId and d.district_id=:distId and cm.id=:cropId \r\n";
 				sql = basequery + " " + wherecondition + " " + groupby;
 				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
