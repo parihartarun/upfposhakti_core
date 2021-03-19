@@ -87,6 +87,8 @@ classes = {
             targetClass = DeptDashboardReportDTO.class,
             columns = {
                 @ColumnResult(name = "fpo_name", type = String.class),
+                @ColumnResult(name = "fpo_address", type = String.class),
+                @ColumnResult(name = "fpo_landline", type = BigInteger.class),
                 @ColumnResult(name = "district_name", type = String.class),
                 @ColumnResult(name = "cropId", type = Integer.class),
                 @ColumnResult(name = "cropName", type = String.class),

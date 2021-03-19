@@ -34,7 +34,7 @@ public class FarmerWiseProductionServiceImpl implements FarmerWiseProductionServ
 				+ "							inner join crop_details pd on pd.sowing_id = ns.sowing_id\r\n"
 				+ "	            			inner join crop_master cm on cm.id = pd.crop_ref\r\n"
 				+ "	            			inner join crop_veriety_master cvm on cvm.veriety_id= pd.veriety_ref\r\n"
-				+ "	            			 inner join season_master sm on sm.season_id= pd.season_ref";
+				+ "	            			inner join season_master sm on sm.season_id= pd.season_ref";
 				if(reportRequestString.getSeasonId() != null && reportRequestString.getSeasonId() != 0)
 				{
 					sql = sql+" where f.fpo_ref_id= :fpoId and ns.fin_year= :finYear and pd.season_ref = :seasonId \r\n"

@@ -199,14 +199,14 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		{
 			cropId = 0;
 		}
-		sql = "select distinct f.fpo_name,d.district_name, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName, \r\n"
-				+ "sum(tp.total_actual_prod) as actualFpoProduction, sum(tp.total_marketable) as marketable from fpo f  \r\n"
-				+ "join districts d on d.district_id =  f.dist_ref_id\r\n"
-				+ "join total_production tp on tp.fpo_id = f.fpo_id\r\n"
-				+ "join crop_master cm on cm.id = tp.crop_id\r\n"
-				+ "join crop_veriety_master cv on cv.veriety_id = tp.veriety_id";
+		sql = "select distinct f.fpo_name,f.fpo_address, f.fpo_landline, d.district_name, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
+				+ "				sum(tp.total_actual_prod) as actualFpoProduction, sum(tp.total_marketable) as marketable from fpo f \r\n"
+				+ "				join districts d on d.district_id =  f.dist_ref_id\r\n"
+				+ "				join total_production tp on tp.fpo_id = f.fpo_id\r\n"
+				+ "				join crop_master cm on cm.id = tp.crop_id\r\n"
+				+ "				join crop_veriety_master cv on cv.veriety_id = tp.veriety_id";
 		
-		String groupBy = " group by d.district_name, cm.id, cm.crop_name, cv.veriety_id, cv.crop_veriety, f.fpo_name";
+		String groupBy = " group by d.district_name, cm.id, cm.crop_name, cv.veriety_id, cv.crop_veriety, f.fpo_name,f.fpo_address, f.fpo_landline";
 		
 		if(distId > 0 && cropId > 0)
 		{
