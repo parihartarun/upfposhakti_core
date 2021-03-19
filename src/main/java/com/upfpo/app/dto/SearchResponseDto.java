@@ -11,9 +11,10 @@ public class SearchResponseDto {
 	private Integer varietyid;
 	private String variety;
 	private Double currentMarketable;
+	private String role;
 	
 	public SearchResponseDto(Long fpoid, String fpo, Integer districtid, String district, Integer cropid, String crop,
-			Integer varietyid, String variety, Double currentMarketable) {
+			Integer varietyid, String variety, Double currentMarketable,String role) {
 		super();
 		this.fpoid = fpoid;
 		this.fpo = fpo;
@@ -24,6 +25,13 @@ public class SearchResponseDto {
 		this.varietyid = varietyid;
 		this.variety = variety;
 		this.currentMarketable = currentMarketable;
+		this.role = role;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public Integer getDistrictid() {
 		return districtid;

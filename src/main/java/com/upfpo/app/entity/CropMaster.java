@@ -43,7 +43,8 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "rent"),
         		@ColumnResult(name = "machinenameid"),
         		@ColumnResult(name = "machinename"),
-        		@ColumnResult(name = "recordtype")
+        		@ColumnResult(name = "recordtype"),
+        		@ColumnResult(name = "role")
                     }
         )
 )
@@ -68,7 +69,8 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "cropid"),
         		@ColumnResult(name = "cropveriety"),
         		@ColumnResult(name = "cropverietyid"),
-        		@ColumnResult(name = "recordtype")
+        		@ColumnResult(name = "recordtype"),
+        		@ColumnResult(name = "role")
                     }
         )
 )
@@ -111,6 +113,8 @@ classes = @ConstructorResult(
                     @ColumnResult(name = "varietyid",type=Integer.class),
                     @ColumnResult(name = "variety",type=String.class),
                     @ColumnResult(name = "currentMarketable",type=Double.class),
+                    @ColumnResult(name = "role",type=String.class)
+                    
         }
         )
     
