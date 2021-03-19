@@ -177,7 +177,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			if (seasonId == 0 && distId == 0 && cropId == 0) {
 				String wherecondition = "where fp.financial_year=:finYear\r\n ";
 				sql = basequery + " " +wherecondition +" "+ groupby;
-				List<DepartmentSalesReportDto> obj = (List<DepartmentSalesReportDto>) entityManager
+				list = (List<DepartmentSalesReportDto>) entityManager
 						.createNativeQuery(sql, "DepartmentSalesReportDto")
 						.setParameter("finYear", finYear)
 						.getResultList();
