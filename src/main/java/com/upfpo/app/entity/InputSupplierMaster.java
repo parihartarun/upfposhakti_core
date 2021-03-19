@@ -160,21 +160,29 @@ public class InputSupplierMaster implements Serializable
 	@JoinColumn(name="input_supplier_id",referencedColumnName="input_supplier_id")
 	private List <InputSupplierInsecticide> inputSupplierInsecticides;
 
-
-	public User getUserInputSeller() {
-		return userInputSeller;
+	public InputSupplierMaster() {
 	}
 
-	public void setUserInputSeller(User userInputSeller) {
-		this.userInputSeller = userInputSeller;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
+	public InputSupplierMaster(Integer inputSupplierId, String inputSupplierName, Integer inputSupplierType, Integer distRefId, Integer blockRefId, Integer villageRefId, long pincode, @Email(message = "Please provide valid email id") String email, @NotNull(message = "Mobile number should not be null") @Min(10) long mobile_number, String contact_person, String license_number, String gstNumber, boolean isDeleted, String categoryDeal, User userInputSeller, List<InputSupplierSeed> inputSupplierSeeds, List<InputSupplierMachinery> inputSupplierMachineries, List<InputSupplierFertilizer> inputSupplierFertilizers, List<InputSupplierInsecticide> inputSupplierInsecticides) {
+		this.inputSupplierId = inputSupplierId;
+		this.inputSupplierName = inputSupplierName;
+		this.inputSupplierType = inputSupplierType;
+		this.distRefId = distRefId;
+		this.blockRefId = blockRefId;
+		this.villageRefId = villageRefId;
+		this.pincode = pincode;
+		this.email = email;
+		this.mobile_number = mobile_number;
+		this.contact_person = contact_person;
+		this.license_number = license_number;
+		this.gstNumber = gstNumber;
 		this.isDeleted = isDeleted;
+		this.categoryDeal = categoryDeal;
+		this.userInputSeller = userInputSeller;
+		this.inputSupplierSeeds = inputSupplierSeeds;
+		this.inputSupplierMachineries = inputSupplierMachineries;
+		this.inputSupplierFertilizers = inputSupplierFertilizers;
+		this.inputSupplierInsecticides = inputSupplierInsecticides;
 	}
 
 	public Integer getInputSupplierId() {
@@ -273,6 +281,14 @@ public class InputSupplierMaster implements Serializable
 		this.gstNumber = gstNumber;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
+	}
+
 	public String getCategoryDeal() {
 		return categoryDeal;
 	}
@@ -281,7 +297,15 @@ public class InputSupplierMaster implements Serializable
 		this.categoryDeal = categoryDeal;
 	}
 
-//	public Integer getSeed_id() {
+	public User getUserInputSeller() {
+		return userInputSeller;
+	}
+
+	public void setUserInputSeller(User userInputSeller) {
+		this.userInputSeller = userInputSeller;
+	}
+
+	//	public Integer getSeed_id() {
 //		return seed_id;
 //	}
 //
