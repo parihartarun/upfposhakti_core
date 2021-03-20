@@ -528,6 +528,24 @@ public class NewSearchRepository {
 			}
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getInputSupplierIds()!=null) {
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 	
+		
+		
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
@@ -558,6 +576,40 @@ public class NewSearchRepository {
 			}
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getInputSupplierIds()!=null) {
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getCropverietyIds()!=null) {
+			for(Integer cropVerietyId:searchRequestDto.getCropverietyIds())
+			{
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getCropverietyid().intValue()==cropVerietyId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate =inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+		
+		}
+		obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		
+		
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
