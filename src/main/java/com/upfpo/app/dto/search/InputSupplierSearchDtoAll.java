@@ -5,6 +5,7 @@ public class InputSupplierSearchDtoAll {
 	
 	private Integer id;
 	private String  itemname;
+	private Integer itemtypeid;
 	private String  itemtype;
 	private Double  quantity;
 	private Integer inputsupplierid;
@@ -18,6 +19,7 @@ public class InputSupplierSearchDtoAll {
 	private String  cropveriety;
 	private Integer cropverietyid;
 	private String  recordtype;
+
 	private String  role;
 	public String getRole() {
 		return role;
@@ -30,6 +32,12 @@ public class InputSupplierSearchDtoAll {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getItemtypeid() {
+		return itemtypeid;
+	}
+	public void setItemtypeid(Integer itemtypeid) {
+		this.itemtypeid = itemtypeid;
 	}
 	public String getItemname() {
 		return itemname;
@@ -109,13 +117,14 @@ public class InputSupplierSearchDtoAll {
 	public void setCropverietyid(Integer cropverietyid) {
 		this.cropverietyid = cropverietyid;
 	}
-	public InputSupplierSearchDtoAll(Integer id, String itemname, String itemtype, Double quantity,
+	public InputSupplierSearchDtoAll(Integer id, String itemname, Integer itemtypeid,String itemtype, Double quantity,
 			Integer inputsupplierid, String inputsupplier, Integer districtid, String district, String imagepath,
 			String manufacturer, String crop, Integer cropid, String cropveriety, Integer cropverietyid,
 			String recordtype,String role) {
 		super();
 		this.id = id;
 		this.itemname = itemname;
+		this.itemtypeid = itemtypeid;
 		this.itemtype = itemtype;
 		this.quantity = quantity;
 		this.inputsupplierid = inputsupplierid;

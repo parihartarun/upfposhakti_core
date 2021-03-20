@@ -57,6 +57,7 @@ classes = @ConstructorResult(
         		        		
         		@ColumnResult(name = "id"),
         		@ColumnResult(name = "itemname"),
+        		@ColumnResult(name = "itemtypeid"),
         		@ColumnResult(name = "itemtype"),
         		@ColumnResult(name = "quantity"),
         		@ColumnResult(name = "inputsupplierid"),
