@@ -1,8 +1,14 @@
 package com.upfpo.app.dto;
 
+import java.math.BigInteger;
+
 public class DeptDashboardReportDTO 
 {
 	private String fpo_name;
+	
+	private String fpo_address;
+	
+	private BigInteger fpo_landline;
 	
 	private String district_name; 
 	
@@ -18,10 +24,13 @@ public class DeptDashboardReportDTO
 	
 	private Double marketable ;
 	
-	public DeptDashboardReportDTO(String fpo_name, String district_name, Integer cropId, String cropName,
-			Integer verietyId, String verietyName, Double actualFpoProduction, Double marketable) {
+	public DeptDashboardReportDTO(String fpo_name, String fpo_address, BigInteger fpo_landline, String district_name,
+			Integer cropId, String cropName, Integer verietyId, String verietyName, Double actualFpoProduction,
+			Double marketable) {
 		super();
 		this.fpo_name = fpo_name;
+		this.fpo_address = fpo_address;
+		this.fpo_landline = fpo_landline;
 		this.district_name = district_name;
 		this.cropId = cropId;
 		this.cropName = cropName;
@@ -94,6 +103,21 @@ public class DeptDashboardReportDTO
 	public void setMarketable(Double marketable) {
 		this.marketable = marketable;
 	}
-	
+
+	public String getFpo_address() {
+		return fpo_address;
+	}
+
+	public void setFpo_address(String fpo_address) {
+		this.fpo_address = fpo_address;
+	}
+
+	public BigInteger getFpo_landline() {
+		return fpo_landline;
+	}
+
+	public void setFpo_landline(BigInteger fpo_landline) {
+		this.fpo_landline = fpo_landline;
+	}
 	
 }

@@ -53,18 +53,18 @@ public class FarmerController
 		return new ResponseEntity<FarmerMaster>(farmerEntity, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	/*@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
+	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerMaster.class, responseContainer = "List")
 	@ApiResponses(value= {
 	@ApiResponse(code=404,response=Boolean.class, message = "Item Not Found"),
 	@ApiResponse(code=401,response=Boolean.class, message = "Unauthorized"),
 	@ApiResponse(code=400,response=Boolean.class, message = "Validation Failed"),
 	})
-	@GetMapping(value="/getFarmerDetails/{masterId}")
-	private ResponseEntity<List<FarmerMaster>> getFarmerDetailsById(@PathVariable("masterId") Integer masterId)
+	@GetMapping(value="/getFarmerListByFpo/{masterId}")
+	private ResponseEntity<List<FarmerMaster>> getFarmerListById(@PathVariable("masterId") Integer masterId)
 	{
 		List<FarmerMaster> list = farmerService.getFarmer(masterId);
 		return new ResponseEntity<List<FarmerMaster>>(list, new HttpHeaders(), HttpStatus.OK);
-	}*/
+	}
 	
 	@ApiOperation(value="Get all Farmer details", code=200, produces = "application/json",notes="Api for get all Farmer details",response=FarmerDetailsDTO.class, responseContainer = "List")
 	@ApiResponses(value= {

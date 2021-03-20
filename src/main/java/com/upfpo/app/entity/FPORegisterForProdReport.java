@@ -17,19 +17,6 @@ import com.upfpo.app.dto.DepartmentSalesReportDto;
 
 
 @Entity
-@SqlResultSetMapping(name="DepartmentSalesReportDto",
-classes = {
-    @ConstructorResult(
-            targetClass = DepartmentSalesReportDto.class,
-            columns = {
-                @ColumnResult(name = "district_name", type = String.class),
-                @ColumnResult(name = "fpo_name", type = String.class),
-                @ColumnResult(name = "crop_name", type = String.class),
-                @ColumnResult(name = "crop_veriety", type = String.class),
-                @ColumnResult(name = "sold_quantity", type = Double.class),
-                
-           })
-})
 @Table(name ="production_report")
 public class FPORegisterForProdReport implements Serializable {
 

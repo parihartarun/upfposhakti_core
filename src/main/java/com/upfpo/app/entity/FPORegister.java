@@ -24,6 +24,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
+import com.upfpo.app.dto.DepartmentSalesReportDto;
 import com.upfpo.app.dto.DeptDashboardReportDTO;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FarmerComplaintDTO;
@@ -86,6 +87,8 @@ classes = {
             targetClass = DeptDashboardReportDTO.class,
             columns = {
                 @ColumnResult(name = "fpo_name", type = String.class),
+                @ColumnResult(name = "fpo_address", type = String.class),
+                @ColumnResult(name = "fpo_landline", type = BigInteger.class),
                 @ColumnResult(name = "district_name", type = String.class),
                 @ColumnResult(name = "cropId", type = Integer.class),
                 @ColumnResult(name = "cropName", type = String.class),
@@ -93,6 +96,21 @@ classes = {
                 @ColumnResult(name = "verietyName", type = String.class),
                 @ColumnResult(name = "actualFpoProduction", type = Double.class),
                 @ColumnResult(name = "marketable", type = Double.class)
+           })
+})
+@SqlResultSetMapping(name="DepartmentSalesReportDto",
+classes = {
+    @ConstructorResult(
+            targetClass = DepartmentSalesReportDto.class,
+            columns = {
+                @ColumnResult(name = "fpo_name", type = String.class),
+                @ColumnResult(name = "district_name", type = String.class),
+                @ColumnResult(name = "cropId", type = Integer.class),
+                @ColumnResult(name = "crop_name", type = String.class),
+                @ColumnResult(name = "verietyId", type = Integer.class),
+                @ColumnResult(name = "crop_veriety", type = String.class),
+                @ColumnResult(name = "sold_quantity", type = Double.class),
+                
            })
 })
 @Table(name ="fpo")
