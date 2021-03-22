@@ -433,7 +433,7 @@ public class NewSearchRepository {
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  fmbSearchPagePagableDto.setTotalElements(obj.size());
-		  fmbSearchPagePagableDto.setPage(obj);
+		  fmbSearchPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 		  
 		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fmbSearchPagePagableDto);	
 	}
