@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.EnquirySeedDTO;
 import com.upfpo.app.dto.InputSupplierDashBoardIndentSeedDTO;
 
 @SqlResultSetMapping(name="InputSupplierDashBoardIndentSeedDTO",
@@ -31,6 +32,21 @@ classes = {
                 		@ColumnResult(name = "indentQty", type = Double.class)
                 })
 })
+@SqlResultSetMapping(name="EnquirySeedDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = EnquirySeedDTO.class,
+                columns = {
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
+                		@ColumnResult(name = "createdBy", type = Integer.class),
+                		@ColumnResult(name = "cropName", type = String.class),
+                		@ColumnResult(name = "cropVeriety", type = String.class),
+                		@ColumnResult(name = "status", type = String.class),
+                		@ColumnResult(name = "indentQty", type = Double.class),
+                		@ColumnResult(name = "deliveryaddress", type = String.class)
+                })
+})
+
 @Entity
 @Table(name = "enquiry_input_supplier_seed")
 public class EnquiryInputSupplierSeed 

@@ -11,5 +11,7 @@ import com.upfpo.app.entity.EnquiryInputSupplierSeed;
 @Repository
 public interface EnquiryInputSupplierSeedRepository extends JpaRepository<EnquiryInputSupplierSeed, BigInteger>
 {
-	List<EnquiryInputSupplierSeed> findByMasterId(Integer masterId);
+	List<EnquiryInputSupplierSeed> findByMasterIdOrderByEnqidDesc(Integer masterId);
+	
+	List<EnquiryInputSupplierSeed> findByCreatedByOrderByEnqidDesc(Integer createdBy);
 }

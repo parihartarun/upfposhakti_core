@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.upfpo.app.dto.EnquiryFertilizerDTO;
+import com.upfpo.app.dto.EnquirySeedDTO;
 import com.upfpo.app.dto.InputSupplierDashBoardIndentFertilizerDTO;
 import com.upfpo.app.dto.InputSupplierDashBoardIndentSeedDTO;
 
@@ -32,6 +34,20 @@ classes = {
                 		@ColumnResult(name = "fertilizer_grade", type = String.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
                 		@ColumnResult(name = "create_date_time", type = Calendar.class)
+                })
+})
+@SqlResultSetMapping(name="EnquiryFertilizerDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = EnquiryFertilizerDTO.class,
+                columns = {
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
+                		@ColumnResult(name = "createdBy", type = Integer.class),
+                		@ColumnResult(name = "fertilizerType", type = String.class),
+                		@ColumnResult(name = "fertilizerName", type = String.class),
+                		@ColumnResult(name = "status", type = String.class),
+                		@ColumnResult(name = "indentQty", type = Double.class),
+                		@ColumnResult(name = "deliveryaddress", type = String.class)
                 })
 })
 @Entity

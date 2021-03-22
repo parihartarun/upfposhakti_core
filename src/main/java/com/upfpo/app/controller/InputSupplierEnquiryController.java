@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.dto.EnquiryChcFmbDTO;
+import com.upfpo.app.dto.EnquiryFertilizerDTO;
+import com.upfpo.app.dto.EnquiryInsecticideDTO;
+import com.upfpo.app.dto.EnquirySeedDTO;
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
 import com.upfpo.app.entity.EnquiryInputSupplierSeed;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierEnquiryService;
 
 import io.swagger.annotations.Api;
@@ -32,9 +36,15 @@ public class InputSupplierEnquiryController
 	InputSupplierEnquiryService inputSupplierEnquiryService; 
 	
 	@GetMapping("/seedIndent/get/{masterId}")
-	public List<EnquiryInputSupplierSeed> getSeedIndents(@PathVariable("masterId") Integer masterId)
+	public List<EnquirySeedDTO> getSeedIndents(@PathVariable("masterId") Integer masterId)
 	{
 		return inputSupplierEnquiryService.getSeedIndentMasterId(masterId);
+	}
+	
+	@PostMapping("/seedIndent/getCreatedBy")
+	public List<EnquirySeedDTO> getSeedIndentsCreatedBy(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getSeedIndentCreatedBy(reportRequestString);
 	}
 	
 	@PostMapping("/seedIndent/create")
@@ -72,9 +82,15 @@ public class InputSupplierEnquiryController
 	}
 	
 	@GetMapping("/fertilizer/get/{masterId}")
-	public List<EnquiryInputSupplierFertilizer> getFertilizerIndents(@PathVariable("masterId") Integer masterId)
+	public List<EnquiryFertilizerDTO> getFertilizerIndents(@PathVariable("masterId") Integer masterId)
 	{
 		return inputSupplierEnquiryService.getFertilizerIndentByMasterId(masterId);
+	}
+	
+	@PostMapping("/fertilizer/getCreatedBy")
+	public List<EnquiryFertilizerDTO> getFertilizerIndentsCreatedBy(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getFertilizerIndentCreatedBy(reportRequestString);
 	}
 	
 	@PostMapping("/fertilizer/create")
@@ -123,6 +139,12 @@ public class InputSupplierEnquiryController
 		return inputSupplierEnquiryService.getIndentData(masterId);
 	}
 	
+	@PostMapping("/machinery/getCreatedBy")
+	public List<EnquiryChcFmbDTO> getMachinaryIndentDataCreatedBy(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getIndentDataCreatedBy(reportRequestString);
+	}
+	
 	@PostMapping("/machinery/create")
 	public ResponseEntity<MessageResponse> createFertilizerIndentSeed(@RequestBody EnquiryInputSupplierMachinery enquiryInputSupplierMachinery)
 	{
@@ -158,9 +180,15 @@ public class InputSupplierEnquiryController
 	}
 	
 	@GetMapping("/insecticides/get/{masterId}")
-	public List<EnquiryInputSupplierInsecticide> getInsecticidesIndents(@PathVariable("masterId") Integer masterId)
+	public List<EnquiryInsecticideDTO> getInsecticidesIndents(@PathVariable("masterId") Integer masterId)
 	{
 		return inputSupplierEnquiryService.getInsecticideIndentByMasterId(masterId);
+	}
+	
+	@PostMapping("/insecticides/getCreatedBy")
+	public List<EnquiryInsecticideDTO> getInsecticidesIndentsCreatedBy(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getInsecticideIndentCreatedBy(reportRequestString);
 	}
 	
 	@PostMapping("/insecticides/create")

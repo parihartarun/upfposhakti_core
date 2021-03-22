@@ -9,6 +9,8 @@ public class ReportRequestString
 	private Integer masterId;
 	private Integer distId;
 	private Integer cropId;
+	private Integer createdBy;
+	private String roleId;
 	
 	public Integer getFpoId() {
 		return fpoId;
@@ -51,5 +53,17 @@ public class ReportRequestString
 	}
 	public void setCropId(Integer cropId) {
 		this.cropId = cropId;
+	}
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 }

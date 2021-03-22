@@ -9,5 +9,7 @@ import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 
 public interface EnquiryInputSupplierFertilizerRepo extends JpaRepository<EnquiryInputSupplierFertilizer, BigInteger>
 {
-	List<EnquiryInputSupplierFertilizer> findByMasterId(Integer masterId);
+	List<EnquiryInputSupplierFertilizer> findByMasterIdOrderByEnqidDesc(Integer masterId);
+	
+	List<EnquiryInputSupplierFertilizer> findByCreatedByAndRoleRefIdOrderByEnqidDesc(Integer createdBy, String roleId);
 }
