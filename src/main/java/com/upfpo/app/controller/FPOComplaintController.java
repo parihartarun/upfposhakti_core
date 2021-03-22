@@ -389,22 +389,17 @@ public class FPOComplaintController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fpoComplaintService.loadFileAsResource(fileName);
 
-        // Try to determine file's content type
+        Resource resource = fpoComplaintService.loadFileAsResource(fileName);
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
             LOG.info("Could not determine file type.");
         }
-
-        // Fallback to the default content type if type could not be determined
         if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
+            contentType = "application/octet-stream"; }
+        
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")

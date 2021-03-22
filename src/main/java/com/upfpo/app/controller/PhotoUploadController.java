@@ -201,7 +201,4 @@ public class PhotoUploadController {
                 .body(resource);
     }
 
-
-
-
 }
