@@ -90,7 +90,7 @@ public class ChcFmbServiceImpl implements ChcFmbService
 					"            from chc_fmb_machinery cfm\n" +
 					"            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
 					"            left join equip_master em on em.id=cfm.equipment_name_id\n" +
-					"            where cfm.id=:masterId and  cfm.is_deleted = false order by id desc";
+					"            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false order by id desc";
 
 			List<ChcFmbMachineryDTO> obj = (List<ChcFmbMachineryDTO>) entityManager.createNativeQuery(sql, "ChcFmbMachineryDTO").setParameter("masterId", masterId).getResultList();
 			return obj;
@@ -105,14 +105,14 @@ public class ChcFmbServiceImpl implements ChcFmbService
 	public ChcFmbDTO getChcFmbProfileById(Integer masterId) {
 		ChcFmbDTO list = null;
 		try {
-			String sql = "select chc_fmb_id, chc_fmb_name, u.user_name, dst.district_id, dst.district_name, blk.block_id,\n" +
-					"blk.block_name, vill.village_id, vill.village_name, pincode, email, \n" +
-					"mobile_number, firm_registraion_number, shop_establishment_number, allotment_no from chc_fmb chc\n" +
-					"                    left join districts dst on dst.district_id=chc.chc_fmb_id \n" +
-					"                    left join block blk on blk.block_id=chc.chc_fmb_id\n" +
-					"\t\t\t\t\tleft join villages vill on vill.block_id=chc.chc_fmb_id\n" +
-					"\t\t\t\t\tleft join users u on u.user_id=chc.user_id\n" +
-					"\t\t\t\t\t where chc.chc_fmb_id=:masterId and  chc.is_deleted = false;";
+			String sql = "select chc.chc_fmb_id, chc.chc_fmb_name, u.user_name, dst.district_id, dst.district_name, blk.block_id,\n" +
+					"\t\tblk.block_name, vill.village_id, vill.village_name, chc.pincode, chc.email,\n" +
+					"\t\tchc.mobile_number, chc.firm_registraion_number, chc.shop_establishment_number, chc.allotment_no from chc_fmb chc\n" +
+					"\t\tleft join districts dst on dst.district_id=chc.dist_ref_id\n" +
+					"\t\tleft join block blk on blk.block_id=chc.block_ref_id\n" +
+					"\t\tleft join villages vill on vill.village_id=chc.village_ref_id\n" +
+					"\t\tleft join users u on u.user_id=chc.user_id\n" +
+					"\t\twhere chc.chc_fmb_id=:masterId and  chc.is_deleted = false";
 
 			ChcFmbDTO obj = (ChcFmbDTO) entityManager.createNativeQuery(sql, "ChcFmbDTO").setParameter("masterId", masterId).getSingleResult();
 			return obj;

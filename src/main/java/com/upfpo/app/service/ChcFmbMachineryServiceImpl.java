@@ -211,7 +211,7 @@ public class ChcFmbMachineryServiceImpl implements ChcFmbMachineryService {
                     "            from chc_fmb_machinery cfm \n" +
                     "            left join equipment_type_master etm on etm.id=cfm.equipment_type_id\n" +
                     "            left join equip_master em on em.id=cfm.equipment_name_id\n" +
-                    "            where cfm.id=:masterId and  cfm.is_deleted = false order by id desc";
+                    "            where cfm.chc_fmb_id=:masterId and  cfm.is_deleted = false order by id desc";
 
             List<ChcFmbMachineryDTO> obj = (List<ChcFmbMachineryDTO>) entityManager.createNativeQuery(sql, "ChcFmbMachineryDTO").setParameter("masterId", masterId).getResultList();
             return obj;

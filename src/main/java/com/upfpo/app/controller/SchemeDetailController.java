@@ -94,6 +94,7 @@ public class SchemeDetailController {
         return resp;
     }
 
+
     @DeleteMapping(value="/{id}")
     @ApiOperation(value="Delete SchemeDetail",code=204,produces = "text/plain",notes="Api for delete SchemeDetail by id",response=Boolean.class)
     @ApiResponses(value= {
@@ -120,35 +121,6 @@ public class SchemeDetailController {
     }
 
 
-    @GetMapping("/download/{fileName:.+}")
-    @ApiOperation(value="SchemeDetail Download" ,code=201, produces = "application/json", notes="Api for Download SchemeDetail File", response= UploadFileResponse.class)
-    @ApiResponses(value= {
-            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
-            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
-            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
-    })
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = schemeDetailService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            LOG.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
 
     @PutMapping("/{id}")
     @ApiOperation(value="Update SchemeDetail Details" ,code=201, produces = "application/json", notes="Api To Update SchemeDetail Details",response= SchemeDetail.class)
@@ -186,6 +158,31 @@ public class SchemeDetailController {
     }
 
 
+
+    @GetMapping("/download/{fileName:.+}")
+    @ApiOperation(value="SchemeDetail Download" ,code=201, produces = "application/json", notes="Api for Download SchemeDetail File", response= UploadFileResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = schemeDetailService.loadFileAsResource(fileName);
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            LOG.info("Could not determine file type.");
+        }
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
 
 
 }

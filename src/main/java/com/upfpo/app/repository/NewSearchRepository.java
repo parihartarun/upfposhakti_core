@@ -176,6 +176,7 @@ public class NewSearchRepository {
 	{
 		String sql ="select inf.id id, \r\n"
 				+ "	fn.fertilizer_name itemname,\r\n"
+				+ " fnt.id as itemtypeid,\r\n"
 				+ "	fnt.fertilizer_type itemtype,\r\n"
 				+ "	inf.quantity quantity,\r\n"
 				+ "	inf.input_supplier_id inputsupplierid,\r\n"
@@ -207,8 +208,9 @@ public class NewSearchRepository {
 	}
 	private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
 	{
-		String sql ="select inf.id id, \r\n"
+		String sql ="select inf.id id,\r\n"
 				+ "	'null' as itemname,\r\n"
+				+ "	fnt.id as itemtypeid,\r\n"
 				+ "	fnt.insecticide_type itemtype,\r\n"
 				+ "	cast(inf.quantity as float) quantity,\r\n"
 				+ "	inf.input_supplier_id inputsupplierid, \r\n"
@@ -241,6 +243,7 @@ public class NewSearchRepository {
 	{
 		String sql ="select inf.id id, \r\n"
 				+ "	'null' as itemname,\r\n"
+				+ "	cast(null as integer) as itemtypeid,\r\n"
 				+ "	'null' as itemtype,\r\n"
 				+ "	inf.quantity quantity,\r\n"
 				+ "	inf.input_supplier_id inputsupplierid,\r\n"
@@ -430,7 +433,7 @@ public class NewSearchRepository {
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 		  fmbSearchPagePagableDto.setTotalElements(obj.size());
-		  fmbSearchPagePagableDto.setPage(obj);
+		  fmbSearchPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 		  
 		  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fmbSearchPagePagableDto);	
 	}
@@ -460,7 +463,41 @@ public class NewSearchRepository {
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
-	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
+		inputSupplierFinalPredecate=null;
+		
+		if(searchRequestDto.getInputSupplierIds()!=null) {
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		}
+		inputSupplierFinalPredecate=null;
+		
+		if(searchRequestDto.getFertilizerTypeIds()!=null) {
+			for(Integer fertTypeId:searchRequestDto.getFertilizerTypeIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getItemtypeid().intValue()==fertTypeId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		}
+		
+		
+		InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
 	  //inputSupplierPagePagableDto.setPage(obj);
 	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
@@ -491,6 +528,24 @@ public class NewSearchRepository {
 			}
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getInputSupplierIds()!=null) {
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 	
+		
+		
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
@@ -521,6 +576,40 @@ public class NewSearchRepository {
 			}
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getInputSupplierIds()!=null) {
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		} 
+		
+		inputSupplierFinalPredecate=null;
+		if(searchRequestDto.getCropverietyIds()!=null) {
+			for(Integer cropVerietyId:searchRequestDto.getCropverietyIds())
+			{
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getCropverietyid().intValue()==cropVerietyId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate =inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+		
+		}
+		obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		
+		
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
