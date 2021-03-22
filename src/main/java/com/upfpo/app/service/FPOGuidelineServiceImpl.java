@@ -46,21 +46,23 @@ import java.util.Optional;
 @Service
 public class FPOGuidelineServiceImpl implements FPOGuidelineService{
 
+
+    private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineServiceImpl.class);
+
+    private final Path fileStorageLocation;
+
     @Autowired
     private FPOGuidelinesRepository fpoGuidelinesRepository;
 
     @Autowired
     private FileStorageService fileStorageService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(FPOGuidelineServiceImpl.class);
-
     @Autowired
     private FileStorageProperties fileStorageProperties;
 
-    private final Path fileStorageLocation;
-
     @Autowired
     private EntityManager entityManager;
+
 
     @Autowired
     public FPOGuidelineServiceImpl(FileStorageProperties fileStorageProperties) {
@@ -73,13 +75,12 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         }
     }
 
+
     @Override
     public List<FPOGuidelines> getFPOGuidelineByType(FPOGuidelineType fpoGuidelineType){
         //FPOGuidelineType type= FPOGuidelineType.POSTREGISTRATION;
         if(fpoGuidelineType == FPOGuidelineType.POSTREGISTRATION){
-
-            return fpoGuidelinesRepository.findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType.POSTREGISTRATION);
-        }
+            return fpoGuidelinesRepository.findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType.POSTREGISTRATION); }
         return fpoGuidelinesRepository.findByFpoGuidelineTypeOrderByIdDesc(FPOGuidelineType.PREREGISTRATION);
     }
 
@@ -87,8 +88,6 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
     public List<FPOGuidelines> getAllFPOGuidelines(){
         return fpoGuidelinesRepository.findByIsDeletedOrderByIdDesc(false);
     }
-
-
 
 
 
@@ -208,6 +207,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
             throw new ResourceNotFoundException("File not found " + fileName, ex);
         }
     }
+    /*
     @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
@@ -228,7 +228,7 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-    }
+    }*/
 
 
     public List<FPOGuidelines>   getFPOGuidelineByTypeAndLanguage(FPOGuidelineType type, Language lang){
@@ -236,30 +236,4 @@ public class FPOGuidelineServiceImpl implements FPOGuidelineService{
         return fpoGuidelinesRepository.findByFpoGuidelineTypeAndLanguageOrderByIdDesc(type, lang);
     }
 
-        /*String sql;
-
-        if(lang.equals("en")){
-           sql ="\n" +
-                   "Select  id, description, create_date, file_path from fpo_guidelines " +
-                   " where fpo_guideline_type=:#{#type.name()} AND description is not null";
-
-            List<FPOGuidelinesDTO> obj = (List<FPOGuidelinesDTO>) entityManager.createNativeQuery(sql, "FPOGuidelinesDTO").setParameter("type", type).getResultList();
-            return obj;
-        }
-        else{
-            sql ="\n" +
-                    "Select  id, hindi_description, create_date, file_path from fpo_guidelines " +
-                    " where fpo_guideline_type=:type AND hindi_description is not null";
-
-            List<FPOGuidelinesDTO> obj = (List<FPOGuidelinesDTO>) entityManager.createNativeQuery(sql, "FPOGuidelinesDTO").setParameter("type", type).getResultList();
-            return obj;
-        }
-
-    }
-
-
-    public List<FPOGuidelines> getFPOGuidelineByTypeAndLanguage(FPOGuidelineType guidelineType, Language lang) {
-
-        return fpoGuidelinesRepository.findByFpoGuidelineTypeAndLanguageOrderByIdDesc(guidelineType, lang);
-    }*/
 }

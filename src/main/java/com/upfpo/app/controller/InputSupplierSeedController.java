@@ -140,7 +140,6 @@ public class InputSupplierSeedController {
 
 
 
-
     @PutMapping("/{id}")
     @ApiOperation(value="Update InputSupplierSeed Details" ,code=201, produces = "application/json", notes="Api To Update InputSupplierSeed Details",response= InputSupplierSeed.class)
     @ApiResponses(value= {
@@ -194,7 +193,6 @@ public class InputSupplierSeedController {
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = seedService.loadFileAsResource(fileName);
-
         // Try to determine file's content type
         String contentType = null;
         try {
@@ -202,15 +200,12 @@ public class InputSupplierSeedController {
         } catch (IOException ex) {
             LOG.info("Could not determine file type.");
         }
-
-        // Fallback to the default content type if type could not be determined
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 }
