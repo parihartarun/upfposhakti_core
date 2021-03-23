@@ -89,7 +89,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public List<Notification> viewAllNotificationofFPO(String fpoId){
-        return notificationRepository.findByFpoIdOrderByIdDesc(fpoId);
+        return notificationRepository.findByFarmerFpoIdOrderByIdDesc(fpoId);
     }
 
     @Override

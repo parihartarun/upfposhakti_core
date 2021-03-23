@@ -28,4 +28,6 @@ public interface NotificationRepository extends JpaRepository <Notification, Int
     List<Notification> findByFpoIdAndIsReadOrderByIdDesc(String fpoId, boolean b);
 
     List<Notification> findByDeptIdAndIsReadOrderByIdDesc(String deptId, boolean b);
+
+    List<Notification> findByFarmerFpoIdOrderByIdDesc(String fpoId);
 }
