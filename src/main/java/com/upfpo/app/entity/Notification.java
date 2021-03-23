@@ -99,6 +99,31 @@ public class Notification {
         this.farmerId=farmerId;
     }
 
+    public Notification(Integer id, String title, String message, String role, String filePath, String filName, String farmerName, Integer receiverId, String farmerId, String fpoId, String deptId, String farmerFpoId, Boolean isRead, NotificationType type, Date uploadDate, String uploadedBy, Boolean isDeleted, Date deleteDate, String createBy, Calendar createDate, String updateBy, Calendar updateDate) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.role = role;
+        this.filePath = filePath;
+        this.filName = filName;
+        this.farmerName = farmerName;
+        this.receiverId = receiverId;
+        this.farmerId = farmerId;
+        this.fpoId = fpoId;
+        this.deptId = deptId;
+        this.farmerFpoId = farmerFpoId;
+        this.isRead = isRead;
+        this.type = type;
+        this.uploadDate = uploadDate;
+        this.uploadedBy = uploadedBy;
+        this.isDeleted = isDeleted;
+        this.deleteDate = deleteDate;
+        this.createBy = createBy;
+        this.createDate = createDate;
+        this.updateBy = updateBy;
+        this.updateDate = updateDate;
+    }
+
     public Integer getId() {
         return id;
     }
