@@ -115,7 +115,7 @@ public class FarmerServiceImpl implements FarmerService
 			  		+ "u.user_id as userId,u.user_name as userName,u.enabled as userEnabled,d.district_name as districtName from farmer f\r\n"
 			  		+ "left join districts d on f.district_ref_id = d.district_id \r\n"
 			  		+ "join users u on f.user_id = u.user_id\r\n"
-			  		+ "where f.fpo_ref_id =:fpoId";
+			  		+ "where f.fpo_ref_id =:fpoId and f.is_deleted= false";
 			   
 			  list = (List<FarmerAllUserToFpoDto>) entityManager.createNativeQuery(sql, "FarmerAllUserToFpoDto")
 					  .setParameter("fpoId", fpoId)
