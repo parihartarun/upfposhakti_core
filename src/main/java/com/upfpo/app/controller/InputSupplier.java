@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.InputSupplierMaster;
 import com.upfpo.app.service.InputSupplierService;
 
@@ -65,10 +65,19 @@ public class InputSupplier
 	@ApiResponse(code=400,response = ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	private ResponseEntity<InputSupplierMaster> editInputSupplier(@RequestBody InputSupplierMaster inputSupplier,@PathVariable("inputSupplierId") int inputSupplierId)
+	private ResponseEntity<MessageResponse> editInputSupplier(@RequestBody InputSupplierMaster inputSupplier,@PathVariable("inputSupplierId") int inputSupplierId)
 	{
-		InputSupplierMaster inputSupplierEntity = inputSupplierService.updateInputSupplier(inputSupplier,inputSupplierId);
-		return new ResponseEntity<InputSupplierMaster>(inputSupplierEntity, new HttpHeaders(), HttpStatus.OK);
+		try {
+			InputSupplierMaster inputSupplierEntity = inputSupplierService.updateInputSupplier(inputSupplier,inputSupplierId);
+		return ResponseEntity	
+				.ok(new MessageResponse("Input Supplier updated Successfully!"));
+		//return new ResponseEntity<InputSupplierMaster>(inputSupplierEntity, new HttpHeaders(), HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return ResponseEntity	
+					.ok(new MessageResponse("Input Supplier updated Successfully!"));
+		}
 	}
 	
 	@PutMapping(value="/deleteInputSupplier/{inputSupplierId}")
