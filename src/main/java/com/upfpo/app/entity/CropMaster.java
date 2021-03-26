@@ -22,6 +22,7 @@ import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.dto.search.FmbSearchDtoAll;
+import com.upfpo.app.dto.search.InputSupplierFertilizerSearchDto;
 import com.upfpo.app.dto.search.InputSupplierSearchDtoAll;
 
 
@@ -76,7 +77,33 @@ classes = @ConstructorResult(
         )
 )
 
-
+@SqlResultSetMapping(name = "fertilizerResultMapping", 
+classes = @ConstructorResult(
+        targetClass = InputSupplierFertilizerSearchDto.class, 
+        columns = {
+        		        		
+        		@ColumnResult(name = "id"),
+        		@ColumnResult(name = "itemnameid"),
+        		@ColumnResult(name = "itemname"),
+        		@ColumnResult(name = "grade"),
+        		@ColumnResult(name = "itemtypeid"),
+        		@ColumnResult(name = "itemtype"),
+        		@ColumnResult(name = "quantity"),
+        		@ColumnResult(name = "inputsupplierid"),
+        		@ColumnResult(name = "inputsupplier"),
+        		@ColumnResult(name = "districtid"),
+        		@ColumnResult(name = "district"),
+        		@ColumnResult(name = "imagepath"),
+        		@ColumnResult(name = "manufacturer"),
+        		@ColumnResult(name = "crop"),
+        		@ColumnResult(name = "cropid"),
+        		@ColumnResult(name = "cropveriety"),
+        		@ColumnResult(name = "cropverietyid"),
+        		@ColumnResult(name = "recordtype"),
+        		@ColumnResult(name = "role")
+                    }
+        )
+)
 
 
 @SqlResultSetMapping(name = "BookValueMapping", 

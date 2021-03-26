@@ -206,7 +206,50 @@ public class NewSearchRepository {
 
 		
 	}
-	private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
+
+	
+	private String searchOnlyFertilizersInInputSupplierFertilizer(SearchRequestDto searchRequestDto)
+	{
+		String sql ="select inf.id id, \r\n"
+				+ "inf.fertilizer_name_id itemnameid,\r\n"
+				+ "	fn.fertilizer_name itemname,\r\n"
+				+ "	inf.fertilizer_grade grade,\r\n"
+				+ " fnt.id as itemtypeid,\r\n"
+				+ "	fnt.fertilizer_type itemtype,\r\n"
+				+ "	inf.quantity quantity,\r\n"
+				+ "	inf.input_supplier_id inputsupplierid,\r\n"
+				+ "	inps.input_supplier_name inputsupplier,\r\n"
+				+ "	dist.district_id as districtid,\r\n"
+				+ "	dist.district_name district,\r\n"
+				+ "	inf.file_path imagepath,\r\n"
+				+ "	inf.manufacturer_name manufacturer,\r\n"
+				+ "	'null' as crop,\r\n"
+				+ "	cast(null as integer) as cropid,\r\n"
+				+ "	'null' as cropveriety,\r\n"
+				+ "	cast(null as integer) as cropverietyid,\r\n"
+				+ "	'fertilizer' as recordtype,\r\n"
+				+ "	usrrole.role as role\r\n"
+				+ "	from input_supplier_fertilizer inf \r\n"
+				+ "	inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
+				+ "	inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
+				+ "	inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
+                + "	inner join users usr on inps.user_id = usr.user_id \r\n"
+                + "	inner join user_roles usrrole on usr.role_ref_id = usrrole.role_id \r\n"
+				+ " inner join districts dist on inps.dist_ref_id = dist.district_id"
+		        + " where UPPER(fn.fertilizer_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + " or UPPER(fnt.fertilizer_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + " or UPPER(inps.input_supplier_name)LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
+		return sql;
+		
+
+		
+	}
+
+	
+	
+	
+	
+private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
 	{
 		String sql ="select inf.id id,\r\n"
 				+ "	'null' as itemname,\r\n"
@@ -441,9 +484,12 @@ public class NewSearchRepository {
 	public ResponseEntity<?> newFertilizersSearch(SearchRequestDto searchRequestDto)
 	{
 		
-		String sql = searchFertilizersInInputSupplierFertilizer(searchRequestDto);
+		String sql = searchOnlyFertilizersInInputSupplierFertilizer(searchRequestDto);
 	
-	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
+	 // List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();
+	  
+	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"fertilizerResultMapping").getResultList();
+	  
 	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 	  
