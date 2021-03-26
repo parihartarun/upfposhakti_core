@@ -56,6 +56,7 @@ public class ChcFmbServiceImpl implements ChcFmbService
 			newchcFmb.setShopEstablishmentNumber(chcFmbMaster.getShopEstablishmentNumber());
 			newchcFmb.setMobileNumber(chcFmbMaster.getMobileNumber());
 			newchcFmb.setEmail(chcFmbMaster.getEmail());
+			newchcFmb.setContactPerson(chcFmbMaster.getContactPerson());
 			
 			newchcFmb = chcFmbRepository.save(newchcFmb);
 			return newchcFmb;
@@ -107,7 +108,7 @@ public class ChcFmbServiceImpl implements ChcFmbService
 		try {
 			String sql = "select chc.chc_fmb_id, chc.chc_fmb_name, u.user_name, dst.district_id, dst.district_name, blk.block_id,\n" +
 					"\t\tblk.block_name, vill.village_id, vill.village_name, chc.pincode, chc.email,\n" +
-					"\t\tchc.mobile_number, chc.firm_registraion_number, chc.shop_establishment_number, chc.allotment_no from chc_fmb chc\n" +
+					"\t\tchc.mobile_number, chc.firm_registraion_number, chc.shop_establishment_number, chc.allotment_no, chc.contact_person as contactPerson from chc_fmb chc\n" +
 					"\t\tleft join districts dst on dst.district_id=chc.dist_ref_id\n" +
 					"\t\tleft join block blk on blk.block_id=chc.block_ref_id\n" +
 					"\t\tleft join villages vill on vill.village_id=chc.village_ref_id\n" +
