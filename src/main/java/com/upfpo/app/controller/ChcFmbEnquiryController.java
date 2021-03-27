@@ -47,6 +47,7 @@ public class ChcFmbEnquiryController
 		}
 	}
 	
+	
 	@PutMapping("/machineryIndent/updateStatus")
 	public ResponseEntity<MessageResponse> updateStatusFertilizerIndent(@RequestBody EnquiryChcFmbMachinery enquiryChcFmbMachinery, @PathVariable("enqId") BigInteger enqId)
 	{
