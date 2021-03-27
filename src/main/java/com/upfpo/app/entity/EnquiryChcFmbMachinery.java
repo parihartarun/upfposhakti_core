@@ -65,13 +65,13 @@ public class EnquiryChcFmbMachinery
 	@Column(name = "master_id")
 	private Integer masterId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "machinery_type_id")
-	private EquipmentType machineryTypId;
+	//@ManyToOne(fetch = FetchType.EAGER)
+	//@JoinColumn(name = "machinery_type_id")
+	private Integer machineryTypId;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "machinery_name_id")
-	private EqupmentMaster machineryNameId;
+	//@ManyToOne(fetch = FetchType.EAGER)
+	//@JoinColumn(name = "machinery_name_id")
+	private Integer machineryNameId;
 	
 	@Column(name = "machinery_name")
 	private String machineryName;
@@ -133,19 +133,19 @@ public class EnquiryChcFmbMachinery
 		this.masterId = masterId;
 	}
 
-	public EquipmentType getMachineryTypId() {
+	public Integer getMachineryTypId() {
 		return machineryTypId;
 	}
 
-	public void setMachineryTypId(EquipmentType machineryTypId) {
+	public void setMachineryTypId(Integer machineryTypId) {
 		this.machineryTypId = machineryTypId;
 	}
 
-	public EqupmentMaster getMachineryNameId() {
+	public Integer getMachineryNameId() {
 		return machineryNameId;
 	}
 
-	public void setMachineryNameId(EqupmentMaster machineryNameId) {
+	public void setMachineryNameId(Integer machineryNameId) {
 		this.machineryNameId = machineryNameId;
 	}
 
