@@ -376,7 +376,9 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				+ "		inner join equipment_type_master eqt on eqt.id = chc.equipment_type_id\r\n"
 				+ "		inner join equip_master eqp on eqp.id = chc.equipment_name_id \r\n"
 				+ "		where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + "		or UPPER(chc.company) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+		
 		return sql;
 		
 		
@@ -406,7 +408,9 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				+ "		inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
 				+ "		inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
 				+ "		where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+	        	+ "		or UPPER(inpm.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+		
 		return sql;
 	}
 	public ResponseEntity<?> newMachinerySearch(SearchRequestDto searchRequestDto)
