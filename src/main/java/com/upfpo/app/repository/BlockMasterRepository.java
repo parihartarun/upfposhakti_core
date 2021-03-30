@@ -6,14 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.upfpo.app.dto.MasterDTO;
 import com.upfpo.app.entity.BlockMaster;
 
 @Repository
 public interface BlockMasterRepository extends JpaRepository<BlockMaster, Integer>
 {
 
-	@Query("Select b from BlockMaster b where b.distId= :distId order by b.blockName asc")
-	List<BlockMaster> getPanchayatByBlockId(int distId);
+	/*@Query("Select b from BlockMaster b where b.distId= :distId order by b.blockName asc")
+	List<BlockMaster> getPanchayatByBlockId(int distId);*/
+	
+	@Query("Select new com.upfpo.app.dto.MasterDTO(b.id, b.blockName) from BlockMaster b where b.distId= :distId order by b.blockName asc")
+	List<MasterDTO> getPanchayatByBlockId(int distId);
 	
 	List<BlockMaster> findAllByOrderByBlockNameAsc();
 

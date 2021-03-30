@@ -13,13 +13,13 @@ import com.upfpo.app.entity.FPORegister;
 @Repository
 public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 	
-	List<Enquiry> findByMasterId(int masterId);
+	List<Enquiry> findByMasterIdOrderByEnidDesc(int masterId);
 
 
 	Enquiry findByEnid(long id);
 
 
-	List<Enquiry> findByFpoOrderByEnidDesc(FPORegister fpo);
+	List<Enquiry> findByFpoAndStatusNotInOrderByEnidDesc(FPORegister fpo,String status);
 	
 	@Query("select count(e.fpo.fpoId) from Enquiry e where e.masterId = :buyerId")
 	public Integer getFpoCount(Integer buyerId);

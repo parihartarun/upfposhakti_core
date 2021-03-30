@@ -80,7 +80,8 @@ classes = {
 						@ColumnResult(name = "mobile_number", type = Long.class),
 						@ColumnResult(name = "firm_registraion_number", type = String.class),
 						@ColumnResult(name = "shop_establishment_number", type = String.class),
-						@ColumnResult(name = "allotment_no", type = String.class)
+						@ColumnResult(name = "allotment_no", type = String.class),
+						@ColumnResult(name = "contactPerson", type = String.class)
 				})
 		})
 @Table(name="chc_fmb")
@@ -123,6 +124,9 @@ public class ChcFmbMaster implements Serializable
 	
 	@Column(name="shop_establishment_number")
 	private String shopEstablishmentNumber;
+	
+	@Column(name = "contact_person")
+	private String contactPerson;
 	
 	public User getUser() {
 		return user;
@@ -238,4 +242,12 @@ public class ChcFmbMaster implements Serializable
 		this.isDeleted = isDeleted;
 	}
 
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+	
 }

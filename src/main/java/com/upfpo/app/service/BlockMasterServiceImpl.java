@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.upfpo.app.dto.MasterDTO;
 import com.upfpo.app.entity.BlockMaster;
 import com.upfpo.app.repository.BlockMasterRepository;
 
@@ -25,7 +26,7 @@ public class BlockMasterServiceImpl implements BlockMasterService
 	}
 	
 	@Override
-	public List<BlockMaster> getBlockByDistrictId(int distId) 
+	public List<MasterDTO> getBlockByDistrictId(int distId) 
 	{
 		return blockRepository.getPanchayatByBlockId(distId);
 	}

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.EnquieryRequest;
 import com.upfpo.app.entity.Enquiry;
@@ -133,7 +134,28 @@ public class EnquiryController {
         return resp;
     }
 
-     
+    @PutMapping("/cancelEnquiry/{id}")
+    @ApiOperation(value="Enquiry Cancel" ,code=201, produces = "application/json", notes="Api to cancel Enquiry ",response= MessageResponse.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public ResponseEntity<MessageResponse> cancelEnquiry(@PathVariable("id") Long id)
+    {
+    	try
+    	{
+    		 enquiryService.cancelEnquiry(id);
+    		 return ResponseEntity.ok(new MessageResponse("Enquiry has been cancelled!"));
+    	}
+    	catch(Exception e)
+    	{
+    		return ResponseEntity.ok(new MessageResponse("Failed to cancel the Enquiry!"));
+    	}
+    }
+    
+    
+    
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value="Enquiry Delete" ,code=201, produces = "application/json", notes="Api for all Enquiry Delete",response= Enquiry.class)
     @ApiResponses(value= {

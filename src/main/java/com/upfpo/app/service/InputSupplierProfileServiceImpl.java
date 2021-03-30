@@ -132,24 +132,24 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
     }
 
     public InputSupplierDTO getInputSupplierDetailById(Integer masterId) {
-        InputSupplierDTO list = null;
+        InputSupplierDTO obj = null;
         try {
-            String sql = "Select input_supplier_id, input_supplier_name, u.user_name, input_supplier_type, dst.district_id, dst.district_name, blk.block_id,\n" +
-                    "blk.block_name, vill.village_id, vill.village_name, pincode, \n" +
-                    " email, mobile_number, contact_person, license_number, gst_number, equipment, fertilizer, \n" +
-                    " cide, category_deal from input_supplier isup\n" +
-                    "                    left join districts dst on dst.district_id=isup.input_supplier_id \n" +
-                    "                    left join block blk on blk.block_id=isup.input_supplier_id\n" +
-                    "\t\t\t\t\tleft join villages vill on vill.block_id=isup.input_supplier_id\n" +
-                    "\t\t\t\t\tleft join users u on u.user_id=isup.user_id\n" +
-                    "                    where isup.input_supplier_id=:masterId and  isup.is_deleted = false";
+            String sql = "Select input_supplier_id, input_supplier_name, u.user_name, input_supplier_type, dst.district_id, dst.district_name, blk.block_id,\r\n"
+            		+ "                    blk.block_name, vill.village_id, vill.village_name, pincode, \r\n"
+            		+ "                     email, mobile_number, contact_person, license_number, gst_number, equipment, fertilizer, \r\n"
+            		+ "                     cide, category_deal from input_supplier isup\r\n"
+            		+ "                                        left join districts dst on dst.district_id=isup.dist_ref_id\r\n"
+            		+ "                                        left join block blk on blk.block_id=isup.block_ref_id\r\n"
+            		+ "                    left join villages vill on vill.village_id=isup.village_ref_id\r\n"
+            		+ "                    left join users u on u.user_id=isup.user_id\r\n"
+            		+ "                                        where isup.input_supplier_id=:masterId and  isup.is_deleted = false";
 
-            InputSupplierDTO obj = (InputSupplierDTO) entityManager.createNativeQuery(sql, "InputSupplierDTO").setParameter("masterId", masterId).getSingleResult();
+            obj = (InputSupplierDTO) entityManager.createNativeQuery(sql, "InputSupplierDTO").setParameter("masterId", masterId).getSingleResult();
             return obj;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return obj;
     }
 }

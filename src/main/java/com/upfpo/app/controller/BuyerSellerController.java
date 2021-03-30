@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.entity.BuyerSellerMaster;
 import com.upfpo.app.entity.FPORegister;
@@ -63,10 +64,20 @@ public class BuyerSellerController
 	@ApiResponse(code=400,response = ExceptionResponse.class, message = "Validation Failed"),
 	@ApiResponse(code=403,response=ExceptionResponse.class, message = "Forbidden")
 	})
-	private ResponseEntity<BuyerSellerMaster> editBuyerSeller(@RequestBody BuyerSellerMaster buyerSellerMaster,@PathVariable("buyerSellerId") int buyerSellerId)
+	private ResponseEntity<MessageResponse> editBuyerSeller(@RequestBody BuyerSellerMaster buyerSellerMaster,@PathVariable("buyerSellerId") int buyerSellerId)
 	{
-		BuyerSellerMaster buyerSellerentity = buyerSellerService.updateBuyerSeller(buyerSellerMaster,buyerSellerId);
-		return new ResponseEntity<BuyerSellerMaster>(buyerSellerentity, new HttpHeaders(), HttpStatus.OK);
+		try
+		{
+			BuyerSellerMaster buyerSellerentity = buyerSellerService.updateBuyerSeller(buyerSellerMaster,buyerSellerId);
+			//return new ResponseEntity<BuyerSellerMaster>(buyerSellerentity, new HttpHeaders(), HttpStatus.OK);
+			return ResponseEntity	
+					.ok(new MessageResponse("Buyer Seller updated Successfully!"));
+		}
+		catch (Exception e) 
+		{
+			return ResponseEntity	
+					.ok(new MessageResponse("Failed to update Buyer Seller!"));
+		}
 	}
 	
 	@PutMapping(value="/deleteBuyerSeller/{buyerSellerId}")

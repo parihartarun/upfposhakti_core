@@ -24,7 +24,17 @@ public class InputSupplierServiceImpl implements InputSupplierService
 		{
 			InputSupplierMaster newInputSupplier = inputSupplier.get();
 			newInputSupplier.setInputSupplierName(inputSupplierMaster.getInputSupplierName());
-			
+			newInputSupplier.setBlockRefId(inputSupplierMaster.getBlockRefId());
+			newInputSupplier.setCategoryDeal(inputSupplierMaster.getCategoryDeal());
+			newInputSupplier.setContact_person(inputSupplierMaster.getContact_person());
+			newInputSupplier.setLicense_number(inputSupplierMaster.getLicense_number());
+			newInputSupplier.setEmail(inputSupplierMaster.getEmail());
+			newInputSupplier.setDistRefId(inputSupplierMaster.getDistRefId());
+			newInputSupplier.setGstNumber(inputSupplierMaster.getGstNumber());
+			newInputSupplier.setMobile_number(inputSupplierMaster.getMobile_number());
+			newInputSupplier.setPincode(inputSupplierMaster.getPincode());
+			newInputSupplier.setVillageRefId(inputSupplierMaster.getVillageRefId());
+			newInputSupplier.setInputSupplierType(inputSupplierMaster.getInputSupplierType());
 			
 			newInputSupplier = inputSupplierRepository.save(newInputSupplier);
 			return newInputSupplier;

@@ -3,6 +3,7 @@ package com.upfpo.app.entity;
 import java.math.BigInteger;
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -48,13 +49,13 @@ public class EnquiryInputSupplierMachinery
 	@Column(name = "master_id")
 	private Integer masterId;
 	
-	@ManyToOne
-	@JoinColumn(name = "machinery_type_id")
-	private  EquipmentType machineryTypId;
+	//@ManyToOne(cascade = {CascadeType.ALL})
+	//@JoinColumn(name = "machinery_type_id")
+	private  Integer machineryTypId;
 	
-	@ManyToOne
-	@JoinColumn(name = "machinery_name_id")
-	private EqupmentMaster machineryNameId;
+	//@ManyToOne
+	//@JoinColumn(name = "machinery_name_id")
+	private Integer machineryNameId;
 	
 	@Column(name = "machinery_name")
 	private String machineryName;
@@ -116,19 +117,19 @@ public class EnquiryInputSupplierMachinery
 		this.masterId = masterId;
 	}
 
-	public EquipmentType getMachineryTypId() {
+	public Integer getMachineryTypId() {
 		return machineryTypId;
 	}
 
-	public void setMachineryTypId(EquipmentType machineryTypId) {
+	public void setMachineryTypId(Integer machineryTypId) {
 		this.machineryTypId = machineryTypId;
 	}
 
-	public EqupmentMaster getMachineryNameId() {
+	public Integer getMachineryNameId() {
 		return machineryNameId;
 	}
 
-	public void setMachineryNameId(EqupmentMaster machineryNameId) {
+	public void setMachineryNameId(Integer machineryNameId) {
 		this.machineryNameId = machineryNameId;
 	}
 
