@@ -135,6 +135,8 @@ public class RegistrationController
 	})
 	private ResponseEntity<MessageResponse> registerInputSupplier(@Valid @RequestBody InputSupplierMaster inputSupplierMaster) throws CustomException
 	{
+		
+		
 		if(inputSupplierMaster.getInputSupplierType()==1)
 		{
 			inputSupplierMaster.setBlockRefId(null);
