@@ -138,10 +138,10 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
             		+ "                    blk.block_name, vill.village_id, vill.village_name, pincode, \r\n"
             		+ "                     email, mobile_number, contact_person, license_number, gst_number, equipment, fertilizer, \r\n"
             		+ "                     cide, category_deal from input_supplier isup\r\n"
-            		+ "                                        inner join districts dst on dst.district_id=isup.dist_ref_id\r\n"
-            		+ "                                        inner join block blk on blk.block_id=isup.block_ref_id\r\n"
-            		+ "                    inner join villages vill on vill.village_id=isup.village_ref_id\r\n"
-            		+ "                    inner join users u on u.user_id=isup.user_id\r\n"
+            		+ "                                        left join districts dst on dst.district_id=isup.dist_ref_id\r\n"
+            		+ "                                        left join block blk on blk.block_id=isup.block_ref_id\r\n"
+            		+ "                    left join villages vill on vill.village_id=isup.village_ref_id\r\n"
+            		+ "                    left join users u on u.user_id=isup.user_id\r\n"
             		+ "                                        where isup.input_supplier_id=:masterId and  isup.is_deleted = false";
 
             obj = (InputSupplierDTO) entityManager.createNativeQuery(sql, "InputSupplierDTO").setParameter("masterId", masterId).getSingleResult();

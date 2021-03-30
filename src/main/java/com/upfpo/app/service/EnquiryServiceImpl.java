@@ -127,6 +127,13 @@ public class EnquiryServiceImpl implements EnquiryService{
         
         return enquiryRepository.save(upenquiry);
     }
+    
+    public Enquiry cancelEnquiry(Long id)
+    {
+    	Enquiry enquiryDetails = enquiryRepository.findByEnid(id);
+    	enquiryDetails.setStatus("Cancelled");
+    	return enquiryRepository.save(enquiryDetails);
+    }
 
     public Optional deleteEnquiry(Long id) {
         return enquiryRepository.findById(id)
@@ -142,11 +149,13 @@ public class EnquiryServiceImpl implements EnquiryService{
 	} 
 
 	public List<Enquiry> getEnquiryInfo(Integer masterId) {
-		 return enquiryRepository.findByMasterId(masterId);
+		 //return enquiryRepository.findByMasterId(masterId);
+		return enquiryRepository.findByMasterIdOrderByEnidDesc(masterId);
 	}
 
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
-		return enquiryRepository.findByFpoOrderByEnidDesc(fpo);
+		//return enquiryRepository.findByFpoOrderByEnidDesc(fpo);
+		return enquiryRepository.findByFpoAndStatusNotInOrderByEnidDesc(fpo, "Cancelled");
 	}
 
 	
