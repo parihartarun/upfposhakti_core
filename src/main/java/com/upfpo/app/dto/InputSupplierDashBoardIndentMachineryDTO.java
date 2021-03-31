@@ -20,9 +20,11 @@ public class InputSupplierDashBoardIndentMachineryDTO
 	private Double indentQty;
 	
 	private Calendar create_date_time;
+	
+	private BigInteger enqId;
 
 	public InputSupplierDashBoardIndentMachineryDTO(String createdBy, BigInteger contact_details, String role,
-			String status, String equpment_name, Integer no_of_days, Double indentQty, Calendar create_date_time) {
+			String status, String equpment_name, Integer no_of_days, Double indentQty, Calendar create_date_time, BigInteger enqId) {
 		super();
 		this.createdBy = createdBy;
 		this.contact_details = contact_details;
@@ -32,6 +34,7 @@ public class InputSupplierDashBoardIndentMachineryDTO
 		this.no_of_days = no_of_days;
 		this.indentQty = indentQty;
 		this.create_date_time = create_date_time;
+		this.enqId = enqId;
 	}
 
 	public String getCreatedBy() {
@@ -97,5 +100,12 @@ public class InputSupplierDashBoardIndentMachineryDTO
 	public void setCreate_date_time(Calendar create_date_time) {
 		this.create_date_time = create_date_time;
 	}
-	
+
+	public BigInteger getEnqId() {
+		return enqId;
+	}
+
+	public void setEnqId(BigInteger enqId) {
+		this.enqId = enqId;
+	}
 }

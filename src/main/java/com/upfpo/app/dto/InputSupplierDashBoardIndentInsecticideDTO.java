@@ -18,6 +18,8 @@ public class InputSupplierDashBoardIndentInsecticideDTO
 	private Double indentQty;
 	
 	private Calendar create_date_time;
+	
+	private BigInteger enqId;
 
 	public String getCreatedBy() {
 		return createdBy;
@@ -74,9 +76,17 @@ public class InputSupplierDashBoardIndentInsecticideDTO
 	public void setCreate_date_time(Calendar create_date_time) {
 		this.create_date_time = create_date_time;
 	}
+	
+	public BigInteger getEnqId() {
+		return enqId;
+	}
+
+	public void setEnqId(BigInteger enqId) {
+		this.enqId = enqId;
+	}
 
 	public InputSupplierDashBoardIndentInsecticideDTO(String createdBy, BigInteger contact_details, String role,
-			String status, String insecticide_type, Double indentQty, Calendar create_date_time) {
+			String status, String insecticide_type, Double indentQty, Calendar create_date_time, BigInteger enqId) {
 		super();
 		this.createdBy = createdBy;
 		this.contact_details = contact_details;
@@ -85,6 +95,7 @@ public class InputSupplierDashBoardIndentInsecticideDTO
 		this.insecticide_type = insecticide_type;
 		this.indentQty = indentQty;
 		this.create_date_time = create_date_time;
+		this.enqId = enqId;
 	}
 	
 	
