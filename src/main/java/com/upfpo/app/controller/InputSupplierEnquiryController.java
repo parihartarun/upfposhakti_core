@@ -66,7 +66,7 @@ public class InputSupplierEnquiryController
 		}
 	}
 	
-	@PutMapping("/seedIndent/updateStatus/enqId")
+	@PutMapping("/seedIndent/updateStatus/{enqId}")
 	public ResponseEntity<MessageResponse> updateStatusSeedIndent(@RequestBody EnquiryInputSupplierSeed enquiryInputSupplierSeed, @PathVariable("enqid") BigInteger enqid)
 	{
 		try
