@@ -22,10 +22,28 @@ import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.dto.search.FmbSearchDtoAll;
+import com.upfpo.app.dto.search.FpoServiceSearchDto;
 import com.upfpo.app.dto.search.InputSupplierFertilizerSearchDto;
 import com.upfpo.app.dto.search.InputSupplierSearchDtoAll;
 
 
+
+
+
+@SqlResultSetMapping(name = "fpoServicesResultMapping", 
+classes = @ConstructorResult( 
+        targetClass = FpoServiceSearchDto.class, 
+        columns = {        		
+        		@ColumnResult(name = "id"),
+        		@ColumnResult(name = "vendorid"),
+        		@ColumnResult(name = "vendorname"),
+        		@ColumnResult(name = "districtid"),
+        		@ColumnResult(name = "districtname"),
+        		@ColumnResult(name = "servicename"),
+        		@ColumnResult(name = "description")
+                    }
+        )
+)
 
 
 @SqlResultSetMapping(name = "fmbValueResultMapping", 
