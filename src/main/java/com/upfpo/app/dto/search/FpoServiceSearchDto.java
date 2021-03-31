@@ -6,7 +6,7 @@ public class FpoServiceSearchDto {
 	private Integer vendorid;
 	private String vendorname;
 	private Integer districtid;
-	private String districtname;
+	private String district;
 	private String servicename;
 	private String description;
 	
@@ -17,14 +17,14 @@ public class FpoServiceSearchDto {
 	public FpoServiceSearchDto() {
 		super();
 	}
-	public FpoServiceSearchDto(Integer id, Integer vendorid, String vendorname, Integer districtid, String districtname,
+	public FpoServiceSearchDto(Integer id, Integer vendorid, String vendorname, Integer districtid, String district,
 			String servicename, String description) {
 		super();
 		this.id = id;
 		this.vendorid = vendorid;
 		this.vendorname = vendorname;
 		this.districtid = districtid;
-		this.districtname = districtname;
+		this.district = district;
 		this.servicename = servicename;
 		this.description = description;
 	}
@@ -52,11 +52,11 @@ public class FpoServiceSearchDto {
 	public void setDistrictid(Integer districtid) {
 		this.districtid = districtid;
 	}
-	public String getDistrictname() {
-		return districtname;
+	public String getDistrict() {
+		return district;
 	}
-	public void setDistrictname(String districtname) {
-		this.districtname = districtname;
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 	public String getServicename() {
 		return servicename;

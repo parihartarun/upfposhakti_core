@@ -323,7 +323,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	private String searchServicesInFpos(SearchRequestDto searchRequestDto)
 	{
 		
-		String sql ="select fs.id, fs.fpo_id vendorid, fp.fpo_name vendorname,dist.district_id districtid,dist.district_name districtname, fs.service_name servicename,fs.description from fpo_additonal_services fs \r\n"
+		String sql ="select fs.id, fs.fpo_id vendorid, fp.fpo_name vendorname,dist.district_id districtid,dist.district_name district, fs.service_name servicename,fs.description from fpo_additonal_services fs \r\n"
 				+ "inner join fpo fp on fp.fpo_id = fs.fpo_id\r\n"
 				+ "inner join districts dist on fp.dist_ref_id = dist.district_id\r\n"
 				+ "where UPPER(fp.fpo_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"

@@ -38,7 +38,7 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "vendorid"),
         		@ColumnResult(name = "vendorname"),
         		@ColumnResult(name = "districtid"),
-        		@ColumnResult(name = "districtname"),
+        		@ColumnResult(name = "district"),
         		@ColumnResult(name = "servicename"),
         		@ColumnResult(name = "description")
                     }
