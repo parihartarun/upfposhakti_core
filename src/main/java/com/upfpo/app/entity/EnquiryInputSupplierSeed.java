@@ -29,7 +29,8 @@ classes = {
                 		@ColumnResult(name = "status", type = String.class),
                 		@ColumnResult(name = "crop_name", type = String.class),
                 		@ColumnResult(name = "varietyName", type = String.class),
-                		@ColumnResult(name = "indentQty", type = Double.class)
+                		@ColumnResult(name = "indentQty", type = Double.class),
+                		@ColumnResult(name = "enqId", type = BigInteger.class)
                 })
 })
 @SqlResultSetMapping(name="EnquirySeedDTO",

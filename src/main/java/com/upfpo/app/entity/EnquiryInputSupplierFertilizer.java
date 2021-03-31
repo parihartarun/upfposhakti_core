@@ -33,7 +33,8 @@ classes = {
                 		@ColumnResult(name = "fertilizer_name", type = String.class),
                 		@ColumnResult(name = "fertilizer_grade", type = String.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
-                		@ColumnResult(name = "create_date_time", type = Calendar.class)
+                		@ColumnResult(name = "create_date_time", type = Calendar.class),
+                		@ColumnResult(name = "enqId", type = BigInteger.class)
                 })
 })
 @SqlResultSetMapping(name="EnquiryFertilizerDTO",

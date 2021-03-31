@@ -18,8 +18,10 @@ public class InputSupplierDashBoardIndentSeedDTO
 	
 	private Double indentQty;
 	
+	private BigInteger enqId;
+	
 	public InputSupplierDashBoardIndentSeedDTO(String createdBy, BigInteger contact_details, String role, String status,
-			String crop_name, String varietyName, Double indentQty) {
+			String crop_name, String varietyName, Double indentQty, BigInteger enqId) {
 		super();
 		this.createdBy = createdBy;
 		this.contact_details = contact_details;
@@ -28,6 +30,7 @@ public class InputSupplierDashBoardIndentSeedDTO
 		this.crop_name = crop_name;
 		this.varietyName = varietyName;
 		this.indentQty = indentQty;
+		this.enqId = enqId;
 	}
 
 	public String getCreatedBy() {
@@ -84,5 +87,13 @@ public class InputSupplierDashBoardIndentSeedDTO
 
 	public void setIndentQty(Double indentQty) {
 		this.indentQty = indentQty;
+	}
+
+	public BigInteger getEnqId() {
+		return enqId;
+	}
+
+	public void setEnqId(BigInteger enqId) {
+		this.enqId = enqId;
 	}
 }
