@@ -13,7 +13,7 @@ public interface FPOServicesService {
     //public FPOServices updateFPOServices(Integer id, FPOServices FPOServices, MultipartFile file);
     public List<FPOServices> getFPOServices();
     public Optional<FPOServices> getFPOServicesById(Integer id);
-
+    public List<FPOServices> getFPOServicesByFpos(Integer id);
     Resource loadFileAsResource(String fileName);
     // public FPOServices insertFPOServices(FPOServices FPOServices);
 

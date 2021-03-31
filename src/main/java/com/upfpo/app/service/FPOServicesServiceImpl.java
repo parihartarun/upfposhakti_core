@@ -55,6 +55,11 @@ public class FPOServicesServiceImpl implements FPOServicesService{
     public List<FPOServices> getFPOServices() {
         return fpoServicesRepository.findByIsDeletedOrderByIdDesc(false);
     }
+    
+    @Override
+    public List<FPOServices> getFPOServicesByFpos(Integer id) {
+        return fpoServicesRepository.findByFpoIdAndIsDeletedOrderByIdDesc(id,false);
+    }
 
     @Override
     public Optional<FPOServices> getFPOServicesById(Integer id) {

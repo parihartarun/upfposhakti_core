@@ -12,4 +12,6 @@ public interface FPOServicesRepository extends JpaRepository<FPOServices, Intege
     List<FPOServices> findByIsDeleted(Boolean b);
 
     List<FPOServices> findByIsDeletedOrderByIdDesc(boolean b);
+
+    List<FPOServices> findByFpoIdAndIsDeletedOrderByIdDesc(Integer fpoId,boolean b);
 }

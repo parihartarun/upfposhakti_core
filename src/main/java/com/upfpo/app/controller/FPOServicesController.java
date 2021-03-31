@@ -69,6 +69,19 @@ public class FPOServicesController {
     }
 
 
+    
+    @GetMapping("/getall/{id}")
+    @ApiOperation(value="Fetch All FPOServices by fpo master id " ,code=201, produces = "application/json", notes="API to Get all FPOServicess Details",response= FPOServices.class)
+    @ApiResponses(value= {
+            @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+            @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+            @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+    })
+    public List<FPOServices> getFPOServicesByFpo(@PathVariable("id") Integer id){
+
+        return fpoServicesService.getFPOServicesByFpos(id);
+    }
+    
 
     @GetMapping("/{id}")
     @ApiOperation(value="Fetch FPOServicess By ID" ,code=201, produces = "application/json", notes="Api to FPOServicess Detailss By ID",response=FPOServices.class)
