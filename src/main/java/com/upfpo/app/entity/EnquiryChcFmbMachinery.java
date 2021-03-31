@@ -48,7 +48,8 @@ classes = {
                 		@ColumnResult(name = "equpment_name", type = String.class),
                 		@ColumnResult(name = "no_of_days", type = Integer.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
-                		@ColumnResult(name = "create_date_time", type = Calendar.class)
+                		@ColumnResult(name = "create_date_time", type = Calendar.class),
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
                 })
 })
 @Table(name = "enquiry_chc_fmb_machinery")

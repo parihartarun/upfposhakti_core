@@ -2,31 +2,19 @@ package com.upfpo.app.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upfpo.app.configuration.exception.ValidationException;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.FilterDto;
-import com.upfpo.app.entity.AgencyMaster;
-import com.upfpo.app.entity.CollectionCenter;
-import com.upfpo.app.service.AgencyMasterService;
-import com.upfpo.app.service.CollectionCenterService;
-import com.upfpo.app.service.FilterService;
+import com.upfpo.app.dto.ListOnDistrictSearchDTO;
 import com.upfpo.app.service.NewFilterService;
 
 import io.swagger.annotations.Api;
@@ -193,4 +181,16 @@ public class NewFiltersController {
 		return filterService.getMaxRentByFilterKeys(value, in)==null?0:filterService.getMaxRentByFilterKeys(value, in);	
 	}
 
+	@GetMapping("/listOnDistricts")
+	@ApiOperation(value="Get Fpo List and Details By Search Criteria",code=201, produces = "application/json", notes="Get Fpo List and Details By Search Criteria",response=Double.class)
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus(HttpStatus.CREATED)
+	public ListOnDistrictSearchDTO getFpoListOnDistrict(@RequestParam("in") String in,@RequestParam("val") String value)
+	{
+		return filterService.getListOnDistrict(value, in);
+	}
 }

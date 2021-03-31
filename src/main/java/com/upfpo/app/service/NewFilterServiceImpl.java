@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.FilterDto;
+import com.upfpo.app.dto.ListOnDistrictSearchDTO;
 import com.upfpo.app.repository.FilterRepository;
 import com.upfpo.app.repository.NewFilterRepository;
 
@@ -75,6 +76,12 @@ public class NewFilterServiceImpl implements NewFilterService {
 	public Double getMaxRentByFilterKeys(String val,String in) {
 		// TODO Auto-generated method stub
 		return filterRepository.getMaxRentByFilterKeys(val, in);
+	}
+	
+	@Override
+	public ListOnDistrictSearchDTO getListOnDistrict(String val, String in) 
+	{
+		return filterRepository.getListOnDistrictSearch(val, in);
 	}
 	
 }

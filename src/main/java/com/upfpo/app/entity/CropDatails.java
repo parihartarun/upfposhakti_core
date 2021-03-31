@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FarmerCropProductionDTO;
 import com.upfpo.app.dto.TotalProductionDTO;
@@ -111,6 +112,7 @@ public class CropDatails implements Serializable {
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "sowing_id")
+	@JsonIgnore
     private NewSowing newSowing;
 
 	@Column(name = "land_id")

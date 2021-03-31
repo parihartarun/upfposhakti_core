@@ -29,6 +29,7 @@ import com.upfpo.app.dto.DeptDashboardReportDTO;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FarmerComplaintDTO;
 import com.upfpo.app.dto.FilterDto;
+import com.upfpo.app.dto.FpoOnDistrictDTO;
 
 
 @Entity
@@ -111,6 +112,21 @@ classes = {
                 @ColumnResult(name = "crop_veriety", type = String.class),
                 @ColumnResult(name = "sold_quantity", type = Double.class),
                 
+           })
+})
+@SqlResultSetMapping(name="FpoOnDistrictDTO",
+classes = {
+    @ConstructorResult(
+            targetClass = FpoOnDistrictDTO.class,
+            columns = {
+                @ColumnResult(name = "districtId", type = Integer.class),
+                @ColumnResult(name = "districtName", type = String.class),
+                @ColumnResult(name = "fpoId", type = Integer.class),
+                @ColumnResult(name = "fpoName", type = String.class),
+                @ColumnResult(name = "fpoEmail", type = String.class),
+                @ColumnResult(name = "fpoLandline", type = BigInteger.class),
+                @ColumnResult(name = "crops", type = String.class),
+                @ColumnResult(name = "additionalServices", type = String.class)
            })
 })
 @Table(name ="fpo")

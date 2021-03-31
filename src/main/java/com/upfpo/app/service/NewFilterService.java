@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.FilterDto;
+import com.upfpo.app.dto.ListOnDistrictSearchDTO;
 import com.upfpo.app.entity.AgencyMaster;
 import com.upfpo.app.entity.BlockMaster;
 import com.upfpo.app.entity.FpoLicenceDetails;
@@ -25,4 +26,5 @@ public interface NewFilterService
 	public List<FilterDto> getMachineryTypesByFilterKeys(String val,String in);
 	public Double getMaxQuantityByFilterKeys(String val,String in);
 	public Double getMaxRentByFilterKeys(String val,String in);
+	public ListOnDistrictSearchDTO getListOnDistrict(String val,String in);
 }

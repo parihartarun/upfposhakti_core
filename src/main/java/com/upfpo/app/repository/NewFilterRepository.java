@@ -3,16 +3,18 @@ package com.upfpo.app.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.upfpo.app.dto.CropAndVerietyList;
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.CropVerietyFilterDto;
 import com.upfpo.app.dto.FilterDto;
-import com.upfpo.app.entity.CropMaster;
-import com.upfpo.app.util.GetFinYear;
+import com.upfpo.app.dto.FpoOnDistrictDTO;
+import com.upfpo.app.dto.ListOnDistrictSearchDTO;
 
 @Repository
 public class NewFilterRepository {
@@ -26,6 +28,7 @@ public class NewFilterRepository {
 	private static final String INPUTSUPPLIER = "inputsupplier";
 	private static final String SERVICES = "service";
 	private static final String FMB ="fmb";
+	private static final String DISTRICTS = "districts";
 	
 	
 	@Autowired
@@ -653,7 +656,30 @@ return cropFilterDtoList;
 		}
 
 		
-
+	public ListOnDistrictSearchDTO getListOnDistrictSearch(String val,String in)
+	{
+		String sql = "";
+		List<FpoOnDistrictDTO> obj = null;
+		ListOnDistrictSearchDTO listDto = new ListOnDistrictSearchDTO();
+		
+		if(in.equalsIgnoreCase(NewFilterRepository.DISTRICTS))
+		{
+			sql = "select distinct d.district_id as districtId, d.district_name as districtName, f.fpo_id as fpoId, f.fpo_name as fpoName, f.fpo_email as fpoEmail, f.fpo_landline as fpoLandline, \r\n"
+					+ "STRING_AGG(distinct cm.crop_name, ', ') as crops, STRING_AGG(distinct ads.service_name, ', ') as additionalServices from fpo f\r\n"
+					+ "				inner join districts d on f.dist_ref_id = d.district_id\r\n"
+					+ "				inner join total_production t on t.fpo_id = f.fpo_id\r\n"
+					+ "				inner join crop_master cm on cm.id = t.crop_id\r\n"
+					+ "				inner join fpo_additonal_services ads on ads.fpo_id = f.fpo_id\r\n"
+					+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
+					+ " group by d.district_id, d.district_name, f.fpo_id, f.fpo_name, f.fpo_email, f.fpo_landline";
+			
+			obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
+			
+			listDto.setFpoDetails(obj);
+		}
+		
+		return listDto;
+	}
 
 	
 }
