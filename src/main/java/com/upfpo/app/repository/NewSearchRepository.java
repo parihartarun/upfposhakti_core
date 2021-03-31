@@ -25,6 +25,7 @@ import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.FmbSearchPagePagableDto;
 import com.upfpo.app.dto.FpoServicePagePagableDto;
+import com.upfpo.app.dto.InputSupplierFertilizersPagePagableDto;
 import com.upfpo.app.dto.InputSupplierPagePagableDto;
 import com.upfpo.app.dto.ReportDTO;
 import com.upfpo.app.dto.CropSearchPagePagableDto;
@@ -32,6 +33,7 @@ import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.dto.search.FmbSearchDtoAll;
 import com.upfpo.app.dto.search.FpoServiceSearchDto;
+import com.upfpo.app.dto.search.InputSupplierFertilizerSearchDto;
 import com.upfpo.app.dto.search.InputSupplierSearchDtoAll;
 import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.util.GetFinYear;
@@ -513,17 +515,17 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	
 	 // List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();
 	  
-	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"fertilizerResultMapping").getResultList();
+	  List<InputSupplierFertilizerSearchDto> obj =  entityManager.createNativeQuery(sql,"fertilizerResultMapping").getResultList();
 	  
 	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 	  
-	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+	  Predicate<InputSupplierFertilizerSearchDto> inputSupplierFinalPredecate=null;
 		if(searchRequestDto.getDistrictIds()!=null) {
 			for(Integer districtId:searchRequestDto.getDistrictIds())
 			{
 				
-				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -540,7 +542,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
 			{
 				
-				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -556,7 +558,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			for(Integer fertTypeId:searchRequestDto.getFertilizerTypeIds())
 			{
 				
-				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getItemtypeid().intValue()==fertTypeId.intValue();
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getItemtypeid().intValue()==fertTypeId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -568,7 +570,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		}
 		
 		
-		InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
+		InputSupplierFertilizersPagePagableDto inputSupplierPagePagableDto = new InputSupplierFertilizersPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
 	  //inputSupplierPagePagableDto.setPage(obj);
 	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
