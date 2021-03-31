@@ -170,7 +170,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 left join input_supplier e on a.user_id=e.user_id\r\n"
 				+ "								 left join fpo d on a.user_id=d.user_id\r\n"
 				+ "								 left join farmer f on a.user_id=f.user_id \r\n"
-				+ "								 join equip_master eq on eq.id = a.machinery_name_id\r\n"
+				+ "								 join equip_master eq on eq.id = a.machinerynameid\r\n"
 				+ "								 where a.master_id= :masterId group by ur.role,a.status, \r\n"
 				+ "								 eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
