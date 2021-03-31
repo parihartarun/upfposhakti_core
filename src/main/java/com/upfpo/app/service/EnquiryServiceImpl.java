@@ -131,7 +131,7 @@ public class EnquiryServiceImpl implements EnquiryService{
     public Enquiry cancelEnquiry(Long id)
     {
     	Enquiry enquiryDetails = enquiryRepository.findByEnid(id);
-    	enquiryDetails.setStatus("Cancelled");
+    	enquiryDetails.setStatus("cancelled");
     	return enquiryRepository.save(enquiryDetails);
     }
 
@@ -155,7 +155,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		//return enquiryRepository.findByFpoOrderByEnidDesc(fpo);
-		return enquiryRepository.findByFpoAndStatusNotInOrderByEnidDesc(fpo, "Cancelled");
+		return enquiryRepository.findByFpoAndStatusNotInOrderByEnidDesc(fpo, "cancelled");
 	}
 
 	
