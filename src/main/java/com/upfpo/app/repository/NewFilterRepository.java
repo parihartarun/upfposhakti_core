@@ -24,6 +24,7 @@ public class NewFilterRepository {
 	private static final String SEED = "seed";
 	private static final String MACHINERY = "fmb";
 	private static final String INPUTSUPPLIER = "inputsupplier";
+	private static final String SERVICES = "service";
 	private static final String FMB ="fmb";
 	
 	
@@ -83,7 +84,17 @@ else if(in.equalsIgnoreCase(NewFilterRepository.FMB))
             
 sql = "select distinct * from ("+unoinquery+") as a order by name asc";
 
-}else {
+}
+else if(in.equalsIgnoreCase(NewFilterRepository.SERVICES))
+{
+	String unoinquery = this.selectDistrictsFromFpoServicesTable(val);
+            
+            
+sql = "select distinct * from ("+unoinquery+") as a order by name asc";
+
+}
+
+else {
 	
 	sql = "";
 	return null;
@@ -178,7 +189,18 @@ return cropFilterDtoList;
 				+ "order by f.fpo_name asc";
 				
 
-	}else {
+	}else if(in.equalsIgnoreCase(NewFilterRepository.SERVICES))
+	{
+		sql = "select distinct fs.fpo_id id, fp.fpo_name as name from fpo_additonal_services fs \r\n"
+				+ "inner join fpo fp on fp.fpo_id = fs.fpo_id\r\n"
+				+ "inner join districts dist on fp.dist_ref_id = dist.district_id\r\n"
+				+ "where UPPER(fp.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+			    + "or UPPER(fs.service_name) like '%"+val.toUpperCase()+"%'\r\n"
+			    + "or UPPER(fs.description)LIKE '%"+val.toUpperCase()+"%'\r\n"
+				+ "order by fp.fpo_name asc";
+	}
+    
+    else {
 		sql = "";
 		return null;
 	}
@@ -240,6 +262,18 @@ return cropFilterDtoList;
 					+ "	inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
 					+ "	where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
 					+ " or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";
+					
+			return sql;
+		}
+		private String selectDistrictsFromFpoServicesTable(String val)
+		{
+			
+			String sql ="select dist.district_id id,dist.district_name as name from fpo_additonal_services fs \r\n"
+					+ "inner join fpo fp on fp.fpo_id = fs.fpo_id\r\n"
+					+ "inner join districts dist on fp.dist_ref_id = dist.district_id\r\n"
+					+ "where UPPER(fp.fpo_name) like '%"+val.toUpperCase()+"%'\r\n"
+				    + "or UPPER(fs.service_name) like '%"+val.toUpperCase()+"%'\r\n"
+				    + "or UPPER(fs.description)LIKE '%"+val.toUpperCase()+"%'\r\n";
 					
 			return sql;
 		}

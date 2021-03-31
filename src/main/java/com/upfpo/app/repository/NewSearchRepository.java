@@ -24,12 +24,14 @@ import com.upfpo.app.dto.CropVerietyFilterDto;
 import com.upfpo.app.dto.FPODetailsDTO;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.FmbSearchPagePagableDto;
+import com.upfpo.app.dto.FpoServicePagePagableDto;
 import com.upfpo.app.dto.InputSupplierPagePagableDto;
 import com.upfpo.app.dto.ReportDTO;
 import com.upfpo.app.dto.CropSearchPagePagableDto;
 import com.upfpo.app.dto.SearchRequestDto;
 import com.upfpo.app.dto.SearchResponseDto;
 import com.upfpo.app.dto.search.FmbSearchDtoAll;
+import com.upfpo.app.dto.search.FpoServiceSearchDto;
 import com.upfpo.app.dto.search.InputSupplierSearchDtoAll;
 import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.util.GetFinYear;
@@ -315,6 +317,25 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		
 		return sql;
 	}
+	
+	
+	
+	private String searchServicesInFpos(SearchRequestDto searchRequestDto)
+	{
+		
+		String sql ="select fs.id, fs.fpo_id vendorid, fp.fpo_name vendorname,dist.district_id districtid,dist.district_name districtname, fs.service_name servicename,fs.description from fpo_additonal_services fs \r\n"
+				+ "inner join fpo fp on fp.fpo_id = fs.fpo_id\r\n"
+				+ "inner join districts dist on fp.dist_ref_id = dist.district_id\r\n"
+				+ "where UPPER(fp.fpo_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+			    + "or UPPER(fs.service_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+			    + "or UPPER(fs.description)LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
+		return sql;
+		
+
+		
+	}
+	
+	
 	public ResponseEntity<?> newInputSupplierSearch(SearchRequestDto searchRequestDto)
 	{
 		String sql = searchFertilizersInInputSupplierFertilizer(searchRequestDto)
@@ -667,5 +688,60 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
 	}
+	
+	public ResponseEntity<?> newFpoServicesSearch(SearchRequestDto searchRequestDto)
+	{
+		
+		String sql = this.searchServicesInFpos(searchRequestDto);
+	
+	 // List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();
+	  
+	  List<FpoServiceSearchDto> obj =  entityManager.createNativeQuery(sql,"fpoServicesResultMapping").getResultList();
+	  
+	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
+	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+	  
+	  Predicate<FpoServiceSearchDto> fpoFinalPredecate=null;
+		if(searchRequestDto.getDistrictIds()!=null) {
+			for(Integer districtId:searchRequestDto.getDistrictIds())
+			{
+				
+				Predicate<FpoServiceSearchDto> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
+			      if(fpoFinalPredecate==null)
+			      {
+			    	  fpoFinalPredecate = samplepredicate;
+			      }else {
+			    	  fpoFinalPredecate = fpoFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = fpoFinalPredecate==null?obj:obj.stream().filter(fpoFinalPredecate).collect(Collectors.toList());
+		} 
+		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+		fpoFinalPredecate=null;
+		
+		if(searchRequestDto.getFpoIds()!=null) {
+			for(Integer fpoId:searchRequestDto.getFpoIds())
+			{
+				
+				Predicate<FpoServiceSearchDto> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==fpoId.intValue();
+			      if(fpoFinalPredecate==null)
+			      {
+			    	  fpoFinalPredecate = samplepredicate;
+			      }else {
+			    	  fpoFinalPredecate = fpoFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = fpoFinalPredecate==null?obj:obj.stream().filter(fpoFinalPredecate).collect(Collectors.toList());
+		}
+	
+		
+		
+		FpoServicePagePagableDto inputSupplierPagePagableDto = new FpoServicePagePagableDto();
+	  inputSupplierPagePagableDto.setTotalElements(obj.size());
+	  //inputSupplierPagePagableDto.setPage(obj);
+	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
+	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
+	}
+	
 	
 }

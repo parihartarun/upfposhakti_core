@@ -17,6 +17,8 @@ public class NewSearchServiceImpl implements NewSearchService {
 	private static final String SEED = "seed";
 	private static final String MACHINERY = "fmb";
 	private static final String INPUTSUPPLIER = "inputsupplier";
+	private static final String SERVICES = "service";
+	
 	@Autowired
 	private NewSearchRepository newSearchRepository;
 	
@@ -44,12 +46,11 @@ public class NewSearchServiceImpl implements NewSearchService {
 		{
 			return searchInInputSuppliersSeeds(searchRequestDto);
 		}
-		
-		
-		else if(searchRequestDto.getIn().equalsIgnoreCase("fmb"))
+		else if(searchRequestDto.getIn().equalsIgnoreCase(NewSearchServiceImpl.SERVICES))
 		{
 			
-			return searchInFmb(searchRequestDto);
+			return searchInFpoServices(searchRequestDto);
+		
 		}else {
 		return null;
 		}
@@ -81,5 +82,10 @@ public class NewSearchServiceImpl implements NewSearchService {
 	private ResponseEntity<?> searchInInputSuppliersInsecticides(SearchRequestDto searchRequestDto)
 	{
 		return newSearchRepository.newInsecticidesSearch(searchRequestDto);	
+	}
+	
+	private ResponseEntity<?> searchInFpoServices(SearchRequestDto searchRequestDto)
+	{
+		return newSearchRepository.newFpoServicesSearch(searchRequestDto);	
 	}
 }
