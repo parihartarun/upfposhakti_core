@@ -289,5 +289,16 @@ public class FPOController {
         return fpoService.getProductionDetailGraph(finYear,masterId);
     }
 
+    @GetMapping("/getFpoByDistrict/{districtId}")
+    @ApiOperation(value="Get FPO List by district", code=200, produces = "application/json",notes="Get FPO List by district",response=FpoDTO.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=404,response=ExceptionResponse.class, message = "Item Not Found"),
+			@ApiResponse(code=401,response=ExceptionResponse.class, message = "Unauthorized"),
+			@ApiResponse(code=400,response=ExceptionResponse.class, message = "Validation Failed"),
+	})
+    public List<FpoDTO> getFpoListByDistrict(@PathVariable("districtId") Integer districtId)
+    {
+    	return fpoService.getFpoOnDistrict(districtId);
+    }
 
 }

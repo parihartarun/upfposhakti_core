@@ -40,4 +40,6 @@ public interface FPOService {
 	List<ProductionDetailsDTO> getProductionDetailAnnual(String finyear, Integer masterId);
 
     List<ProductionDetailsDTO> getProductionDetailGraph(String finyear, Integer masterId);
+    
+    List<FpoDTO> getFpoOnDistrict(Integer districtId);
 }

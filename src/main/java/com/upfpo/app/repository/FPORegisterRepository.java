@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.upfpo.app.dto.DeptFpoAgencyDTO;
 import com.upfpo.app.dto.FPOListDTO;
+import com.upfpo.app.dto.FpoDTO;
 import com.upfpo.app.entity.FPORegister;
 
 
@@ -29,4 +30,7 @@ public interface FPORegisterRepository extends JpaRepository<FPORegister, Intege
 	
 	@Query("select distinct new com.upfpo.app.dto.DeptFpoAgencyDTO(count(f), agency) from FPORegister f where f.isDeleted = false group by agency")
 	public List<DeptFpoAgencyDTO> getAgency();
+	
+	@Query("select new com.upfpo.app.dto.FpoDTO(f.fpoId, f.fpoName) from FPORegister f where f.distRefId = :districtId order by f.fpoName asc")
+	public List<FpoDTO> getFpoDistricts(Integer districtId);
 }

@@ -13,6 +13,7 @@ import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.dto.FPOListDTO;
 import com.upfpo.app.dto.FarmerLandDetailDto;
+import com.upfpo.app.dto.FpoDTO;
 import com.upfpo.app.dto.FpoProfileDTO;
 import com.upfpo.app.dto.MasterDataDto;
 import com.upfpo.app.dto.ProductionDetailsDTO;
@@ -378,5 +379,11 @@ public class FPOServiceImpl implements FPOService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@Override
+	public List<FpoDTO> getFpoOnDistrict(Integer districtId) 
+	{
+		return fpoRepository.getFpoDistricts(districtId);
 	}
 }
