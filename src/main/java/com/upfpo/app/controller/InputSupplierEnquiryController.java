@@ -67,11 +67,11 @@ public class InputSupplierEnquiryController
 	}
 	
 	@PutMapping("/seedIndent/updateStatus/{enqId}")
-	public ResponseEntity<MessageResponse> updateStatusSeedIndent(@RequestBody EnquiryInputSupplierSeed enquiryInputSupplierSeed, @PathVariable("enqid") BigInteger enqid)
+	public ResponseEntity<MessageResponse> updateStatusSeedIndent(@RequestBody EnquiryInputSupplierSeed enquiryInputSupplierSeed, @PathVariable("enqId") BigInteger enqId)
 	{
 		try
 		{
-			inputSupplierEnquiryService.createSeedIndent(enquiryInputSupplierSeed);
+			inputSupplierEnquiryService.updateSeedIndentStatus(enquiryInputSupplierSeed, enqId);
 			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
 		}
 		catch(Exception e)
