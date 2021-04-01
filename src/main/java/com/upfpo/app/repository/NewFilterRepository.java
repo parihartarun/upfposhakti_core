@@ -14,6 +14,7 @@ import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.CropVerietyFilterDto;
 import com.upfpo.app.dto.FilterDto;
 import com.upfpo.app.dto.FpoOnDistrictDTO;
+import com.upfpo.app.dto.InputSupplierOnDistrictDTO;
 import com.upfpo.app.dto.ListOnDistrictSearchDTO;
 
 @Repository
@@ -660,6 +661,7 @@ return cropFilterDtoList;
 	{
 		String sql = "";
 		List<FpoOnDistrictDTO> obj = null;
+		List<InputSupplierOnDistrictDTO> objIns = null;
 		ListOnDistrictSearchDTO listDto = new ListOnDistrictSearchDTO();
 		
 		if(in.equalsIgnoreCase(NewFilterRepository.DISTRICTS))
@@ -675,7 +677,15 @@ return cropFilterDtoList;
 			
 			obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
 			
+			sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number\r\n"
+					+ " from input_supplier i\r\n"
+					+ "	inner join districts d on i.dist_ref_id = d.district_id\r\n"
+					+ " where d.district_name like '%"+val.toUpperCase()+"%'"
+					+ " group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc";
+			objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
+			
 			listDto.setFpoDetails(obj);
+			listDto.setInputSupplierDetails(objIns);
 		}
 		
 		return listDto;

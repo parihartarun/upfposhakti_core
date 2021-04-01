@@ -4,14 +4,26 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.upfpo.app.dto.ChcFmbComplaintsDto;
 import com.upfpo.app.dto.InputSupplierComplaintsDto;
 import com.upfpo.app.dto.InputSupplierDTO;
+import com.upfpo.app.dto.InputSupplierOnDistrictDTO;
 
 @Entity
 @SqlResultSetMapping(name="InputSupplierComplaintsDto",
@@ -75,6 +87,19 @@ classes = {
 				@ColumnResult(name = "cide", type = String.class),
 				@ColumnResult(name = "category_deal", type = String.class)
 		})
+})
+@SqlResultSetMapping(name="InputSupplierOnDistrictDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = InputSupplierOnDistrictDTO.class,
+                columns = {
+                		@ColumnResult(name = "districtId", type = Integer.class),
+                		@ColumnResult(name = "districtName", type = String.class),
+                		@ColumnResult(name = "input_supplier_id", type = Integer.class),
+                		@ColumnResult(name = "input_supplier_name", type = String.class),
+                		@ColumnResult(name = "email", type = String.class),
+                		@ColumnResult(name = "mobile_number", type = BigInteger.class)
+                })
 })
 @Table(name="input_supplier")
 public class InputSupplierMaster implements Serializable
