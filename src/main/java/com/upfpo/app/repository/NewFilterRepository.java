@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.upfpo.app.dto.ChcFmbOnDistrictDTO;
 import com.upfpo.app.dto.CropAndVerietyList;
 import com.upfpo.app.dto.CropFilterDto;
 import com.upfpo.app.dto.CropVerietyFilterDto;
@@ -662,6 +663,7 @@ return cropFilterDtoList;
 		String sql = "";
 		List<FpoOnDistrictDTO> obj = null;
 		List<InputSupplierOnDistrictDTO> objIns = null;
+		List<ChcFmbOnDistrictDTO> objChcFmb = null;
 		ListOnDistrictSearchDTO listDto = new ListOnDistrictSearchDTO();
 		
 		if(in.equalsIgnoreCase(NewFilterRepository.DISTRICTS))
@@ -677,15 +679,34 @@ return cropFilterDtoList;
 			
 			obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
 			
-			sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number\r\n"
-					+ " from input_supplier i\r\n"
-					+ "	inner join districts d on i.dist_ref_id = d.district_id\r\n"
-					+ " where d.district_name like '%"+val.toUpperCase()+"%'"
-					+ " group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc";
+			sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number,\r\n"
+					+ "STRING_AGG(distinct cm.crop_name, ', ') as cropSeeds, STRING_AGG(distinct ifn.fertilizer_name, ', ') as fertilizers,\r\n"
+					+ "STRING_AGG(distinct ist.insecticide_type, ', ') as insecticides, STRING_AGG(distinct eq.equpment_name, ', ') as machineries\r\n"
+					+ "from input_supplier i\r\n"
+					+ "inner join districts d on i.dist_ref_id = d.district_id\r\n"
+					+ "inner join input_supplier_seed isu on isu.input_supplier_id = i.input_supplier_id\r\n"
+					+ "inner join crop_master cm on cm.id = isu.crop_id\r\n"
+					+ "inner join input_supplier_fertilizer ifr on ifr.input_supplier_id = i.input_supplier_id\r\n"
+					+ "inner join fertilizer_name_master ifn on ifr.fertilizer_name_id = ifn.id\r\n"
+					+ "inner join input_supplier_insecticide isi on isi.input_supplier_id = i.input_supplier_id\r\n"
+					+ "inner join insecticide_type_master ist on isi.insecticide_type_id = ist.id\r\n"
+					+ "inner join input_supplier_machinery ism on ism.input_supplier_id = i.input_supplier_id\r\n"
+					+ "inner join equip_master eq on eq.id = ism.machinery_name_id\r\n"
+					+ "where d.district_name like '%"+val.toUpperCase()+"%'"
+					+ "  group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc;";
 			objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
 			
+			sql = "select distinct d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number, \r\n"
+					+ "STRING_AGG(distinct eq.equpment_name, ', ') as machineries from chc_fmb c\r\n"
+					+ "				inner join districts d on c.dist_ref_id = d.district_id\r\n"
+					+ "				inner join chc_fmb_machinery cm on cm.chc_fmb_id = c.chc_fmb_id\r\n"
+					+ "				inner join equip_master eq on eq.id = cm.equipment_name_id\r\n"
+					+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
+					+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
+			objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
 			listDto.setFpoDetails(obj);
 			listDto.setInputSupplierDetails(objIns);
+			listDto.setChcFmbDetails(objChcFmb);
 		}
 		
 		return listDto;

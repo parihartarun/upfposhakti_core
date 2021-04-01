@@ -20,10 +20,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.upfpo.app.custom.annotations.Mobile;
-import com.upfpo.app.dto.BuyerSellerComplaintsDto;
 import com.upfpo.app.dto.ChcFmbComplaintsDto;
 import com.upfpo.app.dto.ChcFmbDTO;
-import com.upfpo.app.dto.InputSupplierDTO;
+import com.upfpo.app.dto.ChcFmbOnDistrictDTO;
 
 @Entity
 @SqlResultSetMapping(name="ChcFmbComplaintsDto",
@@ -84,6 +83,19 @@ classes = {
 						@ColumnResult(name = "contactPerson", type = String.class)
 				})
 		})
+@SqlResultSetMapping(name="ChcFmbOnDistrictDTO",
+classes = {@ConstructorResult(
+		targetClass = ChcFmbOnDistrictDTO.class,
+		columns = {
+				@ColumnResult(name = "district_id", type = Integer.class),
+				@ColumnResult(name = "district_name", type = String.class),
+				@ColumnResult(name = "chc_fmb_id", type = Integer.class),
+				@ColumnResult(name = "chc_fmb_name", type = String.class),
+				@ColumnResult(name = "email", type = String.class),
+				@ColumnResult(name = "mobile_number", type = BigInteger.class),
+				@ColumnResult(name = "machineries", type = String.class)
+		})
+})
 @Table(name="chc_fmb")
 public class ChcFmbMaster implements Serializable
 {

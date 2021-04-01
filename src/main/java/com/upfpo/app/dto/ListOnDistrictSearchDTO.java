@@ -7,6 +7,8 @@ public class ListOnDistrictSearchDTO
 	List<FpoOnDistrictDTO> fpoDetails;
 	
 	List<InputSupplierOnDistrictDTO> inputSupplierDetails;
+	
+	List<ChcFmbOnDistrictDTO> chcFmbDetails;
 
 	public List<FpoOnDistrictDTO> getFpoDetails() {
 		return fpoDetails;
@@ -23,5 +25,12 @@ public class ListOnDistrictSearchDTO
 	public void setInputSupplierDetails(List<InputSupplierOnDistrictDTO> inputSupplierDetails) {
 		this.inputSupplierDetails = inputSupplierDetails;
 	}
-	
+
+	public List<ChcFmbOnDistrictDTO> getChcFmbDetails() {
+		return chcFmbDetails;
+	}
+
+	public void setChcFmbDetails(List<ChcFmbOnDistrictDTO> chcFmbDetails) {
+		this.chcFmbDetails = chcFmbDetails;
+	}
 }

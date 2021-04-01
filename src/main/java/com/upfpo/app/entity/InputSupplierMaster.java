@@ -98,7 +98,11 @@ classes = {
                 		@ColumnResult(name = "input_supplier_id", type = Integer.class),
                 		@ColumnResult(name = "input_supplier_name", type = String.class),
                 		@ColumnResult(name = "email", type = String.class),
-                		@ColumnResult(name = "mobile_number", type = BigInteger.class)
+                		@ColumnResult(name = "mobile_number", type = BigInteger.class),
+                		@ColumnResult(name = "cropSeeds", type = String.class),
+                		@ColumnResult(name = "fertilizers", type = String.class),
+                		@ColumnResult(name = "insecticides", type = String.class),
+                		@ColumnResult(name = "machineries", type = String.class)
                 })
 })
 @Table(name="input_supplier")

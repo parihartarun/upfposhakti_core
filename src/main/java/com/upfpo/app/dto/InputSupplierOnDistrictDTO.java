@@ -16,8 +16,17 @@ public class InputSupplierOnDistrictDTO
 	
 	private BigInteger mobile_number;
 	
+	private String cropSeeds;
+	
+	private String fertilizers;
+	
+	private String insecticides;
+	
+	private String machineries;
+	
 	public InputSupplierOnDistrictDTO(Integer districtId, String districtName, Integer input_supplier_id,
-			String input_supplier_name, String email, BigInteger mobile_number) {
+			String input_supplier_name, String email, BigInteger mobile_number, String cropSeeds, String fertilizers,
+			String insecticides, String machineries) {
 		super();
 		this.districtId = districtId;
 		this.districtName = districtName;
@@ -25,6 +34,10 @@ public class InputSupplierOnDistrictDTO
 		this.input_supplier_name = input_supplier_name;
 		this.email = email;
 		this.mobile_number = mobile_number;
+		this.cropSeeds = cropSeeds;
+		this.fertilizers = fertilizers;
+		this.insecticides = insecticides;
+		this.machineries = machineries;
 	}
 
 	public Integer getDistrictId() {
@@ -74,6 +87,36 @@ public class InputSupplierOnDistrictDTO
 	public void setMobile_number(BigInteger mobile_number) {
 		this.mobile_number = mobile_number;
 	}
-	
-	
+
+	public String getCropSeeds() {
+		return cropSeeds;
+	}
+
+	public void setCropSeeds(String cropSeeds) {
+		this.cropSeeds = cropSeeds;
+	}
+
+	public String getFertilizers() {
+		return fertilizers;
+	}
+
+	public void setFertilizers(String fertilizers) {
+		this.fertilizers = fertilizers;
+	}
+
+	public String getInsecticides() {
+		return insecticides;
+	}
+
+	public void setInsecticides(String insecticides) {
+		this.insecticides = insecticides;
+	}
+
+	public String getMachineries() {
+		return machineries;
+	}
+
+	public void setMachineries(String machineries) {
+		this.machineries = machineries;
+	}
 }
