@@ -18,6 +18,7 @@ import com.upfpo.app.dto.EnquiryChcFmbDTO;
 import com.upfpo.app.dto.EnquiryFertilizerDTO;
 import com.upfpo.app.dto.EnquiryInsecticideDTO;
 import com.upfpo.app.dto.EnquirySeedDTO;
+import com.upfpo.app.dto.InputSupplierDashboardIndentDTO;
 import com.upfpo.app.entity.EnquiryInputSupplierFertilizer;
 import com.upfpo.app.entity.EnquiryInputSupplierInsecticide;
 import com.upfpo.app.entity.EnquiryInputSupplierMachinery;
@@ -45,6 +46,12 @@ public class InputSupplierEnquiryController
 	public List<EnquirySeedDTO> getSeedIndentsCreatedBy(@RequestBody ReportRequestString reportRequestString)
 	{
 		return inputSupplierEnquiryService.getSeedIndentCreatedBy(reportRequestString);
+	}
+	
+	@PostMapping("/getFulfillIndent")
+	public InputSupplierDashboardIndentDTO getSeedFulfillIndents(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getFulfillment(reportRequestString);
 	}
 	
 	@PostMapping("/seedIndent/create")
