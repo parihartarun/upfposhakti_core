@@ -97,7 +97,7 @@ public class InputSupplierMachineryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
+    public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "machinery_type_id", required = false) Integer mchineryTypeId,
                                                                          @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
                                                                         @RequestParam(value = "other_machinery_name", required = false) String otherMachineryName,
                                                                         @RequestParam(value = "specification", required = false) String  specification,
@@ -107,11 +107,11 @@ public class InputSupplierMachineryController {
                                                                          @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
                                                                          @RequestParam(value = "role", required = false) String role,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
-        LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery ");
+        LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
         ResponseEntity<MessageResponse> resp = null;
 
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay,role);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
@@ -159,7 +159,7 @@ public class InputSupplierMachineryController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> updateComplaint(@PathVariable Integer id,
-                                                           @RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
+                                                           @RequestParam(value = "machinery_type_id", required = false) Integer mchineryTypeId,
                                                            @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
                                                            @RequestParam(value = "other_machinery_name", required = false) String otherMachineryName,
                                                            @RequestParam(value = "specification", required = false) String specification,
@@ -178,6 +178,7 @@ public class InputSupplierMachineryController {
         supplierMachinery.setInputSupplierId(inputSupplierId);
         supplierMachinery.setTechnicalSpecs(specification);
         supplierMachinery.setQuantity(quantity);
+        supplierMachinery.setRole(role);;
         supplierMachinery.setManufacturerName(manufacturerName);
         supplierMachinery.setRentPerDay(rentPerDay);
         ResponseEntity<MessageResponse> resp = null;
@@ -208,7 +209,7 @@ public class InputSupplierMachineryController {
     })
     public ResponseEntity<MessageResponse> updateInputSupplierMachinery(@PathVariable Integer id,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file,
-                                                                        @RequestParam(value = "mchinery_type_id", required = false) Integer mchineryTypeId,
+                                                                        @RequestParam(value = "machinery_type_id", required = false) Integer mchineryTypeId,
                                                                         @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
                                                                         @RequestParam(value = "specification", required = false) String specification,
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
