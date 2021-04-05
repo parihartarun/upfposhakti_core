@@ -23,6 +23,8 @@ public interface InputSupplierEnquiryService
 	
 	public InputSupplierDashboardIndentDTO getFulfillment(ReportRequestString reportRequestString);
 	
+	public InputSupplierDashboardIndentDTO getRaised(ReportRequestString reportRequestString);
+	
 	public EnquiryInputSupplierSeed createSeedIndent(EnquiryInputSupplierSeed enquiryInputSupplierSeed);
 	
 	public EnquiryInputSupplierSeed updateSeedIndentStatus(EnquiryInputSupplierSeed enquiryInputSupplierSeed, BigInteger enqId);

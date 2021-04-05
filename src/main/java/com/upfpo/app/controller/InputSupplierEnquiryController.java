@@ -54,6 +54,12 @@ public class InputSupplierEnquiryController
 		return inputSupplierEnquiryService.getFulfillment(reportRequestString);
 	}
 	
+	@PostMapping("/getRaisedIndent")
+	public InputSupplierDashboardIndentDTO getSeedRaisedIndents(@RequestBody ReportRequestString reportRequestString)
+	{
+		return inputSupplierEnquiryService.getRaised(reportRequestString);
+	}
+	
 	@PostMapping("/seedIndent/create")
 	public ResponseEntity<MessageResponse> createIndentSeed(@RequestBody EnquiryInputSupplierSeed enquiryInputSupplierSeed)
 	{

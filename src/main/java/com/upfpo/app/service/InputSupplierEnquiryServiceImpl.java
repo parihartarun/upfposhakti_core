@@ -104,10 +104,11 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 				+ "left join farmer f on a.master_user_id=f.user_id \r\n"
 				+ "join crop_master cm on cm.id = a.crop_id\r\n"
 				+ "join crop_veriety_master cv on cv.veriety_id = a.veriety_id \r\n"
-				+ "where a.master_id= :masterId group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+				+ "where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid";
 		
-		 obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", reportRequestString.getMasterId()).getResultList();
+		 obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+				 getResultList();
 		 
 		 sql = "select distinct  CASE\r\n"
 		 		+ "	WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
@@ -130,11 +131,12 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 		 		+ "	left join fpo d on a.master_user_id=d.user_id\r\n"
 		 		+ "	left join farmer f on a.master_user_id=f.user_id \r\n"
 		 		+ "	join insecticide_type_master it on it.id = a.insecticide_type_id\r\n"
-		 		+ "	where a.master_id= :masterId group by ur.role,a.status, \r\n"
+		 		+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
 		 		+ "	it.insecticide_type, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 		 		+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
 			
-			List<InputSupplierDashBoardIndentInsecticideDTO> objInsec =  (List<InputSupplierDashBoardIndentInsecticideDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentInsecticideDTO").setParameter("masterId", reportRequestString.getMasterId()).getResultList();
+			List<InputSupplierDashBoardIndentInsecticideDTO> objInsec =  (List<InputSupplierDashBoardIndentInsecticideDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentInsecticideDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
 			
 			sql = "select distinct  CASE\r\n"
 					+ " WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
@@ -150,18 +152,19 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 					+ "	END as contact_details,\r\n"
 					+ "	ur.role, a.status, fn.fertilizer_name, a.fertilizer_grade, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId\r\n"
 					+ "	from enquiry_input_supplier_fertilizer a\r\n"
-					+ "	join user_roles ur on ur.role_id=a.role_ref_id\r\n"
-					+ "	left join chc_fmb b on a.user_id = b.user_id\r\n"
-					+ "	left join buyer_seller c on a.user_id=c.user_id\r\n"
-					+ "	left join input_supplier e on a.user_id=e.user_id\r\n"
-					+ "	left join fpo d on a.user_id=d.user_id\r\n"
-					+ "	left join farmer f on a.user_id=f.user_id \r\n"
+					+ "	join user_roles ur on ur.role_id=a.master_role_id\r\n"
+					+ "	left join chc_fmb b on a.master_user_id = b.user_id\r\n"
+					+ "	left join buyer_seller c on a.master_user_id=c.user_id\r\n"
+					+ "	left join input_supplier e on a.master_user_id=e.user_id\r\n"
+					+ "	left join fpo d on a.master_user_id=d.user_id\r\n"
+					+ "	left join farmer f on a.master_user_id=f.user_id \r\n"
 					+ "	join fertilizer_name_master fn on fn.id = a.fertilizer_name\r\n"
-					+ "	where a.master_id= :masterId group by ur.role,a.status, \r\n"
+					+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
 					+ "	fn.fertilizer_name,	 a.fertilizer_grade,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
 			
-			List<InputSupplierDashBoardIndentFertilizerDTO> objFertilizer =  (List<InputSupplierDashBoardIndentFertilizerDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentFertilizerDTO").setParameter("masterId", reportRequestString.getMasterId()).getResultList();
+			List<InputSupplierDashBoardIndentFertilizerDTO> objFertilizer =  (List<InputSupplierDashBoardIndentFertilizerDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentFertilizerDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
 			
 			sql = "select distinct  CASE\r\n"
 					+ " WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
@@ -184,11 +187,138 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 					+ "	left join fpo d on a.master_user_id =d.user_id\r\n"
 					+ "	left join farmer f on a.master_user_id =f.user_id \r\n"
 					+ "	join equip_master eq on eq.id = a.machinerynameid\r\n"
-					+ "	where a.master_id= :masterId group by ur.role,a.status, \r\n"
+					+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
 					+ "	eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
 			
-			List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", reportRequestString.getMasterId()).getResultList();
+			List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
+		
+		 indent.setSeedIndent(obj);
+		 indent.setInsecticideIndent(objInsec);
+		 indent.setFertilizerIndent(objFertilizer);
+		 indent.setMachineryIndent(objMach);
+		 
+		 return indent;
+	}
+	
+	@Override
+	public InputSupplierDashboardIndentDTO getRaised(ReportRequestString reportRequestString) 
+	{
+		String sql = "";
+		InputSupplierDashboardIndentDTO indent = new InputSupplierDashboardIndentDTO();
+		List<InputSupplierDashBoardIndentSeedDTO> obj = null;
+		sql = "select  CASE\r\n"
+				+ "WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
+				+ "WHEN ur.role='ROLE_CHCFMB'  THEN chc_fmb_name\r\n"
+				+ "WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN input_supplier_name\r\n"
+				+ "WHEN ur.role='ROLE_FPC'  THEN fpo_name\r\n"
+				+ "ELSE farmer_name\r\n"
+				+ "END as createdBy, case\r\n"
+				+ "WHEN ur.role='ROLE_BUYERSELLER'  THEN  c.mobile_number\r\n"
+				+ "WHEN ur.role='ROLE_CHCFMB'  THEN b.mobile_number\r\n"
+				+ "WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
+				+ "ELSE f.farmer_mob\r\n"
+				+ "END as contact_details,\r\n"
+				+ "ur.role, a.status, cm.crop_name, cv.crop_veriety as varietyName, sum(a.indent_qty) as indentQty, a.enqid as enqId \r\n"
+				+ "from enquiry_input_supplier_seed a\r\n"
+				+ "join user_roles ur on ur.role_id=a.role_ref_id\r\n"
+				+ "left join chc_fmb b on a.user_id = b.user_id\r\n"
+				+ "left join buyer_seller c on a.user_id=c.user_id\r\n"
+				+ "left join input_supplier e on a.user_id=e.user_id\r\n"
+				+ "left join fpo d on a.user_id=d.user_id\r\n"
+				+ "left join farmer f on a.user_id=f.user_id \r\n"
+				+ "join crop_master cm on cm.id = a.crop_id\r\n"
+				+ "join crop_veriety_master cv on cv.veriety_id = a.veriety_id \r\n"
+				+ "where a.created_by = :masterId and a.role_ref_id = :roleId group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+				+ "farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid";
+		
+		 obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+				 getResultList();
+		 
+		 sql = "select distinct  CASE\r\n"
+		 		+ "	WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
+		 		+ "	WHEN ur.role='ROLE_CHCFMB'  THEN chc_fmb_name\r\n"
+		 		+ "	WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN input_supplier_name\r\n"
+		 		+ "	WHEN ur.role='ROLE_FPC'  THEN fpo_name\r\n"
+		 		+ "	ELSE farmer_name\r\n"
+		 		+ "	END as createdBy, case\r\n"
+		 		+ "	WHEN ur.role='ROLE_BUYERSELLER'  THEN  c.mobile_number\r\n"
+		 		+ "	WHEN ur.role='ROLE_CHCFMB'  THEN b.mobile_number\r\n"
+		 		+ "	WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
+		 		+ "	ELSE f.farmer_mob\r\n"
+		 		+ "	END as contact_details,\r\n"
+		 		+ "	ur.role, a.status, it.insecticide_type, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId \r\n"
+		 		+ "	from enquiry_input_supplier_insecticide a\r\n"
+		 		+ "	join user_roles ur on ur.role_id=a.role_ref_id\r\n"
+		 		+ "	left join chc_fmb b on a.user_id = b.user_id\r\n"
+		 		+ "	left join buyer_seller c on a.user_id=c.user_id\r\n"
+		 		+ "	left join input_supplier e on a.user_id=e.user_id\r\n"
+		 		+ "	left join fpo d on a.user_id=d.user_id\r\n"
+		 		+ "	left join farmer f on a.user_id=f.user_id \r\n"
+		 		+ "	join insecticide_type_master it on it.id = a.insecticide_type_id\r\n"
+		 		+ "	where a.created_by = :masterId and a.role_ref_id = :roleId group by ur.role,a.status, \r\n"
+		 		+ "	it.insecticide_type, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+		 		+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
+			
+			List<InputSupplierDashBoardIndentInsecticideDTO> objInsec =  (List<InputSupplierDashBoardIndentInsecticideDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentInsecticideDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
+			
+			sql = "select distinct  CASE\r\n"
+					+ " WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
+					+ " WHEN ur.role='ROLE_CHCFMB'  THEN chc_fmb_name\r\n"
+					+ " WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN input_supplier_name\r\n"
+					+ " WHEN ur.role='ROLE_FPC'  THEN fpo_name\r\n"
+					+ "	ELSE farmer_name\r\n"
+					+ "	END as createdBy, case\r\n"
+					+ "	WHEN ur.role='ROLE_BUYERSELLER'  THEN  c.mobile_number\r\n"
+					+ "	WHEN ur.role='ROLE_CHCFMB'  THEN b.mobile_number\r\n"
+					+ "	WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
+					+ "	ELSE f.farmer_mob\r\n"
+					+ "	END as contact_details,\r\n"
+					+ "	ur.role, a.status, fn.fertilizer_name, a.fertilizer_grade, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId\r\n"
+					+ "	from enquiry_input_supplier_fertilizer a\r\n"
+					+ "	join user_roles ur on ur.role_id=a.role_ref_id\r\n"
+					+ "	left join chc_fmb b on a.user_id = b.user_id\r\n"
+					+ "	left join buyer_seller c on a.user_id=c.user_id\r\n"
+					+ "	left join input_supplier e on a.user_id=e.user_id\r\n"
+					+ "	left join fpo d on a.user_id=d.user_id\r\n"
+					+ "	left join farmer f on a.user_id=f.user_id \r\n"
+					+ "	join fertilizer_name_master fn on fn.id = a.fertilizer_name\r\n"
+					+ "	where a.created_by = :masterId and a.role_ref_id = :roleId group by ur.role,a.status, \r\n"
+					+ "	fn.fertilizer_name,	 a.fertilizer_grade,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
+			
+			List<InputSupplierDashBoardIndentFertilizerDTO> objFertilizer =  (List<InputSupplierDashBoardIndentFertilizerDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentFertilizerDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
+			
+			sql = "select distinct  CASE\r\n"
+					+ " WHEN ur.role='ROLE_BUYERSELLER'  THEN  buyerSeller_name\r\n"
+					+ " WHEN ur.role='ROLE_CHCFMB'  THEN chc_fmb_name\r\n"
+					+ " WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN input_supplier_name\r\n"
+					+ " WHEN ur.role='ROLE_FPC'  THEN fpo_name\r\n"
+					+ "	ELSE farmer_name\r\n"
+					+ "	END as createdBy, case\r\n"
+					+ "	WHEN ur.role='ROLE_BUYERSELLER'  THEN  c.mobile_number\r\n"
+					+ "	WHEN ur.role='ROLE_CHCFMB'  THEN b.mobile_number\r\n"
+					+ "	WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
+					+ "	ELSE f.farmer_mob\r\n"
+					+ "	END as contact_details,\r\n"
+					+ "	ur.role, a.status, eq.equpment_name, a.no_of_days, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId \r\n"
+					+ "	from enquiry_input_supplier_machinery a\r\n"
+					+ "	join user_roles ur on ur.role_id=a.role_ref_id\r\n"
+					+ "	left join chc_fmb b on a.user_id = b.user_id\r\n"
+					+ "	left join buyer_seller c on a.user_id =c.user_id\r\n"
+					+ "	left join input_supplier e on a.user_id=e.user_id\r\n"
+					+ "	left join fpo d on a.user_id =d.user_id\r\n"
+					+ "	left join farmer f on a.user_id =f.user_id \r\n"
+					+ "	join equip_master eq on eq.id = a.machinerynameid\r\n"
+					+ "	where a.created_by = :masterId and a.role_ref_id = :roleId group by ur.role,a.status, \r\n"
+					+ "	eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
+			
+			List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
+					getResultList();
 		
 		 indent.setSeedIndent(obj);
 		 indent.setInsecticideIndent(objInsec);
