@@ -104,6 +104,9 @@ public class InputSupplierSeed {
     @Column(name="delete_by")
     private Integer deleteBy;
 
+    @Column(name="role")
+    private String role;
+    
     @Column(name = "create_by")
     private Integer createBy;
 
@@ -136,7 +139,7 @@ public class InputSupplierSeed {
     }
 
     public InputSupplierSeed(Integer cropId, Integer inputSupplierId, Integer varietyId,
-                             String company, String certificationNo, String validFrom, String validTo, Double quantity) {
+                             String company, String certificationNo, String validFrom, String validTo, Double quantity,String role) {
 
         this.cropId=cropId;
         this.inputSupplierId=inputSupplierId;
@@ -146,6 +149,7 @@ public class InputSupplierSeed {
         this.certificationValidFrom=validFrom;
         this.certificationValidTo=validTo;
         this.quantity=quantity;
+        this.role = role;
     }
 
     public InputSupplierSeed(Integer id, Integer inputSupplierId) {
@@ -295,7 +299,27 @@ public class InputSupplierSeed {
     }
 
     public void setCreateDateTime(Calendar createDateTime) {
+    	
         this.createDateTime = createDateTime;
     }
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+    
+    
+    
 }
 
