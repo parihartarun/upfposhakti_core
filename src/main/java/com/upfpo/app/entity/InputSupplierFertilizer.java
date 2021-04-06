@@ -91,7 +91,7 @@ public class InputSupplierFertilizer {
     private Boolean isDeleted;
 
     @Column(name="role")
-    private String role;
+    private Integer role;
     
     public Boolean getIsDeleted() {
 		return isDeleted;
@@ -101,11 +101,11 @@ public class InputSupplierFertilizer {
 		this.isDeleted = isDeleted;
 	}
 
-	public String getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 
@@ -126,7 +126,7 @@ public class InputSupplierFertilizer {
     public InputSupplierFertilizer() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerName, String fertilizerGrade, String manufacturerName, Double quantity,String role) {
+    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerName, String fertilizerGrade, String manufacturerName, Double quantity,Integer role) {
 
         this.fertilizerType=fertilizerTypeId;
         this.fertilizerNameId=fertilizerNameId;
