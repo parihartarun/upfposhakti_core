@@ -90,7 +90,26 @@ public class InputSupplierFertilizer {
     @Column(name="is_deleted")
     private Boolean isDeleted;
 
-    @Column(name="delete_date")
+    @Column(name="role")
+    private String role;
+    
+    public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Column(name="delete_date")
     private Calendar deleteDate;
 
     @Column(name="delete_by")
@@ -107,7 +126,7 @@ public class InputSupplierFertilizer {
     public InputSupplierFertilizer() {
     }
 
-    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerName, String fertilizerGrade, String manufacturerName, Double quantity) {
+    public InputSupplierFertilizer(Integer fertilizerTypeId, Integer fertilizerNameId, Integer inputSupplierId, String fertilizerName, String fertilizerGrade, String manufacturerName, Double quantity,String role) {
 
         this.fertilizerType=fertilizerTypeId;
         this.fertilizerNameId=fertilizerNameId;
@@ -116,6 +135,7 @@ public class InputSupplierFertilizer {
         this.fertilizerGrade=fertilizerGrade;
         this.manufacturerName=manufacturerName;
         this.quantity=quantity;
+        this.role = role;
     }
 
     public InputSupplierFertilizer(Integer inputSupplierId) {

@@ -1,5 +1,7 @@
 package com.upfpo.app.dto.search;
 
+import javax.persistence.ColumnResult;
+
 public class InputSupplierFertilizerSearchDto {
 
 	
@@ -21,8 +23,22 @@ public class InputSupplierFertilizerSearchDto {
 	private String  cropveriety;
 	private Integer cropverietyid;
 	private String  recordtype;
-
+	private String roleid;
 	private String  role;
+    private Integer userid;
+    
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+	public String getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
 	public String getRole() {
 		return role;
 	}
@@ -143,10 +159,10 @@ public class InputSupplierFertilizerSearchDto {
 	public InputSupplierFertilizerSearchDto() {
 		super();
 	}
-	public InputSupplierFertilizerSearchDto(Integer id, Integer itemnameid, String itemname, String grade,
+	public InputSupplierFertilizerSearchDto(Integer id, Integer itemnameid, String itemname,
 			Integer itemtypeid, String itemtype, Double quantity, Integer inputsupplierid, String inputsupplier,
 			Integer districtid, String district, String imagepath, String manufacturer, String crop, Integer cropid,
-			String cropveriety, Integer cropverietyid, String recordtype, String role) {
+			String cropveriety, Integer cropverietyid, String recordtype, String role,String roleid, String grade,Integer userid) {
 		super();
 		this.id = id;
 		this.itemnameid = itemnameid;
@@ -167,6 +183,8 @@ public class InputSupplierFertilizerSearchDto {
 		this.cropverietyid = cropverietyid;
 		this.recordtype = recordtype;
 		this.role = role;
+		this.roleid=roleid;
+		this.userid = userid;
 	}	
 	
 

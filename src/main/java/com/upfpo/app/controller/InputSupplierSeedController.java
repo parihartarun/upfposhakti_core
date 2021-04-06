@@ -91,14 +91,15 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "quantity", required = false) Double quantity,
                                                                    @RequestParam(value = "valid_from", required = false)String validFrom,
                                                                    @RequestParam(value = "valid_to", required = false)String validTo,
-                                                                   @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                   @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
+                                                                   @RequestParam(value = "role", required = false) String role,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) throws ParseException {
         LOG.info("Inside InputSupplierSeedController saving InputSupplierSeed ");
         ResponseEntity<MessageResponse> resp = null;
         //validFrom = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
         //validTo = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
             try {
-                InputSupplierSeed inputSupplierSeed = new InputSupplierSeed(cropId,inputSupplierId,varietyId,company, certificationNo,validFrom,validTo, quantity);
+                InputSupplierSeed inputSupplierSeed = new InputSupplierSeed(cropId,inputSupplierId,varietyId,company, certificationNo,validFrom,validTo, quantity,role);
                 InputSupplierSeed id = seedService.createInputSupplierSeed(inputSupplierSeed, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierSeed created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierSeed  created Successfully!");
@@ -155,7 +156,8 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "quantity", required = false) Double quantity,
                                                                    @RequestParam(value = "valid_from", required = false) String validFrom,
                                                                    @RequestParam(value = "valid_to", required = false) String validTo,
-                                                                   @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                   @RequestParam(value = "role", required = false) String role,
+                                                                   @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierSeed updating InputSupplierSeed detail ");
         InputSupplierSeed inputSupplierSeed = new InputSupplierSeed();
@@ -167,6 +169,7 @@ public class InputSupplierSeedController {
         inputSupplierSeed.setCompanyBrand(company);
         inputSupplierSeed.setCertificationValidFrom(validFrom);
         inputSupplierSeed.setCertificationValidTo(validTo);
+        inputSupplierSeed.setRole(role);
         ResponseEntity<MessageResponse> resp = null;
             try {
                 seedService.updateInputSupplierSeed(id, inputSupplierSeed, file);

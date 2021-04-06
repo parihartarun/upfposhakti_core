@@ -95,6 +95,9 @@ public class InputSupplierInsecticide {
     @Column(name = "create_by")
     private Integer createBy;
 
+    @Column(name = "role")
+    private String role;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
     private Calendar createDateTime;
@@ -124,7 +127,7 @@ public class InputSupplierInsecticide {
     }
 
     public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
-                                    String cibRcIssuedate) {
+                                    String cibRcIssuedate,String role) {
 
         this.insecticideTypeId=insecticideTypeId;
         this.cibRcNumber=cibRcNumber;
@@ -132,6 +135,7 @@ public class InputSupplierInsecticide {
         this.quantity=quantity;
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
+        this.role = role;
     }
 
 
@@ -263,4 +267,20 @@ public class InputSupplierInsecticide {
     public void setCreateDateTime(Calendar createDateTime) {
         this.createDateTime = createDateTime;
     }
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }
