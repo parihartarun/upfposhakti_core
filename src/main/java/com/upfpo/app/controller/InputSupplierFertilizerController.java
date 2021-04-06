@@ -32,7 +32,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="/master/fertilizer")
+@RequestMapping(value="/inputsupplier/fertilizer")
 @Api(produces = "application/json", tags="InputSupplierFertilizer Controller", value = "Add, Update, Delete, and retrive the InputSupplierFertilizer Detail")
 public class InputSupplierFertilizerController {
 

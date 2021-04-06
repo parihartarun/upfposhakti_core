@@ -29,7 +29,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="/master/machinery")
+@RequestMapping(value="/inputsupplier/machinery")
 @Api(produces = "application/json", tags="InputSupplierMachinery Controller", value = "Add, Update, Delete, and retrive the InputSupplierMachinery Detail")
 public class InputSupplierMachineryController {
 
