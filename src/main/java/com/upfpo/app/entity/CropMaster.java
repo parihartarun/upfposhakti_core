@@ -79,8 +79,8 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "itemtypeid"),
         		@ColumnResult(name = "itemtype"),
         		@ColumnResult(name = "quantity"),
-        		@ColumnResult(name = "inputsupplierid"),
-        		@ColumnResult(name = "inputsupplier"),
+        		@ColumnResult(name = "vendorid"),
+        		@ColumnResult(name = "vendorname"),
         		@ColumnResult(name = "districtid"),
         		@ColumnResult(name = "district"),
         		@ColumnResult(name = "imagepath"),
@@ -90,7 +90,9 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "cropveriety"),
         		@ColumnResult(name = "cropverietyid"),
         		@ColumnResult(name = "recordtype"),
-        		@ColumnResult(name = "role")
+        		@ColumnResult(name = "roleid"),
+        		@ColumnResult(name = "role"),
+        		@ColumnResult(name = "userid")
                     }
         )
 )
@@ -99,16 +101,15 @@ classes = @ConstructorResult(
 classes = @ConstructorResult(
         targetClass = InputSupplierFertilizerSearchDto.class, 
         columns = {
-        		        		
+        		    		
         		@ColumnResult(name = "id"),
         		@ColumnResult(name = "itemnameid"),
-        		@ColumnResult(name = "itemname"),
-        		@ColumnResult(name = "grade"),
+        		@ColumnResult(name = "itemname"),        		
         		@ColumnResult(name = "itemtypeid"),
         		@ColumnResult(name = "itemtype"),
         		@ColumnResult(name = "quantity"),
-        		@ColumnResult(name = "inputsupplierid"),
-        		@ColumnResult(name = "inputsupplier"),
+        		@ColumnResult(name = "vendorid"),
+        		@ColumnResult(name = "vendorname"),
         		@ColumnResult(name = "districtid"),
         		@ColumnResult(name = "district"),
         		@ColumnResult(name = "imagepath"),
@@ -118,7 +119,10 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "cropveriety"),
         		@ColumnResult(name = "cropverietyid"),
         		@ColumnResult(name = "recordtype"),
-        		@ColumnResult(name = "role")
+        		@ColumnResult(name = "role"),
+        		@ColumnResult(name = "roleid"),
+        		@ColumnResult(name = "grade"),
+        		@ColumnResult(name = "userid")
                     }
         )
 )
