@@ -96,7 +96,7 @@ public class InputSupplierInsecticide {
     private Integer createBy;
 
     @Column(name = "role")
-    private String role;
+    private Integer role;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
@@ -127,7 +127,7 @@ public class InputSupplierInsecticide {
     }
 
     public InputSupplierInsecticide(Integer insecticideTypeId, String manufacturerName, Integer quantity, Integer inputSupplierId, String cibRcNumber,
-                                    String cibRcIssuedate,String role) {
+                                    String cibRcIssuedate,Integer role) {
 
         this.insecticideTypeId=insecticideTypeId;
         this.cibRcNumber=cibRcNumber;
@@ -276,11 +276,11 @@ public class InputSupplierInsecticide {
 		this.isDeleted = isDeleted;
 	}
 
-	public String getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 }
