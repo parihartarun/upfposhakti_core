@@ -107,7 +107,7 @@ public class InputSupplierInsecticideController {
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                         @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
-                                                                        @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                        @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                         @RequestParam(value = "role", required = false) String role,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
@@ -168,7 +168,7 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                           @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                           @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
-                                                                          @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                          @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                           @RequestParam(value = "role", required = false) String role,
                                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");

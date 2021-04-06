@@ -104,7 +104,7 @@ public class InputSupplierMachineryController {
                                                                          @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
-                                                                         @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                         @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                          @RequestParam(value = "role", required = false) String role,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
@@ -165,7 +165,7 @@ public class InputSupplierMachineryController {
                                                            @RequestParam(value = "specification", required = false) String specification,
                                                            @RequestParam(value = "quantity", required = false) Integer quantity,
                                                            @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
-                                                           @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                           @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                            @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
                                                            @RequestParam(value = "role", required = false) String role,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
