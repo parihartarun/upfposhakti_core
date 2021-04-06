@@ -179,6 +179,7 @@ public class InputSupplierInsecticideController {
         inputSupplierInsecticide.setCibRcNumber(cibRcNumber);
         inputSupplierInsecticide.setCibRcIssueDate(cibRcIssuedate);
         inputSupplierInsecticide.setInputSupplierId(inputSupplierId);
+        inputSupplierInsecticide.setRole(role);
         ResponseEntity<MessageResponse> resp = null;
             try {
                 insecticideService.updateInputSupplierInsecticide(id, inputSupplierInsecticide, file);

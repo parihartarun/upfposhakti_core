@@ -105,7 +105,7 @@ public class InputSupplierSeed {
     private Integer deleteBy;
 
     @Column(name="role")
-    private Integer role;
+    private String role;
     
     @Column(name = "create_by")
     private Integer createBy;
@@ -139,7 +139,7 @@ public class InputSupplierSeed {
     }
 
     public InputSupplierSeed(Integer cropId, Integer inputSupplierId, Integer varietyId,
-                             String company, String certificationNo, String validFrom, String validTo, Double quantity,Integer role) {
+                             String company, String certificationNo, String validFrom, String validTo, Double quantity,String role) {
 
         this.cropId=cropId;
         this.inputSupplierId=inputSupplierId;
@@ -311,11 +311,11 @@ public class InputSupplierSeed {
 		this.isDeleted = isDeleted;
 	}
 
-	public Integer getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Integer role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
     

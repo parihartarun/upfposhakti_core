@@ -178,7 +178,7 @@ public class InputSupplierMachineryController {
         supplierMachinery.setInputSupplierId(inputSupplierId);
         supplierMachinery.setTechnicalSpecs(specification);
         supplierMachinery.setQuantity(quantity);
-        supplierMachinery.setRole(role);;
+        supplierMachinery.setRole(role);
         supplierMachinery.setManufacturerName(manufacturerName);
         supplierMachinery.setRentPerDay(rentPerDay);
         ResponseEntity<MessageResponse> resp = null;
