@@ -37,7 +37,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="/master/seed")
+@RequestMapping(value="/inputsupplier/seed")
 @Api(produces = "application/json", tags="InputSupplierSeed Controller", value = "Add, Update, Delete, and retrive the InputSupplierSeed Detail")
 public class InputSupplierSeedController {
     
