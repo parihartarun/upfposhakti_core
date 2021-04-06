@@ -92,7 +92,7 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "valid_from", required = false)String validFrom,
                                                                    @RequestParam(value = "valid_to", required = false)String validTo,
                                                                    @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
-                                                                   @RequestParam(value = "role", required = false) String role,
+                                                                   @RequestParam(value = "role", required = false) Integer role,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) throws ParseException {
         LOG.info("Inside InputSupplierSeedController saving InputSupplierSeed ");
         ResponseEntity<MessageResponse> resp = null;
@@ -156,7 +156,7 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "quantity", required = false) Double quantity,
                                                                    @RequestParam(value = "valid_from", required = false) String validFrom,
                                                                    @RequestParam(value = "valid_to", required = false) String validTo,
-                                                                   @RequestParam(value = "role", required = false) String role,
+                                                                   @RequestParam(value = "role", required = false) Integer role,
                                                                    @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierSeed updating InputSupplierSeed detail ");
