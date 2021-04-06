@@ -105,7 +105,7 @@ public class InputSupplierMachineryController {
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
                                                                          @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
-                                                                         @RequestParam(value = "role", required = false) String role,
+                                                                         @RequestParam(value = "role", required = false) Integer role,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
         ResponseEntity<MessageResponse> resp = null;
@@ -167,7 +167,7 @@ public class InputSupplierMachineryController {
                                                            @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                            @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                            @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
-                                                           @RequestParam(value = "role", required = false) String role,
+                                                           @RequestParam(value = "role", required = false) Integer role,
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Complaint updating Complaint detail ");
         InputSupplierMachinery supplierMachinery = new InputSupplierMachinery();

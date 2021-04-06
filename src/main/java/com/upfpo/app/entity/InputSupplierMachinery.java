@@ -103,7 +103,7 @@ public class InputSupplierMachinery {
     private Integer createBy;
 
     @Column(name = "role")
-    private String role;
+    private Integer role;
    
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -111,7 +111,7 @@ public class InputSupplierMachinery {
     private Calendar createDateTime;
 
     public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String otherEquipmentName, String specification, Integer quantity,
-                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay,String role) {
+                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay,Integer role) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
         this.otherEquipmentName= otherEquipmentName;
@@ -278,11 +278,11 @@ public class InputSupplierMachinery {
 		this.isDeleted = isDeleted;
 	}
 
-	public String getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 }
