@@ -1,5 +1,7 @@
 package com.upfpo.app.dto.search;
 
+import javax.persistence.ColumnResult;
+
 public class InputSupplierSearchDtoAll {
 
 	
@@ -19,8 +21,25 @@ public class InputSupplierSearchDtoAll {
 	private String  cropveriety;
 	private Integer cropverietyid;
 	private String  recordtype;
-
+	private String  roleid;
 	private String  role;
+	private Integer userid;
+	public String getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+	
+	
+	
+	
 	public String getRole() {
 		return role;
 	}
@@ -141,6 +160,32 @@ public class InputSupplierSearchDtoAll {
 		this.role = role;
 	}
 	
+	
+	public InputSupplierSearchDtoAll(Integer id, String itemname, Integer itemtypeid,String itemtype, Double quantity,
+			Integer inputsupplierid, String inputsupplier, Integer districtid, String district, String imagepath,
+			String manufacturer, String crop, Integer cropid, String cropveriety, Integer cropverietyid,
+			String recordtype,String roleid,String role,Integer userid) {
+		super();
+		this.id = id;
+		this.itemname = itemname;
+		this.itemtypeid = itemtypeid;
+		this.itemtype = itemtype;
+		this.quantity = quantity;
+		this.inputsupplierid = inputsupplierid;
+		this.inputsupplier = inputsupplier;
+		this.districtid = districtid;
+		this.district = district;
+		this.imagepath = imagepath;
+		this.manufacturer = manufacturer;
+		this.crop = crop;
+		this.cropid = cropid;
+		this.cropveriety = cropveriety;
+		this.cropverietyid = cropverietyid;
+		this.recordtype = recordtype;
+		this.roleid = roleid;
+		this.role = role;
+		this.userid = userid;
+	}
 	public InputSupplierSearchDtoAll() {
 		super();
 	}
