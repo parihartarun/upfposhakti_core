@@ -661,40 +661,83 @@ return cropFilterDtoList;
 	public ListOnDistrictSearchDTO getListOnDistrictSearch(String val,String in)
 	{
 		String sql = "";
+		String groupBy = "";
 		List<FpoOnDistrictDTO> obj = null;
 		List<InputSupplierOnDistrictDTO> objIns = null;
 		List<ChcFmbOnDistrictDTO> objChcFmb = null;
 		ListOnDistrictSearchDTO listDto = new ListOnDistrictSearchDTO();
+		if(val == null)
+		{
+			val = "";
+		}
 		
 		if(in.equalsIgnoreCase(NewFilterRepository.DISTRICTS))
 		{
-			sql = "select distinct d.district_id as districtId, d.district_name as districtName, f.fpo_id as fpoId, f.fpo_name as fpoName, f.fpo_email as fpoEmail, f.fpo_landline as fpoLandline, \r\n"
-					+ "STRING_AGG(distinct cm.crop_name, ', ') as crops, STRING_AGG(distinct ads.service_name, ', ') as additionalServices from fpo f\r\n"
-					+ "				inner join districts d on f.dist_ref_id = d.district_id\r\n"
-					+ "				inner join total_production t on t.fpo_id = f.fpo_id\r\n"
-					+ "				inner join crop_master cm on cm.id = t.crop_id\r\n"
-					+ "				inner join fpo_additonal_services ads on ads.fpo_id = f.fpo_id\r\n"
-					+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
-					+ " group by d.district_id, d.district_name, f.fpo_id, f.fpo_name, f.fpo_email, f.fpo_landline";
+			if(val == "")
+			{
+				sql = "select distinct d.district_id as districtId, d.district_name as districtName, f.fpo_id as fpoId, f.fpo_name as fpoName, f.fpo_email as fpoEmail, f.fpo_landline as fpoLandline, \r\n"
+						+ "STRING_AGG(distinct cm.crop_name, ', ') as crops, STRING_AGG(distinct ads.service_name, ', ') as additionalServices from fpo f\r\n"
+						+ "				inner join districts d on f.dist_ref_id = d.district_id\r\n"
+						+ "				inner join total_production t on t.fpo_id = f.fpo_id\r\n"
+						+ "				inner join crop_master cm on cm.id = t.crop_id\r\n"
+						+ "				inner join fpo_additonal_services ads on ads.fpo_id = f.fpo_id\r\n";
+				groupBy = " group by d.district_id, d.district_name, f.fpo_id, f.fpo_name, f.fpo_email, f.fpo_landline";
+				sql = sql+groupBy;
+				obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
+			}
+			else
+			{
+				sql = "select distinct d.district_id as districtId, d.district_name as districtName, f.fpo_id as fpoId, f.fpo_name as fpoName, f.fpo_email as fpoEmail, f.fpo_landline as fpoLandline, \r\n"
+						+ "STRING_AGG(distinct cm.crop_name, ', ') as crops, STRING_AGG(distinct ads.service_name, ', ') as additionalServices from fpo f\r\n"
+						+ "				inner join districts d on f.dist_ref_id = d.district_id\r\n"
+						+ "				inner join total_production t on t.fpo_id = f.fpo_id\r\n"
+						+ "				inner join crop_master cm on cm.id = t.crop_id\r\n"
+						+ "				inner join fpo_additonal_services ads on ads.fpo_id = f.fpo_id\r\n"
+						+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
+						+ " group by d.district_id, d.district_name, f.fpo_id, f.fpo_name, f.fpo_email, f.fpo_landline";
+				
+				obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
+			}
 			
-			obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
 			
-			sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number,\r\n"
-					+ "STRING_AGG(distinct cm.crop_name, ', ') as cropSeeds, STRING_AGG(distinct ifn.fertilizer_name, ', ') as fertilizers,\r\n"
-					+ "STRING_AGG(distinct ist.insecticide_type, ', ') as insecticides, STRING_AGG(distinct eq.equpment_name, ', ') as machineries\r\n"
-					+ "from input_supplier i\r\n"
-					+ "inner join districts d on i.dist_ref_id = d.district_id\r\n"
-					+ "inner join input_supplier_seed isu on isu.input_supplier_id = i.input_supplier_id\r\n"
-					+ "inner join crop_master cm on cm.id = isu.crop_id\r\n"
-					+ "inner join input_supplier_fertilizer ifr on ifr.input_supplier_id = i.input_supplier_id\r\n"
-					+ "inner join fertilizer_name_master ifn on ifr.fertilizer_name_id = ifn.id\r\n"
-					+ "inner join input_supplier_insecticide isi on isi.input_supplier_id = i.input_supplier_id\r\n"
-					+ "inner join insecticide_type_master ist on isi.insecticide_type_id = ist.id\r\n"
-					+ "inner join input_supplier_machinery ism on ism.input_supplier_id = i.input_supplier_id\r\n"
-					+ "inner join equip_master eq on eq.id = ism.machinery_name_id\r\n"
-					+ "where d.district_name like '%"+val.toUpperCase()+"%'"
-					+ "  group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc;";
-			objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
+			
+			if(val == "")
+			{
+				sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number,\r\n"
+						+ "STRING_AGG(distinct cm.crop_name, ', ') as cropSeeds, STRING_AGG(distinct ifn.fertilizer_name, ', ') as fertilizers,\r\n"
+						+ "STRING_AGG(distinct ist.insecticide_type, ', ') as insecticides, STRING_AGG(distinct eq.equpment_name, ', ') as machineries\r\n"
+						+ "from input_supplier i\r\n"
+						+ "inner join districts d on i.dist_ref_id = d.district_id\r\n"
+						+ "inner join input_supplier_seed isu on isu.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join crop_master cm on cm.id = isu.crop_id\r\n"
+						+ "inner join input_supplier_fertilizer ifr on ifr.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join fertilizer_name_master ifn on ifr.fertilizer_name_id = ifn.id\r\n"
+						+ "inner join input_supplier_insecticide isi on isi.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join insecticide_type_master ist on isi.insecticide_type_id = ist.id\r\n"
+						+ "inner join input_supplier_machinery ism on ism.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join equip_master eq on eq.id = ism.machinery_name_id\r\n"
+						+ "  group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc";
+				objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
+			}
+			else
+			{
+				sql = "select distinct d.district_id as districtId, d.district_name as districtName, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number,\r\n"
+						+ "STRING_AGG(distinct cm.crop_name, ', ') as cropSeeds, STRING_AGG(distinct ifn.fertilizer_name, ', ') as fertilizers,\r\n"
+						+ "STRING_AGG(distinct ist.insecticide_type, ', ') as insecticides, STRING_AGG(distinct eq.equpment_name, ', ') as machineries\r\n"
+						+ "from input_supplier i\r\n"
+						+ "inner join districts d on i.dist_ref_id = d.district_id\r\n"
+						+ "inner join input_supplier_seed isu on isu.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join crop_master cm on cm.id = isu.crop_id\r\n"
+						+ "inner join input_supplier_fertilizer ifr on ifr.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join fertilizer_name_master ifn on ifr.fertilizer_name_id = ifn.id\r\n"
+						+ "inner join input_supplier_insecticide isi on isi.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join insecticide_type_master ist on isi.insecticide_type_id = ist.id\r\n"
+						+ "inner join input_supplier_machinery ism on ism.input_supplier_id = i.input_supplier_id\r\n"
+						+ "inner join equip_master eq on eq.id = ism.machinery_name_id\r\n"
+						+ "where d.district_name like '%"+val.toUpperCase()+"%'"
+						+ "  group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc;";
+				objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
+			}
 			
 			sql = "select distinct d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number, \r\n"
 					+ "STRING_AGG(distinct eq.equpment_name, ', ') as machineries from chc_fmb c\r\n"
@@ -704,6 +747,28 @@ return cropFilterDtoList;
 					+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
 					+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
 			objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
+			
+			if(val == "")
+			{
+				sql = "select distinct d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number, \r\n"
+						+ "STRING_AGG(distinct eq.equpment_name, ', ') as machineries from chc_fmb c\r\n"
+						+ "				inner join districts d on c.dist_ref_id = d.district_id\r\n"
+						+ "				inner join chc_fmb_machinery cm on cm.chc_fmb_id = c.chc_fmb_id\r\n"
+						+ "				inner join equip_master eq on eq.id = cm.equipment_name_id\r\n"
+						+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
+						+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
+				objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
+			}
+			else
+			{
+				sql = "select distinct d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number, \r\n"
+						+ "STRING_AGG(distinct eq.equpment_name, ', ') as machineries from chc_fmb c\r\n"
+						+ "				inner join districts d on c.dist_ref_id = d.district_id\r\n"
+						+ "				inner join chc_fmb_machinery cm on cm.chc_fmb_id = c.chc_fmb_id\r\n"
+						+ "				inner join equip_master eq on eq.id = cm.equipment_name_id\r\n"
+						+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
+				objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
+			}
 			listDto.setFpoDetails(obj);
 			listDto.setInputSupplierDetails(objIns);
 			listDto.setChcFmbDetails(objChcFmb);
