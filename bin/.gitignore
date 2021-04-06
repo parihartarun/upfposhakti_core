@@ -9,6 +9,8 @@
 .settings
 .springBeans
 .sts4-cache
+.DS_Store
+uploads/
 
 ### IntelliJ IDEA ###
 .idea
@@ -23,6 +25,3 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-/src/
-/.github/
-/.mvn/

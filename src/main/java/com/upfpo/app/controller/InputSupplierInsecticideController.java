@@ -33,7 +33,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value="/inputsupplier/insecticide")
+@RequestMapping(value="/master/insecticide")
 @Api(produces = "application/json", tags="InputSupplierInsecticide Controller", value = "Add, Update, Delete, and retrive the InputSupplierInsecticide Detail")
 public class InputSupplierInsecticideController {
 
@@ -107,12 +107,13 @@ public class InputSupplierInsecticideController {
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                         @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
-                                                                        @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                        @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
+                                                                        @RequestParam(value = "role", required = false) String role,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
         ResponseEntity<MessageResponse> resp = null;
             try {
-                InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate);
+                InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate,role);
                 InputSupplierInsecticide id = insecticideService.createInputSupplierInsecticide(inputSupplierInsecticide, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierInsecticide created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierInsecticide  created Successfully!");
@@ -167,7 +168,8 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                           @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                           @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
-                                                                          @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                          @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
+                                                                          @RequestParam(value = "role", required = false) String role,
                                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");
         InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide();

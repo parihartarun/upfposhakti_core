@@ -255,6 +255,8 @@ public class NewSearchRepository {
 	
 private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
 	{
+	
+
 		String sql ="select inf.id id,\r\n"
 				+ "	'null' as itemname,\r\n"
 				+ "	fnt.id as itemtypeid,\r\n"

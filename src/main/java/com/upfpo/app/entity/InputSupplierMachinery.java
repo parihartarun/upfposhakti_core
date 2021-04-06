@@ -102,12 +102,16 @@ public class InputSupplierMachinery {
     @Column(name = "create_by")
     private Integer createBy;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "role")
+    private String role;
+   
+
+	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
     private Calendar createDateTime;
 
     public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String otherEquipmentName, String specification, Integer quantity,
-                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay) {
+                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay,String role) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
         this.otherEquipmentName= otherEquipmentName;
@@ -116,6 +120,7 @@ public class InputSupplierMachinery {
         this.inputSupplierId=inputSupplierId;
         this.manufacturerName=manufacturerName;
         this.rentPerDay = rentPerDay;
+        this.role = role;
     }
 
     public InputSupplierMachinery() {
@@ -264,4 +269,20 @@ public class InputSupplierMachinery {
     public void setCreateDateTime(Calendar createDateTime) {
         this.createDateTime = createDateTime;
     }
+    
+    public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }
