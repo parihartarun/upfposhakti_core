@@ -93,6 +93,12 @@ public class EnquiryInputSupplierMachinery
 	
 	@Column(name = "role_ref_id")
 	private String roleRefId;
+	
+	@Column(name = "master_role_id")
+	private String masterRoleId;
+	
+	@Column(name = "master_user_id")
+	private Integer masterUserId;
 
 	public BigInteger getEnqid() {
 		return enqid;
@@ -229,5 +235,20 @@ public class EnquiryInputSupplierMachinery
 	public void setRoleRefId(String roleRefId) {
 		this.roleRefId = roleRefId;
 	}
-	
+
+	public String getMasterRoleId() {
+		return masterRoleId;
+	}
+
+	public void setMasterRoleId(String masterRoleId) {
+		this.masterRoleId = masterRoleId;
+	}
+
+	public Integer getMasterUserId() {
+		return masterUserId;
+	}
+
+	public void setMasterUserId(Integer masterUserId) {
+		this.masterUserId = masterUserId;
+	}
 }

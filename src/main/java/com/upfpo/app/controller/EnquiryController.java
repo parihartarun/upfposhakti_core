@@ -211,13 +211,13 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<Enquiry> getEnquiryByUser(@RequestParam("id") Integer masterId) throws UserPrincipalNotFoundException{
+    public List<Enquiry> getEnquiryByUser(@RequestParam("id") Integer masterId, @RequestParam("roleId") String roleId) throws UserPrincipalNotFoundException{
 //    	Optional<User> user = userService.findById(masterId);
 //    	if(!user.isPresent()) {
 //    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
 //    	}
         LOG.info("Inside EnquiryController gettting Enquiry by userId");
-        return enquiryService.getEnquiryInfo(masterId);
+        return enquiryService.getEnquiryInfo(masterId, roleId);
     }
 
     // /getall            getmapping               get all enquiry details

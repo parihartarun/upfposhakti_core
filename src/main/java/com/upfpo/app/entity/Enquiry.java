@@ -91,6 +91,11 @@ public class Enquiry implements Serializable {
 	@JoinColumn(name = "cropVeriety")
 	private CropVerietyMaster cropVeriety;
 
+	@Column(name = "createdby_role_id")
+	private String createdbyRoleId;
+	
+	@Column(name = "createdby_user_id")
+	private Integer createdbyUserId;
 
 
 	public Double getSoldQuantity() {
@@ -249,5 +254,19 @@ public class Enquiry implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	
+	public String getCreatedbyRoleId() {
+		return createdbyRoleId;
+	}
+
+	public void setCreatedbyRoleId(String createdbyRoleId) {
+		this.createdbyRoleId = createdbyRoleId;
+	}
+
+	public Integer getCreatedbyUserId() {
+		return createdbyUserId;
+	}
+
+	public void setCreatedbyUserId(Integer createdbyUserId) {
+		this.createdbyUserId = createdbyUserId;
+	}
 }

@@ -13,7 +13,7 @@ import com.upfpo.app.entity.FPORegister;
 @Repository
 public interface EnquiryRepository extends JpaRepository<Enquiry, Long> {
 	
-	List<Enquiry> findByMasterIdOrderByEnidDesc(int masterId);
+	List<Enquiry> findByMasterIdAndCreatedbyRoleIdInOrderByEnidDesc(int masterId, String roleId);
 
 
 	Enquiry findByEnid(long id);

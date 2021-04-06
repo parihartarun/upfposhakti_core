@@ -148,9 +148,10 @@ public class EnquiryServiceImpl implements EnquiryService{
 		enquiryRepository.save(enquiry);
 	} 
 
-	public List<Enquiry> getEnquiryInfo(Integer masterId) {
+	public List<Enquiry> getEnquiryInfo(Integer masterId, String roleId) {
 		 //return enquiryRepository.findByMasterId(masterId);
-		return enquiryRepository.findByMasterIdOrderByEnidDesc(masterId);
+		//return enquiryRepository.findByMasterIdOrderByEnidDesc(masterId);
+		return enquiryRepository.findByMasterIdAndCreatedbyRoleIdInOrderByEnidDesc(masterId, roleId);
 	}
 
 	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {

@@ -55,6 +55,7 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
 
     public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId) {
         List<InputSupplierMachineryDTO> list = null;
+        String roleId = "3";
         try {
             String sql = "Select  ism.id,etm.id as type_id, etm.type, em.id as name_id, em.equpment_name, ism.technical_specs,  " +
                     "ism.quantity, ism.manufacturer_name, ism.file_path \r\n" +
@@ -62,9 +63,10 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
                     "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
                     "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
                     "inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
-                    "where ism.input_supplier_id=:masterId and  ism.is_deleted = false";
+                    "where ism.input_supplier_id=:masterId and ism.role = :roleId and ism.is_deleted = false";
 
-            List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {
@@ -75,15 +77,17 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
 
     public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId) {
         List<InputSupplierInsecticideDTO> list = null;
+        String roleId = "3";
         try {
             String sql = "Select  isi.id, itm.id as type_id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
                     ", isi.file_path \r\n" +
                     "from input_supplier_insecticide isi \r\n" +
                     "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +
                     "inner join input_supplier isup on isi.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where isi.input_supplier_id= :masterId and  isi.is_deleted = false";
+                    "where isi.input_supplier_id= :masterId and isi.role = :roleId and isi.is_deleted = false";
 
-            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {
@@ -94,6 +98,7 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
 
     public List<InputSupplierSeedDTO> getSeedDetail(Integer masterId) {
         List<InputSupplierSeedDTO> list = null;
+        String roleId = "3";
         try {
             String sql = "Select  iss.id, cm.id as crop_id, cm.crop_name, cvm.veriety_id, cvm.crop_veriety, iss.company_brand, iss.quantity, iss.certification_number \r\n" +
                     ", iss.certification_valid_from, iss.certification_valid_to, iss.file_path \r\n" +
@@ -101,9 +106,10 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
                     "left join  crop_master cm on cm.id=iss.crop_id \r\n" +
                     "left join crop_veriety_master cvm on cvm.veriety_id=iss.variety_id \r\n" +
                     "inner join input_supplier isup on iss.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where iss.input_supplier_id=:masterId and  iss.is_deleted = false";
+                    "where iss.input_supplier_id=:masterId and iss.role = :roleId and iss.is_deleted = false";
 
-            List<InputSupplierSeedDTO> obj = (List<InputSupplierSeedDTO>) entityManager.createNativeQuery(sql, "InputSupplierSeedDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierSeedDTO> obj = (List<InputSupplierSeedDTO>) entityManager.createNativeQuery(sql, "InputSupplierSeedDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {
@@ -114,15 +120,17 @@ public class InputSupplierProfileServiceImpl implements InputSupplierProfileServ
 
     public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId) {
         List<InputSupplierFertilizerDTO> list = null;
+        String roleId = "3";
         try {
             String sql = "Select  isf.id, ftm.id as type_id, ftm.fertilizer_type, fnm.id as name_id, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
                     "from input_supplier_fertilizer isf \r\n" +
                     "left join fertilizer_type_master ftm on ftm.id=isf.fertilizer_type_id \r\n" +
                     "left join fertilizer_name_master fnm on fnm.id=isf.fertilizer_name_id \r\n" +
                     "inner join input_supplier isup on isf.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where isf.input_supplier_id=:masterId and  isf.is_deleted = false";
+                    "where isf.input_supplier_id=:masterId and isf.role = :roleId and isf.is_deleted = false";
 
-            List<InputSupplierFertilizerDTO> obj = (List<InputSupplierFertilizerDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierFertilizerDTO> obj = (List<InputSupplierFertilizerDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {
