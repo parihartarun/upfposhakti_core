@@ -107,7 +107,7 @@ public class InputSupplierFertilizerController {
                                                                    @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                    @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                    @RequestParam(value = "quantity", required = false) Double quantity,
-                                                                   @RequestParam(value = "role", required = false) Integer role,
+                                                                   @RequestParam(value = "role", required = false) String role,
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizerController saving InputSupplierFertilizer ");
         ResponseEntity<MessageResponse> resp = null;
@@ -169,7 +169,7 @@ public class InputSupplierFertilizerController {
                                                                          @RequestParam(value = "fertilizer_grade", required = false) String grade,
                                                                          @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                          @RequestParam(value = "quantity", required = false) Double quantity,
-                                                                         @RequestParam(value = "role", required = false) Integer role,
+                                                                         @RequestParam(value = "role", required = false) String role,
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierFertilizer updating InputSupplierFertilizer detail ");
         InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer();

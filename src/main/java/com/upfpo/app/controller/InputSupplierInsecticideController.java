@@ -108,7 +108,7 @@ public class InputSupplierInsecticideController {
                                                                         @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                         @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
                                                                         @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
-                                                                        @RequestParam(value = "role", required = false) Integer role,
+                                                                        @RequestParam(value = "role", required = false) String role,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
         ResponseEntity<MessageResponse> resp = null;
@@ -169,7 +169,7 @@ public class InputSupplierInsecticideController {
                                                                           @RequestParam(value = "cib_rc_number", required = false) String cibRcNumber,
                                                                           @RequestParam(value = "cib_rc_issuedate", required = false) String cibRcIssuedate,
                                                                           @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
-                                                                          @RequestParam(value = "role", required = false) Integer role,
+                                                                          @RequestParam(value = "role", required = false) String role,
                                                                           @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticide updating InputSupplierInsecticide detail ");
         InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide();

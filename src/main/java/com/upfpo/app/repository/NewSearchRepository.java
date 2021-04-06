@@ -214,6 +214,9 @@ public class NewSearchRepository {
 	
 	private String searchOnlyFertilizersInInputSupplierFertilizer(SearchRequestDto searchRequestDto)
 	{
+		
+		
+		
 		String sql ="select inf.id id, \r\n"
 				+ "inf.fertilizer_name_id itemnameid,\r\n"
 				+ "	fn.fertilizer_name itemname,\r\n"
