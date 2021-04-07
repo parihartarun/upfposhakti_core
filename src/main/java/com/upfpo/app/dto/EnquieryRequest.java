@@ -3,6 +3,7 @@ package com.upfpo.app.dto;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 public class EnquieryRequest {
@@ -22,6 +23,8 @@ public class EnquieryRequest {
     private Integer cropVeriety;
     private BigInteger createdBy;
     private Integer masterId;
+    private String createdbyRoleId;
+	private Integer createdbyUserId;
     
 	public Integer getCropVeriety() {
 		return cropVeriety;
@@ -77,5 +80,16 @@ public class EnquieryRequest {
 	public void setMasterId(Integer masterId) {
 		this.masterId = masterId;
 	}
-	
+	public String getCreatedbyRoleId() {
+		return createdbyRoleId;
+	}
+	public void setCreatedbyRoleId(String createdbyRoleId) {
+		this.createdbyRoleId = createdbyRoleId;
+	}
+	public Integer getCreatedbyUserId() {
+		return createdbyUserId;
+	}
+	public void setCreatedbyUserId(Integer createdbyUserId) {
+		this.createdbyUserId = createdbyUserId;
+	}
 }

@@ -65,7 +65,9 @@ public class EnquiryServiceImpl implements EnquiryService{
     	enquiry.setFpo(fpoRepository.findById(enquiryRequest.getFpoId()).orElseThrow(FpoNotFoundException::new));                   // from ui
     	enquiry.setMasterId(enquiryRequest.getMasterId());
     	enquiry.setCreatedBy(enquiryRequest.getCreatedBy());
-      	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  	 	 	
+      	enquiry.setCropMaster(cropMasterRepository.findById(enquiryRequest.getCropId()).orElseThrow(CropNotFoundException::new));  
+      	enquiry.setCreatedbyRoleId(enquiryRequest.getCreatedbyRoleId());
+      	enquiry.setCreatedbyUserId(enquiryRequest.getCreatedbyUserId());
       	return enquiryRepository.save(enquiry);
     }
 
