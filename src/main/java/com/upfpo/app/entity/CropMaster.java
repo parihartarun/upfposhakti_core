@@ -49,7 +49,8 @@ classes = @ConstructorResult(
 @SqlResultSetMapping(name = "fmbValueResultMapping", 
 classes = @ConstructorResult( 
         targetClass = FmbSearchDtoAll.class, 
-        columns = {        		
+        columns = {
+        		@ColumnResult(name = "id"),
         		@ColumnResult(name = "vendorid"),
         		@ColumnResult(name = "vendorname"),
         		@ColumnResult(name = "imagepath"),
@@ -63,7 +64,9 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "machinenameid"),
         		@ColumnResult(name = "machinename"),
         		@ColumnResult(name = "recordtype"),
-        		@ColumnResult(name = "role")
+        		@ColumnResult(name = "roleid"),
+        		@ColumnResult(name = "role"),
+        		@ColumnResult(name = "userid")
                     }
         )
 )
