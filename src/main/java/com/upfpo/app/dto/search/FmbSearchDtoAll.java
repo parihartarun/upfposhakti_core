@@ -1,7 +1,7 @@
 package com.upfpo.app.dto.search;
 
 public class FmbSearchDtoAll {
-
+	private Integer id; 
 	private Integer vendorid; 
 	private String vendorname;
 	private String imagepath; 
@@ -16,8 +16,28 @@ public class FmbSearchDtoAll {
 	private String machinename;
 	private String recordtype;
 	private String role;
+	private String roleid;
+	private Integer userid; 
 	
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+	public Integer getUserid() {
+		return userid;
+	}
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
 	public String getRole() {
 		return role;
 	}
@@ -45,6 +65,29 @@ public class FmbSearchDtoAll {
 		this.machinename = machinename;
 		this.recordtype = recordtype;
 		this.role = role;
+	}
+	
+	public FmbSearchDtoAll(Integer id,Integer vendorid, String vendorname, String imagepath, String company, Integer machinetypeid,
+			String machinetype, Integer quantity, Integer districtid, String district, Double rent,
+			Integer machinenameid, String machinename, String recordtype,String roleid,String role,Integer userid) {
+		super();
+		this.vendorid = vendorid;
+		this.vendorname = vendorname;
+		this.imagepath = imagepath;
+		this.company = company;
+		this.machinetypeid = machinetypeid;
+		this.machinetype = machinetype;
+		this.quantity = quantity;
+		this.districtid = districtid;
+		this.district = district;
+		this.rent = rent;
+		this.machinenameid = machinenameid;
+		this.machinename = machinename;
+		this.recordtype = recordtype;
+		this.roleid = roleid;
+		this.role = role;
+		this.userid = userid;
+		this.id = id;
 	}
 	public Integer getVendorid() {
 		return vendorid;

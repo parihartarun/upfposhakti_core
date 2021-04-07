@@ -293,9 +293,6 @@ public class NewSearchRepository {
 	}
 
 	
-	
-	
-	
 private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto searchRequestDto)
 	{
 	
@@ -422,7 +419,12 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
     			+ "inner join crop_veriety_master cv on cv.veriety_id = isd.variety_id\r\n"
     			+ "inner join crop_master cp on cp.id = cv.crop_master_ref_id\r\n"
     			+ "inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
-    			+ "else fp.dist_ref_id end";
+    			+ "else fp.dist_ref_id end"
+    			+ "  where UPPER(cp.crop_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+		        + "  or UPPER(cv.crop_veriety) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
+//		        + "  or UPPER(inps.input_supplier_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+    			
+    			;
 		
 		return sql;
 	}
@@ -516,36 +518,73 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	}
 	private String searchMachineryInInputSupplierTable(SearchRequestDto searchRequestDto)
 	{
-		String sql ="select inpm.input_supplier_id as vendorid,\r\n"
-				+ "		ip.input_supplier_name as vendorname,\r\n"
-				+ "		inpm.file_path as imagepath,\r\n"
-				+ "		inpm.manufacturer_name as company,\r\n"
-				+ "		inpm.machinery_type_id as machinetypeid,\r\n"
-				+ "		eqt.type as machinetype,\r\n"
-				+ "		inpm.quantity as quantity,\r\n"
-				+ "		dist.district_id as districtid,\r\n"
-				+ "		dist.district_name as district,\r\n"
-				+ "		inpm.rent_per_day as rent,\r\n"
-				+ "		inpm.machinery_name_id as machinenameid,\r\n"
-				+ "		eqp.equpment_name as machinename,\r\n"
-				+ "		'inputsupplier'as recordtype,\r\n"
-				+ "		roles.role as role\r\n"
-				+ "		from input_supplier_machinery inpm \r\n"
-				+ "		inner join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
-				+ "		inner join users usr on usr.user_id = ip.user_id\r\n"
-				+ "		inner join user_roles roles on usr.role_ref_id = roles.role_id\r\n"
-				+ "		inner join districts dist on ip.dist_ref_id = dist.district_id \r\n"
-				+ "		inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
-				+ "		inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
-				+ "		where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-	        	+ "		or UPPER(inpm.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+//		String sql ="select inpm.input_supplier_id as vendorid,\r\n"
+//				+ "		ip.input_supplier_name as vendorname,\r\n"
+//				+ "		inpm.file_path as imagepath,\r\n"
+//				+ "		inpm.manufacturer_name as company,\r\n"
+//				+ "		inpm.machinery_type_id as machinetypeid,\r\n"
+//				+ "		eqt.type as machinetype,\r\n"
+//				+ "		inpm.quantity as quantity,\r\n"
+//				+ "		dist.district_id as districtid,\r\n"
+//				+ "		dist.district_name as district,\r\n"
+//				+ "		inpm.rent_per_day as rent,\r\n"
+//				+ "		inpm.machinery_name_id as machinenameid,\r\n"
+//				+ "		eqp.equpment_name as machinename,\r\n"
+//				+ "		'inputsupplier'as recordtype,\r\n"
+//				+ "		roles.role as role\r\n"
+//				+ "		from input_supplier_machinery inpm \r\n"
+//				+ "		inner join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
+//				+ "		inner join users usr on usr.user_id = ip.user_id\r\n"
+//				+ "		inner join user_roles roles on usr.role_ref_id = roles.role_id\r\n"
+//				+ "		inner join districts dist on ip.dist_ref_id = dist.district_id \r\n"
+//				+ "		inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
+//				+ "		inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
+//				+ "		where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+//				+ "		or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+//	        	+ "		or UPPER(inpm.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+		
+		String sql ="select ism.id id,\r\n"
+				+ "ism.file_path imagepath,\r\n"
+				+ "ism.input_supplier_id as vendorid,\r\n"
+				+ "ism.machinery_type_id machinetypeid,\r\n"
+				+ "eqt.type machinetype,\r\n"
+				+ "ism.machinery_name_id machinenameid,\r\n"
+				+ "eqp.equpment_name as machinename,\r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
+				+ "else fp.fpo_name end as vendorname, \r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
+				+ "else fp.user_id end as userid, \r\n"
+				+ "ism.manufacturer_name as company, \r\n"
+				+ "ism.quantity quantity,\r\n"
+				+ "ism.rent_per_day rent,\r\n"
+				+ "'machinery'as recordtype,\r\n"
+				+ "dist.district_id as districtid,\r\n"
+				+ "dist.district_name as district,\r\n"
+				+ "ism.role roleid,\r\n"
+				+ "usr.role as role\r\n"
+				+ "from input_supplier_machinery ism\r\n"
+				+ "inner join user_roles usr on usr.role_id = ism.role\r\n"
+				+ "left join input_supplier ip on ip.input_supplier_id = ism.input_supplier_id \r\n"
+				+ "left join fpo fp on fp.fpo_id = ism.input_supplier_id\r\n"
+				+ "inner join equipment_type_master eqt on eqt.id = ism.machinery_type_id\r\n"
+				+ "inner join equip_master eqp on eqp.id = ism.machinery_name_id\r\n"
+				+ "inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+				+ "else fp.dist_ref_id end"
+				+ "	where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+				+ "	or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+	        	+ "	or UPPER(ism.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
+				
+				
+				;
 		
 		return sql;
 	}
 	public ResponseEntity<?> newMachinerySearch(SearchRequestDto searchRequestDto)
 	{
-		String sql =searchMachineryInFmbTable(searchRequestDto)+" union all "+searchMachineryInInputSupplierTable(searchRequestDto);
+		//String sql =searchMachineryInFmbTable(searchRequestDto)+" union all "+searchMachineryInInputSupplierTable(searchRequestDto);
+		
+		String sql =searchMachineryInInputSupplierTable(searchRequestDto);
+		
 		
 		  List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();	
 		  
