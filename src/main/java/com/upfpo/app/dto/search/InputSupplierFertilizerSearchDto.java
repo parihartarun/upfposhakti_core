@@ -12,8 +12,9 @@ public class InputSupplierFertilizerSearchDto {
 	private Integer itemtypeid;
 	private String  itemtype;
 	private Double  quantity;
-	private Integer inputsupplierid;
-	private String  inputsupplier;
+	private Integer vendorid;
+	private String  vendorname;
+	private String 	vendorEmail;
 	private Integer  districtid;
 	private String  district;
 	private String  imagepath;
@@ -75,17 +76,17 @@ public class InputSupplierFertilizerSearchDto {
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
-	public Integer getInputsupplierid() {
-		return inputsupplierid;
+	public Integer getVendorid() {
+		return vendorid;
 	}
-	public void setInputsupplierid(Integer inputsupplierid) {
-		this.inputsupplierid = inputsupplierid;
+	public void setVendorid(Integer vendorid) {
+		this.vendorid = vendorid;
 	}
-	public String getInputsupplier() {
-		return inputsupplier;
+	public String getVendorname() {
+		return vendorname;
 	}
-	public void setInputsupplier(String inputsupplier) {
-		this.inputsupplier = inputsupplier;
+	public void setVendorname(String vendorname) {
+		this.vendorname = vendorname;
 	}
 	public Integer getDistrictid() {
 		return districtid;
@@ -156,11 +157,17 @@ public class InputSupplierFertilizerSearchDto {
 		this.recordtype = recordtype;
 	}
 	
+	public String getVendorEmail() {
+		return vendorEmail;
+	}
+	public void setVendorEmail(String vendorEmail) {
+		this.vendorEmail = vendorEmail;
+	}
 	public InputSupplierFertilizerSearchDto() {
 		super();
 	}
 	public InputSupplierFertilizerSearchDto(Integer id, Integer itemnameid, String itemname,
-			Integer itemtypeid, String itemtype, Double quantity, Integer inputsupplierid, String inputsupplier,
+			Integer itemtypeid, String itemtype, Double quantity, Integer vendorid, String vendorname, String vendorEmail,
 			Integer districtid, String district, String imagepath, String manufacturer, String crop, Integer cropid,
 			String cropveriety, Integer cropverietyid, String recordtype, String role,String roleid, String grade,Integer userid) {
 		super();
@@ -171,8 +178,9 @@ public class InputSupplierFertilizerSearchDto {
 		this.itemtypeid = itemtypeid;
 		this.itemtype = itemtype;
 		this.quantity = quantity;
-		this.inputsupplierid = inputsupplierid;
-		this.inputsupplier = inputsupplier;
+		this.vendorid = vendorid;
+		this.vendorname = vendorname;
+		this.vendorEmail = vendorEmail;
 		this.districtid = districtid;
 		this.district = district;
 		this.imagepath = imagepath;

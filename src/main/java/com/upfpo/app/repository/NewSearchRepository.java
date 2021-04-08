@@ -261,6 +261,8 @@ public class NewSearchRepository {
 				+ "isf.input_supplier_id vendorid, \r\n"
 				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
 				+ "else fp.fpo_name end as vendorname,  \r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+				+ "else fp.fpo_email end as vendorEmail,\r\n"
 				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
 				+ "else fp.user_id end as userid,  \r\n"
 				+ "isf.manufacturer_name manufacturer,\r\n"
@@ -335,6 +337,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			+ "ins.input_supplier_id as vendorid,\r\n"
 			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
 			+ "else fp.fpo_name end as vendorname,\r\n"
+			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+			+ "else fp.fpo_email end as vendoremail,\r\n"
 			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
 			+ "else fp.user_id end as userid,\r\n"
 			+ "ins.insecticide_type_id as itemtypeid,\r\n"
@@ -397,6 +401,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
     			+ "isd.input_supplier_id vendorid,\r\n"
     			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
     			+ "else fp.fpo_name end as vendorname, \r\n"
+    			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+    			+ "else fp.fpo_email end as vendorEmail,\r\n"
     			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
     			+ "else fp.user_id end as userid, \r\n"
     			+ "isd.company_brand manufacturer,\r\n"
@@ -552,6 +558,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				+ "eqp.equpment_name as machinename,\r\n"
 				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
 				+ "else fp.fpo_name end as vendorname, \r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+				+ "else fp.fpo_email end as vendorEmail,\r\n"
 				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
 				+ "else fp.user_id end as userid, \r\n"
 				+ "ism.manufacturer_name as company, \r\n"
@@ -688,7 +696,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
 			{
 				
-				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -753,7 +761,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
 			{
 				
-				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -801,7 +809,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
 			{
 				
-				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getInputsupplierid().intValue()==inputsupplierId.intValue();
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;

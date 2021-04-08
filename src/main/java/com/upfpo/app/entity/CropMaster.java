@@ -66,7 +66,8 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "recordtype"),
         		@ColumnResult(name = "roleid"),
         		@ColumnResult(name = "role"),
-        		@ColumnResult(name = "userid")
+        		@ColumnResult(name = "userid"),
+        		@ColumnResult(name = "vendorEmail")
                     }
         )
 )
@@ -84,6 +85,7 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "quantity"),
         		@ColumnResult(name = "vendorid"),
         		@ColumnResult(name = "vendorname"),
+        		@ColumnResult(name = "vendorEmail"),
         		@ColumnResult(name = "districtid"),
         		@ColumnResult(name = "district"),
         		@ColumnResult(name = "imagepath"),
@@ -113,6 +115,7 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "quantity"),
         		@ColumnResult(name = "vendorid"),
         		@ColumnResult(name = "vendorname"),
+        		@ColumnResult(name = "vendorEmail"),
         		@ColumnResult(name = "districtid"),
         		@ColumnResult(name = "district"),
         		@ColumnResult(name = "imagepath"),

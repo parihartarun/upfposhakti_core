@@ -18,6 +18,7 @@ public class FmbSearchDtoAll {
 	private String role;
 	private String roleid;
 	private Integer userid; 
+	private String vendorEmail;
 	
 	
 	public Integer getId() {
@@ -69,7 +70,7 @@ public class FmbSearchDtoAll {
 	
 	public FmbSearchDtoAll(Integer id,Integer vendorid, String vendorname, String imagepath, String company, Integer machinetypeid,
 			String machinetype, Integer quantity, Integer districtid, String district, Double rent,
-			Integer machinenameid, String machinename, String recordtype,String roleid,String role,Integer userid) {
+			Integer machinenameid, String machinename, String recordtype,String roleid,String role,Integer userid, String vendorEmail) {
 		super();
 		this.vendorid = vendorid;
 		this.vendorname = vendorname;
@@ -88,6 +89,7 @@ public class FmbSearchDtoAll {
 		this.role = role;
 		this.userid = userid;
 		this.id = id;
+		this.vendorEmail = vendorEmail;
 	}
 	public Integer getVendorid() {
 		return vendorid;
@@ -167,5 +169,10 @@ public class FmbSearchDtoAll {
 	public void setRecordtype(String recordtype) {
 		this.recordtype = recordtype;
 	}
-
+	public String getVendorEmail() {
+		return vendorEmail;
+	}
+	public void setVendorEmail(String vendorEmail) {
+		this.vendorEmail = vendorEmail;
+	}
 }
