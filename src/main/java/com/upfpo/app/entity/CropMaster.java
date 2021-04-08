@@ -67,7 +67,7 @@ classes = @ConstructorResult(
         		@ColumnResult(name = "roleid"),
         		@ColumnResult(name = "role"),
         		@ColumnResult(name = "userid"),
-        		@ColumnResult(name = "vendorEmail")
+        		@ColumnResult(name = "vendoremail")
                     }
         )
 )
