@@ -10,6 +10,7 @@ import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.InputSupplierInsecticideRepository;
 import com.upfpo.app.repository.InputSupplierInsecticideRepository;
 import com.upfpo.app.repository.InsecticideTypeRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +66,8 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     }
 
     @Override
-    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticide(Integer masterId){
-        List<InputSupplierInsecticideDTO> isi = getInsecticideDetail(masterId);
+    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticide(ReportRequestString reportRequestString){
+        List<InputSupplierInsecticideDTO> isi = getInsecticideDetail(reportRequestString.getMasterId(), reportRequestString.getRoleId());
         return isi;
     }
 
@@ -190,17 +191,18 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     }
 
 
-    public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId) {
+    public List<InputSupplierInsecticideDTO> getInsecticideDetail(Integer masterId, String roleId) {
         List<InputSupplierInsecticideDTO> list = null;
         try {
             String sql = "Select  isi.id, itm.id as type_id, itm.insecticide_type, isi.quantity, isi.manufacturer_name, isi.cib_rc_no, isi.cib_rc_issuedate \r\n" +
                     ", isi.file_path \r\n" +
                     "from input_supplier_insecticide isi \r\n" +
                     "left join insecticide_type_master itm on itm.id=isi.insecticide_type_id \r\n" +
-                    "inner join input_supplier isup on isi.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where isi.input_supplier_id= :masterId and  isi.is_deleted = false";
+                    //"inner join input_supplier isup on isi.input_supplier_id=isup.input_supplier_id \r\n" +
+                    "where isi.input_supplier_id= :masterId and isi.role = :roleId and isi.is_deleted = false order by isi.id desc";
 
-            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierInsecticideDTO> obj = (List<InputSupplierInsecticideDTO>) entityManager.createNativeQuery(sql, "InputSupplierInsecticideDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {

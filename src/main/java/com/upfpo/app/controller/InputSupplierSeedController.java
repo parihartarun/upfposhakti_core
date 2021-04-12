@@ -7,6 +7,7 @@ import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.InputSupplierMachinery;
 import com.upfpo.app.entity.InputSupplierSeed;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierSeedServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ReportAsSingleViolation;
+
 import java.applet.Applet;
 import java.io.IOException;
 import java.text.ParseException;
@@ -52,15 +55,15 @@ public class InputSupplierSeedController {
     private HttpServletRequest request;
 
 
-    @GetMapping("/getall/{id}")
+    @PostMapping("/getall")
     @ApiOperation(value="InputSupplierSeeds List" ,code=201, produces = "application/json", notes="Api for all InputSupplierSeeds Info",response= InputSupplierSeed.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierSeedDTO> getAllInputSupplierSeeds (@PathVariable Integer id){
-        return seedService.getAllInputSupplierSeed(id);
+    public List<InputSupplierSeedDTO> getAllInputSupplierSeeds (@RequestBody ReportRequestString reportRequestString){
+        return seedService.getAllInputSupplierSeed(reportRequestString);
     }
 
     /*@GetMapping("/{id}")

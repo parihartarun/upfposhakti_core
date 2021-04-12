@@ -7,6 +7,7 @@ import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierFertilizerService;
 import com.upfpo.app.service.InputSupplierFertilizerServiceImpl;
 import io.swagger.annotations.Api;
@@ -46,15 +47,15 @@ public class InputSupplierFertilizerController {
 
 
 
-    @GetMapping("/getall/{id}")
+    @PostMapping("/getall")
     @ApiOperation(value="InputSupplierFertilizers List" ,code=201, produces = "application/json", notes="Api for all InputSupplierFertilizers Info",response= InputSupplierFertilizer.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizers (@PathVariable Integer id){
-        return fertilizerService.getAllInputSupplierFertilizer(id);
+    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizers (@RequestBody ReportRequestString reportRequestString){
+        return fertilizerService.getAllInputSupplierFertilizer(reportRequestString);
     }
 
     @GetMapping("fertilizertype/getall")

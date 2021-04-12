@@ -8,6 +8,7 @@ import com.upfpo.app.entity.InputSupplierSeed;
 import com.upfpo.app.entity.Status;
 import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.InputSupplierSeedRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
 
 
     @Override
-    public List<InputSupplierSeedDTO> getAllInputSupplierSeed(Integer masterId){
-        List<InputSupplierSeedDTO> seed = getSeedDetail(masterId);
+    public List<InputSupplierSeedDTO> getAllInputSupplierSeed(ReportRequestString reportRequestString){
+        List<InputSupplierSeedDTO> seed = getSeedDetail(reportRequestString.getMasterId(), reportRequestString.getRoleId());
         return seed;
     }
 
@@ -183,7 +184,7 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
     }
 
 
-    public List<InputSupplierSeedDTO> getSeedDetail(Integer masterId) {
+    public List<InputSupplierSeedDTO> getSeedDetail(Integer masterId, String roleId) {
         List<InputSupplierSeedDTO> list = null;
         try {
             String sql = "Select  iss.id, cm.id as crop_id, cm.crop_name, cvm.veriety_id, cvm.crop_veriety, iss.company_brand, iss.quantity, iss.certification_number \r\n" +
@@ -191,10 +192,11 @@ public class InputSupplierSeedServiceImpl implements InputSupplierSeedService {
                     "from input_supplier_seed iss \r\n" +
                     "left join  crop_master cm on cm.id=iss.crop_id \r\n" +
                     "left join crop_veriety_master cvm on cvm.veriety_id=iss.variety_id \r\n" +
-                    "inner join input_supplier isup on iss.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where iss.input_supplier_id=:masterId and  iss.is_deleted = false";
+                   // "inner join input_supplier isup on iss.input_supplier_id=isup.input_supplier_id \r\n" +
+                    "where iss.input_supplier_id=:masterId and iss.role = :roleId and  iss.is_deleted = false order by iss.id desc";
 
-            List<InputSupplierSeedDTO> obj = (List<InputSupplierSeedDTO>) entityManager.createNativeQuery(sql, "InputSupplierSeedDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierSeedDTO> obj = (List<InputSupplierSeedDTO>) entityManager.createNativeQuery(sql, "InputSupplierSeedDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {

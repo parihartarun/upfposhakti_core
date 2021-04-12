@@ -11,6 +11,7 @@ import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.EquipmentMasterRepository;
 import com.upfpo.app.repository.EquipmentTypeRepository;
 import com.upfpo.app.repository.InputSupplierMachineryRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.repository.InputSupplierMachineryRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -73,8 +74,8 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
 
 
     @Override
-    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinery(Integer masterId) {
-        List<InputSupplierMachineryDTO> ism= getMachineryDetail(masterId);
+    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinery(ReportRequestString reportRequestString) {
+        List<InputSupplierMachineryDTO> ism= getMachineryDetail(reportRequestString.getMasterId(),reportRequestString.getRoleId());
         return ism;
     }
 
@@ -204,7 +205,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
 
 
 
-    public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId) {
+    public List<InputSupplierMachineryDTO> getMachineryDetail(Integer masterId, String roleId) {
         List<InputSupplierMachineryDTO> list = null;
         try {
             String sql ="Select  ism.id,etm.id as type_id, etm.type, em.id as name_id, em.equpment_name, ism.technical_specs,  " +
@@ -212,10 +213,11 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                     "from input_supplier_machinery ism \r\n" +
                     "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
                     "left join equip_master em on em.id=ism.machinery_name_id \r\n" +
-                    "inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
-                    "where ism.input_supplier_id=:masterId and  ism.is_deleted = false";
+                    //"inner join input_supplier isup on ism.input_supplier_id=isup.input_supplier_id\r\n" +
+                    "where ism.input_supplier_id=:masterId and ism.role = :roleId and ism.is_deleted = false order by ism.id desc";
 
-            List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierMachineryDTO> obj = (List<InputSupplierMachineryDTO>) entityManager.createNativeQuery(sql, "InputSupplierMachineryDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {

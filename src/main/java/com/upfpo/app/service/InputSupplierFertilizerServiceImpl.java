@@ -12,6 +12,7 @@ import com.upfpo.app.properties.FileStorageProperties;
 import com.upfpo.app.repository.FertilizerNameRepository;
 import com.upfpo.app.repository.FertilizerTypeRepository;
 import com.upfpo.app.repository.InputSupplierFertilizerRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.repository.InputSupplierFertilizerRepository;
 import com.upfpo.app.user.exception.FileStorageException;
 import com.upfpo.app.user.exception.ResourceNotFoundException;
@@ -78,8 +79,8 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
 
 
     @Override
-    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizer(Integer masterId){
-        List<InputSupplierFertilizerDTO> fertilizer = getFertilizerDetail(masterId);
+    public List<InputSupplierFertilizerDTO> getAllInputSupplierFertilizer(ReportRequestString reportRequestString){
+        List<InputSupplierFertilizerDTO> fertilizer = getFertilizerDetail(reportRequestString.getMasterId(), reportRequestString.getRoleId());
         return fertilizer;
     }
 
@@ -208,17 +209,18 @@ public class InputSupplierFertilizerServiceImpl implements InputSupplierFertiliz
     }
 
 
-    public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId) {
+    public List<InputSupplierFertilizerDTO> getFertilizerDetail(Integer masterId, String roleId) {
         List<InputSupplierFertilizerDTO> list = null;
         try {
             String sql = "Select  isf.id, ftm.id as type_id, ftm.fertilizer_type, fnm.id as name_id, fnm.fertilizer_name,  isf.fertilizer_grade, isf.manufacturer_name, isf.file_path \r\n" +
                     "from input_supplier_fertilizer isf \r\n" +
                     "left join fertilizer_type_master ftm on ftm.id=isf.fertilizer_type_id \r\n" +
                     "left join fertilizer_name_master fnm on fnm.id=isf.fertilizer_name_id \r\n" +
-                    "inner join input_supplier isup on isf.input_supplier_id=isup.input_supplier_id \r\n" +
-                    "where isf.input_supplier_id=:masterId and  isf.is_deleted = false";
+                    //"inner join input_supplier isup on isf.input_supplier_id=isup.input_supplier_id \r\n" +
+                    "where isf.input_supplier_id=:masterId and isf.role = :roleId and isf.is_deleted = false order by isf.id desc";
 
-            List<InputSupplierFertilizerDTO> obj = (List<InputSupplierFertilizerDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).getResultList();
+            List<InputSupplierFertilizerDTO> obj = (List<InputSupplierFertilizerDTO>) entityManager.createNativeQuery(sql, "InputSupplierFertilizerDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).
+            		getResultList();
             return obj;
 
         } catch (Exception e) {

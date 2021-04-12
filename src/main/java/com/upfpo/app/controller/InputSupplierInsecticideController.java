@@ -8,6 +8,7 @@ import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierInsecticide;
 import com.upfpo.app.entity.InsecticideType;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierInsecticideServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,15 +49,15 @@ public class InputSupplierInsecticideController {
 
 
 
-    @GetMapping("/getall/{id}")
+    @PostMapping("/getall")
     @ApiOperation(value="InputSupplierInsecticides List" ,code=201, produces = "application/json", notes="Api for all InputSupplierInsecticides Info",response= InputSupplierInsecticide.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticides (@PathVariable Integer id){
-        return insecticideService.getAllInputSupplierInsecticide(id);
+    public List<InputSupplierInsecticideDTO> getAllInputSupplierInsecticides (@RequestBody ReportRequestString reportRequestString){
+        return insecticideService.getAllInputSupplierInsecticide(reportRequestString);
     }
 
     @GetMapping("/insecticidetype/getall")

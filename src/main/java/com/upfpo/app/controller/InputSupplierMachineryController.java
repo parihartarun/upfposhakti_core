@@ -5,6 +5,7 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.InputSupplierMachineryDTO;
 import com.upfpo.app.dto.UploadFileResponse;
 import com.upfpo.app.entity.*;
+import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierMachineryServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,15 +44,15 @@ public class InputSupplierMachineryController {
             "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
 
-    @GetMapping("/getall/{id}")
+    @PostMapping("/getall")
     @ApiOperation(value="InputSupplierMachinerys List" ,code=201, produces = "application/json", notes="Api for all InputSupplierMachinerys Info",response= InputSupplierMachinery.class)
     @ApiResponses(value= {
             @ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinerys (@PathVariable Integer id){
-        return machineryService.getAllInputSupplierMachinery(id);
+    public List<InputSupplierMachineryDTO> getAllInputSupplierMachinerys (@RequestBody ReportRequestString reportRequestString){
+        return machineryService.getAllInputSupplierMachinery(reportRequestString);
     }
 
     @GetMapping("/equipmenttype/getall")
