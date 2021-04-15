@@ -137,6 +137,26 @@ public class PhotoUploadServiceImpl implements PhotoUploadService {
                 throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
             }
         }
+        else
+        {
+        	try
+        	{
+        		PhotoUpload photoUploadDetails = photoUploadRepository.findById(id).get();
+        		fileDownloadUri = photoUploadDetails.getFilePath();
+        		fileName = photoUploadDetails.getFileName();
+        		photoUploadRepository.findById(id)
+                .map(photoUpload -> {
+                    photoUpload.setFilePath(fileDownloadUri);
+                    photoUpload.setFileName(fileName);
+                    return photoUploadRepository.saveAndFlush(photoUpload);
+                }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
+        		
+        	}
+        	catch(Exception e)
+        	{
+        		throw new FileStorageException("Could not store file "  + ". Please try again!", e);
+        	}
+        }
         return photoUploadRepository.findById(id)
                 .map(photoUpload -> {
                     photoUpload.setDescription(photoUpload1.getDescription());

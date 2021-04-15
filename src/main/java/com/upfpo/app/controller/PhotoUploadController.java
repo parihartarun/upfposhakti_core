@@ -127,8 +127,16 @@ public class PhotoUploadController {
         photoUploads.setId(id);
         photoUploads.setDescription(description);
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	 fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
                 LOG.info("test");
                 photoUploadService.updatePhotoUpload(id, photoUploads,  file);
