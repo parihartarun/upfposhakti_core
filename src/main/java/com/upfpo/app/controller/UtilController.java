@@ -78,10 +78,7 @@ public class UtilController {
 	
 	public List<FPODetailsDTO> homeSearch(@RequestParam("val") String searchVal, @RequestParam("in") String searchIn,@RequestParam(value = "filterdist",required = false) List<String> districts,@RequestParam(value = "filterqty",required = false) List<Integer> qty,@RequestParam(value = "filtercrop",required = false) List<String> crops,@RequestParam(value = "fpo",required = false) List<String> fpos)
 	{
-		
-	
-	
-	
+
 		return masterServices.homeSearch(searchVal,searchIn,districts,qty,crops,fpos);
 		//return null;	
 	}

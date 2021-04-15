@@ -179,8 +179,8 @@ for(CropAndVerietyList cropAndVerietyListItm: cropAndVerietyList)
 return cropFilterDtoList;  
 	}
 
-		public List<FilterDto> getFposByFilterKeys(String val,String in)
-		{
+public List<FilterDto> getFposByFilterKeys(String val,String in)
+{
 			String sql ="";
     if(in.equalsIgnoreCase(NewFilterRepository.CROP))
 	{
@@ -210,9 +210,8 @@ return cropFilterDtoList;
 		return null;
 	}
 		
-		
-		return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList(); 
-		}
+return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList(); 
+}
 		
 		private String selectDistrictsFromInputInsecticidesTable(String val)
 		{
@@ -693,7 +692,7 @@ return cropFilterDtoList;
 						+ "				left join total_production t on t.fpo_id = f.fpo_id\r\n"
 						+ "				left join crop_master cm on cm.id = t.crop_id\r\n"
 						+ "				left join fpo_additonal_services ads on ads.fpo_id = f.fpo_id\r\n"
-						+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
+						+ "				where upper(d.district_name) like '%"+val.toUpperCase()+"%'"
 						+ " group by d.district_id, d.district_name, f.fpo_id, f.fpo_name, f.fpo_email, f.fpo_landline";
 				
 				obj = (List<FpoOnDistrictDTO>) entityManager.createNativeQuery(sql,"FpoOnDistrictDTO").getResultList();
@@ -734,7 +733,7 @@ return cropFilterDtoList;
 						+ "left join insecticide_type_master ist on isi.insecticide_type_id = ist.id\r\n"
 						+ "left join input_supplier_machinery ism on ism.input_supplier_id = i.input_supplier_id\r\n"
 						+ "left join equip_master eq on eq.id = ism.machinery_name_id\r\n"
-						+ "where d.district_name like '%"+val.toUpperCase()+"%'"
+						+ "where upper(d.district_name) like '%"+val.toUpperCase()+"%'"
 						+ "  group by d.district_id, d.district_name, i.input_supplier_id, i.input_supplier_name, i.email, i.mobile_number order by i.input_supplier_id asc;";
 				objIns = (List<InputSupplierOnDistrictDTO>) entityManager.createNativeQuery(sql,"InputSupplierOnDistrictDTO").getResultList();
 			}
@@ -746,7 +745,6 @@ return cropFilterDtoList;
 						+ "				inner join districts d on c.dist_ref_id = d.district_id\r\n"
 						+ "				left join chc_fmb_machinery cm on cm.chc_fmb_id = c.chc_fmb_id\r\n"
 						+ "				left join equip_master eq on eq.id = cm.equipment_name_id\r\n"
-						+ "				where d.district_name like '%"+val.toUpperCase()+"%'"
 						+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
 				objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
 			}
@@ -757,6 +755,7 @@ return cropFilterDtoList;
 						+ "				inner join districts d on c.dist_ref_id = d.district_id\r\n"
 						+ "				left join chc_fmb_machinery cm on cm.chc_fmb_id = c.chc_fmb_id\r\n"
 						+ "				left join equip_master eq on eq.id = cm.equipment_name_id\r\n"
+						+ "				where upper(d.district_name) like '%"+val.toUpperCase()+"%'"
 						+ "				group by d.district_id, d.district_name, c.chc_fmb_id, c.chc_fmb_name, c.email, c.mobile_number";
 				objChcFmb = (List<ChcFmbOnDistrictDTO>) entityManager.createNativeQuery(sql,"ChcFmbOnDistrictDTO").getResultList();
 			}
