@@ -229,26 +229,25 @@ public class DataDisplayRepository {
 	
 	public ProductionDTO productions(String finYear)
 	{
-		  sql = "SELECT sum(actual_production) as totalprod,\r\n" + 
-		  		"\r\n" + 
-		  		"	SUM (CASE\r\n" + 
-		  		"               WHEN  season_ref='1' THEN actual_production\r\n" + 
-		  		"	       ELSE 0\r\n" + 
-		  		"	      END\r\n" + 
-		  		"	) AS \"rabiprod\",\r\n" + 
-		  		"	\r\n" + 
-		  		"	SUM (CASE\r\n" + 
-		  		"               WHEN  season_ref='2' THEN actual_production\r\n" + 
-		  		"	       ELSE 0\r\n" + 
-		  		"	      END\r\n" + 
-		  		"	) AS \"kharifprod\",\r\n" + 
-		  		"	SUM (CASE\r\n" + 
-		  		"               WHEN  season_ref='3' THEN actual_production\r\n" + 
-		  		"	       ELSE 0\r\n" + 
-		  		"	      END\r\n" + 
-		  		"	) AS \"zayadprod\"\r\n" + 
-		  		"	\r\n" + 
-		  		"	from  production_details where financial_year =:finYear";
+		  sql = "SELECT sum(total_actual_prod) as totalprod, \r\n"
+		  		+ "		  			SUM (CASE \r\n"
+		  		+ "		  		               WHEN  season_id=1 THEN total_actual_prod \r\n"
+		  		+ "		  			       ELSE 0 \r\n"
+		  		+ "		  			      END \r\n"
+		  		+ "		  			) AS rabiprod, \r\n"
+		  		+ "		  			 \r\n"
+		  		+ "		  			SUM (CASE \r\n"
+		  		+ "		  		               WHEN  season_id=2 THEN total_actual_prod\r\n"
+		  		+ "		  			       ELSE 0 \r\n"
+		  		+ "		  			      END \r\n"
+		  		+ "		  			) AS kharifprod, \r\n"
+		  		+ "		  			SUM (CASE \r\n"
+		  		+ "		  		               WHEN  season_id=3 THEN total_actual_prod \r\n"
+		  		+ "		  			       ELSE 0 \r\n"
+		  		+ "		  			      END \r\n"
+		  		+ "		  			) AS zayadprod \r\n"
+		  		+ "		  			 \r\n"
+		  		+ "		  			from  total_production where fin_year = :finYear ";
 		  
 		  ProductionDTO obj =  (ProductionDTO) entityManager.createNativeQuery(sql,"ProductionDTO").setParameter("finYear", finYear).getSingleResult();
 		    
