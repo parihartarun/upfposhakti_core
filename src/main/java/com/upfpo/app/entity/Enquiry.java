@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upfpo.app.dto.BuyerSellerIndentDTO;
+import com.upfpo.app.dto.EnquiryDTO;
 
 @Entity
 
@@ -36,6 +37,23 @@ classes = {
                 @ColumnResult(name = "cropName", type = String.class),
                 @ColumnResult(name = "indentQty", type = BigInteger.class)
            })
+})
+@SqlResultSetMapping(name="EnquiryDTO",
+classes = {
+        @ConstructorResult(
+                targetClass = EnquiryDTO.class,
+                columns = {
+                        @ColumnResult(name = "enquieryNumber", type = String.class),
+                        @ColumnResult(name = "cropId", type = Integer.class),
+                        @ColumnResult(name = "cropName", type = String.class),
+                        @ColumnResult(name = "verietyId", type = Integer.class),
+                        @ColumnResult(name = "verietyName", type = String.class),
+                        @ColumnResult(name = "status", type = String.class),
+                        @ColumnResult(name = "deliveryAddress", type = String.class),
+                        @ColumnResult(name = "quantity", type = BigInteger.class),
+                        @ColumnResult(name = "createDateTime", type = Date.class),
+                        @ColumnResult(name = "enid", type = BigInteger.class)
+                })
 })
 @Table(name = "enquiry")
 public class Enquiry implements Serializable {
