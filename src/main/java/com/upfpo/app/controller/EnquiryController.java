@@ -212,7 +212,7 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-    public List<EnquiryDTO> getEnquiryByUser(@RequestParam("id") Integer masterId, @RequestParam("roleId") String roleId) throws UserPrincipalNotFoundException{
+    public List<Enquiry> getEnquiryByUser(@RequestParam("id") Integer masterId, @RequestParam("roleId") String roleId) throws UserPrincipalNotFoundException{
 //    	Optional<User> user = userService.findById(masterId);
 //    	if(!user.isPresent()) {
 //    		throw new UsernameNotFoundException("User does not exist for "+userId +"id");
@@ -235,13 +235,13 @@ public class EnquiryController {
             @ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
-  public List<EnquiryDTO> getEnquiryByFpo(@RequestParam("fpoId") Integer fpoId) throws UserPrincipalNotFoundException{
+  public List<Enquiry> getEnquiryByFpo(@RequestParam("fpoId") Integer fpoId) throws UserPrincipalNotFoundException{
     	Optional<FPORegister> fpo = fpoService.findById(fpoId);
     	if(!fpo.isPresent()) {
     		throw new UsernameNotFoundException("Fpo does not exist for "+fpoId+"id");
     	}
         LOG.info("Inside Enquiry Controller getting Enquiry by fpoId");
-        return enquiryService.getEnquiryInfoByFpo(fpoId);
+        return enquiryService.getEnquiryInfoByFpo(fpo.get());
    }
     
 }

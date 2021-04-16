@@ -17,6 +17,7 @@ import com.upfpo.app.dto.EnquiryDTO;
 import com.upfpo.app.entity.CropMaster;
 import com.upfpo.app.entity.CropVerietyMaster;
 import com.upfpo.app.entity.Enquiry;
+import com.upfpo.app.entity.FPORegister;
 import com.upfpo.app.entity.TotalProduction;
 import com.upfpo.app.repository.CropDetailsMasterRepository;
 import com.upfpo.app.repository.CropVarietyRepository;
@@ -151,29 +152,29 @@ public class EnquiryServiceImpl implements EnquiryService{
 		enquiryRepository.save(enquiry);
 	} 
 
-	public List<EnquiryDTO> getEnquiryInfo(Integer masterId, String roleId) {
+	public List<Enquiry> getEnquiryInfo(Integer masterId, String roleId) {
 		 //return enquiryRepository.findByMasterId(masterId);
 		//return enquiryRepository.findByMasterIdOrderByEnidDesc(masterId);
-		//return enquiryRepository.findByMasterIdAndCreatedbyRoleIdInOrderByEnidDesc(masterId, roleId);
-		String sql = "select e.enquierynumber as enquieryNumber, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
+		return enquiryRepository.findByMasterIdAndCreatedbyRoleIdInOrderByEnidDesc(masterId, roleId);
+		/*String sql = "select e.enquierynumber as enquieryNumber, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
 				+ "e.status, e.deliveryaddress as deliveryAddress, e.quantity, e.create_date_time as createDateTime, e.id as enid from enquiry e\r\n"
 				+ "inner join crop_master cm on cm.id = e.crop_id\r\n"
 				+ "inner join crop_veriety_master cv on cv.veriety_id = cast(e.cropveriety as Integer)\r\n"
 				+ "where e.masterid = :masterId and e.createdby_role_id = :roleId order by e.id desc";
 		List<EnquiryDTO> obj =  (List<EnquiryDTO>) entityManager.createNativeQuery(sql,"EnquiryDTO").setParameter("masterId", masterId).setParameter("roleId", roleId).getResultList();
-		return obj;
+		return obj;*/
 	}
 
-	public List<EnquiryDTO> getEnquiryInfoByFpo(Integer fpo) {
+	public List<Enquiry> getEnquiryInfoByFpo(FPORegister fpo) {
 		//return enquiryRepository.findByFpoOrderByEnidDesc(fpo);
-		//return enquiryRepository.findByFpoAndStatusNotInOrderByEnidDesc(fpo, "cancelled");
-		String sql = "select e.enquierynumber as enquieryNumber, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
+		return enquiryRepository.findByFpoAndStatusNotInOrderByEnidDesc(fpo, "cancelled");
+		/*String sql = "select e.enquierynumber as enquieryNumber, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
 				+ "e.status, e.deliveryaddress as deliveryAddress, e.quantity, e.create_date_time as createDateTime, e.id as enid from enquiry e\r\n"
 				+ "inner join crop_master cm on cm.id = e.crop_id\r\n"
 				+ "inner join crop_veriety_master cv on cv.veriety_id = cast(e.cropveriety as Integer)\r\n"
 				+ "where e.fpo_id = :masterId and e.status not in ('cancelled') order by e.id desc";
 		List<EnquiryDTO> obj =  (List<EnquiryDTO>) entityManager.createNativeQuery(sql,"EnquiryDTO").setParameter("masterId", fpo).getResultList();
-		return obj;
+		return obj;*/
 	}
 
 	
