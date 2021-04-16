@@ -204,7 +204,26 @@ public List<FilterDto> getFposByFilterKeys(String val,String in)
 			    + "or UPPER(fs.description)LIKE '%"+val.toUpperCase()+"%'\r\n"
 				+ "order by fp.fpo_name asc";
 	}
-    
+	else if(in.equalsIgnoreCase(NewFilterRepository.INSECTICIDE))
+	{
+		sql = "select distinct ins.input_supplier_id as id,f.fpo_name as name from input_supplier_insecticide ins\r\n"
+				+ "	inner join fpo f on ins.input_supplier_id = f.fpo_id\r\n"
+				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+				+ "	inner join insecticide_type_master int on ins.insecticide_type_id = int.id\r\n"
+				+ "	where UPPER(int.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(ins.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	order by f.fpo_name asc";
+	}
+	else if(in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
+	{
+		sql = "select distinct ins.input_supplier_id as id,f.fpo_name as name from input_supplier_insecticide ins\r\n"
+				+ "	inner join fpo f on ins.input_supplier_id = f.fpo_id\r\n"
+				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+				+ "	inner join insecticide_type_master int on ins.insecticide_type_id = int.id\r\n"
+				+ "	where UPPER(int.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(ins.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	order by f.fpo_name asc";
+	}
     else {
 		sql = "";
 		return null;
