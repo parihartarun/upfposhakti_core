@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/api/v1/CHCFMB/profile/ChcFmbDetail/**",
 				"/upagri/getUpAgri/*",
 				"/fpoDashboardfarmerDetails/**",
+				"/chcfmb/machinery/getall",
 				"/api/collectioncenters/getAllByFpo/**",
 				"/api/fpo/license/getFpoLicenseDetailsByFpoId/**",
 				"/api/farm/machinery/banks/getFarmMachineryBankByFpo/**",
