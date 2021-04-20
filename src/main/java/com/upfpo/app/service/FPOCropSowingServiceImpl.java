@@ -113,16 +113,6 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 		String sql = "";
 		//int count = 0;
 		List<FPOCropSowingExistingDTO> obj = null;
-		/*count = newSowingMasterRepository.existingFarmer(reportRequestString.getFarmerId(), reportRequestString.getMasterId(), finYear);
-		if(count<=0)
-		{
-			sql = "SELECT f.farmer_parants as father_husband_name, sum(l.land_area) as land_area FROM land_details l join farmer f on f.farmer_id = l.farmer_id \r\n"
-					+ "				where f.farmer_id=:farmerId and f.fpo_ref_id =:masterId group by f.farmer_parants, f.farmer_name";
-			
-			obj =  (List<FPOCropSowingExistingDTO>) entityManager.createNativeQuery(sql,"FPOCropSowingExistingDTO").setParameter("farmerId", reportRequestString.getFarmerId()).
-					setParameter("masterId", reportRequestString.getMasterId()).getResultList();
-			return obj;
-		}*/
 			 sql =  "select nsi.sowing_id, nsi.fin_year, sum(l.land_area) as land_area,\r\n"
 					+ "cd.crop_id, cd.season_ref, cd.veriety_ref, cd.crop_ref, cd.ex_yield, cd.actual_yield, cd.sowing_area, cd.marketable_quantity,  \r\n"
 					+ "cm.id crop_master_id,cm.crop_name,\r\n"

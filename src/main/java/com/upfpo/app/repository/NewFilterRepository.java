@@ -182,6 +182,7 @@ return cropFilterDtoList;
 public List<FilterDto> getFposByFilterKeys(String val,String in)
 {
 			String sql ="";
+			String roleId = "4"; 
     if(in.equalsIgnoreCase(NewFilterRepository.CROP))
 	{
 		sql = "select distinct tp.fpo_id as id,f.fpo_name as name from total_production tp\r\n"
@@ -216,12 +217,42 @@ public List<FilterDto> getFposByFilterKeys(String val,String in)
 	}
 	else if(in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
 	{
-		sql = "select distinct ins.input_supplier_id as id,f.fpo_name as name from input_supplier_insecticide ins\r\n"
-				+ "	inner join fpo f on ins.input_supplier_id = f.fpo_id\r\n"
+		sql = "select distinct ifs.input_supplier_id as id,f.fpo_name as name from input_supplier_fertilizer ifs\r\n"
+				+ "	inner join fpo f on ifs.input_supplier_id = f.fpo_id\r\n"
 				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
-				+ "	inner join insecticide_type_master int on ins.insecticide_type_id = int.id\r\n"
-				+ "	where UPPER(int.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
-				+ "	or UPPER(ins.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	inner join fertilizer_type_master ift on ifs.fertilizer_type_id = ift.id\r\n"
+				+ "	inner join fertilizer_name_master ifm on ifm.fertilizer_type_id = ift.id\r\n"
+				+ "	inner join fertilizer_name_master ifn on ifn.id = ifs.fertilizer_name_id\r\n"
+				+ "	where UPPER(ifn.fertilizer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(ift.fertilizer_type) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	and ifs.role = '4' \r\n"
+				+ "	order by f.fpo_name asc;";
+	}
+	else if(in.equalsIgnoreCase(NewFilterRepository.SEED))
+	{
+		sql = "select distinct iss.input_supplier_id as id,f.fpo_name as name from input_supplier_seed iss\r\n"
+				+ "	inner join fpo f on iss.input_supplier_id = f.fpo_id\r\n"
+				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+				+ "	inner join crop_master cm on cm.id = iss.crop_id\r\n"
+				+ "	inner join crop_veriety_master cv on cv.veriety_id = iss.variety_id\r\n"
+				+ "	inner join crop_veriety_master cvv on cvv.crop_master_ref_id = cm.id\r\n"
+				+ "	where UPPER(cm.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	and iss.role = '4'\r\n"
+				+ "	order by f.fpo_name asc";
+	}
+	else if(in.equalsIgnoreCase(NewFilterRepository.MACHINERY))
+	{
+		sql = "select distinct ism.input_supplier_id as id,f.fpo_name as name from input_supplier_machinery ism\r\n"
+				+ "	inner join fpo f on ism.input_supplier_id = f.fpo_id\r\n"
+				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+				+ "	inner join equipment_type_master etm on etm.id = ism.machinery_type_id\r\n"
+				+ "	inner join equip_master eqm on eqm.id = ism.machinery_name_id\r\n"
+				+ "	inner join equip_master eq on eq.eqip_type = etm.id\r\n"
+				+ "	where UPPER(eqm.equpment_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(etm.type) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(ism.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	and ism.role = '4'\r\n"
 				+ "	order by f.fpo_name asc";
 	}
     else {
