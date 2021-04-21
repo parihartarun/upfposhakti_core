@@ -41,7 +41,7 @@ public class ComplaintContoller {
     private static final Logger LOG = LoggerFactory.getLogger(ComplaintContoller.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
     @Autowired
     private ComplaintService complaintService;
@@ -94,8 +94,16 @@ public class ComplaintContoller {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside ComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)) {
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null) {
             try {
                 Complaints complaints = new Complaints(description, title, issueType, farmerId, fpoId);
                 Complaints id = complaintService.createComplaintByFarmer(complaints, file);

@@ -69,14 +69,17 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Override
     public Complaints createComplaintByFarmer(Complaints complaints, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    	String fileName = "";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         String role = "ROLE_FARMER";
         complaints.setCreateBy(currentPrincipalName);
         complaints.setStatus(Status.OPEN);
         complaints.setCreateDateTime(Calendar.getInstance());
+        if(file != null)
+        {
         try {
+        	 fileName = StringUtils.cleanPath(file.getOriginalFilename());
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
@@ -94,6 +97,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+       }
         complaints.setDeleted(false);
         return complaintRepository.save(complaints);
     }
