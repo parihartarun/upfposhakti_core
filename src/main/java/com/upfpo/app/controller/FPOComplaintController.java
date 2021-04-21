@@ -336,7 +336,7 @@ public class FPOComplaintController {
         {
         	fileContentType = file.getContentType();
         }
-        if (contentTypes.contains(fileContentType)){
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
             	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
                 complaints.setDescription(description);
