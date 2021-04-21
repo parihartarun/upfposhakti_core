@@ -179,8 +179,16 @@ public class NotificationController {
                                                                  @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside NotificationController saving Notification ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
                 Notification notification = new Notification(role, message, farmerId);
                 notification.setFarmerFpoId(fpoId);
