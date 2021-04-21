@@ -40,7 +40,7 @@ public class NotificationController {
     private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
 
     @Autowired
