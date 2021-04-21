@@ -80,13 +80,16 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
 
     @Override
     public FPOComplaints createComplaintByFPO(FPOComplaints complaints, MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String fileName = "";
         String currentPrincipalName = authentication.getName();
         complaints.setStatus(Status.OPEN);
         complaints.setCreateBy(currentPrincipalName);
         complaints.setCreateDateTime(Calendar.getInstance());
+        if(file != null)
+        {
         try {
+        	 fileName = StringUtils.cleanPath(file.getOriginalFilename());
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
@@ -103,6 +106,7 @@ public class FPOComplaintServiceImpl implements FPOComplaintService {
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+       }
         complaints.setDeleted(false);
         return fpoComplaintRepository.save(complaints);
     }

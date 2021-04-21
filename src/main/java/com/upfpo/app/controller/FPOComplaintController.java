@@ -50,7 +50,7 @@ public class FPOComplaintController {
     FPOComplaintService fpoComplaintService;
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
 
 
@@ -189,14 +189,22 @@ public class FPOComplaintController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside FPOComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
                 FPOComplaints complaints = new FPOComplaints(description, title, issueType, fpoId);
                 FPOComplaints id = fpoComplaintService.createComplaintByFPO(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint created successfully"), HttpStatus.OK );
                 LOG.info("FPOComplaint  created Successfully!");
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+               // String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("FPOComplaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
                 LOG.info("Failed to Save the FPOComplaint");
