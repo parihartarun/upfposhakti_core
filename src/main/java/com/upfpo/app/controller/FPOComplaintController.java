@@ -232,8 +232,16 @@ public class FPOComplaintController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Input Supplier omplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
             	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
                 complaints.setDescription(description);
@@ -245,7 +253,7 @@ public class FPOComplaintController {
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByInpuSupplier(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Input Supplier Complaint  created Successfully!");
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Input Supplier Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
                 LOG.info("Failed to Save the Input Supplier Complaint");
@@ -271,8 +279,16 @@ public class FPOComplaintController {
                                                                  @RequestParam("role") String role, @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside chcfmbComplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
-        if (contentTypes.contains(fileContentType)){
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if (contentTypes.contains(fileContentType) || fileContentType == null){
             try {
             	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
                 complaints.setDescription(description);
@@ -284,7 +300,7 @@ public class FPOComplaintController {
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByCHCFMB(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint created successfully"), HttpStatus.OK );
                 LOG.info("chcfmbComplaint  created Successfully!");
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("chcfmb Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
                 LOG.info("Failed to Save the chcfmbComplaint");
@@ -311,7 +327,15 @@ public class FPOComplaintController {
                                                            @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside Buyer Seller omplaintController saving Complaint ");
         ResponseEntity<MessageResponse> resp = null;
-        String fileContentType = file.getContentType();
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
         if (contentTypes.contains(fileContentType)){
             try {
             	ChcIsBsComplaints complaints = new ChcIsBsComplaints();
@@ -324,7 +348,7 @@ public class FPOComplaintController {
                 ChcIsBsComplaints id = fpoComplaintService.createComplaintByBuyerSeller(complaints, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint created successfully"), HttpStatus.OK );
                 LOG.info("Buyer Seller Complaint  created Successfully!");
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         } catch (Exception e) {
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("Buyer Seller Complaint creation fail"), HttpStatus.INTERNAL_SERVER_ERROR);
                 LOG.info("Failed to Save the Buyer Seller Complaint");
