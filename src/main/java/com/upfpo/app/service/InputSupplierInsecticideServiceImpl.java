@@ -40,7 +40,7 @@ import com.upfpo.app.user.exception.ResourceNotFoundException;
 public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
 
 
     @Autowired
