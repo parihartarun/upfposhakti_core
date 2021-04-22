@@ -29,6 +29,8 @@ public class CollectionCenterDTO
 	private String storageType;
 	
 	private String updatedBy;
+	
+	
 
 	public Integer getCollectionId() {
 		return collectionId;
@@ -153,6 +155,7 @@ public class CollectionCenterDTO
 		this.storageType = storageType;
 		this.updatedBy = updatedBy;
 	}
-	
+
+
 	
 }

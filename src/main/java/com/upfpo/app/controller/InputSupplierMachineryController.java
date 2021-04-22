@@ -21,11 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -99,15 +97,15 @@ public class InputSupplierMachineryController {
             @ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
     })
     public ResponseEntity<MessageResponse> createInputSupplierMachinery(@RequestParam(value = "machinery_type_id", required = false) Integer mchineryTypeId,
-                                                                         @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
+                                                                        @RequestParam(value = "machinery_name_id", required = false) Integer machineryNameId,
                                                                         @RequestParam(value = "other_machinery_name", required = false) String otherMachineryName,
                                                                         @RequestParam(value = "specification", required = false) String  specification,
-                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
-                                                                         @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
+                                                                        @RequestParam(value = "quantity", required = false) Integer quantity,
+                                                                        @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
-                                                                         @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
-                                                                         @RequestParam(value = "role", required = false) String role,
-                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
+                                                                        @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
+                                                                        @RequestParam(value = "role", required = false) String role,
+                                                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
         ResponseEntity<MessageResponse> resp = null;
 

@@ -227,4 +227,11 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
     }
 
 
+	@Override
+	public Integer fmbsCount() {
+		
+		return machineryRepository.fmbCount();
+	}
+
+
 }
