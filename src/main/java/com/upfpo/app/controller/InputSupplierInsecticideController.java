@@ -45,7 +45,7 @@ public class InputSupplierInsecticideController {
     private static final Logger LOG = LoggerFactory.getLogger(InputSupplierInsecticideController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
 
 
@@ -113,7 +113,18 @@ public class InputSupplierInsecticideController {
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierInsecticideController saving InputSupplierInsecticide ");
         ResponseEntity<MessageResponse> resp = null;
-            try {
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if(contentTypes.contains(fileContentType) || fileContentType == null)
+        {
+        	try {
                 InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate,role);
                 InputSupplierInsecticide id = insecticideService.createInputSupplierInsecticide(inputSupplierInsecticide, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierInsecticide created successfully"), HttpStatus.OK );
@@ -123,6 +134,11 @@ public class InputSupplierInsecticideController {
                 LOG.info("Failed to Save the InputSupplierInsecticide");
                 e.printStackTrace();
             }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
         LOG.info("Exiting InputSupplierInsecticide Of Controller with response ", resp);
         return resp;
     }

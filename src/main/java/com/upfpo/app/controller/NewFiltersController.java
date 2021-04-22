@@ -60,6 +60,21 @@ public class NewFiltersController {
 		return filterService.getFpoFilterListBySearchKeys(value, in);	
 	}
 	
+	@GetMapping("/chcFmb")
+	@ApiOperation(value="Get Fpo List By Search Criteria",code=201, produces = "application/json", notes="Get Fpo List By Search Criteria",response=FilterDto.class,responseContainer="List")
+	@ApiResponses(value= {
+	@ApiResponse(code=401,message = "Unauthorized" ,response = ExceptionResponse.class),
+	@ApiResponse(code=400, message = "Validation Failed" , response = ExceptionResponse.class),
+	@ApiResponse(code=403, message = "Forbidden" , response = ExceptionResponse.class)
+	})
+	@ResponseStatus(HttpStatus.CREATED)
+	public List<FilterDto> getFilterChcFmb(@RequestParam("in") String in,@RequestParam("val") String value)
+	{	
+		//System.out.println("In  = "+in);
+		//System.out.println("Val  = "+value);
+		return filterService.getFpoFilterListBySearchKeys(value, in);	
+	}
+	
 	@GetMapping("/crops")
 	@ApiOperation(value="Get Crop list By Search Criteria",code=201, produces = "application/json", notes="Get Crop List By Search Criteria",response=CropFilterDto.class,responseContainer="List")
 	@ApiResponses(value= {

@@ -262,6 +262,26 @@ public List<FilterDto> getFposByFilterKeys(String val,String in)
 		
 return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList(); 
 }
+
+public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
+{
+	String sql ="";
+	if(in.equalsIgnoreCase(NewFilterRepository.MACHINERY))
+	{
+		sql = "select distinct ism.input_supplier_id as id,f.chc_fmb_name as name from input_supplier_machinery ism\r\n"
+				+ "	inner join chc_fmb f on ism.input_supplier_id = f.chc_fmb_id\r\n"
+				+ "	inner join districts dist on f.dist_ref_id = dist.district_id\r\n"
+				+ "	inner join equipment_type_master etm on etm.id = ism.machinery_type_id\r\n"
+				+ "	inner join equip_master eqm on eqm.id = ism.machinery_name_id\r\n"
+				+ "	inner join equip_master eq on eq.eqip_type = etm.id\r\n"
+				+ "	where UPPER(eqm.equpment_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(etm.type) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	or UPPER(ism.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ "	and ism.role = '5'\r\n"
+				+ "	order by f.fpo_name asc";
+	}
+	return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList();
+}
 		
 		private String selectDistrictsFromInputInsecticidesTable(String val)
 		{

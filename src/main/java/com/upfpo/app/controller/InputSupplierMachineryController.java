@@ -41,7 +41,7 @@ public class InputSupplierMachineryController {
     private static final Logger LOG = LoggerFactory.getLogger(InputSupplierMachineryController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
 
     @PostMapping("/getall")
@@ -110,7 +110,17 @@ public class InputSupplierMachineryController {
                                                                          @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
         ResponseEntity<MessageResponse> resp = null;
-
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if(contentTypes.contains(fileContentType) || fileContentType == null)
+        {
             try {
                 InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay,role);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
@@ -121,7 +131,11 @@ public class InputSupplierMachineryController {
                 LOG.info("Failed to Save the InputSupplierMachinery");
                 e.printStackTrace();
             }
-
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
         LOG.info("Exiting InputSupplierMachinery Of Controller with response ", resp);
         return resp;
     }

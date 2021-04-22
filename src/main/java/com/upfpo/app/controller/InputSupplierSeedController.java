@@ -50,7 +50,7 @@ public class InputSupplierSeedController {
     private static final Logger LOG = LoggerFactory.getLogger(InputSupplierSeedController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
-            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
+            "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
     private HttpServletRequest request;
 
@@ -99,6 +99,17 @@ public class InputSupplierSeedController {
                                                                    @RequestParam(value = "file", required = false) MultipartFile file) throws ParseException {
         LOG.info("Inside InputSupplierSeedController saving InputSupplierSeed ");
         ResponseEntity<MessageResponse> resp = null;
+        String fileContentType = "";
+        if(file == null)
+        {
+        	 fileContentType = null;
+        }
+        else
+        {
+        	fileContentType = file.getContentType();
+        }
+        if(contentTypes.contains(fileContentType) || fileContentType == null)
+        {
         //validFrom = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
         //validTo = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
             try {
@@ -111,6 +122,11 @@ public class InputSupplierSeedController {
                 LOG.info("Failed to Save the InputSupplierSeed");
                 e.printStackTrace();
             }
+        }
+        else{
+            resp = new ResponseEntity<MessageResponse>(new MessageResponse("Incorrect file type, PDF or Image required."), HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Incorrect file type, Photo required.");
+        }
 
         LOG.info("Exiting InputSupplierSeed Of Controller with response ", resp);
         return resp;

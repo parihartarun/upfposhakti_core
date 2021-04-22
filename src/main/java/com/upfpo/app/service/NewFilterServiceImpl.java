@@ -29,6 +29,11 @@ public class NewFilterServiceImpl implements NewFilterService {
 		
 		return filterRepository.getFposByFilterKeys(value, in);
 	}
+	
+	@Override
+	public List<FilterDto> geChcFmbFilterListBySearchKeys(String value, String in) {
+		return filterRepository.getChcFmbByFilterKeys(value, in);
+	}
 
 	@Override
 	public List<CropFilterDto> getCropFilterListBySearchKeys(String value, String in) {
