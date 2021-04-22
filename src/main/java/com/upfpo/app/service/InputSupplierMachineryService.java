@@ -29,4 +29,6 @@ public interface InputSupplierMachineryService {
     Resource loadFileAsResource(String fileName);
 
     InputSupplierMachinery updateInputSupplierMachinery(Integer id, InputSupplierMachinery inputSupplierMachinery1, MultipartFile file);
+
+    public Integer fmbsCount();
 }

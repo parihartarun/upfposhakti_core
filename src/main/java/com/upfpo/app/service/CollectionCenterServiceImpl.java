@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.upfpo.app.configuration.exception.NotFoundException;
 import com.upfpo.app.dto.CollectionCenterDTO;
-import com.upfpo.app.dto.CropListOfFarmersDTO;
 import com.upfpo.app.entity.CollectionCenter;
-import com.upfpo.app.entity.DistrictMaster;
 import com.upfpo.app.repository.CollectionCenterRepository;
 import com.upfpo.app.repository.DistrictMasterRepository;
 
@@ -125,6 +123,17 @@ public class CollectionCenterServiceImpl implements CollectionCenterService {
 		List<CollectionCenterDTO> obj =  (List<CollectionCenterDTO>) entityManager.createNativeQuery(sql,"CollectionCenterDTO").setParameter("masterId", masterId).getResultList();
 			  return obj;
 		
+	}
+
+	@Override
+	public Integer seedProcessingUnits() {
+		
+		return collectionCenterRepository.seedProcessingUnits();
+	}
+
+	@Override
+	public Integer totalColdStorage() {
+		return collectionCenterRepository.totalColdStorage();
 	}
 
 }

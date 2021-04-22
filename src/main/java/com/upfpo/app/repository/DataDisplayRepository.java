@@ -259,8 +259,6 @@ public class DataDisplayRepository {
 	{
 		if(searchIn.equalsIgnoreCase("any"))
 		{
-
-			
 			
 			sql = "Select id, unitassla,state, cropid,district,nodal,mobile, email,fpo_lot_no, associationdate, crops, services,cropVeriety,marketableSurplus, actualProduction from\r\n"
 					+ "(select distinct fpo.fpo_id id,fpo.agency_associated unitassla,states.state_name state,\r\n"

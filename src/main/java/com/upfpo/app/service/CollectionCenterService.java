@@ -17,5 +17,7 @@ public interface CollectionCenterService {
 	public CollectionCenter selectCollectionCenterById(int id);
 	public List<CollectionCenter> selectCollectionCenterByFpoId(Integer id);
 	public List<CollectionCenterDTO> selectCollectionCenterData(Integer id);
+	public Integer seedProcessingUnits();
+	public Integer totalColdStorage();
 
 }
