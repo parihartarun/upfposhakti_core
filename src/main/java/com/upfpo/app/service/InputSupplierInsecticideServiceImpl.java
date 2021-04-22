@@ -1,29 +1,7 @@
 package com.upfpo.app.service;
 
 
-import com.upfpo.app.configuration.exception.NotFoundException;
-import com.upfpo.app.dto.InputSupplierFertilizerDTO;
-import com.upfpo.app.dto.InputSupplierInsecticideDTO;
-import com.upfpo.app.entity.InputSupplierInsecticide;
-import com.upfpo.app.entity.InsecticideType;
-import com.upfpo.app.properties.FileStorageProperties;
-import com.upfpo.app.repository.InputSupplierInsecticideRepository;
-import com.upfpo.app.repository.InputSupplierInsecticideRepository;
-import com.upfpo.app.repository.InsecticideTypeRepository;
-import com.upfpo.app.requestStrings.ReportRequestString;
-import com.upfpo.app.user.exception.FileStorageException;
-import com.upfpo.app.user.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.persistence.EntityManager;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -33,6 +11,30 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.upfpo.app.configuration.exception.NotFoundException;
+import com.upfpo.app.dto.InputSupplierInsecticideDTO;
+import com.upfpo.app.entity.InputSupplierInsecticide;
+import com.upfpo.app.entity.InsecticideType;
+import com.upfpo.app.properties.FileStorageProperties;
+import com.upfpo.app.repository.InputSupplierInsecticideRepository;
+import com.upfpo.app.repository.InsecticideTypeRepository;
+import com.upfpo.app.requestStrings.ReportRequestString;
+import com.upfpo.app.user.exception.FileStorageException;
+import com.upfpo.app.user.exception.ResourceNotFoundException;
 
 @Service
 public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
@@ -101,7 +103,26 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
             inputSupplierInsecticide.setFileName(fileName);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }}
+        }
+       }
+       else
+       {
+    	   try
+    	   {
+    		   File file1 = ResourceUtils.getFile("classpath:Commodities/SeedDefault.jpg");
+    		   fileName = file1.getName();
+    		   String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                       .path("/inputsupplier/insecticide/download/")
+                       .path(fileName)
+                       .toUriString();
+               inputSupplierInsecticide.setFilePath(fileDownloadUri);
+               inputSupplierInsecticide.setFileName(fileName);
+    	   }
+    	   catch(Exception e)
+    	   {
+    		   System.out.print("Exception"+e.getMessage());
+    	   }
+       }
         inputSupplierInsecticide.setDeleted(false);
         return insecticideRepository.save(inputSupplierInsecticide);
     }
