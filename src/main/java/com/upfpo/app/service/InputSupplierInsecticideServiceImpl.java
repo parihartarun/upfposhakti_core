@@ -2,6 +2,7 @@ package com.upfpo.app.service;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -14,6 +15,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -34,7 +37,8 @@ import com.upfpo.app.repository.InputSupplierInsecticideRepository;
 import com.upfpo.app.repository.InsecticideTypeRepository;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.user.exception.FileStorageException;
-import com.upfpo.app.user.exception.ResourceNotFoundException;
+import com.upfpo.app.user.exception.ResourceNotFoundException; 
+import org.springframework.mock.web.MockMultipartFile;
 
 @Service
 public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecticideService {
@@ -110,7 +114,12 @@ public class InputSupplierInsecticideServiceImpl implements InputSupplierInsecti
     	   try
     	   {
     		   File file1 = ResourceUtils.getFile("classpath:Commodities/SeedDefault.jpg");
+    		   FileInputStream input = new FileInputStream(file1);
+    		   MultipartFile multipartFile = new MockMultipartFile("file1",
+    		               file1.getName(), "image/png", IOUtils.toByteArray(input));
     		   fileName = file1.getName();
+    		   Path targetLocation = this.fileStorageLocation.resolve(fileName);
+    		   Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
     		   String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                        .path("/inputsupplier/insecticide/download/")
                        .path(fileName)
