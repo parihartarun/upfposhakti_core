@@ -204,7 +204,15 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		{
 			seasonId = 0;
 		}
-		String finYear = GetFinYear.getCurrentFinYear();
+		String finYear = "";
+		if(reportRequestString.getFinYear()==null)
+		{
+			finYear = GetFinYear.getCurrentFinYear();
+		}
+		else
+		{
+			finYear = reportRequestString.getFinYear();
+		}
 		sql = "select distinct f.fpo_name,f.fpo_address, f.fpo_landline, d.district_name,tp.season_id as seasonId, sm.season_name as seasonName, cm.id as cropId, cm.crop_name as cropName, cv.veriety_id as verietyId, cv.crop_veriety as verietyName,\r\n"
 				+ "				sum(tp.total_actual_prod) as actualFpoProduction, sum(tp.total_marketable) as marketable from fpo f \r\n"
 				+ "				join districts d on d.district_id =  f.dist_ref_id\r\n"
@@ -218,7 +226,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		if(distId > 0 && cropId > 0 && seasonId > 0)
 		{
 				sql = sql + " where tp.fin_year = :finYear and d.district_id = :distId  and cm.id = :cropId and tp.season_id = :seasonId " + groupBy;
-				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 						setParameter("distId",reportRequestString.getDistId()).
 						setParameter("cropId",reportRequestString.getCropId()).
 						setParameter("seasonId", reportRequestString.getSeasonId()).getResultList();
@@ -226,28 +234,28 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		else if(distId > 0 && cropId == 0 &&  seasonId == 0)
 		{
 				sql = sql + " where tp.fin_year = :finYear and d.district_id = :distId " + groupBy;
-				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+				obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 						setParameter("distId",reportRequestString.getDistId()).
 						getResultList();
 		}
 		else if(distId == 0 && cropId > 0 &&  seasonId == 0)
 		{
 			sql = sql + " where tp.fin_year = :finYear and cm.id = :cropId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					setParameter("cropId",reportRequestString.getCropId()).
 					getResultList();
 		}
 		else if(distId == 0 && cropId == 0 &&  seasonId > 0)
 		{
 			sql = sql + " where tp.fin_year = :finYear and tp.season_id = :seasonId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					setParameter("seasonId",reportRequestString.getSeasonId()).
 					getResultList();
 		}
 		else if(distId > 0 && cropId > 0 &&  seasonId == 0)
 		{
 			sql = sql + " where tp.fin_year = :finYear and d.district_id = :distId and cm.id = :cropId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					setParameter("distId",reportRequestString.getDistId()).
 					setParameter("cropId",reportRequestString.getCropId()).
 					getResultList();
@@ -255,7 +263,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		else if(distId == 0 && cropId > 0 &&  seasonId > 0)
 		{
 			sql = sql + " where tp.fin_year = :finYear and cm.id = :cropId and tp.season_id = :seasonId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					setParameter("cropId",reportRequestString.getCropId()).
 					setParameter("seasonId",reportRequestString.getSeasonId()).
 					getResultList();
@@ -263,7 +271,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		else if(distId > 0 && cropId == 0 &&  seasonId > 0)
 		{
 			sql = sql + " where tp.fin_year = :finYear and d.district_id = :distId and tp.season_id = :seasonId " + groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					setParameter("distId",reportRequestString.getDistId()).
 					setParameter("seasonId",reportRequestString.getSeasonId()).
 					getResultList();
@@ -271,7 +279,7 @@ public class DepartmentDashboardServiceImpl implements DepartmentDashboardServic
 		else
 		{
 			sql = sql + " where tp.fin_year = :finYear " +groupBy;
-			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", reportRequestString.getFinYear()).
+			obj =  (List<DeptDashboardReportDTO>) entityManager.createNativeQuery(sql,"DeptDashboardReportDTO").setParameter("finYear", finYear).
 					getResultList();
 		}
 		System.out.println("Query::"+sql.toString());

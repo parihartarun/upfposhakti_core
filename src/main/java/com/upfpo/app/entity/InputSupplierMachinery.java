@@ -32,7 +32,8 @@ import com.upfpo.app.dto.InputSupplierMachineryDTO;
                                 @ColumnResult(name = "technical_specs", type = String.class),
                                 @ColumnResult(name = "quantity", type = Integer.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
-                                @ColumnResult(name = "file_path", type = String.class)
+                                @ColumnResult(name = "file_path", type = String.class),
+                                @ColumnResult(name = "rent_per_day", type = Double.class)
                         })
         })
 @SqlResultSetMapping(name="InputSupplierDashboardMachineryDTO",

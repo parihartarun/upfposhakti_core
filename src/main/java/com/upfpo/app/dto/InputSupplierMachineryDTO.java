@@ -11,23 +11,29 @@ public class InputSupplierMachineryDTO {
     Integer quantity;
     String manufacturer_name;
     String file_path;
+    Double rent_per_day;
 
     public InputSupplierMachineryDTO() {
     }
 
-    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name, String technical_specs, Integer quantity, String manufacturer_name, String file_path) {
-        this.id = id;
-        this.type_id = type_id;
-        this.type = type;
-        this.name_id = name_id;
-        this.equpment_name = equpment_name;
-        this.technical_specs = technical_specs;
-        this.quantity = quantity;
-        this.manufacturer_name = manufacturer_name;
-        this.file_path = file_path;
-    }
+    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name,
+			String technical_specs, Integer quantity, String manufacturer_name, String file_path, Double rent_per_day) {
+		super();
+		this.id = id;
+		this.type_id = type_id;
+		this.type = type;
+		this.name_id = name_id;
+		this.equpment_name = equpment_name;
+		this.technical_specs = technical_specs;
+		this.quantity = quantity;
+		this.manufacturer_name = manufacturer_name;
+		this.file_path = file_path;
+		this.rent_per_day = rent_per_day;
+	}
 
-    public Integer getId() {
+
+
+	public Integer getId() {
         return id;
     }
 
@@ -98,4 +104,13 @@ public class InputSupplierMachineryDTO {
     public void setName_id(Integer name_id) {
         this.name_id = name_id;
     }
+
+	public Double getRent_per_day() {
+		return rent_per_day;
+	}
+
+	public void setRent_per_day(Double rent_per_day) {
+		this.rent_per_day = rent_per_day;
+	}
+    
 }
