@@ -12,6 +12,10 @@ public class DeptDashboardReportDTO
 	
 	private String district_name; 
 	
+	private Integer seasonId;
+	
+	private String seasonName;
+	
 	private Integer cropId;
 	
 	private String cropName;
@@ -25,13 +29,15 @@ public class DeptDashboardReportDTO
 	private Double marketable ;
 	
 	public DeptDashboardReportDTO(String fpo_name, String fpo_address, BigInteger fpo_landline, String district_name,
-			Integer cropId, String cropName, Integer verietyId, String verietyName, Double actualFpoProduction,
-			Double marketable) {
+			Integer seasonId, String seasonName, Integer cropId, String cropName, Integer verietyId, String verietyName,
+			Double actualFpoProduction, Double marketable) {
 		super();
 		this.fpo_name = fpo_name;
 		this.fpo_address = fpo_address;
 		this.fpo_landline = fpo_landline;
 		this.district_name = district_name;
+		this.seasonId = seasonId;
+		this.seasonName = seasonName;
 		this.cropId = cropId;
 		this.cropName = cropName;
 		this.verietyId = verietyId;
@@ -119,5 +125,20 @@ public class DeptDashboardReportDTO
 	public void setFpo_landline(BigInteger fpo_landline) {
 		this.fpo_landline = fpo_landline;
 	}
-	
+
+	public Integer getSeasonId() {
+		return seasonId;
+	}
+
+	public void setSeasonId(Integer seasonId) {
+		this.seasonId = seasonId;
+	}
+
+	public String getSeasonName() {
+		return seasonName;
+	}
+
+	public void setSeasonName(String seasonName) {
+		this.seasonName = seasonName;
+	}
 }
