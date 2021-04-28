@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +38,12 @@ public class FPOCropSowingController
 	 { 
 		  return fPOCropSowingService.getFarmerDetailsForCropSowing(farmerId); 
     }
+	
+	@GetMapping(value="/getFarmerParentDetails/{farmerId}")
+	public FarmerCropSowingDTO getFarmerParentDetails(@PathVariable("farmerId") Integer farmerId)
+	{
+		return fPOCropSowingService.getFarmerParentDetails(farmerId);
+	}
 	 
 	 @GetMapping(value="/farmersCropSowingsList/{masterId}")
 	 public List<CropListOfFarmersDTO> getfarmersCropList(@PathVariable("masterId") int masterId)

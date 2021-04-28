@@ -15,6 +15,12 @@ public class FarmerCropSowingDTO
 		this.land_area = land_area;
 	}
 	
+	public FarmerCropSowingDTO(String farmerName, String parantsName) {
+		super();
+		this.farmerName = farmerName;
+		this.parantsName = parantsName;
+	}
+	
 	public String getFarmerName() {
 		return farmerName;
 	}

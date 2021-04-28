@@ -49,6 +49,12 @@ public class FPOCropSowingServiceImpl implements FPOCropSowingService
 		return obj;*/
 		  return newSowingMasterRepository.getFarmerDetailsForCropSowing(farmerId);
 	  }
+	
+	@Override
+	public FarmerCropSowingDTO getFarmerParentDetails(int farmerId) 
+	{
+		return newSowingMasterRepository.getFarmerParentDetails(farmerId);
+	}
 
 	@Override
 	public List<CropListOfFarmersDTO> getCropListForFarmersByFpo(int masterId) 
