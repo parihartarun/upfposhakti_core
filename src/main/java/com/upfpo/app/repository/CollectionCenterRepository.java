@@ -18,7 +18,7 @@ public interface CollectionCenterRepository extends JpaRepository<CollectionCent
 	
 	List<CollectionCenter> findByIsDeletedOrderByIdDesc(boolean b);
 	
-	@Query("select count (isseedprocessingunit) from CollectionCenter  where isseedprocessingunit = 'yes' and isDeleted = false\r\n" + 
+	@Query("select count (isseedprocessingunit) from CollectionCenter  where isseedprocessingunit = 'Yes' and isDeleted = false\r\n" + 
 			"")
 	Integer seedProcessingUnits();
 	
