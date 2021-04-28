@@ -104,7 +104,7 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 				+ "left join farmer f on a.master_user_id=f.user_id \r\n"
 				+ "join crop_master cm on cm.id = a.crop_id\r\n"
 				+ "join crop_veriety_master cv on cv.veriety_id = a.veriety_id \r\n"
-				+ "where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+				+ "where a.master_id= :masterId and a.master_role_id = :roleId and a.status != 'cancelled' group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid";
 		
 		 obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", reportRequestString.getMasterId()).setParameter("roleId", reportRequestString.getRoleId()).
@@ -131,7 +131,7 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 		 		+ "	left join fpo d on a.master_user_id=d.user_id\r\n"
 		 		+ "	left join farmer f on a.master_user_id=f.user_id \r\n"
 		 		+ "	join insecticide_type_master it on it.id = a.insecticide_type_id\r\n"
-		 		+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
+		 		+ "	where a.master_id= :masterId and a.master_role_id = :roleId and a.status != 'cancelled' group by ur.role,a.status, \r\n"
 		 		+ "	it.insecticide_type, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 		 		+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
 			
@@ -159,7 +159,7 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 					+ "	left join fpo d on a.master_user_id=d.user_id\r\n"
 					+ "	left join farmer f on a.master_user_id=f.user_id \r\n"
 					+ "	join fertilizer_name_master fn on fn.id = a.fertilizer_name\r\n"
-					+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
+					+ "	where a.master_id= :masterId and a.master_role_id = :roleId and a.status != 'cancelled' group by ur.role,a.status, \r\n"
 					+ "	fn.fertilizer_name,	 a.fertilizer_grade,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
 			
@@ -187,7 +187,7 @@ public class InputSupplierEnquiryServiceImpl implements InputSupplierEnquiryServ
 					+ "	left join fpo d on a.master_user_id =d.user_id\r\n"
 					+ "	left join farmer f on a.master_user_id =f.user_id \r\n"
 					+ "	join equip_master eq on eq.id = a.machinerynameid\r\n"
-					+ "	where a.master_id= :masterId and a.master_role_id = :roleId group by ur.role,a.status, \r\n"
+					+ "	where a.master_id= :masterId and a.master_role_id = :roleId and a.status != 'cancelled' group by ur.role,a.status, \r\n"
 					+ "	eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 					+ "	farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
 			
