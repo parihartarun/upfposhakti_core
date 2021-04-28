@@ -10,7 +10,7 @@ import com.upfpo.app.entity.NewSowing;
 @Repository
 public interface NewSowingMasterRepository extends JpaRepository<NewSowing, Integer> 
 {
-	@Query("SELECT new com.upfpo.app.dto.FarmerCropSowingDTO(f.farmerName,f.parantsName, sum(l.land_area)) FROM LandDetails l join l.farmerProfile f where f.farmerId= :farmerId group by l.farmerProfile.farmerName, f.parantsName")
+	@Query("SELECT new com.upfpo.app.dto.FarmerCropSowingDTO(f.farmerName,f.parantsName, COALESCE(sum(l.land_area),0)) FROM LandDetails l right join l.farmerProfile f where f.farmerId= :farmerId group by l.farmerProfile.farmerName, f.parantsName")
 	 public FarmerCropSowingDTO getFarmerDetailsForCropSowing(int farmerId);
 	
 	@Query("SELECT new com.upfpo.app.dto.FarmerCropSowingDTO(f.farmerName,f.parantsName) FROM FarmerMaster f  where f.farmerId = :farmerId")
