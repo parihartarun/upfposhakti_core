@@ -213,6 +213,7 @@ public List<FilterDto> getFposByFilterKeys(String val,String in)
 				+ "	inner join insecticide_type_master int on ins.insecticide_type_id = int.id\r\n"
 				+ "	where UPPER(int.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
 				+ "	or UPPER(ins.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+				+ " ins.role = '4' \r\n"
 				+ "	order by f.fpo_name asc";
 	}
 	else if(in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
