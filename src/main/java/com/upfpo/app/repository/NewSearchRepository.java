@@ -741,6 +741,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 	  
 	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
+	  Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
 		if(searchRequestDto.getDistrictIds()!=null) {
 			for(Integer districtId:searchRequestDto.getDistrictIds())
 			{
@@ -757,11 +758,15 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		} 
 		
 		inputSupplierFinalPredecate=null;
-		if(searchRequestDto.getInputSupplierIds()!=null) {
+		rolepredicate = null;
+		if(searchRequestDto.getInputSupplierIds()!=null) 
+		{
+			String role = "ROLE_INPUTSUPPLIER";
 			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
 			{
 				
 				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
+				rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
@@ -769,11 +774,11 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
 			      }
 			}
-			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList());
 		} 	
 		
 		inputSupplierFinalPredecate = null;
-		Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
+		rolepredicate = null;
 		if(searchRequestDto.getFpoIds()!=null)
 		{
 			String role = "ROLE_FPC";
