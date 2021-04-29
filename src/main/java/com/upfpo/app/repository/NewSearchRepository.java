@@ -772,6 +772,23 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 	
 		
+		inputSupplierFinalPredecate = null;
+		if(searchRequestDto.getFpoIds()!=null)
+		{
+			Predicate<InputSupplierSearchDtoAll> rolepredicate	= rolepredecate->rolepredecate.getRoleid().toString() == "4";
+			for(Integer fpoId:searchRequestDto.getFpoIds())
+			{
+			
+				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==fpoId.intValue();
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList()); 
+		}
 		
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
