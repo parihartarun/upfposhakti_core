@@ -773,13 +773,15 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		} 	
 		
 		inputSupplierFinalPredecate = null;
+		Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
 		if(searchRequestDto.getFpoIds()!=null)
 		{
-			Predicate<InputSupplierSearchDtoAll> rolepredicate	= rolepredecate->rolepredecate.getRoleid().toString() == "4";
+			String role = "ROLE_FPC";
 			for(Integer fpoId:searchRequestDto.getFpoIds())
 			{
 			
 				Predicate<InputSupplierSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==fpoId.intValue();
+				rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
 			      if(inputSupplierFinalPredecate==null)
 			      {
 			    	  inputSupplierFinalPredecate = samplepredicate;
