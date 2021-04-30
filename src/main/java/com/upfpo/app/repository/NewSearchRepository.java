@@ -745,7 +745,18 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	  
 	  Predicate<InputSupplierSearchDtoAll> inputSupplierFinalPredecate=null;
 	  Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
-		if(searchRequestDto.getDistrictIds()!=null) {
+	  
+	  if(searchRequestDto.getFpoIds().size()==0)
+	  {
+		  searchRequestDto.setFpoIds(null);
+	  }
+	  
+	  if(searchRequestDto.getInputSupplierIds().size() == 0)
+	  {
+		  searchRequestDto.setInputSupplierIds(null);
+	  }
+
+	  if(searchRequestDto.getDistrictIds()!=null) {
 			for(Integer districtId:searchRequestDto.getDistrictIds())
 			{
 				
