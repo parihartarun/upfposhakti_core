@@ -15,8 +15,8 @@ public class InputSupplierFertilizerDTO {
 
     public InputSupplierFertilizerDTO() {
     }
-
-    public InputSupplierFertilizerDTO(Integer id, Integer type_id, String fertilizer_type, Integer name_id,
+    
+	public InputSupplierFertilizerDTO(Integer id, Integer type_id, String fertilizer_type, Integer name_id,
 			String fertilizer_name, String fertilizer_grade, String manufacturer_name, String file_path,
 			Double quantity) {
 		super();
