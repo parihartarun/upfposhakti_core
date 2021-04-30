@@ -590,16 +590,27 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	}
 	public ResponseEntity<?> newMachinerySearch(SearchRequestDto searchRequestDto)
 	{
-		//String sql =searchMachineryInFmbTable(searchRequestDto)+" union all "+searchMachineryInInputSupplierTable(searchRequestDto);
-		
 		String sql =searchMachineryInInputSupplierTable(searchRequestDto);
 		
-		
-		  List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();	
+		 List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();
+		 List<FmbSearchDtoAll> objInp = new ArrayList<FmbSearchDtoAll>();
+		 List<FmbSearchDtoAll> objFpo = new ArrayList<FmbSearchDtoAll>();
 		  
-			Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;		
-			if(searchRequestDto.getDistrictIds()!=null) {
-				for(Integer districtId:searchRequestDto.getDistrictIds())
+		Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;	
+		Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
+		
+		if(searchRequestDto.getFpoIds().size()==0)
+		{
+			  searchRequestDto.setFpoIds(null);
+		}
+		if(searchRequestDto.getInputSupplierIds().size() == 0)
+		{
+			  searchRequestDto.setInputSupplierIds(null);
+		}
+		
+		if(searchRequestDto.getDistrictIds()!=null) 
+		{
+			for(Integer districtId:searchRequestDto.getDistrictIds())
 				{			
 					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getDistrictid().intValue()==districtId.intValue();
 				      if(fmbFinalpredicate==null)
@@ -641,8 +652,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				}
 				obj = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());	
 			}
-			
-			
+
 			if(searchRequestDto.getQtymin()!=null&&searchRequestDto.getQtymax()!=null) 
 			{
 				Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getRent().doubleValue()>searchRequestDto.getRentMin().doubleValue() && samplepredecate.getRent().doubleValue()<=searchRequestDto.getRentMax().doubleValue();
@@ -650,10 +660,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				obj =obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
 			}
 			
-			//obj = obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
+		
 			
-			
-		  
 		  FmbSearchPagePagableDto fmbSearchPagePagableDto = new FmbSearchPagePagableDto();
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 		  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 

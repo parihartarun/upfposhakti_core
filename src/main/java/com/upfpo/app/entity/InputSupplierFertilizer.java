@@ -31,7 +31,8 @@ import com.upfpo.app.dto.InputSupplierFertilizerDTO;
                                 @ColumnResult(name = "fertilizer_name", type = String.class),
                                 @ColumnResult(name = "fertilizer_grade", type = String.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
-                                @ColumnResult(name = "file_path", type = String.class)
+                                @ColumnResult(name = "file_path", type = String.class),
+                                @ColumnResult(name = "quantity", type = Double.class),
                         })
         })
 @SqlResultSetMapping(name="InputSupplierDashboardFertilizerDTO",

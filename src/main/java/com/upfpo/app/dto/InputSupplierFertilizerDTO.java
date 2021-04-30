@@ -11,22 +11,29 @@ public class InputSupplierFertilizerDTO {
     String fertilizer_grade;
     String manufacturer_name;
     String file_path;
+    Double quantity;
 
     public InputSupplierFertilizerDTO() {
     }
 
-    public InputSupplierFertilizerDTO(Integer id, Integer type_id, String fertilizer_type, Integer name_id, String fertilizer_name, String fertilizer_grade, String manufacturer_name, String file_path) {
-        this.id = id;
-        this.type_id = type_id;
-        this.fertilizer_type = fertilizer_type;
-        this.name_id = name_id;
-        this.fertilizer_name = fertilizer_name;
-        this.fertilizer_grade = fertilizer_grade;
-        this.manufacturer_name = manufacturer_name;
-        this.file_path = file_path;
-    }
+    public InputSupplierFertilizerDTO(Integer id, Integer type_id, String fertilizer_type, Integer name_id,
+			String fertilizer_name, String fertilizer_grade, String manufacturer_name, String file_path,
+			Double quantity) {
+		super();
+		this.id = id;
+		this.type_id = type_id;
+		this.fertilizer_type = fertilizer_type;
+		this.name_id = name_id;
+		this.fertilizer_name = fertilizer_name;
+		this.fertilizer_grade = fertilizer_grade;
+		this.manufacturer_name = manufacturer_name;
+		this.file_path = file_path;
+		this.quantity = quantity;
+	}
 
-    public Integer getId() {
+
+
+	public Integer getId() {
         return id;
     }
 
@@ -89,4 +96,12 @@ public class InputSupplierFertilizerDTO {
     public void setFile_path(String file_path) {
         this.file_path = file_path;
     }
+
+	public Double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
+	}
 }
