@@ -565,7 +565,7 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 		
 		
 		return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList(); 
-		}		
+}		
 		
 		public List<FilterDto> getFertilizerTypesByFilterKeys(String val,String in)
 		{

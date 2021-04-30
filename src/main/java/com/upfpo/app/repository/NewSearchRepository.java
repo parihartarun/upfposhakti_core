@@ -597,7 +597,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		 List<FmbSearchDtoAll> objFpo = new ArrayList<FmbSearchDtoAll>();
 		  
 		Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;	
-		Predicate<InputSupplierSearchDtoAll> rolepredicate = null;
+		Predicate<FmbSearchDtoAll> rolepredicate = null;
 		
 		if(searchRequestDto.getFpoIds().size()==0)
 		{
@@ -660,7 +660,62 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				obj =obj.stream().filter(fmbFinalpredicate).collect(Collectors.toList());
 			}
 			
-		
+			fmbFinalpredicate=null;
+			rolepredicate = null;
+			if(searchRequestDto.getInputSupplierIds()!=null) 
+			{
+				String role = "ROLE_INPUTSUPPLIER";
+				for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+				{
+					
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
+					rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate = fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				objInp = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate.and(rolepredicate)).collect(Collectors.toList());
+			}
+			
+			fmbFinalpredicate=null;
+			rolepredicate = null;
+			if(searchRequestDto.getFpoIds()!=null)
+			{
+				String role = "ROLE_FPC";
+				for(Integer fpoId:searchRequestDto.getFpoIds())
+				{
+				
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==fpoId.intValue();
+					rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate = fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				objFpo = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate.and(rolepredicate)).collect(Collectors.toList()); 
+			}
+			
+			if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null)
+			{
+				obj = Stream.of(objInp,objFpo).flatMap(x->x.stream()).collect(Collectors.toList());
+			}
+			else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
+			{
+				obj = objInp;
+			}
+			else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null)
+			{
+				obj = objFpo;
+			}
+			else
+			{
+				obj = obj;
+			}
 			
 		  FmbSearchPagePagableDto fmbSearchPagePagableDto = new FmbSearchPagePagableDto();
 		  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
