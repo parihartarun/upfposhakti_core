@@ -666,16 +666,26 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	public ResponseEntity<?> newFertilizersSearch(SearchRequestDto searchRequestDto)
 	{
 		
-		String sql = searchOnlyFertilizersInInputSupplierFertilizer(searchRequestDto);
-	
-	 // List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();
-	  
+	  String sql = searchOnlyFertilizersInInputSupplierFertilizer(searchRequestDto);
 	  List<InputSupplierFertilizerSearchDto> obj =  entityManager.createNativeQuery(sql,"fertilizerResultMapping").getResultList();
+	  List<InputSupplierFertilizerSearchDto> objInp = new ArrayList<InputSupplierFertilizerSearchDto>();
+	  List<InputSupplierFertilizerSearchDto> objFpo = new ArrayList<InputSupplierFertilizerSearchDto>();
 	  
 	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
-	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
+	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue();
+	  
+	  if(searchRequestDto.getFpoIds().size()==0)
+	  {
+		  searchRequestDto.setFpoIds(null);
+	  }
+	  
+	  if(searchRequestDto.getInputSupplierIds().size() == 0)
+	  {
+		  searchRequestDto.setInputSupplierIds(null);
+	  }
 	  
 	  Predicate<InputSupplierFertilizerSearchDto> inputSupplierFinalPredecate=null;
+	  Predicate<InputSupplierFertilizerSearchDto> rolepredicate = null;
 		if(searchRequestDto.getDistrictIds()!=null) {
 			for(Integer districtId:searchRequestDto.getDistrictIds())
 			{
@@ -690,25 +700,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			}
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		} 
-		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
-		inputSupplierFinalPredecate=null;
 		
-		if(searchRequestDto.getInputSupplierIds()!=null) {
-			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
-			{
-				
-				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
-			      if(inputSupplierFinalPredecate==null)
-			      {
-			    	  inputSupplierFinalPredecate = samplepredicate;
-			      }else {
-			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
-			      }
-			}
-			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
-		}
 		inputSupplierFinalPredecate=null;
-		
 		if(searchRequestDto.getFertilizerTypeIds()!=null) {
 			for(Integer fertTypeId:searchRequestDto.getFertilizerTypeIds())
 			{
@@ -724,10 +717,63 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 		}
 		
+		inputSupplierFinalPredecate=null;
+		rolepredicate = null;
+		if(searchRequestDto.getInputSupplierIds()!=null) 
+		{
+			String role = "ROLE_INPUTSUPPLIER";
+			for(Integer inputsupplierId:searchRequestDto.getInputSupplierIds())
+			{
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==inputsupplierId.intValue();
+				rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			objInp = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList());
+		}
 		
-		InputSupplierFertilizersPagePagableDto inputSupplierPagePagableDto = new InputSupplierFertilizersPagePagableDto();
+		inputSupplierFinalPredecate = null;
+		rolepredicate = null;
+		if(searchRequestDto.getFpoIds()!=null)
+		{
+			String role = "ROLE_FPC";
+			for(Integer fpoId:searchRequestDto.getFpoIds())
+			{
+			
+				Predicate<InputSupplierFertilizerSearchDto> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==fpoId.intValue();
+				rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
+			      if(inputSupplierFinalPredecate==null)
+			      {
+			    	  inputSupplierFinalPredecate = samplepredicate;
+			      }else {
+			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
+			      }
+			}
+			objFpo = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList()); 
+		}
+	
+		if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null)
+		{
+			obj = Stream.of(objInp,objFpo).flatMap(x->x.stream()).collect(Collectors.toList());
+		}
+		else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
+		{
+			obj = objInp;
+		}
+		else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null)
+		{
+			obj = objFpo;
+		}
+		else
+		{
+			obj = obj;
+		}
+	  InputSupplierFertilizersPagePagableDto inputSupplierPagePagableDto = new InputSupplierFertilizersPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
-	  //inputSupplierPagePagableDto.setPage(obj);
 	  inputSupplierPagePagableDto.setPage(obj.subList(offset>obj.size()?0:offset, last>obj.size()?obj.size():last));
 	  return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(inputSupplierPagePagableDto);
 	}
