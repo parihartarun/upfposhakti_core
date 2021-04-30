@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -737,6 +738,8 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 	             
 		//return new ResponseEntity(entityManager.createNativeQuery(sql).getResultList(), HttpStatus.OK);
 	  List<InputSupplierSearchDtoAll> obj =  entityManager.createNativeQuery(sql,"inputSupplierResultMapping").getResultList();	
+	  List<InputSupplierSearchDtoAll> objInp = new ArrayList<InputSupplierSearchDtoAll>();
+	  List<InputSupplierSearchDtoAll> objFpo = new ArrayList<InputSupplierSearchDtoAll>();
 	  Integer offset  =(searchRequestDto.getPage().intValue()-1)*searchRequestDto.getLimit().intValue();
 	  Integer last =offset.intValue()+searchRequestDto.getLimit().intValue(); 
 	  
@@ -774,7 +777,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
 			      }
 			}
-			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList());
+			objInp = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList());
 		} 	
 		
 		inputSupplierFinalPredecate = null;
@@ -794,9 +797,24 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			    	  inputSupplierFinalPredecate = inputSupplierFinalPredecate.or(samplepredicate);
 			      }
 			}
-			obj = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList()); 
+			objFpo = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList()); 
 		}
-		
+		if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null)
+		{
+			obj = Stream.of(objInp,objFpo).flatMap(x->x.stream()).collect(Collectors.toList());
+		}
+		else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
+		{
+			obj = objInp;
+		}
+		else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null)
+		{
+			obj = objFpo;
+		}
+		else
+		{
+			obj = obj;
+		}
 		//obj = obj.stream().filter(inputSupplierFinalPredecate).collect(Collectors.toList());
 	  InputSupplierPagePagableDto inputSupplierPagePagableDto = new InputSupplierPagePagableDto();
 	  inputSupplierPagePagableDto.setTotalElements(obj.size());
