@@ -1,30 +1,11 @@
 package com.upfpo.app.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.InputSupplierInsecticideDTO;
 import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.FertilizerName;
+import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierInsecticide;
 import com.upfpo.app.entity.InsecticideType;
 import com.upfpo.app.requestStrings.ReportRequestString;
@@ -33,9 +14,23 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import jdk.internal.org.jline.utils.Log;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -47,10 +42,7 @@ public class InputSupplierInsecticideController {
     @Autowired
     private InputSupplierInsecticideServiceImpl insecticideService;
 
-//    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierInsecticideController.class);
-    
-    private static final Logger LOG = LogManager.getLogger(InputSupplierFertilizerController.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierInsecticideController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
             "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data");
@@ -134,9 +126,7 @@ public class InputSupplierInsecticideController {
         {
         	try {
                 InputSupplierInsecticide inputSupplierInsecticide = new InputSupplierInsecticide(insecticideTypeId,manufacturerName, quantity, inputSupplierId, cibRcNumber, cibRcIssuedate,role);
-                Log.info(inputSupplierInsecticide.getId());
                 InputSupplierInsecticide id = insecticideService.createInputSupplierInsecticide(inputSupplierInsecticide, file);
-                Log.info(id);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierInsecticide created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierInsecticide  created Successfully!");
             } catch (Exception e) {

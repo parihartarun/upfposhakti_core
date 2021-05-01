@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
-    <Properties>
-        <Property name="LOG_PATTERN">%d{YYYY-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
-        <Property name="APP_LOG_ROOT">C:/logs</Property>
-        <property name="root.level.console" value="OFF" />
-    </Properties>
+<Configuration>
     <Appenders>
-    
-<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-	
-	<encoder>
-		<pattern>
-			%d{DD-MM-YYYY HH:mm:ss} [%thread] %-5level %logger -%msg%n
-		</pattern>
-	</encoder>
-</appender>    
-    
-       <Console name="Console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${LOG_PATTERN}" />
-        </Console> 
- 
-        <RollingFile name="appLog"
-            fileName="${APP_LOG_ROOT}/upfpo_log/application.log"
-            filePattern="${APP_LOG_ROOT}/upfpo_log/application-%d{yyyy-MM-dd}-%i.log">
-            <PatternLayout pattern="${LOG_PATTERN}" />
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFile">
+            <FileName>C:/logs/upfpo.log</FileName>
+            <FilePattern>C:/logs/upfpo/%d{yyyy-MM-dd-hh-mm}.log</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="19500KB" />
+                <TimeBasedTriggeringPolicy interval="2" modulate="true" />
             </Policies>
-            <DefaultRolloverStrategy max="1" />
+            <DefaultRolloverStrategy max="5" />
         </RollingFile>
- 
     </Appenders>
-	<Loggers>
-
-		<Logger name="com.upfpo" level="debug" additivity="false">
-			<AppenderRef ref="Console" />
-			<AppenderRef ref="appLog" />
-		</Logger>
-		<Root level="trace">
-			<AppenderRef ref="Console" />
-		</Root>
-	</Loggers>
+    <Loggers>
+        <Logger name="com.upfpo.app" level="debug" additivity="false">
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Root level="trace">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
 </Configuration>
