@@ -1,11 +1,8 @@
 package com.upfpo.app.controller;
-
-
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.InputSupplierSeedDTO;
 import com.upfpo.app.dto.UploadFileResponse;
-import com.upfpo.app.entity.InputSupplierMachinery;
 import com.upfpo.app.entity.InputSupplierSeed;
 import com.upfpo.app.requestStrings.ReportRequestString;
 import com.upfpo.app.service.InputSupplierSeedServiceImpl;
@@ -13,29 +10,21 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.auth.In;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jdk.internal.org.jline.utils.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ReportAsSingleViolation;
-
-import java.applet.Applet;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -47,7 +36,7 @@ public class InputSupplierSeedController {
     @Autowired
     private InputSupplierSeedServiceImpl seedService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierSeedController.class);
+    private static final Logger LOG = LogManager.getLogger(InputSupplierSeedController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
             "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
@@ -114,7 +103,9 @@ public class InputSupplierSeedController {
         //validTo = new SimpleDateFormat("dd/MM/yyyy").parse((String)request.getParameter("dob"));
             try {
                 InputSupplierSeed inputSupplierSeed = new InputSupplierSeed(cropId,inputSupplierId,varietyId,company, certificationNo,validFrom,validTo, quantity,role);
+                Log.info(inputSupplierSeed.getRole());
                 InputSupplierSeed id = seedService.createInputSupplierSeed(inputSupplierSeed, file);
+                 Log.info("inputSupplierSeed"+id);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierSeed created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierSeed  created Successfully!");
             } catch (Exception e) {
