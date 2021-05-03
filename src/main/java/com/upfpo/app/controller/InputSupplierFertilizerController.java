@@ -1,6 +1,5 @@
 package com.upfpo.app.controller;
 
-import com.sun.tools.sjavac.Log;
 import com.upfpo.app.auth.response.MessageResponse;
 import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.InputSupplierFertilizerDTO;
@@ -9,13 +8,14 @@ import com.upfpo.app.entity.FertilizerName;
 import com.upfpo.app.entity.FertilizerType;
 import com.upfpo.app.entity.InputSupplierFertilizer;
 import com.upfpo.app.requestStrings.ReportRequestString;
+import com.upfpo.app.service.InputSupplierFertilizerService;
 import com.upfpo.app.service.InputSupplierFertilizerServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -24,9 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -38,10 +40,7 @@ public class InputSupplierFertilizerController {
     @Autowired
     private InputSupplierFertilizerServiceImpl fertilizerService;
 
- //   private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerController.class);
-    
-    private static final Logger LOG = LogManager.getLogger(InputSupplierFertilizerController.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierFertilizerController.class);
 
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
             "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
@@ -126,9 +125,7 @@ public class InputSupplierFertilizerController {
         {
             try {
                 InputSupplierFertilizer inputSupplierFertilizer = new InputSupplierFertilizer(typeId,nameId, inputSupplierId,fertilizerName,grade,manufacturerName, quantity,role);
-                Log.info(inputSupplierFertilizer.getRole());
                 InputSupplierFertilizer id = fertilizerService.createInputSupplierFertilizer(inputSupplierFertilizer, file);
-                Log.info("InputSupplierMachinery Id"+id);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierFertilizer created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierFertilizer  created Successfully!");
             } catch (Exception e) {
