@@ -50,6 +50,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse createWarehouse(Warehouse warehouse) {
 
+    	if(warehouse.getLongitude()==null)
+    	{
+    		warehouse.setLongitude(null);
+    	}
+    	if(warehouse.getLatitude()==null)
+    	{
+    		warehouse.setLatitude(null);
+    	}
         warehouse.setCreateBy(warehouse.getDeptId());
         warehouse.setCreateDateTime(Calendar.getInstance());
         warehouse.setDeleted(false);
