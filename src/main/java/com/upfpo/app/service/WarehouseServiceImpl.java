@@ -62,13 +62,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     	{
     		warehouse.setAddress(null);
     	}
-    	if(warehouse.getBlockId()==null)
+    	if(warehouse.getBlockId()==0)
     	{
-    		warehouse.setBlockId(null);
+    		warehouse.setBlockId(0);
     	}
-    	if(warehouse.getDistrictId()==null)
+    	if(warehouse.getDistrictId()==0)
     	{
-    		warehouse.setDistrictId(null);
+    		warehouse.setDistrictId(0);
     	}
         warehouse.setCreateBy(warehouse.getDeptId());
         warehouse.setCreateDateTime(Calendar.getInstance());
