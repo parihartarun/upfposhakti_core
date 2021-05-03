@@ -454,14 +454,27 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 		
 		private String selectCompanyFromInputSupplierMachineryTable(String val)
 		{
-			String sql ="select inpm.manufacturer_name as name\r\n"
+			/*String sql ="select inpm.manufacturer_name as name\r\n"
 					+ "	from input_supplier_machinery inpm \r\n"
 					+ "	inner join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
 					+ "	inner join districts dist on ip.dist_ref_id = dist.district_id \r\n"
 					+ "	inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
 					+ "	inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
 					+ "	where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
-					+ "	or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";
+					+ "	or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";*/
+			String sql = "select inpm.manufacturer_name as name\r\n"
+					+ "	from input_supplier_machinery inpm \r\n"
+					+ "	left join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
+					+ "	left join fpo fp on fp.fpo_id = inpm.input_supplier_id\r\n"
+					+ "	inner join user_roles usr on usr.role_id = inpm.role\r\n"
+					+ "	inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
+					+ "	inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
+					+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+					+ "	else fp.dist_ref_id end\r\n"
+					+ "	where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(inpm.manufacturer_name) LIKE '%"+val.toUpperCase()+"%'\r\n";
+			
 			return sql;
 			
 		}
@@ -605,9 +618,9 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 		String sql ="";
            if(in.equalsIgnoreCase(NewFilterRepository.FMB))
          	{
-        	   String unoinquery = this.selectCompanyFromInputSupplierMachineryTable(val)
-       	            +" union all "
-       	            +selectCompanyFromChcFmbMachineryTable(val);
+        	   String unoinquery = this.selectCompanyFromInputSupplierMachineryTable(val);
+       	            //+" union all "
+       	            //+selectCompanyFromChcFmbMachineryTable(val);
        	            
        	sql = "select distinct * from ("+unoinquery+") as a order by name asc";
         	   
