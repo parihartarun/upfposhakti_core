@@ -72,7 +72,7 @@ public class NewFiltersController {
 	{	
 		//System.out.println("In  = "+in);
 		//System.out.println("Val  = "+value);
-		return filterService.getFpoFilterListBySearchKeys(value, in);	
+		return filterService.geChcFmbFilterListBySearchKeys(value, in);	
 	}
 	
 	@GetMapping("/crops")

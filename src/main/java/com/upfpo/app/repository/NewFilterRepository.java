@@ -279,7 +279,7 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 				+ "	or UPPER(etm.type) like '%"+val.toUpperCase()+"%'\r\n"
 				+ "	or UPPER(ism.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
 				+ "	and ism.role = '5'\r\n"
-				+ "	order by f.fpo_name asc";
+				+ "	order by f.chc_fmb_name asc";
 	}
 	return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList();
 }
@@ -377,9 +377,26 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 					+ " inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
 					+ " where UPPER(fnt.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
 					+ " or UPPER(inf.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
-					+ " or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'";
+					+ " or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'"
+					+ " and inf.role = '3' ";
 			return sql;
 		}
+		
+		private String selectInputSuppliersFromInputMachineryTable(String val)
+		{
+			String sql ="select inm.input_supplier_id as id, inps.input_supplier_name as name\r\n"
+					+ "	from input_supplier_machinery inm\r\n"
+					+ "	inner join input_supplier inps on inps.input_supplier_id = inm.input_supplier_id \r\n"
+					+ "	inner join equipment_type_master eqt on eqt.id = inm.machinery_type_id\r\n"
+					+ "	inner join equip_master eqp on eqp.id = inm.machinery_name_id \r\n"
+					+ "	inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
+					+ "	where UPPER(eqt.type) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(eqp.equpment_name) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(inm.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	and inm.role = '3' ";
+			return sql;
+		}
+		
 		private String selectInputSuppliersFromInputSeedTable(String val)
 		{
 			String sql ="select \r\n"
@@ -391,21 +408,23 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 					+ "  inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
 					+ "  where UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
 					+ "  or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-					+ "  or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'";
+					+ "  or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'"
+					+ "	 and inf.role = '3' ";
 			return sql;
 		}
 		private String selectInputSuppliersFromInputFertilizerTable(String val)
 		{
 			
 			String sql ="select inf.input_supplier_id as id, inps.input_supplier_name as name\r\n"
-					   + "from input_supplier_fertilizer inf \r\n"
-					   + "inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
-					   + "inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
-					   + "inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
-					   + "inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
-					   + "where UPPER(fn.fertilizer_name) like '%"+val.toUpperCase()+"%'\r\n"
-					   + "OR UPPER(fnt.fertilizer_type) like '%"+val.toUpperCase()+"%'\r\n"
-					   + "OR UPPER(inps.input_supplier_name)LIKE '%"+val.toUpperCase()+"%'\r\n";
+					   + " from input_supplier_fertilizer inf \r\n"
+					   + " inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
+					   + " inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
+					   + " inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
+					   + " inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
+					   + " where UPPER(fn.fertilizer_name) like '%"+val.toUpperCase()+"%'\r\n"
+					   + " OR UPPER(fnt.fertilizer_type) like '%"+val.toUpperCase()+"%'\r\n"
+					   + " OR UPPER(inps.input_supplier_name)LIKE '%"+val.toUpperCase()+"%'\r\n"
+					   + " and inf.role = '3' ";
 					
 					
 			return sql;
@@ -544,8 +563,8 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 	           return entityManager.createNativeQuery(sql).getResultList();
 		}
 		
- 		public List<FilterDto> getInputSuppliersByFilterKeys(String val,String in)
-		{
+ 	public List<FilterDto> getInputSuppliersByFilterKeys(String val,String in)
+	{
 		String sql ="";
            if(in.equalsIgnoreCase(NewFilterRepository.INPUTSUPPLIER))
          	{
@@ -554,29 +573,34 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
         	            +this.selectInputSuppliersFromInputInsecticidesTable(val)
         	            +" union all "
         	            +this.selectInputSuppliersFromInputSeedTable(val);
-        	sql = "select distinct * from ("+unoinquery+") as a";
+        	   sql = "select distinct * from ("+unoinquery+") as a";
 
-	}else if (in.equalsIgnoreCase(NewFilterRepository.SEED))
- 	{
- 	   String unoinquery = this.selectInputSuppliersFromInputSeedTable(val);
- 	sql = "select distinct * from ("+unoinquery+") as a";
+         	}else if (in.equalsIgnoreCase(NewFilterRepository.SEED))
+         	{
+         		String unoinquery = this.selectInputSuppliersFromInputSeedTable(val);
+         		sql = "select distinct * from ("+unoinquery+") as a";
 
-}else if (in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
-	{
-	   String unoinquery = selectInputSuppliersFromInputFertilizerTable(val);
-	sql = "select distinct * from ("+unoinquery+") as a";
+         	}
+         	else if (in.equalsIgnoreCase(NewFilterRepository.FERTILIZER))
+         	{
+         		String unoinquery = selectInputSuppliersFromInputFertilizerTable(val);
+         		sql = "select distinct * from ("+unoinquery+") as a";
 
-}else if (in.equalsIgnoreCase(NewFilterRepository.INSECTICIDE))
-	{
-	   String unoinquery = this.selectInputSuppliersFromInputInsecticidesTable(val);
-	sql = "select distinct * from ("+unoinquery+") as a";
+         	}else if (in.equalsIgnoreCase(NewFilterRepository.INSECTICIDE))
+         	{
+         		String unoinquery = this.selectInputSuppliersFromInputInsecticidesTable(val);
+         		sql = "select distinct * from ("+unoinquery+") as a";
 
-}   else {
-		sql = "";
-		return null;
-	}
-		
-		
+         	}
+         	else if(in.equalsIgnoreCase(NewFilterRepository.FMB))
+         	{
+         		String unoinquery = this.selectInputSuppliersFromInputMachineryTable(val);
+         		sql = "select distinct * from ("+unoinquery+") as a";
+         	}
+         	else {
+         		sql = "";
+         		return null;
+         	}
 		return entityManager.createNativeQuery(sql,"BookValueMapping").getResultList(); 
 }		
 		
