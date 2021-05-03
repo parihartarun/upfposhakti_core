@@ -2,8 +2,11 @@ package com.upfpo.app;
 
 import java.util.Properties;
 
-
+import com.upfpo.app.controller.InputSupplierMachineryController;
 import com.upfpo.app.properties.FileStorageProperties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,7 +22,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @EnableConfigurationProperties({FileStorageProperties.class})
 public class UpFPOApplication extends SpringBootServletInitializer {
 
-
+	private static final Logger LOG = LogManager.getLogger(UpFPOApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpFPOApplication.class, args);

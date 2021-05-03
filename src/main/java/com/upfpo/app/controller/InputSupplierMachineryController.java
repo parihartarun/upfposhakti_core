@@ -1,30 +1,44 @@
 package com.upfpo.app.controller;
 
-import com.upfpo.app.auth.response.MessageResponse;
-import com.upfpo.app.configuration.exception.response.ExceptionResponse;
-import com.upfpo.app.dto.InputSupplierMachineryDTO;
-import com.upfpo.app.dto.UploadFileResponse;
-import com.upfpo.app.entity.*;
-import com.upfpo.app.requestStrings.ReportRequestString;
-import com.upfpo.app.service.InputSupplierMachineryServiceImpl;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import com.sun.tools.sjavac.Log;
+import com.upfpo.app.auth.response.MessageResponse;
+import com.upfpo.app.configuration.exception.response.ExceptionResponse;
+import com.upfpo.app.dto.InputSupplierMachineryDTO;
+import com.upfpo.app.dto.UploadFileResponse;
+import com.upfpo.app.entity.EquipmentType;
+import com.upfpo.app.entity.EqupmentMaster;
+import com.upfpo.app.entity.FertilizerName;
+import com.upfpo.app.entity.FertilizerType;
+import com.upfpo.app.entity.InputSupplierMachinery;
+import com.upfpo.app.requestStrings.ReportRequestString;
+import com.upfpo.app.service.InputSupplierMachineryServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,8 +50,9 @@ public class InputSupplierMachineryController {
     @Autowired
     private InputSupplierMachineryServiceImpl machineryService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(InputSupplierMachineryController.class);
+    private static final Logger LOG = LogManager.getLogger(InputSupplierMachineryController.class);
 
+ //   private static final Logger LOG = LogManager.getLogger(InputSupplierMachineryController.class);
     private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif",
             "image/PNG", "image/JPEG", "image/JPG", "image/GIF", "multipart/form-data", "application/pdf", "application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain");
 
@@ -121,7 +136,9 @@ public class InputSupplierMachineryController {
         {
             try {
                 InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay,role);
+                Log.info(inputSupplierMachinery.getRole());
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
+                Log.info("InputSupplierMachinery Id"+id);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
             } catch (Exception e) {
