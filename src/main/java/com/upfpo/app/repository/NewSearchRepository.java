@@ -551,40 +551,42 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 //	        	+ "		or UPPER(inpm.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
 		
 		String sql ="select ism.id id,\r\n"
-				+ "ism.file_path imagepath,\r\n"
-				+ "ism.input_supplier_id as vendorid,\r\n"
-				+ "ism.machinery_type_id machinetypeid,\r\n"
-				+ "eqt.type machinetype,\r\n"
-				+ "ism.machinery_name_id machinenameid,\r\n"
-				+ "eqp.equpment_name as machinename,\r\n"
-				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
-				+ "else fp.fpo_name end as vendorname, \r\n"
-				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
-				+ "else fp.fpo_email end as vendoremail,\r\n"
-				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
-				+ "else fp.user_id end as userid, \r\n"
-				+ "ism.manufacturer_name as company, \r\n"
-				+ "ism.quantity quantity,\r\n"
-				+ "ism.rent_per_day rent,\r\n"
-				+ "'machinery'as recordtype,\r\n"
-				+ "dist.district_id as districtid,\r\n"
-				+ "dist.district_name as district,\r\n"
-				+ "ism.role roleid,\r\n"
-				+ "usr.role as role\r\n"
-				+ "from input_supplier_machinery ism\r\n"
-				+ "inner join user_roles usr on usr.role_id = ism.role\r\n"
-				+ "left join input_supplier ip on ip.input_supplier_id = ism.input_supplier_id \r\n"
-				+ "left join fpo fp on fp.fpo_id = ism.input_supplier_id\r\n"
-				+ "inner join equipment_type_master eqt on eqt.id = ism.machinery_type_id\r\n"
-				+ "inner join equip_master eqp on eqp.id = ism.machinery_name_id\r\n"
-				+ "inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
-				+ "else fp.dist_ref_id end"
+				+ "	ism.file_path imagepath,\r\n"
+				+ "	ism.input_supplier_id as vendorid,\r\n"
+				+ "	ism.machinery_type_id machinetypeid,\r\n"
+				+ "	eqt.type machinetype,\r\n"
+				+ "	ism.machinery_name_id machinenameid,\r\n"
+				+ "	eqp.equpment_name as machinename,\r\n"
+				+ "	case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
+				+ "	when usr.role = 'ROLE_CHCFMB' then ch.chc_fmb_name\r\n"
+				+ "	else fp.fpo_name end as vendorname, \r\n"
+				+ "	case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+				+ "	when usr.role = 'ROLE_CHCFMB' then ch.email\r\n"
+				+ "	else fp.fpo_email end as vendoremail,\r\n"
+				+ "	case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
+				+ "	when usr.role = 'ROLE_CHCFMB' then ch.user_id\r\n"
+				+ "	else fp.user_id end as userid, \r\n"
+				+ "	ism.manufacturer_name as company, \r\n"
+				+ "	ism.quantity quantity,\r\n"
+				+ "	ism.rent_per_day rent,\r\n"
+				+ "	'machinery'as recordtype,\r\n"
+				+ "	dist.district_id as districtid,\r\n"
+				+ "	dist.district_name as district,\r\n"
+				+ "	ism.role roleid,\r\n"
+				+ "	usr.role as role\r\n"
+				+ "	from input_supplier_machinery ism\r\n"
+				+ "	inner join user_roles usr on usr.role_id = ism.role\r\n"
+				+ "	left join input_supplier ip on ip.input_supplier_id = ism.input_supplier_id \r\n"
+				+ "	left join fpo fp on fp.fpo_id = ism.input_supplier_id\r\n"
+				+ "	left join chc_fmb ch on ch.chc_fmb_id = ism.input_supplier_id\r\n"
+				+ "	inner join equipment_type_master eqt on eqt.id = ism.machinery_type_id\r\n"
+				+ "	inner join equip_master eqp on eqp.id = ism.machinery_name_id\r\n"
+				+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+				+ "	when usr.role='ROLE_CHCFMB' then ch.dist_ref_id \r\n"
+				+ "	else fp.dist_ref_id end\r\n"
 				+ "	where UPPER(eqp.equpment_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
 				+ "	or UPPER(eqt.type) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-	        	+ "	or UPPER(ism.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
-				
-				
-				;
+				+ "	or UPPER(ism.manufacturer_name) LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'";
 		
 		return sql;
 	}
@@ -595,6 +597,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		 List<FmbSearchDtoAll> obj = entityManager.createNativeQuery(sql,"fmbValueResultMapping").getResultList();
 		 List<FmbSearchDtoAll> objInp = new ArrayList<FmbSearchDtoAll>();
 		 List<FmbSearchDtoAll> objFpo = new ArrayList<FmbSearchDtoAll>();
+		 List<FmbSearchDtoAll> objChcFmb = new ArrayList<FmbSearchDtoAll>();
 		  
 		Predicate<FmbSearchDtoAll> fmbFinalpredicate=null;	
 		Predicate<FmbSearchDtoAll> rolepredicate = null;
@@ -606,6 +609,10 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 		if(searchRequestDto.getInputSupplierIds().size() == 0)
 		{
 			  searchRequestDto.setInputSupplierIds(null);
+		}
+		if(searchRequestDto.getChcFmbIds().size() == 0)
+		{
+			  searchRequestDto.setChcFmbIds(null);
 		}
 		
 		if(searchRequestDto.getDistrictIds()!=null) 
@@ -700,17 +707,53 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				objFpo = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate.and(rolepredicate)).collect(Collectors.toList()); 
 			}
 			
-			if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null)
+			fmbFinalpredicate = null;
+			rolepredicate = null;
+			if(searchRequestDto.getChcFmbIds()!=null)
+			{
+				String role = "ROLE_CHCFMB";
+				for(Integer chcFmbId:searchRequestDto.getChcFmbIds())
+				{
+				
+					Predicate<FmbSearchDtoAll> samplepredicate =  samplepredecate->samplepredecate.getVendorid().intValue()==chcFmbId.intValue();
+					rolepredicate	= rolepredecate->rolepredecate.getRole().equals(role);
+				      if(fmbFinalpredicate==null)
+				      {
+				    	  fmbFinalpredicate = samplepredicate;
+				      }else {
+				    	  fmbFinalpredicate = fmbFinalpredicate.or(samplepredicate);
+				      }
+				}
+				objChcFmb = fmbFinalpredicate==null?obj:obj.stream().filter(fmbFinalpredicate.and(rolepredicate)).collect(Collectors.toList()); 
+			}
+			
+			if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null && searchRequestDto.getChcFmbIds()!=null)
+			{
+				obj = Stream.of(objInp,objFpo,objChcFmb).flatMap(x->x.stream()).collect(Collectors.toList());
+			}
+			else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null && searchRequestDto.getChcFmbIds()==null)
 			{
 				obj = Stream.of(objInp,objFpo).flatMap(x->x.stream()).collect(Collectors.toList());
 			}
-			else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
+			else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null && searchRequestDto.getChcFmbIds()!=null)
+			{
+				obj = Stream.of(objFpo,objChcFmb).flatMap(x->x.stream()).collect(Collectors.toList());
+			}
+			else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null && searchRequestDto.getChcFmbIds()!=null)
+			{
+				obj = Stream.of(objInp,objChcFmb).flatMap(x->x.stream()).collect(Collectors.toList());
+			}
+			else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null && searchRequestDto.getChcFmbIds()==null)
 			{
 				obj = objInp;
 			}
-			else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null)
+			else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null && searchRequestDto.getChcFmbIds()==null)
 			{
 				obj = objFpo;
+			}
+			else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()==null && searchRequestDto.getChcFmbIds()!=null)
+			{
+				obj = objChcFmb;
 			}
 			else
 			{
@@ -919,17 +962,18 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			}
 			objFpo = inputSupplierFinalPredecate==null?obj:obj.stream().filter(inputSupplierFinalPredecate.and(rolepredicate)).collect(Collectors.toList()); 
 		}
+		
 		if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()!=null)
 		{
-			obj = Stream.of(objInp,objFpo).flatMap(x->x.stream()).collect(Collectors.toList());
-		}
-		else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
-		{
-			obj = objInp;
+			obj = Stream.of(objFpo,objInp).flatMap(x->x.stream()).collect(Collectors.toList());
 		}
 		else if(searchRequestDto.getFpoIds()!=null && searchRequestDto.getInputSupplierIds()==null)
 		{
 			obj = objFpo;
+		}
+		else if(searchRequestDto.getFpoIds()==null && searchRequestDto.getInputSupplierIds()!=null)
+		{
+			obj = objInp;
 		}
 		else
 		{

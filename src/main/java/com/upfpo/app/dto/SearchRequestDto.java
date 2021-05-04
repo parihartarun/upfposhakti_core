@@ -32,9 +32,7 @@ public class SearchRequestDto {
 	private Integer limit;
 	@NotNull(message="page key must not be empty.")
 	private Integer page;
-	
-
-
+	private List<Integer> chcFmbIds;
 	
 	public List<String> getBrands() {
 		return brands;
@@ -144,7 +142,14 @@ public class SearchRequestDto {
 	public void setRentMax(Integer rentMax) {
 		this.rentMax = rentMax;
 	}
-	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
+	
+	public List<Integer> getChcFmbIds() {
+		return chcFmbIds;
+	}
+	public void setChcFmbIds(List<Integer> chcFmbIds) {
+		this.chcFmbIds = chcFmbIds;
+	}
+	/*public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
 			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
 			List<Integer> cropverietyIds, List<Integer> districtIds, List<String> inputSuppliersCategories,
 			List<Integer> inputSupplierIds, List<Integer> fertilizerTypeIds, List<String> brands,
@@ -169,14 +174,32 @@ public class SearchRequestDto {
 		this.rentMax = rentMax;
 		this.limit = limit;
 		this.page = page;
+	}*/
+	public SearchRequestDto(@NotNull(message = "In key must not be empty.") String in,
+			@NotNull(message = "Value key must not be empty.") String val, List<Integer> fpoIds, List<Integer> cropIds,
+			List<Integer> cropverietyIds, List<Integer> districtIds, List<String> inputSuppliersCategories,
+			List<Integer> inputSupplierIds, List<Integer> fertilizerTypeIds, List<String> brands,
+			List<Integer> machineryTypes, Double qtymin, Double qtymax, Integer rentMin, Integer rentMax,
+			@NotNull(message = "limit key must not be empty.") Integer limit,
+			@NotNull(message = "page key must not be empty.") Integer page, List<Integer> chcFmbIds) {
+		super();
+		this.in = in;
+		this.val = val;
+		this.fpoIds = fpoIds;
+		this.cropIds = cropIds;
+		this.cropverietyIds = cropverietyIds;
+		this.districtIds = districtIds;
+		this.inputSuppliersCategories = inputSuppliersCategories;
+		this.inputSupplierIds = inputSupplierIds;
+		this.fertilizerTypeIds = fertilizerTypeIds;
+		this.brands = brands;
+		this.machineryTypes = machineryTypes;
+		this.qtymin = qtymin;
+		this.qtymax = qtymax;
+		this.rentMin = rentMin;
+		this.rentMax = rentMax;
+		this.limit = limit;
+		this.page = page;
+		this.chcFmbIds = chcFmbIds;
 	}
-
-	
-	
-
-	
-	
-	
-	
-	
 }
