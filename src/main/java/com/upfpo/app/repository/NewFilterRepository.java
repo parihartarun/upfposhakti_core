@@ -83,9 +83,9 @@ sql = "select distinct * from ("+unoinquery+") as a";
 
 else if(in.equalsIgnoreCase(NewFilterRepository.FMB))
 {
-	String unoinquery = this.selectDistrictsFromInputsupplierMachineryTable(val)
-            +" union all "
-            +this.selectDistrictsFromChcFmbMachineryTable(val);
+	String unoinquery = this.selectDistrictsFromInputsupplierMachineryTable(val);
+           // +" union all "
+            //+this.selectDistrictsFromChcFmbMachineryTable(val);
             
 sql = "select distinct * from ("+unoinquery+") as a order by name asc";
 
@@ -286,57 +286,66 @@ public List<FilterDto> getChcFmbByFilterKeys(String val,String in)
 		
 		private String selectDistrictsFromInputInsecticidesTable(String val)
 		{
-			String sql ="select dist.district_id id, dist.district_name as name\r\n"
-					+ " from input_supplier_insecticide inf \r\n"
-					+ " inner join insecticide_type_master fnt on fnt.id = inf.insecticide_type_id\r\n"
-					+ " inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
-					+ " inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
-					+ " where UPPER(fnt.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
-					+ " or UPPER(inf.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n"
-					+ " or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'";
+			String sql = "select distinct dist.district_id id, dist.district_name as name\r\n"
+					+ "	from input_supplier_insecticide inf \r\n"
+					+ "	left join input_supplier ip on ip.input_supplier_id = inf.input_supplier_id \r\n"
+					+ "	left join fpo fp on fp.fpo_id = inf.input_supplier_id\r\n"
+					+ "	inner join user_roles usr on usr.role_id = inf.role\r\n"
+					+ "	inner join insecticide_type_master fnt on fnt.id = inf.insecticide_type_id\r\n"
+					+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+					+ "	else fp.dist_ref_id end\r\n"
+					+ "	where UPPER(fnt.insecticide_type) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(inf.manufacturer_name) like '%"+val.toUpperCase()+"%'\r\n";
 			return sql;
 		}
 		private String selectDistrictsFromInputSeedTable(String val)
 		{
-			String sql ="select \r\n"
-					+ "  dist.district_id id, dist.district_name as name\r\n"
-					+ "  from input_supplier_seed inf \r\n"
-					+ "  inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id\r\n"
-					+ "  inner join crop_veriety_master cv on cv.veriety_id = inf.variety_id\r\n"
-					+ "  inner join crop_master cp on cp.id = cv.crop_master_ref_id\r\n"
-					+ "  inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
-					+ "  where UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
-					+ "  or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n"
-					+ "  or UPPER(inps.input_supplier_name) like '%"+val.toUpperCase()+"%'";
+			String sql = "select  distinct dist.district_id id, dist.district_name as name\r\n"
+					+ "	from input_supplier_seed inf \r\n"
+					+ "	left join input_supplier ip on ip.input_supplier_id = inf.input_supplier_id \r\n"
+					+ "	left join fpo fp on fp.fpo_id = inf.input_supplier_id\r\n"
+					+ "	inner join user_roles usr on usr.role_id = inf.role\r\n"
+					+ "	inner join crop_veriety_master cv on cv.veriety_id = inf.variety_id\r\n"
+					+ "	inner join crop_master cp on cp.id = cv.crop_master_ref_id\r\n"
+					+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+					+ "	else fp.dist_ref_id end\r\n"
+					+ "	where UPPER(cp.crop_name) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(cv.crop_veriety) like '%"+val.toUpperCase()+"%'\r\n";
 			return sql;
 		}
 		private String selectDistrictsFromInputFertilizerTable(String val)
 		{
-			String sql ="select dist.district_id id, dist.district_name as name\r\n"
-					   + "from input_supplier_fertilizer inf \r\n"
-					   + "inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
-					   + "inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
-					   + "inner join input_supplier inps on inps.input_supplier_id = inf.input_supplier_id \r\n"
-					   + "inner join districts dist on inps.dist_ref_id = dist.district_id\r\n"
-					   + "where UPPER(fn.fertilizer_name) like '%"+val.toUpperCase()+"%'\r\n"
-					   + "OR UPPER(fnt.fertilizer_type) like '%"+val.toUpperCase()+"%'\r\n"
-					   + "OR UPPER(inps.input_supplier_name)LIKE '%"+val.toUpperCase()+"%'\r\n";
-					
-					
+			String sql = "select distinct dist.district_id id, dist.district_name as name\r\n"
+					+ " from input_supplier_fertilizer inf \r\n"
+					+ "	left join input_supplier ip on ip.input_supplier_id = inf.input_supplier_id \r\n"
+					+ "	left join fpo fp on fp.fpo_id = inf.input_supplier_id\r\n"
+					+ "	inner join user_roles usr on usr.role_id = inf.role\r\n"
+					+ "	inner join fertilizer_name_master fn on fn.id = inf.fertilizer_name_id\r\n"
+					+ "	inner join fertilizer_type_master fnt on fnt.id = inf.fertilizer_type_id\r\n"
+					+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+					+ "	else fp.dist_ref_id end\r\n"
+					+ "	where UPPER(fn.fertilizer_name) like '%"+val.toUpperCase()+"%'\r\n"
+					+ "	OR UPPER(fnt.fertilizer_type) like '%"+val.toUpperCase()+"%'\r\n";
 			return sql;
 		}
 		private String selectDistrictsFromInputsupplierMachineryTable(String val)
 		{
 			
-			String sql ="select dist.district_id as id,\r\n"
+			String sql = "select distinct dist.district_id as id,\r\n"
 					+ "	dist.district_name as name\r\n"
 					+ "	from input_supplier_machinery inpm \r\n"
-					+ "	inner join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id\r\n"
-					+ "	inner join districts dist on ip.dist_ref_id = dist.district_id \r\n"
+					+ "	left join input_supplier ip on ip.input_supplier_id = inpm.input_supplier_id \r\n"
+					+ "	left join fpo fp on fp.fpo_id = inpm.input_supplier_id\r\n"
+					+ "	left join chc_fmb ch on ch.chc_fmb_id = inpm.input_supplier_id\r\n"
+					+ "	inner join user_roles usr on usr.role_id = inpm.role\r\n"
+					+ "	inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+					+ "	when usr.role='ROLE_CHCFMB' then ch.dist_ref_id \r\n"
+					+ "	else fp.dist_ref_id end\r\n"
 					+ "	inner join equipment_type_master eqt on eqt.id = inpm.machinery_type_id\r\n"
 					+ "	inner join equip_master eqp on eqp.id = inpm.machinery_name_id \r\n"
 					+ "	where UPPER(eqp.equpment_name) LIKE '%"+val.toUpperCase()+"%'\r\n"
-					+ " or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'";
+					+ "	or UPPER(eqt.type) LIKE '%"+val.toUpperCase()+"%'\r\n"
+					+ "	or UPPER(inpm.manufacturer_name) LIKE '%"+val.toUpperCase()+"%'\r\n";
 					
 			return sql;
 		}
