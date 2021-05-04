@@ -33,26 +33,26 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 		
 		sql = "select i.insecticide_type_id as insecticideTypeId, it.insecticide_type as insecticideType, sum(i.quantity) as quantity from input_supplier_insecticide i join insecticide_type_master it\r\n"
 				+ "on i.insecticide_type_id = it.id\r\n"
-				+ "where i.input_supplier_id = :masterId and i.is_deleted = false group by i.insecticide_type_id, it.insecticide_type";
+				+ "where i.input_supplier_id = :masterId and i.role = '3' and i.is_deleted = false group by i.insecticide_type_id, it.insecticide_type";
 		
 		List<InputSupplierDashboardDTO> obj =  (List<InputSupplierDashboardDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashboardDTO").setParameter("masterId", masterId).getResultList();
 		
 		sql = "select i.crop_id as cropId, c.crop_name as cropName, i.variety_id as varietyId, cv. crop_veriety as varietyName, sum(i.quantity) as seedQuantity from input_supplier_seed i join crop_master c on c.id = i.crop_id\r\n"
 				+ "			join crop_veriety_master cv on cv.veriety_id = i.variety_id \r\n"
-				+ "			where i.input_supplier_id = :masterId and i.is_deleted = false group by i.crop_id , c.crop_name , i.variety_id, cv. crop_veriety order by seedQuantity desc";
+				+ "			where i.input_supplier_id = :masterId and i.role = '3' and i.is_deleted = false group by i.crop_id , c.crop_name , i.variety_id, cv. crop_veriety order by seedQuantity desc";
 		
 		List<InputSupplierDashBoardSeedDTO> objseed =  (List<InputSupplierDashBoardSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardSeedDTO").setParameter("masterId", masterId).getResultList();
 		
 		sql = "select  distinct i.fertilizer_name_id as fertilizerNameId , f.fertilizer_name as fertilizerName, i.fertilizer_grade as fertilizerGrade, \r\n"
 				+ "sum(i.quantity) as fertilizerQty from input_supplier_fertilizer i\r\n"
 				+ "join fertilizer_name_master f on f.id = i.fertilizer_name_id \r\n"
-				+ "where i.input_supplier_id = :masterId and i.is_deleted = false group by i.fertilizer_name_id, f.fertilizer_name, i.fertilizer_grade order by fertilizerQty desc";
+				+ "where i.input_supplier_id = :masterId and i.role = '3' and i.is_deleted = false group by i.fertilizer_name_id, f.fertilizer_name, i.fertilizer_grade order by fertilizerQty desc";
 		
 		List<InputSupplierDashboardFertilizerDTO> objFertilizer =  (List<InputSupplierDashboardFertilizerDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashboardFertilizerDTO").setParameter("masterId", masterId).getResultList();
 		
 		sql = "select i.machinery_name_id as machineryNameId, e.equpment_name as machinerytName, sum(i.quantity) as machineryQty from input_supplier_machinery i\r\n"
 				+ "join equip_master e on e.id = i.machinery_name_id\r\n"
-				+ "where i.input_supplier_id = :masterId and i.is_deleted = false group by i.machinery_name_id, e.equpment_name order by machineryQty desc;";
+				+ "where i.input_supplier_id = :masterId and i.role = '3' and i.is_deleted = false group by i.machinery_name_id, e.equpment_name order by machineryQty desc;";
 		
 		List<InputSupplierDashboardMachineryDTO> objMachinery =  (List<InputSupplierDashboardMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashboardMachineryDTO").setParameter("masterId", masterId).getResultList();
 		
@@ -91,7 +91,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "				 left join farmer f on a.user_id=f.user_id \r\n"
 				+ "				 join crop_master cm on cm.id = a.crop_id\r\n"
 				+ "				 join crop_veriety_master cv on cv.veriety_id = a.veriety_id \r\n"
-				+ "				 where a.master_id= :masterId group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
+				+ "				 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "				 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid";
 		
 		List<InputSupplierDashBoardIndentSeedDTO> obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", masterId).getResultList();
@@ -117,7 +117,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 left join fpo d on a.user_id=d.user_id\r\n"
 				+ "								 left join farmer f on a.user_id=f.user_id \r\n"
 				+ "								 join fertilizer_name_master fn on fn.id = a.fertilizer_name\r\n"
-				+ "								 where a.master_id= :masterId group by ur.role,a.status, \r\n"
+				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 fn.fertilizer_name, a.fertilizer_grade,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
 		
@@ -144,7 +144,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 left join fpo d on a.user_id=d.user_id\r\n"
 				+ "								 left join farmer f on a.user_id=f.user_id \r\n"
 				+ "								 join insecticide_type_master it on it.id = a.insecticide_type_id\r\n"
-				+ "								 where a.master_id= :masterId group by ur.role,a.status, \r\n"
+				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 it.insecticide_type, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
 		
@@ -171,7 +171,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 left join fpo d on a.user_id=d.user_id\r\n"
 				+ "								 left join farmer f on a.user_id=f.user_id \r\n"
 				+ "								 join equip_master eq on eq.id = a.machinerynameid\r\n"
-				+ "								 where a.master_id= :masterId group by ur.role,a.status, \r\n"
+				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
 				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
 		
