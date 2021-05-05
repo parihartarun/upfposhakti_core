@@ -250,7 +250,7 @@ public class NewSearchRepository {
 //		        + " or UPPER(fnt.fertilizer_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
 //		        + " or UPPER(inps.input_supplier_name)LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
 		
-		String sql ="select isf.id id, \r\n"
+		/*String sql ="select isf.id id, \r\n"
 				+ "isf.fertilizer_grade grade,\r\n"
 				+ "isf.fertilizer_name_id itemnameid,\r\n"
 				+ "fn.fertilizer_name itemname,\r\n"
@@ -285,9 +285,44 @@ public class NewSearchRepository {
 				+ "inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
 				+ "else fp.dist_ref_id end"
 				+ " where UPPER(fn.fertilizer_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
-			    + " or UPPER(fnt.fertilizer_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
+			    + " or UPPER(fnt.fertilizer_type) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";*/
 			    //+ " or UPPER(isf.input_supplier_name)LIKE '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
-		
+		//id grade itemnameid itemname itemtypeid itemtype imagepath districtid district vendorid 
+		String sql = "select isf.id id, \r\n"
+				+ "isf.fertilizer_grade grade,\r\n"
+				+ "isf.fertilizer_name_id itemnameid,\r\n"
+				+ "fn.fertilizer_name itemname,\r\n"
+				+ "isf.fertilizer_type_id itemtypeid,\r\n"
+				+ "fnt.fertilizer_type itemtype,\r\n"
+				+ "isf.file_path imagepath,  \r\n"
+				+ "dist.district_id as districtid,\r\n"
+				+ "dist.district_name as district,\r\n"
+				+ "isf.input_supplier_id vendorid, \r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
+				+ "else fp.fpo_name end as vendorname,  \r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
+				+ "else fp.fpo_email end as vendoremail,\r\n"
+				+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
+				+ "else fp.user_id end as userid,  \r\n"
+				+ "isf.manufacturer_name manufacturer,\r\n"
+				+ "isf.quantity quantity, \r\n"
+				+ "cast('fertilizer' as character varying) as recordtype,\r\n"
+				+ "cast(null as character varying) as crop, \r\n"
+				+ "cast(null as integer) as cropid,\r\n"
+				+ "cast(null as character varying) as cropveriety,\r\n"
+				+ "cast(null as integer) as cropverietyid,\r\n"
+				+ "isf.role as roleid,\r\n"
+				+ "usr.role as role\r\n"
+				+ "from input_supplier_fertilizer isf \r\n"
+				+ "inner join user_roles usr on usr.role_id = isf.role\r\n"
+				+ "left join input_supplier ip on ip.input_supplier_id = isf.input_supplier_id \r\n"
+				+ "left join fpo fp on fp.fpo_id = isf.input_supplier_id\r\n"
+				+ "inner join fertilizer_type_master ft on ft.id = isf.fertilizer_type_id\r\n"
+				+ "inner join fertilizer_name_master fn on fn.id = isf.fertilizer_name_id\r\n"
+				+ "inner join fertilizer_type_master fnt on fnt.id = isf.fertilizer_type_id\r\n"
+				+ "inner join districts dist on dist.district_id = case when usr.role='ROLE_INPUTSUPPLIER' then ip.dist_ref_id\r\n"
+				+ "else fp.dist_ref_id end where UPPER(fn.fertilizer_name) like '%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n"
+				+ " or UPPER(fnt.fertilizer_type) like'%"+searchRequestDto.getVal().toUpperCase()+"%'\r\n";
 		
 		return sql;
 		
@@ -339,7 +374,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.input_supplier_name\r\n"
 			+ "else fp.fpo_name end as vendorname,\r\n"
 			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
-			+ "else fp.fpo_email end as vendoremail,\r\n"
+			+ "else fp.fpo_email end as vendorEmail,\r\n"
 			+ "case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
 			+ "else fp.user_id end as userid,\r\n"
 			+ "ins.insecticide_type_id as itemtypeid,\r\n"
@@ -562,7 +597,7 @@ private String searchInsecticidesInInputSupplierInsecticides(SearchRequestDto se
 				+ "	else fp.fpo_name end as vendorname, \r\n"
 				+ "	case when usr.role='ROLE_INPUTSUPPLIER' then ip.email\r\n"
 				+ "	when usr.role = 'ROLE_CHCFMB' then ch.email\r\n"
-				+ "	else fp.fpo_email end as vendoremail,\r\n"
+				+ "	else fp.fpo_email end as vendorEmail,\r\n"
 				+ "	case when usr.role='ROLE_INPUTSUPPLIER' then ip.user_id\r\n"
 				+ "	when usr.role = 'ROLE_CHCFMB' then ch.user_id\r\n"
 				+ "	else fp.user_id end as userid, \r\n"

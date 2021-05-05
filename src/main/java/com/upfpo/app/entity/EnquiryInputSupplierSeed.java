@@ -30,7 +30,8 @@ classes = {
                 		@ColumnResult(name = "crop_name", type = String.class),
                 		@ColumnResult(name = "varietyName", type = String.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
-                		@ColumnResult(name = "enqId", type = BigInteger.class)
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
+                		@ColumnResult(name = "enquieryNumber", type = String.class)
                 })
 })
 @SqlResultSetMapping(name="EnquirySeedDTO",
@@ -106,6 +107,9 @@ public class EnquiryInputSupplierSeed
 	
 	@Column(name = "master_user_id")
 	private Integer masterUserId;
+	
+	@Column(name = "enquierynumber")
+	private String enquieryNumber;
 
 	public BigInteger getEnqid() {
 		return enqid;
@@ -241,5 +245,13 @@ public class EnquiryInputSupplierSeed
 
 	public void setMasterUserId(Integer masterUserId) {
 		this.masterUserId = masterUserId;
+	}
+
+	public String getEnquieryNumber() {
+		return enquieryNumber;
+	}
+
+	public void setEnquieryNumber(String enquieryNumber) {
+		this.enquieryNumber = enquieryNumber;
 	}
 }

@@ -1,5 +1,7 @@
 package com.upfpo.app.dto.search;
 
+import java.math.BigInteger;
+
 public class FmbSearchDtoAll {
 	private Integer id; 
 	private Integer vendorid; 
@@ -17,7 +19,7 @@ public class FmbSearchDtoAll {
 	private String recordtype;
 	private String role;
 	private String roleid;
-	private Integer userid; 
+	private BigInteger userid; 
 	private String vendoremail;
 	
 	
@@ -33,10 +35,11 @@ public class FmbSearchDtoAll {
 	public void setRoleid(String roleid) {
 		this.roleid = roleid;
 	}
-	public Integer getUserid() {
+	
+	public BigInteger getUserid() {
 		return userid;
 	}
-	public void setUserid(Integer userid) {
+	public void setUserid(BigInteger userid) {
 		this.userid = userid;
 	}
 	public String getRole() {
@@ -70,7 +73,7 @@ public class FmbSearchDtoAll {
 	
 	public FmbSearchDtoAll(Integer id,Integer vendorid, String vendorname, String imagepath, String company, Integer machinetypeid,
 			String machinetype, Integer quantity, Integer districtid, String district, Double rent,
-			Integer machinenameid, String machinename, String recordtype,String roleid,String role,Integer userid, String vendoremail) {
+			Integer machinenameid, String machinename, String recordtype,String roleid,String role,BigInteger userid, String vendoremail) {
 		super();
 		this.vendorid = vendorid;
 		this.vendorname = vendorname;

@@ -34,7 +34,8 @@ classes = {
                 		@ColumnResult(name = "fertilizer_grade", type = String.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
                 		@ColumnResult(name = "create_date_time", type = Calendar.class),
-                		@ColumnResult(name = "enqId", type = BigInteger.class)
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
+                		@ColumnResult(name = "enquieryNumber", type = String.class)
                 })
 })
 @SqlResultSetMapping(name="EnquiryFertilizerDTO",
@@ -115,6 +116,9 @@ public class EnquiryInputSupplierFertilizer
 	
 	@Column(name = "master_user_id")
 	private Integer masterUserId;
+	
+	@Column(name = "enquierynumber")
+	private String enquieryNumber;
 
 	public BigInteger getEnqid() {
 		return enqid;
@@ -266,5 +270,13 @@ public class EnquiryInputSupplierFertilizer
 
 	public void setMasterUserId(Integer masterUserId) {
 		this.masterUserId = masterUserId;
+	}
+
+	public String getEnquieryNumber() {
+		return enquieryNumber;
+	}
+
+	public void setEnquieryNumber(String enquieryNumber) {
+		this.enquieryNumber = enquieryNumber;
 	}
 }

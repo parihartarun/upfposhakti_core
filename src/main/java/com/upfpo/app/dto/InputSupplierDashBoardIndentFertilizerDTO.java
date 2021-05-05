@@ -23,9 +23,11 @@ public class InputSupplierDashBoardIndentFertilizerDTO
 	
 	private BigInteger enqId;
 	
+	private String enquieryNumber;
+	
 	public InputSupplierDashBoardIndentFertilizerDTO(String createdBy, BigInteger contact_details, String role,
-			String status, String fertilizer_name, String fertilizer_grade, Double indentQty,
-			Calendar create_date_time, BigInteger enqId) {
+			String status, String fertilizer_name, String fertilizer_grade, Double indentQty, Calendar create_date_time,
+			BigInteger enqId, String enquieryNumber) {
 		super();
 		this.createdBy = createdBy;
 		this.contact_details = contact_details;
@@ -36,6 +38,7 @@ public class InputSupplierDashBoardIndentFertilizerDTO
 		this.indentQty = indentQty;
 		this.create_date_time = create_date_time;
 		this.enqId = enqId;
+		this.enquieryNumber = enquieryNumber;
 	}
 
 	public String getCreatedBy() {
@@ -109,5 +112,12 @@ public class InputSupplierDashBoardIndentFertilizerDTO
 	public void setEnqId(BigInteger enqId) {
 		this.enqId = enqId;
 	}
-	
+
+	public String getEnquieryNumber() {
+		return enquieryNumber;
+	}
+
+	public void setEnquieryNumber(String enquieryNumber) {
+		this.enquieryNumber = enquieryNumber;
+	}
 }

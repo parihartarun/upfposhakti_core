@@ -1,5 +1,7 @@
 package com.upfpo.app.dto.search;
 
+import java.math.BigInteger;
+
 import javax.persistence.ColumnResult;
 
 public class InputSupplierFertilizerSearchDto {
@@ -26,12 +28,13 @@ public class InputSupplierFertilizerSearchDto {
 	private String  recordtype;
 	private String roleid;
 	private String  role;
-    private Integer userid;
+    private BigInteger userid;
     
-	public Integer getUserid() {
+	
+	public BigInteger getUserid() {
 		return userid;
 	}
-	public void setUserid(Integer userid) {
+	public void setUserid(BigInteger userid) {
 		this.userid = userid;
 	}
 	public String getRoleid() {
@@ -167,9 +170,9 @@ public class InputSupplierFertilizerSearchDto {
 		super();
 	}
 	public InputSupplierFertilizerSearchDto(Integer id, Integer itemnameid, String itemname,
-			Integer itemtypeid, String itemtype, Double quantity, Integer vendorid, String vendorname, String vendorEmail,
+			Integer itemtypeid, String itemtype, Double quantity, Integer vendorid, String vendorname, String vendoremail,
 			Integer districtid, String district, String imagepath, String manufacturer, String crop, Integer cropid,
-			String cropveriety, Integer cropverietyid, String recordtype, String role,String roleid, String grade,Integer userid) {
+			String cropveriety, Integer cropverietyid, String recordtype, String role,String roleid, String grade,BigInteger userid) {
 		super();
 		this.id = id;
 		this.itemnameid = itemnameid;
@@ -180,7 +183,7 @@ public class InputSupplierFertilizerSearchDto {
 		this.quantity = quantity;
 		this.vendorid = vendorid;
 		this.vendorname = vendorname;
-		this.vendorEmail = vendorEmail;
+		this.vendorEmail = vendoremail;
 		this.districtid = districtid;
 		this.district = district;
 		this.imagepath = imagepath;
@@ -194,10 +197,5 @@ public class InputSupplierFertilizerSearchDto {
 		this.roleid=roleid;
 		this.userid = userid;
 	}	
-	
-
-	
-
-	
 	
 }

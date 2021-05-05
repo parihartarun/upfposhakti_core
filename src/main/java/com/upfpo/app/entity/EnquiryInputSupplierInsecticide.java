@@ -29,7 +29,8 @@ classes = {
                 		@ColumnResult(name = "insecticide_type", type = String.class),
                 		@ColumnResult(name = "indentQty", type = Double.class),
                 		@ColumnResult(name = "create_date_time", type = Calendar.class),
-                		@ColumnResult(name = "enqId", type = BigInteger.class)
+                		@ColumnResult(name = "enqId", type = BigInteger.class),
+                		@ColumnResult(name = "enquieryNumber", type = String.class)
                 })
 })
 @Entity
@@ -89,6 +90,9 @@ public class EnquiryInputSupplierInsecticide
 	
 	@Column(name = "master_user_id")
 	private Integer masterUserId;
+	
+	@Column(name = "enquierynumber")
+	private String enquieryNumber;
 
 	public BigInteger getEnqid() {
 		return enqid;
@@ -224,5 +228,13 @@ public class EnquiryInputSupplierInsecticide
 
 	public void setMasterUserId(Integer masterUserId) {
 		this.masterUserId = masterUserId;
+	}
+
+	public String getEnquieryNumber() {
+		return enquieryNumber;
+	}
+
+	public void setEnquieryNumber(String enquieryNumber) {
+		this.enquieryNumber = enquieryNumber;
 	}
 }

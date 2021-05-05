@@ -1,5 +1,7 @@
 package com.upfpo.app.dto.search;
 
+import java.math.BigInteger;
+
 import javax.persistence.ColumnResult;
 
 public class InputSupplierSearchDtoAll {
@@ -24,23 +26,20 @@ public class InputSupplierSearchDtoAll {
 	private String  recordtype;
 	private String  roleid;
 	private String  role;
-	private Integer userid;
+	private BigInteger userid;
 	public String getRoleid() {
 		return roleid;
 	}
 	public void setRoleid(String roleid) {
 		this.roleid = roleid;
 	}
-	public Integer getUserid() {
+
+	public BigInteger getUserid() {
 		return userid;
 	}
-	public void setUserid(Integer userid) {
+	public void setUserid(BigInteger userid) {
 		this.userid = userid;
 	}
-	
-	
-	
-	
 	public String getRole() {
 		return role;
 	}
@@ -172,7 +171,7 @@ public class InputSupplierSearchDtoAll {
 	public InputSupplierSearchDtoAll(Integer id, String itemname, Integer itemtypeid,String itemtype, Double quantity,
 			Integer vendorid, String vendorname, String vendorEmail, Integer districtid, String district, String imagepath,
 			String manufacturer, String crop, Integer cropid, String cropveriety, Integer cropverietyid,
-			String recordtype,String roleid,String role,Integer userid) {
+			String recordtype,String roleid,String role,BigInteger userid) {
 		super();
 		this.id = id;
 		this.itemname = itemname;

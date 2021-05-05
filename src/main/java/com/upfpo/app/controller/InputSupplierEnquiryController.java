@@ -213,8 +213,9 @@ public class InputSupplierEnquiryController
 			{
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
-			inputSupplierEnquiryService.createInsecticide(enquiryInputSupplierInsecticide);
-			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
+			
+			EnquiryInputSupplierInsecticide obj = inputSupplierEnquiryService.createInsecticide(enquiryInputSupplierInsecticide);
+			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
