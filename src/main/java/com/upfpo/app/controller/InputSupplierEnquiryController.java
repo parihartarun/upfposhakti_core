@@ -69,8 +69,8 @@ public class InputSupplierEnquiryController
 			{
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
-			inputSupplierEnquiryService.createSeedIndent(enquiryInputSupplierSeed);
-			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
+			EnquiryInputSupplierSeed obj =inputSupplierEnquiryService.createSeedIndent(enquiryInputSupplierSeed);
+			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
@@ -115,8 +115,8 @@ public class InputSupplierEnquiryController
 			{
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
-			inputSupplierEnquiryService.createFertilizerIndent(enquiryInputSupplierFertilizer);
-			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
+			EnquiryInputSupplierFertilizer obj = inputSupplierEnquiryService.createFertilizerIndent(enquiryInputSupplierFertilizer);
+			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
@@ -167,8 +167,8 @@ public class InputSupplierEnquiryController
 			{
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
-			inputSupplierEnquiryService.createMachineryIndent(enquiryInputSupplierMachinery);
-			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
+			EnquiryInputSupplierMachinery obj = inputSupplierEnquiryService.createMachineryIndent(enquiryInputSupplierMachinery);
+			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
