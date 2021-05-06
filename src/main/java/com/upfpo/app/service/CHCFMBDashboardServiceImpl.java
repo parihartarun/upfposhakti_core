@@ -80,7 +80,7 @@ public class CHCFMBDashboardServiceImpl implements CHCFMBDashboardService
 				+ "								 WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
 				+ "								 ELSE f.farmer_mob\r\n"
 				+ "								 END as contact_details,\r\n"
-				+ "								 ur.role, a.status, eq.equpment_name, a.no_of_days, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId \r\n"
+				+ "								 ur.role, a.status, eq.equpment_name, a.no_of_days, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId, a.enquierynumber as enquieryNumber \r\n"
 				+ "								 from enquiry_input_supplier_machinery a\r\n"
 				+ "								 join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ "								 left join chc_fmb b on a.user_id = b.user_id\r\n"
@@ -91,7 +91,7 @@ public class CHCFMBDashboardServiceImpl implements CHCFMBDashboardService
 				+ "								 join equip_master eq on eq.id = a.machinerynameid\r\n"
 				+ "								 where a.master_id= :masterId and a.master_role_id = '5' group by ur.role,a.status, \r\n"
 				+ "								 eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
-				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
+				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid, a.enquierynumber";
 		
 		List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", masterId).getResultList();
 		

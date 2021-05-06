@@ -41,8 +41,16 @@ public class FarmerDashboardServiceImpl implements FarmerDashboardService
 	{
 		String financialYear = GetFinYear.getCurrentFinYear();
 		totalLandArea = landDetailsRepo.getFarmerTotalLand(farmerId);
+		if(totalLandArea == null || totalLandArea == 0.0)
+		{
+			totalLandArea = 0.0;
+		}
 		System.out.println("Financial Year:"+financialYear);
 		cultivatedLand = cropDetailsRepository.getCultivatedLand(farmerId, financialYear);
+		if(cultivatedLand == null || cultivatedLand == 0.0)
+		{
+			cultivatedLand = 0.0;
+		}
 		uncultivatedLand = totalLandArea - cultivatedLand;
 		crops = cropDetailsRepository.getCropsCount(farmerId, financialYear);
 		

@@ -281,7 +281,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 			{
 			  String sql = "select users.user_id,users.user_name,fpo_name,district_name,date_of_regi,fpo_landline,fpo_email,users.enabled from fpo \r\n" + 
 			   		"join districts on fpo.dist_ref_id = districts.district_id  \r\n" + 
-			   		"join users on fpo.users_id = users.user_id";
+			   		"join users on fpo.user_id = users.user_id and fpo.is_deleted= false";
 			   
 			  list = (List<DepartmentAllUserDto>) entityManager.createNativeQuery(sql, "DepartmentAllUserDto").getResultList();
 			  System.out.println(list.size());

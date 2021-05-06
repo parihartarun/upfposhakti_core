@@ -70,7 +70,7 @@ public class InputSupplierEnquiryController
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
 			EnquiryInputSupplierSeed obj =inputSupplierEnquiryService.createSeedIndent(enquiryInputSupplierSeed);
-			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
+			return ResponseEntity.ok(new MessageResponse("Indent saved successfully... Indent id "+obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
@@ -85,7 +85,7 @@ public class InputSupplierEnquiryController
 		try
 		{
 			inputSupplierEnquiryService.updateSeedIndentStatus(enquiryInputSupplierSeed, enqId);
-			return ResponseEntity.ok(new MessageResponse("Indent Created SuccessFully !"));
+			return ResponseEntity.ok(new MessageResponse("Indent Updated SuccessFully !"));
 		}
 		catch(Exception e)
 		{
@@ -116,7 +116,7 @@ public class InputSupplierEnquiryController
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
 			EnquiryInputSupplierFertilizer obj = inputSupplierEnquiryService.createFertilizerIndent(enquiryInputSupplierFertilizer);
-			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
+			return ResponseEntity.ok(new MessageResponse("Indent saved successfully... Indent id "+obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
@@ -168,7 +168,7 @@ public class InputSupplierEnquiryController
 				return ResponseEntity.ok(new MessageResponse("Same user can't create an indent!"));
 			}
 			EnquiryInputSupplierMachinery obj = inputSupplierEnquiryService.createMachineryIndent(enquiryInputSupplierMachinery);
-			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
+			return ResponseEntity.ok(new MessageResponse("Indent saved successfully... Indent id "+obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{
@@ -215,7 +215,7 @@ public class InputSupplierEnquiryController
 			}
 			
 			EnquiryInputSupplierInsecticide obj = inputSupplierEnquiryService.createInsecticide(enquiryInputSupplierInsecticide);
-			return ResponseEntity.ok(new MessageResponse(obj.getEnquieryNumber()));
+			return ResponseEntity.ok(new MessageResponse("Indent saved successfully... Indent id "+obj.getEnquieryNumber()));
 		}
 		catch(Exception e)
 		{

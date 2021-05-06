@@ -81,7 +81,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "				 WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
 				+ "				 ELSE f.farmer_mob\r\n"
 				+ "				 END as contact_details,\r\n"
-				+ "				 ur.role, a.status, cm.crop_name, cv.crop_veriety as varietyName, sum(a.indent_qty) as indentQty, a.enqid as enqId \r\n"
+				+ "				 ur.role, a.status, cm.crop_name, cv.crop_veriety as varietyName, sum(a.indent_qty) as indentQty, a.enqid as enqId, a.enquierynumber as enquieryNumber \r\n"
 				+ "				 from enquiry_input_supplier_seed a\r\n"
 				+ "				 join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ "				 left join chc_fmb b on a.user_id = b.user_id\r\n"
@@ -92,7 +92,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "				 join crop_master cm on cm.id = a.crop_id\r\n"
 				+ "				 join crop_veriety_master cv on cv.veriety_id = a.veriety_id \r\n"
 				+ "				 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, cm.crop_name, cv.crop_veriety,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
-				+ "				 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid";
+				+ "				 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.enqid, a.enquierynumber ";
 		
 		List<InputSupplierDashBoardIndentSeedDTO> obj =  (List<InputSupplierDashBoardIndentSeedDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentSeedDTO").setParameter("masterId", masterId).getResultList();
 		
@@ -108,7 +108,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
 				+ "								 ELSE f.farmer_mob\r\n"
 				+ "								 END as contact_details,\r\n"
-				+ "								 ur.role, a.status, fn.fertilizer_name, a.fertilizer_grade, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId\r\n"
+				+ "								 ur.role, a.status, fn.fertilizer_name, a.fertilizer_grade, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId, a.enquierynumber as enquieryNumber\r\n"
 				+ "								 from enquiry_input_supplier_fertilizer a\r\n"
 				+ "								 join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ "								 left join chc_fmb b on a.user_id = b.user_id\r\n"
@@ -119,7 +119,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 join fertilizer_name_master fn on fn.id = a.fertilizer_name\r\n"
 				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 fn.fertilizer_name, a.fertilizer_grade,buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
-				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid";
+				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid, a.enquierynumber ";
 		
 		List<InputSupplierDashBoardIndentFertilizerDTO> objFertilizer =  (List<InputSupplierDashBoardIndentFertilizerDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentFertilizerDTO").setParameter("masterId", masterId).getResultList();
 		
@@ -135,7 +135,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
 				+ "								 ELSE f.farmer_mob\r\n"
 				+ "								 END as contact_details,\r\n"
-				+ "								 ur.role, a.status, it.insecticide_type, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId \r\n"
+				+ "								 ur.role, a.status, it.insecticide_type, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId, a.enquierynumber as enquieryNumber \r\n"
 				+ "								 from enquiry_input_supplier_insecticide a\r\n"
 				+ "								 join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ "								 left join chc_fmb b on a.user_id = b.user_id\r\n"
@@ -146,7 +146,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 join insecticide_type_master it on it.id = a.insecticide_type_id\r\n"
 				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 it.insecticide_type, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
-				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
+				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid, a.enquierynumber ";
 		
 		List<InputSupplierDashBoardIndentInsecticideDTO> objInsec =  (List<InputSupplierDashBoardIndentInsecticideDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentInsecticideDTO").setParameter("masterId", masterId).getResultList();
 		
@@ -162,7 +162,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 WHEN ur.role='ROLE_INPUTSUPPLIER'  THEN e.mobile_number\r\n"
 				+ "								 ELSE f.farmer_mob\r\n"
 				+ "								 END as contact_details,\r\n"
-				+ "								 ur.role, a.status, eq.equpment_name, a.no_of_days, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId \r\n"
+				+ "								 ur.role, a.status, eq.equpment_name, a.no_of_days, sum(a.indent_qty) as indentQty, a.create_date_time, a.enqid as enqId, a.enquierynumber \r\n"
 				+ "								 from enquiry_input_supplier_machinery a\r\n"
 				+ "								 join user_roles ur on ur.role_id=a.role_ref_id\r\n"
 				+ "								 left join chc_fmb b on a.user_id = b.user_id\r\n"
@@ -173,7 +173,7 @@ public class InputSupplierDashboardServiceImpl implements InputSupplierDashboard
 				+ "								 join equip_master eq on eq.id = a.machinerynameid\r\n"
 				+ "								 where a.master_id= :masterId and a.master_role_id = '3' group by ur.role,a.status, \r\n"
 				+ "								 eq.equpment_name, a.no_of_days, buyerSeller_name, chc_fmb_name, input_supplier_name, fpo_name,\r\n"
-				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid ";
+				+ "								 farmer_name,c.mobile_number, c.mobile_number, b.mobile_number, e.mobile_number, f.farmer_mob, a.create_date_time, a.enqid, a.enquierynumber ";
 		
 		List<InputSupplierDashBoardIndentMachineryDTO> objMach =  (List<InputSupplierDashBoardIndentMachineryDTO>) entityManager.createNativeQuery(sql,"InputSupplierDashBoardIndentMachineryDTO").setParameter("masterId", masterId).getResultList();	
 		
