@@ -18,12 +18,13 @@ public class ChcFmbDTO {
     String shop_establishment_number;
     String allotment_no;
     String contactPerson;
+    String chcFmbType;
 
     public ChcFmbDTO() {
     }
 
     public ChcFmbDTO(Integer chc_fmb_id, String chc_fmb_name, String user_name, Integer district_id, String district_name, Integer block_id, String block_name, Integer village_id,
-                     String village_name, Long pincode, String email, Long mobile_number, String firm_registraion_number, String shop_establishment_number, String allotment_no, String contactPerson) {
+                     String village_name, Long pincode, String email, Long mobile_number, String firm_registraion_number, String shop_establishment_number, String allotment_no, String contactPerson, String chcFmbType) {
         this.chc_fmb_id = chc_fmb_id;
         this.chc_fmb_name = chc_fmb_name;
         this.user_name = user_name;
@@ -40,6 +41,7 @@ public class ChcFmbDTO {
         this.shop_establishment_number = shop_establishment_number;
         this.allotment_no = allotment_no;
         this.contactPerson = contactPerson;
+        this.chcFmbType = chcFmbType;
     }
 
     public Integer getChc_fmb_id() {
@@ -168,5 +170,13 @@ public class ChcFmbDTO {
 
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
+	}
+
+	public String getChcFmbType() {
+		return chcFmbType;
+	}
+
+	public void setChcFmbType(String chcFmbType) {
+		this.chcFmbType = chcFmbType;
 	}
 }

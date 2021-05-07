@@ -199,6 +199,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
                     inputSupplierMachinery.setManufacturerName(inputSupplierMachinery1.getManufacturerName());
                     inputSupplierMachinery.setRentPerDay(inputSupplierMachinery1.getRentPerDay());
                     inputSupplierMachinery.setDeleted(false);
+                    inputSupplierMachinery.setGovtSchemeAssistant(inputSupplierMachinery1.getGovtSchemeAssistant());
                     return machineryRepository.save(inputSupplierMachinery);
                 }).orElseThrow(() -> new ResourceNotFoundException("Id Not Found"));
     }
@@ -209,7 +210,7 @@ public class InputSupplierMachineryServiceImpl implements InputSupplierMachinery
         List<InputSupplierMachineryDTO> list = null;
         try {
             String sql ="Select  ism.id,etm.id as type_id, etm.type, em.id as name_id, em.equpment_name, ism.technical_specs,  " +
-                    "ism.quantity, ism.manufacturer_name, ism.file_path, ism.rent_per_day \r\n" +
+                    "ism.quantity, ism.manufacturer_name, ism.file_path, ism.rent_per_day,ism.govt_scheme_assistant as govtSchemeAssistant \r\n" +
                     "from input_supplier_machinery ism \r\n" +
                     "left join equipment_type_master etm on etm.id=ism.machinery_type_id \r\n" +
                     "left join equip_master em on em.id=ism.machinery_name_id \r\n" +

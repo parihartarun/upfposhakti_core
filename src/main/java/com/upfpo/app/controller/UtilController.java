@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,13 +22,20 @@ import com.upfpo.app.configuration.exception.response.ExceptionResponse;
 import com.upfpo.app.dto.CropSearchPagePagableDto;
 import com.upfpo.app.dto.DisplayDataDTO;
 import com.upfpo.app.dto.FPODetailsDTO;
+import com.upfpo.app.dto.FarmerMasterDTO;
 import com.upfpo.app.dto.ProductionDTO;
 import com.upfpo.app.dto.SearchRequestDto;
+import com.upfpo.app.entity.User;
+import com.upfpo.app.repository.FarmerRegisterRepo;
+import com.upfpo.app.repository.UserRepository;
 import com.upfpo.app.service.CollectionCenterService;
+import com.upfpo.app.service.FarmerService;
 import com.upfpo.app.service.InputSupplierMachineryService;
 import com.upfpo.app.service.MasterService;
 import com.upfpo.app.service.NewSearchService;
+import com.upfpo.app.service.UserService;
 import com.upfpo.app.util.GetCurrentDate;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -38,6 +46,18 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Api(produces = "application/json", value = "Retrive Data on Homepage")
 public class UtilController {
+	
+	@Autowired
+	FarmerService farmerService;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	FarmerRegisterRepo farmerRegisterRepo;
 	
 	@Autowired
 	private MasterService  masterServices;
@@ -183,11 +203,29 @@ public class UtilController {
 	}
 	
 	
+	/*public @ResponseBody HttpStatus update() throws Exception
+	{
+	    farmerService.getFarmersByUserId();
+	    List<FarmerMasterDTO> list = farmerService.getFarmersByUserId(); 
+	    	
+	    	for(int i = 0;i<list.size();i++)
+	    	{    	
+	    	System.err.println(userRepository.maxUserId()+1);
+	    	User u = new User();
+	    	u.setUserId(userRepository.maxUserId()+1);
+	    	u.setUserName("upfpofarmer"+""+i);
+	    	u.setEnabled(false);
+	    	u.setRoleRefId("6");
+	    	u.setPassword("$2a$10$BhNNCATofQry6A3stln2aer5cgyPk0IE7QsUU2QRlWbInTBLTiGoy");
+	    	u.setChanged(false);
+	    	u.setDeleted(false);
+	    	u = userService.addUser(u);
+	    	
+	    	farmerRegisterRepo.updateUserId(u,list.get(i).getFarmerId());
+		}
+	    
+		return HttpStatus.OK;		
 	
-	
-	
-	
-	
-	
-	
+	}*/
+
 }

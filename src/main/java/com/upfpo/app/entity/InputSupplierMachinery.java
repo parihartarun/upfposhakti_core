@@ -33,7 +33,8 @@ import com.upfpo.app.dto.InputSupplierMachineryDTO;
                                 @ColumnResult(name = "quantity", type = Integer.class),
                                 @ColumnResult(name = "manufacturer_name", type = String.class),
                                 @ColumnResult(name = "file_path", type = String.class),
-                                @ColumnResult(name = "rent_per_day", type = Double.class)
+                                @ColumnResult(name = "rent_per_day", type = Double.class),
+                                @ColumnResult(name = "govtSchemeAssistant", type = String.class)
                         })
         })
 @SqlResultSetMapping(name="InputSupplierDashboardMachineryDTO",
@@ -106,13 +107,15 @@ public class InputSupplierMachinery {
     @Column(name = "role")
     private String role;
    
-
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_time")
     private Calendar createDateTime;
+	
+	 @Column(name = "govt_scheme_assistant")
+	 private String govtSchemeAssistant;
 
     public InputSupplierMachinery(Integer mchineryTypeId, Integer machineryNameId, String otherEquipmentName, String specification, Integer quantity,
-                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay,String role) {
+                                  Integer inputSupplierId, String manufacturerName, Double rentPerDay,String role, String govtSchemeAssistant) {
         this.machineryTypeId=mchineryTypeId;
         this.machinerynameId=machineryNameId;
         this.otherEquipmentName= otherEquipmentName;
@@ -122,6 +125,7 @@ public class InputSupplierMachinery {
         this.manufacturerName=manufacturerName;
         this.rentPerDay = rentPerDay;
         this.role = role;
+        this.govtSchemeAssistant = govtSchemeAssistant;
     }
 
     public InputSupplierMachinery() {
@@ -285,5 +289,13 @@ public class InputSupplierMachinery {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getGovtSchemeAssistant() {
+		return govtSchemeAssistant;
+	}
+
+	public void setGovtSchemeAssistant(String govtSchemeAssistant) {
+		this.govtSchemeAssistant = govtSchemeAssistant;
 	}
 }

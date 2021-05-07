@@ -200,4 +200,13 @@ public class UserServiceImpl implements UserService {
 	public List<User> getByDepartment (String id){
 		return userRepository.findByRoleRefId(id);
 	}
+	
+	@Override
+	public User addUser(User u) {
+		
+		User user = userRepository.save(u);
+		
+		return user;
+				
+	}
 }

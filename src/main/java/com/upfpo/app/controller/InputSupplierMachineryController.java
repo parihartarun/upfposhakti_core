@@ -105,6 +105,7 @@ public class InputSupplierMachineryController {
                                                                         @RequestParam(value = "rent_per_day", required = false) Double rentPerDay,
                                                                         @RequestParam(value = "vendor_id", required = false) Integer inputSupplierId,
                                                                         @RequestParam(value = "role", required = false) String role,
+                                                                        @RequestParam(value = "govt_scheme", required = false) String govtScheme,
                                                                         @RequestParam(value = "file", required = false) MultipartFile file) {
         LOG.info("Inside InputSupplierMachineryController saving InputSupplierMachinery");
         ResponseEntity<MessageResponse> resp = null;
@@ -120,7 +121,7 @@ public class InputSupplierMachineryController {
         if(contentTypes.contains(fileContentType) || fileContentType == null)
         {
             try {
-                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay,role);
+                InputSupplierMachinery inputSupplierMachinery = new InputSupplierMachinery(mchineryTypeId, machineryNameId, otherMachineryName, specification, quantity, inputSupplierId, manufacturerName, rentPerDay,role,govtScheme);
                 InputSupplierMachinery id = machineryService.createInputSupplierMachinery(inputSupplierMachinery, file);
                 resp = new ResponseEntity<MessageResponse>(new MessageResponse("InputSupplierMachinery created successfully"), HttpStatus.OK );
                 LOG.info("InputSupplierMachinery  created Successfully!");
@@ -194,6 +195,7 @@ public class InputSupplierMachineryController {
         supplierMachinery.setRole(role);
         supplierMachinery.setManufacturerName(manufacturerName);
         supplierMachinery.setRentPerDay(rentPerDay);
+        
         ResponseEntity<MessageResponse> resp = null;
         String fileContentType = file.getContentType();
         if (contentTypes.contains(fileContentType)){
@@ -228,6 +230,7 @@ public class InputSupplierMachineryController {
                                                                         @RequestParam(value = "quantity", required = false) Integer quantity,
                                                                         @RequestParam(value = "manufacturer_name", required = false) String manufacturerName,
                                                                         @RequestParam(value = "input_supplier_id", required = false) Integer inputSupplierId,
+                                                                        @RequestParam(value = "govt_scheme", required = false) String govtScheme,
                                                                         @RequestParam(value = "role", required = false) String role
                                                                         ) {
         LOG.info("Inside InputSupplierMachinery updating InputSupplierMachinery detail ");
@@ -238,6 +241,7 @@ public class InputSupplierMachineryController {
         supplierMachinery.setTechnicalSpecs(specification);
         supplierMachinery.setQuantity(quantity);
         supplierMachinery.setManufacturerName(manufacturerName);
+        supplierMachinery.setGovtSchemeAssistant(govtScheme);
         ResponseEntity<MessageResponse> resp = null;
             try {
                 machineryService.updateInputSupplierMachinery(id, supplierMachinery, file);

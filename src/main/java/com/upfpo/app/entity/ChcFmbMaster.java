@@ -80,7 +80,8 @@ classes = {
 						@ColumnResult(name = "firm_registraion_number", type = String.class),
 						@ColumnResult(name = "shop_establishment_number", type = String.class),
 						@ColumnResult(name = "allotment_no", type = String.class),
-						@ColumnResult(name = "contactPerson", type = String.class)
+						@ColumnResult(name = "contactPerson", type = String.class),
+						@ColumnResult(name = "chcFmbType", type = String.class)
 				})
 		})
 @SqlResultSetMapping(name="ChcFmbOnDistrictDTO",
@@ -139,6 +140,9 @@ public class ChcFmbMaster implements Serializable
 	
 	@Column(name = "contact_person")
 	private String contactPerson;
+	
+	@Column(name = "chc_fmb_type")
+	private String chcFmbType;
 	
 	public User getUser() {
 		return user;
@@ -261,5 +265,12 @@ public class ChcFmbMaster implements Serializable
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
 	}
-	
+
+	public String getChcFmbType() {
+		return chcFmbType;
+	}
+
+	public void setChcFmbType(String chcFmbType) {
+		this.chcFmbType = chcFmbType;
+	}
 }

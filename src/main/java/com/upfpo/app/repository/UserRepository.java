@@ -41,4 +41,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Transactional
 	@Query("update User u set u.isEnabled=true, u.activatedBy= :masterId where u.userId = :uid")
 	public void activateUserByDept(Long uid, Integer masterId);
+	
+	@Query("select max (userId) from User")
+	public long maxUserId();
 }

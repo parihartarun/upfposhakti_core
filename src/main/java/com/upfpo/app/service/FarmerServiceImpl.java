@@ -1,25 +1,17 @@
 package com.upfpo.app.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.upfpo.app.custom.annotations.Mobile;
-import com.upfpo.app.dto.DepartmentAllUserDto;
 import com.upfpo.app.dto.FarmerAllUserToFpoDto;
 import com.upfpo.app.dto.FarmerDetailsDTO;
+import com.upfpo.app.dto.FarmerMasterDTO;
 import com.upfpo.app.entity.FarmerMaster;
 import com.upfpo.app.repository.FarmerMasterRepository;
 
@@ -148,5 +140,36 @@ public class FarmerServiceImpl implements FarmerService
 	public Integer getFarmerCountByFpo(Integer fpoId) 
 	{
 		return farmerMasterRepository.getFpoFarmer(fpoId);
+	}
+	
+	@Override
+	public List<FarmerMasterDTO> getFarmersByUserId() {
+		List<FarmerMasterDTO> result = null;
+		
+		try {
+			String sql = "select f.farmer_id as farmerId, f.state_ref as stateref, f.pincode, f.blockId as blockRef,\r\n" + 
+					"f. district_ref_id as distRefId, f.bank_ref_id as bankRefId, f.fpo_ref_id as fpoRefId, \r\n" + 
+					"f.village_ref_id as villRefId,\r\n" + 
+					"f.fig_ref_id as figRefId, f.education_ref_id as educationId, f.farmer_name as farmerName, \r\n" + 
+					"f.aadhaar as farmerAdhaar, f.address as \r\n" + 
+					"farmerAddress, f.date_associated as registerDate, f.farmer_mob as farmerMob, f.farmerlotno \r\n" + 
+					"as farmerLotNo, f.ifsccode as ifscCode, f.user_id, \r\n" + 
+					" f.accountno as accountNo , f.kccno, f.farmer_parants as parantsName , \r\n" + 
+					"f.create_date as createDate, f.created_by \r\n" + 
+					"as createdBy, f.enabled , f.farm_gen as gender ,\r\n" + 
+					"f.username as farmerUserName, f.farm_category \r\n" + 
+					"as category, f.update_date as updateDate, f.agency_associated as agency , \r\n" + 
+					"f.upbsm_id as upBSMId , f.vill_panchayat_ref_id \r\n" + 
+					"as villagePanchayatId , f.is_deleted as isDeleted, f.delete_date as deleteDate, \r\n" + 
+					"f.updated_by as updatedBy from farmer f\r\n" + 
+					"where f.user_id =0 and f.is_deleted= false";
+			
+			result =  entityManager.createNativeQuery(sql,"FarmerMasterDTO").getResultList();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

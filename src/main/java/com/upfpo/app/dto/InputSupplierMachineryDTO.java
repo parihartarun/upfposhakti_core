@@ -12,12 +12,14 @@ public class InputSupplierMachineryDTO {
     String manufacturer_name;
     String file_path;
     Double rent_per_day;
+    String govtSchemeAssistant;
 
     public InputSupplierMachineryDTO() {
     }
 
-    public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name,
-			String technical_specs, Integer quantity, String manufacturer_name, String file_path, Double rent_per_day) {
+	public InputSupplierMachineryDTO(Integer id, Integer type_id, String type, Integer name_id, String equpment_name,
+			String technical_specs, Integer quantity, String manufacturer_name, String file_path, Double rent_per_day,
+			String govtSchemeAssistant) {
 		super();
 		this.id = id;
 		this.type_id = type_id;
@@ -29,6 +31,7 @@ public class InputSupplierMachineryDTO {
 		this.manufacturer_name = manufacturer_name;
 		this.file_path = file_path;
 		this.rent_per_day = rent_per_day;
+		this.govtSchemeAssistant = govtSchemeAssistant;
 	}
 
 
@@ -112,5 +115,12 @@ public class InputSupplierMachineryDTO {
 	public void setRent_per_day(Double rent_per_day) {
 		this.rent_per_day = rent_per_day;
 	}
-    
+
+	public String getGovtSchemeAssistant() {
+		return govtSchemeAssistant;
+	}
+
+	public void setGovtSchemeAssistant(String govtSchemeAssistant) {
+		this.govtSchemeAssistant = govtSchemeAssistant;
+	}
 }

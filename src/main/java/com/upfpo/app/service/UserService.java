@@ -33,4 +33,6 @@ public interface UserService {
 	void deleteUserById(Long userId);
 
 	List<User> getByDepartment(String id);
+	
+	public User addUser(User u);
 }
